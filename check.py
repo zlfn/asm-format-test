@@ -4,10 +4,12 @@ import filecmp
 import glob
 import json
 import os
+import re
 import shutil
 import subprocess
 import tempfile
 import tomllib
+from pathlib import PurePosixPath
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SOURCES = os.path.join(ROOT, 'sources')
@@ -94,6 +96,22 @@ def check(p, run_verify):
     print(summary, flush=True)
 
 
+def dialects(style, files):
+    top = re.search(r'^Dialect:\s*(\S+)', style, re.M).group(1)
+    rules = [(json.loads(globs), dialect)
+             for globs, dialect in re.findall(r'-\s*Files:\s*(\[.*?\])\s*\n\s*Dialect:\s*(\S+)', style)]
+    names, which = [], []
+    for f in files:
+        name = top
+        for globs, dialect in rules:
+            if any(PurePosixPath(f).full_match(g) for g in globs):
+                name = dialect
+        if name not in names:
+            names.append(name)
+        which.append(names.index(name))
+    return names, which
+
+
 def git(*args, cwd=ROOT, check=True):
     return subprocess.run(['git', *args], cwd=cwd, check=check, capture_output=True, text=True)
 
@@ -129,11 +147,12 @@ def commit(projects, ran):
             added, removed, path = line.split('\t')
             stats[path] = [int(added), int(removed)]
         tool = version()
-        listing = {'asm-format': tool, 'projects': [
-            {'name': p['name'], 'style': p['style'].strip(), 'files': [
-                [f, *stats.get(f"sources/{p['name']}/{f}", [0, 0])]
-                for f in matching(os.path.join(SOURCES, p['name']), p['files'])]}
-            for p in projects]}
+        listing = {'asm-format': tool, 'projects': []}
+        for p in projects:
+            files = matching(os.path.join(SOURCES, p['name']), p['files'])
+            names, which = dialects(p['style'], files)
+            listing['projects'].append({'name': p['name'], 'style': p['style'].strip(), 'dialects': names, 'files': [
+                [f, *stats.get(f"sources/{p['name']}/{f}", [0, 0]), d] for f, d in zip(files, which)]})
         with open(os.path.join(tree, 'files.json'), 'w') as f:
             json.dump(listing, f, separators=(',', ':'))
         git('add', 'files.json', cwd=tree)

@@ -10,12 +10,14 @@
   --bg: #ffffff; --fg: #1f2328; --muted: #656d76; --line: #d0d7de; --panel: #f6f8fa;
   --del: #ffebe9; --del-strong: #ffb3ad; --add: #e6ffec; --add-strong: #9be9a8;
   --sel: #ddf4ff; --ws: #b0b7bf;
+  --c: #6e7781; --s: #0a3069; --l: #8250df; --k: #0550ae; --n: #116329; --p: #953800;
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #0d1117; --fg: #e6edf3; --muted: #8d96a0; --line: #30363d; --panel: #161b22;
     --del: #3b1d22; --del-strong: #8e2f35; --add: #1a3326; --add-strong: #2f6f3e;
     --sel: #1f3349; --ws: #4a525c;
+    --c: #8b949e; --s: #a5d6ff; --l: #d2a8ff; --k: #79c0ff; --n: #7ee787; --p: #ffa657;
   }
 }
 * { box-sizing: border-box; }
@@ -52,6 +54,12 @@ tr.fold td { text-align: center; color: var(--muted); cursor: pointer; backgroun
 del { background: var(--del-strong); text-decoration: none; }
 ins { background: var(--add-strong); text-decoration: none; }
 .ws { color: var(--ws); }
+.c { color: var(--c); font-style: italic; } .s { color: var(--s); } .l { color: var(--l); }
+.k { color: var(--k); font-weight: 600; } .n { color: var(--n); } .p { color: var(--p); }
+#view.no-lines tr td.code { background: none; }
+#view.no-chars del, #view.no-chars ins { background: none; }
+#view.no-syntax .c, #view.no-syntax .s, #view.no-syntax .l, #view.no-syntax .k,
+#view.no-syntax .n, #view.no-syntax .p { color: inherit; font-style: normal; font-weight: normal; }
 .empty { padding: 24px; color: var(--muted); }
 @media (max-width: 800px) { main { flex-direction: column; } nav { width: auto; height: 40%; border-right: none; border-bottom: 1px solid var(--line); } }
 </style>
@@ -77,7 +85,10 @@ ins { background: var(--add-strong); text-decoration: none; }
       <span class="path" id="path">Select a file</span>
       <button id="prev" title="Previous file (k)">&uarr;</button>
       <button id="next" title="Next file (j)">&darr;</button>
-      <label><input type="checkbox" id="whitespace" checked> Show whitespace</label>
+      <label><input type="checkbox" id="whitespace" checked> Whitespace</label>
+      <label><input type="checkbox" id="lines" checked> Changed lines</label>
+      <label><input type="checkbox" id="chars" checked> Changed characters</label>
+      <label><input type="checkbox" id="syntax" checked> Syntax</label>
       <label><input type="checkbox" id="fold"> Hide unchanged lines</label>
       <span id="links"></span>
     </div>
@@ -128,44 +139,96 @@ function lines(text) {
   return all;
 }
 
-function render(cell, pieces) {
-  const ws = $('whitespace').checked;
-  let col = 0;
-  for (const [text, tag] of pieces) {
-    const parent = tag ? document.createElement(tag) : cell;
-    let plain = '';
-    const flush = () => { if (plain) { parent.append(plain); plain = ''; } };
-    for (const ch of text) {
-      if (ch === '\t') {
-        const width = TAB - col % TAB;
-        flush();
-        if (ws) {
-          const s = document.createElement('span');
-          s.className = 'ws';
-          s.textContent = '→' + ' '.repeat(width - 1);
-          parent.append(s);
-        } else {
-          plain += ' '.repeat(width);
-        }
-        col += width;
-      } else if (ch === ' ' && ws) {
-        flush();
-        const s = document.createElement('span');
-        s.className = 'ws';
-        s.textContent = '·';
-        parent.append(s);
-        col++;
-      } else {
-        plain += ch;
-        col++;
-      }
+const SYNTAX = {
+  'asxxxx': { line: [';'], quote: 'short' }, 'sdas': { line: [';'], quote: 'short' },
+  'rgbds': { line: [';'], block: true }, 'gas-x86': { line: ['#', '//'], block: true },
+  'gas-arm': { line: ['@', '//'], block: true, hash: true },
+  'gas-aarch64': { line: ['//'], block: true, hash: true },
+  'gas-riscv': { line: ['#', '//'], block: true }, 'nasm': { line: [';'] }, 'masm': { line: [';'] },
+  'fasm': { line: [';'] }, 'go': { line: ['//'], block: true, hash: true },
+  'ca65': { line: [';'] }, 'z88dk': { line: [';', '//'] },
+};
+const PREPROCESSOR = /^\s*#\s*(include|define|undef|if|ifdef|ifndef|elif|else|endif|error|warning|pragma|line)\b/;
+const NUMBER = /^[#$%]?(?:0[xX][0-9a-fA-F]+|\$[0-9a-fA-F]+|[0-9][0-9a-fA-F]*[hHbBoOqQ]?|%[01]+)$/;
+
+function highlight(text, syntax) {
+  let block = false;
+  return text.map(line => {
+    const cls = new Array(line.length).fill('');
+    const set = (from, to, c) => { for (let k = from; k < Math.min(to, line.length); k++) cls[k] = c; };
+    let i = 0, first = true;
+    if (block) {
+      const e = line.indexOf('*/');
+      if (e < 0) { set(0, line.length, 'c'); return cls; }
+      set(0, e + 2, 'c'); i = e + 2; block = false;
+    } else if (PREPROCESSOR.test(line)) {
+      set(0, line.length, 'p'); return cls;
     }
-    flush();
-    if (tag) cell.append(parent);
-  }
+    while (i < line.length) {
+      const ch = line[i];
+      if (syntax.block && line.startsWith('/*', i)) {
+        const e = line.indexOf('*/', i + 2);
+        if (e < 0) { set(i, line.length, 'c'); block = true; break; }
+        set(i, e + 2, 'c'); i = e + 2; continue;
+      }
+      if (syntax.line.some(m => line.startsWith(m, i)) || (syntax.hash && i === 0 && ch === '#')) {
+        set(i, line.length, 'c'); break;
+      }
+      if (ch === '"' || (ch === "'" && !/\w/.test(line[i - 1] || ''))) {
+        let j = i + 1;
+        if (ch === "'" && syntax.quote === 'short') j = i + 2;
+        else {
+          while (j < line.length && line[j] !== ch) j += line[j] === '\\' ? 2 : 1;
+          j++;
+        }
+        set(i, j, 's'); i = j; continue;
+      }
+      if (/[\s,()[\]{}+\-*\/<>=&|!~^]/.test(ch)) { i++; continue; }
+      let j = i;
+      while (j < line.length && !/[\s,()[\]{}+\-*\/<>=&|!~^;"]/.test(line[j])) j++;
+      if (j === i) j = i + 1;
+      const word = line.slice(i, j);
+      if (first && word.endsWith(':')) set(i, j, 'l');
+      else if (first) { set(i, j, 'k'); first = false; }
+      else if (NUMBER.test(word)) set(i, j, 'n');
+      i = j;
+    }
+    return cls;
+  });
 }
 
-function row(table, cls, a, b, na, nb) {
+function render(cell, text, cls, marks) {
+  const ws = $('whitespace').checked;
+  let col = 0, run = '', runKey = null, runCls = '', runMark = null;
+  const flush = () => {
+    if (!run) return;
+    let node = document.createTextNode(run);
+    if (runCls) { const span = document.createElement('span'); span.className = runCls; span.append(node); node = span; }
+    if (runMark) { const mark = document.createElement(runMark); mark.append(node); node = mark; }
+    cell.append(node);
+    run = '';
+  };
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    let c = cls ? cls[i] : '', shown;
+    if (ch === '\t') {
+      const width = TAB - col % TAB;
+      shown = ws ? '→' + ' '.repeat(width - 1) : ' '.repeat(width);
+      if (ws) c = 'ws';
+      col += width;
+    } else if (ch === ' ' && ws) {
+      shown = '·'; c = 'ws'; col++;
+    } else {
+      shown = ch; col++;
+    }
+    const m = marks ? marks[i] : null, k = c + '|' + m;
+    if (k !== runKey) { flush(); runKey = k; runCls = c; runMark = m; }
+    run += shown;
+  }
+  flush();
+}
+
+function row(table, cls, left, right, na, nb) {
   const tr = document.createElement('tr');
   if (cls) tr.className = cls;
   const cells = [['num', na], ['code old', null], ['num', nb], ['code new', null]].map(([c, t]) => {
@@ -175,25 +238,26 @@ function row(table, cls, a, b, na, nb) {
     tr.append(td);
     return td;
   });
-  if (a !== null) render(cells[1], a);
-  if (b !== null) render(cells[3], b);
+  if (left) render(cells[1], ...left);
+  if (right) render(cells[3], ...right);
   table.append(tr);
 }
 
-function pair(x, y) {
-  const parts = Diff.diffChars(x, y);
+function marks(x, y) {
   const left = [], right = [];
-  for (const p of parts) {
-    if (p.added) right.push([p.value, 'ins']);
-    else if (p.removed) left.push([p.value, 'del']);
-    else { left.push([p.value, null]); right.push([p.value, null]); }
+  for (const p of Diff.diffChars(x, y)) {
+    for (const _ of p.value) {
+      if (!p.added) left.push(p.removed ? 'del' : null);
+      if (!p.removed) right.push(p.added ? 'ins' : null);
+    }
   }
   return [left, right];
 }
 
-function show(a, b) {
+function show(a, b, syntax) {
   const table = document.createElement('table');
   const parts = Diff.diffLines(a.join('\n') + '\n', b.join('\n') + '\n');
+  const ha = highlight(a, syntax), hb = highlight(b, syntax);
   const rows = [];
   let i = 0, j = 0;
   for (let k = 0; k < parts.length; k++) {
@@ -229,23 +293,39 @@ function show(a, b) {
       td.colSpan = 4;
       td.textContent = `⋯ ${end - k} unchanged lines`;
       tr.append(td);
-      tr.onclick = () => { $('fold').checked = false; show(a, b); };
+      tr.onclick = () => { $('fold').checked = false; redraw(); };
       table.append(tr);
       k = end - 1;
       continue;
     }
     const [cls, x, y] = rows[k];
-    if (cls === 'change') {
-      const [l, r] = pair(a[x], b[y]);
-      row(table, cls, l, r, x + 1, y + 1);
-    } else {
-      row(table, cls === 'same' ? '' : cls,
-        x === null ? null : [[a[x], null]], y === null ? null : [[b[y], null]],
-        x === null ? '' : x + 1, y === null ? '' : y + 1);
-    }
+    const [ma, mb] = cls === 'change' ? marks(a[x], b[y]) : [null, null];
+    row(table, cls === 'same' ? '' : cls,
+      x === null ? null : [a[x], ha[x], ma], y === null ? null : [b[y], hb[y], mb],
+      x === null ? '' : x + 1, y === null ? '' : y + 1);
   }
   $('view').textContent = '';
   $('view').append(table);
+}
+
+function redraw() { if (loaded) show(...loaded); }
+
+function toggles() {
+  const view = $('view');
+  view.classList.toggle('no-lines', !$('lines').checked);
+  view.classList.toggle('no-chars', !$('chars').checked);
+  view.classList.toggle('no-syntax', !$('syntax').checked);
+}
+
+const OPTIONS = ['whitespace', 'lines', 'chars', 'syntax', 'fold'];
+function saveOptions() {
+  try { localStorage.setItem('options', JSON.stringify(Object.fromEntries(OPTIONS.map(id => [id, $(id).checked])))); } catch {}
+}
+function loadOptions() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('options') || '{}');
+    for (const id of OPTIONS) if (id in saved) $(id).checked = saved[id];
+  } catch {}
 }
 
 let loaded = null;
@@ -262,7 +342,10 @@ async function open(hash) {
   const [a, b] = await Promise.all(['main', 'formatted'].map(branch =>
     fetch(RAW(branch) + file.split('/').map(encodeURIComponent).join('/')).then(r => r.ok ? r.text() : Promise.reject(r.status))));
   if (current.project + '/' + current.path !== hash) return;
-  loaded = [lines(a), lines(b)];
+  const project = projects.find(p => p.name === current.project);
+  const entry = project && project.files.find(f => f[0] === current.path);
+  const syntax = SYNTAX[entry ? project.dialects[entry[3]] : ''] || { line: [';'] };
+  loaded = [lines(a), lines(b), syntax];
   show(...loaded);
 }
 
@@ -284,7 +367,10 @@ async function main() {
     select.append(new Option(`${p.name} (${changed}/${p.files.length})`, p.name));
   }
   for (const id of ['project', 'filter', 'changed']) $(id).addEventListener('input', listFiles);
-  for (const id of ['whitespace', 'fold']) $(id).addEventListener('change', () => loaded && show(...loaded));
+  loadOptions();
+  toggles();
+  for (const id of ['whitespace', 'fold']) $(id).addEventListener('change', () => { saveOptions(); redraw(); });
+  for (const id of ['lines', 'chars', 'syntax']) $(id).addEventListener('change', () => { saveOptions(); toggles(); });
   $('prev').onclick = () => step(-1);
   $('next').onclick = () => step(1);
   document.addEventListener('keydown', e => {
