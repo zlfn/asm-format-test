@@ -1,0 +1,418 @@
+# Each project is fetched at `commit` with a sparse checkout of `files`,
+# `extra` and `licenses`. `files` are formatted with `style`, `extra` are only
+# needed to assemble them, and `licenses` are the license files of the
+# project. Files that match `exclude` are not formatted. `setup` is a shell
+# command run in the tree before formatting.
+#
+# A `verify` entry assembles each matching file in the original tree and in the
+# formatted tree with `command`, where `{file}` is the path of the file and
+# `{out}` the path of the output, both from the tree root. The outputs are
+# compared byte by byte if `compare = "bytes"`, and with llvm-objdump otherwise.
+
+[[project]]
+name = "linux"
+url = "https://github.com/torvalds/linux"
+commit = "6addb4f385570ebc11c4eb499a4f1c149f313e84"
+files = ["arch/x86/**/*.S", "arch/arm64/**/*.S", "arch/arm/**/*.S", "arch/riscv/**/*.S"]
+exclude = ["**/*.lds.S"]
+licenses = ["COPYING", "LICENSES/**"]
+style = '''
+Dialect: gas-x86
+IndentWidth: 8
+OperandColumn: 16
+UseTab: Always
+CommentColumn: 40
+AlignArrayOfOperands: None
+IndentBlocks: false
+AlignConsecutiveOperands: {MaxPadding: 8}
+Overrides:
+  - Files: ["arch/arm64/**"]
+    Dialect: gas-aarch64
+    OperandColumn: 16
+    UseTab: Always
+    CommentColumn: 48
+  - Files: ["arch/arm/**"]
+    Dialect: gas-arm
+    OperandColumn: 16
+    UseTab: Always
+    CommentColumn: 48
+  - Files: ["arch/riscv/**"]
+    Dialect: gas-riscv
+    OperandColumn: 16
+    UseTab: Always
+'''
+
+[[project]]
+name = "ffmpeg"
+url = "https://github.com/FFmpeg/FFmpeg"
+commit = "ef52e1cc3850846987edc792c9583103e977e3b2"
+files = ["**/aarch64/**/*.S", "**/arm/**/*.S", "**/x86/**/*.asm"]
+licenses = ["COPYING.*", "LICENSE.md"]
+style = '''
+Dialect: nasm
+IndentWidth: 4
+OperandColumn: 0
+BlockIndentWidth: 4
+IndentBlocks: false
+AlignConsecutiveOperands: {MaxPadding: 0}
+AlignArrayOfOperands: {Kind: Left, MaxPadding: 8}
+Overrides:
+  - Files: ["**/aarch64/**"]
+    Dialect: gas-aarch64
+    AlignArrayOfOperands: Left
+    IndentWidth: 8
+    OperandColumn: 24
+    CommentColumn: 48
+  - Files: ["**/arm/**"]
+    Dialect: gas-arm
+    AlignArrayOfOperands: Left
+    IndentWidth: 8
+    OperandColumn: 24
+    CommentColumn: 48
+'''
+
+[[project]]
+name = "dav1d"
+url = "https://code.videolan.org/videolan/dav1d.git"
+commit = "7f12cf23560430c02a83e67bb68eec74d93ce5fd"
+files = [
+    "src/arm/*.S", "src/arm/32/*.S", "src/arm/64/*.S", "src/riscv/**/*.S",
+    "src/x86/*.asm", "src/ext/x86/*.asm",
+    "tests/checkasm/arm/*.S", "tests/checkasm/riscv/*.S", "tests/checkasm/x86/*.asm",
+]
+licenses = ["COPYING"]
+style = '''
+Dialect: nasm
+IndentWidth: 4
+OperandColumn: 25
+BlockIndentWidth: 4
+AlignConsecutiveOperands: {MaxPadding: 8}
+AlignArrayOfOperands: {Kind: Left, MaxPadding: 8}
+Overrides:
+  - Files: ["src/arm/*.S", "src/arm/64/*", "tests/checkasm/arm/*64*"]
+    Dialect: gas-aarch64
+    AlignArrayOfOperands: Left
+    IndentWidth: 8
+    OperandColumn: 24
+  - Files: ["src/arm/32/*", "tests/checkasm/arm/*32*"]
+    Dialect: gas-arm
+    AlignArrayOfOperands: Left
+    IndentWidth: 8
+    OperandColumn: 24
+  - Files: ["**/riscv/**"]
+    Dialect: gas-riscv
+    IndentWidth: 4
+    OperandColumn: 0
+    AlignConsecutiveOperands: {MaxPadding: 4}
+'''
+
+[[project]]
+name = "x264"
+url = "https://code.videolan.org/videolan/x264.git"
+commit = "0480cb05fa188d37ae87e8f4fd8f1aea3711f7ee"
+files = ["common/x86/*.asm", "common/aarch64/*.S", "common/arm/*.S", "tools/checkasm-a64.S", "tools/checkasm-arm.S", "tools/checkasm-a.asm"]
+licenses = ["COPYING"]
+style = '''
+Dialect: nasm
+IndentWidth: 4
+OperandColumn: 0
+BlockIndentWidth: 4
+AlignConsecutiveOperands: {MaxPadding: 0}
+AlignArrayOfOperands: {Kind: Left, MaxPadding: 8}
+Overrides:
+  - Files: ["common/aarch64/*", "tools/checkasm-a64.S"]
+    Dialect: gas-aarch64
+    AlignArrayOfOperands: Left
+    OperandColumn: 16
+    CommentColumn: 40
+  - Files: ["common/arm/*", "tools/checkasm-arm.S"]
+    Dialect: gas-arm
+    AlignArrayOfOperands: Left
+    OperandColumn: 20
+    CommentColumn: 36
+'''
+
+[[project]]
+name = "musl"
+url = "https://git.musl-libc.org/git/musl"
+commit = "9b2d8a1646391d5217f9a358555aebcaab5b8aaf"
+files = [
+    "src/*/x86_64/*.[sS]", "src/*/i386/*.[sS]", "src/*/aarch64/*.[sS]", "src/*/arm/*.[sS]",
+    "src/*/riscv64/*.[sS]", "src/*/riscv32/*.[sS]",
+    "crt/x86_64/*.[sS]", "crt/i386/*.[sS]", "crt/aarch64/*.[sS]", "crt/arm/*.[sS]",
+    "crt/riscv64/*.[sS]", "crt/riscv32/*.[sS]",
+]
+licenses = ["COPYRIGHT"]
+style = '''
+Dialect: gas-x86
+OperandColumn: 0
+DirectiveOperandColumn: 0
+UseTab: ForIndentation
+SpaceAfterComma: false
+AlignArrayOfOperands: None
+Overrides:
+  - Files: ["**/aarch64/*"]
+    Dialect: gas-aarch64
+    SpaceAfterComma: true
+  - Files: ["**/arm/*"]
+    Dialect: gas-arm
+    SpaceAfterComma: true
+  - Files: ["**/riscv64/*", "**/riscv32/*"]
+    Dialect: gas-riscv
+    SpaceAfterComma: true
+'''
+[[project.verify]]
+files = ["src/*/x86_64/*.s", "crt/x86_64/*.s"]
+command = "clang --target=x86_64-linux-gnu -c -x assembler {file} -o {out}"
+[[project.verify]]
+files = ["src/*/i386/*.s", "crt/i386/*.s"]
+command = "clang --target=i386-linux-gnu -c -x assembler {file} -o {out}"
+[[project.verify]]
+files = ["src/*/aarch64/*.s", "crt/aarch64/*.s"]
+command = "clang --target=aarch64-linux-gnu -c -x assembler {file} -o {out}"
+[[project.verify]]
+files = ["src/*/riscv64/*.s", "crt/riscv64/*.s"]
+command = "clang --target=riscv64-linux-gnu -c -x assembler {file} -o {out}"
+
+[[project]]
+name = "llvm"
+url = "https://github.com/llvm/llvm-project"
+commit = "092c5518e3f9d927d856619ff32a10c30f7b916f"
+files = [
+    "compiler-rt/lib/builtins/x86_64/*.S", "compiler-rt/lib/builtins/i386/*.S",
+    "compiler-rt/lib/builtins/aarch64/*.S", "compiler-rt/lib/builtins/arm/*.S",
+    "compiler-rt/lib/builtins/riscv/*.S",
+    "compiler-rt/lib/**/*_x86_64.S", "compiler-rt/lib/**/*_i386.S", "compiler-rt/lib/**/*_aarch64.S",
+    "compiler-rt/lib/**/*_riscv64.S",
+    "llvm/test/tools/llvm-ml/*.asm",
+]
+extra = ["compiler-rt/lib/builtins/*.h", "compiler-rt/lib/builtins/*/*.h"]
+licenses = ["LICENSE.TXT", "compiler-rt/LICENSE.TXT", "llvm/LICENSE.TXT"]
+style = '''
+Dialect: gas-x86
+OperandColumn: 24
+DirectiveOperandColumn: 0
+UseTab: Always
+CommentColumn: 56
+Overrides:
+  - Files: ["compiler-rt/lib/builtins/aarch64/*", "compiler-rt/lib/**/*_aarch64.S"]
+    Dialect: gas-aarch64
+    IndentWidth: 2
+    OperandColumn: 0
+    UseTab: Never
+    CommentColumn: 0
+  - Files: ["compiler-rt/lib/builtins/arm/*"]
+    Dialect: gas-arm
+    IndentWidth: 2
+    OperandColumn: 10
+    UseTab: Never
+    CommentColumn: 32
+  - Files: ["compiler-rt/lib/builtins/riscv/*", "compiler-rt/lib/**/*_riscv64.S"]
+    Dialect: gas-riscv
+    IndentWidth: 2
+    OperandColumn: 10
+    UseTab: Never
+    CommentColumn: 0
+  - Files: ["llvm/test/**"]
+    Dialect: masm
+    IndentWidth: 2
+    BlockIndentWidth: 2
+    OperandColumn: 0
+    UseTab: Never
+    CommentColumn: 0
+'''
+[[project.verify]]
+files = ["compiler-rt/lib/builtins/x86_64/*.S"]
+command = "clang --target=x86_64-linux-gnu -c {file} -o {out}"
+[[project.verify]]
+files = ["compiler-rt/lib/builtins/i386/*.S"]
+command = "clang --target=i386-linux-gnu -c {file} -o {out}"
+[[project.verify]]
+files = ["compiler-rt/lib/builtins/aarch64/*.S"]
+command = "clang --target=aarch64-linux-gnu -c {file} -o {out}"
+[[project.verify]]
+files = ["compiler-rt/lib/builtins/arm/*.S"]
+command = "clang --target=armv7a-linux-gnueabihf -c {file} -o {out}"
+[[project.verify]]
+files = ["compiler-rt/lib/builtins/riscv/*.S"]
+command = "clang --target=riscv64-linux-gnu -c {file} -o {out}"
+
+[[project]]
+name = "sameboy"
+url = "https://github.com/LIJI32/SameBoy"
+commit = "c458e7c5d2d350fb37a1931c40da9f758d28d240"
+files = ["BootROMs/*.asm", "BootROMs/*.inc"]
+licenses = ["LICENSE"]
+style = '''
+Dialect: rgbds
+IndentWidth: 4
+OperandColumn: 0
+MaxEmptyLinesToKeep: 2
+AlignConsecutiveOperands: None
+AlignArrayOfOperands: {MaxPadding: 12, Numbers: Right}
+AlignTrailingComments: {Kind: Left, AlignToTab: false}
+BlockIndentWidth: 4
+'''
+setup = "printf LOGO > BootROMs/SameBoyLogo.pb12"
+[[project.verify]]
+files = ["BootROMs/*_boot.asm"]
+command = "cd BootROMs && rgbasm -o {out}.o ../{file} && rgblink -x -o {out} {out}.o"
+compare = "bytes"
+
+[[project]]
+name = "gb-asm-tutorial"
+url = "https://github.com/gbdev/gb-asm-tutorial"
+commit = "c931a929eac276156d65e0cb44cf422a7d19990b"
+files = ["unbricked/**/*.asm", "unbricked/**/*.inc", "galactic-armada/**/*.asm", "galactic-armada/**/*.inc", "src/assets/*.asm"]
+exclude = ["**/hardware.inc"]
+licenses = ["LICENSE"]
+style = '''
+Dialect: rgbds
+UseTab: Always
+'''
+
+[[project]]
+name = "gbdk-2020"
+url = "https://github.com/gbdk-2020/gbdk-2020"
+commit = "5f309a1032734bb23fd75075243f7c63f8cc86e7"
+files = ["gbdk-lib/**/*.s"]
+licenses = ["LICENSE", "licenses/**"]
+style = '''
+Dialect: sdas
+CommentColumn: 32
+SpaceAfterComma: false
+AlignConsecutiveOperands: {MaxPadding: 8}
+Overrides:
+  - Files: ["**/global.s"]
+    OperandColumn: 0
+    AlignConsecutiveOperands: {MaxPadding: 0}
+'''
+[[project.verify]]
+files = ["gbdk-lib/libc/targets/sm83/*.s"]
+command = "t=$(mktemp -d) && cp gbdk-lib/libc/targets/sm83/gb/global.s {file} $t/ && cd $t && sdasgb -g -o x.rel $(basename {file}) && cp x.rel {out}"
+compare = "bytes"
+[[project.verify]]
+files = ["gbdk-lib/libc/targets/z80/*.s"]
+command = "t=$(mktemp -d) && cp gbdk-lib/libc/targets/z80/sms/global.s {file} $t/ && cd $t && sdasz80 -g -o x.rel $(basename {file}) && cp x.rel {out}"
+compare = "bytes"
+
+[[project]]
+name = "llvm-z80"
+url = "https://github.com/llvm-z80/llvm-z80"
+commit = "24afb830878c44a5751712ee6f5a8f7689ffdda0"
+files = ["compiler-rt/lib/builtins/z80/*.asm", "compiler-rt/lib/builtins/sm83/*.asm"]
+licenses = ["LICENSE.TXT", "NOTICE", "compiler-rt/LICENSE.TXT"]
+style = '''
+Dialect: sdas
+DirectiveOperandColumn: 0
+UseTab: Always
+CommentColumn: 32
+'''
+[[project.verify]]
+files = ["compiler-rt/lib/builtins/z80/*.asm"]
+command = "t=$(mktemp -d) && cp {file} $t/x.asm && cd $t && sdasz80 -g -o x.rel x.asm && cp x.rel {out}"
+compare = "bytes"
+[[project.verify]]
+files = ["compiler-rt/lib/builtins/sm83/*.asm"]
+command = "t=$(mktemp -d) && cp {file} $t/x.asm && cd $t && sdasgb -g -o x.rel x.asm && cp x.rel {out}"
+compare = "bytes"
+
+[[project]]
+name = "cc65"
+url = "https://github.com/cc65/cc65"
+commit = "71746c829e77f74c2b601a7d16821170c2610df3"
+files = ["libsrc/**/*.s", "asminc/*.inc"]
+licenses = ["LICENSE"]
+style = '''
+Dialect: ca65
+CommentColumn: 32
+AlignArrayOfOperands: None
+IndentBlocks: false
+DirectiveOperandColumn: 24
+AlignConsecutiveOperands: {MaxPadding: 8}
+'''
+
+[[project]]
+name = "z88dk"
+url = "https://github.com/z88dk/z88dk"
+commit = "731173ca7fd9ef81823f044cffe7d8e2192f3866"
+files = ["libsrc/**/*.asm"]
+licenses = ["LICENSE"]
+style = '''
+Dialect: z88dk
+CommentColumn: 40
+SpaceAfterComma: false
+AlignConsecutiveOperands: {MaxPadding: 8}
+IndentBlocks: false
+'''
+
+[[project]]
+name = "go"
+url = "https://github.com/golang/go"
+commit = "6f5c275ebdc454197fff5f1496521c8f81e20eef"
+files = ["src/**/*.s"]
+extra = ["src/runtime/*.h"]
+licenses = ["LICENSE", "PATENTS"]
+style = '''
+Dialect: go
+UseTab: Always
+AlignArrayOfOperands: None
+AlignConsecutiveOperands: {MaxPadding: 8}
+'''
+
+[[project]]
+name = "edk2"
+url = "https://github.com/tianocore/edk2"
+commit = "999fd0f12a27709eee04b93e46bd867e6b0163a5"
+files = ["**/*.nasm", "**/*.nasmb"]
+extra = ["**/*.inc"]
+licenses = ["License.txt", "License-History.txt"]
+style = '''
+Dialect: nasm
+CommentColumn: 40
+SpaceAfterComma: false
+MaxEmptyLinesToKeep: 2
+AlignConsecutiveOperands: {MaxPadding: 8}
+'''
+
+[[project]]
+name = "libjpeg-turbo"
+url = "https://github.com/libjpeg-turbo/libjpeg-turbo"
+commit = "03c9a9d795c08ab06d625e5fc3bf0ae8b26f9652"
+files = ["simd/**/*.asm", "simd/**/*.inc"]
+licenses = ["LICENSE.md", "README.ijg"]
+style = '''
+Dialect: nasm
+IndentWidth: 4
+CommentColumn: 40
+'''
+
+[[project]]
+name = "7zip"
+url = "https://github.com/ip7z/7zip"
+commit = "0766b733fe3e06dd2a7f9a3cfbf2108ac73abd17"
+files = ["Asm/x86/*.asm", "Asm/arm64/*.S"]
+licenses = ["DOC/License.txt", "DOC/copying.txt"]
+style = '''
+Dialect: masm
+DirectiveOperandColumn: 0
+CommentColumn: 32
+MaxEmptyLinesToKeep: 2
+Overrides:
+  - Files: ["Asm/arm64/*"]
+    Dialect: gas-aarch64
+    CommentColumn: 28
+'''
+
+[[project]]
+name = "fasm"
+url = "https://github.com/tgrysztar/fasm"
+commit = "225ce90e81e69877ab42505f7713e3d3fd531d42"
+files = ["**/*.ASM", "**/*.INC", "**/*.asm", "**/*.inc"]
+licenses = ["LICENSE.TXT"]
+style = '''
+Dialect: fasm
+UseTab: Always
+CommentColumn: 40
+SpaceAfterComma: false
+'''

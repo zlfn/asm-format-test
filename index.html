@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>asm-format-test</title>
+<script src="https://cdn.jsdelivr.net/npm/diff@5.2.0/dist/diff.min.js"></script>
+<style>
+:root {
+  --bg: #ffffff; --fg: #1f2328; --muted: #656d76; --line: #d0d7de; --panel: #f6f8fa;
+  --del: #ffebe9; --del-strong: #ffb3ad; --add: #e6ffec; --add-strong: #9be9a8;
+  --sel: #ddf4ff; --ws: #b0b7bf;
+  --c: #6e7781; --s: #0a3069; --l: #8250df; --k: #0550ae; --n: #116329; --p: #953800;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117; --fg: #e6edf3; --muted: #8d96a0; --line: #30363d; --panel: #161b22;
+    --del: #3b1d22; --del-strong: #8e2f35; --add: #1a3326; --add-strong: #2f6f3e;
+    --sel: #1f3349; --ws: #4a525c;
+    --c: #8b949e; --s: #a5d6ff; --l: #d2a8ff; --k: #79c0ff; --n: #7ee787; --p: #ffa657;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--bg); color: var(--fg); font: 14px/1.4 system-ui, sans-serif; display: flex; flex-direction: column; }
+header { padding: 8px 12px; border-bottom: 1px solid var(--line); display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+header h1 { font-size: 16px; margin: 0; }
+header .info { color: var(--muted); }
+a { color: inherit; }
+main { flex: 1; display: flex; min-height: 0; }
+nav { width: 340px; border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; background: var(--panel); }
+nav .controls { padding: 8px; display: flex; flex-direction: column; gap: 6px; border-bottom: 1px solid var(--line); }
+nav select, nav input[type=search] { width: 100%; padding: 4px 6px; background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; }
+nav .count { color: var(--muted); font-size: 12px; }
+#files { flex: 1; overflow: auto; margin: 0; padding: 0; list-style: none; font: 12px/1.6 ui-monospace, monospace; }
+#files li { padding: 0 8px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#files li:hover { background: var(--bg); }
+#files li.current { background: var(--sel); }
+#files .stat { color: var(--muted); float: right; margin-left: 8px; }
+section { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.bar { padding: 6px 12px; border-bottom: 1px solid var(--line); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.bar .path { font: 13px ui-monospace, monospace; word-break: break-all; }
+.bar button { padding: 2px 8px; }
+#view { flex: 1; overflow: auto; min-width: 0; }
+table { border-collapse: collapse; width: 100%; table-layout: fixed; font: 12px/1.45 ui-monospace, monospace; }
+td { vertical-align: top; padding: 0 6px; white-space: pre; overflow: hidden; }
+td.num { width: 4.5em; text-align: right; color: var(--muted); user-select: none; border-right: 1px solid var(--line); }
+td.code { width: calc(50% - 4.5em); }
+tr.change td.code.old { background: var(--del); }
+tr.change td.code.new { background: var(--add); }
+tr.gone td.code.old { background: var(--del); }
+tr.came td.code.new { background: var(--add); }
+tr.fold td { text-align: center; color: var(--muted); cursor: pointer; background: var(--panel); }
+del { background: var(--del-strong); text-decoration: none; }
+ins { background: var(--add-strong); text-decoration: none; }
+.ws { color: var(--ws); }
+.c { color: var(--c); font-style: italic; } .s { color: var(--s); } .l { color: var(--l); }
+.k { color: var(--k); font-weight: 600; } .n { color: var(--n); } .p { color: var(--p); }
+#view.no-lines tr td.code { background: none; }
+#view.no-chars del, #view.no-chars ins { background: none; }
+#view.no-syntax .c, #view.no-syntax .s, #view.no-syntax .l, #view.no-syntax .k,
+#view.no-syntax .n, #view.no-syntax .p { color: inherit; font-style: normal; font-weight: normal; }
+.empty { padding: 24px; color: var(--muted); }
+.body { flex: 1; display: flex; min-height: 0; }
+aside { width: 300px; flex: none; overflow: auto; border-left: 1px solid var(--line); background: var(--panel); padding: 8px 12px; }
+aside h2 { font-size: 13px; margin: 4px 0 6px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+aside h2 small { font-weight: normal; color: var(--muted); }
+aside label { font-size: 12px; color: var(--muted); }
+aside pre { margin: 0 0 12px; font: 12px/1.45 ui-monospace, monospace; white-space: pre-wrap; }
+aside .default { color: var(--muted); }
+aside .set { color: var(--fg); font-weight: 600; }
+aside.changed-only .default { display: none; }
+.head { display: flex; align-items: center; gap: 6px; }
+.head .title { flex: 1; min-width: 0; }
+nav .head { padding: 6px 8px 0; font-weight: 600; font-size: 13px; }
+.fold { flex: none; width: 24px; height: 24px; padding: 0; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--fg); cursor: pointer; }
+nav.collapsed, aside.collapsed { width: 41px; }
+aside.collapsed { padding: 8px; }
+nav.collapsed > :not(.head), aside.collapsed > :not(.head), .collapsed .head .title { display: none; }
+@media (max-width: 800px) {
+  main, .body { flex-direction: column; }
+  nav { width: auto; height: 40%; border-right: none; border-bottom: 1px solid var(--line); }
+  aside { width: auto; max-height: 40%; border-left: none; border-top: 1px solid var(--line); }
+  nav.collapsed, aside.collapsed { width: auto; height: auto; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>asm-format-test</h1>
+  <span class="info" id="info"></span>
+  <a href="https://github.com/zlfn/asm-format-test">repository</a>
+</header>
+<main>
+  <nav id="nav">
+    <div class="head"><span class="title">Files</span><button class="fold" id="nav-fold"></button></div>
+    <div class="controls">
+      <select id="project"></select>
+      <input type="search" id="filter" placeholder="Filter paths">
+      <label><input type="checkbox" id="changed" checked> Changed files only</label>
+      <span class="count" id="count"></span>
+    </div>
+    <ul id="files"></ul>
+  </nav>
+  <section>
+    <div class="bar">
+      <span class="path" id="path">Select a file</span>
+      <button id="prev" title="Previous file (k)">&uarr;</button>
+      <button id="next" title="Next file (j)">&darr;</button>
+      <label><input type="checkbox" id="whitespace" checked> Whitespace</label>
+      <label><input type="checkbox" id="lines" checked> Changed lines</label>
+      <label><input type="checkbox" id="chars" checked> Changed characters</label>
+      <label><input type="checkbox" id="syntax" checked> Syntax</label>
+      <label><input type="checkbox" id="fold"> Hide unchanged lines</label>
+      <span id="links"></span>
+    </div>
+    <div class="body">
+      <div id="view"><div class="empty">Choose a file on the left.</div></div>
+      <aside id="aside">
+        <div class="head"><h2 class="title">Options <small id="dialect"></small></h2><button class="fold" id="aside-fold"></button></div>
+        <label><input type="checkbox" id="changed-only"> Only options that differ from the defaults</label>
+        <pre id="config">Choose a file to see the options it was formatted with.</pre>
+        <h2>Style file <small id="style-name"></small></h2>
+        <pre id="style"></pre>
+      </aside>
+    </div>
+  </section>
+</main>
+<script>
+const ORIGINAL = 'sources/';
+const FORMATTED = 'formatted/';
+const TAB = 8;
+const $ = id => document.getElementById(id);
+let projects = [], shown = [], current = null, defaultOptions = '';
+
+function key(f) { return `${f.project}/${f.path}`; }
+
+function listFiles() {
+  const project = $('project').value, text = $('filter').value.toLowerCase(), changed = $('changed').checked;
+  shown = [];
+  for (const p of projects) {
+    if (project && p.name !== project) continue;
+    for (const [path, added, removed] of p.files) {
+      if (changed && added + removed === 0) continue;
+      if (text && !`${p.name}/${path}`.toLowerCase().includes(text)) continue;
+      shown.push({ project: p.name, path, added, removed });
+    }
+  }
+  const limit = 2000, list = $('files');
+  list.textContent = '';
+  for (const f of shown.slice(0, limit)) {
+    const li = document.createElement('li');
+    li.dataset.key = key(f);
+    li.title = key(f);
+    if (current && key(current) === key(f)) li.className = 'current';
+    const stat = document.createElement('span');
+    stat.className = 'stat';
+    stat.textContent = `+${f.added} -${f.removed}`;
+    li.append(stat, project ? f.path : key(f));
+    li.onclick = () => { location.hash = key(f); };
+    list.append(li);
+  }
+  $('count').textContent = shown.length > limit
+    ? `${shown.length} files, first ${limit} shown` : `${shown.length} files`;
+}
+
+function lines(text) {
+  const all = text.split(/\r\n|\r|\n/);
+  if (all.length && all[all.length - 1] === '') all.pop();
+  return all;
+}
+
+const SYNTAX = {
+  'asxxxx': { line: [';'], quote: 'short' }, 'sdas': { line: [';'], quote: 'short' },
+  'rgbds': { line: [';'], block: true }, 'gas-x86': { line: ['#', '//'], block: true },
+  'gas-arm': { line: ['@', '//'], block: true, hash: true },
+  'gas-aarch64': { line: ['//'], block: true, hash: true },
+  'gas-riscv': { line: ['#', '//'], block: true }, 'nasm': { line: [';'] }, 'masm': { line: [';'] },
+  'fasm': { line: [';'] }, 'go': { line: ['//'], block: true, hash: true },
+  'ca65': { line: [';'] }, 'z88dk': { line: [';', '//'] },
+};
+const PREPROCESSOR = /^\s*#\s*(include|define|undef|if|ifdef|ifndef|elif|else|endif|error|warning|pragma|line)\b/;
+const NUMBER = /^[#$%]?(?:0[xX][0-9a-fA-F]+|\$[0-9a-fA-F]+|[0-9][0-9a-fA-F]*[hHbBoOqQ]?|%[01]+)$/;
+
+function highlight(text, syntax) {
+  let block = false;
+  return text.map(line => {
+    const cls = new Array(line.length).fill('');
+    const set = (from, to, c) => { for (let k = from; k < Math.min(to, line.length); k++) cls[k] = c; };
+    let i = 0, first = true;
+    if (block) {
+      const e = line.indexOf('*/');
+      if (e < 0) { set(0, line.length, 'c'); return cls; }
+      set(0, e + 2, 'c'); i = e + 2; block = false;
+    } else if (PREPROCESSOR.test(line)) {
+      set(0, line.length, 'p'); return cls;
+    }
+    while (i < line.length) {
+      const ch = line[i];
+      if (syntax.block && line.startsWith('/*', i)) {
+        const e = line.indexOf('*/', i + 2);
+        if (e < 0) { set(i, line.length, 'c'); block = true; break; }
+        set(i, e + 2, 'c'); i = e + 2; continue;
+      }
+      if (syntax.line.some(m => line.startsWith(m, i)) || (syntax.hash && i === 0 && ch === '#')) {
+        set(i, line.length, 'c'); break;
+      }
+      if (ch === '"' || (ch === "'" && !/\w/.test(line[i - 1] || ''))) {
+        let j = i + 1;
+        if (ch === "'" && syntax.quote === 'short') j = i + 2;
+        else {
+          while (j < line.length && line[j] !== ch) j += line[j] === '\\' ? 2 : 1;
+          j++;
+        }
+        set(i, j, 's'); i = j; continue;
+      }
+      if (/[\s,()[\]{}+\-*\/<>=&|!~^]/.test(ch)) { i++; continue; }
+      let j = i;
+      while (j < line.length && !/[\s,()[\]{}+\-*\/<>=&|!~^;"]/.test(line[j])) j++;
+      if (j === i) j = i + 1;
+      const word = line.slice(i, j);
+      if (first && word.endsWith(':')) set(i, j, 'l');
+      else if (first) { set(i, j, 'k'); first = false; }
+      else if (NUMBER.test(word)) set(i, j, 'n');
+      i = j;
+    }
+    return cls;
+  });
+}
+
+function render(cell, text, cls, marks) {
+  const ws = $('whitespace').checked;
+  let col = 0, run = '', runKey = null, runCls = '', runMark = null;
+  const flush = () => {
+    if (!run) return;
+    let node = document.createTextNode(run);
+    if (runCls) { const span = document.createElement('span'); span.className = runCls; span.append(node); node = span; }
+    if (runMark) { const mark = document.createElement(runMark); mark.append(node); node = mark; }
+    cell.append(node);
+    run = '';
+  };
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    let c = cls ? cls[i] : '', shown;
+    if (ch === '\t') {
+      const width = TAB - col % TAB;
+      shown = ws ? '→' + ' '.repeat(width - 1) : ' '.repeat(width);
+      if (ws) c = 'ws';
+      col += width;
+    } else if (ch === ' ' && ws) {
+      shown = '·'; c = 'ws'; col++;
+    } else {
+      shown = ch; col++;
+    }
+    const m = marks ? marks[i] : null, k = c + '|' + m;
+    if (k !== runKey) { flush(); runKey = k; runCls = c; runMark = m; }
+    run += shown;
+  }
+  flush();
+}
+
+function row(table, cls, left, right, na, nb) {
+  const tr = document.createElement('tr');
+  if (cls) tr.className = cls;
+  const cells = [['num', na], ['code old', null], ['num', nb], ['code new', null]].map(([c, t]) => {
+    const td = document.createElement('td');
+    td.className = c;
+    if (t !== null && t !== undefined) td.textContent = t;
+    tr.append(td);
+    return td;
+  });
+  if (left) render(cells[1], ...left);
+  if (right) render(cells[3], ...right);
+  table.append(tr);
+}
+
+function marks(x, y) {
+  const left = [], right = [];
+  for (const p of Diff.diffChars(x, y)) {
+    for (const _ of p.value) {
+      if (!p.added) left.push(p.removed ? 'del' : null);
+      if (!p.removed) right.push(p.added ? 'ins' : null);
+    }
+  }
+  return [left, right];
+}
+
+function show(a, b, syntax) {
+  const table = document.createElement('table');
+  const parts = Diff.diffLines(a.join('\n') + '\n', b.join('\n') + '\n');
+  const ha = highlight(a, syntax), hb = highlight(b, syntax);
+  const rows = [];
+  let i = 0, j = 0;
+  for (let k = 0; k < parts.length; k++) {
+    const part = parts[k], n = part.count;
+    if (!part.added && !part.removed) {
+      for (let m = 0; m < n; m++, i++, j++) rows.push(['same', i, j]);
+    } else if (part.removed && parts[k + 1] && parts[k + 1].added) {
+      const n2 = parts[k + 1].count;
+      for (let m = 0; m < Math.max(n, n2); m++) {
+        if (m < n && m < n2) rows.push(['change', i++, j++]);
+        else if (m < n) rows.push(['gone', i++, null]);
+        else rows.push(['came', null, j++]);
+      }
+      k++;
+    } else if (part.removed) {
+      for (let m = 0; m < n; m++) rows.push(['gone', i++, null]);
+    } else {
+      for (let m = 0; m < n; m++) rows.push(['came', null, j++]);
+    }
+  }
+  const fold = $('fold').checked, context = 3;
+  const keep = rows.map(() => !fold);
+  if (fold) rows.forEach((r, k) => {
+    if (r[0] !== 'same') for (let d = -context; d <= context; d++) if (rows[k + d]) keep[k + d] = true;
+  });
+  for (let k = 0; k < rows.length; k++) {
+    if (!keep[k]) {
+      let end = k;
+      while (end < rows.length && !keep[end]) end++;
+      const tr = document.createElement('tr');
+      tr.className = 'fold';
+      const td = document.createElement('td');
+      td.colSpan = 4;
+      td.textContent = `⋯ ${end - k} unchanged lines`;
+      tr.append(td);
+      tr.onclick = () => { $('fold').checked = false; redraw(); };
+      table.append(tr);
+      k = end - 1;
+      continue;
+    }
+    const [cls, x, y] = rows[k];
+    const [ma, mb] = cls === 'change' ? marks(a[x], b[y]) : [null, null];
+    row(table, cls === 'same' ? '' : cls,
+      x === null ? null : [a[x], ha[x], ma], y === null ? null : [b[y], hb[y], mb],
+      x === null ? '' : x + 1, y === null ? '' : y + 1);
+  }
+  $('view').textContent = '';
+  $('view').append(table);
+}
+
+function redraw() { if (loaded) show(...loaded); }
+
+function toggles() {
+  const view = $('view');
+  view.classList.toggle('no-lines', !$('lines').checked);
+  view.classList.toggle('no-chars', !$('chars').checked);
+  view.classList.toggle('no-syntax', !$('syntax').checked);
+  $('aside').classList.toggle('changed-only', $('changed-only').checked);
+}
+
+const OPTIONS = ['whitespace', 'lines', 'chars', 'syntax', 'fold', 'changed-only'];
+
+function setFold(panel, collapsed) {
+  const left = panel === 'nav', button = $(panel + '-fold');
+  $(panel).classList.toggle('collapsed', collapsed);
+  button.textContent = collapsed === left ? '›' : '‹';
+  button.title = (collapsed ? 'Show ' : 'Hide ') + (left ? 'files' : 'options');
+  try { localStorage.setItem(panel + '-collapsed', collapsed ? '1' : ''); } catch {}
+}
+function saveOptions() {
+  try { localStorage.setItem('options', JSON.stringify(Object.fromEntries(OPTIONS.map(id => [id, $(id).checked])))); } catch {}
+}
+function loadOptions() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('options') || '{}');
+    for (const id of OPTIONS) if (id in saved) $(id).checked = saved[id];
+  } catch {}
+}
+
+let loaded = null;
+async function open(hash) {
+  const slash = hash.indexOf('/');
+  if (slash < 0) return;
+  current = { project: hash.slice(0, slash), path: hash.slice(slash + 1) };
+  const file = hash.split('/').map(encodeURIComponent).join('/');
+  $('path').textContent = hash;
+  $('links').innerHTML = `<a href="${ORIGINAL}${file}">original</a> <a href="${FORMATTED}${file}">formatted</a>`;
+  document.querySelectorAll('#files li').forEach(li => li.classList.toggle('current', li.dataset.key === hash));
+  const project = projects.find(p => p.name === current.project);
+  const entry = project && project.files.find(f => f[0] === current.path);
+  const config = entry ? project.configs[entry[3]] : '';
+  const dialect = (/^Dialect: (\S+)/m.exec(config) || [])[1] || '';
+  showOptions(project, config, dialect);
+  $('view').innerHTML = '<div class="empty">Loading…</div>';
+  const [a, b] = await Promise.all([ORIGINAL, FORMATTED].map(base =>
+    fetch(base + file, { cache: 'no-store' }).then(r => r.ok ? r.text() : Promise.reject(r.status))));
+  if (current.project + '/' + current.path !== hash) return;
+  const syntax = SYNTAX[dialect] || { line: [';'] };
+  loaded = [lines(a), lines(b), syntax];
+  show(...loaded);
+}
+
+function keys(text) {
+  let parent = '';
+  return text.split('\n').map(line => {
+    const m = /^(\s*)([^:]+):\s*(.*)$/.exec(line);
+    if (!m) return line;
+    if (!m[1]) parent = m[2];
+    return (m[1] ? parent + '.' : '') + m[2] + '=' + m[3];
+  });
+}
+
+function showOptions(project, config, dialect) {
+  $('dialect').textContent = dialect ? `dialect ${dialect}` : '';
+  $('style-name').textContent = project ? project.name : '';
+  $('style').textContent = project ? project.style : '';
+  const pre = $('config');
+  pre.textContent = '';
+  if (!config) return;
+  const lines = config.split('\n'), defaults = new Set(keys(defaultOptions)), set = keys(config).map(k => !defaults.has(k));
+  for (let i = lines.length - 1; i >= 0; i--) {
+    if (/^\S.*:$/.test(lines[i])) for (let j = i + 1; j < lines.length && /^\s/.test(lines[j]); j++) set[i] ||= set[j];
+  }
+  lines.forEach((line, i) => {
+    const span = document.createElement('span');
+    span.className = set[i] ? 'set' : 'default';
+    span.textContent = line + '\n';
+    pre.append(span);
+  });
+}
+
+function step(d) {
+  if (!shown.length) return;
+  const k = current ? shown.findIndex(f => key(f) === key(current)) : -1;
+  const f = shown[Math.min(shown.length - 1, Math.max(0, k + d))];
+  location.hash = key(f);
+}
+
+async function main() {
+  const listing = await fetch('files.json', { cache: 'no-store' }).then(r => r.json());
+  projects = listing.projects;
+  defaultOptions = listing.defaults;
+  $('info').textContent = `asm-format ${listing['asm-format']}`;
+  const select = $('project');
+  select.append(new Option('All projects', ''));
+  for (const p of projects) {
+    const changed = p.files.filter(f => f[1] + f[2]).length;
+    select.append(new Option(`${p.name} (${changed}/${p.files.length})`, p.name));
+  }
+  for (const id of ['project', 'filter', 'changed']) $(id).addEventListener('input', listFiles);
+  loadOptions();
+  toggles();
+  for (const id of ['whitespace', 'fold']) $(id).addEventListener('change', () => { saveOptions(); redraw(); });
+  for (const id of ['lines', 'chars', 'syntax']) $(id).addEventListener('change', () => { saveOptions(); toggles(); });
+  $('changed-only').addEventListener('change', () => { saveOptions(); toggles(); });
+  for (const panel of ['nav', 'aside']) {
+    let collapsed = false;
+    try { collapsed = localStorage.getItem(panel + '-collapsed') === '1'; } catch {}
+    setFold(panel, collapsed);
+    $(panel + '-fold').onclick = () => setFold(panel, !$(panel).classList.contains('collapsed'));
+  }
+  $('prev').onclick = () => step(-1);
+  $('next').onclick = () => step(1);
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT') return;
+    if (e.key === 'j') step(1);
+    if (e.key === 'k') step(-1);
+  });
+  window.addEventListener('hashchange', () => open(decodeURIComponent(location.hash.slice(1))).catch(fail));
+  listFiles();
+  if (location.hash.length > 1) open(decodeURIComponent(location.hash.slice(1))).catch(fail);
+}
+
+function fail(e) { $('view').innerHTML = `<div class="empty">Could not load the file (${e}).</div>`; }
+main().catch(e => { $('view').innerHTML = `<div class="empty">Could not load files.json (${e}).</div>`; });
+</script>
+</body>
+</html>

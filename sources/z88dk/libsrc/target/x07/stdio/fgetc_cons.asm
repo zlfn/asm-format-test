@@ -1,0 +1,29 @@
+;
+;	Keyboard routines for the Canon X-07
+;	By Stefano Bodrato - 10/6/2011
+;
+;	getkey() Wait for keypress
+;
+;
+;	$Id: fgetc_cons.asm,v 1.3 2016-06-12 17:32:01 dom Exp $
+;
+
+
+    SECTION code_clib
+    PUBLIC  fgetc_cons
+    PUBLIC  _fgetc_cons
+
+    INCLUDE "target/x07/def/x07.h"
+
+fgetc_cons:
+_fgetc_cons:
+    xor     a
+    call    $C90A
+    jr      z, fgetc_cons
+    ld      l,a
+    ld      h,0
+    push    hl
+    ld      a,SUB_KBD_CLEAR
+    call    SUB_EXEC_CMD
+    pop     hl
+    ret
