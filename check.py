@@ -93,17 +93,59 @@ def check(p, run_verify):
     print(summary, flush=True)
 
 
+def git(*args, cwd=ROOT, check=True):
+    return subprocess.run(['git', *args], cwd=cwd, check=check, capture_output=True, text=True)
+
+
+def version():
+    where = os.path.dirname(os.path.realpath(BIN))
+    head = git('rev-parse', '--short', 'HEAD', cwd=where, check=False)
+    if head.returncode != 0:
+        return subprocess.run([BIN, '--version'], capture_output=True, text=True).stdout.strip()
+    dirty = git('status', '--porcelain', '--untracked-files=no', cwd=where).stdout.strip()
+    return head.stdout.strip() + ('-dirty' if dirty else '')
+
+
+def commit(projects, ran):
+    exists = git('rev-parse', '--verify', '-q', 'refs/heads/formatted', check=False).returncode == 0
+    tree = os.path.join(tempfile.mkdtemp(), 'formatted')
+    if exists:
+        git('worktree', 'add', '-q', tree, 'formatted')
+    else:
+        git('worktree', 'add', '-q', '-b', 'formatted', tree, 'main')
+    try:
+        git('restore', '--source=main', '--staged', '--worktree', ':/', cwd=tree)
+        names = {p['name'] for p in ran}
+        for p in projects:
+            if exists and p['name'] not in names:
+                git('restore', '--source=HEAD', '--staged', '--worktree', f"sources/{p['name']}", cwd=tree)
+        for p in ran:
+            for f in matching(os.path.join(SOURCES, p['name']), p['files']):
+                shutil.copyfile(os.path.join(OUT, p['name'], f), os.path.join(tree, 'sources', p['name'], f))
+        git('add', '-A', cwd=tree)
+        if git('diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0:
+            print('formatted: no changes')
+            return
+        git('commit', '-q', '-m', f'Format with asm-format {version()}', cwd=tree)
+        print('formatted:', git('rev-parse', '--short', 'HEAD', cwd=tree).stdout.strip())
+    finally:
+        git('worktree', 'remove', '--force', tree)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('names', nargs='*')
     parser.add_argument('--verify', action='store_true', help='assemble both trees and compare')
+    parser.add_argument('--commit', action='store_true', help='commit the results to the formatted branch')
     args = parser.parse_args()
     with open(os.path.join(ROOT, 'projects.toml'), 'rb') as f:
         projects = tomllib.load(f)['project']
     os.makedirs(OUT, exist_ok=True)
-    for p in projects:
-        if not args.names or p['name'] in args.names:
-            check(p, args.verify)
+    ran = [p for p in projects if not args.names or p['name'] in args.names]
+    for p in ran:
+        check(p, args.verify)
+    if args.commit:
+        commit(projects, ran)
 
 
 if __name__ == '__main__':
