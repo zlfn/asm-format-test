@@ -11,8 +11,7 @@
 ;	$Id: respixl.asm $
 ;
 
-
-	INCLUDE	"classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
         SECTION code_clib
         PUBLIC  respixel
@@ -29,7 +28,7 @@ respixel:
         ret     nc
         ld      a, l
         cp      _GFX_MAXY
-        ret     nc                      ; y0	out of range
+        ret     nc      ; y0	out of range
 
         push    bc
 
@@ -46,14 +45,14 @@ respixel:
         call    5
 
         pop     hl
-        ld      a, l                    ; vertical
+        ld      a, l    ; vertical
         add     32
         ld      e, a
         ld      c, 2
         call    5
 
         pop     hl
-        ld      a, h                    ; horizontal
+        ld      a, h    ; horizontal
         add     32
         ld      e, a
         ld      c, 2

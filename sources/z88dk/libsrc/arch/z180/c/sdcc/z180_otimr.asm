@@ -9,12 +9,12 @@ EXTERN asm_z180_otimr
 
 _z180_otimr:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   
-   jp asm_z180_otimr
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_z180_otimr

@@ -12,57 +12,57 @@ TEXT runtime·load_g(SB),NOSPLIT,$0
 #ifndef GOOS_darwin
 #ifndef GOOS_openbsd
 #ifndef GOOS_windows
-	MOVB	runtime·iscgo(SB), R0
-	CBZ	R0, nocgo
+        MOVB    runtime·iscgo(SB), R0
+        CBZ     R0, nocgo
 #endif
 #endif
 #endif
 
-	MRS_TPIDR_R0
+        MRS_TPIDR_R0
 #ifdef TLS_darwin
-	// Darwin sometimes returns unaligned pointers
-	AND	$0xfffffffffffffff8, R0
+        // Darwin sometimes returns unaligned pointers
+        AND     $0xfffffffffffffff8, R0
 #endif
 #ifdef GOOS_windows
-	MOVD	TEB_ThreadLocalStoragePointer(R0), R0
-	MOVWU	_tls_index(SB), R27
-	MOVD	(R0)(R27<<3), R0
-	MOVWU	runtime·tls_g(SB), R27
+        MOVD    TEB_ThreadLocalStoragePointer(R0), R0
+        MOVWU   _tls_index(SB), R27
+        MOVD    (R0)(R27<<3),   R0
+        MOVWU   runtime·tls_g(SB), R27
 #else
-	MOVD	runtime·tls_g(SB), R27
+        MOVD    runtime·tls_g(SB), R27
 #endif
-	MOVD	(R0)(R27), g
+        MOVD    (R0)(R27), g
 
 nocgo:
-	RET
+        RET
 
 TEXT runtime·save_g(SB),NOSPLIT,$0
 #ifndef GOOS_darwin
 #ifndef GOOS_openbsd
 #ifndef GOOS_windows
-	MOVB	runtime·iscgo(SB), R0
-	CBZ	R0, nocgo
+        MOVB    runtime·iscgo(SB), R0
+        CBZ     R0, nocgo
 #endif
 #endif
 #endif
 
-	MRS_TPIDR_R0
+        MRS_TPIDR_R0
 #ifdef TLS_darwin
-	// Darwin sometimes returns unaligned pointers
-	AND	$0xfffffffffffffff8, R0
+        // Darwin sometimes returns unaligned pointers
+        AND     $0xfffffffffffffff8, R0
 #endif
 #ifdef GOOS_windows
-	MOVD	TEB_ThreadLocalStoragePointer(R0), R0
-	MOVWU	_tls_index(SB), R27
-	MOVD	(R0)(R27<<3), R0
-	MOVWU	runtime·tls_g(SB), R27
+        MOVD    TEB_ThreadLocalStoragePointer(R0), R0
+        MOVWU   _tls_index(SB), R27
+        MOVD    (R0)(R27<<3),   R0
+        MOVWU   runtime·tls_g(SB), R27
 #else
-	MOVD	runtime·tls_g(SB), R27
+        MOVD    runtime·tls_g(SB), R27
 #endif
-	MOVD	g, (R0)(R27)
+        MOVD    g, (R0)(R27)
 
 nocgo:
-	RET
+        RET
 
 #ifdef TLSG_IS_VARIABLE
 #ifdef GOOS_android

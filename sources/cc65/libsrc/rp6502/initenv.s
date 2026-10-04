@@ -12,6 +12,6 @@
 
 .proc initenv
 
-    rts
+        rts
 
 .endproc

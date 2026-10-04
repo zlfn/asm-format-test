@@ -11,31 +11,31 @@ SECTION code_PSGlib
 PUBLIC asm_PSGlib_SilenceChannels
 
 asm_PSGlib_SilenceChannels:
-   ; uses : f, bc, hl
+        ; uses : f, bc, hl
 IF SN76489_HAS_LATCH_PORT
-    ld a,0x9f
-    out (PSGPort),a
-    in a,(PSGLatchPort)
-    ld a,0xbf
-    out (PSGPort),a
-    in a,(PSGLatchPort)
-    ld a,0xdf
-    out (PSGPort),a
-    in a,(PSGLatchPort)
-    ld a,0xff
-    out (PSGPort),a
-    in a,(PSGLatchPort)
-    ret
+        ld      a, 0x9f
+        out     (PSGPort), a
+        in      a, (PSGLatchPort)
+        ld      a, 0xbf
+        out     (PSGPort), a
+        in      a, (PSGLatchPort)
+        ld      a, 0xdf
+        out     (PSGPort), a
+        in      a, (PSGLatchPort)
+        ld      a, 0xff
+        out     (PSGPort), a
+        in      a, (PSGLatchPort)
+        ret
 ELSE
-   ld hl,table_silence
-   ld c,PSGPort
+        ld      hl, table_silence
+        ld      c,  PSGPort
 
-   ld b,4
-   otir
+        ld      b, 4
+        otir
 
-   ret
+        ret
 
 table_silence:
 
-   defb 0x9f, 0xbf, 0xdf, 0xff
+        defb    0x9f, 0xbf, 0xdf, 0xff
 ENDIF

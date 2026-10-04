@@ -14,35 +14,34 @@ SECTION code_fp_math32
 
 PUBLIC m32__dtoa_round
 
-
 .m32__dtoa_round
-    ; HL = buffer_dst * (one past last generated digit, which is the
-    ;      rounding digit).  Carry slot is a leading '0' before the
-    ;      first digit.
-    ;
-    ; uses  : af, hl
+        ; HL = buffer_dst * (one past last generated digit, which is the
+        ;      rounding digit).  Carry slot is a leading '0' before the
+        ;      first digit.
+        ;
+        ; uses  : af, hl
 
-    dec hl                          ; rounding digit
-    ld a,(hl)
-    cp '5'
-    ret C                           ; round down
+        dec     hl      ; rounding digit
+        ld      a, (hl)
+        cp      '5'
+        ret     C       ; round down
 
-    push hl
+        push    hl
 
 .loop_round
-    dec hl
-    ld a,(hl)
+        dec     hl
+        ld      a, (hl)
 
-    cp '.'
-    jp Z,loop_round
+        cp      '.'
+        jp      Z, loop_round
 
-    ld (hl),'0'
+        ld      (hl), '0'
 
-    cp '9'
-    jp Z,loop_round
+        cp      '9'
+        jp      Z, loop_round
 
-    inc a
-    ld (hl),a
+        inc     a
+        ld      (hl), a
 
-    pop hl
-    ret
+        pop     hl
+        ret

@@ -57,95 +57,94 @@ PUBLIC asm_f16_poly_callee
 PUBLIC asm_f16_poly
 
 .asm_f16_poly_callee
-    ; evaluation of a polynomial function
-    ;
-    ; enter : stack = uint16_t n, float_t d[], half_t x, ret
-    ;
-    ; exit  : hl    = 16-bit halt_t product
-    ;         carry reset
-    ;
-    ; uses  : af, bc, de, hl, af', bc', de', hl'
+        ; evaluation of a polynomial function
+        ;
+        ; enter : stack = uint16_t n, float_t d[], half_t x, ret
+        ;
+        ; exit  : hl    = 16-bit halt_t product
+        ;         carry reset
+        ;
+        ; uses  : af, bc, de, hl, af', bc', de', hl'
 
-    pop af                      ; return
-    pop hl                      ; (half_t)x in hl
-    exx
+        pop     af      ; return
+        pop     hl      ; (half_t)x in hl
+        exx
 
-    pop de                      ; address of base of coefficient table (float_t)d[]
-    pop hl                      ; count n
-    push af                     ; return on stack
+        pop     de      ; address of base of coefficient table (float_t)d[]
+        pop     hl      ; count n
+        push    af      ; return on stack
 
 .asm_f16_poly
-    ld b,l                      ; mask n to uint8_t in b, because that's got to be enough coefficients.
-    push bc                     ; copy of n on stack in MSB
-    dec hl                      ; count of (float_t)d[n-1]
+        ld      b, l    ; mask n to uint8_t in b, because that's got to be enough coefficients.
+        push    bc      ; copy of n on stack in MSB
+        dec     hl      ; count of (float_t)d[n-1]
 
-    add hl,hl                   ; point at float_t d[] relative index
-    add hl,hl
-    add hl,de                   ; create absolute table index from base and relative index
-    exx
+        add     hl, hl  ; point at float_t d[] relative index
+        add     hl, hl
+        add     hl, de  ; create absolute table index from base and relative index
+        exx
 
-    call asm_f24_f16            ; expand half_t x to f24
-    push de                     ; (f24) x on stack
-    push hl
-    exx                         ; (f24) x in dehl'
+        call    asm_f24_f16     ; expand half_t x to f24
+        push    de              ; (f24) x on stack
+        push    hl
+        exx                     ; (f24) x in dehl'
 
-    push hl                     ; absolute table index on stack
+        push    hl      ; absolute table index on stack
 
-    ld e,(hl+)                  ; collect (float_t)d[n-1]
-    ld d,(hl+)
-    ld c,(hl+)
-    ld b,(hl+)                  ; sdcc_float_t d[n-1] in bcde
-    push bc                     ; sdcc_float_t d[n-1] on stack
-    push de
+        ld      e, (hl+)        ; collect (float_t)d[n-1]
+        ld      d, (hl+)
+        ld      c, (hl+)
+        ld      b, (hl+)        ; sdcc_float_t d[n-1] in bcde
+        push    bc              ; sdcc_float_t d[n-1] on stack
+        push    de
 
-    ld e,(hl+)                  ; collect d[n]
-    ld d,(hl+)
-    ld a,(hl+)
-    ld h,(hl)
-    ld l,a
-    ex de,hl                    ; sdcc_float_t res = d[n] in dehl
-    call asm_f24_f32            ; (f24) d[n] in dehl
+        ld      e,  (hl+)       ; collect d[n]
+        ld      d,  (hl+)
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a
+        ex      de, hl          ; sdcc_float_t res = d[n] in dehl
+        call    asm_f24_f32     ; (f24) d[n] in dehl
 
-.poly0                          ; (f24) x in dehl'
-    call asm_f24_mul_f24
-    exx                         ; x * res => dehl'
+.poly0          ; (f24) x in dehl'
+        call    asm_f24_mul_f24
+        exx     ; x * res => dehl'
 
-    pop hl                      ; d[--n]
-    pop de
-    call asm_f24_f32
-    call asm_f24_add_f24
-    exx                         ; d[--n] + res * x => dehl'
+        pop     hl      ; d[--n]
+        pop     de
+        call    asm_f24_f32
+        call    asm_f24_add_f24
+        exx             ; d[--n] + res * x => dehl'
 
-    pop hl                      ; current absolute table index
-    pop af                      ; (f24) x lsw from stack
-    pop bc                      ; (f24) x msw from stack
-    ex af,af
-    exx
+        pop     hl      ; current absolute table index
+        pop     af      ; (f24) x lsw from stack
+        pop     bc      ; (f24) x msw from stack
+        ex      af, af
+        exx
 
-    pop af                      ; current n value in a
-    dec a
-    jp Z,asm_f16_f24            ; n value == 0 ? return IEEE half_t in HL
+        pop     af              ; current n value in a
+        dec     a
+        jp      Z, asm_f16_f24  ; n value == 0 ? return IEEE half_t in HL
 
-    push af                     ; current n value on stack
-    ex af,af
-    exx
+        push    af      ; current n value on stack
+        ex      af, af
+        exx
 
-    push bc                     ; x msw on stack preserved for next iteration
-    push af                     ; x lsw on stack preserved for next iteration
+        push    bc      ; x msw on stack preserved for next iteration
+        push    af      ; x lsw on stack preserved for next iteration
 
-    dec hl
-    ld d,(hl-)
-    ld e,(hl-)
-    push de                     ; push d[--n] msw to stack
-    ld d,(hl-)
-    ld e,(hl)                   ; (float_t) d[--n] lsw
+        dec     hl
+        ld      d, (hl-)
+        ld      e, (hl-)
+        push    de      ; push d[--n] msw to stack
+        ld      d, (hl-)
+        ld      e, (hl) ; (float_t) d[--n] lsw
 
-    ex (sp),hl                  ; next absolute table index to stack
-    push hl                     ; push d[--n] msw to stack
-    push de                     ; push d[--n] lsw to stack
+        ex      (sp), hl        ; next absolute table index to stack
+        push    hl              ; push d[--n] msw to stack
+        push    de              ; push d[--n] lsw to stack
 
-    ld de,bc                    ; (f24) x msw
-    push af                     ; (f24) x lsw
-    pop hl
-    jp poly0
-
+        ld      de, bc  ; (f24) x msw
+        push    af      ; (f24) x lsw
+        pop     hl
+        jp      poly0

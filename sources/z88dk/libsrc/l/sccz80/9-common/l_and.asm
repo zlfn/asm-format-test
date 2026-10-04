@@ -11,14 +11,14 @@ PUBLIC l_and
 
 l_and:
 
-   ; "and" HL and DE into HL
+        ; "and" HL and DE into HL
 
-   ld a,l
-   and e
-   ld l,a
-   
-   ld a,h
-   and d
-   ld h,a
-   
-   ret
+        ld      a, l
+        and     e
+        ld      l, a
+
+        ld      a, h
+        and     d
+        ld      h, a
+
+        ret

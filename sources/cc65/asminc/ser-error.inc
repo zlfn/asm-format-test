@@ -31,25 +31,22 @@
 ;*                                                                          *
 ;****************************************************************************
 
-
-
 ;------------------------------------------------------------------------------
 ; Error codes
 
 .enum
-        SER_ERR_OK                      ; Not an error - relax
-        SER_ERR_NO_DRIVER               ; No driver available
-        SER_ERR_CANNOT_LOAD             ; Error loading driver
-        SER_ERR_INV_DRIVER              ; Invalid driver
-        SER_ERR_NO_DEVICE               ; Device (hardware) not found
-        SER_ERR_BAUD_UNAVAIL            ; Baud rate not available
-        SER_ERR_NO_DATA                 ; Nothing to read
-        SER_ERR_OVERFLOW                ; No room in send buffer
-        SER_ERR_INIT_FAILED             ; Initialization failed
-        SER_ERR_INV_IOCTL               ; IOCTL not supported
-        SER_ERR_INSTALLED               ; A driver is already installed
-        SER_ERR_NOT_OPEN                ; Driver not open
+        SER_ERR_OK              ; Not an error - relax
+        SER_ERR_NO_DRIVER       ; No driver available
+        SER_ERR_CANNOT_LOAD     ; Error loading driver
+        SER_ERR_INV_DRIVER      ; Invalid driver
+        SER_ERR_NO_DEVICE       ; Device (hardware) not found
+        SER_ERR_BAUD_UNAVAIL    ; Baud rate not available
+        SER_ERR_NO_DATA         ; Nothing to read
+        SER_ERR_OVERFLOW        ; No room in send buffer
+        SER_ERR_INIT_FAILED     ; Initialization failed
+        SER_ERR_INV_IOCTL       ; IOCTL not supported
+        SER_ERR_INSTALLED       ; A driver is already installed
+        SER_ERR_NOT_OPEN        ; Driver not open
 
-        SER_ERR_COUNT                   ; Special: Number of error codes
+        SER_ERR_COUNT   ; Special: Number of error codes
 .endenum
-

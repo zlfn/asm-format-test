@@ -9,16 +9,16 @@ PUBLIC asm_ulap_enable
 
 asm_ulap_enable:
 
-   ; uses : af, bc
+        ; uses : af, bc
 
-   ld bc,__IO_ULAP_REGISTER
+        ld      bc, __IO_ULAP_REGISTER
 
-   ld a,0x40
-   out (c),a
+        ld      a,   0x40
+        out     (c), a
 
-   ld b,__IO_ULAP_DATA / 256
-   
-   ld a,1
-   out (c),a
-   
-   ret
+        ld      b, __IO_ULAP_DATA / 256
+
+        ld      a,   1
+        out     (c), a
+
+        ret

@@ -5,13 +5,13 @@
 ; void cputc (char c);
 ;
 
-        .export         _mono_cputc
-        .import         mono_gotox, mono_gotoy, pusha0
-        .import         pushax
-        .import         _mono_screen
+        .export _mono_cputc
+        .import mono_gotox, mono_gotoy, pusha0
+        .import pushax
+        .import _mono_screen
 
-        .include        "atari7800.inc"
-        .include        "extzp.inc"
+        .include "atari7800.inc"
+        .include "extzp.inc"
 
         .code
 
@@ -19,15 +19,15 @@
 ; 8x16 routine
 
 umula0:
-        ldy     #8                 ; Number of bits
+        ldy     #8      ; Number of bits
         lda     #0
-        lsr     ptr7800            ; Get first bit into carry
+        lsr     ptr7800 ; Get first bit into carry
 @L0:    bcc     @L1
 
         clc
         adc     ptrtmp
         tax
-        lda     ptrtmp+1           ; hi byte of left op
+        lda     ptrtmp+1        ; hi byte of left op
         clc
         adc     ptr7800+1
         sta     ptr7800+1
@@ -39,7 +39,7 @@ umula0:
         dey
         bne     @L0
         tax
-        lda     ptr7800            ; Load the result
+        lda     ptr7800 ; Load the result
         rts
 
 ;-----------------------------------------------------------------------------
@@ -49,9 +49,9 @@ umula0:
 ;
         .proc   _mono_cputc
 
-        cmp     #$0A            ; LF
+        cmp     #$0A    ; LF
         bne     @L4
-@L1:    lda     #0              ; newline
+@L1:    lda     #0      ; newline
         jsr     mono_gotox
         lda     CURS_Y
         cmp     #(screenrows-1)
@@ -68,7 +68,7 @@ umula0:
         lda     #0
         sta     ptr7800+1
         sta     ptrtmp+1
-        lda     CURS_Y          ; Find position on screen buffer
+        lda     CURS_Y  ; Find position on screen buffer
         sta     ptr7800
         lda     #mono_charsperline
         sta     ptrtmp
@@ -87,11 +87,11 @@ umula0:
         adc     #>(_mono_screen)
         sta     ptr7800+1
 
-        pla                     ; Print character on screen
+        pla     ; Print character on screen
         ldy     #0
-        sta     (ptr7800),y
+        sta     (ptr7800), y
 
-        lda     CURS_X          ; Increment cursor
+        lda     CURS_X  ; Increment cursor
         cmp     #(mono_charsperline-1)
         beq     @L1
         clc
@@ -99,4 +99,3 @@ umula0:
         jmp     mono_gotox
 
         .endproc
-

@@ -7,22 +7,21 @@
 ; Keep in the same registers
 ;
 
-		SECTION	code_clib
-		PUBLIC	__convert_sdccf2reg
-
+        SECTION code_clib
+        PUBLIC  __convert_sdccf2reg
 
 __convert_sdccf2reg:
-	add	hl,hl	;shift right, sign into carry
+        add     hl, hl  ;shift right, sign into carry
 IF __CPU_INTEL__
-        ld      a,l
+        ld      a, l
         rra
-        ld      l,a
+        ld      l, a
 ELSE
-	rr	l	;get sign into right place after shift
+        rr      l       ;get sign into right place after shift
 ENDIF
-	inc	h	;fix exponent bias
-	inc	h
+        inc     h       ;fix exponent bias
+        inc     h
         ; h = exponent
         ; l = sign + mantissa
         ; d, e = mantissa
-	ret
+        ret

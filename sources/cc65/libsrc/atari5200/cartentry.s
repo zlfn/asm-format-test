@@ -8,6 +8,6 @@
 
 .segment        "CARTENTRY"
 
-                .word   start       ; entry point
+        .word   start   ; entry point
 
 .assert         (__CARTSIZE__ = $4000 || __CARTSIZE__ = $8000), error, "Cartridge size must either be $4000 or $8000"

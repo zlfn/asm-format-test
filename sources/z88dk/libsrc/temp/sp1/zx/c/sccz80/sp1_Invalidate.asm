@@ -11,19 +11,19 @@ EXTERN asm_sp1_Invalidate
 
 sp1_Invalidate:
 
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
+        ld      d, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
 
 ;   jp asm_sp1_Invalidate
-   push ix
-   call asm_sp1_Invalidate
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_Invalidate
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -32,4 +32,3 @@ PUBLIC _sp1_Invalidate_fastcall
 defc _sp1_Invalidate = sp1_Invalidate
 defc _sp1_Invalidate_fastcall = sp1_Invalidate
 ENDIF
-

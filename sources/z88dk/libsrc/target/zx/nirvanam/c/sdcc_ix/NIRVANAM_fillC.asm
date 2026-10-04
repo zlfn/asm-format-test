@@ -15,12 +15,12 @@ EXTERN asm_NIRVANAM_fillC
 
 _NIRVANAM_fillC:
 
-	ld hl,2
-	add hl,sp
-	ld c,(hl)       ; attr
-	inc hl
-	ld d,(hl)       ; lin
-	inc hl
-	ld e,(hl)       ; col
-   
-   jp asm_NIRVANAM_fillC
+        ld      hl, 2
+        add     hl, sp
+        ld      c,  (hl)        ; attr
+        inc     hl
+        ld      d, (hl)         ; lin
+        inc     hl
+        ld      e, (hl)         ; col
+
+        jp      asm_NIRVANAM_fillC

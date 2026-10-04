@@ -11,10 +11,9 @@
 ;	$Id: respixl.asm $
 ;
 
-
-    SECTION code_graphics
-    PUBLIC  respixel
+        SECTION code_graphics
+        PUBLIC  respixel
 
 respixel:
-    defc    NEEDunplot=1
-    INCLUDE "pixel6.inc"
+        defc    NEEDunplot=1
+        INCLUDE "pixel6.inc"

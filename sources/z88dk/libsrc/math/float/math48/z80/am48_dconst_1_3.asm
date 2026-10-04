@@ -6,8 +6,8 @@ PUBLIC am48_dconst_1_3
 
 EXTERN mm48__ac1_3
 
-   ; set AC = 1/3
-   ;
-   ; uses : bc, de, hl
-   
+        ; set AC = 1/3
+        ;
+        ; uses : bc, de, hl
+
 defc am48_dconst_1_3 = mm48__ac1_3

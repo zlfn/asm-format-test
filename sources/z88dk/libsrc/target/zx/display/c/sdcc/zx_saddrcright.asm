@@ -10,10 +10,10 @@ EXTERN asm_zx_saddrcright
 
 _zx_saddrcright:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_zx_saddrcright
+        push    hl
+        push    af
+
+        jp      asm_zx_saddrcright

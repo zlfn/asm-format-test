@@ -36,41 +36,41 @@
 #define tmp		x7
 #define tmp2		x8
 
-	.p2align 4
-	nop
+        .p2align 4
+        nop
 SYM_FUNC_START(__pi_memchr)
-	and	chrin, chrin, #0xff
-	lsr	wordcnt, cntin, #3
-	cbz	wordcnt, L(byte_loop)
-	mov	rep01, #REP8_01
-	mul	repchr, x1, rep01
-	and	cntin, cntin, #7
+        and     chrin,   chrin, #0xff
+        lsr     wordcnt, cntin, #3
+        cbz     wordcnt, L(byte_loop)
+        mov     rep01,   #REP8_01
+        mul     repchr,  x1,    rep01
+        and     cntin,   cntin, #7
 L(word_loop):
-	ldr	cur_word, [srcin], #8
-	sub	wordcnt, wordcnt, #1
-	eor	cur_word, cur_word, repchr
-	sub	tmp, cur_word, rep01
-	orr	tmp2, cur_word, #REP8_7f
-	bics	tmp, tmp, tmp2
-	b.ne	L(found_word)
-	cbnz	wordcnt, L(word_loop)
+        ldr     cur_word, [srcin],  #8
+        sub     wordcnt,  wordcnt,  #1
+        eor     cur_word, cur_word, repchr
+        sub     tmp,  cur_word, rep01
+        orr     tmp2, cur_word, #REP8_7f
+        bics    tmp,  tmp,      tmp2
+        b.ne    L(found_word)
+        cbnz    wordcnt, L(word_loop)
 L(byte_loop):
-	cbz	cntin, L(not_found)
-	ldrb	cur_byte, [srcin], #1
-	sub	cntin, cntin, #1
-	cmp	cur_byte, chrin
-	b.ne	L(byte_loop)
-	sub	srcin, srcin, #1
-	ret
+        cbz     cntin,    L(not_found)
+        ldrb    cur_byte, [srcin], #1
+        sub     cntin,    cntin,   #1
+        cmp     cur_byte, chrin
+        b.ne    L(byte_loop)
+        sub     srcin, srcin, #1
+        ret
 L(found_word):
 CPU_LE(	rev	tmp, tmp)
-	clz	tmp, tmp
-	sub	tmp, tmp, #64
-	add	result, srcin, tmp, asr #3
-	ret
+        clz     tmp,    tmp
+        sub     tmp,    tmp,   #64
+        add     result, srcin, tmp, asr #3
+        ret
 L(not_found):
-	mov	result, #0
-	ret
+        mov     result, #0
+        ret
 SYM_FUNC_END(__pi_memchr)
 SYM_FUNC_ALIAS_WEAK(memchr, __pi_memchr)
 EXPORT_SYMBOL_NOKASAN(memchr)

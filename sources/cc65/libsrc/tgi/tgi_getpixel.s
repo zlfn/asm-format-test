@@ -4,10 +4,9 @@
 ; unsigned char __fastcall__ tgi_getpixel (int x, int y);
 ; /* Get the color value of a pixel */
 
+        .include "tgi-kernel.inc"
 
-        .include        "tgi-kernel.inc"
-
-        .import         return0
+        .import return0
 
 .proc   _tgi_getpixel
 
@@ -17,4 +16,3 @@
 @L9:    jmp     return0         ; Assume bg color
 
 .endproc
-

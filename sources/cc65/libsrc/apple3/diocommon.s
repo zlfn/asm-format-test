@@ -3,11 +3,11 @@
 ; Robert Justice, 2026
 ;
 
-        .export         dioprolog, diocommon, dioepilog
-        .import         popax
+        .export dioprolog, diocommon, dioepilog
+        .import popax
 
-        .include        "errno.inc"
-        .include        "sos.inc"
+        .include "errno.inc"
+        .include "sos.inc"
 
 dioprolog:
         ; Set buffer

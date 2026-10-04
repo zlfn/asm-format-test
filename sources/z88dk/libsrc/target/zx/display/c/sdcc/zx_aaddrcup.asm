@@ -10,10 +10,10 @@ EXTERN asm_zx_aaddrcup
 
 _zx_aaddrcup:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_zx_aaddrcup
+        push    hl
+        push    af
+
+        jp      asm_zx_aaddrcup

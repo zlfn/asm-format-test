@@ -4,10 +4,10 @@
 ; unsigned char cpeekcolor (void);
 ;
 
-        .export         soft80mono_cpeekcolor
+        .export soft80mono_cpeekcolor
 
-        .include        "c64.inc"
-        .include        "soft80.inc"
+        .include "c64.inc"
+        .include "soft80.inc"
 
         .segment "CODE"
 

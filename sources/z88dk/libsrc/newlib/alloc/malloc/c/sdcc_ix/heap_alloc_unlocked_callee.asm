@@ -10,8 +10,8 @@ EXTERN asm_heap_alloc_unlocked
 
 _heap_alloc_unlocked_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_heap_alloc_unlocked
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_heap_alloc_unlocked

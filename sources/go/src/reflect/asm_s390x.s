@@ -28,49 +28,49 @@
 // for more details.
 // No arg size here, runtime pulls arg map out of the func value.
 TEXT ·makeFuncStub(SB),(NOSPLIT|WRAPPER),$304
-	NO_LOCAL_POINTERS
-	ADD	$LOCAL_REGARGS, R15, R10 // spillArgs using R10
-	BL	runtime·spillArgs(SB)
-	MOVD	R12, 32(R15) // save context reg R12 > args of moveMakeFuncArgPtrs < LOCAL_REGARGS
-	MOVD	R12, R2
-	MOVD	R10, R3
-	BL	·moveMakeFuncArgPtrs<ABIInternal>(SB)
-	MOVD	32(R15), R12 // restore context reg R12
-	MOVD	R12, 8(R15)
-	MOVD	$argframe+0(FP), R1
-	MOVD	R1, 16(R15)
-	MOVB	$0, LOCAL_RETVALID(R15)
-	ADD	$LOCAL_RETVALID, R15, R1
-	MOVD	R1, 24(R15)
-	ADD	$LOCAL_REGARGS, R15, R1
-	MOVD	R1, 32(R15)
-	BL	·callReflect(SB)
-	ADD	$LOCAL_REGARGS, R15, R10 // unspillArgs using R10
-	BL	runtime·unspillArgs(SB)
-	RET
+        NO_LOCAL_POINTERS
+        ADD     $LOCAL_REGARGS, R15, R10        // spillArgs using R10
+        BL      runtime·spillArgs(SB)
+        MOVD    R12, 32(R15)                    // save context reg R12 > args of moveMakeFuncArgPtrs < LOCAL_REGARGS
+        MOVD    R12, R2
+        MOVD    R10, R3
+        BL      ·moveMakeFuncArgPtrs<ABIInternal>(SB)
+        MOVD    32(R15), R12                    // restore context reg R12
+        MOVD    R12,     8(R15)
+        MOVD    $argframe+0(FP), R1
+        MOVD    R1, 16(R15)
+        MOVB    $0, LOCAL_RETVALID(R15)
+        ADD     $LOCAL_RETVALID, R15, R1
+        MOVD    R1, 24(R15)
+        ADD     $LOCAL_REGARGS, R15, R1
+        MOVD    R1, 32(R15)
+        BL      ·callReflect(SB)
+        ADD     $LOCAL_REGARGS, R15, R10        // unspillArgs using R10
+        BL      runtime·unspillArgs(SB)
+        RET
 
 // methodValueCall is the code half of the function returned by makeMethodValue.
 // See the comment on the declaration of methodValueCall in makefunc.go
 // for more details.
 // No arg size here; runtime pulls arg map out of the func value.
 TEXT ·methodValueCall(SB),(NOSPLIT|WRAPPER),$304
-	NO_LOCAL_POINTERS
-	ADD	$LOCAL_REGARGS, R15, R10 // spillArgs using R10
-	BL	runtime·spillArgs(SB)
-	MOVD	R12, 32(R15) // save context reg R12 > args of moveMakeFuncArgPtrs < LOCAL_REGARGS
-	MOVD	R12, R2
-	MOVD	R10, R3
-	BL	·moveMakeFuncArgPtrs<ABIInternal>(SB)
-	MOVD	32(R15), R12 // restore context reg R12
-	MOVD	R12, 8(R15)
-	MOVD	$argframe+0(FP), R1
-	MOVD	R1, 16(R15)
-	MOVB	$0, LOCAL_RETVALID(R15)
-	ADD	$LOCAL_RETVALID, R15, R1
-	MOVD	R1, 24(R15)
-	ADD	$LOCAL_REGARGS, R15, R1
-	MOVD	R1, 32(R15)
-	BL	·callMethod(SB)
-	ADD	$LOCAL_REGARGS, R15, R10 // unspillArgs using R10
-	BL	runtime·unspillArgs(SB)
-	RET
+        NO_LOCAL_POINTERS
+        ADD     $LOCAL_REGARGS, R15, R10        // spillArgs using R10
+        BL      runtime·spillArgs(SB)
+        MOVD    R12, 32(R15)                    // save context reg R12 > args of moveMakeFuncArgPtrs < LOCAL_REGARGS
+        MOVD    R12, R2
+        MOVD    R10, R3
+        BL      ·moveMakeFuncArgPtrs<ABIInternal>(SB)
+        MOVD    32(R15), R12                    // restore context reg R12
+        MOVD    R12,     8(R15)
+        MOVD    $argframe+0(FP), R1
+        MOVD    R1, 16(R15)
+        MOVB    $0, LOCAL_RETVALID(R15)
+        ADD     $LOCAL_RETVALID, R15, R1
+        MOVD    R1, 24(R15)
+        ADD     $LOCAL_REGARGS, R15, R1
+        MOVD    R1, 32(R15)
+        BL      ·callMethod(SB)
+        ADD     $LOCAL_REGARGS, R15, R10        // unspillArgs using R10
+        BL      runtime·unspillArgs(SB)
+        RET

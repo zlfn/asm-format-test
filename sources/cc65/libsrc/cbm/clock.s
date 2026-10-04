@@ -5,11 +5,10 @@
 ; clock_t clock (void);
 ;
 
-        .export         _clock
-        .importzp       sreg
+        .export _clock
+        .importzp sreg
 
-        .include        "cbm.inc"
-
+        .include "cbm.inc"
 
 .proc   _clock
 
@@ -18,7 +17,7 @@
 .if .cap(CPU_HAS_STZ)
         stz     sreg + 1
 .else
-        lda     #$00            ; Byte 3 always is zero
+        lda     #$00    ; Byte 3 always is zero
         sta     sreg + 1
 .endif
 

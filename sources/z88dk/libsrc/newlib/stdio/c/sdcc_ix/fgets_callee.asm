@@ -16,22 +16,22 @@ EXTERN asm_fgets
 
 _fgets_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        push    af
 
 l0_fgets_callee:
 
-   push de
-   ex (sp),ix
-   
-   ex de,hl
-   call asm_fgets
-   
-   pop ix
-   ret
+        push    de
+        ex      (sp), ix
+
+        ex      de, hl
+        call    asm_fgets
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

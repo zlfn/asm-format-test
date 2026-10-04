@@ -13,23 +13,22 @@ SECTION .text
 global ASM_PFX(DisableCet)
 ASM_PFX(DisableCet):
 
-    ; Skip the pushed data for call
-    mov     rax, 1
-    incsspq rax
+        ; Skip the pushed data for call
+        mov     rax, 1
+        incsspq rax
 
-    mov     rax, cr4
-    btr     eax, CR4_CET_BIT             ; clear CET
-    mov     cr4, rax
-    ret
+        mov     rax, cr4
+        btr     eax, CR4_CET_BIT        ; clear CET
+        mov     cr4, rax
+        ret
 
 global ASM_PFX(EnableCet)
 ASM_PFX(EnableCet):
 
-    mov     rax, cr4
-    bts     eax, CR4_CET_BIT             ; set CET
-    mov     cr4, rax
+        mov     rax, cr4
+        bts     eax, CR4_CET_BIT        ; set CET
+        mov     cr4, rax
 
-    ; use jmp to skip the check for ret
-    pop     rax
-    jmp     rax
-
+        ; use jmp to skip the check for ret
+        pop     rax
+        jmp     rax

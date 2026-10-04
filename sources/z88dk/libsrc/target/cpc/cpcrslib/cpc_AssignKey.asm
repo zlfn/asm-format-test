@@ -10,11 +10,11 @@
 ;       $Id: cpc_AssignKey.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_AssignKey
-        PUBLIC    _cpc_AssignKey
-		
-        EXTERN    asm_cpc_AssignKey
+        SECTION code_clib
+        PUBLIC  cpc_AssignKey
+        PUBLIC  _cpc_AssignKey
+
+        EXTERN  asm_cpc_AssignKey
 
 .cpc_AssignKey
 ._cpc_AssignKey
@@ -24,4 +24,4 @@
         push    de
         push    hl
         push    bc
-        jp asm_cpc_AssignKey
+        jp      asm_cpc_AssignKey

@@ -10,14 +10,14 @@ EXTERN asm_strnchr
 
 _strnchr:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push hl
-   push af
-   
-   jp asm_strnchr
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_strnchr

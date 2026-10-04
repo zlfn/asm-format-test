@@ -10,28 +10,28 @@ EXTERN l_mulu_16_16x16
 
 __mulsuchar:
 
-   ; 8-bit mixed multiply
-   ;
-   ; enter : stack = multiplicand (signed byte), multiplicand (byte), ret
-   ;
-   ; exit  : hl = 16-bit product
+        ; 8-bit mixed multiply
+        ;
+        ; enter : stack = multiplicand (signed byte), multiplicand (byte), ret
+        ;
+        ; exit  : hl = 16-bit product
 
-   ld hl,3
-   add hl,sp
+        ld      hl, 3
+        add     hl, sp
 
-   ld e,(hl)
-   dec hl
-   ld l,(hl)
+        ld      e, (hl)
+        dec     hl
+        ld      l, (hl)
 
-   ; must promote to 16-bits
+        ; must promote to 16-bits
 
 __mulsuchar_0:
 
-   ld h,0
+        ld      h, 0
 
-   ld a,e
-   add a,a
-   sbc a,a
-   ld d,a
+        ld      a, e
+        add     a, a
+        sbc     a, a
+        ld      d, a
 
-   jp l_mulu_16_16x16
+        jp      l_mulu_16_16x16

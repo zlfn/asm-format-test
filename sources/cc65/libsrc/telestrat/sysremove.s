@@ -4,11 +4,10 @@
 ; unsigned char __fastcall__ _sysremove (const char* name);
 ;
 
-        .export         __sysremove
+        .export __sysremove
 
-
-        .include        "zeropage.inc"
-        .include        "telestrat.inc"
+        .include "zeropage.inc"
+        .include "telestrat.inc"
 
 __sysremove:
         ; Push name

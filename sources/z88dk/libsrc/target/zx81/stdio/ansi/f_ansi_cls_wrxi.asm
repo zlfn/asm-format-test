@@ -8,14 +8,14 @@
 ;	$Id: f_ansi_cls_wrxi.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_cls
-    EXTERN  _clg_hr                     ; we use the graphics CLS routine
+        SECTION code_clib
+        PUBLIC  ansi_cls
+        EXTERN  _clg_hr ; we use the graphics CLS routine
 
-    EXTERN  __console_h
+        EXTERN  __console_h
 
 ansi_cls:
-    call    _clg_hr
-    ld      a, 32
-    ld      (__console_h), a
-    ret
+        call    _clg_hr
+        ld      a, 32
+        ld      (__console_h), a
+        ret

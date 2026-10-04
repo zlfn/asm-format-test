@@ -105,29 +105,29 @@ SYM_FUNC_START(blowfish_enc_blk)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	movq %r12, %r11;
+        movq    %r12, %r11;
 
-	movq %rdi, CTX;
-	movq %rsi, %r10;
-	movq %rdx, RIO;
+        movq    %rdi, CTX;
+        movq    %rsi, %r10;
+        movq    %rdx, RIO;
 
-	read_block();
+        read_block();
 
-	round_enc(0);
-	round_enc(2);
-	round_enc(4);
-	round_enc(6);
-	round_enc(8);
-	round_enc(10);
-	round_enc(12);
-	round_enc(14);
-	add_roundkey_enc(16);
+        round_enc(0);
+        round_enc(2);
+        round_enc(4);
+        round_enc(6);
+        round_enc(8);
+        round_enc(10);
+        round_enc(12);
+        round_enc(14);
+        add_roundkey_enc(16);
 
-	movq %r11, %r12;
-	movq %r10, RIO;
+        movq    %r11, %r12;
+        movq    %r10, RIO;
 
-	write_block();
-	RET;
+        write_block();
+        RET;
 SYM_FUNC_END(blowfish_enc_blk)
 
 SYM_FUNC_START(blowfish_dec_blk)
@@ -136,30 +136,30 @@ SYM_FUNC_START(blowfish_dec_blk)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	movq %r12, %r11;
+        movq    %r12, %r11;
 
-	movq %rdi, CTX;
-	movq %rsi, %r10;
-	movq %rdx, RIO;
+        movq    %rdi, CTX;
+        movq    %rsi, %r10;
+        movq    %rdx, RIO;
 
-	read_block();
+        read_block();
 
-	round_dec(17);
-	round_dec(15);
-	round_dec(13);
-	round_dec(11);
-	round_dec(9);
-	round_dec(7);
-	round_dec(5);
-	round_dec(3);
-	add_roundkey_dec(1);
+        round_dec(17);
+        round_dec(15);
+        round_dec(13);
+        round_dec(11);
+        round_dec(9);
+        round_dec(7);
+        round_dec(5);
+        round_dec(3);
+        add_roundkey_dec(1);
 
-	movq %r10, RIO;
-	write_block();
+        movq    %r10, RIO;
+        write_block();
 
-	movq %r11, %r12;
+        movq    %r11, %r12;
 
-	RET;
+        RET;
 SYM_FUNC_END(blowfish_dec_blk)
 
 /**********************************************************************
@@ -278,33 +278,33 @@ SYM_FUNC_START(blowfish_enc_blk_4way)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	pushq %r12;
-	pushq %rbx;
+        pushq   %r12;
+        pushq   %rbx;
 
-	movq %rdi, CTX
-	movq %rsi, %r11;
-	movq %rdx, RIO;
+        movq    %rdi, CTX
+        movq    %rsi, %r11;
+        movq    %rdx, RIO;
 
-	preload_roundkey_enc(0);
+        preload_roundkey_enc(0);
 
-	read_block4();
+        read_block4();
 
-	round_enc4(0);
-	round_enc4(2);
-	round_enc4(4);
-	round_enc4(6);
-	round_enc4(8);
-	round_enc4(10);
-	round_enc4(12);
-	round_enc4(14);
-	add_preloaded_roundkey4();
+        round_enc4(0);
+        round_enc4(2);
+        round_enc4(4);
+        round_enc4(6);
+        round_enc4(8);
+        round_enc4(10);
+        round_enc4(12);
+        round_enc4(14);
+        add_preloaded_roundkey4();
 
-	movq %r11, RIO;
-	write_block4();
+        movq    %r11, RIO;
+        write_block4();
 
-	popq %rbx;
-	popq %r12;
-	RET;
+        popq    %rbx;
+        popq    %r12;
+        RET;
 SYM_FUNC_END(blowfish_enc_blk_4way)
 
 SYM_FUNC_START(__blowfish_dec_blk_4way)
@@ -314,41 +314,41 @@ SYM_FUNC_START(__blowfish_dec_blk_4way)
 	 *	%rdx: src
 	 *	%rcx: cbc (bool)
 	 */
-	pushq %r12;
-	pushq %rbx;
-	pushq %rcx;
-	pushq %rdx;
+        pushq   %r12;
+        pushq   %rbx;
+        pushq   %rcx;
+        pushq   %rdx;
 
-	movq %rdi, CTX;
-	movq %rsi, %r11;
-	movq %rdx, RIO;
+        movq    %rdi, CTX;
+        movq    %rsi, %r11;
+        movq    %rdx, RIO;
 
-	preload_roundkey_dec(17);
-	read_block4();
+        preload_roundkey_dec(17);
+        read_block4();
 
-	round_dec4(17);
-	round_dec4(15);
-	round_dec4(13);
-	round_dec4(11);
-	round_dec4(9);
-	round_dec4(7);
-	round_dec4(5);
-	round_dec4(3);
-	add_preloaded_roundkey4();
+        round_dec4(17);
+        round_dec4(15);
+        round_dec4(13);
+        round_dec4(11);
+        round_dec4(9);
+        round_dec4(7);
+        round_dec4(5);
+        round_dec4(3);
+        add_preloaded_roundkey4();
 
-	popq RIO;
-	popq %r12;
-	testq %r12, %r12;
-	jz .L_no_cbc_xor;
+        popq    RIO;
+        popq    %r12;
+        testq   %r12, %r12;
+        jz      .L_no_cbc_xor;
 
-	xor_block4();
+        xor_block4();
 
 .L_no_cbc_xor:
-	movq %r11, RIO;
-	write_block4();
+        movq    %r11, RIO;
+        write_block4();
 
-	popq %rbx;
-	popq %r12;
+        popq    %rbx;
+        popq    %r12;
 
-	RET;
+        RET;
 SYM_FUNC_END(__blowfish_dec_blk_4way)

@@ -11,14 +11,14 @@ EXTERN CDISP_ADT_HEAPADD_CALLEE
 .adt_HeapAdd
 ._adt_HeapAdd
 
-   pop af
-   pop iy
-   pop hl
-   pop bc
-   pop de
-   push de
-   push bc
-   push hl
-   push hl
-   push af
-   jp   adt_HeapAdd_callee + CDISP_ADT_HEAPADD_CALLEE
+        pop     af
+        pop     iy
+        pop     hl
+        pop     bc
+        pop     de
+        push    de
+        push    bc
+        push    hl
+        push    hl
+        push    af
+        jp      adt_HeapAdd_callee + CDISP_ADT_HEAPADD_CALLEE

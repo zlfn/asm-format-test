@@ -7,45 +7,45 @@ ____sdcc_4_or_src_mbc_mhl_dst_deix:
 
 IFDEF __SDCC_IX
 
-   push ix
+        push    ix
 
 ELSE
 
-   push iy
-   
+        push    iy
+
 ENDIF
 
-   ex (sp),hl
-   
-   add hl,de
-   ex de,hl
-   
-   pop hl
-   
-   ld a,(bc)
-   or (hl)
-   ld (de),a
-   inc bc
-   inc de
-   inc hl
+        ex      (sp), hl
 
-   ld a,(bc)
-   or (hl)
-   ld (de),a
-   inc bc
-   inc de
-   inc hl
+        add     hl, de
+        ex      de, hl
 
-   ld a,(bc)
-   or (hl)
-   ld (de),a
-   inc bc
-   inc de
-   inc hl
+        pop     hl
 
-   ld a,(bc)
-   or (hl)
-   ld (de),a
-   inc hl
+        ld      a, (bc)
+        or      (hl)
+        ld      (de), a
+        inc     bc
+        inc     de
+        inc     hl
 
-   ret
+        ld      a, (bc)
+        or      (hl)
+        ld      (de), a
+        inc     bc
+        inc     de
+        inc     hl
+
+        ld      a, (bc)
+        or      (hl)
+        ld      (de), a
+        inc     bc
+        inc     de
+        inc     hl
+
+        ld      a, (bc)
+        or      (hl)
+        ld      (de), a
+        inc     hl
+
+        ret

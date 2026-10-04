@@ -27,83 +27,83 @@ SECTION .text
 
 %macro process_fn 1 ; number of planes
 cglobal sws_process%1_x86, 6, 7 + 2 * %1, 16
-            ; Args:
-            ;   execq, implq, bxd, yd as defined in ops_include.asm
-            ;   bx_end and y_end are initially in tmp0d / tmp1d
-            ;   (see SwsOpFunc signature)
-            ;
-            ; Stack layout:
-            ;   [rsp +  0] = [qword] impl->cont (address of first kernel)
-            ;   [rsp +  8] = [qword] &impl[1]   (restore implq after chain)
-            ;   [rsp + 16] = [dword] bx start   (restore after line finish)
-            ;   [rsp + 20] = [dword] bx end     (loop counter limit)
-            ;   [rsp + 24] = [dword] y end      (loop counter limit)
-            sub rsp, 32
-            mov [rsp + 16], bxd
-            mov [rsp + 20], tmp0d ; bx_end
-            mov [rsp + 24], tmp1d ; y_end
-            mov tmp0q, [implq + SwsOpImpl.cont]
-            add implq, SwsOpImpl.next
-            mov [rsp +  0], tmp0q
-            mov [rsp +  8], implq
-            movsxdifnidn bxq, bxd
-            movsxdifnidn yq, yd
+        ; Args:
+        ;   execq, implq, bxd, yd as defined in ops_include.asm
+        ;   bx_end and y_end are initially in tmp0d / tmp1d
+        ;   (see SwsOpFunc signature)
+        ;
+        ; Stack layout:
+        ;   [rsp +  0] = [qword] impl->cont (address of first kernel)
+        ;   [rsp +  8] = [qword] &impl[1]   (restore implq after chain)
+        ;   [rsp + 16] = [dword] bx start   (restore after line finish)
+        ;   [rsp + 20] = [dword] bx end     (loop counter limit)
+        ;   [rsp + 24] = [dword] y end      (loop counter limit)
+        sub     rsp, 32
+        mov     [rsp + 16], bxd
+        mov     [rsp + 20], tmp0d       ; bx_end
+        mov     [rsp + 24], tmp1d       ; y_end
+        mov     tmp0q, [implq + SwsOpImpl.cont]
+        add     implq, SwsOpImpl.next
+        mov     [rsp +  0], tmp0q
+        mov     [rsp +  8], implq
+        movsxdifnidn bxq, bxd
+        movsxdifnidn yq,  yd
 
-            ; load plane pointers
-            mov in0q,  [execq + SwsOpExec.in0]
+        ; load plane pointers
+        mov     in0q, [execq + SwsOpExec.in0]
 IF %1 > 1,  mov in1q,  [execq + SwsOpExec.in1]
 IF %1 > 2,  mov in2q,  [execq + SwsOpExec.in2]
 IF %1 > 3,  mov in3q,  [execq + SwsOpExec.in3]
-            mov out0q, [execq + SwsOpExec.out0]
+        mov     out0q, [execq + SwsOpExec.out0]
 IF %1 > 1,  mov out1q, [execq + SwsOpExec.out1]
 IF %1 > 2,  mov out2q, [execq + SwsOpExec.out2]
 IF %1 > 3,  mov out3q, [execq + SwsOpExec.out3]
 .loop:
-            call [rsp] ; call into op chain
-            mov implq, [rsp + 8]
-            inc bxd
-            cmp bxd, [rsp + 20]
-            jne .loop
-            ; end of line
-            inc yd
-            cmp yd, [rsp + 24]
-            je .end
-            ; bump addresses to point to start of next line
-            add in0q,  [execq + SwsOpExec.in_bump0]
+        call    [rsp]   ; call into op chain
+        mov     implq, [rsp + 8]
+        inc     bxd
+        cmp     bxd, [rsp + 20]
+        jne     .loop
+        ; end of line
+        inc     yd
+        cmp     yd, [rsp + 24]
+        je      .end
+        ; bump addresses to point to start of next line
+        add     in0q, [execq + SwsOpExec.in_bump0]
 IF %1 > 1,  add in1q,  [execq + SwsOpExec.in_bump1]
 IF %1 > 2,  add in2q,  [execq + SwsOpExec.in_bump2]
 IF %1 > 3,  add in3q,  [execq + SwsOpExec.in_bump3]
-            add out0q, [execq + SwsOpExec.out_bump0]
+        add     out0q, [execq + SwsOpExec.out_bump0]
 IF %1 > 1,  add out1q, [execq + SwsOpExec.out_bump1]
 IF %1 > 2,  add out2q, [execq + SwsOpExec.out_bump2]
 IF %1 > 3,  add out3q, [execq + SwsOpExec.out_bump3]
-            mov bxd, [rsp + 16]
-            ; conditionally apply y bump (if non-NULL)
-            mov tmp0q, [execq + SwsOpExec.in_bump_y]
-            test tmp0q, tmp0q
-            jz .loop
-            movsxd tmp0q, [tmp0q + yq * 4 - 4] ; load (signed) y bump
+        mov     bxd, [rsp + 16]
+        ; conditionally apply y bump (if non-NULL)
+        mov     tmp0q, [execq + SwsOpExec.in_bump_y]
+        test    tmp0q, tmp0q
+        jz      .loop
+        movsxd  tmp0q, [tmp0q + yq * 4 - 4]     ; load (signed) y bump
 %if %1 > 3
-            mov tmp1q, tmp0q
-            imul tmp1q, [execq + SwsOpExec.in_stride3]
-            add in3q, tmp1q
+        mov     tmp1q, tmp0q
+        imul    tmp1q, [execq + SwsOpExec.in_stride3]
+        add     in3q,  tmp1q
 %endif
 %if %1 > 2
-            mov tmp1q, tmp0q
-            imul tmp1q, [execq + SwsOpExec.in_stride2]
-            add in2q, tmp1q
+        mov     tmp1q, tmp0q
+        imul    tmp1q, [execq + SwsOpExec.in_stride2]
+        add     in2q,  tmp1q
 %endif
 %if %1 > 1
-            mov tmp1q, tmp0q
-            imul tmp1q, [execq + SwsOpExec.in_stride1]
-            add in1q, tmp1q
+        mov     tmp1q, tmp0q
+        imul    tmp1q, [execq + SwsOpExec.in_stride1]
+        add     in1q,  tmp1q
 %endif
-            imul tmp0q, [execq + SwsOpExec.in_stride0]
-            add in0q, tmp0q
-            jmp .loop
+        imul    tmp0q, [execq + SwsOpExec.in_stride0]
+        add     in0q,  tmp0q
+        jmp     .loop
 .end:
-            add rsp, 32
-            RET
+        add     rsp, 32
+        RET
 %endmacro
 
 process_fn 1
@@ -128,31 +128,31 @@ process_fn 4
 ; by the `LANE_ALIGNED` condition.
 
 %macro READ 2 ; dst, src
-    %if READ_SIZE <= 4
-        movd xmm%1, %2
-    %elif READ_SIZE <= 8
-        movq xmm%1, %2
-    %elif READ_SIZE <= 16
-        movu xmm%1, %2
-    %elif READ_SIZE <= 32
-        movu ymm%1, %2
-    %else
-        movu zmm%1, %2
-    %endif
+        %if     READ_SIZE <= 4
+                movd    xmm%1, %2
+        %elif   READ_SIZE <= 8
+                movq    xmm%1, %2
+        %elif   READ_SIZE <= 16
+                movu    xmm%1, %2
+        %elif   READ_SIZE <= 32
+                movu    ymm%1, %2
+        %else
+                movu    zmm%1, %2
+        %endif
 %endmacro
 
 %macro WRITE 2 ; dst, src
-    %if WRITE_SIZE <= 4
-        movd %1, xmm%2
-    %elif WRITE_SIZE <= 8
-        movq %1, xmm%2
-    %elif WRITE_SIZE <= 16
-        movu %1, xmm%2
-    %elif WRITE_SIZE <= 32
-        movu %1, ymm%2
-    %else
-        movu %1, zmm%2
-    %endif
+        %if     WRITE_SIZE <= 4
+                movd    %1, xmm%2
+        %elif   WRITE_SIZE <= 8
+                movq    %1, xmm%2
+        %elif   WRITE_SIZE <= 16
+                movu    %1, xmm%2
+        %elif   WRITE_SIZE <= 32
+                movu    %1, ymm%2
+        %else
+                movu    %1, zmm%2
+        %endif
 %endmacro
 
 %macro RW_SHUFFLE 3
@@ -171,89 +171,89 @@ process_fn 4
 
 cglobal NAME, 6, 10, 3, exec, shuffle, bx, y, bxend, yend, src, dst, src_stride, dst_stride
 %if mmsize > 16 && !LANE_ALIGNED && !cpuflag(avx512icl)
-            ud2 ; runtime checks should prevent this variant from being called
+        ud2     ; runtime checks should prevent this variant from being called
 %else
-            mov srcq, [execq + SwsOpExec.in0]
-            mov dstq, [execq + SwsOpExec.out0]
-            mov src_strideq, [execq + SwsOpExec.in_stride0]
-            mov dst_strideq, [execq + SwsOpExec.out_stride0]
+        mov     srcq, [execq + SwsOpExec.in0]
+        mov     dstq, [execq + SwsOpExec.out0]
+        mov     src_strideq, [execq + SwsOpExec.in_stride0]
+        mov     dst_strideq, [execq + SwsOpExec.out_stride0]
 
-            ; setup shuffle mask
-    %if LANE_ALIGNED
-            VBROADCASTI128 m0, [shuffleq]
-    %else
-            mova m0, [shuffleq]
-    %endif
-    %if cpuflag(avx512)
-            vpmovb2m k1, m0 ; needed for vpblendmb / vpermb
-        %if CLEAR_VALUE == 0
-            knotq k1, k1
-        %endif
-    %endif
-
-            ; setup clear value register if needed
-    %if CLEAR_VALUE == 0xFF
-        %if cpuflag(avx512)
-            vpternlogd m2, m2, m2, 0xff
+        ; setup shuffle mask
+        %if     LANE_ALIGNED
+                VBROADCASTI128 m0, [shuffleq]
         %else
-            pcmpeqb m2, m2
+                mova    m0, [shuffleq]
         %endif
-    %elif CLEAR_VALUE != 0 ; clear-to-0 is implicitly handled by pshufb / vpermb
-            mov shuffled, CLEAR_VALUE * 0x1010101
-            movd xm2, shuffled
-            VPBROADCASTD m2, xm2
-    %endif
+        %if     cpuflag(avx512)
+                vpmovb2m k1, m0 ; needed for vpblendmb / vpermb
+                %if     CLEAR_VALUE == 0
+                        knotq   k1, k1
+                %endif
+        %endif
 
-            ; setup loop bounds and variables
-            sub bxendd, bxd
-            sub yendd, yd
-            ; reuse now-unneeded regs
-            %define srcidxq execq
-            imul srcidxq, bxendq, -READ_SIZE
-    %if READ_SIZE == WRITE_SIZE
-            %define dstidxq srcidxq
-    %else
-            %define dstidxq shuffleq ; no longer needed reg
-            imul dstidxq, bxendq, -WRITE_SIZE
-    %endif
-            sub srcq, srcidxq
-            sub dstq, dstidxq
+        ; setup clear value register if needed
+        %if     CLEAR_VALUE == 0xFF
+                %if     cpuflag(avx512)
+                        vpternlogd m2, m2, m2, 0xff
+                %else
+                        pcmpeqb m2, m2
+                %endif
+        %elif   CLEAR_VALUE != 0        ; clear-to-0 is implicitly handled by pshufb / vpermb
+                mov     shuffled, CLEAR_VALUE * 0x1010101
+                movd    xm2, shuffled
+                VPBROADCASTD m2, xm2
+        %endif
+
+        ; setup loop bounds and variables
+        sub     bxendd, bxd
+        sub     yendd,  yd
+        ; reuse now-unneeded regs
+        %define srcidxq execq
+        imul    srcidxq, bxendq, -READ_SIZE
+        %if     READ_SIZE == WRITE_SIZE
+                %define dstidxq srcidxq
+        %else
+                %define dstidxq shuffleq        ; no longer needed reg
+                imul    dstidxq, bxendq, -WRITE_SIZE
+        %endif
+        sub     srcq, srcidxq
+        sub     dstq, dstidxq
 
 .loop:
-            READ m1, [srcq + srcidxq]
-    %if LANE_ALIGNED || mmsize == 16
-            pshufb m1, m0
-    %elif CLEAR_VALUE == 0
-            vpermb m1{k1}{z}, m0, m1
-    %else
-            vpermb m1, m0, m1
-    %endif
-
-    %if CLEAR_VALUE != 0
-        %if cpuflag(avx512)
-            vpblendmb m1{k1}, m1, m2
-        %elif avx_enabled
-            vpblendvb m1, m1, m2, m0
+        READ    m1, [srcq + srcidxq]
+        %if     LANE_ALIGNED || mmsize == 16
+                pshufb  m1, m0
+        %elif   CLEAR_VALUE == 0
+                vpermb  m1{k1}{z}, m0, m1
         %else
-            pblendvb m1, m2
+                vpermb  m1, m0, m1
         %endif
-    %endif
 
-            WRITE [dstq + dstidxq], m1
-            add srcidxq, READ_SIZE
-    %if READ_SIZE != WRITE_SIZE
-            add dstidxq, WRITE_SIZE
-    %endif
-            jnz .loop
-            add srcq, src_strideq
-            add dstq, dst_strideq
-            imul srcidxq, bxendq, -READ_SIZE
-    %if READ_SIZE != WRITE_SIZE
-            imul dstidxq, bxendq, -WRITE_SIZE
-    %endif
-            dec yendd
-            jnz .loop
-            RET
+        %if     CLEAR_VALUE != 0
+                %if     cpuflag(avx512)
+                        vpblendmb m1{k1}, m1, m2
+                %elif   avx_enabled
+                        vpblendvb m1, m1, m2, m0
+                %else
+                        pblendvb m1, m2
+                %endif
+        %endif
+
+        WRITE   [dstq + dstidxq], m1
+        add     srcidxq, READ_SIZE
+        %if     READ_SIZE != WRITE_SIZE
+                add     dstidxq, WRITE_SIZE
+        %endif
+        jnz     .loop
+        add     srcq,    src_strideq
+        add     dstq,    dst_strideq
+        imul    srcidxq, bxendq, -READ_SIZE
+        %if     READ_SIZE != WRITE_SIZE
+                imul    dstidxq, bxendq, -WRITE_SIZE
+        %endif
+        dec     yendd
+        jnz     .loop
+        RET
 %endif
 %endmacro
 

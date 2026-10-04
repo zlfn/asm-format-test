@@ -10,20 +10,18 @@
 ;
 
         SECTION code_clib
-        PUBLIC	fgetc_cons
-        PUBLIC	_fgetc_cons
-        
+        PUBLIC  fgetc_cons
+        PUBLIC  _fgetc_cons
+
         INCLUDE "target/cpc/def/cpcfirm.def"
-        
-        
+
 .fgetc_cons
 ._fgetc_cons
         call    firmware
         defw    km_wait_char
-        ld      h,0
-        ld      l,a
-	cp	127
-	ret	nz
-	ld	l,12
+        ld      h, 0
+        ld      l, a
+        cp      127
+        ret     nz
+        ld      l, 12
         ret
-

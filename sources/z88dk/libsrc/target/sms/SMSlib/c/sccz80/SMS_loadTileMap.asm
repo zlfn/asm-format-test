@@ -9,26 +9,25 @@ EXTERN asm_SMSlib_loadTileMap
 
 SMS_loadTileMap:
 
-   pop af
-   pop bc
-   pop de
-   pop hl
-   pop ix
-   
-   push hl
-   push hl
-   push de
-   push bc
-   push af
-   
-   ld a,ixl
-   ld h,a
+        pop     af
+        pop     bc
+        pop     de
+        pop     hl
+        pop     ix
 
-   jp asm_SMSlib_loadTileMap
+        push    hl
+        push    hl
+        push    de
+        push    bc
+        push    af
+
+        ld      a, ixl
+        ld      h, a
+
+        jp      asm_SMSlib_loadTileMap
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _SMS_loadTileMap
 defc _SMS_loadTileMap = SMS_loadTileMap
 ENDIF
-

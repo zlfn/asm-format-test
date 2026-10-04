@@ -13,13 +13,13 @@ PUBLIC l_neg_de
 ; uses  : af, de, carry unaffected
 
 .l_neg_de
-    ld a,e
-    cpl 
-    ld e,a
+        ld      a, e
+        cpl
+        ld      e, a
 
-    ld a,d
-    cpl
-    ld d,a
+        ld      a, d
+        cpl
+        ld      d, a
 
-    inc de
-    ret
+        inc     de
+        ret

@@ -5,11 +5,10 @@
 ; /* Get a byte from a location in VERA's internal address space. */
 ;
 
-        .export         _vpeek
+        .export _vpeek
 
-        .import         vaddr0
-        .include        "cx16.inc"
-
+        .import vaddr0
+        .include "cx16.inc"
 
 _vpeek: jsr     vaddr0          ; put VERA's address
         ldx     #>$0000

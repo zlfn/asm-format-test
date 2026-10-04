@@ -10,10 +10,10 @@ EXTERN asm_fgetc_unlocked
 
 _fgetc_unlocked_fastcall:
 
-   push hl
-   ex (sp),ix
+        push    hl
+        ex      (sp), ix
 
-   call asm_fgetc_unlocked
-   
-   pop ix
-   ret
+        call    asm_fgetc_unlocked
+
+        pop     ix
+        ret

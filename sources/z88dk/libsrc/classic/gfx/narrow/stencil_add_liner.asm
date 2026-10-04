@@ -13,65 +13,64 @@
 
 ;; void stencil_add_liner(int dx, int dy, unsigned char *stencil)
 
+        SECTION code_graphics
+        PUBLIC  stencil_add_liner
+        PUBLIC  _stencil_add_liner
 
-    SECTION code_graphics
-    PUBLIC  stencil_add_liner
-    PUBLIC  _stencil_add_liner
+        EXTERN  Line_r
+        EXTERN  stencil_add_pixel
 
-    EXTERN  Line_r
-    EXTERN  stencil_add_pixel
-
-    ; No paging required on the 'stencil' structures !
+        ; No paging required on the 'stencil' structures !
         ;EXTERN    __gfx_vram_page_in
         ;EXTERN    __gfx_vram_page_out
 
-    EXTERN  stencil_ptr
-    INCLUDE "classic/gfx/grafix.inc"
+        EXTERN  stencil_ptr
+        INCLUDE "classic/gfx/grafix.inc"
 
 stencil_add_liner:
 _stencil_add_liner:
 
 IF  !__CPU_INTEL__&!__CPU_GBZ80__
 
-    push    ix
-    ld      ix, 2
-    add     ix, sp
+        push    ix
+        ld      ix, 2
+        add     ix, sp
 
-    ld      l, (ix+2)                   ;pointer to stencil
-    ld      h, (ix+3)
-    ld      (stencil_ptr), hl
+        ld      l, (ix+2)       ;pointer to stencil
+        ld      h, (ix+3)
+        ld      (stencil_ptr), hl
 
-    ld      d, 0
-    ld      e, (ix+4)                   ;y0
-    ld      h, d
-    ld      l, (ix+6)                   ;x0
+        ld      d, 0
+        ld      e, (ix+4)       ;y0
+        ld      h, d
+        ld      l, (ix+6)       ;x0
 
-    ;call    __gfx_vram_page_in
+        ;call    __gfx_vram_page_in
 
-    ld      ix, stencil_add_pixel
-    call    Line_r
+        ld      ix, stencil_add_pixel
+        call    Line_r
         ;jp    __graphics_end
-    pop     ix
-    ret
+        pop     ix
+        ret
 
 ELSE
 
-    EXTERN  __plot_ADDR
-    ld      hl,stencil_add_pixel
-    ld      (__plot_ADDR),hl
+        EXTERN  __plot_ADDR
+        ld      hl, stencil_add_pixel
+        ld      (__plot_ADDR), hl
 
-    pop     af
-    pop     hl
-    ld      (stencil_ptr), hl
+        pop     af
+        pop     hl
+        ld      (stencil_ptr), hl
 
-    pop     de                          ; y
-    pop     hl                          ; x
-    push    hl
-    push    de
+        pop     de      ; y
+        pop     hl      ; x
+        push    hl
+        push    de
 
-    push    hl
-    push    af
+        push    hl
+        push    af
 
-    jp      Line_r
+        jp      Line_r
 
 ENDIF

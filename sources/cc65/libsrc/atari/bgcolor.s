@@ -2,10 +2,9 @@
 ; Christian Groessler, 02-Apr-2019
 ;
 
-        .export         _bgcolor
+        .export _bgcolor
 
-        .include        "atari.inc"
-
+        .include "atari.inc"
 
 _bgcolor:
         ldx     COLOR2  ; get old value

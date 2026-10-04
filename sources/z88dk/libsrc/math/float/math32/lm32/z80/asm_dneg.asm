@@ -8,17 +8,17 @@ PUBLIC asm_dneg
 
 EXTERN m32_fsneg
 
-   ; negate  DEHL'
-   ;
-   ; enter : DEHL'= double x
-   ;
-   ; exit  : DEHL'= -x
-   ;
-   ; uses  :
+        ; negate  DEHL'
+        ;
+        ; enter : DEHL'= double x
+        ;
+        ; exit  : DEHL'= -x
+        ;
+        ; uses  :
 
 .asm_dneg
-    exx
-    call m32_fsneg
+        exx
+        call    m32_fsneg
 
-    exx
-    ret
+        exx
+        ret

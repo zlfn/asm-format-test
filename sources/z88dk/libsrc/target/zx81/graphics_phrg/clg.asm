@@ -12,11 +12,11 @@
 ;	$Id: clg.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  clg
-    PUBLIC  _clg
-    EXTERN  _clg_hr
+        SECTION code_clib
+        PUBLIC  clg
+        PUBLIC  _clg
+        EXTERN  _clg_hr
 
 clg:
 _clg:
-    jp      _clg_hr
+        jp      _clg_hr

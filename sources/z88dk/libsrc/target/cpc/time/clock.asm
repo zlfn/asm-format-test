@@ -13,17 +13,16 @@
 ;
 
         SECTION code_clib
-		
-	PUBLIC	clock
-	PUBLIC	_clock
 
-	INCLUDE "target/cpc/def/cpcfirm.def"
-	
-	
+        PUBLIC  clock
+        PUBLIC  _clock
+
+        INCLUDE "target/cpc/def/cpcfirm.def"
+
 .clock
 ._clock
 
-	call    firmware
-	defw    kl_time_please
+        call    firmware
+        defw    kl_time_please
 
-	ret
+        ret

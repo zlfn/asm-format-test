@@ -13,7 +13,7 @@
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ;  GNU General Public License for more details.
 ;
-;  You should have received a copy of the GNU General Public License 
+;  You should have received a copy of the GNU General Public License
 ;  along with this library; see the file COPYING. If not, write to the
 ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
 ;   MA 02110-1301, USA.
@@ -26,23 +26,22 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.area   _CODE
+        .area   _CODE
 
-	.globl _strcpy
+        .globl  _strcpy
 
 _strcpy:
-	pop	bc
-	pop	de
-	pop	hl
-	push	hl
-	push	de
-	push	bc
-	push	de
-	xor	a, a
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
+        push    de
+        xor     a, a
 loop:
-	cp	a, (hl)
-	ldi
-	jr	NZ, loop
-	pop	hl
-	ret
-
+        cp      a, (hl)
+        ldi
+        jr      NZ, loop
+        pop     hl
+        ret

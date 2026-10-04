@@ -10,14 +10,14 @@ EXTERN asm_b_array_erase_block
 
 _b_array_erase_block:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push hl
-   push af
-   
-   jp asm_b_array_erase_block
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_b_array_erase_block

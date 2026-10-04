@@ -23,27 +23,27 @@ EXTERN asm_z180_delay_tstate
 asm_z180_delay_ms:
 asm_cpu_delay_ms:
 
-   ; enter : hl = milliseconds (0 = 65536)
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : hl = milliseconds (0 = 65536)
+        ;
+        ; uses  : af, bc, de, hl
 
-   ld e,l
-   ld d,h
+        ld      e, l
+        ld      d, h
 
 ms_loop:
 
-   dec de
-   
-   ld a,d
-   or e
-   jr z, last_ms
+        dec     de
 
-   ld hl,+(__CPU_CLOCK / 1000) - 35
-   call asm_z180_delay_tstate
+        ld      a, d
+        or      e
+        jr      z, last_ms
 
-   jr ms_loop
+        ld      hl, +(__CPU_CLOCK / 1000) - 35
+        call    asm_z180_delay_tstate
+
+        jr      ms_loop
 
 last_ms:
 
-   ld hl,+(__CPU_CLOCK / 1000) - 38
-   jp asm_z180_delay_tstate
+        ld      hl, +(__CPU_CLOCK / 1000) - 38
+        jp      asm_z180_delay_tstate

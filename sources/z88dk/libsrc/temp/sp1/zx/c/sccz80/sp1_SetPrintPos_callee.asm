@@ -11,22 +11,21 @@ EXTERN asm_sp1_SetPrintPos
 
 sp1_SetPrintPos_callee:
 
-   pop af
-   pop de
-   pop hl
-   ld d,l
-   pop hl
-   push af
+        pop     af
+        pop     de
+        pop     hl
+        ld      d, l
+        pop     hl
+        push    af
 
 ;   jp asm_sp1_SetPrintPos
-   push ix
-   call asm_sp1_SetPrintPos
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_SetPrintPos
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_SetPrintPos_callee
 defc _sp1_SetPrintPos_callee = sp1_SetPrintPos_callee
 ENDIF
-

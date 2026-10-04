@@ -8,15 +8,15 @@ SECTION code_l_sccz80
 PUBLIC l_ne
 
 .l_ne
-    ; de != hl
-    ; set carry if true
+        ; de != hl
+        ; set carry if true
 
-    cp hl,de
+        cp      hl, de
 
-    scf
-    ld hl,1
-    ret nz
+        scf
+        ld      hl, 1
+        ret     nz
 
-    ccf
-    dec l
-    ret
+        ccf
+        dec     l
+        ret

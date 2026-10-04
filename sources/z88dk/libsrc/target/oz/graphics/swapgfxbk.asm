@@ -18,14 +18,13 @@
 
 ;.iysave		defw	0
 
-
 __gfx_vram_page_in:
 ___gfx_vram_page_in:
         push    bc
-        ld      bc, (ozactivepage)
-        ld      a, c
+        ld      bc,  (ozactivepage)
+        ld      a,   c
         out     (3), a
-        ld      a, b
+        ld      a,   b
         out     (4), a
         pop     bc
 ;	        ld	(iysave),iy
@@ -33,12 +32,9 @@ ___gfx_vram_page_in:
 
 __gfx_vram_page_out:
 ___gfx_vram_page_out:
-        ld      a, 7
+        ld      a,   7
         out     (3), a
-        ld      a, 4
-        out     (4), a                  ;; page in proper second page
+        ld      a,   4
+        out     (4), a  ;; page in proper second page
 ;		ld	iy,(iysave)
         ret
-
-
-

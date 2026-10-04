@@ -9,33 +9,33 @@ EXTERN l0_sp1_MoveSprRel_callee
 
 _sp1_MoveSprRel:
 
-   exx
-   pop bc
-   pop de
-   pop iy
-   exx
-   pop hl
-   pop de
-   ld d,e
-   pop bc
-   ld e,c
-   pop bc
-   ld a,c
-   pop bc
-   ld b,c
-   ld c,a
-   
-   push bc
-   push bc
-   push bc
-   push de
-   push hl
-   exx
-   push de
-   push de
-   push bc
-   
-   push de
-   exx
+        exx
+        pop     bc
+        pop     de
+        pop     iy
+        exx
+        pop     hl
+        pop     de
+        ld      d, e
+        pop     bc
+        ld      e, c
+        pop     bc
+        ld      a, c
+        pop     bc
+        ld      b, c
+        ld      c, a
 
-   jp l0_sp1_MoveSprRel_callee
+        push    bc
+        push    bc
+        push    bc
+        push    de
+        push    hl
+        exx
+        push    de
+        push    de
+        push    bc
+
+        push    de
+        exx
+
+        jp      l0_sp1_MoveSprRel_callee

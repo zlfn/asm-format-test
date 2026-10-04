@@ -10,8 +10,8 @@ EXTERN cm48_sdccixp_dx2m48, am48_sin, cm48_sdccixp_m482d
 
 cm48_sdccix_sin_fastcall:
 
-   call cm48_sdccixp_dx2m48
-   
-   call am48_sin
-   
-   jp cm48_sdccixp_m482d
+        call    cm48_sdccixp_dx2m48
+
+        call    am48_sin
+
+        jp      cm48_sdccixp_m482d

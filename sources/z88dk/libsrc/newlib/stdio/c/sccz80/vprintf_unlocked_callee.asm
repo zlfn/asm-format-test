@@ -10,9 +10,9 @@ EXTERN asm_vprintf_unlocked
 
 vprintf_unlocked_callee:
 
-   pop af
-   pop bc
-   pop de
-   push af
-   
-   jp asm_vprintf_unlocked
+        pop     af
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_vprintf_unlocked

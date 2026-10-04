@@ -228,46 +228,46 @@ SYM_TYPED_FUNC_START(__twofish_enc_blk_3way)
 	 *	%rdx: src, RIO
 	 *	%rcx: bool, if true: xor output
 	 */
-	pushq %r13;
-	pushq %r12;
-	pushq %rbx;
+        pushq   %r13;
+        pushq   %r12;
+        pushq   %rbx;
 
-	pushq %rcx; /* bool xor */
-	pushq %rsi; /* dst */
+        pushq   %rcx; /* bool xor */
+        pushq   %rsi; /* dst */
 
-	inpack_enc3();
+        inpack_enc3();
 
-	push_cd();
-	encrypt_cycle3(RAB, CD, 0);
-	encrypt_cycle3(RAB, CD, 1);
-	encrypt_cycle3(RAB, CD, 2);
-	encrypt_cycle3(RAB, CD, 3);
-	encrypt_cycle3(RAB, CD, 4);
-	encrypt_cycle3(RAB, CD, 5);
-	encrypt_cycle3(RAB, CD, 6);
-	encrypt_cycle3(RAB, CD, 7);
-	pop_cd();
+        push_cd();
+        encrypt_cycle3(RAB, CD, 0);
+        encrypt_cycle3(RAB, CD, 1);
+        encrypt_cycle3(RAB, CD, 2);
+        encrypt_cycle3(RAB, CD, 3);
+        encrypt_cycle3(RAB, CD, 4);
+        encrypt_cycle3(RAB, CD, 5);
+        encrypt_cycle3(RAB, CD, 6);
+        encrypt_cycle3(RAB, CD, 7);
+        pop_cd();
 
-	popq RIO; /* dst */
-	popq RT1; /* bool xor */
+        popq    RIO; /* dst */
+        popq    RT1; /* bool xor */
 
-	testb RT1bl, RT1bl;
-	jnz .L__enc_xor3;
+        testb   RT1bl, RT1bl;
+        jnz     .L__enc_xor3;
 
-	outunpack_enc3(mov);
+        outunpack_enc3(mov);
 
-	popq %rbx;
-	popq %r12;
-	popq %r13;
-	RET;
+        popq    %rbx;
+        popq    %r12;
+        popq    %r13;
+        RET;
 
 .L__enc_xor3:
-	outunpack_enc3(xor);
+        outunpack_enc3(xor);
 
-	popq %rbx;
-	popq %r12;
-	popq %r13;
-	RET;
+        popq    %rbx;
+        popq    %r12;
+        popq    %r13;
+        RET;
 SYM_FUNC_END(__twofish_enc_blk_3way)
 
 SYM_TYPED_FUNC_START(twofish_dec_blk_3way)
@@ -276,31 +276,31 @@ SYM_TYPED_FUNC_START(twofish_dec_blk_3way)
 	 *	%rsi: dst
 	 *	%rdx: src, RIO
 	 */
-	pushq %r13;
-	pushq %r12;
-	pushq %rbx;
+        pushq   %r13;
+        pushq   %r12;
+        pushq   %rbx;
 
-	pushq %rsi; /* dst */
+        pushq   %rsi; /* dst */
 
-	inpack_dec3();
+        inpack_dec3();
 
-	push_cd();
-	decrypt_cycle3(RAB, CD, 7);
-	decrypt_cycle3(RAB, CD, 6);
-	decrypt_cycle3(RAB, CD, 5);
-	decrypt_cycle3(RAB, CD, 4);
-	decrypt_cycle3(RAB, CD, 3);
-	decrypt_cycle3(RAB, CD, 2);
-	decrypt_cycle3(RAB, CD, 1);
-	decrypt_cycle3(RAB, CD, 0);
-	pop_cd();
+        push_cd();
+        decrypt_cycle3(RAB, CD, 7);
+        decrypt_cycle3(RAB, CD, 6);
+        decrypt_cycle3(RAB, CD, 5);
+        decrypt_cycle3(RAB, CD, 4);
+        decrypt_cycle3(RAB, CD, 3);
+        decrypt_cycle3(RAB, CD, 2);
+        decrypt_cycle3(RAB, CD, 1);
+        decrypt_cycle3(RAB, CD, 0);
+        pop_cd();
 
-	popq RIO; /* dst */
+        popq    RIO; /* dst */
 
-	outunpack_dec3();
+        outunpack_dec3();
 
-	popq %rbx;
-	popq %r12;
-	popq %r13;
-	RET;
+        popq    %rbx;
+        popq    %r12;
+        popq    %r13;
+        RET;
 SYM_FUNC_END(twofish_dec_blk_3way)

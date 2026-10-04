@@ -37,75 +37,75 @@ GLOBL ·tanxadd<> + 0(SB), RODATA, $8
 // polynomial coefficients determined with a Remez exchange algorithm.
 
 TEXT	·tanAsm(SB), NOSPLIT, $0-16
-	FMOVD	x+0(FP), F0
-	//special case Tan(±0) = ±0
-	FMOVD   $(0.0), F1
-	FCMPU   F0, F1
-	BEQ     atanIsZero
+        FMOVD   x+0(FP), F0
+        //special case Tan(±0) = ±0
+        FMOVD   $(0.0), F1
+        FCMPU   F0,     F1
+        BEQ     atanIsZero
 
-	MOVD	$·tanrodataL13<>+0(SB), R5
-	LTDBR	F0, F0
-	BLTU	L10
-	FMOVD	F0, F2
+        MOVD    $·tanrodataL13<>+0(SB), R5
+        LTDBR   F0, F0
+        BLTU    L10
+        FMOVD   F0, F2
 L2:
-	MOVD	$·tanxlim<>+0(SB), R1
-	FMOVD	0(R1), F1
-	FCMPU	F2, F1
-	BGT	L9
-	BVS	L11
-	MOVD	$·tanxadd<>+0(SB), R1
-	FMOVD	88(R5), F6
-	FMOVD	0(R1), F4
-	WFMSDB	V0, V6, V4, V6
-	FMOVD	80(R5), F1
-	FADD	F6, F4
-	FMOVD	72(R5), F2
-	FMSUB	F1, F4, F0
-	FMOVD	64(R5), F3
-	WFMADB	V4, V2, V0, V2
-	FMOVD	56(R5), F1
-	WFMADB	V4, V3, V2, V4
-	FMUL	F2, F2
-	VLEG	$0, 48(R5), V18
-	LGDR	F6, R1
-	FMOVD	40(R5), F5
-	FMOVD	32(R5), F3
-	FMADD	F1, F2, F3
-	FMOVD	24(R5), F1
-	FMOVD	16(R5), F7
-	FMOVD	8(R5), F0
-	WFMADB	V2, V7, V1, V7
-	WFMADB	V2, V0, V5, V0
-	WFMDB	V2, V2, V1
-	FMOVD	0(R5), F5
-	WFLCDB	V4, V16
-	WFMADB	V2, V5, V18, V5
-	WFMADB	V1, V0, V7, V0
-	TMLL	R1, $1
-	WFMADB	V1, V5, V3, V1
-	BNE	L12
-	WFDDB	V0, V1, V0
-	WFMDB	V2, V16, V2
-	WFMADB	V2, V0, V4, V0
-	LCDBR	F0, F0
-	FMOVD	F0, ret+8(FP)
-	RET
+        MOVD    $·tanxlim<>+0(SB), R1
+        FMOVD   0(R1), F1
+        FCMPU   F2,    F1
+        BGT     L9
+        BVS     L11
+        MOVD    $·tanxadd<>+0(SB), R1
+        FMOVD   88(R5), F6
+        FMOVD   0(R1),  F4
+        WFMSDB  V0,     V6,     V4,  V6
+        FMOVD   80(R5), F1
+        FADD    F6,     F4
+        FMOVD   72(R5), F2
+        FMSUB   F1,     F4,     F0
+        FMOVD   64(R5), F3
+        WFMADB  V4,     V2,     V0,  V2
+        FMOVD   56(R5), F1
+        WFMADB  V4,     V3,     V2,  V4
+        FMUL    F2,     F2
+        VLEG    $0,     48(R5), V18
+        LGDR    F6,     R1
+        FMOVD   40(R5), F5
+        FMOVD   32(R5), F3
+        FMADD   F1,     F2,     F3
+        FMOVD   24(R5), F1
+        FMOVD   16(R5), F7
+        FMOVD   8(R5),  F0
+        WFMADB  V2,     V7,     V1,  V7
+        WFMADB  V2,     V0,     V5,  V0
+        WFMDB   V2,     V2,     V1
+        FMOVD   0(R5),  F5
+        WFLCDB  V4,     V16
+        WFMADB  V2,     V5,     V18, V5
+        WFMADB  V1,     V0,     V7,  V0
+        TMLL    R1,     $1
+        WFMADB  V1,     V5,     V3,  V1
+        BNE     L12
+        WFDDB   V0, V1,  V0
+        WFMDB   V2, V16, V2
+        WFMADB  V2, V0,  V4, V0
+        LCDBR   F0, F0
+        FMOVD   F0, ret+8(FP)
+        RET
 L12:
-	WFMSDB	V2, V1, V0, V2
-	WFMDB	V16, V2, V2
-	FDIV	F2, F0
-	FMOVD	F0, ret+8(FP)
-	RET
+        WFMSDB  V2,  V1, V0, V2
+        WFMDB   V16, V2, V2
+        FDIV    F2,  F0
+        FMOVD   F0,  ret+8(FP)
+        RET
 L11:
-	MOVD	$·tanxnan<>+0(SB), R1
-	FMOVD	0(R1), F0
-	FMOVD	F0, ret+8(FP)
-	RET
+        MOVD    $·tanxnan<>+0(SB), R1
+        FMOVD   0(R1), F0
+        FMOVD   F0,    ret+8(FP)
+        RET
 L10:
-	LCDBR	F0, F2
-	BR	L2
+        LCDBR   F0, F2
+        BR      L2
 L9:
-	BR	·tan(SB)
+        BR      ·tan(SB)
 atanIsZero:
-	FMOVD	F0, ret+8(FP)
-	RET
+        FMOVD   F0, ret+8(FP)
+        RET

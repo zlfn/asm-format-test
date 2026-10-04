@@ -8,10 +8,10 @@ EXTERN _esx_m_errh_fastcall
 
 _esx_m_errh:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _esx_m_errh_fastcall
+        push    hl
+        push    af
+
+        jp      _esx_m_errh_fastcall

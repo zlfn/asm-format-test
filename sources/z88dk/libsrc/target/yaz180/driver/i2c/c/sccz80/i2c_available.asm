@@ -10,6 +10,5 @@ PUBLIC i2c_available
 ;   extern void __LIB__ i2c_available(uint8_t device) __smallc __z88dk_fastcall;
 
 .i2c_available
-    ld a,l
-    jp asm_i2c_available
-
+        ld      a, l
+        jp      asm_i2c_available

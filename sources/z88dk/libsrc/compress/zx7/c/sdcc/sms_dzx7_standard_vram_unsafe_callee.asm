@@ -10,9 +10,9 @@ EXTERN asm_sms_dzx7_standard_vram_unsafe
 
 _sms_dzx7_standard_vram_unsafe_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
-   jp asm_sms_dzx7_standard_vram_unsafe
+        jp      asm_sms_dzx7_standard_vram_unsafe

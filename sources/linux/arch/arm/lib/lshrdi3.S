@@ -25,7 +25,6 @@ along with this program; see the file COPYING.  If not, write to
 the Free Software Foundation, 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301, USA.  */
 
-
 #include <linux/linkage.h>
 #include <asm/assembler.h>
 
@@ -40,15 +39,15 @@ Boston, MA 02110-1301, USA.  */
 ENTRY(__lshrdi3)
 ENTRY(__aeabi_llsr)
 
-	subs	r3, r2, #32
-	rsb	ip, r2, #32
-	movmi	al, al, lsr r2
-	movpl	al, ah, lsr r3
- ARM(	orrmi	al, al, ah, lsl ip	)
- THUMB(	lslmi	r3, ah, ip		)
- THUMB(	orrmi	al, al, r3		)
-	mov	ah, ah, lsr r2
-	ret	lr
+        subs    r3, r2, #32
+        rsb     ip, r2, #32
+        movmi   al, al, lsr r2
+        movpl   al, ah, lsr r3
+        ARM(    orrmi	al, al, ah, lsl ip	)
+        THUMB(  lslmi	r3, ah, ip		)
+        THUMB(  orrmi	al, al, r3		)
+        mov     ah, ah, lsr r2
+        ret     lr
 
 ENDPROC(__lshrdi3)
 ENDPROC(__aeabi_llsr)

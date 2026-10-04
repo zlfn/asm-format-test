@@ -9,16 +9,15 @@
 ; A zero accumulator means that there are 256 RAM banks.
 ;
 
-        .export         _get_numbanks
+        .export _get_numbanks
 
-        .import         MEMTOP
-
+        .import MEMTOP
 
 _get_numbanks:
         sec
         jsr     MEMTOP
         ldx     #>$0000
-        cmp     #<$0100         ; are there 256 banks?
+        cmp     #<$0100 ; are there 256 banks?
         bne     :+
-        inx                     ; yes
+        inx             ; yes
 :       rts

@@ -3,33 +3,33 @@
 .code
 
 t1:
-  ret
+        ret
 ; CHECK-NOT: t1:
 ; CHECK-LABEL: test1:
 ; CHECK-NOT: t1:
 
 t2:
-  ret
+        ret
 ; CHECK-NOT: t2:
 ; CHECK-LABEL: test2:
 ; CHECK-NOT: t2:
 
 t3:
 ifdef t1
-  xor eax, eax
+        xor     eax, eax
 endif
-  ret
+        ret
 ; CHECK-LABEL: t3:
 ; CHECK: xor eax, eax
 ; CHECK: ret
 
 t4:
 ifdef undefined
-  xor eax, eax
+        xor     eax, eax
 elseifdef t2
-  xor ebx, ebx
+        xor     ebx, ebx
 endif
-  ret
+        ret
 ; CHECK-LABEL: t4:
 ; CHECK-NOT: xor eax, eax
 ; CHECK: xor ebx, ebx
@@ -41,7 +41,7 @@ endif
 ; CHECK-NEXT: .byte 101
 ; CHECK-NEXT: .byte 102
 
-test5 textequ <redef>
+test5   textequ <redef>
 
 % t5_changed BYTE "&test5"
 ; CHECK-LABEL: t5_changed:
@@ -53,9 +53,9 @@ test5 textequ <redef>
 
 t6:
 ifdef test6
-  xor eax, eax
+        xor     eax, eax
 endif
-  ret
+        ret
 ; CHECK-LABEL: t6:
 ; CHECK: xor eax, eax
 ; CHECK: ret

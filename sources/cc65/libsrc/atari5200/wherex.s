@@ -4,7 +4,7 @@
 ; unsigned char wherex (void);
 ;
 
-        .export  _wherex
+        .export _wherex
         .include "atari5200.inc"
 
 _wherex:

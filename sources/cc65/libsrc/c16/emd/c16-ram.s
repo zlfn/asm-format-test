@@ -5,25 +5,24 @@
 ; Ullrich von Bassewitz, 2003-12-15
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "em-kernel.inc"
-        .include        "em-error.inc"
-        .include        "plus4.inc"
+        .include "em-kernel.inc"
+        .include "em-error.inc"
+        .include "plus4.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c16_ram_emd
+        module_header _c16_ram_emd
 
 ; Driver signature
 
-        .byte   $65, $6d, $64           ; "emd"
-        .byte   EMD_API_VERSION         ; EM API version number
+        .byte   $65, $6d, $64   ; "emd"
+        .byte   EMD_API_VERSION ; EM API version number
 
 ; Library reference
 
@@ -49,9 +48,9 @@ BASE    = $8000
 ; Data.
 
 .bss
-pages:          .res    1               ; Number of pages
-curpage:        .res    1               ; Current page number
-window:         .res    256             ; Memory "window"
+pages:  .res    1       ; Number of pages
+curpage: .res   1       ; Current page number
+window: .res    256     ; Memory "window"
 
 .code
 
@@ -68,22 +67,22 @@ INSTALL:
 ; $8000 up to MEMTOP
 
         sec
-        jsr     $FF99                   ; MEMTOP: Get top memory into Y/X
+        jsr     $FF99   ; MEMTOP: Get top memory into Y/X
         tya
-        sub     #>BASE                  ; Low 32 K are used
+        sub     #>BASE  ; Low 32 K are used
         bcc     nomem
-        beq     nomem                   ; Offering zero pages is a bad idea
+        beq     nomem   ; Offering zero pages is a bad idea
         sta     pages
 
         ldx     #$FF
-        stx     curpage                 ; Invalidate the current page
+        stx     curpage ; Invalidate the current page
         .assert EM_ERR_OK = 0, error
         inx
         txa
         rts
 
 nomem:  ldx     #EM_ERR_NO_DEVICE
-        lda     #0 ; return value is char
+        lda     #0      ; return value is char
 ;       rts                             ; Run into UNINSTALL instead
 
 ; ------------------------------------------------------------------------
@@ -94,14 +93,13 @@ nomem:  ldx     #EM_ERR_NO_DEVICE
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; PAGECOUNT: Return the total number of available pages in a/x.
 ;
 
 PAGECOUNT:
         lda     pages
-        ldx     #$00                    ; 128 pages max
+        ldx     #$00    ; 128 pages max
         rts
 
 ; ------------------------------------------------------------------------
@@ -110,7 +108,7 @@ PAGECOUNT:
 ; by the driver.
 ;
 
-MAP:    sta     curpage                 ; Remember the new page
+MAP:    sta     curpage ; Remember the new page
 
         add     #>BASE
         sta     ptr1+1
@@ -124,27 +122,27 @@ MAP:    sta     curpage                 ; Remember the new page
 
 ; Transfer one page
 
-        jsr     transfer                ; Transfer one page
+        jsr     transfer        ; Transfer one page
 
 ; Return the memory window
 
         lda     #<window
-        ldx     #>window                ; Return the window address
+        ldx     #>window        ; Return the window address
         rts
 
 ; ------------------------------------------------------------------------
 ; USE: Tell the driver that the window is now associated with a given page.
 
-USE:    sta     curpage                 ; Remember the page
+USE:    sta     curpage         ; Remember the page
         lda     #<window
-        ldx     #>window                ; Return the window
+        ldx     #>window        ; Return the window
         rts
 
 ; ------------------------------------------------------------------------
 ; COMMIT: Commit changes in the memory window to extended storage.
 
-COMMIT: lda     curpage                 ; Get the current page
-        bmi     done                    ; Jump if no page mapped
+COMMIT: lda     curpage ; Get the current page
+        bmi     done    ; Jump if no page mapped
 
         add     #>BASE
         sta     ptr2+1
@@ -165,9 +163,9 @@ transfer:
         sta     ENABLE_RAM
 
         .repeat 8
-        lda     (ptr1),y
-        sta     (ptr2),y
-        iny
+                lda     (ptr1), y
+                sta     (ptr2), y
+                iny
         .endrepeat
 
         sta     ENABLE_ROM
@@ -187,26 +185,26 @@ done:   rts
 
 COPYFROM:
         sta     ptr3
-        stx     ptr3+1                  ; Save the passed em_copy pointer
+        stx     ptr3+1  ; Save the passed em_copy pointer
 
         ldy     #EM_COPY::OFFS
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr1
         ldy     #EM_COPY::PAGE
-        lda     (ptr3),y
+        lda     (ptr3), y
         add     #>BASE
-        sta     ptr1+1                  ; From
+        sta     ptr1+1  ; From
 
         ldy     #EM_COPY::BUF
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr2
         iny
-        lda     (ptr3),y
-        sta     ptr2+1                  ; To
+        lda     (ptr3), y
+        sta     ptr2+1  ; To
 
 common: ldy     #EM_COPY::COUNT+1
-        lda     (ptr3),y                ; Get number of pages
-        beq     @L2                     ; Skip if no full pages
+        lda     (ptr3), y       ; Get number of pages
+        beq     @L2             ; Skip if no full pages
         sta     tmp1
 
 ; Copy full pages allowing interrupts after each page copied
@@ -221,18 +219,18 @@ common: ldy     #EM_COPY::COUNT+1
 ; Copy the remainder of the page
 
 @L2:    ldy     #EM_COPY::COUNT
-        lda     (ptr3),y                ; Get bytes in last page
+        lda     (ptr3), y       ; Get bytes in last page
         beq     @L4
         tax
 
-        sei                             ; Disable ints
-        sta     ENABLE_RAM              ; Bank out the ROM
+        sei                     ; Disable ints
+        sta     ENABLE_RAM      ; Bank out the ROM
 
 ; Transfer the bytes in the last page
 
         ldy     #$00
-@L3:    lda     (ptr1),y
-        sta     (ptr2),y
+@L3:    lda     (ptr1), y
+        sta     (ptr2), y
         iny
         dex
         bne     @L3
@@ -253,23 +251,21 @@ common: ldy     #EM_COPY::COUNT+1
 ;
 
 COPYTO: sta     ptr3
-        stx     ptr3+1                  ; Save the passed em_copy pointer
+        stx     ptr3+1  ; Save the passed em_copy pointer
 
         ldy     #EM_COPY::OFFS
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr2
         ldy     #EM_COPY::PAGE
-        lda     (ptr3),y
+        lda     (ptr3), y
         add     #>BASE
-        sta     ptr2+1                  ; To
+        sta     ptr2+1  ; To
 
         ldy     #EM_COPY::BUF
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr1
         iny
-        lda     (ptr3),y
-        sta     ptr1+1                  ; From
+        lda     (ptr3), y
+        sta     ptr1+1  ; From
 
         jmp     common
-
-

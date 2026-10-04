@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Mar 2014
 ; ===============================================================
-; 
+;
 ; void ba_stack_destroy(ba_stack_t *s)
 ;
 ; Zero the stack structure.
@@ -19,6 +19,6 @@ EXTERN asm_b_array_destroy
 
 defc asm_ba_stack_destroy = asm_b_array_destroy
 
-   ; enter : hl = stack *
-   ;
-   ; uses  : af, hl
+        ; enter : hl = stack *
+        ;
+        ; uses  : af, hl

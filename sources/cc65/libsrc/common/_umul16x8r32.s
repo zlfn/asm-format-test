@@ -4,11 +4,10 @@
 ; CC65 library: 16x8 => 32 unsigned multiplication
 ;
 
-        .export         _umul16x8r32
-        .import         umul8x16r24, popax
+        .export _umul16x8r32
+        .import umul8x16r24, popax
 
-        .include        "zeropage.inc"
-
+        .include "zeropage.inc"
 
 ;---------------------------------------------------------------------------
 ; 16x8 => 32 unsigned multiplication routine. We use 8x16 => 24 and clear
@@ -18,10 +17,8 @@
 
         sta     ptr1
         lda     #0
-        sta     sreg+1                  ; Clear high byte of result
+        sta     sreg+1  ; Clear high byte of result
         jsr     popax
         jmp     umul8x16r24
 
 .endproc
-
-

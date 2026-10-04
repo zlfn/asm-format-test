@@ -14,7 +14,7 @@
         PUBLIC  _fgetc_cons
 
 INCHRH  equ     $1E7E
-ext_call    equ $2103
+ext_call equ    $2103
 
 fgetc_cons:
 _fgetc_cons:
@@ -31,12 +31,12 @@ wkey:
         and     a
         jr      z, wkey
 
-  IF    STANDARDESCAPECHARS
-        cp      13
-        jr      nz, not_return
-        ld      a, 10
+        IF      STANDARDESCAPECHARS
+                cp      13
+                jr      nz, not_return
+                ld      a,  10
 not_return:
-  ENDIF
+        ENDIF
 
         ld      l, a
         ld      h, 0

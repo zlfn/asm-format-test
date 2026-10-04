@@ -10,26 +10,24 @@
 ;	$Id: clsgraph.asm,v 1.8 2017-01-02 22:57:59 aralbrec Exp $
 ;
 
+        INCLUDE "classic/gfx/grafix.inc"
 
-    INCLUDE "classic/gfx/grafix.inc"
-
-    SECTION code_clib
-    PUBLIC  cleargraphics
-    PUBLIC  _cleargraphics
-    PUBLIC  ___cleargraphics
-    EXTERN  base_graphics
-
+        SECTION code_clib
+        PUBLIC  cleargraphics
+        PUBLIC  _cleargraphics
+        PUBLIC  ___cleargraphics
+        EXTERN  base_graphics
 
 cleargraphics:
 _cleargraphics:
 ___cleargraphics:
 
-    ld      hl, (base_graphics)
-    ld      d, h
-    ld      e, l
-    inc     de
-    ld      bc, +(_GFX_MAXX/2)*(_GFX_MAXY/2)
-    ld      (hl), _GFX_TEXT_BLANK_CHAR
-    ldir
+        ld      hl, (base_graphics)
+        ld      d,  h
+        ld      e,  l
+        inc     de
+        ld      bc,   +(_GFX_MAXX/2)*(_GFX_MAXY/2)
+        ld      (hl), _GFX_TEXT_BLANK_CHAR
+        ldir
 
-    ret
+        ret

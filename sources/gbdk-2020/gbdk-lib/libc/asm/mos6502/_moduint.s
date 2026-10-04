@@ -26,29 +26,29 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _moduint
+        .module _moduint
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __moduint
-	
+        .globl  __moduint
+
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define res "___SDCC_m6502_ret0"
-	.define div "__moduint_PARM_2"
-	.define rem "___SDCC_m6502_ret2"
-	.define s1  "___SDCC_m6502_ret4"
-	.define s2  "___SDCC_m6502_ret5"
+        .define res "___SDCC_m6502_ret0"
+        .define div "__moduint_PARM_2"
+        .define rem "___SDCC_m6502_ret2"
+        .define s1  "___SDCC_m6502_ret4"
+        .define s2  "___SDCC_m6502_ret5"
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
-	
+        .area   _CODE
+
 __moduint:
-	jsr 	___udivmod16
-	lda	*rem+0
-	ldx	*rem+1
-	rts	
+        jsr     ___udivmod16
+        lda     *rem+0
+        ldx     *rem+1
+        rts

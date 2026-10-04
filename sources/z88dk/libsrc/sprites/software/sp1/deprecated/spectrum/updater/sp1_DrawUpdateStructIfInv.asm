@@ -18,13 +18,13 @@ EXTERN SP1DrawUpdateStruct
 
 .sp1_DrawUpdateStructIfInv
 
-   bit 6,(hl)
-   ret nz                    ; do not draw if removed
-   
-   ld a,(hl)
-   xor $80
-   ret m                     ; do not draw if validated
-   ld (hl),a                 ; mark as validated
+        bit     6, (hl)
+        ret     nz      ; do not draw if removed
 
-   ld b,a
-   jp SP1DrawUpdateStruct
+        ld      a, (hl)
+        xor     $80
+        ret     m       ; do not draw if validated
+        ld      (hl), a ; mark as validated
+
+        ld      b, a
+        jp      SP1DrawUpdateStruct

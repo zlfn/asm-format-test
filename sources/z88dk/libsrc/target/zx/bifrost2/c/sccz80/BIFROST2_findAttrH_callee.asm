@@ -16,11 +16,11 @@ EXTERN asm_BIFROST2_findAttrH
 
 BIFROST2_findAttrH_callee:
 
-        pop hl          ; RET address
-        pop bc          ; BC=col
-        ex (sp),hl      ; HL=lin
+        pop     hl              ; RET address
+        pop     bc              ; BC=col
+        ex      (sp), hl        ; HL=lin
 
-        jp asm_BIFROST2_findAttrH
+        jp      asm_BIFROST2_findAttrH
 
 ; SDCC bridge for Classic
 IF __CLASSIC

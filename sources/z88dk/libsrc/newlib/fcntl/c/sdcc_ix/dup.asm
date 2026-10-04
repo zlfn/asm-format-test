@@ -10,10 +10,10 @@ EXTERN _dup_fastcall
 
 _dup:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _dup_fastcall
+        push    hl
+        push    af
+
+        jp      _dup_fastcall

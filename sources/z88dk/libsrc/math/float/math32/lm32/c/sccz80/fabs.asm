@@ -9,18 +9,17 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 fabs:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_fabsf
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_fabsf
 
 ; SDCC bridge for Classic
 PUBLIC _fabs
 defc _fabs = fabs
-
 
 ; Clang bridge for Classic
 PUBLIC _fabsf

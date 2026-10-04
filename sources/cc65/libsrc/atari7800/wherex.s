@@ -4,8 +4,8 @@
 ; unsigned char wherex()
 ;
 
-        .export         _wherex
-        .include        "extzp.inc"
+        .export _wherex
+        .include "extzp.inc"
 
 ;-----------------------------------------------------------------------------
 ; Get cursor X position
@@ -16,4 +16,3 @@
         lda     CURS_X
         rts
         .endproc
-

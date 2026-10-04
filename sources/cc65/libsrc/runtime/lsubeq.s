@@ -8,8 +8,8 @@
 ; in ptr1, the high byte is in Y, and the decrement is in eax.
 ;
 
-        .export         lsubeq1, lsubeqa, lsubeq
-        .importzp       sreg, ptr1
+        .export lsubeq1, lsubeqa, lsubeq
+        .importzp sreg, ptr1
 
 lsubeq1:
         lda     #$01
@@ -19,43 +19,39 @@ lsubeqa:
         stx     sreg
         stx     sreg+1
 
-lsubeq: sty     ptr1+1                  ; Store high byte of address
+lsubeq: sty     ptr1+1  ; Store high byte of address
 
         sec
         eor     #$FF
- .if .cap(CPU_HAS_ZPIND)
-        adc     (ptr1)                  ; Subtract byte 0
-        sta     (ptr1)
-        ldy     #$01                    ; Address byte 1
- .else
-        ldy     #$00                    ; Address low byte
-        adc     (ptr1),y                ; Subtract byte 0
-        sta     (ptr1),y
-        iny                             ; Address byte 1
- .endif
+        .if     .cap(CPU_HAS_ZPIND)
+                adc     (ptr1)          ; Subtract byte 0
+                sta     (ptr1)
+                ldy     #$01            ; Address byte 1
+        .else
+                ldy     #$00            ; Address low byte
+                adc     (ptr1), y       ; Subtract byte 0
+                sta     (ptr1), y
+                iny                     ; Address byte 1
+        .endif
         pha                             ; Save byte 0 of result for later
         txa
         eor     #$FF
-        adc     (ptr1),y                ; Subtract byte 1
-        sta     (ptr1),y
+        adc     (ptr1), y               ; Subtract byte 1
+        sta     (ptr1), y
         tax
 
-        iny                             ; Address byte 2
-        lda     (ptr1),y
+        iny     ; Address byte 2
+        lda     (ptr1), y
         sbc     sreg
-        sta     (ptr1),y
+        sta     (ptr1), y
         sta     sreg
 
-        iny                             ; Address byte 3
-        lda     (ptr1),y
+        iny     ; Address byte 3
+        lda     (ptr1), y
         sbc     sreg+1
-        sta     (ptr1),y
+        sta     (ptr1), y
         sta     sreg+1
 
-        pla                             ; Retrieve byte 0 of result
+        pla     ; Retrieve byte 0 of result
 
-        rts                             ; Done
-
-
-
-
+        rts     ; Done

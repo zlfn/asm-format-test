@@ -7,5 +7,5 @@ PUBLIC l_rlde
 
 ; {DE <r<r 1}
 .l_rlde
-    rl      de
-    ret
+        rl      de
+        ret

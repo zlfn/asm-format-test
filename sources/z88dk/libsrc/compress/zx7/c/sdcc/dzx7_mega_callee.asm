@@ -10,9 +10,9 @@ EXTERN asm_dzx7_mega
 
 _dzx7_mega_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_dzx7_mega
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_dzx7_mega

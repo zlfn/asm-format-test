@@ -3,14 +3,14 @@
 ;
 ; Jede (jede@oric.org), 2017-10-15
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-error.inc"
-        .include        "telestrat.inc"
+        .include "tgi-kernel.inc"
+        .include "tgi-error.inc"
+        .include "telestrat.inc"
 
-        .macpack        generic
-        .macpack        module
+        .macpack generic
+        .macpack module
 
 XSIZE   =       6               ; System font width
 YSIZE   =       8               ; System font height
@@ -18,7 +18,7 @@ YSIZE   =       8               ; System font height
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table and constants.
 
-        module_header   _telestrat_228_200_3_tgi
+        module_header _telestrat_228_200_3_tgi
 
 ; The first part of the header is a structure that has a signature,
 ; and defines the capabilities of the driver.
@@ -74,9 +74,9 @@ Y2      :=      ptr4
 
 .bss
 
-ERROR:          .res    1       ; Error code
-MODE:           .res    1       ; Graphics mode
-PALETTE:        .res    2
+ERROR:  .res    1       ; Error code
+MODE:   .res    1       ; Graphics mode
+PALETTE: .res   2
 
 ; Constant table
 
@@ -86,7 +86,7 @@ PALETTE:        .res    2
 ; (The third "color" actually flips a pixel
 ; between the foreground and background colors.)
 ;
-DEFPALETTE:     .byte   0, 1
+DEFPALETTE: .byte 0, 1
 
 .code
 
@@ -254,16 +254,14 @@ GETDEFPALETTE:
 ;
 
 SETPIXEL:
-        lda #$80
+        lda     #$80
 
 SETPIXELSETMODE:
-        sta HRSFB
-        lda X1
-        sta HRS1
-        lda Y1
-        sta HRS2
-
-
+        sta     HRSFB
+        lda     X1
+        sta     HRS1
+        lda     Y1
+        sta     HRS2
 
         BRK_TELEMON(XCURSE)
 
@@ -287,35 +285,33 @@ GETPIXEL:
 
 LINE:
         ; not done yet
-        lda   X1
-        sta   HRS1
-        lda   Y1
-        sta   HRS2
+        lda     X1
+        sta     HRS1
+        lda     Y1
+        sta     HRS2
 
-        lda   X2
-        sta   HRS3
-        lda   Y2
-        sta   HRS4
+        lda     X2
+        sta     HRS3
+        lda     Y2
+        sta     HRS4
 
-        lda   X1+1
-        sta   HRS1+1
+        lda     X1+1
+        sta     HRS1+1
 
-        lda   Y1+1
-        sta   HRS2+1
+        lda     Y1+1
+        sta     HRS2+1
 
-        lda   X2+1
-        sta   HRS3+1
+        lda     X2+1
+        sta     HRS3+1
 
-        lda   Y2+1
-        sta   HRS4+1
+        lda     Y2+1
+        sta     HRS4+1
 
-        lda   #$FF
-        sta   HRSPAT
+        lda     #$FF
+        sta     HRSPAT
 
         BRK_TELEMON(XDRAWA)
         rts
-
-
 
 CIRCLE:
         ; not done yet
@@ -351,7 +347,6 @@ BAR:
 TEXTSTYLE:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; OUTTEXT: Output text at x/y = ptr1/ptr2, using the current color and the
 ; current text style. The text to output is given as a zero-terminated
@@ -362,24 +357,23 @@ TEXTSTYLE:
 
 OUTTEXT:
         ; put hires cursor in X & Y
-        lda   #$00
-        jsr   SETPIXELSETMODE
-
+        lda     #$00
+        jsr     SETPIXELSETMODE
 
         ; count the length of the string
-        ldy   #$00
+        ldy     #$00
 loop:
-        lda   (ptr3),y
-        beq   out
+        lda     (ptr3), y
+        beq     out
         iny
-        bne   loop
+        bne     loop
 out:
         ; XSCHAR routine from telemon needs to have the length of the string in X register
         ; copy Y register to X register. It could be optimized in 65C02 with TYX
         tya
         tax
 
-        lda   ptr3     ; XSCHAR needs in A and Y the address of the string
-        ldy   ptr3+1
+        lda     ptr3    ; XSCHAR needs in A and Y the address of the string
+        ldy     ptr3+1
         BRK_TELEMON(XSCHAR)
         rts

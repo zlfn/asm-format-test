@@ -8,6 +8,6 @@ PUBLIC _zx7_font_8x8_einstein_system_end
 _zx7_font_6x8_einstein_system:
 _zx7_font_8x8_einstein_system:
 
-   BINARY "font_8x8_einstein_system.bin.zx7"
+        BINARY  "font_8x8_einstein_system.bin.zx7"
 
 _zx7_font_8x8_einstein_system_end:

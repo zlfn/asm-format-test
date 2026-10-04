@@ -3,21 +3,21 @@
 ;
 
 .if     .defined (__C128__)
-        .include        "c128.inc"
+        .include "c128.inc"
 .elseif .defined (__C16__)
-        .include        "c16.inc"
+        .include "c16.inc"
 .elseif .defined (__C64__)
-        .include        "c64.inc"
+        .include "c64.inc"
 .elseif .defined (__CBM510__)
-        .include        "cbm510.inc"
+        .include "cbm510.inc"
 .elseif .defined (__CBM610__)
-        .include        "cbm610.inc"
+        .include "cbm610.inc"
 .elseif .defined (__PET__)
-        .include        "pet.inc"
+        .include "pet.inc"
 .elseif .defined (__PLUS4__)
-        .include        "plus4.inc"
+        .include "plus4.inc"
 .else
-        .include        "vic20.inc"
+        .include "vic20.inc"
 .endif
 
 ; exec() is written in C.

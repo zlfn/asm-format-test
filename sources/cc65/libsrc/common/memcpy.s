@@ -10,21 +10,21 @@
 ; at memmove!
 ;
 
-        .export         _memcpy, memcpy_upwards, memcpy_getparams
-        .import         popax, popptr1
-        .importzp       c_sp, ptr1, ptr2, ptr3
+        .export _memcpy, memcpy_upwards, memcpy_getparams
+        .import popax,   popptr1
+        .importzp c_sp, ptr1, ptr2, ptr3
 
 ; ----------------------------------------------------------------------
 _memcpy:
         jsr     memcpy_getparams
 
-memcpy_upwards:                 ; assert Y = 0
-        ldx     ptr3+1          ; Get high byte of n
-        beq     L2              ; Jump if zero
+memcpy_upwards:         ; assert Y = 0
+        ldx     ptr3+1  ; Get high byte of n
+        beq     L2      ; Jump if zero
 
 L1:     .repeat 2               ; Unroll this a bit to make it faster...
-        lda     (ptr1),Y        ; copy a byte
-        sta     (ptr2),Y
+        lda     (ptr1), Y       ; copy a byte
+        sta     (ptr2), Y
         iny
         .endrepeat
         bne     L1
@@ -38,19 +38,19 @@ L1:     .repeat 2               ; Unroll this a bit to make it faster...
         ; low to high since this function is also used for
         ; memmove and blocks could be overlapping!
         ; {
-L2:                             ; assert Y = 0
-        ldx     ptr3            ; Get the low byte of n
-        beq     done            ; something to copy
+L2:                     ; assert Y = 0
+        ldx     ptr3    ; Get the low byte of n
+        beq     done    ; something to copy
 
-L3:     lda     (ptr1),Y        ; copy a byte
-        sta     (ptr2),Y
+L3:     lda     (ptr1), Y       ; copy a byte
+        sta     (ptr2), Y
         iny
         dex
         bne     L3
 
         ; }
 
-done:   jmp     popax           ; Pop ptr and return as result
+done:   jmp     popax   ; Pop ptr and return as result
 
 ; ----------------------------------------------------------------------
 ; Get the parameters from stack as follows:
@@ -60,20 +60,20 @@ done:   jmp     popax           ; Pop ptr and return as result
 ;       dest            --> ptr2
 ;       First argument (dest) will remain on stack and is returned in a/x!
 
-memcpy_getparams:               ; IMPORTANT! Function has to leave with Y=0!
+memcpy_getparams:       ; IMPORTANT! Function has to leave with Y=0!
         sta     ptr3
-        stx     ptr3+1          ; save n to ptr3
+        stx     ptr3+1  ; save n to ptr3
 
-        jsr     popptr1         ; save src to ptr1
+        jsr     popptr1 ; save src to ptr1
 
-                                ; save dest to ptr2
+        ; save dest to ptr2
         iny                     ; Y=0 guaranteed by popptr1, we need '1' here...
                                 ; (direct stack access is three cycles faster
                                 ; (total cycle count with return))
-        lda     (c_sp),y
+        lda     (c_sp), y
         tax
         stx     ptr2+1          ; save high byte of ptr2
         dey                     ; Y = 0
-        lda     (c_sp),y        ; Get ptr2 low
+        lda     (c_sp), y       ; Get ptr2 low
         sta     ptr2
         rts

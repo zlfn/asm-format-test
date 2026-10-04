@@ -19,33 +19,33 @@ PUBLIC SP1PSPUSH
 
 .SP1PSPUSH
 
-   ld a,iyl
-   ld (hl),a
-   inc hl
-   ld a,iyh
-   ld (hl),a                 ; write bounds rectangle
-   inc hl
-   ld (hl),e                 ; write flags
-   inc hl
-   ld (hl),b                 ; write x coord
-   inc hl
-   ld (hl),c                 ; write y coord
-   inc hl
-   push hl
-   exx
-   pop hl
-   ld (hl),b                 ; write attr mask
-   inc hl
-   ld (hl),c                 ; write attr
-   inc hl
-   ld (hl),e
-   inc hl
-   ld (hl),d                 ; write struct sp1_update
-   inc hl
-   ld a,ixl
-   ld (hl),a
-   inc hl
-   ld a,ixh
-   ld (hl),a                 ; write visit function
-   
-   ret
+        ld      a,    iyl
+        ld      (hl), a
+        inc     hl
+        ld      a,    iyh
+        ld      (hl), a ; write bounds rectangle
+        inc     hl
+        ld      (hl), e ; write flags
+        inc     hl
+        ld      (hl), b ; write x coord
+        inc     hl
+        ld      (hl), c ; write y coord
+        inc     hl
+        push    hl
+        exx
+        pop     hl
+        ld      (hl), b ; write attr mask
+        inc     hl
+        ld      (hl), c ; write attr
+        inc     hl
+        ld      (hl), e
+        inc     hl
+        ld      (hl), d ; write struct sp1_update
+        inc     hl
+        ld      a,    ixl
+        ld      (hl), a
+        inc     hl
+        ld      a,    ixh
+        ld      (hl), a ; write visit function
+
+        ret

@@ -10,12 +10,12 @@ EXTERN asm_z180_outp
 
 z180_outp:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   out (c),l
-   ret
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+        out     (c), l
+        ret

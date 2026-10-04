@@ -9,7 +9,7 @@ EXTERN asm_sms_cxy2saddr
 
 _sms_cxy2saddr_callee:
 
-   pop hl
-   ex (sp),hl
-   
-   jp asm_sms_cxy2saddr
+        pop     hl
+        ex      (sp), hl
+
+        jp      asm_sms_cxy2saddr

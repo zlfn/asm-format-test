@@ -92,52 +92,52 @@ mixed_quotes_join BYTE "a'b", 'c"d'
 sq_char_test PROC
 ; CHECK-LABEL: sq_char_test:
 
-  mov eax, 'a'
+        mov     eax, 'a'
 ; CHECK: mov eax, 97
 
-  mov eax, ''''
+        mov     eax, ''''
 ; CHECK: mov eax, 39
 
-  mov eax, '"'
+        mov     eax, '"'
 ; CHECK: mov eax, 34
 
-  ret
+        ret
 sq_char_test ENDP
 
 dq_char_test PROC
 ; CHECK-LABEL: dq_char_test:
 
-  mov eax, "b"
+        mov     eax, "b"
 ; CHECK: mov eax, 98
 
-  mov eax, """"
+        mov     eax, """"
 ; CHECK: mov eax, 34
 
-  mov eax, "'"
+        mov     eax, "'"
 ; CHECK: mov eax, 39
 
-  ret
+        ret
 dq_char_test ENDP
 
 string_constant_test PROC
 ; CHECK-LABEL: string_constant_test:
 
-  mov eax, 'ab'
-  mov eax, "ab"
+        mov     eax, 'ab'
+        mov     eax, "ab"
 ; CHECK: mov eax, 24930
 ; CHECK: mov eax, 24930
 
-  mov eax, "abc"
-  mov eax, 'abc'
+        mov     eax, "abc"
+        mov     eax, 'abc'
 ; CHECK: mov eax, 6382179
 ; CHECK: mov eax, 6382179
 
-  mov eax, "abc"""
-  mov eax, 'abc'''
+        mov     eax, "abc"""
+        mov     eax, 'abc'''
 ; CHECK: mov eax, 1633837858
 ; CHECK: mov eax, 1633837863
 
-  ret
+        ret
 string_constant_test ENDP
 
 end

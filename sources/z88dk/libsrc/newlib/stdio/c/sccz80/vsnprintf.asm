@@ -10,18 +10,18 @@ EXTERN asm_vsnprintf
 
 vsnprintf:
 
-   pop af
-   pop bc
-   pop de
-   exx
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   exx
-   push de
-   push bc
-   push af
-   
-   jp asm_vsnprintf
+        pop     af
+        pop     bc
+        pop     de
+        exx
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        exx
+        push    de
+        push    bc
+        push    af
+
+        jp      asm_vsnprintf

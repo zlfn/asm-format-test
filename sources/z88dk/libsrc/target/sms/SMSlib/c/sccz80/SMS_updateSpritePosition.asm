@@ -9,22 +9,21 @@ EXTERN asm_SMSlib_updateSpritePosition
 
 SMS_updateSpritePosition:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push hl
-   push af
-   
-   ld a,l
-   jp asm_SMSlib_updateSpritePosition
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    hl
+        push    af
+
+        ld      a, l
+        jp      asm_SMSlib_updateSpritePosition
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _SMS_updateSpritePosition
 defc _SMS_updateSpritePosition = SMS_updateSpritePosition
 ENDIF
-

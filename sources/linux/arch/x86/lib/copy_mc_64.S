@@ -18,66 +18,66 @@
  * regardless of CPU machine-check-recovery capability.
  */
 SYM_FUNC_START(copy_mc_fragile)
-	cmpl $8, %edx
-	/* Less than 8 bytes? Go to byte copy loop */
-	jb .L_no_whole_words
+        cmpl    $8, %edx
+        /* Less than 8 bytes? Go to byte copy loop */
+        jb      .L_no_whole_words
 
-	/* Check for bad alignment of source */
-	testl $7, %esi
-	/* Already aligned */
-	jz .L_8byte_aligned
+        /* Check for bad alignment of source */
+        testl   $7, %esi
+        /* Already aligned */
+        jz      .L_8byte_aligned
 
-	/* Copy one byte at a time until source is 8-byte aligned */
-	movl %esi, %ecx
-	andl $7, %ecx
-	subl $8, %ecx
-	negl %ecx
-	subl %ecx, %edx
+        /* Copy one byte at a time until source is 8-byte aligned */
+        movl    %esi, %ecx
+        andl    $7,   %ecx
+        subl    $8,   %ecx
+        negl    %ecx
+        subl    %ecx, %edx
 .L_read_leading_bytes:
-	movb (%rsi), %al
+        movb    (%rsi), %al
 .L_write_leading_bytes:
-	movb %al, (%rdi)
-	incq %rsi
-	incq %rdi
-	decl %ecx
-	jnz .L_read_leading_bytes
+        movb    %al, (%rdi)
+        incq    %rsi
+        incq    %rdi
+        decl    %ecx
+        jnz     .L_read_leading_bytes
 
 .L_8byte_aligned:
-	movl %edx, %ecx
-	andl $7, %edx
-	shrl $3, %ecx
-	jz .L_no_whole_words
+        movl    %edx, %ecx
+        andl    $7,   %edx
+        shrl    $3,   %ecx
+        jz      .L_no_whole_words
 
 .L_read_words:
-	movq (%rsi), %r8
+        movq    (%rsi), %r8
 .L_write_words:
-	movq %r8, (%rdi)
-	addq $8, %rsi
-	addq $8, %rdi
-	decl %ecx
-	jnz .L_read_words
+        movq    %r8, (%rdi)
+        addq    $8,  %rsi
+        addq    $8,  %rdi
+        decl    %ecx
+        jnz     .L_read_words
 
-	/* Any trailing bytes? */
+        /* Any trailing bytes? */
 .L_no_whole_words:
-	andl %edx, %edx
-	jz .L_done_memcpy_trap
+        andl    %edx, %edx
+        jz      .L_done_memcpy_trap
 
-	/* Copy trailing bytes */
-	movl %edx, %ecx
+        /* Copy trailing bytes */
+        movl    %edx, %ecx
 .L_read_trailing_bytes:
-	movb (%rsi), %al
+        movb    (%rsi), %al
 .L_write_trailing_bytes:
-	movb %al, (%rdi)
-	incq %rsi
-	incq %rdi
-	decl %ecx
-	jnz .L_read_trailing_bytes
+        movb    %al, (%rdi)
+        incq    %rsi
+        incq    %rdi
+        decl    %ecx
+        jnz     .L_read_trailing_bytes
 
-	/* Copy successful. Return zero */
+        /* Copy successful. Return zero */
 .L_done_memcpy_trap:
-	xorl %eax, %eax
+        xorl    %eax, %eax
 .L_done:
-	RET
+        RET
 
 	/*
 	 * Return number of bytes not copied for any failure. Note that
@@ -85,12 +85,12 @@ SYM_FUNC_START(copy_mc_fragile)
 	 * aligned and poison is cacheline aligned.
 	 */
 .E_read_words:
-	shll	$3, %ecx
+        shll    $3, %ecx
 .E_leading_bytes:
-	addl	%edx, %ecx
+        addl    %edx, %ecx
 .E_trailing_bytes:
-	mov	%ecx, %eax
-	jmp	.L_done
+        mov     %ecx, %eax
+        jmp     .L_done
 
 	/*
 	 * For write fault handling, given the destination is unaligned,
@@ -98,17 +98,17 @@ SYM_FUNC_START(copy_mc_fragile)
 	 * copy up to the write-protected page.
 	 */
 .E_write_words:
-	shll	$3, %ecx
-	addl	%edx, %ecx
-	movl	%ecx, %edx
-	jmp copy_mc_fragile_handle_tail
+        shll    $3,   %ecx
+        addl    %edx, %ecx
+        movl    %ecx, %edx
+        jmp     copy_mc_fragile_handle_tail
 
-	_ASM_EXTABLE_TYPE(.L_read_leading_bytes, .E_leading_bytes, EX_TYPE_DEFAULT_MCE_SAFE)
-	_ASM_EXTABLE_TYPE(.L_read_words, .E_read_words, EX_TYPE_DEFAULT_MCE_SAFE)
-	_ASM_EXTABLE_TYPE(.L_read_trailing_bytes, .E_trailing_bytes, EX_TYPE_DEFAULT_MCE_SAFE)
-	_ASM_EXTABLE(.L_write_leading_bytes, .E_leading_bytes)
-	_ASM_EXTABLE(.L_write_words, .E_write_words)
-	_ASM_EXTABLE(.L_write_trailing_bytes, .E_trailing_bytes)
+        _ASM_EXTABLE_TYPE(.L_read_leading_bytes, .E_leading_bytes, EX_TYPE_DEFAULT_MCE_SAFE)
+        _ASM_EXTABLE_TYPE(.L_read_words, .E_read_words, EX_TYPE_DEFAULT_MCE_SAFE)
+        _ASM_EXTABLE_TYPE(.L_read_trailing_bytes, .E_trailing_bytes, EX_TYPE_DEFAULT_MCE_SAFE)
+        _ASM_EXTABLE(.L_write_leading_bytes, .E_leading_bytes)
+        _ASM_EXTABLE(.L_write_words, .E_write_words)
+        _ASM_EXTABLE(.L_write_trailing_bytes, .E_trailing_bytes)
 
 SYM_FUNC_END(copy_mc_fragile)
 #endif /* CONFIG_X86_MCE */
@@ -124,13 +124,13 @@ SYM_FUNC_END(copy_mc_fragile)
  * standard memcpy.
  */
 SYM_FUNC_START(copy_mc_enhanced_fast_string)
-	movq %rdi, %rax
-	movq %rdx, %rcx
+        movq    %rdi, %rax
+        movq    %rdx, %rcx
 .L_copy:
-	rep movsb
-	/* Copy successful. Return zero */
-	xorl %eax, %eax
-	RET
+        rep movsb
+        /* Copy successful. Return zero */
+        xorl    %eax, %eax
+        RET
 
 .E_copy:
 	/*
@@ -140,10 +140,10 @@ SYM_FUNC_START(copy_mc_enhanced_fast_string)
 	 * to copy_mc_generic() users, or indicate short transfers to
 	 * user-copy routines.
 	 */
-	movq %rcx, %rax
-	RET
+        movq    %rcx, %rax
+        RET
 
-	_ASM_EXTABLE_TYPE(.L_copy, .E_copy, EX_TYPE_DEFAULT_MCE_SAFE)
+        _ASM_EXTABLE_TYPE(.L_copy, .E_copy, EX_TYPE_DEFAULT_MCE_SAFE)
 
 SYM_FUNC_END(copy_mc_enhanced_fast_string)
 #endif /* !CONFIG_UML */

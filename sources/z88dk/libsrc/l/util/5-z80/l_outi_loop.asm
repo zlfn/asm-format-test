@@ -30,35 +30,35 @@ EXTERN l_outi_64, l_outi_32, l_outi_16
 
 l_outi_loop:
 
-   ld a,b
+        ld      a, b
 
-   cp 16
-   jp c, sub_16
+        cp      16
+        jp      c, sub_16
 
-   rla
-   call c, l_outi_128
+        rla
+        call    c, l_outi_128
 
-   rla
-   call c, l_outi_64
-   
-   rla
-   call c, l_outi_32
+        rla
+        call    c, l_outi_64
 
-   rla
-   call c, l_outi_16
+        rla
+        call    c, l_outi_32
 
-   ret z
+        rla
+        call    c, l_outi_16
 
-   otir
-   ret
-   
+        ret     z
+
+        otir
+        ret
+
 sub_16:
 
-   or a
-   jp z, l_outi_256
+        or      a
+        jp      z, l_outi_256
 
-   otir
-   ret
+        otir
+        ret
 
 ENDIF
 ENDIF

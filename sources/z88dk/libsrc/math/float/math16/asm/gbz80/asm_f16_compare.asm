@@ -20,108 +20,108 @@ PUBLIC asm_f16_compare_callee
 
 ; stack: this, real, left, right  (args not consumed)
 .asm_f16_compare
-    ld hl,sp+4
-    ld a,(hl+)
-    ld h,(hl)
-    ld l,a                      ; HL = left
-    push hl
-    ld hl,sp+8                  ; right was +6, +2 after push
-    ld a,(hl+)
-    ld h,(hl)
-    ld l,a                      ; HL = right
-    pop de                      ; DE = left
-    push hl
-    ld hl,de
-    pop de                      ; HL=left DE=right
-    jr continue
+        ld      hl, sp+4
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a           ; HL = left
+        push    hl
+        ld      hl, sp+8        ; right was +6, +2 after push
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a           ; HL = right
+        pop     de              ; DE = left
+        push    hl
+        ld      hl, de
+        pop     de              ; HL=left DE=right
+        jr      continue
 
 ; HL=right, stack: this, real, left. Consume left.
 .asm_f16_compare_callee
-    ld de,hl                    ; DE = right
-    pop bc                      ; this
-    pop hl                      ; real (return; never pop af)
-    ex (sp),hl                  ; HL = left; (sp) = real
-    push bc                     ; this, real
+        ld      de, hl          ; DE = right
+        pop     bc              ; this
+        pop     hl              ; real (return; never pop af)
+        ex      (sp), hl        ; HL = left; (sp) = real
+        push    bc              ; this, real
 
 .continue
-    ld a,$7c
-    and d
-    jr Z,zero_right
+        ld      a, $7c
+        and     d
+        jr      Z, zero_right
 
-    ld a,d
-    add a,a
-    ld d,a
-    ccf
-    jr C,positive_right
-    ld a,e
-    cpl
-    ld e,a
-    ld a,d
-    cpl
-    ld d,a
+        ld      a, d
+        add     a, a
+        ld      d, a
+        ccf
+        jr      C, positive_right
+        ld      a, e
+        cpl
+        ld      e, a
+        ld      a, d
+        cpl
+        ld      d, a
 .positive_right
-    ld a,d
-    rra
-    ld d,a
+        ld      a, d
+        rra
+        ld      d, a
 
-    ld a,$7c
-    and h
-    jr Z,zero_left
+        ld      a, $7c
+        and     h
+        jr      Z, zero_left
 
-    ld a,h
-    add a,a
-    ld h,a
-    ccf
-    jr C,positive_left
-    ld a,l
-    cpl
-    ld l,a
-    ld a,h
-    cpl
-    ld h,a
+        ld      a, h
+        add     a, a
+        ld      h, a
+        ccf
+        jr      C, positive_left
+        ld      a, l
+        cpl
+        ld      l, a
+        ld      a, h
+        cpl
+        ld      h, a
 .positive_left
-    ld a,h
-    rra
-    ld h,a
+        ld      a, h
+        rra
+        ld      h, a
 
-    ld bc,de
-    or a
-    ld a,l
-    sub c
-    ld l,a
-    ld a,h
-    sbc a,b
-    ld h,a
-    jr C,consider_negative
+        ld      bc, de
+        or      a
+        ld      a, l
+        sub     c
+        ld      l, a
+        ld      a, h
+        sbc     a, b
+        ld      h, a
+        jr      C, consider_negative
 
 .consider_positive
-    ld a,h
-    or l
+        ld      a, h
+        or      l
 .return_positive
-    ld hl,1
-    scf
-    ccf
-    ret
+        ld      hl, 1
+        scf
+        ccf
+        ret
 
 .consider_negative
-    ld a,h
-    or l
+        ld      a, h
+        or      l
 .return_negative
-    ld hl,1
-    scf
-    ret
+        ld      hl, 1
+        scf
+        ret
 
 .zero_right
-    ld a,$7c
-    and h
-    jr Z,return_positive
-    ld a,h
-    add a,a
-    jr NC,return_positive
-    jr return_negative
+        ld      a, $7c
+        and     h
+        jr      Z,  return_positive
+        ld      a,  h
+        add     a,  a
+        jr      NC, return_positive
+        jr      return_negative
 
 .zero_left
-    ld a,d
-    add a,a
-    jr NC,return_positive
-    jr return_negative
+        ld      a,  d
+        add     a,  a
+        jr      NC, return_positive
+        jr      return_negative

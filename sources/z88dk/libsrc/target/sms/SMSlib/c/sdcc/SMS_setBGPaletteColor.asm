@@ -9,11 +9,11 @@ EXTERN asm_SMSlib_setBGPaletteColor
 
 _SMS_setBGPaletteColor:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   ld a,h
-   jp asm_SMSlib_setBGPaletteColor
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        ld      a, h
+        jp      asm_SMSlib_setBGPaletteColor

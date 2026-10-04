@@ -3,7 +3,6 @@
 ;
 ;       feilipu 10/2021
 
-
 SECTION code_clib
 SECTION code_l_sccz80
 
@@ -16,89 +15,89 @@ EXTERN  l_long_div_0, l_long_neg_mhl
 ;exit with quotient in dehl
 
 .l_long_div
-    ld      a,d                 ;check for divide by zero
-    or      e
-    or      h
-    or      l                   ;clear Carry to quotient
-    jp      Z, divide_by_zero
+        ld      a, d    ;check for divide by zero
+        or      e
+        or      h
+        or      l       ;clear Carry to quotient
+        jp      Z, divide_by_zero
 
-    push    de                  ;put secondary (divisor) on stack
-    push    hl
+        push    de      ;put secondary (divisor) on stack
+        push    hl
 
-    ld      bc,0                ;establish remainder on stack
-    push    bc
-    push    bc
+        ld      bc, 0   ;establish remainder on stack
+        push    bc
+        push    bc
 
-    ld      c,d                 ;sign of divisor
+        ld      c, d    ;sign of divisor
 
-    ld      de,sp+13            ;sign of dividend
-    ld      a,(de)
-    ld      b,a
+        ld      de, sp+13       ;sign of dividend
+        ld      a,  (de)
+        ld      b,  a
 
-    push    bc                  ;save sign info
+        push    bc      ;save sign info
 
-    ld      de,sp+12            ;dividend
-    ex      de,hl
-    or      a,a                 ;test sign of dividend
-    call    M,l_long_neg_mhl    ;take absolute value of dividend
+        ld      de, sp+12               ;dividend
+        ex      de, hl
+        or      a,  a                   ;test sign of dividend
+        call    M,  l_long_neg_mhl      ;take absolute value of dividend
 
-    ld      de,sp+6             ;divisor
-    ex      de,hl
-    ld      a,c                 ;sign of divisor
-    or      a,a                 ;test sign of divisor
-    call    M,l_long_neg_mhl    ;take absolute value of divisor
+        ld      de, sp+6                ;divisor
+        ex      de, hl
+        ld      a,  c                   ;sign of divisor
+        or      a,  a                   ;test sign of divisor
+        call    M,  l_long_neg_mhl      ;take absolute value of divisor
 
-    call    l_long_div_0        ;division loop
+        call    l_long_div_0    ;division loop
 
-    ;tidy up with quotient to dehl
+        ;tidy up with quotient to dehl
 
-    ; C standard requires that the result of division satisfy
-    ; a = (a/b)*b + a%b
-    ; remainder takes sign of the dividend
+        ; C standard requires that the result of division satisfy
+        ; a = (a/b)*b + a%b
+        ; remainder takes sign of the dividend
 
-    pop     bc                  ;restore sign info
+        pop     bc      ;restore sign info
 
-    ld      de,sp+10            ;quotient
-    ex      de,hl
-    ld      a,b
-    xor     c                   ;test sign of dividend^divisor
-    call    M,l_long_neg_mhl    ;negate quotient if signs different
+        ld      de, sp+10               ;quotient
+        ex      de, hl
+        ld      a,  b
+        xor     c                       ;test sign of dividend^divisor
+        call    M, l_long_neg_mhl       ;negate quotient if signs different
 
-    ld      de,sp+12            ;get quotient MSW
-    ld      hl,(de)
-    ld      bc,hl               ;quotient MSW
+        ld      de, sp+12       ;get quotient MSW
+        ld      hl, (de)
+        ld      bc, hl          ;quotient MSW
 
-    ld      de,sp+8             ;get return from stack
-    ld      hl,(de)
-    ld      de,sp+12            ;place return on stack
-    ld      (de),hl
+        ld      de,   sp+8      ;get return from stack
+        ld      hl,   (de)
+        ld      de,   sp+12     ;place return on stack
+        ld      (de), hl
 
-    ld      de,sp+10            ;get quotient LSW
-    ld      hl,(de)
+        ld      de, sp+10       ;get quotient LSW
+        ld      hl, (de)
 
-    ld      de,sp+12            ;point to return again
-    ex      de,hl               ;quotient LSW <> return sp
-    ld      sp,hl               ;remove stacked parameters
+        ld      de, sp+12       ;point to return again
+        ex      de, hl          ;quotient LSW <> return sp
+        ld      sp, hl          ;remove stacked parameters
 
-    ex      de,hl               ;quotient LSW
-    ld      de,bc               ;quotient MSW
+        ex      de, hl  ;quotient LSW
+        ld      de, bc  ;quotient MSW
 
-    ret
+        ret
 
 .divide_by_zero
-    pop     bc                  ;pop return
-    pop     hl                  ;pop dividend
-    pop     de
-    push    bc                  ;replace return
+        pop     bc      ;pop return
+        pop     hl      ;pop dividend
+        pop     de
+        push    bc      ;replace return
 
-    ld      a,h
+        ld      a, h
 
-    ld      de,$7fff            ;return dehl = LONG_MAX
-    ld      hl,$ffff
+        ld      de, $7fff       ;return dehl = LONG_MAX
+        ld      hl, $ffff
 
-    or      a
-    ret     P                   ;if dividend positive
+        or      a
+        ret     P       ;if dividend positive
 
-    inc     de                  ;return dehl = LONG_MIN
-    inc     hl
-    ret
+        inc     de      ;return dehl = LONG_MIN
+        inc     hl
+        ret

@@ -10,18 +10,18 @@
 // Go code.
 
 TEXT ·x509_SecTrustCreateWithCertificates_trampoline(SB),NOSPLIT,$0-0
-	JMP x509_SecTrustCreateWithCertificates(SB)
+        JMP     x509_SecTrustCreateWithCertificates(SB)
 TEXT ·x509_SecCertificateCreateWithData_trampoline(SB),NOSPLIT,$0-0
-	JMP x509_SecCertificateCreateWithData(SB)
+        JMP     x509_SecCertificateCreateWithData(SB)
 TEXT ·x509_SecPolicyCreateSSL_trampoline(SB),NOSPLIT,$0-0
-	JMP x509_SecPolicyCreateSSL(SB)
+        JMP     x509_SecPolicyCreateSSL(SB)
 TEXT ·x509_SecTrustSetVerifyDate_trampoline(SB),NOSPLIT,$0-0
-	JMP x509_SecTrustSetVerifyDate(SB)
+        JMP     x509_SecTrustSetVerifyDate(SB)
 TEXT ·x509_SecTrustEvaluate_trampoline(SB),NOSPLIT,$0-0
-	JMP x509_SecTrustEvaluate(SB)
+        JMP     x509_SecTrustEvaluate(SB)
 TEXT ·x509_SecTrustEvaluateWithError_trampoline(SB),NOSPLIT,$0-0
-	JMP x509_SecTrustEvaluateWithError(SB)
+        JMP     x509_SecTrustEvaluateWithError(SB)
 TEXT ·x509_SecCertificateCopyData_trampoline(SB),NOSPLIT,$0-0
-	JMP x509_SecCertificateCopyData(SB)
+        JMP     x509_SecCertificateCopyData(SB)
 TEXT ·x509_SecTrustCopyCertificateChain_trampoline(SB),NOSPLIT,$0-0
-	JMP x509_SecTrustCopyCertificateChain(SB)
+        JMP     x509_SecTrustCopyCertificateChain(SB)

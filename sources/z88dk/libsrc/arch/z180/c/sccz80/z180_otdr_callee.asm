@@ -10,10 +10,10 @@ EXTERN asm_z180_otdr
 
 z180_otdr_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
 
-   ld b,e
-   jp asm_z180_otdr
+        ld      b, e
+        jp      asm_z180_otdr

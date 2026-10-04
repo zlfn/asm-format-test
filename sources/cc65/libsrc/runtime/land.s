@@ -5,9 +5,9 @@
 ; CC65 runtime: and on longs
 ;
 
-        .export         tosand0ax, tosandeax
-        .import         addysp1
-        .importzp       c_sp, sreg, tmp1
+        .export tosand0ax, tosandeax
+        .import addysp1
+        .importzp c_sp, sreg, tmp1
 
 tosand0ax:
 .if .cap(CPU_HAS_STZ)
@@ -21,26 +21,25 @@ tosand0ax:
 
 tosandeax:
 .if .cap(CPU_HAS_ZPIND)
-        and     (c_sp)          ; byte 0
+        and     (c_sp)  ; byte 0
         ldy     #1
 .else
         ldy     #0
-        and     (c_sp),y        ; byte 0
+        and     (c_sp), y       ; byte 0
         iny
 .endif
         sta     tmp1
         txa
-        and     (c_sp),y        ; byte 1
+        and     (c_sp), y       ; byte 1
         tax
         iny
         lda     sreg
-        and     (c_sp),y        ; byte 2
+        and     (c_sp), y       ; byte 2
         sta     sreg
         iny
         lda     sreg+1
-        and     (c_sp),y        ; byte 3
+        and     (c_sp), y       ; byte 3
         sta     sreg+1
 
         lda     tmp1
         jmp     addysp1
-

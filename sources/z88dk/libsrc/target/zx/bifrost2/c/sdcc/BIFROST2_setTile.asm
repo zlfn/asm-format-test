@@ -15,12 +15,12 @@ EXTERN asm_BIFROST2_setTile
 
 _BIFROST2_setTile:
 
-   ld hl,4
-	add hl,sp
-	ld e,(hl)       ; E = tile
-	dec hl
-	ld c,(hl)       ; C = py
-	dec hl
-	ld l,(hl)       ; L = px
-	
-	jp asm_BIFROST2_setTile
+        ld      hl, 4
+        add     hl, sp
+        ld      e,  (hl)        ; E = tile
+        dec     hl
+        ld      c, (hl)         ; C = py
+        dec     hl
+        ld      l, (hl)         ; L = px
+
+        jp      asm_BIFROST2_setTile

@@ -10,14 +10,14 @@
 ;
 
         SECTION code_clib
-	PUBLIC	lpt_ready
-	PUBLIC	_lpt_ready
-	
+        PUBLIC  lpt_ready
+        PUBLIC  _lpt_ready
+
 lpt_ready:
 _lpt_ready:
-	in	a,($b5)
-	bit	3,a
-	ld	hl,0
-	ret	nz
-	inc	l
-	ret
+        in      a,  ($b5)
+        bit     3,  a
+        ld      hl, 0
+        ret     nz
+        inc     l
+        ret

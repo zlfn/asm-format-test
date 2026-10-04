@@ -9,10 +9,10 @@
 ;       $Id: cpc_UnExo.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_UnExo
-        PUBLIC    _cpc_UnExo
-        EXTERN     asm_cpc_UnExo
+        SECTION code_clib
+        PUBLIC  cpc_UnExo
+        PUBLIC  _cpc_UnExo
+        EXTERN  asm_cpc_UnExo
 
 .cpc_UnExo
 ._cpc_UnExo
@@ -32,8 +32,7 @@ push hl
 push de
 push af
 
-	di
-        call asm_cpc_UnExo
-	ei
-	ret
-  
+        di
+        call    asm_cpc_UnExo
+        ei
+        ret

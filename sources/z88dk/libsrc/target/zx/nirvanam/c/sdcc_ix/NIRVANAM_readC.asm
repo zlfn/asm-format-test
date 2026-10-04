@@ -15,14 +15,14 @@ EXTERN asm_NIRVANAM_readC
 
 _NIRVANAM_readC:
 
-	ld hl,2
-	add hl,sp
-	ld c,(hl)
-	inc hl
-	ld b,(hl)       ; attr
-	inc hl
-	ld d,(hl)       ; lin
-	inc hl
-	ld e,(hl)       ; col
+        ld      hl, 2
+        add     hl, sp
+        ld      c,  (hl)
+        inc     hl
+        ld      b, (hl) ; attr
+        inc     hl
+        ld      d, (hl) ; lin
+        inc     hl
+        ld      e, (hl) ; col
 
-   jp asm_NIRVANAM_readC
+        jp      asm_NIRVANAM_readC

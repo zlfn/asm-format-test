@@ -10,10 +10,10 @@ EXTERN asm_zx_saddrpdown
 
 _zx_saddrpdown:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_zx_saddrpdown
+        push    hl
+        push    af
+
+        jp      asm_zx_saddrpdown

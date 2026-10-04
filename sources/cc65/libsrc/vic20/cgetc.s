@@ -4,11 +4,11 @@
 ; char cgetc (void);
 ;
 
-        .export         _cgetc
-        .import         cursor
+        .export _cgetc
+        .import cursor
 
-        .include        "cbm_kernal.inc"
-        .include        "vic20.inc"
+        .include "cbm_kernal.inc"
+        .include "vic20.inc"
 
 _cgetc: lda     KEY_COUNT       ; Get number of characters
         bne     L3              ; Jump if there are already chars waiting
@@ -28,10 +28,9 @@ L1:     lda     KEY_COUNT
 L2:     txa
         jsr     setcursor
 
-L3:     jsr     KBDREAD         ; Read char and return in A
+L3:     jsr     KBDREAD ; Read char and return in A
         ldx     #0
         rts
-
 
 ; Switch the cursor on or off
 
@@ -45,11 +44,11 @@ L3:     jsr     KBDREAD         ; Read char and return in A
         lda     CURS_STATE      ; Cursor currently displayed?
         beq     crs8            ; Jump if no
         ldy     CURS_X          ; Get the character column
-        lda     (SCREEN_PTR),y  ; Get character
+        lda     (SCREEN_PTR), y ; Get character
         eor     #$80
-        sta     (SCREEN_PTR),y  ; Store character back
+        sta     (SCREEN_PTR), y ; Store character back
         lda     CURS_COLOR
-        sta     (CRAM_PTR),y    ; Store color back
+        sta     (CRAM_PTR), y   ; Store color back
 crs8:   lda     #0
         sta     CURS_STATE      ; Cursor not displayed
 crs9:   rts

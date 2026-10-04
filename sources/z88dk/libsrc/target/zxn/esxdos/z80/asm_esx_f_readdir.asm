@@ -10,39 +10,38 @@ EXTERN __esxdos_error_mc
 
 asm_esx_f_readdir:
 
-   ; enter :  a = handle
-   ;         hl = dirent *
-   ;
-   ; exit  : success
-   ;
-   ;            hl = 0 if no more directory entries
-   ;               = 1 if directory entry returned
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl, ix
-   
+        ; enter :  a = handle
+        ;         hl = dirent *
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0 if no more directory entries
+        ;               = 1 if directory entry returned
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl, ix
+
 IF __SDCC_IY
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 ELSE
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 ENDIF
 
-   rst __ESX_RST_SYS
-   defb __ESX_F_READDIR
-   
-   ld l,a
-   ld h,0
-   
-   ret nc
-   jp __esxdos_error_mc
+        rst     __ESX_RST_SYS
+        defb    __ESX_F_READDIR
 
+        ld      l, a
+        ld      h, 0
+
+        ret     nc
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * F_READDIR ($a4) *

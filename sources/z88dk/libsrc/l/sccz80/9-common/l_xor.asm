@@ -11,14 +11,14 @@ PUBLIC l_xor
 
 l_xor:
 
-   ; "xor" HL and DE into HL
+        ; "xor" HL and DE into HL
 
-   ld a,l
-   xor e
-   ld l,a
-   
-   ld a,h
-   xor d
-   ld h,a
-   
-   ret
+        ld      a, l
+        xor     e
+        ld      l, a
+
+        ld      a, h
+        xor     d
+        ld      h, a
+
+        ret

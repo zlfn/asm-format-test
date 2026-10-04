@@ -10,14 +10,14 @@ EXTERN asm__strtou
 
 __strtou_:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
-   
-   jp asm__strtou
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      asm__strtou

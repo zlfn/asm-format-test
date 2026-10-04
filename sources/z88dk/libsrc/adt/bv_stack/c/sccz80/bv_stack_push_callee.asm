@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _bv_stack_push_callee
 defc _bv_stack_push_callee = bv_stack_push_callee
 ENDIF
-

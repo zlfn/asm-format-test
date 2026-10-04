@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; void *obstack_base(struct obstack *ob)
 ;
 ; Returns the address of the currently growing object.
@@ -23,4 +23,3 @@ IF __CLASSIC
 PUBLIC _obstack_base
 defc _obstack_base = obstack_base
 ENDIF
-

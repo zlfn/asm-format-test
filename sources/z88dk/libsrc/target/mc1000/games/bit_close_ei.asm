@@ -7,22 +7,21 @@
 ; Ensjo - 2013
 ;
 
-    SECTION code_clib
-    PUBLIC  bit_close_ei
-    PUBLIC  _bit_close_ei
-    EXTERN  bit_close
-    EXTERN  __bit_irqstatus
+        SECTION code_clib
+        PUBLIC  bit_close_ei
+        PUBLIC  _bit_close_ei
+        EXTERN  bit_close
+        EXTERN  __bit_irqstatus
 
 bit_close_ei:
 _bit_close_ei:
-    call    bit_close
-    push    hl
-    ld      hl, (__bit_irqstatus)
-    ex      (sp), hl
-    pop     af
+        call    bit_close
+        push    hl
+        ld      hl,   (__bit_irqstatus)
+        ex      (sp), hl
+        pop     af
 
-    ret     po
+        ret     po
 
-    ei
-    ret
-
+        ei
+        ret

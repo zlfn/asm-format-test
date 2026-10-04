@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; size_t strrspn(const char *str, const char *cset)
 ;
 ; The reverse of strspn()
@@ -36,67 +36,67 @@ EXTERN __str_locate_nul, l_neg_bc, asm_strchr, error_znc
 
 asm_strrspn:
 
-   ; enter : de = char *cset = matching set
-   ;         hl = char *str = string
-   ;
-   ; exit  : hl = position of last char in str not in cset
-   ;         bc = char *str = string
-   ;
-   ;         carry reset if all of str contains chars only from cset
-   ;
-   ; uses  : af, bc, hl
+        ; enter : de = char *cset = matching set
+        ;         hl = char *str = string
+        ;
+        ; exit  : hl = position of last char in str not in cset
+        ;         bc = char *str = string
+        ;
+        ;         carry reset if all of str contains chars only from cset
+        ;
+        ; uses  : af, bc, hl
 
-   push hl                     ; save str
+        push    hl      ; save str
 
-   call __str_locate_nul       ; hl points at terminating 0 in str
-   call l_neg_bc               ; bc = strlen(str) + 1
+        call    __str_locate_nul        ; hl points at terminating 0 in str
+        call    l_neg_bc                ; bc = strlen(str) + 1
 
-   ld a,(de)
-   or a
-   jr Z,empty_cset
+        ld      a, (de)
+        or      a
+        jr      Z, empty_cset
 
 loop:
 
-   dec bc                      ; position of next char in str
+        dec     bc      ; position of next char in str
 
-   ld a,b
-   or c
-   jr Z,all_in_cset
+        ld      a, b
+        or      c
+        jr      Z, all_in_cset
 
-   dec hl                      ; & next char in str to check
+        dec     hl      ; & next char in str to check
 
-   push bc
-   push hl
+        push    bc
+        push    hl
 
-   ; see if current char from string is in cset
+        ; see if current char from string is in cset
 
-   ld c,(hl)
+        ld      c, (hl)
 
-   ld hl,de                    ; hl = cset
+        ld      hl, de  ; hl = cset
 
-   call asm_strchr             ; carry reset if in cset
+        call    asm_strchr      ; carry reset if in cset
 
-   pop hl
-   pop bc
+        pop     hl
+        pop     bc
 
-   jr NC,loop                  ; loop if char in cset
+        jr      NC, loop        ; loop if char in cset
 
 not_in_cset:
 
-   ld hl,bc                    ; hl = char position
+        ld      hl, bc  ; hl = char position
 
-   pop bc                      ; bc = char *str
-   ret
+        pop     bc      ; bc = char *str
+        ret
 
 all_in_cset:
 
-   pop bc                      ; bc = char *str
-   jp error_znc
+        pop     bc      ; bc = char *str
+        jp      error_znc
 
 empty_cset:
 
-   ld hl,bc
-   dec hl                      ; hl = strlen(str)
-   
-   pop bc                      ; bc = char *str
-   ret
+        ld      hl, bc
+        dec     hl      ; hl = strlen(str)
+
+        pop     bc      ; bc = char *str
+        ret

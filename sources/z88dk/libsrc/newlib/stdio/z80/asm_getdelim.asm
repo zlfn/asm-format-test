@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Jan 2014
 ; ===============================================================
-; 
+;
 ; size_t getdelim(char **lineptr, size_t *n, int delimiter, FILE *stream)
 ;
 ; Reads characters from the stream up to and including the delimiter
@@ -38,48 +38,48 @@ EXTERN asm0_getdelim_unlocked, __stdio_lock_release
 
 asm_getdelim:
 
-   ; enter : ix = FILE *
-   ;         bc = int delimiter
-   ;         de = size_t *n
-   ;         hl = char **lineptr
-   ;
-   ; exit  : ix = FILE *
-   ;
-   ;         success
-   ;
-   ;            *lineptr = address of buffer
-   ;            *n       = size of buffer in bytes, including '\0'
-   ;
-   ;            hl = number of chars written to buffer (not including '\0')
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set
-   ;
-   ; uses  : all except ix
+        ; enter : ix = FILE *
+        ;         bc = int delimiter
+        ;         de = size_t *n
+        ;         hl = char **lineptr
+        ;
+        ; exit  : ix = FILE *
+        ;
+        ;         success
+        ;
+        ;            *lineptr = address of buffer
+        ;            *n       = size of buffer in bytes, including '\0'
+        ;
+        ;            hl = number of chars written to buffer (not including '\0')
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set
+        ;
+        ; uses  : all except ix
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF __CLIB_OPT_STDIO & $01
 
-   EXTERN __stdio_verify_valid_lock
+        EXTERN  __stdio_verify_valid_lock
 
-   call __stdio_verify_valid_lock
-   ret c
+        call    __stdio_verify_valid_lock
+        ret     c
 
 ELSE
 
-   EXTERN __stdio_lock_acquire, error_enolck_mc
+        EXTERN  __stdio_lock_acquire, error_enolck_mc
 
-   call __stdio_lock_acquire
-   jp c, error_enolck_mc
+        call    __stdio_lock_acquire
+        jp      c, error_enolck_mc
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   
-   call asm0_getdelim_unlocked
-   jp __stdio_lock_release
+
+        call    asm0_getdelim_unlocked
+        jp      __stdio_lock_release
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

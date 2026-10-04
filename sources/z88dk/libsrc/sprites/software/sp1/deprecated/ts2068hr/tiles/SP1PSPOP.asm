@@ -18,32 +18,32 @@ PUBLIC SP1PSPOP
 
 .SP1PSPOP
 
-   ld a,(hl)
-   ld iyl,a
-   inc hl
-   ld a,(hl)
-   ld iyh,a                  ; iy = & bounds rectangle
-   inc hl
-   ld a,(hl)                 ; a = flags
-   inc hl
-   ld b,(hl)                 ; b = x coordinate
-   inc hl
-   ld c,(hl)                 ; c = y coordinate
-   inc hl
-   push hl
-   ex de,hl                  ; hl = & string
-   ld e,a                    ; e = flags
-   exx
-   pop hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)                 ; de' = & struct sp1_update
-   inc hl
-   ld a,(hl)
-   ld ixl,a
-   inc hl
-   ld a,(hl)
-   ld ixh,a                  ; ix = visit function
-   exx
+        ld      a,   (hl)
+        ld      iyl, a
+        inc     hl
+        ld      a,   (hl)
+        ld      iyh, a  ; iy = & bounds rectangle
+        inc     hl
+        ld      a, (hl) ; a = flags
+        inc     hl
+        ld      b, (hl) ; b = x coordinate
+        inc     hl
+        ld      c, (hl) ; c = y coordinate
+        inc     hl
+        push    hl
+        ex      de, hl  ; hl = & string
+        ld      e,  a   ; e = flags
+        exx
+        pop     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl) ; de' = & struct sp1_update
+        inc     hl
+        ld      a,   (hl)
+        ld      ixl, a
+        inc     hl
+        ld      a,   (hl)
+        ld      ixh, a  ; ix = visit function
+        exx
 
-   ret
+        ret

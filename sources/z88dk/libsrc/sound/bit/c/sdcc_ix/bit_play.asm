@@ -10,10 +10,10 @@ EXTERN _bit_play_fastcall
 
 _bit_play:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _bit_play_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _bit_play_fastcall

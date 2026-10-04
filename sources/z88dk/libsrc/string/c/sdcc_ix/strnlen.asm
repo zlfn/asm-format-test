@@ -10,12 +10,12 @@ EXTERN asm_strnlen
 
 _strnlen:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   
-   jp asm_strnlen
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_strnlen

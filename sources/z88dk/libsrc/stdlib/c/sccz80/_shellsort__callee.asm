@@ -10,11 +10,11 @@ EXTERN asm_shellsort
 
 _shellsort__callee:
 
-   pop af
-   pop ix
-   pop de
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_shellsort
+        pop     af
+        pop     ix
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_shellsort

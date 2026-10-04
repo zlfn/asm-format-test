@@ -24,16 +24,16 @@
 SECTION_RODATA
 
 ; 16777216.0f - used in ff_float_to_fixed24()
-pf_1_24: times 4 dd 0x4B800000
+pf_1_24: times  4 dd 0x4B800000
 
 ; used in ff_ac3_compute_mantissa_size()
 cextern ac3_bap_bits
 pw_bap_mul1: dw 21846, 21846, 0, 32768, 21846, 21846, 0, 32768
-pw_bap_mul2: dw 5, 7, 0, 7, 5, 7, 0, 7
+pw_bap_mul2: dw 5,     7,     0, 7,     5,     7,     0, 7
 
 ; used in ff_ac3_extract_exponents()
 cextern pd_1
-pd_151: times 4 dd 151
+pd_151: times   4 dd 151
 
 SECTION .text
 
@@ -43,24 +43,24 @@ SECTION .text
 
 %macro AC3_EXPONENT_MIN 0
 cglobal ac3_exponent_min, 3, 4, 1, exp, reuse_blks, expn, offset
-    shl  reuse_blksd, 8
-    jz .end
-    LOOP_ALIGN
+        shl     reuse_blksd, 8
+        jz      .end
+        LOOP_ALIGN
 .nextexp:
-    mov      offsetq, reuse_blksq
-    mova          m0, [expq+offsetq]
-    sub      offsetq, 256
-    LOOP_ALIGN
+        mov     offsetq, reuse_blksq
+        mova    m0, [expq+offsetq]
+        sub     offsetq, 256
+        LOOP_ALIGN
 .nextblk:
-    pminub        m0, [expq+offsetq]
-    sub      offsetq, 256
-    jae .nextblk
-    mova      [expq], m0
-    add         expq, mmsize
-    sub        expnd, mmsize
-    jg .nextexp
+        pminub  m0, [expq+offsetq]
+        sub     offsetq, 256
+        jae     .nextblk
+        mova    [expq], m0
+        add     expq,   mmsize
+        sub     expnd,  mmsize
+        jg      .nextexp
 .end:
-    RET
+        RET
 %endmacro
 
 %define LOOP_ALIGN ALIGN 16
@@ -76,81 +76,81 @@ AC3_EXPONENT_MIN
 
 INIT_XMM sse2
 cglobal float_to_fixed24, 3, 3, 9, dst, src, len
-    movaps     m0, [pf_1_24]
-    shl      lenq, 2
-    add      srcq, lenq
-    add      dstq, lenq
-    neg      lenq
+        movaps  m0,   [pf_1_24]
+        shl     lenq, 2
+        add     srcq, lenq
+        add     dstq, lenq
+        neg     lenq
 .loop:
-    movaps     m1, [srcq+lenq    ]
-    movaps     m2, [srcq+lenq+16 ]
-    movaps     m3, [srcq+lenq+32 ]
-    movaps     m4, [srcq+lenq+48 ]
+        movaps  m1, [srcq+lenq    ]
+        movaps  m2, [srcq+lenq+16 ]
+        movaps  m3, [srcq+lenq+32 ]
+        movaps  m4, [srcq+lenq+48 ]
 %ifdef m8
-    movaps     m5, [srcq+lenq+64 ]
-    movaps     m6, [srcq+lenq+80 ]
-    movaps     m7, [srcq+lenq+96 ]
-    movaps     m8, [srcq+lenq+112]
+        movaps  m5, [srcq+lenq+64 ]
+        movaps  m6, [srcq+lenq+80 ]
+        movaps  m7, [srcq+lenq+96 ]
+        movaps  m8, [srcq+lenq+112]
 %endif
-    mulps      m1, m0
-    mulps      m2, m0
-    mulps      m3, m0
-    mulps      m4, m0
+        mulps   m1, m0
+        mulps   m2, m0
+        mulps   m3, m0
+        mulps   m4, m0
 %ifdef m8
-    mulps      m5, m0
-    mulps      m6, m0
-    mulps      m7, m0
-    mulps      m8, m0
+        mulps   m5, m0
+        mulps   m6, m0
+        mulps   m7, m0
+        mulps   m8, m0
 %endif
-    cvtps2dq   m1, m1
-    cvtps2dq   m2, m2
-    cvtps2dq   m3, m3
-    cvtps2dq   m4, m4
+        cvtps2dq m1, m1
+        cvtps2dq m2, m2
+        cvtps2dq m3, m3
+        cvtps2dq m4, m4
 %ifdef m8
-    cvtps2dq   m5, m5
-    cvtps2dq   m6, m6
-    cvtps2dq   m7, m7
-    cvtps2dq   m8, m8
+        cvtps2dq m5, m5
+        cvtps2dq m6, m6
+        cvtps2dq m7, m7
+        cvtps2dq m8, m8
 %endif
-    movdqa  [dstq+lenq    ], m1
-    movdqa  [dstq+lenq+16 ], m2
-    movdqa  [dstq+lenq+32 ], m3
-    movdqa  [dstq+lenq+48 ], m4
+        movdqa  [dstq+lenq    ], m1
+        movdqa  [dstq+lenq+16 ], m2
+        movdqa  [dstq+lenq+32 ], m3
+        movdqa  [dstq+lenq+48 ], m4
 %ifdef m8
-    movdqa  [dstq+lenq+64 ], m5
-    movdqa  [dstq+lenq+80 ], m6
-    movdqa  [dstq+lenq+96 ], m7
-    movdqa  [dstq+lenq+112], m8
-    add      lenq, 128
+        movdqa  [dstq+lenq+64 ], m5
+        movdqa  [dstq+lenq+80 ], m6
+        movdqa  [dstq+lenq+96 ], m7
+        movdqa  [dstq+lenq+112], m8
+        add     lenq, 128
 %else
-    add      lenq, 64
+        add     lenq, 64
 %endif
-    jl .loop
-    RET
+        jl      .loop
+        RET
 
 INIT_YMM avx
 cglobal float_to_fixed24, 3, 3, 5, dst, src, len
-    vbroadcastf128 m0, [pf_1_24]
-    shl      lenq, 2
-    add      srcq, lenq
-    add      dstq, lenq
-    neg      lenq
+        vbroadcastf128 m0, [pf_1_24]
+        shl     lenq, 2
+        add     srcq, lenq
+        add     dstq, lenq
+        neg     lenq
 .loop:
-    mulps      m1, m0, [srcq+lenq+mmsize*0]
-    mulps      m2, m0, [srcq+lenq+mmsize*1]
-    mulps      m3, m0, [srcq+lenq+mmsize*2]
-    mulps      m4, m0, [srcq+lenq+mmsize*3]
-    cvtps2dq   m1, m1
-    cvtps2dq   m2, m2
-    cvtps2dq   m3, m3
-    cvtps2dq   m4, m4
-    mova  [dstq+lenq+mmsize*0], m1
-    mova  [dstq+lenq+mmsize*1], m2
-    mova  [dstq+lenq+mmsize*2], m3
-    mova  [dstq+lenq+mmsize*3], m4
-    add      lenq, mmsize*4
-    jl .loop
-    RET
+        mulps   m1, m0, [srcq+lenq+mmsize*0]
+        mulps   m2, m0, [srcq+lenq+mmsize*1]
+        mulps   m3, m0, [srcq+lenq+mmsize*2]
+        mulps   m4, m0, [srcq+lenq+mmsize*3]
+        cvtps2dq m1, m1
+        cvtps2dq m2, m2
+        cvtps2dq m3, m3
+        cvtps2dq m4, m4
+        mova    [dstq+lenq+mmsize*0], m1
+        mova    [dstq+lenq+mmsize*1], m2
+        mova    [dstq+lenq+mmsize*2], m3
+        mova    [dstq+lenq+mmsize*3], m4
+        add     lenq, mmsize*4
+        jl      .loop
+        RET
 
 ;------------------------------------------------------------------------------
 ; int ff_ac3_compute_mantissa_size(const uint16_t mant_cnt[6][16])
@@ -158,38 +158,38 @@ cglobal float_to_fixed24, 3, 3, 5, dst, src, len
 
 INIT_XMM sse2
 cglobal ac3_compute_mantissa_size, 1, 1, 5, mant_cnt
-    movdqa      m0, [mant_cntq      ]
-    movdqa      m1, [mant_cntq+ 1*16]
-    movdqa      m4, [pw_bap_mul1]
-    paddw       m0, [mant_cntq+ 2*16]
-    paddw       m1, [mant_cntq+ 3*16]
-    movq        m2, [mant_cntq     +2]
-    paddw       m0, [mant_cntq+ 4*16]
-    paddw       m1, [mant_cntq+ 5*16]
-    movhps      m2, [mant_cntq+1*32+2]
-    paddw       m0, [mant_cntq+ 6*16]
-    paddw       m1, [mant_cntq+ 7*16]
-    paddw       m0, [mant_cntq+ 8*16]
-    pmulhuw     m2, m4
-    paddw       m1, [mant_cntq+ 9*16]
-    paddw       m0, [mant_cntq+10*16]
-    paddw       m1, [mant_cntq+11*16]
-    pmaddwd     m0, [ac3_bap_bits   ]
-    pmaddwd     m1, [ac3_bap_bits+16]
-    paddd       m0, m1
-    movq        m1, [mant_cntq+2*32+2]
-    movhps      m1, [mant_cntq+3*32+2]
-    movq        m3, [mant_cntq+4*32+2]
-    movhps      m3, [mant_cntq+5*32+2]
-    pmulhuw     m1, m4
-    pmulhuw     m3, m4
-    paddw       m1, m2
-    paddw       m1, m3
-    pmaddwd     m1, [pw_bap_mul2]
-    paddd       m0, m1
-    HADDD       m0, m1
-    movd       eax, m0
-    RET
+        movdqa  m0,  [mant_cntq      ]
+        movdqa  m1,  [mant_cntq+ 1*16]
+        movdqa  m4,  [pw_bap_mul1]
+        paddw   m0,  [mant_cntq+ 2*16]
+        paddw   m1,  [mant_cntq+ 3*16]
+        movq    m2,  [mant_cntq     +2]
+        paddw   m0,  [mant_cntq+ 4*16]
+        paddw   m1,  [mant_cntq+ 5*16]
+        movhps  m2,  [mant_cntq+1*32+2]
+        paddw   m0,  [mant_cntq+ 6*16]
+        paddw   m1,  [mant_cntq+ 7*16]
+        paddw   m0,  [mant_cntq+ 8*16]
+        pmulhuw m2,  m4
+        paddw   m1,  [mant_cntq+ 9*16]
+        paddw   m0,  [mant_cntq+10*16]
+        paddw   m1,  [mant_cntq+11*16]
+        pmaddwd m0,  [ac3_bap_bits   ]
+        pmaddwd m1,  [ac3_bap_bits+16]
+        paddd   m0,  m1
+        movq    m1,  [mant_cntq+2*32+2]
+        movhps  m1,  [mant_cntq+3*32+2]
+        movq    m3,  [mant_cntq+4*32+2]
+        movhps  m3,  [mant_cntq+5*32+2]
+        pmulhuw m1,  m4
+        pmulhuw m3,  m4
+        paddw   m1,  m2
+        paddw   m1,  m3
+        pmaddwd m1,  [pw_bap_mul2]
+        paddd   m0,  m1
+        HADDD   m0,  m1
+        movd    eax, m0
+        RET
 
 ;------------------------------------------------------------------------------
 ; void ff_ac3_extract_exponents(uint8_t *exp, const int32_t *coef, int nb_coefs)
@@ -197,49 +197,49 @@ cglobal ac3_compute_mantissa_size, 1, 1, 5, mant_cnt
 
 %macro PABSD 1-2 ; src/dst, unused
 %if cpuflag(ssse3)
-    pabsd    %1, %1
+        pabsd   %1, %1
 %else ; src/dst, tmp
-    pxor     %2, %2
-    pcmpgtd  %2, %1
-    pxor     %1, %2
-    psubd    %1, %2
+        pxor    %2, %2
+        pcmpgtd %2, %1
+        pxor    %1, %2
+        psubd   %1, %2
 %endif
 %endmacro
 
 %macro AC3_EXTRACT_EXPONENTS 0
 cglobal ac3_extract_exponents, 3, 3, 4, exp, coef, len
-    movsxdifnidn lenq, lend
-    add     expq, lenq
-    lea    coefq, [coefq+4*lenq]
-    neg     lenq
-    mova      m2, [pd_1]
-    mova      m3, [pd_151]
+        movsxdifnidn lenq, lend
+        add     expq,  lenq
+        lea     coefq, [coefq+4*lenq]
+        neg     lenq
+        mova    m2, [pd_1]
+        mova    m3, [pd_151]
 .loop:
 %if cpuflag(ssse3)
-    pabsd     m0, [coefq+4*lenq]
+        pabsd   m0, [coefq+4*lenq]
 %else
-    ; move 4 32-bit coefs to xmm0
-    mova      m0, [coefq+4*lenq]
-    ; absolute value
-    PABSD     m0, m1
+        ; move 4 32-bit coefs to xmm0
+        mova    m0, [coefq+4*lenq]
+        ; absolute value
+        PABSD   m0, m1
 %endif
-    ; convert to float and extract exponents
-    pslld     m0, 1
-    por       m0, m2
-    cvtdq2ps  m1, m0
-    psrld     m1, 23
-    psubd     m0, m3, m1
-    ; move the lowest byte in each of 4 dwords to the low dword
-    ; NOTE: We cannot just extract the low bytes with pshufb because the dword
-    ;       result for 16777215 is -1 due to float inaccuracy. Using packuswb
-    ;       clips this to 0, which is the correct exponent.
-    packssdw  m0, m0
-    packuswb  m0, m0
-    movd  [expq+lenq], m0
+        ; convert to float and extract exponents
+        pslld   m0, 1
+        por     m0, m2
+        cvtdq2ps m1, m0
+        psrld   m1, 23
+        psubd   m0, m3, m1
+        ; move the lowest byte in each of 4 dwords to the low dword
+        ; NOTE: We cannot just extract the low bytes with pshufb because the dword
+        ;       result for 16777215 is -1 due to float inaccuracy. Using packuswb
+        ;       clips this to 0, which is the correct exponent.
+        packssdw m0, m0
+        packuswb m0, m0
+        movd    [expq+lenq], m0
 
-    add     lenq, 4
-    jl .loop
-    RET
+        add     lenq, 4
+        jl      .loop
+        RET
 %endmacro
 
 %if HAVE_SSE2_EXTERNAL

@@ -8,9 +8,9 @@ EXTERN asm_dostm_from_tm
 
 _dostm_from_tm_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_dostm_from_tm
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_dostm_from_tm

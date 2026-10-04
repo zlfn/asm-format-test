@@ -19,8 +19,6 @@
 ;
 ;
 
-        .include        "mouse-kernel.inc"
+        .include "mouse-kernel.inc"
 
-        _mouse_setbox   := mouse_setbox         ; Call driver directly
-
-
+        _mouse_setbox   := mouse_setbox ; Call driver directly

@@ -21,27 +21,27 @@ ENTRY(__kernel_vsyscall);
  */
 VERSION
 {
-	LINUX_2.6 {
-	global:
+        LINUX_2.6 {
+global:
 #ifdef CONFIG_COMPAT_32BIT_TIME
-		__vdso_clock_gettime;
-		__vdso_gettimeofday;
-		__vdso_time;
-		__vdso_clock_getres;
+        __vdso_clock_gettime;
+        __vdso_gettimeofday;
+        __vdso_time;
+        __vdso_clock_getres;
 #endif /* CONFIG_COMPAT_32BIT_TIME */
-		__vdso_clock_gettime64;
-		__vdso_clock_getres_time64;
-		__vdso_getcpu;
+        __vdso_clock_gettime64;
+        __vdso_clock_getres_time64;
+        __vdso_getcpu;
 #ifdef CONFIG_FUTEX_ROBUST_UNLOCK
-		__vdso_futex_robust_list32_try_unlock;
+        __vdso_futex_robust_list32_try_unlock;
 #endif
-	};
+        };
 
-	LINUX_2.5 {
-	global:
-		__kernel_vsyscall;
-		__kernel_sigreturn;
-		__kernel_rt_sigreturn;
-	local: *;
-	};
+        LINUX_2.5 {
+global:
+        __kernel_vsyscall;
+        __kernel_sigreturn;
+        __kernel_rt_sigreturn;
+local:  *;
+        };
 }

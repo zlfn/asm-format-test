@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_VDPType
 defc _SMS_VDPType = SMS_VDPType
 ENDIF
-

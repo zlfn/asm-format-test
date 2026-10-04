@@ -9,17 +9,17 @@ EXTERN asm_sp1_IterateSprChar
 
 _sp1_IterateSprChar_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
 
 l0_sp1_IterateSprChar_callee:
 
-   push bc
-   ex (sp),ix
-   
-   call asm_sp1_IterateSprChar
-   
-   pop ix
-   ret
+        push    bc
+        ex      (sp), ix
+
+        call    asm_sp1_IterateSprChar
+
+        pop     ix
+        ret

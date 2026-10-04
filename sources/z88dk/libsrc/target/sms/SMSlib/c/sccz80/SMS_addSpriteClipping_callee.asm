@@ -9,18 +9,17 @@ EXTERN asm_SMSlib_addSpriteClipping
 
 SMS_addSpriteClipping_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
-   
-   ld h,l
-   jp asm_SMSlib_addSpriteClipping
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
+
+        ld      h, l
+        jp      asm_SMSlib_addSpriteClipping
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _SMS_addSpriteClipping_callee
 defc _SMS_addSpriteClipping_callee = SMS_addSpriteClipping_callee
 ENDIF
-

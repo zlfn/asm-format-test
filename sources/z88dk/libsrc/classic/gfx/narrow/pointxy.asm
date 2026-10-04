@@ -1,9 +1,9 @@
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
-    SECTION code_graphics
-    PUBLIC  pointxy
+        SECTION code_graphics
+        PUBLIC  pointxy
 
-    EXTERN  pixeladdress
+        EXTERN  pixeladdress
 
 ;
 ;    $Id: pointxy.asm $
@@ -25,21 +25,21 @@
 ;  af....../.... different
 ;
 pointxy:
-    push    bc
-    push    de
-    push    hl
+        push    bc
+        push    de
+        push    hl
 
-    call    pixeladdress
-    ld      b, a
-    ld      a, 1
-    jr      z, test_pixel               ; pixel is at bit 0...
+        call    pixeladdress
+        ld      b, a
+        ld      a, 1
+        jr      z, test_pixel   ; pixel is at bit 0...
 pixel_position:
-    rlca
-    djnz    pixel_position
+        rlca
+        djnz    pixel_position
 test_pixel:
-    ex      de, hl
-    and     (hl)
-    pop     hl
-    pop     de
-    pop     bc
-    ret
+        ex      de, hl
+        and     (hl)
+        pop     hl
+        pop     de
+        pop     bc
+        ret

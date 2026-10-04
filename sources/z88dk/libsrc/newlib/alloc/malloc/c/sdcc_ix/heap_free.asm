@@ -16,15 +16,15 @@ EXTERN asm_heap_free
 
 _heap_free:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp asm_heap_free
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_heap_free
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -35,7 +35,7 @@ PUBLIC _heap_free
 EXTERN _heap_free_unlocked
 
 defc _heap_free = _heap_free_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -10,11 +10,11 @@ EXTERN asm0_zx_scroll_up
 
 _zx_scroll_up_callee:
 
-   pop hl
-   ex (sp),hl
-   
-   ld e,l
-   ld d,0
-   ld l,h
+        pop     hl
+        ex      (sp), hl
 
-   jp asm0_zx_scroll_up
+        ld      e, l
+        ld      d, 0
+        ld      l, h
+
+        jp      asm0_zx_scroll_up

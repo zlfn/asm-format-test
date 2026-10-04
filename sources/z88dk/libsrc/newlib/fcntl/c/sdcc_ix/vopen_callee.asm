@@ -10,16 +10,16 @@ EXTERN asm_vopen
 
 _vopen_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
 
 l0_vopen_callee:
 
-   push ix
-   
-   call asm_vopen
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_vopen
+
+        pop     ix
+        ret

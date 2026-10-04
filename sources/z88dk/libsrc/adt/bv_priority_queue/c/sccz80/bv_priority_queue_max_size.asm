@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _bv_priority_queue_max_size
 defc _bv_priority_queue_max_size = bv_priority_queue_max_size
 ENDIF
-

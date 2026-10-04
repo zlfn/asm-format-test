@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ;  VOID *
@@ -27,18 +27,17 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMemZeroMem)
 ASM_PFX(InternalMemZeroMem):
-    push    rdi
-    push    rcx       ; push Buffer
-    xor     rax, rax  ; rax = 0
-    mov     rdi, rcx  ; rdi = Buffer
-    mov     rcx, rdx  ; rcx = Count
-    shr     rcx, 3    ; rcx = rcx / 8
-    and     rdx, 7    ; rdx = rdx & 7
-    cld
-    rep     stosq
-    mov     rcx, rdx  ; rcx = rdx
-    rep     stosb
-    pop     rax       ; rax = Buffer
-    pop     rdi
-    ret
-
+        push    rdi
+        push    rcx             ; push Buffer
+        xor     rax, rax        ; rax = 0
+        mov     rdi, rcx        ; rdi = Buffer
+        mov     rcx, rdx        ; rcx = Count
+        shr     rcx, 3          ; rcx = rcx / 8
+        and     rdx, 7          ; rdx = rdx & 7
+        cld
+        rep     stosq
+        mov     rcx, rdx        ; rcx = rdx
+        rep     stosb
+        pop     rax             ; rax = Buffer
+        pop     rdi
+        ret

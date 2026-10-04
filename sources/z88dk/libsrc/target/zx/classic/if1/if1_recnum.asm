@@ -12,20 +12,17 @@
 ;       $Id: if1_recnum.asm $
 ;
 
-
-    SECTION code_clib
-    PUBLIC  if1_recnum
-    PUBLIC  _if1_recnum
-
+        SECTION code_clib
+        PUBLIC  if1_recnum
+        PUBLIC  _if1_recnum
 
 if1_recnum:
 _if1_recnum:
 
 ; __FASTCALL__
-    rr      d
-    rr      e
-    rr      h
-    ld      l, h
-    ld      h, e
-    ret
-
+        rr      d
+        rr      e
+        rr      h
+        ld      l, h
+        ld      h, e
+        ret

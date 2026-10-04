@@ -20,16 +20,16 @@ EXTERN ide_wait_ready
 ; initialize the ide drive
 
 .ide_init
-    ld a,00000001b              ;select the CF 8-bit interface feature
-    out (__IO_CF_IDE_FEATURE),a
+        ld      a, 00000001b    ;select the CF 8-bit interface feature
+        out     (__IO_CF_IDE_FEATURE), a
 
-    ld a,__IDE_CMD_FEATURE      ;set the feature
-    out (__IO_CF_IDE_COMMAND),a
+        ld      a, __IDE_CMD_FEATURE    ;set the feature
+        out     (__IO_CF_IDE_COMMAND), a
 
-    ld a,11100000b              ;select the master device, LBA mode
-    out (__IO_CF_IDE_HEAD),a
+        ld      a, 11100000b    ;select the master device, LBA mode
+        out     (__IO_CF_IDE_HEAD), a
 
-    jp ide_wait_ready           ;carry set on return = operation ok
+        jp      ide_wait_ready  ;carry set on return = operation ok
 
 ELSE
 
@@ -43,8 +43,8 @@ EXTERN ide_write_byte
 ; initialize the ide drive
 
 .ide_init
-    ld de,__IO_PIO_IDE_HEAD<<8|11100000b
-    call ide_write_byte         ;select the master device, LBA mode
-    jp ide_wait_ready           ;carry set on return = operation ok
+        ld      de, __IO_PIO_IDE_HEAD<<8|11100000b
+        call    ide_write_byte  ;select the master device, LBA mode
+        jp      ide_wait_ready  ;carry set on return = operation ok
 
 ENDIF

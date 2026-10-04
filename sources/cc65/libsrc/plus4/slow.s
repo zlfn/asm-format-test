@@ -5,10 +5,9 @@
 ; /* Switch the CPU into single clock mode. */
 ;
 
-        .export         _slow
+        .export _slow
 
-        .include        "plus4.inc"
-
+        .include "plus4.inc"
 
 .proc   _slow
 
@@ -18,5 +17,3 @@
         rts
 
 .endproc
-
-

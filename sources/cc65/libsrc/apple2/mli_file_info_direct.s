@@ -2,9 +2,9 @@
 ; Colin Leroy-Mira, 2023 <colin@colino.net>
 ;
 
-        .export         mli_file_info_direct
-        .include        "zeropage.inc"
-        .include        "mli.inc"
+        .export mli_file_info_direct
+        .include "zeropage.inc"
+        .include "mli.inc"
 
         ; Calls ProDOS MLI GET_FILE_INFO on the ProDOS style
         ; filename stored on top of stack

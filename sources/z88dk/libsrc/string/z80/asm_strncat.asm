@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; char *strncat(char * restrict s1, const char * restrict s2, size_t n)
 ;
 ; Append at most n chars from string s2 to the end of string s1,
@@ -22,64 +22,64 @@ EXTERN __str_locate_nul
 
 asm_strncat:
 
-   ; enter : hl = char *s2 = src
-   ;         de = char *s1 = dst
-   ;         bc = size_t n
-   ;
-   ; exit  : hl = char *s1 = dst
-   ;         de = ptr in s1 to terminating 0
-   ;         carry set if all of s2 not appended
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : hl = char *s2 = src
+        ;         de = char *s1 = dst
+        ;         bc = size_t n
+        ;
+        ; exit  : hl = char *s1 = dst
+        ;         de = ptr in s1 to terminating 0
+        ;         carry set if all of s2 not appended
+        ;
+        ; uses  : af, bc, de, hl
 
-   ld a,b
-   or c
-   jr Z,zero_n
+        ld      a, b
+        or      c
+        jr      Z, zero_n
 
 asm0_strncat:
-   push de                     ; save dst
+        push    de      ; save dst
 
-   push bc
-   ex de,hl
-   call __str_locate_nul       ; a = 0
-   ex de,hl
-   pop bc
+        push    bc
+        ex      de, hl
+        call    __str_locate_nul        ; a = 0
+        ex      de, hl
+        pop     bc
 
-loop:                          ; append src to dst
+loop:           ; append src to dst
 
 IF __CPU_INTEL__ || __CPU_GBZ80__
-   ld a,(hl)
-   and a
-   jr Z,done
+        ld      a, (hl)
+        and     a
+        jr      Z, done
 
-   ld (de),a
-   inc hl
-   inc de
+        ld      (de), a
+        inc     hl
+        inc     de
 
-   dec bc
-   ld a,b
-   or c
-   jr NZ,loop
+        dec     bc
+        ld      a, b
+        or      c
+        jr      NZ, loop
 
 ELSE
-   cp (hl)
-   jr Z,done
+        cp      (hl)
+        jr      Z, done
 
-   ldi
-   jp PE,loop
+        ldi
+        jp      PE, loop
 
 ENDIF
 
-   scf
+        scf
 
 done:
-   ld (de),a                   ; terminate dst
+        ld      (de), a ; terminate dst
 
-   pop hl
-   ret
+        pop     hl
+        ret
 
 zero_n:
-   ld hl,de
+        ld      hl, de
 
-   scf
-   ret
+        scf
+        ret

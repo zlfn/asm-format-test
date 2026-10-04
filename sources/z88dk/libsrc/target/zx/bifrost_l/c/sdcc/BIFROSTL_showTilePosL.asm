@@ -15,10 +15,10 @@ EXTERN asm_BIFROSTL_showTilePosL
 
 _BIFROSTL_showTilePosL:
 
-   ld hl,2
-	add hl,sp
-	ld d,(hl)       ; D = row
-	inc hl
-	ld e,(hl)       ; E = col
-	
-	jp asm_BIFROSTL_showTilePosL
+        ld      hl, 2
+        add     hl, sp
+        ld      d,  (hl)        ; D = row
+        inc     hl
+        ld      e, (hl)         ; E = col
+
+        jp      asm_BIFROSTL_showTilePosL

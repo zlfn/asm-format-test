@@ -10,10 +10,10 @@ EXTERN asm_atoi
 
 _atoi:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_atoi
+        push    hl
+        push    af
+
+        jp      asm_atoi

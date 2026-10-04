@@ -8,16 +8,16 @@
 ; Sets file flags in A
 ;
 
-        .export         checkferror
-        .importzp       ptr1
+        .export checkferror
+        .importzp ptr1
 
-        .include        "_file.inc"
+        .include "_file.inc"
 
 checkferror:
         ldy     #_FILE::f_flags
-        lda     (ptr1),y
+        lda     (ptr1), y
         tax
-        and     #(_FOPEN|_FERROR|_FEOF); Check for file open, error/eof
+        and     #(_FOPEN|_FERROR|_FEOF) ; Check for file open, error/eof
         tay
         txa
         cpy     #_FOPEN

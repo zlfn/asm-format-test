@@ -5,9 +5,9 @@
 ; unsigned char wherey (void);
 ;
 
-        .export         _wherey
+        .export _wherey
 
-        .include        "agat.inc"
+        .include "agat.inc"
 
 _wherey:
         lda     CV

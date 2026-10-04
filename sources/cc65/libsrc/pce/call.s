@@ -5,8 +5,8 @@
 ; 2018-02-28, Greg King
 ;
 
-        .export         callax
-        .importzp       ptr1
+        .export callax
+        .importzp ptr1
 
 callax: sta     ptr1
         stx     ptr1+1

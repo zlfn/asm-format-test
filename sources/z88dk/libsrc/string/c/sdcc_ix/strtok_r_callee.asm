@@ -10,10 +10,10 @@ EXTERN asm_strtok_r
 
 _strtok_r_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
-   
-   jp asm_strtok_r
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
+
+        jp      asm_strtok_r

@@ -8,25 +8,23 @@
 ; Marco van den Heuvel, 2010-01-22
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "em-kernel.inc"
-        .include        "em-error.inc"
+        .include "em-kernel.inc"
+        .include "em-error.inc"
 
-
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c64_vdc_emd
+        module_header _c64_vdc_emd
 
 ; Driver signature
 
-        .byte   $65, $6d, $64           ; "emd"
-        .byte   EMD_API_VERSION         ; EM API version number
+        .byte   $65, $6d, $64   ; "emd"
+        .byte   EMD_API_VERSION ; EM API version number
 
 ; Library reference
 
@@ -59,12 +57,12 @@ VDC_DATA          = 31
 
 .data
 
-pagecount:      .word  64                  ; $0000-$3fff as 16k default
-curpage:        .word  $ffff               ; currently mapped-in page (invalid)
+pagecount: .word 64     ; $0000-$3fff as 16k default
+curpage:   .word $ffff  ; currently mapped-in page (invalid)
 
 .bss
 
-window:         .res    256                ; memory window
+window: .res    256     ; memory window
 
 .code
 
@@ -102,18 +100,18 @@ INSTALL:
         jsr     vdcgetbyte
         sta     tmp2
 
-        lda     #$55            ; write $55 here
+        lda     #$55    ; write $55 here
         ldy     #ptr1
-        jsr     test64k         ; read it here and there
-        lda     #$aa            ; write $aa here
+        jsr     test64k ; read it here and there
+        lda     #$aa    ; write $aa here
         ldy     #ptr2
-        jsr     test64k         ; read it here and there
+        jsr     test64k ; read it here and there
 
         jsr     settestadr1
         lda     tmp2
         jsr     vdcputbyte      ; restore original value of test byte
 
-        lda     ptr1            ; do bytes match?
+        lda     ptr1    ; do bytes match?
         cmp     ptr1+1
         bne     @have64k
         lda     ptr2
@@ -143,24 +141,24 @@ test64k:
         sta     ptr3+1
         jsr     settestadr1
         lda     tmp1
-        jsr     vdcputbyte              ; write $55
+        jsr     vdcputbyte      ; write $55
         jsr     settestadr1
-        jsr     vdcgetbyte              ; read here
+        jsr     vdcgetbyte      ; read here
         pha
         jsr     settestadr2
-        jsr     vdcgetbyte              ; and there
+        jsr     vdcgetbyte      ; and there
         ldy     #1
-        sta     (ptr3),y
+        sta     (ptr3), y
         pla
         dey
-        sta     (ptr3),y
+        sta     (ptr3), y
         rts
 
 settestadr1:
-        ldy     #$02                    ; test page 2 (here)
+        ldy     #$02    ; test page 2 (here)
         .byte   $2c
 settestadr2:
-        ldy     #$42                    ; or page 64+2 (there)
+        ldy     #$42    ; or page 64+2 (there)
         lda     #0
         jmp     vdcsetsrcaddr
 
@@ -210,17 +208,17 @@ MAP:    sta     curpage
 transferin:
         lda     ptr1
         ldy     ptr1+1
-        jsr     vdcsetsrcaddr           ; set source address in VDC
+        jsr     vdcsetsrcaddr   ; set source address in VDC
         ldy     #0
         ldx     #VDC_DATA
         stx     VDC_ADDR_REG
 @L0:    bit     VDC_ADDR_REG
         bpl     @L0
-        lda     VDC_DATA_REG            ; get 2 bytes at a time to speed-up
-        sta     (ptr2),y                ; (in fact up to 8 bytes could be fetched with special VDC config)
+        lda     VDC_DATA_REG    ; get 2 bytes at a time to speed-up
+        sta     (ptr2), y       ; (in fact up to 8 bytes could be fetched with special VDC config)
         iny
         lda     VDC_DATA_REG
-        sta     (ptr2),y
+        sta     (ptr2), y
         iny
         bne     @L0
         rts
@@ -229,16 +227,16 @@ transferin:
 ; USE: Tell the driver that the window is now associated with a given page.
 
 USE:    sta     curpage
-        stx     curpage+1               ; Remember the page
+        stx     curpage+1       ; Remember the page
         lda     #<window
-        ldx     #>window                ; Return the window
+        ldx     #>window        ; Return the window
 done:   rts
 
 ; ------------------------------------------------------------------------
 ; COMMIT: Commit changes in the memory window to extended storage.
 
 COMMIT:
-        lda     curpage                 ; jump if no page mapped
+        lda     curpage ; jump if no page mapped
         ldx     curpage+1
         bmi     done
         sta     ptr1+1
@@ -257,13 +255,13 @@ COMMIT:
 transferout:
         lda     ptr1
         ldy     ptr1+1
-        jsr     vdcsetsrcaddr           ; set source address in VDC
+        jsr     vdcsetsrcaddr   ; set source address in VDC
         ldy     #0
         ldx     #VDC_DATA
         stx     VDC_ADDR_REG
 @L0:    bit     VDC_ADDR_REG
         bpl     @L0
-        lda     (ptr2),y                ; speedup does not work for writing
+        lda     (ptr2), y       ; speedup does not work for writing
         sta     VDC_DATA_REG
         iny
         bne     @L0
@@ -277,7 +275,7 @@ transferout:
 
 COPYFROM:
         jsr     setup
-        beq     @L2                     ; Skip if no full pages
+        beq     @L2     ; Skip if no full pages
 
 ; Copy full pages
 
@@ -290,7 +288,7 @@ COPYFROM:
 ; Copy the remainder of the page
 
 @L2:    ldy     #EM_COPY::COUNT
-        lda     (ptr3),y                ; Get bytes in last page
+        lda     (ptr3), y       ; Get bytes in last page
         beq     @L4
         sta     tmp1
 
@@ -298,7 +296,7 @@ COPYFROM:
 
         ldy     #0
 @L3:    jsr     vdcgetbyte
-        sta     (ptr2),y
+        sta     (ptr2), y
         iny
         dec     tmp1
         lda     tmp1
@@ -313,7 +311,7 @@ COPYFROM:
 
 COPYTO:
         jsr     setup
-        beq     @L2                     ; Skip if no full pages
+        beq     @L2     ; Skip if no full pages
 
 ; Copy full pages
 
@@ -326,14 +324,14 @@ COPYTO:
 ; Copy the remainder of the page
 
 @L2:    ldy     #EM_COPY::COUNT
-        lda     (ptr3),y                ; Get bytes in last page
+        lda     (ptr3), y       ; Get bytes in last page
         beq     @L4
         sta     tmp1
 
 ; Transfer the bytes in the last page
 
         ldy     #0
-@L3:    lda     (ptr2),y
+@L3:    lda     (ptr2), y
         jsr     vdcputbyte
         iny
         dec     tmp1
@@ -382,24 +380,23 @@ vdcputreg:
 
 setup:
         sta     ptr3
-        stx     ptr3+1                  ; Save the passed em_copy pointer
+        stx     ptr3+1  ; Save the passed em_copy pointer
 
         ldy     #EM_COPY::OFFS
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr1
         ldy     #EM_COPY::PAGE
-        lda     (ptr3),y
-        sta     ptr1+1                  ; From
+        lda     (ptr3), y
+        sta     ptr1+1  ; From
 
         ldy     #EM_COPY::BUF
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr2
         iny
-        lda     (ptr3),y
-        sta     ptr2+1                  ; To
+        lda     (ptr3), y
+        sta     ptr2+1  ; To
 
         ldy     #EM_COPY::COUNT+1
-        lda     (ptr3),y                ; Get number of pages
+        lda     (ptr3), y       ; Get number of pages
         sta     tmp1
         rts
-

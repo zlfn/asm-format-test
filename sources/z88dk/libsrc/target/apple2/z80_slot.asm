@@ -12,28 +12,26 @@
 ;
 ;-----------------------------------------------------------------------------
 
-
-    SECTION code_clib
-    PUBLIC  z80_slot
-    PUBLIC  _z80_slot
-
+        SECTION code_clib
+        PUBLIC  z80_slot
+        PUBLIC  _z80_slot
 
 z80_slot:
 _z80_slot:
-  ld hl,($f3de)
-  xor a
-  and l
-  jr  nz,no_softcard
-  ld a,$f0
-  and h
-  cp $e0
-  jr  nz,no_softcard
-  cpl
-  and h
-  ld h,0
-  ld l,a
-  ret
+        ld      hl, ($f3de)
+        xor     a
+        and     l
+        jr      nz, no_softcard
+        ld      a,  $f0
+        and     h
+        cp      $e0
+        jr      nz, no_softcard
+        cpl
+        and     h
+        ld      h, 0
+        ld      l, a
+        ret
 
 no_softcard:
-  ld hl,-1
-  ret
+        ld      hl, -1
+        ret

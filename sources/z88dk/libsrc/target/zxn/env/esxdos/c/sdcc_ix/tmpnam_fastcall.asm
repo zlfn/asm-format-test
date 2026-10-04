@@ -8,12 +8,12 @@ EXTERN asm_tmpnam
 
 _tmpnam_fastcall:
 
-   push ix
-   push iy
-   
-   call asm_tmpnam
-   
-   pop iy
-   pop ix
+        push    ix
+        push    iy
 
-   ret
+        call    asm_tmpnam
+
+        pop     iy
+        pop     ix
+
+        ret

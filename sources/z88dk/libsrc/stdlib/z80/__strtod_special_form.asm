@@ -11,51 +11,51 @@ EXTERN asm_strncasecmp, derror_pinfnc, derror_einval_zc
 
 __strtod_special_form:
 
-   ; de = original char *
-   ; hl = char *
+        ; de = original char *
+        ; hl = char *
 
-   push de                     ; save original char *
-   push hl                     ; save char *
-   
-   ex de,hl                    ; de = char *
-   
-   ld hl,__dtoa_infinity_s
-   ld bc,8
-   call asm_strncasecmp
-   
-   jp z, derror_pinfnc - 2       ; return +inf
-   
-   pop de                        ; de = char *
-   push de
-   
-   ld hl,__dtoa_infinity_s
-   ld c,3
-   call asm_strncasecmp
-   
-   jp z, derror_pinfnc - 2       ; return +inf
+        push    de      ; save original char *
+        push    hl      ; save char *
 
-   pop de                        ; de = char *
-   push de
-   
-   ld hl,__dtoa_nan_s
-   ld c,3
-   call asm_strncasecmp
-   
-   pop hl
-   pop hl
-   
-   ex de,hl
-   
-   ; de = original char *
-   ; hl = char * (first char after matching "nan")
-   
-   jp nz, derror_einval_zc     ; reject float string
+        ex      de, hl  ; de = char *
 
-   ;; nan(...)
+        ld      hl, __dtoa_infinity_s
+        ld      bc, 8
+        call    asm_strncasecmp
 
-   ; hl = char * (first char after matching "nan")
+        jp      z, derror_pinfnc - 2    ; return +inf
 
-   call asm_nan_b
+        pop     de      ; de = char *
+        push    de
 
-   ex de,hl                    ; de = char * after nan(...)
-   ret
+        ld      hl, __dtoa_infinity_s
+        ld      c,  3
+        call    asm_strncasecmp
+
+        jp      z, derror_pinfnc - 2    ; return +inf
+
+        pop     de      ; de = char *
+        push    de
+
+        ld      hl, __dtoa_nan_s
+        ld      c,  3
+        call    asm_strncasecmp
+
+        pop     hl
+        pop     hl
+
+        ex      de, hl
+
+        ; de = original char *
+        ; hl = char * (first char after matching "nan")
+
+        jp      nz, derror_einval_zc    ; reject float string
+
+        ;; nan(...)
+
+        ; hl = char * (first char after matching "nan")
+
+        call    asm_nan_b
+
+        ex      de, hl  ; de = char * after nan(...)
+        ret

@@ -9,26 +9,26 @@ EXTERN asm_sp1_MoveSprPix
 
 _sp1_MoveSprPix_callee:
 
-   exx
-   pop de
-   pop bc
-   exx
-   
-   pop iy
-   pop hl
-   pop de
-   pop bc
-   
-   exx
-   push de
-   push bc
-   exx
+        exx
+        pop     de
+        pop     bc
+        exx
+
+        pop     iy
+        pop     hl
+        pop     de
+        pop     bc
+
+        exx
+        push    de
+        push    bc
+        exx
 
 l0_sp1_MoveSprPix_callee:
 
-   ex (sp),ix
-   
-   call asm_sp1_MoveSprPix
-   
-   pop ix
-   ret
+        ex      (sp), ix
+
+        call    asm_sp1_MoveSprPix
+
+        pop     ix
+        ret

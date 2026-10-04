@@ -8,15 +8,15 @@ EXTERN l_mulu_32_16x16
 
 ___muluint2ulong_callee:
 
-   ; 16-bit multiplication, 32-bit result
-   ;
-   ; enter : stack = multiplicand, multiplicand, ret
-   ;
-   ; exit  : dehl = product
+        ; 16-bit multiplication, 32-bit result
+        ;
+        ; enter : stack = multiplicand, multiplicand, ret
+        ;
+        ; exit  : dehl = product
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
-   jp l_mulu_32_16x16
+        jp      l_mulu_32_16x16

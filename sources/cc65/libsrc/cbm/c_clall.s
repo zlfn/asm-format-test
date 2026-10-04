@@ -4,6 +4,6 @@
 ; void cbm_k_clall (void);
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_k_clall := CLALL
+        .export _cbm_k_clall := CLALL

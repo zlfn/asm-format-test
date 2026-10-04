@@ -10,14 +10,14 @@ EXTERN l0_fzx_at_callee
 
 _fzx_at:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
 
-   jp l0_fzx_at_callee
+        push    bc
+        push    hl
+        push    de
+        push    af
+
+        jp      l0_fzx_at_callee

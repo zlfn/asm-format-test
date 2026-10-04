@@ -1,14 +1,14 @@
 
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  __mbc_pixel
+        PUBLIC  __mbc_pixel
 
-    EXTERN  l_cmp
+        EXTERN  l_cmp
 
-    EXTERN  __gfx_coords
-    EXTERN  mbc_sendchar
+        EXTERN  __gfx_coords
+        EXTERN  mbc_sendchar
 
 ;
 ;       $Id: __mbc_pixel.asm $
@@ -33,37 +33,37 @@
 
 __mbc_pixel:
 
-    push    hl
-    ld      hl, _GFX_MAXY
-    call    l_cmp
-    pop     hl
-    ret     nc                          ; Return if Y overflows
+        push    hl
+        ld      hl, _GFX_MAXY
+        call    l_cmp
+        pop     hl
+        ret     nc      ; Return if Y overflows
 
-    push    de
-    ld      de, _GFX_MAXX
-    call    l_cmp
-    pop     de
-    ret     c                           ; Return if X overflows
+        push    de
+        ld      de, _GFX_MAXX
+        call    l_cmp
+        pop     de
+        ret     c       ; Return if X overflows
 
-    ld      (__gfx_coords), hl          ; store X
-    ld      (__gfx_coords+2), de        ; store Y: COORDS must be 2 bytes wider
+        ld      (__gfx_coords),   hl    ; store X
+        ld      (__gfx_coords+2), de    ; store Y: COORDS must be 2 bytes wider
 
-    push    hl
+        push    hl
 
-    ld      l, 27
-    call    mbc_sendchar
-    ld      l, c                        ; "R"eset or "S"et
-    call    mbc_sendchar
+        ld      l, 27
+        call    mbc_sendchar
+        ld      l, c    ; "R"eset or "S"et
+        call    mbc_sendchar
 
-		; Y
-    ld      l, d
-    call    mbc_sendchar
-    ld      l, e
-    call    mbc_sendchar
+        ; Y
+        ld      l, d
+        call    mbc_sendchar
+        ld      l, e
+        call    mbc_sendchar
 
-    pop     de
-		; X
-    ld      l, d
-    call    mbc_sendchar
-    ld      l, e
-    jp      mbc_sendchar
+        pop     de
+        ; X
+        ld      l, d
+        call    mbc_sendchar
+        ld      l, e
+        jp      mbc_sendchar

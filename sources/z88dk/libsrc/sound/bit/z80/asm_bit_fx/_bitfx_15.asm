@@ -8,46 +8,46 @@ INCLUDE "config_private.inc"
 
 _bitfx_15:
 
-   ; explosion
-   
-   ld hl,1
+        ; explosion
+
+        ld      hl, 1
 
 expl:
 
-   push hl
-   push af
-   
-   ld a,__SOUND_BIT_TOGGLE
-   ld h,0
-   and (hl)
-   ld l,a
-   
-   pop af
-   
-   xor l
-   INCLUDE "sound/bit/z80/output_bit_device_2.inc"
+        push    hl
+        push    af
 
-   pop hl
-   
-   push af
-   
-   ld b,h
-   ld c,l
+        ld      a, __SOUND_BIT_TOGGLE
+        ld      h, 0
+        and     (hl)
+        ld      l, a
+
+        pop     af
+
+        xor     l
+        INCLUDE "sound/bit/z80/output_bit_device_2.inc"
+
+        pop     hl
+
+        push    af
+
+        ld      b, h
+        ld      c, l
 
 dly:
 
-   dec bc
+        dec     bc
 
-   ld a,b
-   or c
+        ld      a, b
+        or      c
 
-   jr nz, dly
-   
-   pop af
+        jr      nz, dly
 
-   inc hl
-   
-   bit 1,h
-   jr z, expl
-   
-   ret
+        pop     af
+
+        inc     hl
+
+        bit     1, h
+        jr      z, expl
+
+        ret

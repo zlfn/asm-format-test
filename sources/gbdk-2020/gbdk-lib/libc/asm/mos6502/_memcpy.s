@@ -28,68 +28,68 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module ___memcpy
+        .module ___memcpy
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl ___memcpy_PARM_2
-	.globl ___memcpy_PARM_3
-	.globl ___memcpy
+        .globl  ___memcpy_PARM_2
+        .globl  ___memcpy_PARM_3
+        .globl  ___memcpy
 
 ;--------------------------------------------------------
 ; overlayable function paramters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 ___memcpy_PARM_2:
-	.ds 2
+        .ds     2
 ___memcpy_PARM_3:
-	.ds 2
+        .ds     2
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define save  "___SDCC_m6502_ret0"
-	.define dst   "___SDCC_m6502_ret2"
-	.define src   "___memcpy_PARM_2"
-	.define count "___memcpy_PARM_3"
-	
+        .define save  "___SDCC_m6502_ret0"
+        .define dst   "___SDCC_m6502_ret2"
+        .define src   "___memcpy_PARM_2"
+        .define count "___memcpy_PARM_3"
+
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 ___memcpy:
-	sta	*save+0
-	stx	*save+1
-	sta	*dst+0
-	stx	*dst+1
+        sta     *save+0
+        stx     *save+1
+        sta     *dst+0
+        stx     *dst+1
 
-	ldy	#0
-	ldx	*count+1
-	beq	L2
+        ldy     #0
+        ldx     *count+1
+        beq     L2
 L1:
-	lda	[*src],y
-	sta	[*dst],y
-	iny
-	lda	[*src],y
-	sta	[*dst],y
-	iny
-	bne	L1
-	inc	*src+1
-	inc	*dst+1
-	dex
-	bne	L1
+        lda     [*src], y
+        sta     [*dst], y
+        iny
+        lda     [*src], y
+        sta     [*dst], y
+        iny
+        bne     L1
+        inc     *src+1
+        inc     *dst+1
+        dex
+        bne     L1
 L2:
-	ldx	*count+0
-	beq	done
+        ldx     *count+0
+        beq     done
 L3:
-	lda	[*src],y
-	sta	[*dst],y
-	iny
-	dex
-	bne	L3
+        lda     [*src], y
+        sta     [*dst], y
+        iny
+        dex
+        bne     L3
 done:
-	lda	*save+0
-	ldx	*save+1
-	rts
+        lda     *save+0
+        ldx     *save+1
+        rts

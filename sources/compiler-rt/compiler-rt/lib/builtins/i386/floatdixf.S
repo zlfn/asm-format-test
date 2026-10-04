@@ -19,16 +19,15 @@
 .balign 4
 DEFINE_COMPILERRT_FUNCTION(__floatdixf)
 #ifndef TRUST_CALLERS_USE_64_BIT_STORES
-	movd		4(%esp),	%xmm0
-	movd		8(%esp),	%xmm1
-	punpckldq	%xmm1,		%xmm0
-	movq		%xmm0,		4(%esp)
+        movd    4(%esp), %xmm0
+        movd    8(%esp), %xmm1
+        punpckldq %xmm1, %xmm0
+        movq    %xmm0, 4(%esp)
 #endif
-	fildll		4(%esp)
-	ret
+        fildll  4(%esp)
+        ret
 END_COMPILERRT_FUNCTION(__floatdixf)
 
 #endif // __i386__
 
 NO_EXEC_STACK_DIRECTIVE
-

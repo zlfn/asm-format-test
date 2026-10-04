@@ -9,4 +9,4 @@
 //
 
 TEXT ·syscall6(SB),NOSPLIT,$0
-	JMP	syscall·syscall6(SB)
+        JMP     syscall·syscall6(SB)

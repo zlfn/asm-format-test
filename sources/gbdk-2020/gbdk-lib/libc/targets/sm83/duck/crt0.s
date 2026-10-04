@@ -1,4 +1,4 @@
-        .include        "global.s"
+        .include "global.s"
 
         ;; ****************************************
         ;; Beginning of module
@@ -8,7 +8,7 @@
         .area   _HEADER (ABS)
 
         ;; RST vectors
-        .org    0x00            ; MEGADUCK entry point/reset
+        .org    0x00    ; MEGADUCK entry point/reset
         JP      .code_start
 
 ;       .org    0x08            ; --profile handler utilized by emu_debug.h
@@ -17,37 +17,37 @@
 
 ;       .org    0x18            ; empty
 
-        .org    0x20            ; RST 0x20 == call HL
+        .org    0x20    ; RST 0x20 == call HL
 .call_hl::
         JP      (HL)
 
-        .org    0x28            ; zero up to 256 bytes in C pointed by HL
+        .org    0x28    ; zero up to 256 bytes in C pointed by HL
 .MemsetSmall::
-        LD      (HL+),A
+        LD      (HL+), A
         DEC     C
         RET     Z
         LD      (HL+), A
         DEC     C
-        JR      NZ,.MemsetSmall
+        JR      NZ, .MemsetSmall
         ret
 
-        .org    0x30            ; copy up to 256 bytes in C from DE to HL
+        .org    0x30    ; copy up to 256 bytes in C from DE to HL
 .MemcpySmall::
-        LD      A, (DE)
+        LD      A,     (DE)
         LD      (HL+), A
         INC     DE
         DEC     C
-        JR      NZ,.MemcpySmall
+        JR      NZ, .MemcpySmall
         RET
 
 ;       .org    0x38            ; crash handler utilized by crash_handler.h
 
         ;; Hardware interrupt vectors
-        .org    0x40            ; VBL
+        .org    0x40    ; VBL
 .int_VBL:
         PUSH    AF
         PUSH    HL
-        LD      HL,#.int_0x40
+        LD      HL, #.int_0x40
         JP      .int
 
 ;       .org    0x48            ; LCD
@@ -66,19 +66,19 @@
         PUSH    BC
         PUSH    DE
 1$:
-        LD      A,(HL+)
+        LD      A, (HL+)
         OR      (HL)
-        JR      Z,.int_tail
+        JR      Z, .int_tail
         PUSH    HL
-        LD      A,(HL-)
-        LD      L,(HL)
-        LD      H,A
-        RST     0x20            ; .call_hl
+        LD      A, (HL-)
+        LD      L, (HL)
+        LD      H, A
+        RST     0x20    ; .call_hl
         POP     HL
         INC     HL
         JR      1$
 _wait_int_handler::
-        ADD     SP,#4
+        ADD     SP, #4
 .int_tail:
         POP     DE
         POP     BC
@@ -93,14 +93,14 @@ _wait_int_handler::
         ;; VBlank default interrupt routine
 __standard_VBL_handler::
 .std_vbl:
-        LD      HL,#.sys_time
+        LD      HL, #.sys_time
         INC     (HL)
-        JR      NZ,2$
+        JR      NZ, 2$
         INC     HL
         INC     (HL)
 2$:
         LD      A, #1
-        LDH     (.vbl_done),A
+        LDH     (.vbl_done), A
 
         JP      .refresh_OAM
 
@@ -126,23 +126,23 @@ _refresh_OAM::
 
 _set_interrupts::
         DI
-        LDH     (.IE),A
+        LDH     (.IE), A
         XOR     A
         EI
-        LDH     (.IFL),A        ; Clear pending interrupts
+        LDH     (.IFL), A       ; Clear pending interrupts
         RET
 
         ;; Copy OAM data to OAM RAM
 .start_refresh_OAM:
-        LDH     A,(__shadow_OAM_base)
+        LDH     A, (__shadow_OAM_base)
         OR      A
         RET     Z
 .start_refresh_OAM_DMA:
-        LDH     (.DMA),A        ; Put A into DMA registers
-        LD      A,#0x28         ; We need to wait 160 ns
+        LDH     (.DMA), A       ; Put A into DMA registers
+        LD      A, #0x28        ; We need to wait 160 ns
 1$:
         DEC     A
-        JR      NZ,1$
+        JR      NZ, 1$
         RET
 .end_refresh_OAM:
 
@@ -158,7 +158,7 @@ _reset::
 
         ;; Initialization code
 .code_start::
-        DI                      ; Disable interrupts
+        DI      ; Disable interrupts
         ;; Initialize the stack
         LD      SP, #.STACK
 
@@ -169,7 +169,6 @@ _reset::
         CALL    .clear_WRAM
         POP     DE
 
-
         ;; Store CPU type
         LD      A, #.DMG_TYPE   ; MEGADUCK is always a DMG
         LD      (__cpu), A
@@ -178,58 +177,58 @@ _reset::
 ;        LD      (.mode),A                             ; clearing (.mode) is performed when clearing RAM
 
         ;; Initialize the display
-        LDH     (.SCY),A
-        LDH     (.SCX),A
-        LDH     (.STAT),A
-        LDH     (.WY),A
-        LD      A,#0x07
-        LDH     (.WX),A
+        LDH     (.SCY),  A
+        LDH     (.SCX),  A
+        LDH     (.STAT), A
+        LDH     (.WY),   A
+        LD      A,     #0x07
+        LDH     (.WX), A
 
         ;; Copy refresh_OAM routine to HRAM
-        LD      DE,#.start_refresh_OAM                          ; source
-        LD      HL,#.refresh_OAM                                ; dest
-        LD      C,#(.end_refresh_OAM - .start_refresh_OAM)      ; size
-        RST     0x30                                            ; call .MemcpySmall
+        LD      DE, #.start_refresh_OAM ; source
+        LD      HL, #.refresh_OAM       ; dest
+        LD      C,  #(.end_refresh_OAM - .start_refresh_OAM) ; size
+        RST     0x30                    ; call .MemcpySmall
 
         ;; Clear the OAM by calling refresh_OAM
         CALL    .refresh_OAM
 
         ;; Install interrupt routines
-        LD      DE,#.std_vbl
+        LD      DE, #.std_vbl
         CALL    .add_VBL
 
         ;; Standard color palettes
-        LD      A,#0b11100100   ; Grey 3 = 11 (Black)
+        LD      A, #0b11100100  ; Grey 3 = 11 (Black)
                                 ; Grey 2 = 10 (Dark grey)
                                 ; Grey 1 = 01 (Light grey)
                                 ; Grey 0 = 00 (Transparent)
-        LDH     (.BGP),A
-        LDH     (.OBP0),A
-        LD      A,#0b00011011
-        LDH     (.OBP1),A
+        LDH     (.BGP),  A
+        LDH     (.OBP0), A
+        LD      A, #0b00011011
+        LDH     (.OBP1), A
 
         ;; Turn the screen on
-        LD      A,#(LCDCF_ON | LCDCF_WIN9C00 | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800 | LCDCF_OBJ8 | LCDCF_OBJOFF | LCDCF_BGOFF)
-        LDH     (.LCDC),A
+        LD      A, #(LCDCF_ON | LCDCF_WIN9C00 | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800 | LCDCF_OBJ8 | LCDCF_OBJOFF | LCDCF_BGOFF)
+        LDH     (.LCDC), A
 
-        LD      A,#.VBL_IFLAG   ; switch on VBlank interrupt only
-        LDH     (.IE),A
+        LD      A,     #.VBL_IFLAG      ; switch on VBlank interrupt only
+        LDH     (.IE), A
 
         XOR     A
-        LDH     (.IFL),A
+        LDH     (.IFL), A
 
-        LD      HL,#.sys_time
-        LD      (HL+),A
-        LD      (HL),A
+        LD      HL,    #.sys_time
+        LD      (HL+), A
+        LD      (HL),  A
 
-        LDH     (.NR52),A       ; Turn sound off
+        LDH     (.NR52), A      ; Turn sound off
 
         INC     A
-        LDH     (__current_bank),A      ; current bank is 1 at startup
+        LDH     (__current_bank), A     ; current bank is 1 at startup
 
         CALL    gsinit
 
-        EI                      ; Enable interrupts
+        EI      ; Enable interrupts
 
         ;; Call the main function
         CALL    _main
@@ -237,64 +236,64 @@ _exit::
 99$:
         HALT
         NOP
-        JR      99$             ; Wait forever
+        JR      99$     ; Wait forever
 
         ;; Wait for VBL interrupt to be finished
 .wait_vbl_done::
 _wait_vbl_done::
 _vsync::
         ;; Check if the screen is on
-        LDH     A,(.LCDC)
+        LDH     A, (.LCDC)
         AND     #LCDCF_ON
         RET     Z               ; Return if screen is off
         XOR     A
-        LDH     (.vbl_done),A   ; Clear any previous sets of vbl_done
+        LDH     (.vbl_done), A  ; Clear any previous sets of vbl_done
 1$:
         HALT                    ; Wait for any interrupt
         NOP                     ; HALT sometimes skips the next instruction
-        LDH     A,(.vbl_done)   ; Was it a VBlank interrupt?
+        LDH     A, (.vbl_done)  ; Was it a VBlank interrupt?
         ;; Warning: we may lose a VBlank interrupt, if it occurs now
         OR      A
-        JR      Z,1$            ; No: back to sleep!
+        JR      Z, 1$   ; No: back to sleep!
         RET
 
         ;; Remove interrupt routine in DE from the VBL interrupt list
         ;; falldown to .remove_int
 _remove_VBL::
 .remove_VBL::
-        LD      HL,#.int_0x40
+        LD      HL, #.int_0x40
 
         ;; Remove interrupt DE from interrupt list HL if it exists
         ;; Abort if a 0000 is found (end of list)
 .remove_int::
 1$:
-        LD      A,(HL+)
-        LD      C,A
-        LD      A,(HL+)
-        LD      B,A
+        LD      A, (HL+)
+        LD      C, A
+        LD      A, (HL+)
+        LD      B, A
         OR      C
-        RET     Z               ; No interrupt found
+        RET     Z       ; No interrupt found
 
-        LD      A,E
+        LD      A, E
         CP      C
-        JR      NZ,1$
-        LD      A,D
+        JR      NZ, 1$
+        LD      A,  D
         CP      B
-        JR      NZ,1$
+        JR      NZ, 1$
 
-        LD      B,H
-        LD      C,L
+        LD      B, H
+        LD      C, L
         DEC     BC
         DEC     BC
 
         ;; Now do a memcpy from here until the end of the list
 2$:
-        LD      A,(HL+)
-        LD      (BC),A
+        LD      A,    (HL+)
+        LD      (BC), A
         INC     BC
-        LD      D,A
-        LD      A,(HL+)
-        LD      (BC),A
+        LD      D,    A
+        LD      A,    (HL+)
+        LD      (BC), A
         INC     BC
         OR      D
         JR      NZ, 2$
@@ -304,20 +303,20 @@ _remove_VBL::
         ;; falldown to .add_int
 _add_VBL::
 .add_VBL::
-        LD      HL,#.int_0x40
+        LD      HL, #.int_0x40
 
         ;; Add interrupt routine in BC to the interrupt list in HL
 .add_int::
 1$:
-        LD      A,(HL+)
+        LD      A, (HL+)
         OR      (HL)
-        JR      Z,2$
+        JR      Z, 2$
         INC     HL
         JR      1$
 2$:
-        LD      A,D
-        LD      (HL-),A
-        LD      (HL),E
+        LD      A,     D
+        LD      (HL-), A
+        LD      (HL),  E
         RET
 
         ;; ****************************************
@@ -354,16 +353,16 @@ _add_VBL::
 
         .area   _DATA
 __cpu::
-        .ds     0x01            ; GB type (GB, PGB, CGB)
+        .ds     0x01    ; GB type (GB, PGB, CGB)
 __is_GBA::
-        .ds     0x01            ; detect GBA
+        .ds     0x01    ; detect GBA
 .mode::
-        .ds     0x01            ; Current mode
+        .ds     0x01    ; Current mode
 .sys_time::
 _sys_time::
-        .ds     0x02            ; System time in VBL units
+        .ds     0x02    ; System time in VBL units
 .int_0x40::
-        .blkw   0x06            ; 5 interrupt handlers: 1 built-in + 4 user-defined
+        .blkw   0x06    ; 5 interrupt handlers: 1 built-in + 4 user-defined
 
         .area   _HRAM
 .refresh_OAM::
@@ -374,10 +373,10 @@ _sys_time::
         .bndry  0x10
 
 __current_bank::
-        .ds     0x01            ; Current bank
+        .ds     0x01    ; Current bank
 .vbl_done:
 __vbl_done::
-        .ds     0x01            ; Is VBL interrupt finished?
+        .ds     0x01    ; Is VBL interrupt finished?
 __shadow_OAM_base::
         .ds     0x01
 

@@ -8,12 +8,12 @@ EXTERN asm_getenv
 
 _getenv_fastcall:
 
-   push ix
-   push iy
-   
-   call asm_getenv
-   
-   pop iy
-   pop ix
+        push    ix
+        push    iy
 
-   ret
+        call    asm_getenv
+
+        pop     iy
+        pop     ix
+
+        ret

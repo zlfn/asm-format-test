@@ -9,10 +9,10 @@ EXTERN _esxdos_f_sync_fastcall
 
 _esxdos_f_sync:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _esxdos_f_sync_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _esxdos_f_sync_fastcall

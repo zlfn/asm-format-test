@@ -20,4 +20,3 @@ SYNC_OP_8(umax_8)
 #endif
 
 NO_EXEC_STACK_DIRECTIVE
-

@@ -4,12 +4,12 @@
 ; Several small file stream functions
 ;
 
-        .export         _clearerr, _feof, _ferror, _fileno, _fflush
-        .import         return0, ___directerrno
-        .importzp       ptr1
+        .export _clearerr, _feof, _ferror, _fileno, _fflush
+        .import return0,   ___directerrno
+        .importzp ptr1
 
-        .include        "_file.inc"
-        .include        "errno.inc"
+        .include "_file.inc"
+        .include "errno.inc"
 
 ;
 ; Get the FILE* parameter, check if the file is open. Returns zero in A
@@ -19,7 +19,7 @@
         sta     ptr1
         stx     ptr1+1
         ldy     #_FILE::f_flags
-        lda     (ptr1),y        ; get f->f_flags
+        lda     (ptr1), y       ; get f->f_flags
         and     #_FOPEN         ; file open?
         rts
 .endproc
@@ -31,9 +31,9 @@
 .proc   _clearerr
         jsr     getf
         beq     err
-        lda     (ptr1),y
+        lda     (ptr1), y
         and     #<~(_FEOF | _FERROR)
-        sta     (ptr1),y
+        sta     (ptr1), y
 err:    rts
 .endproc
 
@@ -43,8 +43,8 @@ err:    rts
 
 .proc   _feof
         jsr     getf
-        beq     @L1             ; Return 0 on error
-        lda     (ptr1),y
+        beq     @L1     ; Return 0 on error
+        lda     (ptr1), y
         and     #_FEOF
 @L1:    ldx     #0
         rts
@@ -56,8 +56,8 @@ err:    rts
 
 .proc   _ferror
         jsr     getf
-        beq     @L1             ; Return 0 on error
-        lda     (ptr1),y
+        beq     @L1     ; Return 0 on error
+        lda     (ptr1), y
         and     #_FERROR
 @L1:    ldx     #0
         rts
@@ -71,7 +71,7 @@ err:    rts
         jsr     getf
         beq     error
         ldy     #_FILE::f_fd
-        lda     (ptr1),y
+        lda     (ptr1), y
         ldx     #0
         rts
 

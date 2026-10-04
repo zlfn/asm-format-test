@@ -11,8 +11,7 @@ EXTERN _heap
 .mallinfo_callee
 ._mallinfo_callee
 
-   ld hl,_heap
-   ex (sp),hl
-   push hl
-   jp HeapInfo_callee
-
+        ld      hl,   _heap
+        ex      (sp), hl
+        push    hl
+        jp      HeapInfo_callee

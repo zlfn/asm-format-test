@@ -8,15 +8,14 @@ EXTERN asm_compare_dostm
 
 compare_dostm_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   jp asm_compare_dostm
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_compare_dostm
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _compare_dostm_callee
 defc _compare_dostm_callee = compare_dostm_callee
 ENDIF
-

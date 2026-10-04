@@ -9,74 +9,74 @@
 //
 
 TEXT ·sysvicall6(SB),NOSPLIT,$0
-	JMP	runtime·syscall_sysvicall6(SB)
+        JMP     runtime·syscall_sysvicall6(SB)
 
 TEXT ·rawSysvicall6(SB),NOSPLIT,$0
-	JMP	runtime·syscall_rawsysvicall6(SB)
+        JMP     runtime·syscall_rawsysvicall6(SB)
 
 TEXT ·chdir(SB),NOSPLIT,$0
-	JMP	runtime·syscall_chdir(SB)
+        JMP     runtime·syscall_chdir(SB)
 
 TEXT ·chroot1(SB),NOSPLIT,$0
-	JMP	runtime·syscall_chroot(SB)
+        JMP     runtime·syscall_chroot(SB)
 
 TEXT ·closeFD(SB),NOSPLIT,$0
-	JMP	runtime·syscall_close(SB)
+        JMP     runtime·syscall_close(SB)
 
 TEXT ·dup2child(SB),NOSPLIT,$0
-	JMP	runtime·syscall_dup2(SB)
-	RET
+        JMP     runtime·syscall_dup2(SB)
+        RET
 
 TEXT ·execve(SB),NOSPLIT,$0
-	JMP	runtime·syscall_execve(SB)
+        JMP     runtime·syscall_execve(SB)
 
 TEXT ·exit(SB),NOSPLIT,$0
-	JMP	runtime·syscall_exit(SB)
+        JMP     runtime·syscall_exit(SB)
 
 TEXT ·fcntl1(SB),NOSPLIT,$0
-	JMP	runtime·syscall_fcntl(SB)
+        JMP     runtime·syscall_fcntl(SB)
 
 TEXT ·forkx(SB),NOSPLIT,$0
-	JMP	runtime·syscall_forkx(SB)
+        JMP     runtime·syscall_forkx(SB)
 
 TEXT ·gethostname(SB),NOSPLIT,$0
-	JMP	runtime·syscall_gethostname(SB)
+        JMP     runtime·syscall_gethostname(SB)
 
 TEXT ·getpid(SB),NOSPLIT,$0
-	JMP	runtime·syscall_getpid(SB)
+        JMP     runtime·syscall_getpid(SB)
 
 TEXT ·ioctl(SB),NOSPLIT,$0
-	JMP	runtime·syscall_ioctl(SB)
+        JMP     runtime·syscall_ioctl(SB)
 
 TEXT ·RawSyscall(SB),NOSPLIT,$0
-	JMP	runtime·syscall_rawsyscall(SB)
+        JMP     runtime·syscall_rawsyscall(SB)
 
 TEXT ·RawSyscall6(SB),NOSPLIT,$0
-	JMP	runtime·syscall_rawsyscall6(SB)
+        JMP     runtime·syscall_rawsyscall6(SB)
 
 TEXT ·setgid(SB),NOSPLIT,$0
-	JMP	runtime·syscall_setgid(SB)
+        JMP     runtime·syscall_setgid(SB)
 
 TEXT ·setgroups1(SB),NOSPLIT,$0
-	JMP	runtime·syscall_setgroups(SB)
+        JMP     runtime·syscall_setgroups(SB)
 
 TEXT ·setrlimit1(SB),NOSPLIT,$0
-	JMP	runtime·syscall_setrlimit(SB)
+        JMP     runtime·syscall_setrlimit(SB)
 
 TEXT ·setsid(SB),NOSPLIT,$0
-	JMP	runtime·syscall_setsid(SB)
+        JMP     runtime·syscall_setsid(SB)
 
 TEXT ·setuid(SB),NOSPLIT,$0
-	JMP	runtime·syscall_setuid(SB)
+        JMP     runtime·syscall_setuid(SB)
 
 TEXT ·setpgid(SB),NOSPLIT,$0
-	JMP	runtime·syscall_setpgid(SB)
+        JMP     runtime·syscall_setpgid(SB)
 
 TEXT ·Syscall(SB),NOSPLIT,$0
-	JMP	runtime·syscall_syscall(SB)
+        JMP     runtime·syscall_syscall(SB)
 
 TEXT ·wait4(SB),NOSPLIT,$0
-	JMP	runtime·syscall_wait4(SB)
+        JMP     runtime·syscall_wait4(SB)
 
 TEXT ·write1(SB),NOSPLIT,$0
-	JMP	runtime·syscall_write(SB)
+        JMP     runtime·syscall_write(SB)

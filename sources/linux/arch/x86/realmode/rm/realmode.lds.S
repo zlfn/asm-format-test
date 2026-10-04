@@ -15,63 +15,63 @@ ENTRY(pa_text_start)
 
 SECTIONS
 {
-	real_mode_seg = 0;
+        real_mode_seg = 0;
 
-	. = 0;
-	.header : {
-		pa_real_mode_base = .;
-		*(.header)
-	}
+        .       = 0;
+        .header : {
+        pa_real_mode_base = .;
+        *(.header)
+        }
 
-	. = ALIGN(4);
-	.rodata : {
-		*(.rodata)
-		*(.rodata.*)
-		. = ALIGN(16);
-		video_cards = .;
-		*(.videocards)
-		video_cards_end = .;
-	}
+        .       = ALIGN(4);
+        .rodata : {
+        *(.rodata)
+        *(.rodata.*)
+        .       = ALIGN(16);
+        video_cards = .;
+        *(.videocards)
+        video_cards_end = .;
+        }
 
-	. = ALIGN(PAGE_SIZE);
-	pa_text_start = .;
-	.text : {
-		*(.text)
-		*(.text.*)
-	}
+        .       = ALIGN(PAGE_SIZE);
+        pa_text_start = .;
+        .text   : {
+        *(.text)
+        *(.text.*)
+        }
 
-	.text32 : {
-		*(.text32)
-		*(.text32.*)
-	}
+        .text32 : {
+        *(.text32)
+        *(.text32.*)
+        }
 
-	.text64 : {
-		*(.text64)
-		*(.text64.*)
-	}
-	pa_ro_end = .;
+        .text64 : {
+        *(.text64)
+        *(.text64.*)
+        }
+        pa_ro_end = .;
 
-	. = ALIGN(PAGE_SIZE);
-	.data : {
-		*(.data)
-		*(.data.*)
-	}
+        .       = ALIGN(PAGE_SIZE);
+        .data   : {
+        *(.data)
+        *(.data.*)
+        }
 
-	. = ALIGN(128);
-	.bss : {
-		*(.bss*)
-	}
+        .       = ALIGN(128);
+        .bss    : {
+        *(.bss*)
+        }
 
-	/* End signature for integrity checking */
-	. = ALIGN(4);
-	.signature : {
-		*(.signature)
-	}
+        /* End signature for integrity checking */
+        .       = ALIGN(4);
+        .signature : {
+        *(.signature)
+        }
 
-	/DISCARD/ : {
-		*(.note*)
-		*(.debug*)
-	}
+        /DISCARD/ : {
+        *(.note*)
+        *(.debug*)
+        }
 
 #include "pasyms.h"
 }

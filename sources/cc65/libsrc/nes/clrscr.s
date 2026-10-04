@@ -5,11 +5,10 @@
 ; void clrscr (void);
 ;
 
-        .export         _clrscr
-        .import         ppubuf_waitempty
+        .export _clrscr
+        .import ppubuf_waitempty
 
-        .include        "nes.inc"
-
+        .include "nes.inc"
 
 .proc   _clrscr
 
@@ -39,7 +38,7 @@
 ; Clear Name Table #1
 
         lda     #' '
-        ldx     #$f0            ; 4*$f0=$03c0
+        ldx     #$f0    ; 4*$f0=$03c0
 
 beg:    sta     PPU_VRAM_IO
         sta     PPU_VRAM_IO
@@ -68,5 +67,3 @@ lll:    lda     #$00            ; Write attribute table value and auto increment
         rts
 
 .endproc
-
-

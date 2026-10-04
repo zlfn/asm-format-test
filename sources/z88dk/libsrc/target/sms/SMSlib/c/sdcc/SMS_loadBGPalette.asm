@@ -9,10 +9,10 @@ EXTERN asm_SMSlib_loadBGPalette
 
 _SMS_loadBGPalette:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_SMSlib_loadBGPalette
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_SMSlib_loadBGPalette

@@ -10,4 +10,4 @@
 
 .rodata
 
-_tgi_stddrv:    .asciiz "c128-vdc.tgi"
+_tgi_stddrv: .asciiz "c128-vdc.tgi"

@@ -9,17 +9,17 @@ EXTERN asm_esx_f_opendir_ex
 
 _esx_f_opendir_ex_callee:
 
-   pop af
-   pop hl
-   dec sp
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        dec     sp
+        pop     bc
+        push    af
 
 l0_esx_f_opendir_ex_callee:
 
-   push ix
-   
-   call asm_esx_f_opendir_ex
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_opendir_ex
+
+        pop     ix
+        ret

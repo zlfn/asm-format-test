@@ -8,11 +8,11 @@ EXTERN asm_esx_f_seekdir
 
 _esx_f_seekdir_callee:
 
-   pop hl
-   dec sp
-   pop af
-   pop de
-   pop bc
-   push hl
-   
-   jp asm_esx_f_seekdir
+        pop     hl
+        dec     sp
+        pop     af
+        pop     de
+        pop     bc
+        push    hl
+
+        jp      asm_esx_f_seekdir

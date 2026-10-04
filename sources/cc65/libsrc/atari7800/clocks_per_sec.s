@@ -4,13 +4,13 @@
 ; clock_t __clocks_per_sec (void);
 ;
 
-        .export         ___clocks_per_sec
+        .export ___clocks_per_sec
 
-        .import         sreg: zp
-        .import         _paldetected
-        .include        "atari7800.inc"
+        .import sreg: zp
+        .import _paldetected
+        .include "atari7800.inc"
 
-        .macpack        generic
+        .macpack generic
 
         .code
 
@@ -21,14 +21,13 @@
 
         lda     #0
         tax
-        sta     sreg            ; return 32 bits
+        sta     sreg    ; return 32 bits
         sta     sreg+1
         lda     _paldetected
         bne     pal
-        lda     #60             ; NTSC - 60Hz
+        lda     #60     ; NTSC - 60Hz
         rts
 pal:
-        lda     #50             ; PAL - 50Hz
+        lda     #50     ; PAL - 50Hz
         rts
         .endproc
-

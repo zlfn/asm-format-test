@@ -9,10 +9,10 @@ EXTERN asm_ts_vmod
 
 _ts_vmod:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_ts_vmod
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_ts_vmod

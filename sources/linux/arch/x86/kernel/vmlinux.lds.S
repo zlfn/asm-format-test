@@ -117,110 +117,110 @@ const_cpu_current_top_of_stack = cpu_current_top_of_stack;
 	__relocate_kernel_end = .;
 
 ASSERT(__relocate_kernel_end - __relocate_kernel_start <= KEXEC_CONTROL_CODE_MAX_SIZE,
-	"relocate_kernel code too large!")
+        "relocate_kernel code too large!")
 #else
 #define KEXEC_RELOCATE_KERNEL
 #endif
 PHDRS {
-	text PT_LOAD FLAGS(5);          /* R_E */
-	data PT_LOAD FLAGS(6);          /* RW_ */
-	note PT_NOTE FLAGS(0);          /* ___ */
+        text    PT_LOAD FLAGS(5);          /* R_E */
+        data    PT_LOAD FLAGS(6);          /* RW_ */
+        note    PT_NOTE FLAGS(0);          /* ___ */
 }
 
 SECTIONS
 {
-	. = __START_KERNEL;
+        .       = __START_KERNEL;
 #ifdef CONFIG_X86_32
-	phys_startup_32 = ABSOLUTE(startup_32 - LOAD_OFFSET);
+        phys_startup_32 = ABSOLUTE(startup_32 - LOAD_OFFSET);
 #else
-	phys_startup_64 = ABSOLUTE(startup_64 - LOAD_OFFSET);
+        phys_startup_64 = ABSOLUTE(startup_64 - LOAD_OFFSET);
 #endif
 
-	/* Text and read-only data */
-	.text :  AT(ADDR(.text) - LOAD_OFFSET) {
-		_text = .;
-		__pi__text = .;
-		_stext = .;
-		ALIGN_ENTRY_TEXT_BEGIN
-		*(.text..__x86.rethunk_untrain)
-		ENTRY_TEXT
+        /* Text and read-only data */
+        .text   :  AT(ADDR(.text) - LOAD_OFFSET) {
+        _text   = .;
+        __pi__text = .;
+        _stext  = .;
+        ALIGN_ENTRY_TEXT_BEGIN
+        *(.text..__x86.rethunk_untrain)
+        ENTRY_TEXT
 
 #ifdef CONFIG_MITIGATION_SRSO
 		/*
 		 * See the comment above srso_alias_untrain_ret()'s
 		 * definition.
 		 */
-		. = srso_alias_untrain_ret | (1 << 2) | (1 << 8) | (1 << 14) | (1 << 20);
-		*(.text..__x86.rethunk_safe)
+        .       = srso_alias_untrain_ret | (1 << 2) | (1 << 8) | (1 << 14) | (1 << 20);
+        *(.text..__x86.rethunk_safe)
 #endif
-		ALIGN_ENTRY_TEXT_END
+        ALIGN_ENTRY_TEXT_END
 
-		TEXT_TEXT
-		SCHED_TEXT
-		LOCK_TEXT
-		KPROBES_TEXT
-		SOFTIRQENTRY_TEXT
+        TEXT_TEXT
+        SCHED_TEXT
+        LOCK_TEXT
+        KPROBES_TEXT
+        SOFTIRQENTRY_TEXT
 #ifdef CONFIG_MITIGATION_RETPOLINE
-		*(.text..__x86.indirect_thunk)
-		*(.text..__x86.return_thunk)
+        *(.text..__x86.indirect_thunk)
+        *(.text..__x86.return_thunk)
 #endif
-		STATIC_CALL_TEXT
-		*(.gnu.warning)
+        STATIC_CALL_TEXT
+        *(.gnu.warning)
 
-	} :text = 0xcccccccc
+        }       :text = 0xcccccccc
 
-	/* End of text section, which should occupy whole number of pages */
-	_etext = .;
-	. = ALIGN(PAGE_SIZE);
+        /* End of text section, which should occupy whole number of pages */
+        _etext  = .;
+        .       = ALIGN(PAGE_SIZE);
 
-	X86_ALIGN_RODATA_BEGIN
-	RO_DATA(PAGE_SIZE)
-	X86_ALIGN_RODATA_END
+        X86_ALIGN_RODATA_BEGIN
+        RO_DATA(PAGE_SIZE)
+        X86_ALIGN_RODATA_END
 
-	/* Data */
-	.data : AT(ADDR(.data) - LOAD_OFFSET) {
-		/* Start of data section */
-		_sdata = .;
+        /* Data */
+        .data   : AT(ADDR(.data) - LOAD_OFFSET) {
+        /* Start of data section */
+        _sdata  = .;
 
-		/* init_task */
-		INIT_TASK_DATA(THREAD_SIZE)
+        /* init_task */
+        INIT_TASK_DATA(THREAD_SIZE)
 
-		/* equivalent to task_pt_regs(&init_task) */
-		__top_init_kernel_stack = __end_init_stack - TOP_OF_KERNEL_STACK_PADDING - PTREGS_SIZE;
+        /* equivalent to task_pt_regs(&init_task) */
+        __top_init_kernel_stack = __end_init_stack - TOP_OF_KERNEL_STACK_PADDING - PTREGS_SIZE;
 
 #ifdef CONFIG_X86_32
-		/* 32 bit has nosave before _edata */
-		NOSAVE_DATA
+        /* 32 bit has nosave before _edata */
+        NOSAVE_DATA
 #endif
 
-		PAGE_ALIGNED_DATA(PAGE_SIZE)
+        PAGE_ALIGNED_DATA(PAGE_SIZE)
 
-		CACHE_HOT_DATA(L1_CACHE_BYTES)
+        CACHE_HOT_DATA(L1_CACHE_BYTES)
 
-		CACHELINE_ALIGNED_DATA(L1_CACHE_BYTES)
+        CACHELINE_ALIGNED_DATA(L1_CACHE_BYTES)
 
-		DATA_DATA
-		CONSTRUCTORS
-		KEXEC_RELOCATE_KERNEL
+        DATA_DATA
+        CONSTRUCTORS
+        KEXEC_RELOCATE_KERNEL
 
-		/* rarely changed data like cpu maps */
-		READ_MOSTLY_DATA(INTERNODE_CACHE_BYTES)
+        /* rarely changed data like cpu maps */
+        READ_MOSTLY_DATA(INTERNODE_CACHE_BYTES)
 
-		/* End of data section */
-		_edata = .;
-	} :data
+        /* End of data section */
+        _edata  = .;
+        }       :data
 
-	BUG_TABLE
+        BUG_TABLE
 
-	ORC_UNWIND_TABLE
+        ORC_UNWIND_TABLE
 
-	/* Init code and data - will be freed after init */
-	. = ALIGN(PAGE_SIZE);
-	.init.begin : AT(ADDR(.init.begin) - LOAD_OFFSET) {
-		__init_begin = .; /* paired with __init_end */
-	}
+        /* Init code and data - will be freed after init */
+        .       = ALIGN(PAGE_SIZE);
+        .init.begin : AT(ADDR(.init.begin) - LOAD_OFFSET) {
+        __init_begin = .; /* paired with __init_end */
+        }
 
-	INIT_TEXT_SECTION(PAGE_SIZE)
+        INIT_TEXT_SECTION(PAGE_SIZE)
 
 	/*
 	 * Section for code used exclusively before alternatives are run. All
@@ -229,27 +229,27 @@ SECTIONS
 	 *
 	 * See cpu_feature_enabled() for an example.
 	 */
-	.altinstr_aux : AT(ADDR(.altinstr_aux) - LOAD_OFFSET) {
-		*(.altinstr_aux)
-		. = ALIGN(PAGE_SIZE);
-		__inittext_end = .;
-	}
+        .altinstr_aux : AT(ADDR(.altinstr_aux) - LOAD_OFFSET) {
+        *(.altinstr_aux)
+        .       = ALIGN(PAGE_SIZE);
+        __inittext_end = .;
+        }
 
-	INIT_DATA_SECTION(16)
+        INIT_DATA_SECTION(16)
 
-	.x86_cpu_dev.init : AT(ADDR(.x86_cpu_dev.init) - LOAD_OFFSET) {
-		__x86_cpu_dev_start = .;
-		*(.x86_cpu_dev.init)
-		__x86_cpu_dev_end = .;
-	}
+        .x86_cpu_dev.init : AT(ADDR(.x86_cpu_dev.init) - LOAD_OFFSET) {
+        __x86_cpu_dev_start = .;
+        *(.x86_cpu_dev.init)
+        __x86_cpu_dev_end = .;
+        }
 
 #ifdef CONFIG_X86_INTEL_MID
-	.x86_intel_mid_dev.init : AT(ADDR(.x86_intel_mid_dev.init) - \
-								LOAD_OFFSET) {
-		__x86_intel_mid_dev_start = .;
-		*(.x86_intel_mid_dev.init)
-		__x86_intel_mid_dev_end = .;
-	}
+        .x86_intel_mid_dev.init : AT(ADDR(.x86_intel_mid_dev.init) - \
+                LOAD_OFFSET) {
+        __x86_intel_mid_dev_start = .;
+        *(.x86_intel_mid_dev.init)
+        __x86_intel_mid_dev_end = .;
+        }
 #endif
 
 #ifdef CONFIG_MITIGATION_RETPOLINE
@@ -258,44 +258,44 @@ SECTIONS
 	 * __x86_indirect_thunk_*(). These instructions can be patched along
 	 * with alternatives, after which the section can be freed.
 	 */
-	. = ALIGN(8);
-	.retpoline_sites : AT(ADDR(.retpoline_sites) - LOAD_OFFSET) {
-		__retpoline_sites = .;
-		*(.retpoline_sites)
-		__retpoline_sites_end = .;
-	}
+        .       = ALIGN(8);
+        .retpoline_sites : AT(ADDR(.retpoline_sites) - LOAD_OFFSET) {
+        __retpoline_sites = .;
+        *(.retpoline_sites)
+        __retpoline_sites_end = .;
+        }
 
-	. = ALIGN(8);
-	.return_sites : AT(ADDR(.return_sites) - LOAD_OFFSET) {
-		__return_sites = .;
-		*(.return_sites)
-		__return_sites_end = .;
-	}
+        .       = ALIGN(8);
+        .return_sites : AT(ADDR(.return_sites) - LOAD_OFFSET) {
+        __return_sites = .;
+        *(.return_sites)
+        __return_sites_end = .;
+        }
 
-	. = ALIGN(8);
-	.call_sites : AT(ADDR(.call_sites) - LOAD_OFFSET) {
-		__call_sites = .;
-		*(.call_sites)
-		__call_sites_end = .;
-	}
+        .       = ALIGN(8);
+        .call_sites : AT(ADDR(.call_sites) - LOAD_OFFSET) {
+        __call_sites = .;
+        *(.call_sites)
+        __call_sites_end = .;
+        }
 #endif
 
 #ifdef CONFIG_X86_KERNEL_IBT
-	. = ALIGN(8);
-	.ibt_endbr_seal : AT(ADDR(.ibt_endbr_seal) - LOAD_OFFSET) {
-		__ibt_endbr_seal = .;
-		*(.ibt_endbr_seal)
-		__ibt_endbr_seal_end = .;
-	}
+        .       = ALIGN(8);
+        .ibt_endbr_seal : AT(ADDR(.ibt_endbr_seal) - LOAD_OFFSET) {
+        __ibt_endbr_seal = .;
+        *(.ibt_endbr_seal)
+        __ibt_endbr_seal_end = .;
+        }
 #endif
 
 #ifdef CONFIG_FINEIBT
-	. = ALIGN(8);
-	.cfi_sites : AT(ADDR(.cfi_sites) - LOAD_OFFSET) {
-		__cfi_sites = .;
-		*(.cfi_sites)
-		__cfi_sites_end = .;
-	}
+        .       = ALIGN(8);
+        .cfi_sites : AT(ADDR(.cfi_sites) - LOAD_OFFSET) {
+        __cfi_sites = .;
+        *(.cfi_sites)
+        __cfi_sites_end = .;
+        }
 #endif
 
 	/*
@@ -303,72 +303,72 @@ SECTIONS
 	 * "Alternative instructions for different CPU types or capabilities"
 	 * Think locking instructions on spinlocks.
 	 */
-	. = ALIGN(8);
-	.altinstructions : AT(ADDR(.altinstructions) - LOAD_OFFSET) {
-		__alt_instructions = .;
-		*(.altinstructions)
-		__alt_instructions_end = .;
-	}
+        .       = ALIGN(8);
+        .altinstructions : AT(ADDR(.altinstructions) - LOAD_OFFSET) {
+        __alt_instructions = .;
+        *(.altinstructions)
+        __alt_instructions_end = .;
+        }
 
 	/*
 	 * And here are the replacement instructions. The linker sticks
 	 * them as binary blobs. The .altinstructions has enough data to
 	 * get the address and the length of them to patch the kernel safely.
 	 */
-	.altinstr_replacement : AT(ADDR(.altinstr_replacement) - LOAD_OFFSET) {
-		*(.altinstr_replacement)
-	}
+        .altinstr_replacement : AT(ADDR(.altinstr_replacement) - LOAD_OFFSET) {
+        *(.altinstr_replacement)
+        }
 
-	. = ALIGN(8);
-	.apicdrivers : AT(ADDR(.apicdrivers) - LOAD_OFFSET) {
-		__apicdrivers = .;
-		*(.apicdrivers);
-		__apicdrivers_end = .;
-	}
+        .       = ALIGN(8);
+        .apicdrivers : AT(ADDR(.apicdrivers) - LOAD_OFFSET) {
+        __apicdrivers = .;
+        *(.apicdrivers);
+        __apicdrivers_end = .;
+        }
 
-	. = ALIGN(8);
+        .       = ALIGN(8);
 	/*
 	 * .exit.text is discarded at runtime, not link time, to deal with
 	 *  references from .altinstructions
 	 */
-	.exit.text : AT(ADDR(.exit.text) - LOAD_OFFSET) {
-		EXIT_TEXT
-	}
+        .exit.text : AT(ADDR(.exit.text) - LOAD_OFFSET) {
+        EXIT_TEXT
+        }
 
-	.exit.data : AT(ADDR(.exit.data) - LOAD_OFFSET) {
-		EXIT_DATA
-	}
+        .exit.data : AT(ADDR(.exit.data) - LOAD_OFFSET) {
+        EXIT_DATA
+        }
 
-	PERCPU_SECTION(L1_CACHE_BYTES)
-	ASSERT(__per_cpu_hot_end - __per_cpu_hot_start <= 64, "percpu cache hot data too large")
+        PERCPU_SECTION(L1_CACHE_BYTES)
+        ASSERT(__per_cpu_hot_end - __per_cpu_hot_start <= 64, "percpu cache hot data too large")
 
-	RUNTIME_CONST_VARIABLES
-	RUNTIME_CONST(ptr, USER_PTR_MAX)
+        RUNTIME_CONST_VARIABLES
+        RUNTIME_CONST(ptr, USER_PTR_MAX)
 
-	. = ALIGN(PAGE_SIZE);
+        .       = ALIGN(PAGE_SIZE);
 
-	/* freed after init ends here */
-	.init.end : AT(ADDR(.init.end) - LOAD_OFFSET) {
-		__init_end = .;
-	}
+        /* freed after init ends here */
+        .init.end : AT(ADDR(.init.end) - LOAD_OFFSET) {
+        __init_end = .;
+        }
 
 #ifdef CONFIG_X86_64
-	.data_nosave : AT(ADDR(.data_nosave) - LOAD_OFFSET) {
-		NOSAVE_DATA
-	}
+        .data_nosave : AT(ADDR(.data_nosave) - LOAD_OFFSET) {
+        NOSAVE_DATA
+        }
 #endif
 
-	/* BSS */
-	. = ALIGN(PAGE_SIZE);
-	.bss : AT(ADDR(.bss) - LOAD_OFFSET) {
-		__bss_start = .;
-		*(.bss..page_aligned)
-		. = ALIGN(PAGE_SIZE);
-		*(BSS_MAIN)
-		BSS_DECRYPTED
-		. = ALIGN(PAGE_SIZE);
-		__bss_stop = .;
-	}
+        /* BSS */
+        .       = ALIGN(PAGE_SIZE);
+        .bss    : AT(ADDR(.bss) - LOAD_OFFSET) {
+        __bss_start = .;
+        *(.bss..page_aligned)
+        .       = ALIGN(PAGE_SIZE);
+        *(BSS_MAIN)
+        BSS_DECRYPTED
+        .       = ALIGN(PAGE_SIZE);
+        __bss_stop = .;
+        }
 
 	/*
 	 * The memory occupied from _text to here, __end_of_kernel_reserve, is
@@ -376,19 +376,19 @@ SECTIONS
 	 * explicitly reserved using memblock_reserve() or it will be discarded
 	 * and treated as available memory.
 	 */
-	__end_of_kernel_reserve = .;
+        __end_of_kernel_reserve = .;
 
-	. = ALIGN(PAGE_SIZE);
-	.brk : AT(ADDR(.brk) - LOAD_OFFSET) {
-		__brk_base = .;
-		. += 64 * 1024;		/* 64k alignment slop space */
-		*(.bss..brk)		/* areas brk users have reserved */
-		__brk_limit = .;
-	}
+        .       = ALIGN(PAGE_SIZE);
+        .brk    : AT(ADDR(.brk) - LOAD_OFFSET) {
+        __brk_base = .;
+        .       += 64 * 1024;		/* 64k alignment slop space */
+        *(.bss..brk)    /* areas brk users have reserved */
+        __brk_limit = .;
+        }
 
-	. = ALIGN(PAGE_SIZE);		/* keep VO_INIT_SIZE page aligned */
-	_end = .;
-	__pi__end = .;
+        .       = ALIGN(PAGE_SIZE);		/* keep VO_INIT_SIZE page aligned */
+        _end    = .;
+        __pi__end = .;
 
 #ifdef CONFIG_AMD_MEM_ENCRYPT
 	/*
@@ -406,59 +406,59 @@ SECTIONS
 	 * kernel during boot. Resides on a 2MB boundary to simplify the
 	 * pagetable setup used for SME in-place encryption.
 	 */
-	. = ALIGN(HPAGE_SIZE);
-	.init.scratch : AT(ADDR(.init.scratch) - LOAD_OFFSET) {
-		__init_scratch_begin = .;
-		*(.init.scratch)
-		. = ALIGN(HPAGE_SIZE);
-		__init_scratch_end = .;
-	}
+        .       = ALIGN(HPAGE_SIZE);
+        .init.scratch : AT(ADDR(.init.scratch) - LOAD_OFFSET) {
+        __init_scratch_begin = .;
+        *(.init.scratch)
+        .       = ALIGN(HPAGE_SIZE);
+        __init_scratch_end = .;
+        }
 #endif
 
-	STABS_DEBUG
-	DWARF_DEBUG
-	PROPELLER_DATA
-	MODINFO
-	ELF_DETAILS
+        STABS_DEBUG
+        DWARF_DEBUG
+        PROPELLER_DATA
+        MODINFO
+        ELF_DETAILS
 
-	DISCARDS
+        DISCARDS
 
 	/*
 	 * Make sure that the .got.plt is either completely empty or it
 	 * contains only the lazy dispatch entries.
 	 */
-	.got.plt (INFO) : { *(.got.plt) }
-	ASSERT(SIZEOF(.got.plt) == 0 ||
+        .got.plt (INFO) : { *(.got.plt) }
+        ASSERT(SIZEOF(.got.plt) == 0 ||
 #ifdef CONFIG_X86_64
-	       SIZEOF(.got.plt) == 0x18,
+        SIZEOF(.got.plt) == 0x18,
 #else
-	       SIZEOF(.got.plt) == 0xc,
+        SIZEOF(.got.plt) == 0xc,
 #endif
-	       "Unexpected GOT/PLT entries detected!")
+        "Unexpected GOT/PLT entries detected!")
 
 	/*
 	 * Sections that should stay zero sized, which is safer to
 	 * explicitly check instead of blindly discarding.
 	 */
-	.got : {
-		*(.got) *(.igot.*)
-	}
-	ASSERT(SIZEOF(.got) == 0, "Unexpected GOT entries detected!")
+        .got    : {
+        *(.got) *(.igot.*)
+        }
+        ASSERT(SIZEOF(.got) == 0, "Unexpected GOT entries detected!")
 
-	.plt : {
-		*(.plt) *(.plt.*) *(.iplt)
-	}
-	ASSERT(SIZEOF(.plt) == 0, "Unexpected run-time procedure linkages detected!")
+        .plt    : {
+        *(.plt) *(.plt.*) *(.iplt)
+        }
+        ASSERT(SIZEOF(.plt) == 0, "Unexpected run-time procedure linkages detected!")
 
-	.rel.dyn : {
-		*(.rel.*) *(.rel_*)
-	}
-	ASSERT(SIZEOF(.rel.dyn) == 0, "Unexpected run-time relocations (.rel) detected!")
+        .rel.dyn : {
+        *(.rel.*) *(.rel_*)
+        }
+        ASSERT(SIZEOF(.rel.dyn) == 0, "Unexpected run-time relocations (.rel) detected!")
 
-	.rela.dyn : {
-		*(.rela.*) *(.rela_*)
-	}
-	ASSERT(SIZEOF(.rela.dyn) == 0, "Unexpected run-time relocations (.rela) detected!")
+        .rela.dyn : {
+        *(.rela.*) *(.rela_*)
+        }
+        ASSERT(SIZEOF(.rela.dyn) == 0, "Unexpected run-time relocations (.rela) detected!")
 }
 
 /*
@@ -472,7 +472,7 @@ SECTIONS
  * The ASSERT() sync to . is intentional, for binutils 2.14 compatibility:
  */
 . = ASSERT((_end - LOAD_OFFSET <= KERNEL_IMAGE_SIZE),
-	   "kernel image bigger than KERNEL_IMAGE_SIZE");
+        "kernel image bigger than KERNEL_IMAGE_SIZE");
 #endif
 
 /* needed for Clang - see arch/x86/entry/entry.S */
@@ -497,8 +497,8 @@ PROVIDE(__ref_stack_chk_guard = __stack_chk_guard);
  * of the two function addresses:
  */
 . = ASSERT(((ABSOLUTE(srso_alias_untrain_ret) | srso_alias_safe_ret) -
-		(ABSOLUTE(srso_alias_untrain_ret) & srso_alias_safe_ret)) == ((1 << 2) | (1 << 8) | (1 << 14) | (1 << 20)),
-		"SRSO function pair won't alias");
+        (ABSOLUTE(srso_alias_untrain_ret) & srso_alias_safe_ret)) == ((1 << 2) | (1 << 8) | (1 << 14) | (1 << 20)),
+        "SRSO function pair won't alias");
 #endif
 
 #if defined(CONFIG_MITIGATION_ITS) && !defined(CONFIG_DEBUG_FORCE_FUNCTION_ALIGN_64B)
@@ -521,11 +521,11 @@ PROVIDE(__ref_stack_chk_guard = __stack_chk_guard);
  */
 #ifdef CONFIG_XEN_PV
 xen_elfnote_entry_value =
-	ABSOLUTE(xen_elfnote_entry) + ABSOLUTE(startup_xen);
+        ABSOLUTE(xen_elfnote_entry) + ABSOLUTE(startup_xen);
 #endif
 #ifdef CONFIG_PVH
 xen_elfnote_phys32_entry_value =
-	ABSOLUTE(xen_elfnote_phys32_entry) + ABSOLUTE(pvh_start_xen - LOAD_OFFSET);
+        ABSOLUTE(xen_elfnote_phys32_entry) + ABSOLUTE(pvh_start_xen - LOAD_OFFSET);
 #endif
 
 #include "../boot/startup/exports.h"

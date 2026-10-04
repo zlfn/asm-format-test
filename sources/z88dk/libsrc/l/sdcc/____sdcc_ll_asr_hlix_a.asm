@@ -12,30 +12,30 @@ ____sdcc_ll_asr_hlix_a:
 
 IFDEF __SDCC_IX
 
-   push ix
-   pop bc
-   
+        push    ix
+        pop     bc
+
 ELSE
 
-   push iy
-   pop bc
-   
+        push    iy
+        pop     bc
+
 ENDIF
-   
-   add hl,bc
-   
-   ld c,l
-   ld b,h
-   
+
+        add     hl, bc
+
+        ld      c, l
+        ld      b, h
+
 ____sdcc_ll_asr_hlix_a_0:
 
-   push bc
-   
-   ex af,af'
-   call l_load_64_dehldehl_mbc
-   ex af,af'
-   
-   call l_asr_dehldehl
-   
-   pop bc
-   jp l_store_64_dehldehl_mbc
+        push    bc
+
+        ex      af, af'
+        call    l_load_64_dehldehl_mbc
+        ex      af, af'
+
+        call    l_asr_dehldehl
+
+        pop     bc
+        jp      l_store_64_dehldehl_mbc

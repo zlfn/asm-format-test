@@ -4,14 +4,14 @@ SECTION code_error
 
 PUBLIC error_oc
 
-   pop hl
+        pop     hl
 
 error_oc:
 
-   ; set hl = 1
-   ; set carry flag
-   
-   ld hl,1
-   scf
-   
-   ret
+        ; set hl = 1
+        ; set carry flag
+
+        ld      hl, 1
+        scf
+
+        ret

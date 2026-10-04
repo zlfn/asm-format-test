@@ -8,10 +8,10 @@ EXTERN l0_esx_ide_bank_reserve_callee
 
 _esx_ide_bank_reserve:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp l0_esx_ide_bank_reserve_callee
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      l0_esx_ide_bank_reserve_callee

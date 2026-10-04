@@ -9,12 +9,12 @@ EXTERN l0_zx_cls_wc_attr
 
 _zx_cls_wc_attr:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp l0_zx_cls_wc_attr
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      l0_zx_cls_wc_attr

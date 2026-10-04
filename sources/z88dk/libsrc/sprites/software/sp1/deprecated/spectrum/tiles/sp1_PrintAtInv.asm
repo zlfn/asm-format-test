@@ -9,17 +9,17 @@ EXTERN ASMDISP_SP1_PRINTATINV_CALLEE
 
 .sp1_PrintAtInv
 
-   ld hl,2
-   add hl,sp
-   ld c,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld a,(hl)
-   inc hl
-   inc hl
-   ld e,(hl)
-   inc hl
-   inc hl
-   ld d,(hl)
-   jp sp1_PrintAtInv_callee + ASMDISP_SP1_PRINTATINV_CALLEE
+        ld      hl, 2
+        add     hl, sp
+        ld      c,  (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        inc     hl
+        ld      d, (hl)
+        jp      sp1_PrintAtInv_callee + ASMDISP_SP1_PRINTATINV_CALLEE

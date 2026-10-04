@@ -5,19 +5,19 @@
 ; 2005-01-01, Greg King
 ;
 
-        .export         _cscanf
+        .export _cscanf
 
-        .import         pushax, addysp, _vcscanf
+        .import pushax, addysp, _vcscanf
 
-        .macpack        generic
-        .include        "zeropage.inc"
+        .macpack generic
+        .include "zeropage.inc"
 
 ; ----------------------------------------------------------------------------
 ; Code
 ;
 _cscanf:
-        sty     ArgSize         ; Number of argument bytes passed in .Y
-        dey                     ; subtract size of format pointer
+        sty     ArgSize ; Number of argument bytes passed in .Y
+        dey             ; subtract size of format pointer
         dey
         tya
 
@@ -33,10 +33,10 @@ _cscanf:
 ; Push a copy of the format pointer onto the stack.
 
         ldy     #1
-        lda     (ptr1),y
+        lda     (ptr1), y
         tax
         dey
-        lda     (ptr1),y
+        lda     (ptr1), y
         jsr     pushax
 
 ; Load va_list [last and __fastcall__ argument for vcscanf()].
@@ -58,5 +58,4 @@ _cscanf:
 ;
         .bss
 ArgSize:
-        .res    1               ; Number of argument bytes
-
+        .res    1       ; Number of argument bytes

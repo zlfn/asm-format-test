@@ -3,9 +3,8 @@
 ;
 ;	Dummy initialisation for machine tailored libraries
 
-    SECTION code_fp
-    PUBLIC  init_floatpack
-
+        SECTION code_fp
+        PUBLIC  init_floatpack
 
 init_floatpack:
-    ret
+        ret

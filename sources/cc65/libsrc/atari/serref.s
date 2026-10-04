@@ -2,18 +2,18 @@
 ; Christian Groessler, 2014-04-22
 ;
 
-        .include        "atari.inc"
+        .include "atari.inc"
 
-        .export         ser_libref
+        .export ser_libref
 
-        .import         _close, pushax, popax
-        .import         findfreeiocb
-        .import         __do_oserror
-        .import         fddecusage
-        .import         fdtoiocb
-        .import         __inviocb
-        .import         clriocb
-        .import         newfd
+        .import _close, pushax, popax
+        .import findfreeiocb
+        .import __do_oserror
+        .import fddecusage
+        .import fdtoiocb
+        .import __inviocb
+        .import clriocb
+        .import newfd
 
 ser_libref      := atari_ser_libref
 

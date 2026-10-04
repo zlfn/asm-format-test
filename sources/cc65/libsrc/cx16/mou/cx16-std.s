@@ -4,18 +4,17 @@
 ; 2022-03-28, Greg King
 ;
 
-        .include        "zeropage.inc"
-        .include        "mouse-kernel.inc"
-        .include        "cx16.inc"
-        .include        "cbm_kernal.inc"
+        .include "zeropage.inc"
+        .include "mouse-kernel.inc"
+        .include "cx16.inc"
+        .include "cbm_kernal.inc"
 
-        .macpack        module
-
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _cx16_std_mou
+        module_header _cx16_std_mou
 
 HEADER:
 
@@ -45,17 +44,16 @@ HEADER:
 
 ; Mouse driver flags
 
-        .byte   $00                     ; Don't need interrupts
+        .byte   $00     ; Don't need interrupts
 
 ; Callback table, set by the mouse kernel before INSTALL is called
 
-CHIDE:  jmp     $0000                   ; Hide the cursor
-CSHOW:  jmp     $0000                   ; Show the cursor
-CPREP:  jmp     $0000                   ; Prepare to move the cursor
-CDRAW:  jmp     $0000                   ; Draw the cursor
-CMOVEX: jmp     $0000                   ; Move the cursor to X coord
-CMOVEY: jmp     $0000                   ; Move the cursor to Y coord
-
+CHIDE:  jmp     $0000   ; Hide the cursor
+CSHOW:  jmp     $0000   ; Show the cursor
+CPREP:  jmp     $0000   ; Prepare to move the cursor
+CDRAW:  jmp     $0000   ; Draw the cursor
+CMOVEX: jmp     $0000   ; Move the cursor to X coord
+CMOVEY: jmp     $0000   ; Move the cursor to Y coord
 
 ;----------------------------------------------------------------------------
 ; Constants
@@ -72,10 +70,10 @@ YPos            := ptr4                 ; Current mouse position, Y
 .bss
 
 Box:
-XMin:           .res    2               ; X1 value of bounding box
-XMax:           .res    2               ; X2 value of bounding box
-YMin:           .res    2               ; Y1 value of bounding box
-YMax:           .res    2               ; Y2 value of bounding box
+XMin:   .res    2       ; X1 value of bounding box
+XMax:   .res    2       ; X2 value of bounding box
+YMin:   .res    2       ; Y1 value of bounding box
+YMax:   .res    2       ; Y2 value of bounding box
 
 .rodata
 
@@ -83,23 +81,23 @@ YMax:           .res    2               ; Y2 value of bounding box
 ; (We use ".proc" because we want to define both a label and a scope.)
 
 .proc   DefBox
-        .word   0                       ; XMin
-        .word   SCREEN_WIDTH            ; XMax
-        .word   0                       ; YMin
-        .word   SCREEN_HEIGHT           ; YMax
+        .word   0               ; XMin
+        .word   SCREEN_WIDTH    ; XMax
+        .word   0               ; YMin
+        .word   SCREEN_HEIGHT   ; YMax
 .endproc
 
 ; These button masks are compatible with the CBM 1351 and the CMD SmartMouse.
 
 ButtMask:
-        .byte   %00000000               ; No buttons
-        .byte   %00010000               ; Left
-        .byte   %00000001               ; Right
-        .byte   %00010001               ; Left, right
-        .byte   %00000010               ; Middle
-        .byte   %00010010               ; Left, middle
-        .byte   %00000011               ; Middle, right
-        .byte   %00010011               ; Left, middle, right
+        .byte   %00000000       ; No buttons
+        .byte   %00010000       ; Left
+        .byte   %00000001       ; Right
+        .byte   %00010001       ; Left, right
+        .byte   %00000010       ; Middle
+        .byte   %00010010       ; Left, middle
+        .byte   %00000011       ; Middle, right
+        .byte   %00010011       ; Left, middle, right
 
 .code
 
@@ -113,14 +111,14 @@ INSTALL:
 ; Initialize variables. Just copy the default stuff over.
 
         ldx     #.sizeof(DefBox) - 1
-@L1:    lda     DefBox,x
-        sta     Box,x
+@L1:    lda     DefBox, x
+        sta     Box,    x
         dex
         bpl     @L1
 
-        sec                     ; Get screen geometry
+        sec             ; Get screen geometry
         jsr     SCREEN_MODE
-        lda     #$01            ; Create sprite
+        lda     #$01    ; Create sprite
         jsr     MOUSE_CONFIG
 
 ; Be sure the mouse cursor is invisible, and at the default location. We
@@ -148,7 +146,7 @@ INSTALL:
 ; UNINSTALL routine -- is called before the driver is removed from memory.
 ; No return code required (the driver is removed from memory on return).
 
-UNINSTALL:                      ; Disable mouse on exit
+UNINSTALL:      ; Disable mouse on exit
         lda     #$00
         tax
         jmp     MOUSE_CONFIG
@@ -179,7 +177,7 @@ SHOW:   jmp     CSHOW
 ; caller, and save some code here. No return code required.
 
 SETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         lda     (ptr1)
         ldy     #$01
@@ -187,13 +185,13 @@ SETBOX: sta     ptr1
         php
         sei
         sta     XMin
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     YMin
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     XMax
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     YMax
         plp
 
@@ -206,19 +204,19 @@ SETBOX: sta     ptr1
 ; come from the C program, that is, a pointer to a mouse_box struct in .XA .
 
 GETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         lda     XMin
         sta     (ptr1)
         ldy     #$01
         lda     YMin
-        sta     (ptr1),y
+        sta     (ptr1), y
         iny
         lda     XMax
-        sta     (ptr1),y
+        sta     (ptr1), y
         iny
         lda     YMax
-        sta     (ptr1),y
+        sta     (ptr1), y
         rts
 
 ;----------------------------------------------------------------------------
@@ -231,22 +229,22 @@ GETBOX: sta     ptr1
 ;; Note: This function currently has no effect!
 
 MOVE:   php
-        sei                             ; No interrupts
+        sei     ; No interrupts
 
         sta     YPos
-        stx     YPos+1                  ; New Y position
-        jsr     CMOVEY                  ; Set it
+        stx     YPos+1  ; New Y position
+        jsr     CMOVEY  ; Set it
 
         ldy     #$01
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     XPos+1
         tax
         dey
-        lda     (c_sp),y
-        sta     XPos                    ; New X position
-        jsr     CMOVEX                  ; Move the cursor
+        lda     (c_sp), y
+        sta     XPos    ; New X position
+        jsr     CMOVEX  ; Move the cursor
 
-        plp                             ; Allow interrupts
+        plp     ; Allow interrupts
         rts
 
 ;----------------------------------------------------------------------------
@@ -258,7 +256,7 @@ BUTTONS:
 
         and     #%00000111
         tax
-        lda     ButtMask,x
+        lda     ButtMask, x
         ldx     #>$0000
         rts
 
@@ -270,16 +268,16 @@ POS:    jsr     BUTTONS
 
 POS1:   ldy     #MOUSE_POS::XCOORD      ; Structure offset
         lda     XPos                    ; Transfer the position
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     XPos+1
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos+1
         iny
-        sta     (ptr1),y                ; Store last byte
+        sta     (ptr1), y               ; Store last byte
         rts                             ; Done
 
 ;----------------------------------------------------------------------------
@@ -291,9 +289,9 @@ POS1:   ldy     #MOUSE_POS::XCOORD      ; Structure offset
 ; call mouse_pos to initialize the struct pointer, and fill the position
 ; fields.
 
-INFO:   jsr     BUTTONS                 ; Will not touch ptr1
+INFO:   jsr     BUTTONS ; Will not touch ptr1
         ldy     #MOUSE_INFO::BUTTONS
-        sta     (ptr1),y
+        sta     (ptr1), y
         jmp     POS1
 
 ;----------------------------------------------------------------------------
@@ -302,7 +300,7 @@ INFO:   jsr     BUTTONS                 ; Will not touch ptr1
 ; Must return an error code in .XA .
 
 IOCTL:  lda     #MOUSE_ERR_INV_IOCTL    ; We don't support ioctls, for now
-        ldx     #0 ; return value is char
+        ldx     #0                      ; return value is char
 ;       rts                             ; Fall through
 
 ;----------------------------------------------------------------------------
@@ -311,4 +309,4 @@ IOCTL:  lda     #MOUSE_ERR_INV_IOCTL    ; We don't support ioctls, for now
 ; 'handled' -- which means that the interrupt source is gone. Otherwise, it
 ; MUST return carry clear.
 
-IRQ:    rts                             ; Kernal ROM does this routine's job
+IRQ:    rts     ; Kernal ROM does this routine's job

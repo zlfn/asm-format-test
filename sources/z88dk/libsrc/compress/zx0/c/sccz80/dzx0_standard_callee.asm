@@ -11,22 +11,20 @@ EXTERN asm_dzx0_standard
 dzx0_standard_callee:
 
 IF __CPU_GBZ80__
-   pop bc
-   pop de
-   pop hl
-   push bc
+        pop     bc
+        pop     de
+        pop     hl
+        push    bc
 ELSE
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 ENDIF
-   
-   jp asm_dzx0_standard
+
+        jp      asm_dzx0_standard
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _dzx0_standard_callee
 defc _dzx0_standard_callee = dzx0_standard_callee
 ENDIF
-
-

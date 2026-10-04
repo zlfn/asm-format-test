@@ -9,19 +9,18 @@
 ;       $Id: a_machine.asm,v 1.3 2017-01-02 20:06:48 aralbrec Exp $
 ;
 
-	SECTION code_clib
+        SECTION code_clib
 
-	PUBLIC	a_machine
-   PUBLIC   _a_machine
-	
-	EXTERN	subuserf
-	INCLUDE	"target/cpc/def/amstrad_userf.def"
+        PUBLIC  a_machine
+        PUBLIC  _a_machine
+
+        EXTERN  subuserf
+        INCLUDE "target/cpc/def/amstrad_userf.def"
 
 a_machine:
 _a_machine:
-	call subuserf
-	defw CD_VERSION
-	ld l,a
-	ld h,0
-	ret
-
+        call    subuserf
+        defw    CD_VERSION
+        ld      l, a
+        ld      h, 0
+        ret

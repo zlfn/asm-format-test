@@ -10,9 +10,9 @@ EXTERN am48_atan2, cm48_sccz80p_dcallee2
 
 cm48_sccz80_atan2_callee:
 
-   call cm48_sccz80p_dcallee2
-   
-   ; AC'= x
-   ; AC = y
-   
-   jp am48_atan2
+        call    cm48_sccz80p_dcallee2
+
+        ; AC'= x
+        ; AC = y
+
+        jp      am48_atan2

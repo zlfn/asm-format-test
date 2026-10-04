@@ -9,12 +9,12 @@ EXTERN asm_SMSlib_setClippingWindow
 
 _SMS_setClippingWindow:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     hl
 
-   jp asm_SMSlib_setClippingWindow
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_SMSlib_setClippingWindow

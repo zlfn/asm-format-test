@@ -8,10 +8,10 @@ EXTERN _esx_dos_set_drive_fastcall
 
 _esx_dos_set_drive:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _esx_dos_set_drive_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _esx_dos_set_drive_fastcall

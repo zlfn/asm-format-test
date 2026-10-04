@@ -10,24 +10,24 @@ EXTERN asm_lseek
 
 _lseek_callee:
 
-   pop bc
-   exx
-   pop bc
-   pop hl
-   pop de
-   ex (sp),hl
-   ld a,l
-   pop hl
+        pop     bc
+        exx
+        pop     bc
+        pop     hl
+        pop     de
+        ex      (sp), hl
+        ld      a,    l
+        pop     hl
 
 l0_lseek_callee:
 
-   exx
-   push bc
+        exx
+        push    bc
 
-   exx
-   push ix
-   
-   call asm_lseek
-   
-   pop ix
-   ret
+        exx
+        push    ix
+
+        call    asm_lseek
+
+        pop     ix
+        ret

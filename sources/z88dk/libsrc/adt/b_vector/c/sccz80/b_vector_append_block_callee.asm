@@ -10,15 +10,14 @@ EXTERN asm_b_vector_append_block
 
 b_vector_append_block_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_b_vector_append_block
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_b_vector_append_block
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _b_vector_append_block_callee
 defc _b_vector_append_block_callee = b_vector_append_block_callee
 ENDIF
-

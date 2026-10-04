@@ -12,10 +12,10 @@ IF !__CPU_GBZ80__
 defc rand = asm_rand
 ELSE
 rand:
-  call asm_rand
-  ld   d,h
-  ld   e,l
-  ret
+        call    asm_rand
+        ld      d, h
+        ld      e, l
+        ret
 ENDIF
 
 ; SDCC bridge for Classic

@@ -7,18 +7,17 @@
 ; 2020-07-14, Greg King
 ;
 
-        .include        "zeropage.inc"
-        .include        "mouse-kernel.inc"
-        .include        "c128.inc"
+        .include "zeropage.inc"
+        .include "mouse-kernel.inc"
+        .include "c128.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c128_pot_mou
+        module_header _c128_pot_mou
 
 HEADER:
 
@@ -52,13 +51,12 @@ libref: .addr   $0000
 
 ; Callback table, set by the kernel before INSTALL is called
 
-CHIDE:  jmp     $0000                   ; Hide the cursor
-CSHOW:  jmp     $0000                   ; Show the cursor
-CPREP:  jmp     $0000                   ; Prepare to move the cursor
-CDRAW:  jmp     $0000                   ; Draw the cursor
-CMOVEX: jmp     $0000                   ; Move the cursor to X coord
-CMOVEY: jmp     $0000                   ; Move the cursor to Y coord
-
+CHIDE:  jmp     $0000   ; Hide the cursor
+CSHOW:  jmp     $0000   ; Show the cursor
+CPREP:  jmp     $0000   ; Prepare to move the cursor
+CDRAW:  jmp     $0000   ; Draw the cursor
+CMOVEX: jmp     $0000   ; Move the cursor to X coord
+CMOVEY: jmp     $0000   ; Move the cursor to Y coord
 
 ;----------------------------------------------------------------------------
 ; Constants
@@ -82,23 +80,23 @@ SCREEN_WIDTH    = 320
 .bss
 
 Vars:
-YPos:           .res    2               ; Current mouse position, Y
-XPos:           .res    2               ; Current mouse position, X
-XMin:           .res    2               ; X1 value of bounding box
-YMin:           .res    2               ; Y1 value of bounding box
-XMax:           .res    2               ; X2 value of bounding box
-YMax:           .res    2               ; Y2 value of bounding box
-Buttons:        .res    1               ; Button mask
+YPos:   .res    2       ; Current mouse position, Y
+XPos:   .res    2       ; Current mouse position, X
+XMin:   .res    2       ; X1 value of bounding box
+YMin:   .res    2       ; Y1 value of bounding box
+XMax:   .res    2       ; X2 value of bounding box
+YMax:   .res    2       ; Y2 value of bounding box
+Buttons: .res   1       ; Button mask
 
-INIT_save:      .res    1
+INIT_save: .res 1
 
 ; Keyboard buffer fill level at start of interrupt
 
-old_key_count:  .res    1
+old_key_count: .res 1
 
 ; Original IRQ vector
 
-old_irq:        .res    2
+old_irq: .res   2
 
 .rodata
 
@@ -135,8 +133,8 @@ INSTALL:
 ; Initialize variables. Just copy the default stuff over
 
         ldx     #.sizeof(DefVars)-1
-@L1:    lda     DefVars,x
-        sta     Vars,x
+@L1:    lda     DefVars, x
+        sta     Vars,    x
         dex
         bpl     @L1
 
@@ -168,31 +166,31 @@ INSTALL:
 
         ; Set the ROM IRQ continuation address to point to the provided routine.
         ldy     #2
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     IRQInd+1
         iny
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     IRQInd+2
 
         ; Set the address of our IRQ callback routine.
         ; Because it's called via "rts", we must use "address-1".
         iny
         lda     #<(callback-1)
-        sta     (ptr3),y
+        sta     (ptr3), y
         iny
         lda     #>(callback-1)
-        sta     (ptr3),y
+        sta     (ptr3), y
 
         ; Set the ROM entry-point vector.
         ; Because it's called via "rts", we must decrement it by one.
         iny
         lda     old_irq
         sub     #<1
-        sta     (ptr3),y
+        sta     (ptr3), y
         iny
         lda     old_irq+1
         sbc     #>1
-        sta     (ptr3),y
+        sta     (ptr3), y
         cli
 
 ; Done
@@ -214,7 +212,7 @@ UNINSTALL:
         stx     IRQInd+2
         ;cli                            ; This will be done at end of HIDE
 
-        jsr     HIDE                    ; Hide cursor on exit
+        jsr     HIDE    ; Hide cursor on exit
         lda     INIT_save
         sta     INIT_STATUS
         rts
@@ -251,13 +249,13 @@ SHOW:   sei
 ; caller and save some code here. No return code required.
 
 SETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX)-1
         sei
 
-@L1:    lda     (ptr1),y
-        sta     XMin,y
+@L1:    lda     (ptr1), y
+        sta     XMin,   y
         dey
         bpl     @L1
 
@@ -269,13 +267,13 @@ SETBOX: sta     ptr1
 ; come from the C program, that is, a pointer to a mouse_box struct in a/x.
 
 GETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX)-1
         sei
 
-@L1:    lda     XMin,y
-        sta     (ptr1),y
+@L1:    lda     XMin,   y
+        sta     (ptr1), y
         dey
         bpl     @L1
 
@@ -290,23 +288,23 @@ GETBOX: sta     ptr1
 ; the screen). No return code required.
 ;
 
-MOVE:   sei                             ; No interrupts
+MOVE:   sei     ; No interrupts
 
         sta     YPos
-        stx     YPos+1                  ; New Y position
-        jsr     CMOVEY                  ; Set it
+        stx     YPos+1  ; New Y position
+        jsr     CMOVEY  ; Set it
 
         ldy     #$01
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     XPos+1
         tax
         dey
-        lda     (c_sp),y
-        sta     XPos                    ; New X position
+        lda     (c_sp), y
+        sta     XPos    ; New X position
 
-        jsr     CMOVEX                  ; Move the cursor
+        jsr     CMOVEX  ; Move the cursor
 
-        cli                             ; Allow interrupts
+        cli     ; Allow interrupts
         rts
 
 ;----------------------------------------------------------------------------
@@ -322,7 +320,7 @@ BUTTONS:
         lsr     a
         lsr     a
         ;clc                            ; ("lsr" shifted zero into carry flag)
-        adc     #%00001110              ; Shift bit 1 over to bit 4
+        adc     #%00001110      ; Shift bit 1 over to bit 4
         and     #MOUSE_BTN_LEFT | MOUSE_BTN_RIGHT
         rts
 
@@ -332,22 +330,22 @@ BUTTONS:
 
 POS:    ldy     #MOUSE_POS::XCOORD      ; Structure offset
 
-        sei                             ; Disable interrupts
-        lda     XPos                    ; Transfer the position
-        sta     (ptr1),y
+        sei             ; Disable interrupts
+        lda     XPos    ; Transfer the position
+        sta     (ptr1), y
         lda     XPos+1
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos+1
-        cli                             ; Enable interrupts
+        cli             ; Enable interrupts
 
         iny
-        sta     (ptr1),y                ; Store last byte
+        sta     (ptr1), y       ; Store last byte
 
-        rts                             ; Done
+        rts     ; Done
 
 ;----------------------------------------------------------------------------
 ; INFO: Returns mouse position and current button mask in the MOUSE_INFO
@@ -364,7 +362,7 @@ INFO:   jsr     POS
 
         jsr     BUTTONS
         ldy     #MOUSE_INFO::BUTTONS
-        sta     (ptr1),y
+        sta     (ptr1), y
 
         rts
 
@@ -374,7 +372,7 @@ INFO:   jsr     POS
 ; Must return an error code in a/x.
 ;
 
-IOCTL:  lda     #<MOUSE_ERR_INV_IOCTL     ; We don't support ioctls for now
+IOCTL:  lda     #<MOUSE_ERR_INV_IOCTL   ; We don't support ioctls for now
         ldx     #>MOUSE_ERR_INV_IOCTL
         rts
 
@@ -388,11 +386,11 @@ IRQ:    jsr     CPREP
         sta     old_key_count
         lda     #$FF
         sta     CIA1_PRA
-        lda     CIA1_PRB                ; Read port #1
-        eor     #%11111111              ; Make all bits active high
+        lda     CIA1_PRB        ; Read port #1
+        eor     #%11111111      ; Make all bits active high
         sta     Buttons
 
-        ldx     #%01000000              ; Read port 1 paddles
+        ldx     #%01000000      ; Read port 1 paddles
         stx     CIA1_PRA
         ldy     #<256
 :       dey
@@ -404,14 +402,14 @@ IRQ:    jsr     CPREP
 
         lda     #$FF
         tax
-        bne     @AddX                   ; Branch always
+        bne     @AddX   ; Branch always
         lda     #$01
         ldx     #$00
 
 ; Calculate the new X coordinate (--> a/y)
 
 @AddX:  add     XPos
-        tay                             ; Remember low byte
+        tay     ; Remember low byte
         txa
         adc     XPos+1
         tax
@@ -448,7 +446,7 @@ IRQ:    jsr     CPREP
 ; Calculate the new Y coordinate (--> a/y)
 
 @AddY:  add     YPos
-        tay                             ; Remember low byte
+        tay     ; Remember low byte
         txa
         adc     YPos+1
         tax
@@ -476,7 +474,7 @@ IRQ:    jsr     CPREP
         tya
         jsr     CMOVEY
         jsr     CDRAW
-        clc                             ; Interrupt not "handled"
+        clc     ; Interrupt not "handled"
         rts
 
 .define OLD_BUTTONS Buttons             ; Tells callback.inc where the old port status is stored

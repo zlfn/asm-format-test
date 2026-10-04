@@ -10,20 +10,20 @@ EXTERN asm_strtok
 
 strtok:
 
-   pop bc
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push bc
+        pop     bc
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    bc
 IF __CLASSIC && __CPU_GBZ80__
-   call asm_strtok
-   ld d,h
-   ld e,l
-   ret
+        call    asm_strtok
+        ld      d, h
+        ld      e, l
+        ret
 ELSE
-   jp asm_strtok
+        jp      asm_strtok
 ENDIF
 
 ; SDCC bridge for Classic
@@ -32,10 +32,8 @@ PUBLIC _strtok
 defc _strtok = strtok
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___strtok
 defc ___strtok = strtok
 ENDIF
-

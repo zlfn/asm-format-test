@@ -8,16 +8,16 @@
 ;	$Id: g007_clg_hr.asm,v 1.6 2016-07-14 17:44:17 pauloscustodio Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  _clg_hr
-    PUBLIC  __clg_hr
-    EXTERN  hrg_on
+        SECTION code_clib
+        PUBLIC  _clg_hr
+        PUBLIC  __clg_hr
+        EXTERN  hrg_on
 
 ;	EXTERN    base_graphics
 ;	EXTERN    G007_P2
 
-    defc    _clg_hr=hrg_on
-    defc    __clg_hr=hrg_on
+        defc    _clg_hr=hrg_on
+        defc    __clg_hr=hrg_on
 
 ;; if hrgpage has not been specified, then set a default value
 ;	ld      hl,(base_graphics)
@@ -55,4 +55,3 @@
 ;	jp		nz,hrg_on
 ;
 ;	ret
-

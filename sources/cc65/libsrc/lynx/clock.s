@@ -9,19 +9,18 @@
 ; If you change the numbers there, then change them here, too.
 ;
 
-        .export         _clock, ___clocks_per_sec, clock_count
-        .interruptor    update_clock, 2 ; (low priority)
-        .constructor    init_clock
+        .export _clock, ___clocks_per_sec, clock_count
+        .interruptor update_clock, 2    ; (low priority)
+        .constructor init_clock
 
-        .import         sreg: zp
-        .include        "lynx.inc"
+        .import sreg: zp
+        .include "lynx.inc"
 
-        .macpack        generic
-
+        .macpack generic
 
         .proc   _clock
         php
-        sei                     ; Disable interrupts
+        sei     ; Disable interrupts
 
 ; Read the clock counter.
 
@@ -29,9 +28,9 @@
         ldx     clock_count+1
         ldy     clock_count+2
 
-        plp                     ; Re-enable interrupts
+        plp             ; Re-enable interrupts
         sty     sreg
-        stz     sreg+1          ; Promote 24 bits up to 32 bits
+        stz     sreg+1  ; Promote 24 bits up to 32 bits
         rts
         .endproc
 
@@ -39,7 +38,7 @@
 ; Return the number of clock ticks in one second.
 ;
 ___clocks_per_sec:
-        ldx     #$00            ; >50, >60, >75
+        ldx     #$00    ; >50, >60, >75
         ldy     PBKUP
         lda     #<75
         cpy     #$20 + 1
@@ -48,7 +47,7 @@ ___clocks_per_sec:
         cpy     #$29 + 1
         blt     @ok
         lda     #<50
-@ok:    stz     sreg            ; return 32 bits
+@ok:    stz     sreg    ; return 32 bits
         stz     sreg+1
         rts
 
@@ -56,7 +55,7 @@ ___clocks_per_sec:
 ; This interrupt handler increments a 24-bit counter at every video
 ; vertical-blanking time.
 ;
-        .segment        "LOWCODE"
+        .segment "LOWCODE"
 update_clock:
         lda     INTSET
         and     #%00000100
@@ -67,14 +66,14 @@ update_clock:
         inc     clock_count+1
         bne     @L1
         inc     clock_count+2
-@L1:    ;clc                    ; General interrupt was not reset
+@L1:            ;clc                    ; General interrupt was not reset
 @NotVBlank:
         rts
 
 ;-----------------------------------------------------------------------------
 ; Enable the interrupt that update_clock needs.
 ;
-        .segment        "ONCE"
+        .segment "ONCE"
 init_clock:
         lda     #%10000000
         tsb     VTIMCTLA

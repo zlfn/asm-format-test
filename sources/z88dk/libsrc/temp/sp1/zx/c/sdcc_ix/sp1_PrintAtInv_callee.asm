@@ -9,14 +9,14 @@ EXTERN asm_sp1_PrintAtInv
 
 _sp1_PrintAtInv_callee:
 
-   pop hl
-   pop de
-   ld d,e
-   pop bc
-   ld e,c
-   pop bc
-   ld a,c
-   pop bc
-   push hl
+        pop     hl
+        pop     de
+        ld      d, e
+        pop     bc
+        ld      e, c
+        pop     bc
+        ld      a, c
+        pop     bc
+        push    hl
 
-   jp asm_sp1_PrintAtInv
+        jp      asm_sp1_PrintAtInv

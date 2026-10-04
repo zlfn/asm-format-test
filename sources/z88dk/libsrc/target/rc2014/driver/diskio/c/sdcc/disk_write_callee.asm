@@ -20,16 +20,16 @@ EXTERN asm_disk_write
 ;
 
 _disk_write_callee:
-    pop hl      ; pop return address
+        pop     hl      ; pop return address
 
-    inc sp      ; drop single byte pdrv (not evaluated)
-    pop af      ; *buff to af
-    pop de      ; start sector to bcde
-    pop bc
-    ex (sp),hl  ; get sector count to hl (return address on stack)
+        inc     sp              ; drop single byte pdrv (not evaluated)
+        pop     af              ; *buff to af
+        pop     de              ; start sector to bcde
+        pop     bc
+        ex      (sp), hl        ; get sector count to hl (return address on stack)
 
-    push af     ; push *buff
-    ld a,l      ; load UINT sector count to a
-    pop hl      ; pop *buff
+        push    af      ; push *buff
+        ld      a, l    ; load UINT sector count to a
+        pop     hl      ; pop *buff
 
-    jp asm_disk_write
+        jp      asm_disk_write

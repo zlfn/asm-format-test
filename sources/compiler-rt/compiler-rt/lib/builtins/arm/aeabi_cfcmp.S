@@ -24,48 +24,47 @@
 DEFINE_COMPILERRT_FUNCTION(__aeabi_cfcmpeq)
         PACBTI_LANDING
 #if defined(__ARM_FEATURE_PAC_DEFAULT)
-        push {r0-r3, r12, lr}
+        push    {r0-r3, r12, lr}
 #else
-        push {r0-r3, lr}
+        push    {r0-r3, lr}
 #endif
-        bl __aeabi_cfcmpeq_check_nan
-        cmp r0, #1
+        bl      __aeabi_cfcmpeq_check_nan
+        cmp     r0, #1
 #if defined(USE_THUMB_1)
-        beq 1f
+        beq     1f
         // NaN has been ruled out, so __aeabi_cfcmple can't trap
-        mov r0, sp
-        ldm r0, {r0-r3}
-        bl __aeabi_cfcmple
+        mov     r0, sp
+        ldm     r0, {r0-r3}
+        bl      __aeabi_cfcmple
         POP_PC_WITH_REGS r0-r3
 1:
         // Z = 0, C = 1
-        movs r0, #0xF
-        lsls r0, r0, #31
+        movs    r0, #0xF
+        lsls    r0, r0, #31
         POP_PC_WITH_REGS r0-r3
 #else
 #if defined(__ARM_FEATURE_PAC_DEFAULT)
-        pop {r0-r3, r12, lr}
-        aut r12, lr, sp
+        pop     {r0-r3, r12, lr}
+        aut     r12, lr, sp
 #else
-        pop {r0-r3, lr}
+        pop     {r0-r3, lr}
 #endif
 
         // NaN has been ruled out, so __aeabi_cfcmple can't trap
         // Use "it ne" + unconditional branch to guarantee a supported relocation if
         // __aeabi_cfcmple is in a different section for some builds.
         IT(ne)
-        bne __aeabi_cfcmple
+        bne     __aeabi_cfcmple
 
 #if defined(USE_THUMB_2)
-        mov r12, #APSR_C
-        msr APSR_nzcvq, r12
+        mov     r12, #APSR_C
+        msr     APSR_nzcvq, r12
 #else
-        msr APSR_nzcvq, #APSR_C
+        msr     APSR_nzcvq, #APSR_C
 #endif
         JMP(lr)
 #endif
 END_COMPILERRT_FUNCTION(__aeabi_cfcmpeq)
-
 
 // void __aeabi_cfcmple(float a, float b) {
 //   if (__aeabi_fcmplt(a, b)) {
@@ -84,53 +83,53 @@ DEFINE_COMPILERRT_FUNCTION(__aeabi_cfcmple)
         // Per the RTABI, this function must preserve r0-r11.
         // Save lr in the same instruction for compactness
 #if defined(__ARM_FEATURE_PAC_DEFAULT)
-        push {r0-r3, r12, lr}
+        push    {r0-r3, r12, lr}
 #else
-        push {r0-r3, lr}
+        push    {r0-r3, lr}
 #endif
 
-        bl __aeabi_fcmplt
-        cmp r0, #1
+        bl      __aeabi_fcmplt
+        cmp     r0, #1
 #if defined(USE_THUMB_1)
-        bne 1f
+        bne     1f
         // Z = 0, C = 0
-        movs r0, #1
-        lsls r0, r0, #1
+        movs    r0, #1
+        lsls    r0, r0, #1
         POP_PC_WITH_REGS r0-r3
 1:
-        mov r0, sp
-        ldm r0, {r0-r3}
-        bl __aeabi_fcmpeq
-        cmp r0, #1
-        bne 2f
+        mov     r0, sp
+        ldm     r0, {r0-r3}
+        bl      __aeabi_fcmpeq
+        cmp     r0, #1
+        bne     2f
         // Z = 1, C = 1
-        movs r0, #2
-        lsls r0, r0, #31
+        movs    r0, #2
+        lsls    r0, r0, #31
         POP_PC_WITH_REGS r0-r3
 2:
         // Z = 0, C = 1
-        movs r0, #0xF
-        lsls r0, r0, #31
+        movs    r0, #0xF
+        lsls    r0, r0, #31
         POP_PC_WITH_REGS r0-r3
 #else
         ITT(eq)
-        moveq ip, #0
-        beq 1f
+        moveq   ip, #0
+        beq     1f
 
-        ldm sp, {r0-r3}
-        bl __aeabi_fcmpeq
-        cmp r0, #1
+        ldm     sp, {r0-r3}
+        bl      __aeabi_fcmpeq
+        cmp     r0, #1
         ITE(eq)
-        moveq ip, #(APSR_C | APSR_Z)
-        movne ip, #(APSR_C)
+        moveq   ip, #(APSR_C | APSR_Z)
+        movne   ip, #(APSR_C)
 
 1:
-        msr APSR_nzcvq, ip
+        msr     APSR_nzcvq, ip
 #if defined(__ARM_FEATURE_PAC_DEFAULT)
-        pop {r0-r3, r12, lr}
+        pop     {r0-r3, r12, lr}
         PAC_RETURN
 #else
-        pop {r0-r3}
+        pop     {r0-r3}
         POP_PC
 #endif
 #endif
@@ -147,18 +146,17 @@ DEFINE_COMPILERRT_FUNCTION(__aeabi_cfrcmple)
         bti
 #endif
         // Swap r0 and r1
-        mov ip, r0
-        mov r0, r1
-        mov r1, ip
+        mov     ip, r0
+        mov     r0, r1
+        mov     r1, ip
 
 #if defined(USE_THUMB_1)
-        push {r0, lr}
-        bl __aeabi_cfcmple
+        push    {r0, lr}
+        bl      __aeabi_cfcmple
         POP_PC_WITH_REGS r0
 #else
-        b __aeabi_cfcmple
+        b       __aeabi_cfcmple
 #endif
 END_COMPILERRT_FUNCTION(__aeabi_cfrcmple)
 
 NO_EXEC_STACK_DIRECTIVE
-

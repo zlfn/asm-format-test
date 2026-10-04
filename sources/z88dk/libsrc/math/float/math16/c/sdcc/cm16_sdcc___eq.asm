@@ -8,10 +8,9 @@ EXTERN asm_f16_compare
 
 ; Entry: stack: half right, half left, ret
 .cm16_sdcc___eq
-    call asm_f16_compare
-    scf
-    ret Z
-    ccf
-    dec hl
-    ret
-
+        call    asm_f16_compare
+        scf
+        ret     Z
+        ccf
+        dec     hl
+        ret

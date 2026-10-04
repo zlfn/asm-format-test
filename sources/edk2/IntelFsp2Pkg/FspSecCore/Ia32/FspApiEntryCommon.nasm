@@ -5,9 +5,9 @@
 ; SPDX-License-Identifier: BSD-2-Clause-Patent
 ;;
 
-    SECTION .text
+        SECTION .text
 
-STACK_SAVED_EAX_OFFSET       EQU   4 * 7 ; size of a general purpose register * eax index
+STACK_SAVED_EAX_OFFSET EQU 4 * 7        ; size of a general purpose register * eax index
 
 ;
 ; Following functions will be provided in C
@@ -29,50 +29,49 @@ extern ASM_PFX(AsmGetFspInfoHeader)
 ;----------------------------------------------------------------------------
 global ASM_PFX(FspApiCommon)
 ASM_PFX(FspApiCommon):
-  ;
-  ; EAX holds the API index
-  ;
+        ;
+        ; EAX holds the API index
+        ;
 
-  ;
-  ; Stack must be ready
-  ;
-  push   eax
-  add    esp, 4
-  cmp    eax, dword  [esp - 4]
-  jz     FspApiCommon1
-  mov    eax, 080000003h
-  jmp    exit
+        ;
+        ; Stack must be ready
+        ;
+        push    eax
+        add     esp, 4
+        cmp     eax, dword  [esp - 4]
+        jz      FspApiCommon1
+        mov     eax, 080000003h
+        jmp     exit
 
 FspApiCommon1:
-  ;
-  ; Verify the calling condition
-  ;
-  pushad
-  push   DWORD [esp + (4 * 8 + 4)]  ; push ApiParam
-  push   eax                ; push ApiIdx
-  call   ASM_PFX(FspApiCallingCheck)
-  add    esp, 8
-  cmp    eax, 0
-  jz     FspApiCommon2
-  mov    dword  [esp + STACK_SAVED_EAX_OFFSET], eax
-  popad
+        ;
+        ; Verify the calling condition
+        ;
+        pushad
+        push    DWORD [esp + (4 * 8 + 4)]       ; push ApiParam
+        push    eax                             ; push ApiIdx
+        call    ASM_PFX(FspApiCallingCheck)
+        add     esp, 8
+        cmp     eax, 0
+        jz      FspApiCommon2
+        mov     dword  [esp + STACK_SAVED_EAX_OFFSET], eax
+        popad
 exit:
-  ret
+        ret
 
 FspApiCommon2:
-  popad
-  cmp    eax, 3   ; FspMemoryInit API
-  jz     FspApiCommon3
+        popad
+        cmp     eax, 3  ; FspMemoryInit API
+        jz      FspApiCommon3
 
-  cmp    eax, 6   ; FspMultiPhaseSiInitApiIndex API
-  jz     FspApiCommon3
+        cmp     eax, 6  ; FspMultiPhaseSiInitApiIndex API
+        jz      FspApiCommon3
 
-  cmp    eax, 8   ; FspMultiPhaseMemInitApiIndex API
-  jz     FspApiCommon3
+        cmp     eax, 8  ; FspMultiPhaseMemInitApiIndex API
+        jz      FspApiCommon3
 
-  call   ASM_PFX(AsmGetFspInfoHeader)
-  jmp    ASM_PFX(Loader2PeiSwitchStack)
+        call    ASM_PFX(AsmGetFspInfoHeader)
+        jmp     ASM_PFX(Loader2PeiSwitchStack)
 
 FspApiCommon3:
-  jmp    ASM_PFX(FspApiCommonContinue)
-
+        jmp     ASM_PFX(FspApiCommonContinue)

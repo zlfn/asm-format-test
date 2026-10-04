@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _zxn_addr_from_mmu
 defc _zxn_addr_from_mmu = zxn_addr_from_mmu
 ENDIF
-

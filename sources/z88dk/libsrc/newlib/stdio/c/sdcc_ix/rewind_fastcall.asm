@@ -15,14 +15,14 @@ PUBLIC _rewind_fastcall
 EXTERN asm_rewind
 
 _rewind_fastcall:
-   
-   push hl
-   ex (sp),ix
-   
-   call asm_rewind
-   
-   pop ix
-   ret
+
+        push    hl
+        ex      (sp), ix
+
+        call    asm_rewind
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

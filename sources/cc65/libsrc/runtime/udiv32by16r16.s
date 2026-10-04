@@ -4,10 +4,9 @@
 ; CC65 runtime: 32by16 => 16 unsigned division
 ;
 
-        .export         udiv32by16r16, udiv32by16r16m
+        .export udiv32by16r16, udiv32by16r16m
 
-        .include        "zeropage.inc"
-
+        .include "zeropage.inc"
 
 ;---------------------------------------------------------------------------
 ; 32by16 division. Divide ptr1:ptr2 by ptr3. Result is in ptr1, remainder
@@ -17,7 +16,6 @@
 ; -----------------------------------------------------------------------
 ;   ptr1:ptr2   ptr3          ax          ptr1              sreg
 ;
-
 
 udiv32by16r16:
         sta     ptr3
@@ -53,4 +51,3 @@ L1:     txa
         lda     ptr1
         ldx     ptr1+1
         rts
-

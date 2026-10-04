@@ -5,14 +5,14 @@
 ; time_t __fastcall__ mktime_dt(const struct datetime *dt)
 ;
 
-        .import         steaxspidx, pushax, incsp2, _gmtime_dt
-        .import         tm_buf
-        .export         _mktime_dt
+        .import steaxspidx, pushax, incsp2, _gmtime_dt
+        .import tm_buf
+        .export _mktime_dt
 
-        .include        "time.inc"
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "mli.inc"
+        .include "time.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "mli.inc"
 
         ; Convert ProDOS date/time to UNIX timestamp
         ; source date address in AX

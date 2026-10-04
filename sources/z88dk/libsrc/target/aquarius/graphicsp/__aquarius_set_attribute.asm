@@ -10,8 +10,7 @@ EXTERN xypos_BITMAP_ATTR
 ;        b = character row
 ;        c = characer column
 __aquarius_set_attribute:
-    call    xypos_BITMAP_ATTR
-    ld      a,(__aquarius_attr)
-    ld      (hl),a
-    ret
-
+        call    xypos_BITMAP_ATTR
+        ld      a,    (__aquarius_attr)
+        ld      (hl), a
+        ret

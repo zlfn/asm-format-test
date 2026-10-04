@@ -10,16 +10,16 @@ EXTERN asm_sms_cls_wc
 
 _sms_cls_wc_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        ex      (sp), hl
 
 _sms_cls_wc_callee_0:
 
-   push bc
-   ex (sp),ix
-   
-   call asm_sms_cls_wc
-   
-   pop ix
-   ret
+        push    bc
+        ex      (sp), ix
+
+        call    asm_sms_cls_wc
+
+        pop     ix
+        ret

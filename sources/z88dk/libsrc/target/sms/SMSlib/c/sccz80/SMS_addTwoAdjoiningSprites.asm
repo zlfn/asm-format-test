@@ -9,24 +9,23 @@ EXTERN asm_SMSlib_addTwoAdjoiningSprites
 
 SMS_addTwoAdjoiningSprites:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
-   
-   ld b,l
-   ld d,e
-   
-   jp asm_SMSlib_addTwoAdjoiningSprites
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        ld      b, l
+        ld      d, e
+
+        jp      asm_SMSlib_addTwoAdjoiningSprites
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _SMS_addTwoAdjoiningSprites
 defc _SMS_addTwoAdjoiningSprites = SMS_addTwoAdjoiningSprites
 ENDIF
-

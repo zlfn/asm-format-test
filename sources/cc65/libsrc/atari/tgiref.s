@@ -2,7 +2,7 @@
 ; Oliver Schmidt, 2013-05-31
 ;
 
-        .export         tgi_libref
+        .export tgi_libref
 
 .ifdef __ATARIXL__
         .import CIO_handler

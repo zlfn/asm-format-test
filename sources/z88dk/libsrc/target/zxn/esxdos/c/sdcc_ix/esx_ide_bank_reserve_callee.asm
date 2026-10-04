@@ -9,17 +9,17 @@ EXTERN asm_esx_ide_bank_reserve
 
 _esx_ide_bank_reserve_callee:
 
-   pop hl
-   ex (sp),hl
+        pop     hl
+        ex      (sp), hl
 
 l0_esx_ide_bank_reserve_callee:
 
-   push ix
-   push iy
-   
-   call asm_esx_ide_bank_reserve
-   
-   pop iy
-   pop ix
+        push    ix
+        push    iy
 
-   ret
+        call    asm_esx_ide_bank_reserve
+
+        pop     iy
+        pop     ix
+
+        ret

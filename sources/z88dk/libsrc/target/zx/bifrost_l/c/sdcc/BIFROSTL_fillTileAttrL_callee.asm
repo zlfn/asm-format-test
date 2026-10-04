@@ -16,13 +16,13 @@ EXTERN asm_BIFROSTL_fillTileAttrL
 
 _BIFROSTL_fillTileAttrL_callee:
 
-   pop de
-	pop hl
-	dec sp
-	pop bc
-	push de
-	ld c,b          ; C = attr
-	ld d,l          ; D = row
-	ld e,h          ; E = col
-	
-	jp asm_BIFROSTL_fillTileAttrL
+        pop     de
+        pop     hl
+        dec     sp
+        pop     bc
+        push    de
+        ld      c, b    ; C = attr
+        ld      d, l    ; D = row
+        ld      e, h    ; E = col
+
+        jp      asm_BIFROSTL_fillTileAttrL

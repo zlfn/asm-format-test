@@ -10,10 +10,10 @@ EXTERN asm_zx_cxy2aaddr
 
 _zx_cxy2aaddr:
 
-   pop af
-   pop hl
+        pop     af
+        pop     hl
 
-   push hl
-   push af
+        push    hl
+        push    af
 
-   jp asm_zx_cxy2aaddr
+        jp      asm_zx_cxy2aaddr

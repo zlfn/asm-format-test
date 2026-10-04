@@ -9,11 +9,11 @@ PUBLIC _fflush_unlocked_fastcall
 EXTERN asm_fflush_unlocked
 
 _fflush_unlocked_fastcall:
-   
-   push hl
-   ex (sp),ix
-   
-   call asm_fflush_unlocked
-   
-   pop ix
-   ret
+
+        push    hl
+        ex      (sp), ix
+
+        call    asm_fflush_unlocked
+
+        pop     ix
+        ret

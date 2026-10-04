@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _atol_fastcall
 defc _atol_fastcall = atol_fastcall
 ENDIF
-

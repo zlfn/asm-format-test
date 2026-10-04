@@ -3,8 +3,8 @@
 ;
 ; unsigned char getcpu (void);
 ;
-        .include        "zeropage.inc"
-        .export         _getcpu
+        .include "zeropage.inc"
+        .export _getcpu
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to detect an 816. Returns
@@ -29,22 +29,22 @@
 _getcpu:
 
         lda     #0
-        inc     a               ; .byte $1A ; nop on nmos, inc on every cmos
+        inc     a       ; .byte $1A ; nop on nmos, inc on every cmos
         cmp     #1
         bcc     @IsNMOS
 
 ; This is at least a 65C02, check for a 65CE02/4510
 
-        .byte   $42,$EA         ; neg on 65CE02/4510, nop #$EA on 65C02, wdm $EA on 65816
+        .byte   $42, $EA        ; neg on 65CE02/4510, nop #$EA on 65C02, wdm $EA on 65816
         cmp     #1
         beq     @HasINCA
 
 ; This is at least a 65CE02, check for 4510
 
-        lda     #5              ; CPU_65CE02 constant
-        ldx     #0              ; to make sure MAP doesn't do anything, the upper nybl of X and Z must be clear
-        .byte   $5C             ; map on 4510, aug on 65CE02 (acts like 4 byte nop)
-        lda     #3              ; CPU_4510 constant
+        lda     #5      ; CPU_65CE02 constant
+        ldx     #0      ; to make sure MAP doesn't do anything, the upper nybl of X and Z must be clear
+        .byte   $5C     ; map on 4510, aug on 65CE02 (acts like 4 byte nop)
+        lda     #3      ; CPU_4510 constant
         nop
         cmp     #5
         beq     @LoadXAndReturn
@@ -69,12 +69,12 @@ _getcpu:
         ; but normal 16-bit ZP pointer on 4510
         ; (We assume Z=$00, which will be the normal case)
         nop                     ; prefix to tell next instruction to be 32-bit ZP
-        .byte   $b2,regsave     ; LDA (regsave),Z
+        .byte   $b2, regsave    ; LDA (regsave),Z
         eor     #$ff            ; change the value
         sta     tmp1            ; store in $xx
         ; now try again to load it: If the same, then 45GS02, as $200xx is unchanged
         nop                     ; prefix to tell next instruction to be 32-bit ZP
-        .byte   $b2,regsave     ; LDA (regsave),Z
+        .byte   $b2, regsave    ; LDA (regsave),Z
         cmp     tmp1            ; does the loaded value match what is in $xx?
         bne     @Is45GS02       ; $200xx and $xx have different values, so must be a MEGA65 45GS02
 @Is4510:
@@ -83,37 +83,37 @@ _getcpu:
         rts
 
 @Is45GS02:
-        lda     #8              ; CPU_45GS02 constant
-        ldx     #0              ; load high byte of word
+        lda     #8      ; CPU_45GS02 constant
+        ldx     #0      ; load high byte of word
         rts
 
 ; 6502 type of cpu, check for a 2a03/2a07
 @IsNMOS:
-        sed                     ; set decimal mode, no decimal mode on the 2a03/2a07
+        sed             ; set decimal mode, no decimal mode on the 2a03/2a07
         lda     #9
         clc
-        adc     #1              ; $01+$09 = $10 on 6502, $01+$09 = $0A on 2a03/2a07
+        adc     #1      ; $01+$09 = $10 on 6502, $01+$09 = $0A on 2a03/2a07
         cld
         cmp     #$0a
         beq     @Is2a03
-        lda     #0              ; CPU_6502 constant
+        lda     #0      ; CPU_6502 constant
         beq     @LoadXAndReturn
 @Is2a03:
-        lda     #7              ; CPU_2A0x constant
+        lda     #7      ; CPU_2A0x constant
         bne     @LoadXAndReturn
 
 ; 65C02 cpu type, check for HuC6280
 @CheckHuC6280:
         ldx     #6              ; CPU_HUC6280 constant
-        .byte   $22,$EA         ; sax nop on HuC6280 (A=$06, X=$01), nop #$EA on 65C02 (A=$01, X=$06)
+        .byte   $22, $EA        ; sax nop on HuC6280 (A=$06, X=$01), nop #$EA on 65C02 (A=$01, X=$06)
         bne     @LoadXAndReturn
 
 ; Check for 65816/65802
 @HasINCA:
-        xba                     ; .byte $EB, put $01 in B accu (nop on 65C02/65SC02)
-        dec     a               ; .byte $3A, A=$00
-        xba                     ; .byte $EB, A=$01 if 65816/65802 and A=$00 if 65C02/65SC02
-        inc     a               ; .byte $1A, A=$02 if 65816/65802 and A=$01 if 65C02/65SC02
+        xba             ; .byte $EB, put $01 in B accu (nop on 65C02/65SC02)
+        dec     a       ; .byte $3A, A=$00
+        xba             ; .byte $EB, A=$01 if 65816/65802 and A=$00 if 65C02/65SC02
+        inc     a       ; .byte $1A, A=$02 if 65816/65802 and A=$01 if 65C02/65SC02
         cmp     #2
         beq     @LoadXAndReturn
 
@@ -122,7 +122,7 @@ _getcpu:
         ldy     $F7
         ldx     #0
         stx     $F7
-        .byte   $F7,$F7         ; nop nop on 65SC02, smb7 $F7 on 65C02
+        .byte   $F7, $F7        ; nop nop on 65SC02, smb7 $F7 on 65C02
         ldx     $F7
         sty     $F7
         cpx     #$00

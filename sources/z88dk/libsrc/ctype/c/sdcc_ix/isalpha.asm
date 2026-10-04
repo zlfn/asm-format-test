@@ -10,10 +10,10 @@ EXTERN _isalpha_fastcall
 
 _isalpha:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _isalpha_fastcall
+        push    hl
+        push    af
+
+        jp      _isalpha_fastcall

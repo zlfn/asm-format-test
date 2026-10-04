@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; void free_unlocked(void *p)
 ;
 ; Deallocate memory previously allocated at p from the thread's
@@ -22,13 +22,13 @@ EXTERN asm_heap_free_unlocked
 
 asm_free_unlocked:
 
-   ; Return the memory block to the heap for reuse without locking
-   ;
-   ; enter : hl = void *p
-   ;
-   ; exit  : carry reset
-   ;
-   ; uses  : af, de, hl
+        ; Return the memory block to the heap for reuse without locking
+        ;
+        ; enter : hl = void *p
+        ;
+        ; exit  : carry reset
+        ;
+        ; uses  : af, de, hl
 
-   ld de,(__malloc_heap)
-   jp asm_heap_free_unlocked
+        ld      de, (__malloc_heap)
+        jp      asm_heap_free_unlocked

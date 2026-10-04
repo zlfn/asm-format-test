@@ -14,8 +14,8 @@ EXTERN asm_sms_border
 
 defc asm_SMSlib_setBackdropColor = asm_sms_border
 
-   ; void SMS_setBackdropColor (unsigned char entry)
-   ;
-   ; enter :  l = unsigned char entry
-   ;
-   ; uses  : af
+        ; void SMS_setBackdropColor (unsigned char entry)
+        ;
+        ; enter :  l = unsigned char entry
+        ;
+        ; uses  : af

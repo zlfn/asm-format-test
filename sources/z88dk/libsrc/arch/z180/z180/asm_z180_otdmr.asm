@@ -17,14 +17,14 @@ PUBLIC asm_cpu_otdmr
 asm_z180_otdmr:
 asm_cpu_otdmr:
 
-   ; enter : hl = void *src
-   ;          c = port
-   ;          b = num
-   ;
-   ; exit  : hl = void *src_prev (address of byte prior to last written)
-   ;          c = port_prev
-   ;
-   ; uses  : f, bc, hl
-   
-   otdmr
-   ret
+        ; enter : hl = void *src
+        ;          c = port
+        ;          b = num
+        ;
+        ; exit  : hl = void *src_prev (address of byte prior to last written)
+        ;          c = port_prev
+        ;
+        ; uses  : f, bc, hl
+
+        otdmr
+        ret

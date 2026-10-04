@@ -16,8 +16,8 @@ PUBLIC RIsPtInIval16
 
 .RIsPtInIval16
 
-   or a
-   sbc hl,bc
-   or a
-   sbc hl,de
-   ret
+        or      a
+        sbc     hl, bc
+        or      a
+        sbc     hl, de
+        ret

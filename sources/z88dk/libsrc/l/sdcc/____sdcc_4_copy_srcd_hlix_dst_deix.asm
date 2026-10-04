@@ -7,27 +7,27 @@ ____sdcc_4_copy_srcd_hlix_dst_deix:
 
 IFDEF __SDCC_IX
 
-   push ix
+        push    ix
 
 ELSE
 
-   push iy
-   
+        push    iy
+
 ENDIF
 
-   ex (sp),hl
+        ex      (sp), hl
 
-   add hl,de
-   ex de,hl
-   
-   pop hl
+        add     hl, de
+        ex      de, hl
 
-   add hl,de
-   
-   ldi
-   ldi
-   ldi
-   ld a,(hl)
-   ld (de),a
-   
-   ret
+        pop     hl
+
+        add     hl, de
+
+        ldi
+        ldi
+        ldi
+        ld      a,    (hl)
+        ld      (de), a
+
+        ret

@@ -10,10 +10,10 @@ EXTERN _spinlock_tryacquire_fastcall
 
 _spinlock_tryacquire:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _spinlock_tryacquire_fastcall
+        push    hl
+        push    af
+
+        jp      _spinlock_tryacquire_fastcall

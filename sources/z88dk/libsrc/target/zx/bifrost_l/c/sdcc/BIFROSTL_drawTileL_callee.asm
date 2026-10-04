@@ -16,12 +16,12 @@ EXTERN asm_BIFROSTL_drawTileL
 
 _BIFROSTL_drawTileL_callee:
 
-   pop de
-	pop hl
-	dec sp
-	pop af          ; A = tile
-	push de
-	ld d,l          ; D = row
-	ld e,h          ; E = col
-	
-	jp asm_BIFROSTL_drawTileL
+        pop     de
+        pop     hl
+        dec     sp
+        pop     af      ; A = tile
+        push    de
+        ld      d, l    ; D = row
+        ld      e, h    ; E = col
+
+        jp      asm_BIFROSTL_drawTileL

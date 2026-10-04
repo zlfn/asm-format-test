@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID *
@@ -26,20 +26,19 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmFlushCacheLine)
 ASM_PFX(AsmFlushCacheLine):
-    ;
-    ; If the CPU does not support CLFLUSH instruction,
-    ; then promote flush range to flush entire cache.
-    ;
-    mov     eax, 1
-    push    ebx
-    cpuid
-    pop     ebx
-    mov     eax, [esp + 4]
-    test    edx, BIT19
-    jz      .0
-    clflush [eax]
-    ret
+        ;
+        ; If the CPU does not support CLFLUSH instruction,
+        ; then promote flush range to flush entire cache.
+        ;
+        mov     eax, 1
+        push    ebx
+        cpuid
+        pop     ebx
+        mov     eax, [esp + 4]
+        test    edx, BIT19
+        jz      .0
+        clflush [eax]
+        ret
 .0:
-    wbinvd
-    ret
-
+        wbinvd
+        ret

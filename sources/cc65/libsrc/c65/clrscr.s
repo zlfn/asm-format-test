@@ -4,12 +4,12 @@
 ; void clrscr (void);
 ;
 
-        .export         _clrscr
+        .export _clrscr
 
-        .include        "cbm_kernal.inc"
+        .include "cbm_kernal.inc"
 
 ;_clrscr = CLRSCR
 
 _clrscr:
-        lda #$93
-        jmp CHROUT
+        lda     #$93
+        jmp     CHROUT

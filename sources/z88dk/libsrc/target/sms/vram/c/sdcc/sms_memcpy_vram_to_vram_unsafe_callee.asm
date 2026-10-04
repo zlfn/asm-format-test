@@ -9,10 +9,10 @@ EXTERN asm_sms_memcpy_vram_to_vram_unsafe
 
 _sms_memcpy_vram_to_vram_unsafe_callee:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
 
-   jp asm_sms_memcpy_vram_to_vram_unsafe
+        jp      asm_sms_memcpy_vram_to_vram_unsafe

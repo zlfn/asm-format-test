@@ -11,24 +11,23 @@
 ; int atexit((void *)(void))
 ; FASTCALL
 
-    SECTION code_clib
-    PUBLIC  atexit
-    PUBLIC  _atexit
-    PUBLIC  ___atexit
-    PUBLIC  atexit_fastcall
-    PUBLIC  _atexit_fastcall
+        SECTION code_clib
+        PUBLIC  atexit
+        PUBLIC  _atexit
+        PUBLIC  ___atexit
+        PUBLIC  atexit_fastcall
+        PUBLIC  _atexit_fastcall
 
-    EXTERN  __clib_exit_stack_size
-    EXTERN  __exit_atexit_funcs, __exit_atexit_count
-
+        EXTERN  __clib_exit_stack_size
+        EXTERN  __exit_atexit_funcs, __exit_atexit_count
 
 atexit:
 _atexit:
 ___atexit:
-    pop     de
-    pop     hl
-    push    hl
-    push    de
+        pop     de
+        pop     hl
+        push    hl
+        push    de
 
 ; enter : hl = atexit function
 ; exit  : hl !=0 and no carry if can't register
@@ -37,31 +36,31 @@ ___atexit:
 atexit_fastcall:
 _atexit_fastcall:
 
-    ex      de, hl                      ; de = function to register
+        ex      de, hl  ; de = function to register
 
-    ld      hl, __exit_atexit_count
-    ld      a, (hl)
-    cp      __clib_exit_stack_size      ; can only hold 32 levels..
-    ret     nc                          ; if full returns with hl!=0
-    inc     (hl)                        ; increment number of levels
+        ld      hl, __exit_atexit_count
+        ld      a,  (hl)
+        cp      __clib_exit_stack_size  ; can only hold 32 levels..
+        ret     nc                      ; if full returns with hl!=0
+        inc     (hl)                    ; increment number of levels
 
-    add     a, a                        ; compute index in exit stack
-    ld      c, a
-    ld      b, 0
+        add     a, a    ; compute index in exit stack
+        ld      c, a
+        ld      b, 0
 IF  __CPU_GBZ80__
-    ld      hl, __exit_atexit_funcs
-    ld      a, (hl+)
-    ld      h, (hl)
-    ld      l, a
+        ld      hl, __exit_atexit_funcs
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a
 ELSE
-    ld      hl, (__exit_atexit_funcs)
+        ld      hl, (__exit_atexit_funcs)
 ENDIF
-    add     hl, bc
-    ld      (hl), e                     ; write atexit function
-    inc     hl
-    ld      (hl), d
+        add     hl,   bc
+        ld      (hl), e ; write atexit function
+        inc     hl
+        ld      (hl), d
 
-    ld      h, b
-    ld      l, b                        ; indicate success
-    scf
-    ret
+        ld      h, b
+        ld      l, b    ; indicate success
+        scf
+        ret

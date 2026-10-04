@@ -6,19 +6,19 @@
 ;   enables interrupts - if they were enabled
 ;
 
-    SECTION code_clib
-    PUBLIC  bit_close_ei
-    PUBLIC  _bit_close_ei
-    EXTERN  __snd_tick
-    EXTERN  __bit_irqstatus
-    INCLUDE "classic/games/games.inc"
+        SECTION code_clib
+        PUBLIC  bit_close_ei
+        PUBLIC  _bit_close_ei
+        EXTERN  __snd_tick
+        EXTERN  __bit_irqstatus
+        INCLUDE "classic/games/games.inc"
 
 bit_close_ei:
 _bit_close_ei:
-    push    hl
-    ld      hl, (__bit_irqstatus)
-    ex      (sp), hl
-    pop     af
-    ret     po                          ; parity flag
-    ei
-    ret
+        push    hl
+        ld      hl,   (__bit_irqstatus)
+        ex      (sp), hl
+        pop     af
+        ret     po      ; parity flag
+        ei
+        ret

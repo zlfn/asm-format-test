@@ -14,9 +14,9 @@ PUBLIC l_gint_eq
 
 l_gint_eq:
 
-   ld a,(hl+)
-   ld h,(hl)
-   ld l,a
-   
-   or h
-   ret
+        ld      a, (hl+)
+        ld      h, (hl)
+        ld      l, a
+
+        or      h
+        ret

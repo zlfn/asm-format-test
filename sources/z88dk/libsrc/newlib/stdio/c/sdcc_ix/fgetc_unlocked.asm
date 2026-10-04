@@ -10,10 +10,10 @@ EXTERN _fgetc_unlocked_fastcall
 
 _fgetc_unlocked:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _fgetc_unlocked_fastcall
+        push    hl
+        push    af
+
+        jp      _fgetc_unlocked_fastcall

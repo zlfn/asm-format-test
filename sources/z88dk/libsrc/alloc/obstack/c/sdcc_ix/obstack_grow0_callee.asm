@@ -10,10 +10,10 @@ EXTERN asm_obstack_grow0
 
 _obstack_grow0_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
-   
-   jp asm_obstack_grow0
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
+
+        jp      asm_obstack_grow0

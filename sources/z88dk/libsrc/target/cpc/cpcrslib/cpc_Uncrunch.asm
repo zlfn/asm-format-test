@@ -9,10 +9,10 @@
 ;       $Id: cpc_Uncrunch.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_Uncrunch
-        PUBLIC    _cpc_Uncrunch
-        EXTERN     asm_cpc_Uncrunch
+        SECTION code_clib
+        PUBLIC  cpc_Uncrunch
+        PUBLIC  _cpc_Uncrunch
+        EXTERN  asm_cpc_Uncrunch
 
 .cpc_Uncrunch
 ._cpc_Uncrunch
@@ -22,4 +22,4 @@
         push    de
         push    hl
         push    bc
-        jp asm_cpc_Uncrunch
+        jp      asm_cpc_Uncrunch

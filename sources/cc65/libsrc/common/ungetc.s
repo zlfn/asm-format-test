@@ -5,14 +5,13 @@
 ; /* Push back a character into a file stream. */
 ;
 
-        .export         _ungetc
+        .export _ungetc
 
-        .import         popax
-        .import         ptr1: zp, tmp1: zp
+        .import popax
+        .import ptr1: zp, tmp1: zp
 
-        .include        "_file.inc"
-        .include        "errno.inc"
-
+        .include "_file.inc"
+        .include "errno.inc"
 
 ; ------------------------------------------------------------------------
 ; Code
@@ -37,22 +36,22 @@
 ; Check if the file is open
 
         ldy     #_FILE::f_flags
-        lda     (ptr1),y
-        and     #_FOPEN                 ; Is the file open?
-        beq     error                   ; Branch if no
+        lda     (ptr1), y
+        and     #_FOPEN ; Is the file open?
+        beq     error   ; Branch if no
 
 ; Set the pushback flag and reset the end-of-file indicator
 
-        lda     (ptr1),y
+        lda     (ptr1), y
         ora     #_FPUSHBACK
         and     #<~_FEOF
-        sta     (ptr1),y
+        sta     (ptr1), y
 
 ; Store the character into the pushback buffer
 
         ldy     #_FILE::f_pushback
         lda     tmp1
-        sta     (ptr1),y
+        sta     (ptr1), y
 
 ; Done, return c
 

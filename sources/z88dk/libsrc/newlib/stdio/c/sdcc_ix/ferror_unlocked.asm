@@ -10,10 +10,10 @@ EXTERN _ferror_unlocked_fastcall
 
 _ferror_unlocked:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _ferror_unlocked_fastcall
+        push    hl
+        push    af
+
+        jp      _ferror_unlocked_fastcall

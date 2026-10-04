@@ -10,9 +10,9 @@ EXTERN asm_strchr
 
 _strchr_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
 
-   jp asm_strchr
+        jp      asm_strchr

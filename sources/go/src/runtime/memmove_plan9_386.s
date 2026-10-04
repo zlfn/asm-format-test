@@ -29,109 +29,109 @@
 
 // func memmove(to, from unsafe.Pointer, n uintptr)
 TEXT runtime·memmove(SB), NOSPLIT, $0-12
-	MOVL	to+0(FP), DI
-	MOVL	from+4(FP), SI
-	MOVL	n+8(FP), BX
+        MOVL    to+0(FP),   DI
+        MOVL    from+4(FP), SI
+        MOVL    n+8(FP),    BX
 
-	// REP instructions have a high startup cost, so we handle small sizes
-	// with some straightline code. The REP MOVSL instruction is really fast
-	// for large sizes. The cutover is approximately 1K.
+        // REP instructions have a high startup cost, so we handle small sizes
+        // with some straightline code. The REP MOVSL instruction is really fast
+        // for large sizes. The cutover is approximately 1K.
 tail:
-	TESTL	BX, BX
-	JEQ	move_0
-	CMPL	BX, $2
-	JBE	move_1or2
-	CMPL	BX, $4
-	JB	move_3
-	JE	move_4
-	CMPL	BX, $8
-	JBE	move_5through8
-	CMPL	BX, $16
-	JBE	move_9through16
+        TESTL   BX, BX
+        JEQ     move_0
+        CMPL    BX, $2
+        JBE     move_1or2
+        CMPL    BX, $4
+        JB      move_3
+        JE      move_4
+        CMPL    BX, $8
+        JBE     move_5through8
+        CMPL    BX, $16
+        JBE     move_9through16
 
 /*
  * check and set for backwards
  */
-	CMPL	SI, DI
-	JLS	back
+        CMPL    SI, DI
+        JLS     back
 
 /*
  * forward copy loop
  */
 forward:
-	MOVL	BX, CX
-	SHRL	$2, CX
-	ANDL	$3, BX
+        MOVL    BX, CX
+        SHRL    $2, CX
+        ANDL    $3, BX
 
-	REP;	MOVSL
-	JMP	tail
+        REP;	MOVSL
+        JMP     tail
 /*
  * check overlap
  */
 back:
-	MOVL	SI, CX
-	ADDL	BX, CX
-	CMPL	CX, DI
-	JLS	forward
+        MOVL    SI, CX
+        ADDL    BX, CX
+        CMPL    CX, DI
+        JLS     forward
 /*
  * whole thing backwards has
  * adjusted addresses
  */
 
-	ADDL	BX, DI
-	ADDL	BX, SI
-	STD
+        ADDL    BX, DI
+        ADDL    BX, SI
+        STD
 
 /*
  * copy
  */
-	MOVL	BX, CX
-	SHRL	$2, CX
-	ANDL	$3, BX
+        MOVL    BX, CX
+        SHRL    $2, CX
+        ANDL    $3, BX
 
-	SUBL	$4, DI
-	SUBL	$4, SI
-	REP;	MOVSL
+        SUBL    $4, DI
+        SUBL    $4, SI
+        REP;	MOVSL
 
-	CLD
-	ADDL	$4, DI
-	ADDL	$4, SI
-	SUBL	BX, DI
-	SUBL	BX, SI
-	JMP	tail
+        CLD
+        ADDL    $4, DI
+        ADDL    $4, SI
+        SUBL    BX, DI
+        SUBL    BX, SI
+        JMP     tail
 
 move_1or2:
-	MOVB	(SI), AX
-	MOVB	-1(SI)(BX*1), CX
-	MOVB	AX, (DI)
-	MOVB	CX, -1(DI)(BX*1)
-	RET
+        MOVB    (SI), AX
+        MOVB    -1(SI)(BX*1), CX
+        MOVB    AX, (DI)
+        MOVB    CX, -1(DI)(BX*1)
+        RET
 move_0:
-	RET
+        RET
 move_3:
-	MOVW	(SI), AX
-	MOVB	2(SI), CX
-	MOVW	AX, (DI)
-	MOVB	CX, 2(DI)
-	RET
+        MOVW    (SI),  AX
+        MOVB    2(SI), CX
+        MOVW    AX,    (DI)
+        MOVB    CX,    2(DI)
+        RET
 move_4:
-	// We need a separate case for 4 to make sure we write pointers atomically.
-	MOVL	(SI), AX
-	MOVL	AX, (DI)
-	RET
+        // We need a separate case for 4 to make sure we write pointers atomically.
+        MOVL    (SI), AX
+        MOVL    AX,   (DI)
+        RET
 move_5through8:
-	MOVL	(SI), AX
-	MOVL	-4(SI)(BX*1), CX
-	MOVL	AX, (DI)
-	MOVL	CX, -4(DI)(BX*1)
-	RET
+        MOVL    (SI), AX
+        MOVL    -4(SI)(BX*1), CX
+        MOVL    AX, (DI)
+        MOVL    CX, -4(DI)(BX*1)
+        RET
 move_9through16:
-	MOVL	(SI), AX
-	MOVL	4(SI), CX
-	MOVL	-8(SI)(BX*1), DX
-	MOVL	-4(SI)(BX*1), BP
-	MOVL	AX, (DI)
-	MOVL	CX, 4(DI)
-	MOVL	DX, -8(DI)(BX*1)
-	MOVL	BP, -4(DI)(BX*1)
-	RET
+        MOVL    (SI),  AX
+        MOVL    4(SI), CX
+        MOVL    -8(SI)(BX*1), DX
+        MOVL    -4(SI)(BX*1), BP
+        MOVL    AX, (DI)
+        MOVL    CX, 4(DI)
+        MOVL    DX, -8(DI)(BX*1)
+        MOVL    BP, -4(DI)(BX*1)
+        RET

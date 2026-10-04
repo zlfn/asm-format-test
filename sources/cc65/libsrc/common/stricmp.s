@@ -11,20 +11,20 @@
 ; int strcasecmp (const char* s1, const char* s2);      /* UNIX way */
 ;
 
-        .export         _stricmp, _strcasecmp
-        .import         popptr1
-        .importzp       ptr1, ptr2, tmp1, tmp2
-        .import         ctypemaskdirect
-        .include        "ctype.inc"
+        .export _stricmp, _strcasecmp
+        .import popptr1
+        .importzp ptr1, ptr2, tmp1, tmp2
+        .import ctypemaskdirect
+        .include "ctype.inc"
 
 _stricmp:
 _strcasecmp:
-        sta     ptr2            ; Save s2
+        sta     ptr2    ; Save s2
         stx     ptr2+1
-        jsr     popptr1         ; get s1
+        jsr     popptr1 ; get s1
         ; ldy     #0            ; Y=0 guaranteed by popptr1
 
-loop:   lda     (ptr2),y        ; get char from second string
+loop:   lda     (ptr2), y       ; get char from second string
         sta     tmp2            ; and save it
         jsr     ctypemaskdirect ; get character classification
         and     #CT_LOWER       ; lower case char?
@@ -33,7 +33,7 @@ loop:   lda     (ptr2),y        ; get char from second string
         adc     tmp2            ; ctypemaskdirect ensures carry clear!
         sta     tmp2            ; remember upper case equivalent
 
-L1:     lda     (ptr1),y        ; get character from first string
+L1:     lda     (ptr1), y       ; get character from first string
         sta     tmp1
         jsr     ctypemaskdirect ; get character classification
         and     #CT_LOWER       ; lower case char?
@@ -43,10 +43,10 @@ L1:     lda     (ptr1),y        ; get character from first string
         sta     tmp1            ; remember upper case equivalent
 
 L2:     ldx     tmp1
-        cpx     tmp2            ; compare characters
+        cpx     tmp2    ; compare characters
         bne     L3
-        txa                     ; end of strings?
-        beq     L5              ; a/x both zero
+        txa             ; end of strings?
+        beq     L5      ; a/x both zero
         iny
         bne     loop
         inc     ptr1+1

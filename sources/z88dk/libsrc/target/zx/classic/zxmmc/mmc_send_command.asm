@@ -20,46 +20,43 @@
 ;
 ;-----------------------------------------------------------------------------------------
 
+        SECTION code_clib
+        PUBLIC  mmc_send_command
+        PUBLIC  _mmc_send_command
+        EXTERN  mmc_wait_response
+        EXTERN  cs_high
+        EXTERN  cs_low
+        EXTERN  clock32
 
-    SECTION code_clib
-    PUBLIC  mmc_send_command
-    PUBLIC  _mmc_send_command
-    EXTERN  mmc_wait_response
-    EXTERN  cs_high
-    EXTERN  cs_low
-    EXTERN  clock32
-
-    INCLUDE "target/zx/def/zxmmc.def"
-
+        INCLUDE "target/zx/def/zxmmc.def"
 
 mmc_send_command:
 _mmc_send_command:
 
-    ld      c, a
-    call    cs_high                     ; cs high
-    call    clock32
-	;; nop				; Why another NOP ?
-    call    cs_low                      ; cs low
-    ld      a, c                        ; command code is the first byte to be sent
+        ld      c, a
+        call    cs_high ; cs high
+        call    clock32
+        ;; nop				; Why another NOP ?
+        call    cs_low  ; cs low
+        ld      a, c    ; command code is the first byte to be sent
 
-    ld      c, 0                        ; init crc counter
-    push    hl
-    call    crc7_out                    ; command
-    pop     hl
-    ld      a, h
-    call    crc7_out                    ; long parameter
-    ld      a, l
-    call    crc7_out
-    ld      a, d
-    call    crc7_out
-    ld      a, e
-    call    crc7_out
+        ld      c, 0            ; init crc counter
+        push    hl
+        call    crc7_out        ; command
+        pop     hl
+        ld      a, h
+        call    crc7_out        ; long parameter
+        ld      a, l
+        call    crc7_out
+        ld      a, d
+        call    crc7_out
+        ld      a, e
+        call    crc7_out
 
-    sla     c                           ; crc = (crc << 1) | 1;
-    ld      a, 1
-    or      c
-    out     (SPI_PORT), a               ; send crc7 checksum byte
-
+        sla     c               ; crc = (crc << 1) | 1;
+        ld      a, 1
+        or      c
+        out     (SPI_PORT), a   ; send crc7 checksum byte
 
 ;	out (SPI_PORT),a
 ;	ld a,h
@@ -79,40 +76,38 @@ _mmc_send_command:
 ;	nop
 ;	out (SPI_PORT),a
 
-    call    mmc_wait_response           ; waits for the MMC to reply != $FF
-    cp      0
-    jr      nz, mmc_commande
+        call    mmc_wait_response       ; waits for the MMC to reply != $FF
+        cp      0
+        jr      nz, mmc_commande
 
-	;;ld	hl,0
-    ret                                 ; 0 = no error
-
+        ;;ld	hl,0
+        ret     ; 0 = no error
 
 mmc_commande:
-    push    af                          ; saves the error code
-    call    cs_high                     ; set cs high
-    in      a, (SPI_PORT)
-    pop     af
+        push    af      ; saves the error code
+        call    cs_high ; set cs high
+        in      a, (SPI_PORT)
+        pop     af
 
-	;;ld	h,0
-	;;ld	l,a
-    ret                                 ; returns the error code got from MMC
-
+        ;;ld	h,0
+        ;;ld	l,a
+        ret     ; returns the error code got from MMC
 
 crc7_out:
-    out     (SPI_PORT), a
+        out     (SPI_PORT), a
 
-    ld      b, 8                        ; 8 bits
+        ld      b, 8    ; 8 bits
 crcloop:
-    sla     c                           ; crc <<= 1;
-    ld      h, a
-    xor     c
-    and     $80                         ; if ((byte & 0x80) ^ (crc & 0x80)) ..
-    jr      z, isz
-    ld      a, 9                        ; .. then crc ^= 0x09
-    xor     c
-    ld      c, a
+        sla     c       ; crc <<= 1;
+        ld      h, a
+        xor     c
+        and     $80     ; if ((byte & 0x80) ^ (crc & 0x80)) ..
+        jr      z, isz
+        ld      a, 9    ; .. then crc ^= 0x09
+        xor     c
+        ld      c, a
 isz:
-    ld      a, h
-    rla                                 ; byte <<=1;
-    djnz    crcloop
-    ret
+        ld      a, h
+        rla             ; byte <<=1;
+        djnz    crcloop
+        ret

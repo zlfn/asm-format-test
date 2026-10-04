@@ -10,13 +10,13 @@ EXTERN asm_b_array_read_block
 
 _b_array_read_block_callee:
 
-   pop af
-   exx
-   pop de
-   exx
-   pop de
-   pop hl
-   pop bc
-   push af
+        pop     af
+        exx
+        pop     de
+        exx
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
 
-   jp asm_b_array_read_block
+        jp      asm_b_array_read_block

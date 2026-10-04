@@ -9,6 +9,6 @@
 ; ** discarded, it does just mean that some drivers will discard the changes.
 ; */
 
-        .include        "em-kernel.inc"
+        .include "em-kernel.inc"
 
-        _em_commit      = emd_commit            ; Use driver entry
+        _em_commit = emd_commit ; Use driver entry

@@ -10,9 +10,9 @@ EXTERN asm_fputc_unlocked
 
 fputc_unlocked_callee:
 
-   pop af
-   pop ix
-   pop de
-   push af
-   
-   jp asm_fputc_unlocked
+        pop     af
+        pop     ix
+        pop     de
+        push    af
+
+        jp      asm_fputc_unlocked

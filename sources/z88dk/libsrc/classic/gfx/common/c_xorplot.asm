@@ -6,43 +6,43 @@
 
 ;Usage: xorplot(int x, int y)
 
-    SECTION code_graphics
-    PUBLIC  c_xorplot
-    PUBLIC  _c_xorplot
-    PUBLIC  ___c_xorplot
-    EXTERN  __gfx_vram_page_in
-    EXTERN  __graphics_end
+        SECTION code_graphics
+        PUBLIC  c_xorplot
+        PUBLIC  _c_xorplot
+        PUBLIC  ___c_xorplot
+        EXTERN  __gfx_vram_page_in
+        EXTERN  __graphics_end
 
-    EXTERN  c_xorpixel
-    INCLUDE "classic/gfx/grafix.inc"
+        EXTERN  c_xorpixel
+        INCLUDE "classic/gfx/grafix.inc"
 
 c_xorplot:
 _c_xorplot:
 ___c_xorplot:
 IF  __CPU_INTEL__|__CPU_GBZ80__
-    pop     bc
-    pop     hl
-    pop     de
-    push    de
-    push    hl
-    push    bc
-    ld      h, e
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        ld      h, e
 ELSE
-    push    ix
-    ld      ix, 2
-    add     ix, sp
-    ld      l, (ix+2)
-    ld      h, (ix+4)
+        push    ix
+        ld      ix, 2
+        add     ix, sp
+        ld      l,  (ix+2)
+        ld      h,  (ix+4)
 ENDIF
 IFDEF _GFX_PAGE_VRAM
-    call    __gfx_vram_page_in
+        call    __gfx_vram_page_in
 ENDIF
-    call    c_xorpixel
+        call    c_xorpixel
 IF  _GFX_PAGE_VRAM
-    jp      __graphics_end
+        jp      __graphics_end
 ELSE
-  IF    !__CPU_INTEL__&!__CPU_GBZ80__
-    pop     ix
-  ENDIF
-    ret
+        IF      !__CPU_INTEL__&!__CPU_GBZ80__
+                pop     ix
+        ENDIF
+        ret
 ENDIF

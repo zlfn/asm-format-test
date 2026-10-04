@@ -8,11 +8,11 @@
 ;	$Id: f_ansi_cls.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_cls
-    EXTERN  filltxt
+        SECTION code_clib
+        PUBLIC  ansi_cls
+        EXTERN  filltxt
 
 ansi_cls:
 
-    ld      l, 32
-    jp      filltxt
+        ld      l, 32
+        jp      filltxt

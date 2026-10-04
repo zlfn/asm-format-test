@@ -10,19 +10,19 @@ EXTERN asm_tshr_cls_pix
 
 _tshr_cls_pix_callee:
 
-   pop hl
-   pop de
-   dec sp
-   ex (sp),hl
-   
-   ld l,h
-   
+        pop     hl
+        pop     de
+        dec     sp
+        ex      (sp), hl
+
+        ld      l, h
+
 l0_tshr_cls_wc_pix_callee:
 
-   push de
-   ex (sp),ix
-   
-   call asm_tshr_cls_pix
-   
-   pop ix
-   ret
+        push    de
+        ex      (sp), ix
+
+        call    asm_tshr_cls_pix
+
+        pop     ix
+        ret

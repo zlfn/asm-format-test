@@ -1,7 +1,7 @@
 ; ===============================================================
 ; 2017
 ; ===============================================================
-; 
+;
 ; void tshr_cls_pix(unsigned char pix)
 ;
 ; Clear screen.
@@ -17,15 +17,15 @@ EXTERN asm_tshc_cls_pix, asm_tshc_cls_attr
 
 asm_tshr_cls_pix:
 
-   ; enter : l = pix
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : l = pix
+        ;
+        ; uses  : af, bc, de, hl
 
-   ; should this be done per line for a cleaner cls?
+        ; should this be done per line for a cleaner cls?
 
-   push hl
+        push    hl
 
-   call asm_tshc_cls_pix
+        call    asm_tshc_cls_pix
 
-   pop hl
-   jp asm_tshc_cls_attr
+        pop     hl
+        jp      asm_tshc_cls_attr

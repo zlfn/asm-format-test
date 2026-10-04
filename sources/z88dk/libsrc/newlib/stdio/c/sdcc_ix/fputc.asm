@@ -16,15 +16,15 @@ EXTERN l0_fputc_callee
 
 _fputc:
 
-   pop af
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
 
-   jp l0_fputc_callee
+        push    bc
+        push    de
+        push    af
+
+        jp      l0_fputc_callee
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

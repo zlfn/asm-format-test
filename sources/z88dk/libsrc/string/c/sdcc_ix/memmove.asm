@@ -10,14 +10,14 @@ EXTERN asm_memmove
 
 _memmove:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push af
-   
-   jp asm_memmove
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_memmove

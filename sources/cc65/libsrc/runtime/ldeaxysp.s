@@ -7,22 +7,20 @@
 ;         this function!
 ;
 
-
-        .export         ldeax0sp, ldeaxysp
-        .importzp       sreg, c_sp
+        .export ldeax0sp, ldeaxysp
+        .importzp sreg, c_sp
 
 ldeax0sp:
         ldy     #3
 ldeaxysp:
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     sreg+1
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     sreg
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
         tax
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
         rts
-

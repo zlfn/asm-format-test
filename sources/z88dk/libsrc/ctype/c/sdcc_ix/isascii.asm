@@ -10,10 +10,10 @@ EXTERN _isascii_fastcall
 
 _isascii:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _isascii_fastcall
+        push    hl
+        push    af
+
+        jp      _isascii_fastcall

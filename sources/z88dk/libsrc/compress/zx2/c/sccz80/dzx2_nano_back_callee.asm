@@ -11,22 +11,20 @@ EXTERN asm_dzx2_nano_back
 dzx2_nano_back_callee:
 
 IF __CPU_GBZ80__
-   pop bc
-   pop de
-   pop hl
-   push bc
+        pop     bc
+        pop     de
+        pop     hl
+        push    bc
 ELSE
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 ENDIF
 
-   jp asm_dzx2_nano_back
+        jp      asm_dzx2_nano_back
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _dzx2_nano_back_callee
 defc _dzx2_nano_back_callee = dzx2_nano_back_callee
 ENDIF
-
-

@@ -7,17 +7,17 @@
 ; be called from an interrupt handler
 ;
 
-        .constructor    initmcb
-        .export         _mouse_def_callbacks
-        .import         _mouse_def_pointershape
-        .import         _mouse_def_pointercolor
-        .import         mcb_spritememory
-        .import         mcb_spritepointer
+        .constructor initmcb
+        .export _mouse_def_callbacks
+        .import _mouse_def_pointershape
+        .import _mouse_def_pointercolor
+        .import mcb_spritememory
+        .import mcb_spritepointer
 
-        .include        "mouse-kernel.inc"
-        .include        "c64.inc"
+        .include "mouse-kernel.inc"
+        .include "c64.inc"
 
-        .macpack        generic
+        .macpack generic
 
 ; Sprite definitions. The first value can be changed to adjust the number
 ; of the sprite used for the mouse. All others depend on this value.
@@ -44,8 +44,8 @@ initmcb:
 ; Copy the mouse sprite data
 
         ldx     #64 - 1
-@L0:    lda     _mouse_def_pointershape,x
-        sta     mcb_spritememory,x
+@L0:    lda     _mouse_def_pointershape, x
+        sta     mcb_spritememory, x
         dex
         bpl     @L0
 
@@ -105,7 +105,7 @@ movex:
 
 ; Add the X correction and set the low byte. This frees A.
 
-        add     #24                     ; X correction
+        add     #24     ; X correction
         sta     VIC_SPR_X
 
 ; Set the high byte
@@ -118,8 +118,8 @@ movex:
         sta     VIC_SPR_HI_X
         rts
 
-@L1:    lda     VIC_SPR_HI_X            ; Get high X bits of all sprites
-        ora     #MOUSE_SPR_MASK         ; Set high bit for sprite
+@L1:    lda     VIC_SPR_HI_X    ; Get high X bits of all sprites
+        ora     #MOUSE_SPR_MASK ; Set high bit for sprite
         sta     VIC_SPR_HI_X
         rts
 
@@ -128,8 +128,8 @@ movex:
 ; interrupts disabled.
 
 movey:
-        add     #50                     ; Y correction (first visible line)
-        sta     VIC_SPR_Y               ; Set Y position
+        add     #50             ; Y correction (first visible line)
+        sta     VIC_SPR_Y       ; Set Y position
         rts
 
 ; --------------------------------------------------------------------------

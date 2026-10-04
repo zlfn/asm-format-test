@@ -9,25 +9,24 @@ EXTERN asm_SMSlib_setClippingWindow
 
 SMS_setClippingWindow:
 
-   pop af
-   pop bc
-   pop hl
-   pop ix
-   pop de
-   
-   push de
-   push de
-   push hl
-   push bc
-   push af
-   
-   ld h,c
-   ld d,ixl
-   jp asm_SMSlib_setClippingWindow
+        pop     af
+        pop     bc
+        pop     hl
+        pop     ix
+        pop     de
+
+        push    de
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        ld      h, c
+        ld      d, ixl
+        jp      asm_SMSlib_setClippingWindow
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _SMS_setClippingWindow
 defc _SMS_setClippingWindow = SMS_setClippingWindow
 ENDIF
-

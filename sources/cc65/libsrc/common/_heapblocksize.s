@@ -6,12 +6,12 @@
 ; Return the size of an allocated block.
 ;
 
-        .importzp       ptr1, ptr2
-        .export         ___heapblocksize
+        .importzp ptr1, ptr2
+        .export ___heapblocksize
 
-        .include        "_heap.inc"
+        .include "_heap.inc"
 
-        .macpack        generic
+        .macpack generic
 
 ;-----------------------------------------------------------------------------
 ; Code
@@ -27,22 +27,22 @@ ___heapblocksize:
         dex
         stx     ptr1+1
         ldy     #$FE
-        lda     (ptr1),y
-        sta     ptr2            ; Place the raw block pointer into ptr2
+        lda     (ptr1), y
+        sta     ptr2    ; Place the raw block pointer into ptr2
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     ptr2+1
 
 ; Load the size from the raw block
 
         ldy     #usedblock::size+1
-        lda     (ptr2),y
+        lda     (ptr2), y
         tax
 .if .cap(CPU_HAS_ZPIND)
         lda     (ptr2)
 .else
         dey
-        lda     (ptr2),y
+        lda     (ptr2), y
 .endif
 
 ; Correct the raw block size so that is shows the user visible portion. To
@@ -54,7 +54,7 @@ ___heapblocksize:
 ;       return size - (ptr1 + 256 - ptr2)
 ;       return size - ptr1 - 256 + ptr2
 
-        dex                     ; - 256
+        dex     ; - 256
         add     ptr2
         pha
         txa
@@ -71,4 +71,3 @@ ___heapblocksize:
 ; Done
 
         rts
-

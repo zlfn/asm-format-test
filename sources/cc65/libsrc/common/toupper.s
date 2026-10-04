@@ -10,9 +10,9 @@
 ; int toupper (int c);
 ;
 
-        .export         _toupper
-        .include        "ctype.inc"
-        .import         ctypemaskdirect
+        .export _toupper
+        .include "ctype.inc"
+        .import ctypemaskdirect
 
 _toupper:
         cpx     #$00            ; out of range?

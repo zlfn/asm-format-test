@@ -18,10 +18,10 @@ PUBLIC asm_cpu_outp
 asm_z80_outp:
 asm_cpu_outp:
 
-   ; enter : bc = port
-   ;          l = data
-   ;
-   ; uses  : none
-   
-   out (c),l
-   ret
+        ; enter : bc = port
+        ;          l = data
+        ;
+        ; uses  : none
+
+        out     (c), l
+        ret

@@ -10,8 +10,8 @@ EXTERN asm_call_once
 
 call_once_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_call_once
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_call_once

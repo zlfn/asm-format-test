@@ -1,10 +1,10 @@
 
-    SECTION code_fp
+        SECTION code_fp
 
-    PUBLIC  l_f48_ldexp
+        PUBLIC  l_f48_ldexp
 
-    EXTERN  dload
-    EXTERN  fa
+        EXTERN  dload
+        EXTERN  fa
 
 ;
 ; double ldexp (double x, int exp);
@@ -15,7 +15,7 @@
 ; Stack:     float value, ret
 ; Registers: a = amount to adjust exponent
 l_f48_ldexp:
-    ld      hl, fa+5
-    add     (hl)
-    ld      (hl), a
-    ret
+        ld      hl, fa+5
+        add     (hl)
+        ld      (hl), a
+        ret

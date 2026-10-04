@@ -16,12 +16,12 @@ EXTERN asm_vprintf
 
 vprintf_callee:
 
-   pop af
-   pop bc
-   pop de
-   push af
-   
-   jp asm_vprintf
+        pop     af
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_vprintf
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

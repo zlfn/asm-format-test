@@ -5,14 +5,14 @@ PUBLIC rc_01_input_uarta_iterm_msg_reject
 
 rc_01_input_uarta_iterm_msg_reject:
 
-   ;   Indicate whether typed character should be rejected.
-   ;
-   ;   enter:  c = ascii code
-   ;    exit:  carry reset indicates the character should be rejected.
-   ; can use:  af, bc, de, hl
+        ;   Indicate whether typed character should be rejected.
+        ;
+        ;   enter:  c = ascii code
+        ;    exit:  carry reset indicates the character should be rejected.
+        ; can use:  af, bc, de, hl
 
-   ; accept all for the moment
-   ; put state machine here to eliminate pc keyboard escape sequences
+        ; accept all for the moment
+        ; put state machine here to eliminate pc keyboard escape sequences
 
-   scf
-   ret
+        scf
+        ret

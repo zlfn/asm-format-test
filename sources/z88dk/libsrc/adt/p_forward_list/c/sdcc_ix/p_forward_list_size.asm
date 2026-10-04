@@ -10,10 +10,10 @@ EXTERN asm_p_forward_list_size
 
 _p_forward_list_size:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_p_forward_list_size
+        push    hl
+        push    af
+
+        jp      asm_p_forward_list_size

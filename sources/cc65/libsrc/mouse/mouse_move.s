@@ -9,19 +9,14 @@
 ; */
 ;
 
-        .import         incsp2
-        .import         ptr1: zp
+        .import incsp2
+        .import ptr1: zp
 
-        .include        "mouse-kernel.inc"
+        .include "mouse-kernel.inc"
 
 .proc   _mouse_move
 
-        jsr     mouse_move              ; Call the driver
-        jmp     incsp2                  ; Drop the parameter
+        jsr     mouse_move      ; Call the driver
+        jmp     incsp2          ; Drop the parameter
 
 .endproc
-
-
-
-
-

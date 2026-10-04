@@ -7,17 +7,14 @@
 ;
 ;
 
+        SECTION code_clib
 
-    SECTION code_clib
+        PUBLIC  xordraw
+        PUBLIC  _xordraw
 
-    PUBLIC  xordraw
-    PUBLIC  _xordraw
-
-    EXTERN  do_draw
-
+        EXTERN  do_draw
 
 xordraw:
 _xordraw:
-    ld      a, 3
-    jp      do_draw
-
+        ld      a, 3
+        jp      do_draw

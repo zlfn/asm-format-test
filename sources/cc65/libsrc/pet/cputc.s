@@ -7,27 +7,27 @@
 ; Important note: The implementation of cputs() relies on the cputc() function
 ; not clobbering ptr1. Beware when rewriting or changing this function!
 
-        .export         _cputcxy, _cputc, cputdirect, putchar
-        .export         newline, plot
-        .import         gotoxy
+        .export _cputcxy, _cputc, cputdirect, putchar
+        .export newline,  plot
+        .import gotoxy
 
-        .include        "pet.inc"
+        .include "pet.inc"
 
 _cputcxy:
-        pha                     ; Save C
-        jsr     gotoxy          ; Set cursor, drop x and y
-        pla                     ; Restore C
+        pha             ; Save C
+        jsr     gotoxy  ; Set cursor, drop x and y
+        pla             ; Restore C
 
 ; Plot a character - also used as internal function
 
-_cputc: cmp     #$0A            ; CR?
+_cputc: cmp     #$0A    ; CR?
         bne     L1
         lda     #0
         sta     CURS_X
-        beq     plot            ; Recalculate pointers
+        beq     plot    ; Recalculate pointers
 
-L1:     cmp     #$0D            ; LF?
-        beq     newline         ; Recalculate pointers
+L1:     cmp     #$0D    ; LF?
+        beq     newline ; Recalculate pointers
 
 ; Printable char of some sort
 
@@ -42,7 +42,7 @@ L1:     cmp     #$0D            ; LF?
 L2:     and     #$3F
 
 cputdirect:
-        jsr     putchar         ; Write the character to the screen
+        jsr     putchar ; Write the character to the screen
 
 ; Advance cursor position
 
@@ -68,30 +68,27 @@ L4:     inc     CURS_Y
 ; Handle character if high bit set
 
 L10:    and     #$7F
-        cmp     #$7E            ; PI?
+        cmp     #$7E    ; PI?
         bne     L11
-        lda     #$5E            ; Load screen code for PI
+        lda     #$5E    ; Load screen code for PI
         bne     cputdirect
 L11:    ora     #$40
         bne     cputdirect
 
-
-
 ; Set cursor position, calculate RAM pointers
 
 plot:   ldy     CURS_Y
-        lda     ScrLo,y
+        lda     ScrLo, y
         sta     SCREEN_PTR
-        lda     ScrHi,y
+        lda     ScrHi, y
         ldy     SCR_LINELEN
         cpy     #40+1
         bcc     @L1
-        asl     SCREEN_PTR              ; 80 column mode
+        asl     SCREEN_PTR      ; 80 column mode
         rol     a
-@L1:    ora     #$80                    ; Screen at $8000
+@L1:    ora     #$80            ; Screen at $8000
         sta     SCREEN_PTR+1
         rts
-
 
 ; Write one character to the screen without doing anything else, return X
 ; position in Y
@@ -99,7 +96,7 @@ plot:   ldy     CURS_Y
 putchar:
         ora     RVS             ; Set revers bit
         ldy     CURS_X
-        sta     (SCREEN_PTR),y  ; Set char
+        sta     (SCREEN_PTR), y ; Set char
         rts
 
 ; Screen address tables - offset to real screen
@@ -115,5 +112,3 @@ ScrHi:  .byte   $00, $00, $00, $00, $00, $00, $00, $01
         .byte   $01, $01, $01, $01, $01, $02, $02, $02
         .byte   $02, $02, $02, $02, $03, $03, $03, $03
         .byte   $03
-
-

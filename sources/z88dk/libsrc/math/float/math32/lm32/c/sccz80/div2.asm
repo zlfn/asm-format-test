@@ -9,13 +9,13 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 div2:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_div2f
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_div2f
 
 ; SDCC bridge for Classic
 PUBLIC _div2

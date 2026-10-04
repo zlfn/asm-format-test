@@ -10,15 +10,14 @@ EXTERN asm_ba_priority_queue_resize
 
 ba_priority_queue_resize_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_ba_priority_queue_resize
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_ba_priority_queue_resize
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _ba_priority_queue_resize_callee
 defc _ba_priority_queue_resize_callee = ba_priority_queue_resize_callee
 ENDIF
-

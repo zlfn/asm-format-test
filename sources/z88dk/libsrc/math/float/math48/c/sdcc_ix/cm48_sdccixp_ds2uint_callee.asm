@@ -10,14 +10,14 @@ EXTERN cm48_sdccixp_dcallee1, am48_dfix16u
 
 cm48_sdccixp_ds2uint_callee:
 
-   ; double to unsigned int
-   ;
-   ; enter : stack = sdcc_float x, ret
-   ;
-   ; exit  : hl = (unsigned int)(x)
-   ;
-   ; uses  : af, bc, de, hl, bc', de', hl'
-   
-   call cm48_sdccixp_dcallee1    ; AC'= math48(x)
+        ; double to unsigned int
+        ;
+        ; enter : stack = sdcc_float x, ret
+        ;
+        ; exit  : hl = (unsigned int)(x)
+        ;
+        ; uses  : af, bc, de, hl, bc', de', hl'
 
-   jp am48_dfix16u
+        call    cm48_sdccixp_dcallee1   ; AC'= math48(x)
+
+        jp      am48_dfix16u

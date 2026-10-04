@@ -7,13 +7,13 @@
 ;   $Id: hdos_write.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  hdos_write
-    PUBLIC  _hdos_write
+        SECTION code_clib
+        PUBLIC  hdos_write
+        PUBLIC  _hdos_write
 
-    EXTERN    asm_hdos_write
+        EXTERN  asm_hdos_write
 
-    INCLUDE "target/hdos/def/hdos.def"
+        INCLUDE "target/hdos/def/hdos.def"
 
 hdos_write:
 _hdos_write:

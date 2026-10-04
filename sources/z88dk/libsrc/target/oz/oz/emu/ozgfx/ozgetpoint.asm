@@ -15,14 +15,13 @@
         EXTERN  pointxy
         EXTERN  __gfx_vram_page_in
 
-
 ozgetpoint:
 _ozgetpoint:
-        push    ix                      ;save callers
+        push    ix      ;save callers
         ld      ix, 2
         add     ix, sp
-        ld      l, (ix+2)
-        ld      h, (ix+4)
+        ld      l,  (ix+2)
+        ld      h,  (ix+4)
         call    __gfx_vram_page_in
         call    pointxy
         ex      af, af'
@@ -30,7 +29,6 @@ _ozgetpoint:
         ex      af, af'
         ld      hl, 0
         pop     ix
-        ret     z                       ;pixel set
+        ret     z       ;pixel set
         inc     hl
         ret
-

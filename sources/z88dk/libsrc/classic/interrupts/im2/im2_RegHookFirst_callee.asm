@@ -10,9 +10,9 @@ EXTERN _im2_hookDisp
 .im2_RegHookFirst_callee
 ._im2_RegHookFirst_callee
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 .asm_im2_RegHookFirst
 
@@ -22,25 +22,24 @@ EXTERN _im2_hookDisp
 
 .IM2RegHookFirst
 
-   ld a,i
-   ld h,a
-   ld c,(hl)
-   inc hl
-   ld b,(hl)
-   ld hl,_im2_hookDisp - 1
-   add hl,bc            ; hl points at hooks list-1
+        ld      a, i
+        ld      h, a
+        ld      c, (hl)
+        inc     hl
+        ld      b,  (hl)
+        ld      hl, _im2_hookDisp - 1
+        add     hl, bc  ; hl points at hooks list-1
 
 .loop
 
-   inc hl
-   ld c,(hl)
-   ld (hl),e
-   inc hl
-   ld a,(hl)            ; ac = old first hook
-   ld (hl),d            ; insert new first hook
-   ld d,a
-   or c
-   ret z                ; if old==NULL, done insertion
-   ld e,c               ; de = old hook = new hook to insert
-   jp loop
-
+        inc     hl
+        ld      c,    (hl)
+        ld      (hl), e
+        inc     hl
+        ld      a,    (hl)      ; ac = old first hook
+        ld      (hl), d         ; insert new first hook
+        ld      d,    a
+        or      c
+        ret     z               ; if old==NULL, done insertion
+        ld      e, c            ; de = old hook = new hook to insert
+        jp      loop

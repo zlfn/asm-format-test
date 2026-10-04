@@ -30,19 +30,19 @@ PUBLIC _m32_invf
 
 ._m32_invf
 .m32_fsinv_fastcall
-    push de                     ; x: b2, b3
-    push hl                     ; x: b0, b1, b2, b3
-    pop bc                      ; C=b0 B=b1
-    pop de                      ; E=b2 D=b3
+        push    de      ; x: b2, b3
+        push    hl      ; x: b0, b1, b2, b3
+        pop     bc      ; C=b0 B=b1
+        pop     de      ; E=b2 D=b3
 
-    ld hl,$3f80
-    push hl                     ; 80, 3F
-    ld hl,0
-    push hl                     ; 00, 00, 80, 3F = 1.0
+        ld      hl, $3f80
+        push    hl      ; 80, 3F
+        ld      hl, 0
+        push    hl      ; 00, 00, 80, 3F = 1.0
 
-    push de                     ; x high under the low word
-    push bc                     ; x: b0, b1, b2, b3, then 1.0
-    pop hl                      ; HL = b1:b0
-    pop de                      ; DE = b3:b2 ; stack = 1.0
-    call m32_fsdiv_callee
-    ret
+        push    de      ; x high under the low word
+        push    bc      ; x: b0, b1, b2, b3, then 1.0
+        pop     hl      ; HL = b1:b0
+        pop     de      ; DE = b3:b2 ; stack = 1.0
+        call    m32_fsdiv_callee
+        ret

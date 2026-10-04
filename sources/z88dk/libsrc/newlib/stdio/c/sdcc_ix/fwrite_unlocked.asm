@@ -10,17 +10,17 @@ EXTERN l0_fwrite_unlocked_callee
 
 _fwrite_unlocked:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   exx
-   pop bc
-   
-   push bc
-   push de
-   push bc
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        exx
+        pop     bc
 
-   jp l0_fwrite_unlocked_callee
+        push    bc
+        push    de
+        push    bc
+        push    hl
+        push    af
+
+        jp      l0_fwrite_unlocked_callee

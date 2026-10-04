@@ -5,7 +5,7 @@
 ; SPDX-License-Identifier: BSD-2-Clause-Patent
 ;;
 
-    SECTION .text
+        SECTION .text
 
 ;
 ; Following functions will be provided in C
@@ -20,7 +20,7 @@ extern ASM_PFX(FspApiCommon)
 ;----------------------------------------------------------------------------
 global ASM_PFX(FspApiCommonContinue)
 ASM_PFX(FspApiCommonContinue):
-  jmp $
+        jmp     $
 
 ;----------------------------------------------------------------------------
 ; TempRamInit API
@@ -30,8 +30,8 @@ ASM_PFX(FspApiCommonContinue):
 ;----------------------------------------------------------------------------
 global ASM_PFX(TempRamInitApi)
 ASM_PFX(TempRamInitApi):
-  jmp $
-  ret
+        jmp     $
+        ret
 
 ;----------------------------------------------------------------------------
 ; FspSmmInit API
@@ -42,14 +42,14 @@ ASM_PFX(TempRamInitApi):
 ;----------------------------------------------------------------------------
 global ASM_PFX(FspSmmInitApi)
 ASM_PFX(FspSmmInitApi):
-  mov    rax,  7 ; FSP_API_INDEX.FspSmmInitApiIndex
-  jmp    ASM_PFX(FspApiCommon)
+        mov     rax, 7  ; FSP_API_INDEX.FspSmmInitApiIndex
+        jmp     ASM_PFX(FspApiCommon)
 
 ;----------------------------------------------------------------------------
 ; Module Entrypoint API
 ;----------------------------------------------------------------------------
 global ASM_PFX(_ModuleEntryPoint)
 ASM_PFX(_ModuleEntryPoint):
-  jmp  $
-  ; Add reference to APIs so that it will not be optimized by compiler
-  jmp  ASM_PFX(FspSmmInitApi)
+        jmp     $
+        ; Add reference to APIs so that it will not be optimized by compiler
+        jmp     ASM_PFX(FspSmmInitApi)

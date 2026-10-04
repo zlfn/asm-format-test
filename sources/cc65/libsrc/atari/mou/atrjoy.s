@@ -5,20 +5,20 @@
 ; Adapted to Atari: Christian Groessler, 2014-01-02
 ;
 
-        .include        "zeropage.inc"
-        .include        "mouse-kernel.inc"
-        .include        "atari.inc"
+        .include "zeropage.inc"
+        .include "mouse-kernel.inc"
+        .include "atari.inc"
 
-        .macpack        generic
-        .macpack        module
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
 .ifdef __ATARIXL__
-        module_header   _atrxjoy_mou
+        module_header _atrxjoy_mou
 .else
-        module_header   _atrjoy_mou
+        module_header _atrjoy_mou
 .endif
 
 HEADER:
@@ -53,13 +53,12 @@ HEADER:
 
 ; Callback table, set by the kernel before INSTALL is called
 
-CHIDE:  jmp     $0000                   ; Hide the cursor
-CSHOW:  jmp     $0000                   ; Show the cursor
-CPREP:  jmp     $0000                   ; Prepare to move the cursor
-CDRAW:  jmp     $0000                   ; Draw the cursor
-CMOVEX: jmp     $0000                   ; Move the cursor to X coord
-CMOVEY: jmp     $0000                   ; Move the cursor to Y coord
-
+CHIDE:  jmp     $0000   ; Hide the cursor
+CSHOW:  jmp     $0000   ; Show the cursor
+CPREP:  jmp     $0000   ; Prepare to move the cursor
+CDRAW:  jmp     $0000   ; Draw the cursor
+CMOVEX: jmp     $0000   ; Move the cursor to X coord
+CMOVEY: jmp     $0000   ; Move the cursor to Y coord
 
 ;----------------------------------------------------------------------------
 ; Constants
@@ -82,18 +81,17 @@ SCREEN_WIDTH    = 319
 .bss
 
 Vars:
-YPos:           .res    2               ; Current mouse position, Y
-XPos:           .res    2               ; Current mouse position, X
-XMin:           .res    2               ; X1 value of bounding box
-YMin:           .res    2               ; Y1 value of bounding box
-XMax:           .res    2               ; X2 value of bounding box
-YMax:           .res    2               ; Y2 value of bounding box
-Buttons:        .res    1               ; Button mask
-OldDir:         .res    1               ; previous direction bits
-OldButton:      .res    1               ; previous buttons
+YPos:   .res    2       ; Current mouse position, Y
+XPos:   .res    2       ; Current mouse position, X
+XMin:   .res    2       ; X1 value of bounding box
+YMin:   .res    2       ; Y1 value of bounding box
+XMax:   .res    2       ; X2 value of bounding box
+YMax:   .res    2       ; Y2 value of bounding box
+Buttons:   .res 1       ; Button mask
+OldDir: .res    1       ; previous direction bits
+OldButton: .res 1       ; previous buttons
 
-
-Temp:           .res    1               ; Temporary value used in the int handler
+Temp:   .res    1       ; Temporary value used in the int handler
 
 ; Default values for above variables
 
@@ -102,13 +100,13 @@ Temp:           .res    1               ; Temporary value used in the int handle
 ; (We use ".proc" because we want to define both a label and a scope.)
 
 .proc   DefVars
-        .word   SCREEN_HEIGHT/2         ; YPos
-        .word   SCREEN_WIDTH/2          ; XPos
-        .word   0                       ; XMin
-        .word   0                       ; YMin
-        .word   SCREEN_WIDTH            ; XMax
-        .word   SCREEN_HEIGHT           ; YMax
-        .byte   0                       ; Buttons
+        .word   SCREEN_HEIGHT/2 ; YPos
+        .word   SCREEN_WIDTH/2  ; XPos
+        .word   0               ; XMin
+        .word   0               ; YMin
+        .word   SCREEN_WIDTH    ; XMax
+        .word   SCREEN_HEIGHT   ; YMax
+        .byte   0               ; Buttons
 .endproc
 
 .code
@@ -123,8 +121,8 @@ INSTALL:
 ; Initialize variables. Just copy the default stuff over
 
         ldx     #.sizeof(DefVars)-1
-@L1:    lda     DefVars,x
-        sta     Vars,x
+@L1:    lda     DefVars, x
+        sta     Vars,    x
         dex
         bpl     @L1
 
@@ -184,14 +182,14 @@ SHOW:   php
 ; caller and save some code here. No return code required.
 
 SETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX)-1
         php
         sei
 
-@L1:    lda     (ptr1),y
-        sta     XMin,y
+@L1:    lda     (ptr1), y
+        sta     XMin,   y
         dey
         bpl     @L1
 
@@ -203,14 +201,14 @@ SETBOX: sta     ptr1
 ; come from the C program, that is, a pointer to a mouse_box struct in a/x.
 
 GETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX)-1
         php
         sei
 
-@L1:    lda     XMin,y
-        sta     (ptr1),y
+@L1:    lda     XMin,   y
+        sta     (ptr1), y
         dey
         bpl     @L1
 
@@ -226,7 +224,7 @@ GETBOX: sta     ptr1
 ;
 
 MOVE:   php
-        sei                             ; No interrupts
+        sei     ; No interrupts
 
         pha
         txa
@@ -237,21 +235,21 @@ MOVE:   php
         pla
 
         sta     YPos
-        stx     YPos+1                  ; New Y position
-        jsr     CMOVEY                  ; Set it
+        stx     YPos+1  ; New Y position
+        jsr     CMOVEY  ; Set it
 
         ldy     #$01
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     XPos+1
         tax
         dey
-        lda     (c_sp),y
-        sta     XPos                    ; New X position
-        jsr     CMOVEX                  ; Move the cursor
+        lda     (c_sp), y
+        sta     XPos    ; New X position
+        jsr     CMOVEX  ; Move the cursor
 
         jsr     CDRAW
 
-        plp                             ; Restore interrupt flag
+        plp     ; Restore interrupt flag
         rts
 
 ;----------------------------------------------------------------------------
@@ -269,22 +267,22 @@ BUTTONS:
 POS:    ldy     #MOUSE_POS::XCOORD      ; Structure offset
 
         php
-        sei                             ; Disable interrupts
-        lda     XPos                    ; Transfer the position
-        sta     (ptr1),y
+        sei             ; Disable interrupts
+        lda     XPos    ; Transfer the position
+        sta     (ptr1), y
         lda     XPos+1
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos+1
-        plp                             ; Restore interrupt flag
+        plp             ; Restore interrupt flag
 
         iny
-        sta     (ptr1),y                ; Store last byte
+        sta     (ptr1), y       ; Store last byte
 
-        rts                             ; Done
+        rts     ; Done
 
 ;----------------------------------------------------------------------------
 ; INFO: Returns mouse position and current button mask in the MOUSE_INFO
@@ -301,7 +299,7 @@ INFO:   jsr     POS
 
         lda     Buttons
         ldy     #MOUSE_INFO::BUTTONS
-        sta     (ptr1),y
+        sta     (ptr1), y
 
         rts
 
@@ -311,7 +309,7 @@ INFO:   jsr     POS
 ; Must return an error code in a/x.
 ;
 
-IOCTL:  lda     #<MOUSE_ERR_INV_IOCTL     ; We don't support ioclts for now
+IOCTL:  lda     #<MOUSE_ERR_INV_IOCTL   ; We don't support ioclts for now
         ldx     #>MOUSE_ERR_INV_IOCTL
         rts
 
@@ -327,13 +325,13 @@ IRQ:
 ; Check for a pressed button and place the result into Buttons
 
         ldx     #0
-        lda     TRIG0                   ; joystick #0 trigger
-        bne     @L0                     ; not pressed
+        lda     TRIG0   ; joystick #0 trigger
+        bne     @L0     ; not pressed
         ldx     #MOUSE_BTN_LEFT
 @L0:    stx     Buttons
 
-        lda     PORTA                   ; get joystick direction bits
-        and     #15                     ; clear joystick #1 bits
+        lda     PORTA   ; get joystick direction bits
+        and     #15     ; clear joystick #1 bits
         eor     #15
         sta     Temp
 
@@ -346,8 +344,8 @@ IRQ:
         beq     @ChkDir
         sta     OldButton
         lda     #0
-        sta     ATRACT                  ; disable "attract mode"
-@ChkDir:lda     Temp
+        sta     ATRACT  ; disable "attract mode"
+@ChkDir: lda    Temp
         cmp     OldDir
         beq     @ChkCnt
         sta     OldDir
@@ -356,25 +354,25 @@ IRQ:
 
 ; Check left/right
 
-@ChkCnt:lda     Temp                    ; Read joystick #0
+@ChkCnt: lda    Temp    ; Read joystick #0
         and     #(JOY::LEFT | JOY::RIGHT)
-        beq     @SkipX                  ;
+        beq     @SkipX  ;
 
 ; We will cheat here and rely on the fact that either the left, OR the right
 ; bit can be active
 
-        and     #JOY::RIGHT             ; Check RIGHT bit
+        and     #JOY::RIGHT     ; Check RIGHT bit
         bne     @Right
         lda     #$FF
         tax
-        bne     @AddX                   ; Branch always
+        bne     @AddX           ; Branch always
 @Right: lda     #$01
         ldx     #$00
 
 ; Calculate the new X coordinate (--> a/y)
 
 @AddX:  add     XPos
-        tay                             ; Remember low byte
+        tay     ; Remember low byte
         txa
         adc     XPos+1
         tax
@@ -422,7 +420,7 @@ IRQ:
 ; Calculate the new Y coordinate (--> a/y)
 
 @AddY:  add     YPos
-        tay                             ; Remember low byte
+        tay     ; Remember low byte
         txa
         adc     YPos+1
         tax
@@ -453,5 +451,5 @@ IRQ:
 ; Done
 
 @SkipY: jsr     CDRAW
-        clc                             ; Interrupt not "handled"
+        clc     ; Interrupt not "handled"
         rts

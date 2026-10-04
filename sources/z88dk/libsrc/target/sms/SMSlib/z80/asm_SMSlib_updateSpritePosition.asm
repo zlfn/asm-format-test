@@ -14,33 +14,33 @@ EXTERN __SMSlib_SpriteTableY, __SMSlib_SpriteTableXN
 
 asm_SMSlib_updateSpritePosition:
 
-   ; void SMS_updateSpritePosition (signed char sprite, unsigned char x, unsigned char y)
-   ;
-   ; enter :  e = signed char sprite
-   ;          a = unsigned char y
-   ;          c = unsigned char x
-   ;
-   ; uses : af, d, hl
+        ; void SMS_updateSpritePosition (signed char sprite, unsigned char x, unsigned char y)
+        ;
+        ; enter :  e = signed char sprite
+        ;          a = unsigned char y
+        ;          c = unsigned char x
+        ;
+        ; uses : af, d, hl
 
-   ld d,0
-   
-   ld hl,__SMSlib_SpriteTableY
-   add hl,de
-   
-   cp 0xd1
-   jr z, bad_sprite_coord
-   
-   dec a
-   ld (hl),a
-   
-   ld hl,__SMSlib_SpriteTableXN
-   add hl,de
-   add hl,de
-   
-   ld (hl),c
-   ret
+        ld      d, 0
+
+        ld      hl, __SMSlib_SpriteTableY
+        add     hl, de
+
+        cp      0xd1
+        jr      z, bad_sprite_coord
+
+        dec     a
+        ld      (hl), a
+
+        ld      hl, __SMSlib_SpriteTableXN
+        add     hl, de
+        add     hl, de
+
+        ld      (hl), c
+        ret
 
 bad_sprite_coord:
 
-   ld (hl),0xe0
-   ret
+        ld      (hl), 0xe0
+        ret

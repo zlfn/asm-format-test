@@ -151,13 +151,13 @@ EXTERN sms_01_output_terminal_tty_z88dk_stdio_msg_ictl
 
 sms_01_output_terminal_tty_z88dk:
 
-   cp OTERM_MSG_TTY
-   jp z, sms_01_output_terminal_tty_z88dk_oterm_msg_tty
+        cp      OTERM_MSG_TTY
+        jp      z, sms_01_output_terminal_tty_z88dk_oterm_msg_tty
 
-   cp STDIO_MSG_FLSH
-   jp z, sms_01_output_terminal_tty_z88dk_stdio_msg_flsh
-   
-   cp STDIO_MSG_ICTL
-   jp z, sms_01_output_terminal_tty_z88dk_stdio_msg_ictl
-   
-   jp sms_01_output_terminal     ; forward to library
+        cp      STDIO_MSG_FLSH
+        jp      z, sms_01_output_terminal_tty_z88dk_stdio_msg_flsh
+
+        cp      STDIO_MSG_ICTL
+        jp      z, sms_01_output_terminal_tty_z88dk_stdio_msg_ictl
+
+        jp      sms_01_output_terminal  ; forward to library

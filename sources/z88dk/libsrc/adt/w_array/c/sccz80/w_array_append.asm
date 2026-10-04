@@ -10,19 +10,18 @@ EXTERN asm_w_array_append
 
 w_array_append:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp asm_w_array_append
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_w_array_append
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _w_array_append
 defc _w_array_append = w_array_append
 ENDIF
-

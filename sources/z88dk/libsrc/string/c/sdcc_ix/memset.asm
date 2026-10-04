@@ -10,14 +10,14 @@ EXTERN asm_memset
 
 _memset:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
-   
-   jp asm_memset
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_memset

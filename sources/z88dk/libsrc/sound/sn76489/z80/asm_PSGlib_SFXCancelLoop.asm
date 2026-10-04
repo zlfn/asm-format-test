@@ -14,12 +14,12 @@ EXTERN __PSGlib_SFXLoopFlag
 
 asm_PSGlib_SFXCancelLoop:
 
-   ; void PSGCancelLoop (void)
-   ; sets the currently looping music to no more loops after the current
-   ;
-   ; uses  : af
+        ; void PSGCancelLoop (void)
+        ; sets the currently looping music to no more loops after the current
+        ;
+        ; uses  : af
 
-   xor a
-   ld (__PSGlib_SFXLoopFlag),a
-   
-   ret
+        xor     a
+        ld      (__PSGlib_SFXLoopFlag), a
+
+        ret

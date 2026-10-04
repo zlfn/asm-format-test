@@ -10,13 +10,13 @@ EXTERN asm_b_array_write_block
 
 _b_array_write_block_callee:
 
-   pop af
-   exx
-   pop hl
-   exx
-   pop de
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_b_array_write_block
+        pop     af
+        exx
+        pop     hl
+        exx
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_b_array_write_block

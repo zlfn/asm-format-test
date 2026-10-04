@@ -5,10 +5,10 @@
 ;
 ; get color from current position, do NOT advance cursor
 
-        .export         _cpeekcolor
+        .export _cpeekcolor
 
-        .include        "pce.inc"
-        .include        "extzp.inc"
+        .include "pce.inc"
+        .include "extzp.inc"
 
 _cpeekcolor:
         st0     #VDC_MARR       ; Memory-Address Read

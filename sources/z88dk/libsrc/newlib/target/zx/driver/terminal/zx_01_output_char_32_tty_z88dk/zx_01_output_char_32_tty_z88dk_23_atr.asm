@@ -6,21 +6,21 @@ PUBLIC zx_01_output_char_32_tty_z88dk_23_atr
 
 zx_01_output_char_32_tty_z88dk_23_atr:
 
-   ; atr dx,dy
-   
-   ; de = parameters *
-   
-   ld a,(de)                   ; biased dy
-   inc de
-   
-   sub 0x80                    ; dy
-   add a,(ix+15)               ; + y
-   ld (ix+15),a
-   
-   ld a,(de)                   ; biased dx
-   
-   sub 0x80                    ; dx
-   add a,(ix+14)               ; + x
-   ld (ix+14),a
+        ; atr dx,dy
 
-   ret
+        ; de = parameters *
+
+        ld      a, (de) ; biased dy
+        inc     de
+
+        sub     0x80            ; dy
+        add     a, (ix+15)      ; + y
+        ld      (ix+15), a
+
+        ld      a, (de) ; biased dx
+
+        sub     0x80            ; dx
+        add     a, (ix+14)      ; + x
+        ld      (ix+14), a
+
+        ret

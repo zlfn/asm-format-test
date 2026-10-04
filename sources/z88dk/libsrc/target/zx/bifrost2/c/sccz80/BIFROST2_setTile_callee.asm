@@ -16,12 +16,12 @@ EXTERN asm_BIFROST2_setTile
 
 BIFROST2_setTile_callee:
 
-        pop hl          ; RET address
-        pop de          ; E=tile
-        pop bc          ; C=py
-        ex (sp),hl      ; L=px
+        pop     hl              ; RET address
+        pop     de              ; E=tile
+        pop     bc              ; C=py
+        ex      (sp), hl        ; L=px
 
-        jp asm_BIFROST2_setTile
+        jp      asm_BIFROST2_setTile
 
 ; SDCC bridge for Classic
 IF __CLASSIC

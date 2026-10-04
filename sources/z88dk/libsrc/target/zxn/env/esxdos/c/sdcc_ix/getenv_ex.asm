@@ -8,12 +8,12 @@ EXTERN l0_getenv_ex_callee
 
 _getenv_ex:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp l0_getenv_ex_callee
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      l0_getenv_ex_callee

@@ -10,21 +10,19 @@
 ;
 ;
 
-    SECTION code_clib
-    PUBLIC  getk
-    PUBLIC  _getk
-    EXTERN  fgetc_cons
-    INCLUDE "target/tvc/def/tvc.def"
-
+        SECTION code_clib
+        PUBLIC  getk
+        PUBLIC  _getk
+        EXTERN  fgetc_cons
+        INCLUDE "target/tvc/def/tvc.def"
 
 getk:
 _getk:
-    rst     $30
-    defb    KBD_STATUS
-    ld      a, c
-    and     a
-    jp      nz, fgetc_cons
+        rst     $30
+        defb    KBD_STATUS
+        ld      a, c
+        and     a
+        jp      nz, fgetc_cons
 
-    ld      hl, 0
-    ret
-
+        ld      hl, 0
+        ret

@@ -9,11 +9,11 @@ EXTERN asm0_zx_scroll_up_attr
 
 _zx_scroll_up_attr_callee:
 
-   pop hl
-   ex (sp),hl
-   
-   ld e,l
-   ld d,0
-   ld l,h
+        pop     hl
+        ex      (sp), hl
 
-   jp asm0_zx_scroll_up_attr
+        ld      e, l
+        ld      d, 0
+        ld      l, h
+
+        jp      asm0_zx_scroll_up_attr

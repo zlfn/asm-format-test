@@ -18,12 +18,12 @@ PUBLIC l_compare_false
 ; return hl=1 with carry set, or hl=0 with carry clear
 
 .l_compare_true
-    scf
-    ld hl,1
-    ret
+        scf
+        ld      hl, 1
+        ret
 
 .l_compare_false
-    xor a
-    ld l,a
-    ld h,a
-    ret
+        xor     a
+        ld      l, a
+        ld      h, a
+        ret

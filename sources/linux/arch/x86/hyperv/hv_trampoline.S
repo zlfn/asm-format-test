@@ -39,63 +39,63 @@
 #define HV_CRASHDATA_OFFS_CS_JMPTGT  0x28    /* 40 */
 #define HV_CRASHDATA_OFFS_C_entry    0x30    /* 48 */
 
-	.text
-	.code32
+        .text
+        .code32
 
 SYM_CODE_START(hv_crash_asm32)
-	UNWIND_HINT_UNDEFINED
-	ENDBR
-	movl	$X86_CR4_PAE, %ecx
-	movl	%ecx, %cr4
+        UNWIND_HINT_UNDEFINED
+        ENDBR
+        movl    $X86_CR4_PAE, %ecx
+        movl    %ecx, %cr4
 
-	movl %edi, %ebx
-	add $HV_CRASHDATA_OFFS_TRAMPCR3, %ebx
-	movl %cs:(%ebx), %eax
-	movl %eax, %cr3
+        movl    %edi, %ebx
+        add     $HV_CRASHDATA_OFFS_TRAMPCR3, %ebx
+        movl    %cs:(%ebx), %eax
+        movl    %eax, %cr3
 
-	/* Setup EFER for long mode now */
-	movl	$MSR_EFER, %ecx
-	rdmsr
-	btsl	$_EFER_LME, %eax
-	wrmsr
+        /* Setup EFER for long mode now */
+        movl    $MSR_EFER, %ecx
+        rdmsr
+        btsl    $_EFER_LME, %eax
+        wrmsr
 
-	/* Turn paging on using the temp 32bit trampoline page table */
-	movl %cr0, %eax
-	orl $(X86_CR0_PG), %eax
-	movl %eax, %cr0
+        /* Turn paging on using the temp 32bit trampoline page table */
+        movl    %cr0, %eax
+        orl     $(X86_CR0_PG), %eax
+        movl    %eax, %cr0
 
 	/* since kernel cr3 could be above 4G, we need to be in the long mode
 	 * before we can load 64bits of the kernel cr3. We use a temp gdt for
 	 * that with CS.L=1 and CS.D=0 */
-	mov %edi, %eax
-	add $HV_CRASHDATA_OFFS_GDTRLIMIT, %eax
-	lgdtl %cs:(%eax)
+        mov     %edi, %eax
+        add     $HV_CRASHDATA_OFFS_GDTRLIMIT, %eax
+        lgdtl   %cs:(%eax)
 
-	/* not done yet, restore CS now to switch to CS.L=1 */
-	mov %edi, %eax
-	add $HV_CRASHDATA_OFFS_CS_JMPTGT, %eax
-	ljmp %cs:*(%eax)
+        /* not done yet, restore CS now to switch to CS.L=1 */
+        mov     %edi, %eax
+        add     $HV_CRASHDATA_OFFS_CS_JMPTGT, %eax
+        ljmp    %cs:*(%eax)
 SYM_CODE_END(hv_crash_asm32)
 
-	/* we now run in full 64bit IA32-e long mode, CS.L=1 and CS.D=0 */
-	.code64
-	.balign 8
+        /* we now run in full 64bit IA32-e long mode, CS.L=1 and CS.D=0 */
+        .code64
+        .balign 8
 SYM_CODE_START(hv_crash_asm64)
-	UNWIND_HINT_UNDEFINED
-	ENDBR
-	/* restore kernel page tables so we can jump to kernel code */
-	mov %edi, %eax
-	add $HV_CRASHDATA_OFFS_KERNCR3, %eax
-	movq %cs:(%eax), %rbx
-	movq %rbx, %cr3
+        UNWIND_HINT_UNDEFINED
+        ENDBR
+        /* restore kernel page tables so we can jump to kernel code */
+        mov     %edi, %eax
+        add     $HV_CRASHDATA_OFFS_KERNCR3, %eax
+        movq    %cs:(%eax), %rbx
+        movq    %rbx, %cr3
 
-	mov %edi, %eax
-	add $HV_CRASHDATA_OFFS_C_entry, %eax
-	movq %cs:(%eax), %rbx
-	ANNOTATE_RETPOLINE_SAFE
-	jmp *%rbx
+        mov     %edi, %eax
+        add     $HV_CRASHDATA_OFFS_C_entry, %eax
+        movq    %cs:(%eax), %rbx
+        ANNOTATE_RETPOLINE_SAFE
+        jmp     *%rbx
 
-	int $3
+        int     $3
 
 SYM_INNER_LABEL(hv_crash_asm_end, SYM_L_GLOBAL)
 SYM_CODE_END(hv_crash_asm64)

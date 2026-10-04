@@ -5,19 +5,16 @@
 ;                                               const char* name)
 ; /* Load a mouse driver and return an error code */
 
+        .include "mouse-kernel.inc"
+        .include "modload.inc"
+        .include "fcntl.inc"
 
-        .include        "mouse-kernel.inc"
-        .include        "modload.inc"
-        .include        "fcntl.inc"
-
-        .import         pushax
-        .import         pusha0
-        .import         incsp2
-        .import         _open
-        .import         _read
-        .import         _close
-
-
+        .import pushax
+        .import pusha0
+        .import incsp2
+        .import _open
+        .import _read
+        .import _close
 
 ;----------------------------------------------------------------------------
 ; Variables
@@ -25,10 +22,10 @@
 .data
 
 ctrl:   .addr   _read
-        .res    2                       ; CALLERDATA
-        .res    2                       ; MODULE
-        .res    2                       ; MODULE_SIZE
-        .res    2                       ; MODULE_ID
+        .res    2       ; CALLERDATA
+        .res    2       ; MODULE
+        .res    2       ; MODULE_SIZE
+        .res    2       ; MODULE_ID
 
 ;----------------------------------------------------------------------------
 ; Code
@@ -54,7 +51,7 @@ ctrl:   .addr   _read
 
 @L1:    lda     #<O_RDONLY
         jsr     pusha0
-        ldy     #4                      ; Argument size
+        ldy     #4      ; Argument size
         jsr     _open
         sta     ctrl + MOD_CTRL::CALLERDATA
         stx     ctrl + MOD_CTRL::CALLERDATA+1
@@ -119,5 +116,3 @@ ctrl:   .addr   _read
         rts
 
 .endproc
-
-

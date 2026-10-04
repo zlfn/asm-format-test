@@ -14,20 +14,19 @@
 // Returns the negation a double precision floating point numbers using the
 // Darwin calling convention where double arguments are passsed in GPR pairs.
 //
-	.syntax unified
-	.p2align 2
+        .syntax unified
+        .p2align 2
 DEFINE_COMPILERRT_FUNCTION(__negdf2vfp)
 #if defined(COMPILER_RT_ARMHF_TARGET)
-	vneg.f64 d0, d0
+        vneg.f64 d0, d0
 #else
 #if _YUGA_BIG_ENDIAN
-	eor	r0, r0, #0x80000000	// flip sign bit on double in r0/r1 pair
+        eor     r0, r0, #0x80000000     // flip sign bit on double in r0/r1 pair
 #else
-	eor	r1, r1, #0x80000000	// flip sign bit on double in r0/r1 pair
+        eor     r1, r1, #0x80000000     // flip sign bit on double in r0/r1 pair
 #endif
 #endif
-	bx	lr
+        bx      lr
 END_COMPILERRT_FUNCTION(__negdf2vfp)
 
 NO_EXEC_STACK_DIRECTIVE
-

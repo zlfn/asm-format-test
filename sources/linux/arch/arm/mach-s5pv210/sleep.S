@@ -10,8 +10,8 @@
 
 #include <linux/linkage.h>
 
-	.text
-	.align
+        .text
+        .align
 
 	/*
 	 * sleep magic, to allow the bootloader to check for an valid
@@ -19,7 +19,7 @@
 	 * s3c_cpu_resume entry.
 	 */
 
-	.word	0x2bedf00d
+        .word   0x2bedf00d
 
 	/*
 	 * s3c_cpu_resume
@@ -28,5 +28,5 @@
 	 */
 
 ENTRY(s5pv210_cpu_resume)
-	b	cpu_resume
+        b       cpu_resume
 ENDPROC(s5pv210_cpu_resume)

@@ -10,25 +10,23 @@
 ;
 
         SECTION code_clib
-	PUBLIC	getk
-	PUBLIC	_getk
-	EXTERN	fgetc_cons
-
+        PUBLIC  getk
+        PUBLIC  _getk
+        EXTERN  fgetc_cons
 
 .getk
 ._getk
 
-	ld   a,69h ; keyboard channel
-	rst  $30   ; EXOS
-	defb 9     ; test channel
+        ld      a, 69h  ; keyboard channel
+        rst     $30     ; EXOS
+        defb    9       ; test channel
 
-	; C = 0: peripheral ready
-	; C = 1: not ready
-	; C = FFH: end of file
-	ld	a,c
-	and	a
-	jp	z,fgetc_cons
+        ; C = 0: peripheral ready
+        ; C = 1: not ready
+        ; C = FFH: end of file
+        ld      a, c
+        and     a
+        jp      z, fgetc_cons
 
-	ld	hl,0
-	ret
-
+        ld      hl, 0
+        ret

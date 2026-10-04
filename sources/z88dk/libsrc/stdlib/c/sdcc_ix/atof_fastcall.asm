@@ -10,10 +10,10 @@ EXTERN mlib2d, asm_atof
 
 _atof_fastcall:
 
-   push ix
-   
-   call asm_atof
-   
-   pop ix
-   
-   jp mlib2d                   ; to sdcc_float
+        push    ix
+
+        call    asm_atof
+
+        pop     ix
+
+        jp      mlib2d  ; to sdcc_float

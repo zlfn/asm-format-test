@@ -4,10 +4,9 @@
 ; Common stuff for the clock routines
 ;
 
-        .export         TM, load_jiffy
+        .export TM, load_jiffy
 
-        .importzp       sreg
-
+        .importzp sreg
 
 ;----------------------------------------------------------------------------
 ; Load .EAX with the approximate number of nanoseconds

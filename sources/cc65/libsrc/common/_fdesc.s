@@ -4,18 +4,17 @@
 ; int _fdesc (void);
 ; /* Find a free descriptor slot */
 
+        .export __fdesc
+        .import return0
 
-        .export         __fdesc
-        .import         return0
-
-        .include        "stdio.inc"
-        .include        "_file.inc"
+        .include "stdio.inc"
+        .include "_file.inc"
 
 .proc   __fdesc
 
         ldy     #0
         lda     #_FOPEN
-Loop:   and     __filetab + _FILE::f_flags,y    ; load flags
+Loop:   and     __filetab + _FILE::f_flags, y   ; load flags
         beq     Found                           ; jump if closed
 .repeat .sizeof(_FILE)
         iny
@@ -38,6 +37,3 @@ Found:  tya                     ; Offset
 @L1:    rts
 
 .endproc
-
-
-

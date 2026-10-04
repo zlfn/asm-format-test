@@ -17,31 +17,31 @@ PUBLIC asm_zx_py2aaddr
 
 asm_zx_py2aaddr:
 
-   ; enter :  l = valid pixel y coordinate
-   ;
-   ; exit  : hl = attribute address containing pixel at x = 0, y.
-   ;
-   ; uses  : af, hl
-   
-   ld a,l
-   rlca
-   rlca
-   ld h,a
-   
-   and $e0
-   ld l,a
-   
-   ld a,h
-   and $03
+        ; enter :  l = valid pixel y coordinate
+        ;
+        ; exit  : hl = attribute address containing pixel at x = 0, y.
+        ;
+        ; uses  : af, hl
+
+        ld      a, l
+        rlca
+        rlca
+        ld      h, a
+
+        and     $e0
+        ld      l, a
+
+        ld      a, h
+        and     $03
 
 IF __USE_SPECTRUM_128_SECOND_DFILE
-   or $d8
+        or      $d8
 ELIF __USE_OFFSET_SCREEN
-   EXTERN SCREEN_BASE
-   or +(SCREEN_BASE/256) + $18
+        EXTERN  SCREEN_BASE
+        or      +(SCREEN_BASE/256) + $18
 ELSE
-   or $58
+        or      $58
 ENDIF
 
-   ld h,a   
-   ret
+        ld      h, a
+        ret

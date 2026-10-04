@@ -37,13 +37,13 @@
 //  should still consider removing it once all non-compliant RVV 0.7.1 hardware
 //  is out of service.
 function has_compliant_rvv, export=1, ext=v
-  vsetvli t0, zero, e8, m1, ta, ma
-  csrr a0, vtype
-  sgtz a0, a0
-  ret
+        vsetvli t0, zero, e8, m1, ta, ma
+        csrr    a0, vtype
+        sgtz    a0, a0
+        ret
 endfunc
 
 function get_vlenb, export=1
-  csrr a0, vlenb
-  ret
+        csrr    a0, vlenb
+        ret
 endfunc

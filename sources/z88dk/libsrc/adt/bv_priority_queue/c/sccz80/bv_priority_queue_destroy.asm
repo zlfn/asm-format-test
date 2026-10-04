@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _bv_priority_queue_destroy
 defc _bv_priority_queue_destroy = bv_priority_queue_destroy
 ENDIF
-

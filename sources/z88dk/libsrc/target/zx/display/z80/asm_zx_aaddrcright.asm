@@ -19,23 +19,23 @@ PUBLIC asm_zx_aaddrcright
 
 asm_zx_aaddrcright:
 
-   ; enter : hl = valid attribute address
-   ;
-   ; exit  : hl = new attribute address moved right one char square
-   ;         carry set if new attribute address is off screen
-   ;
-   ; uses  : af, hl
-   
-   inc hl
+        ; enter : hl = valid attribute address
+        ;
+        ; exit  : hl = new attribute address moved right one char square
+        ;         carry set if new attribute address is off screen
+        ;
+        ; uses  : af, hl
+
+        inc     hl
 
 IF __USE_SPECTRUM_128_SECOND_DFILE
-   ld a,$da
+        ld      a, $da
 ELIF __USE_OFFSET_SCREEN
-   EXTERN SCREEN_BASE
-   cp +(SCREEN_BASE/256) + $1a
+        EXTERN  SCREEN_BASE
+        cp      +(SCREEN_BASE/256) + $1a
 ELSE
-   ld a,$5a
+        ld      a, $5a
 ENDIF
 
-   cp h   
-   ret
+        cp      h
+        ret

@@ -14,11 +14,11 @@ EXTERN _u_free
 .adt_ListDelete_callee
 ._adt_ListDelete_callee
 
-   pop bc
-   pop de
-   pop hl
-   push bc
-   
+        pop     bc
+        pop     de
+        pop     hl
+        push    bc
+
 .asm_adt_ListDelete
 
 ; enter: hl = struct adt_List *
@@ -29,12 +29,11 @@ EXTERN _u_free
 ; note : not multi-thread safe
 ; uses : af, bc, de, hl, ix
 
-   push hl
-   call asm_adt_ListDeleteS
-   pop hl
-   
-   push hl
-   call _u_free
-   pop hl
-   ret
-      
+        push    hl
+        call    asm_adt_ListDeleteS
+        pop     hl
+
+        push    hl
+        call    _u_free
+        pop     hl
+        ret

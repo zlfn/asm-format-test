@@ -22,36 +22,36 @@ PUBLIC asm_u16_f24
 
 .asm_i16_f24
 .asm_u16_f24
-    ld a,d
-    and a
-    jr Z,izero
-    cp $7e + 16
-    jp NC,imax
-    ld b,a
-    ld a,$7e + 16
-    sub b
-    ld b,a                      ; B = shift count (>= 1)
+        ld      a, d
+        and     a
+        jr      Z, izero
+        cp      $7e + 16
+        jp      NC, imax
+        ld      b,  a
+        ld      a,  $7e + 16
+        sub     b
+        ld      b, a    ; B = shift count (>= 1)
 .iloop
-    srl h
-    rr l
-    dec b
-    jr NZ,iloop
-    ld a,e
-    rla
-    jr NC,idone
-    xor a
-    sub l
-    ld l,a
-    sbc a,a
-    sub h
-    ld h,a
+        srl     h
+        rr      l
+        dec     b
+        jr      NZ, iloop
+        ld      a,  e
+        rla
+        jr      NC, idone
+        xor     a
+        sub     l
+        ld      l, a
+        sbc     a, a
+        sub     h
+        ld      h, a
 .idone
-    ret
+        ret
 
 .izero
-    ld hl,0
-    ret
+        ld      hl, 0
+        ret
 
 .imax
-    ld hl,0FFh
-    ret
+        ld      hl, 0FFh
+        ret

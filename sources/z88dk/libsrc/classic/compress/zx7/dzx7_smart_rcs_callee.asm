@@ -11,14 +11,14 @@ EXTERN asm_dzx7_smart_rcs
 dzx7_smart_rcs_callee:
 
 IF __CPU_GBZ80__
-   pop bc
-   pop de
-   pop hl
-   push bc
+        pop     bc
+        pop     de
+        pop     hl
+        push    bc
 ELSE
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 ENDIF
-   
-   jp asm_dzx7_smart_rcs
+
+        jp      asm_dzx7_smart_rcs

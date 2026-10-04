@@ -5,7 +5,7 @@
 ; Helper function for several high-level file functions.
 ;
 
-        .include        "errno.inc"
+        .include "errno.inc"
 
 ; ----------------------------------------------------------------------------
 ; int __fastcall__ __directerrno (unsigned char code);
@@ -14,12 +14,12 @@
 ; */
 
 ___directerrno:
-        jsr     ___seterrno             ; Set errno (returns with .A = 0)
-        sta     ___oserror              ; Clear ___oserror
+        jsr     ___seterrno     ; Set errno (returns with .A = 0)
+        sta     ___oserror      ; Clear ___oserror
 .if .cap(CPU_HAS_INA)
         dec     a
 .else
-        lda     #$FF                    ; Return -1
+        lda     #$FF    ; Return -1
 .endif
         tax
         rts

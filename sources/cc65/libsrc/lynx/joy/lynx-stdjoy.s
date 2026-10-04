@@ -7,25 +7,24 @@
 ; Using code from Steve Schmidtke
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "lynx.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "lynx.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _lynx_stdjoy_joy
+        module_header _lynx_stdjoy_joy
 
 ; Driver signature
 
-        .byte   $6A, $6F, $79           ; "joy"
-        .byte   JOY_API_VERSION         ; Driver API version number
+        .byte   $6A, $6F, $79   ; "joy"
+        .byte   JOY_API_VERSION ; Driver API version number
 
 ; Library reference
 
@@ -43,10 +42,8 @@
 
 JOY_COUNT       = 1             ; Number of joysticks we support
 
-
 ; ------------------------------------------------------------------------
 ; Data.
-
 
 .code
 
@@ -58,7 +55,7 @@ JOY_COUNT       = 1             ; Number of joysticks we support
 ;
 
 INSTALL:
-        lda #JOY_ERR_OK
+        lda     #JOY_ERR_OK
         .assert JOY_ERR_OK = 0, error
         tax
 ;       rts                     ; Run into UNINSTALL instead
@@ -70,7 +67,6 @@ INSTALL:
 
 UNINSTALL:
         rts
-
 
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.
@@ -89,5 +85,3 @@ READ:
         lda     JOYSTICK        ; Read joystick
         and     #$F3            ; Mask relevant keys
         rts
-
-

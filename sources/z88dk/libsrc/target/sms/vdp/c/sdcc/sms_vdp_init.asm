@@ -9,10 +9,10 @@ EXTERN _sms_vdp_init_fastcall
 
 _sms_vdp_init:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _sms_vdp_init_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _sms_vdp_init_fastcall

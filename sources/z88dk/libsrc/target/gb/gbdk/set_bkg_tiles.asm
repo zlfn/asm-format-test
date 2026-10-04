@@ -4,7 +4,7 @@
         PUBLIC  set_bkg_tiles
         PUBLIC  _set_bkg_tiles
 
-	EXTERN	set_xy_btt
+        EXTERN  set_xy_btt
 
         SECTION code_driver
 
@@ -15,22 +15,22 @@ set_bkg_tiles:
 _set_bkg_tiles:
         PUSH    BC
 
-        LD      HL,sp+12        ; Skip return address and registers
-        LD      D,(HL)          ; D = x
+        LD      HL, sp+12       ; Skip return address and registers
+        LD      D,  (HL)        ; D = x
         DEC     HL
         DEC     HL
-        LD      E,(HL)          ; E = y
-        LD      HL,sp+4
-        LD      C,(HL)          ; BC = tiles
+        LD      E,  (HL)        ; E = y
+        LD      HL, sp+4
+        LD      C,  (HL)        ; BC = tiles
         INC     HL
-        LD      B,(HL)
+        LD      B, (HL)
         INC     HL
-        LD      A,(HL+)         ; A = h
+        LD      A, (HL+)        ; A = h
         INC     HL
-        LD      H,(HL)          ; H = w
-        LD      L,A             ; L = h
+        LD      H, (HL)         ; H = w
+        LD      L, A            ; L = h
 
         CALL    set_xy_btt
 
         POP     BC
-	ret
+        ret

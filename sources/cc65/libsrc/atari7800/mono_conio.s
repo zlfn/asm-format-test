@@ -6,14 +6,14 @@
 ; frame buffer
 ;
 
-        .constructor    mono_initconio
-        .include        "atari7800.inc"
-        .include        "extzp.inc"
-        .import         _mono_font
-        .import         _get_tv
-        .export         _mono_screen
-        .export         _mono_zones
-        .export         _mono_dll
+        .constructor mono_initconio
+        .include "atari7800.inc"
+        .include "extzp.inc"
+        .import _mono_font
+        .import _get_tv
+        .export _mono_screen
+        .export _mono_zones
+        .export _mono_dll
 
         .bss
 _mono_screen:
@@ -132,53 +132,53 @@ zone27: TextZone 27
         NullHeader 0, 0
 
 _mono_dll:
-PALscanlines:                           ; 25 lines
+PALscanlines:   ; 25 lines
         DLLentry 15, nh
-        DLLentry 8, nh
+        DLLentry 8,  nh
 
-Topscanlines:                           ; 9 lines
+Topscanlines:   ; 9 lines
         DLLentry 8, nh
 
 Displaylines:
-        DLLentry $80+7, zone0           ; NMI interrupt from end of prev zone
-        DLLentry     7, zone1
-        DLLentry     7, zone2
-        DLLentry     7, zone3
-        DLLentry     7, zone4
-        DLLentry     7, zone5
-        DLLentry     7, zone6
-        DLLentry     7, zone7
-        DLLentry     7, zone8
-        DLLentry     7, zone9
-        DLLentry     7, zone10
-        DLLentry     7, zone11
-        DLLentry     7, zone12
-        DLLentry     7, zone13
-        DLLentry     7, zone14
-        DLLentry     7, zone15
-        DLLentry     7, zone16
-        DLLentry     7, zone17
-        DLLentry     7, zone18
-        DLLentry     7, zone19
-        DLLentry     7, zone20
-        DLLentry     7, zone21
-        DLLentry     7, zone22
-        DLLentry     7, zone23
-        DLLentry     7, zone24
-        DLLentry     7, zone25
-        DLLentry     7, zone26
-        DLLentry     7, zone27
+        DLLentry $80+7, zone0   ; NMI interrupt from end of prev zone
+        DLLentry 7,     zone1
+        DLLentry 7,     zone2
+        DLLentry 7,     zone3
+        DLLentry 7,     zone4
+        DLLentry 7,     zone5
+        DLLentry 7,     zone6
+        DLLentry 7,     zone7
+        DLLentry 7,     zone8
+        DLLentry 7,     zone9
+        DLLentry 7,     zone10
+        DLLentry 7,     zone11
+        DLLentry 7,     zone12
+        DLLentry 7,     zone13
+        DLLentry 7,     zone14
+        DLLentry 7,     zone15
+        DLLentry 7,     zone16
+        DLLentry 7,     zone17
+        DLLentry 7,     zone18
+        DLLentry 7,     zone19
+        DLLentry 7,     zone20
+        DLLentry 7,     zone21
+        DLLentry 7,     zone22
+        DLLentry 7,     zone23
+        DLLentry 7,     zone24
+        DLLentry 7,     zone25
+        DLLentry 7,     zone26
+        DLLentry 7,     zone27
 
 Bottomscanlines:
-        DLLentry $80+15, nh             ; NMI interrupt at end of display
-        DLLentry 9, nh
+        DLLentry $80+15, nh     ; NMI interrupt at end of display
+        DLLentry 9,  nh
         DLLentry 15, nh
-        DLLentry 8, nh
+        DLLentry 8,  nh
 
 ;-----------------------------------------------------------------------------
 ; Set up the screen to 320a mode
 ;
-        .segment        "ONCE"
+        .segment "ONCE"
 
 CTRL_MODE160    .set    0
 CTRL_MODEAC     .set    3
@@ -215,17 +215,16 @@ vblankoff:
         sta     CHBASE
         lda     #(CTRL_MODEAC | CTRL_KANGOFF | CTRL_BCBLACK | CTRL_CHAR1B | CTRL_DMAON | CTRL_CKOFF)
         sta     CTRL
-        lda     #$00            ; Black background
+        lda     #$00    ; Black background
         sta     BKGRND
         sta     CURS_X
         sta     CURS_Y
-        lda     #$33            ; Red
+        lda     #$33    ; Red
         sta     P0C1
-        lda     #$c8            ; Green
+        lda     #$c8    ; Green
         sta     P0C2
-        lda     #$0f            ; White
+        lda     #$0f    ; White
         sta     P0C3
         rts
 
         .endproc
-

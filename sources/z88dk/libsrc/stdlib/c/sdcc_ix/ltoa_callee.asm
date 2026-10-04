@@ -10,24 +10,24 @@ EXTERN asm_ltoa
 
 _ltoa_callee:
 
-   pop af
-   pop hl
-   pop de
-   exx
-   pop bc
-   exx
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        exx
+        pop     bc
+        exx
+        pop     bc
+        push    af
 
 l0_ltoa_callee:
-   
-   exx
-   push bc
-   exx
-   
-   ex (sp),ix
-   
-   call asm_ltoa
-   
-   pop ix
-   ret
+
+        exx
+        push    bc
+        exx
+
+        ex      (sp), ix
+
+        call    asm_ltoa
+
+        pop     ix
+        ret

@@ -8,22 +8,22 @@
 
 .ifndef __APPLE2ENH__
 
-        .export         _dyn_chlinexy, _dyn_chline, chlinedirect
-        .import         gotoxy, cputdirect, popa
-        .import         machinetype
+        .export _dyn_chlinexy, _dyn_chline, chlinedirect
+        .import gotoxy, cputdirect, popa
+        .import machinetype
 
-        .include        "zeropage.inc"
-        .include        "apple2.inc"
+        .include "zeropage.inc"
+        .include "apple2.inc"
 
 _dyn_chlinexy:
-        pha                     ; Save the length
-        jsr     gotoxy          ; Call this one, will pop params
-        pla                     ; Restore the length and run into _chline
+        pha             ; Save the length
+        jsr     gotoxy  ; Call this one, will pop params
+        pla             ; Restore the length and run into _chline
 
 _dyn_chline:
         pha
-        jsr     popa            ; Get the character to draw
-        eor     #$80            ; Invert high bit
+        jsr     popa    ; Get the character to draw
+        eor     #$80    ; Invert high bit
         tax
         pla
 

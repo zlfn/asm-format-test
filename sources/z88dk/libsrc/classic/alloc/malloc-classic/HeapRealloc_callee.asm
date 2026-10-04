@@ -13,21 +13,21 @@ EXTERN asm_HeapAlloc, asm_HeapFree
 .HeapRealloc_callee
 ._HeapRealloc_callee
 
-   ; A return address can't go through AF on these CPUs: the flags byte does not
-   ; read back what was pushed, and on the VM1 pop af also switches the data bank.
-   IF __CPU_INTEL__ | __CPU_GBZ80__
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   ex de,hl
-   ELSE
-   pop af
-   pop bc
-   pop hl
-   pop de
-   push af
-   ENDIF
+        ; A return address can't go through AF on these CPUs: the flags byte does not
+        ; read back what was pushed, and on the VM1 pop af also switches the data bank.
+        IF      __CPU_INTEL__ | __CPU_GBZ80__
+                pop     hl
+                pop     bc
+                pop     de
+                ex      (sp), hl
+                ex      de,   hl
+        ELSE
+                pop     af
+                pop     bc
+                pop     hl
+                pop     de
+                push    af
+        ENDIF
 
 .asm_HeapRealloc
 
@@ -53,109 +53,109 @@ EXTERN asm_HeapAlloc, asm_HeapFree
 
 .MAHeapRealloc
 
-   ld a,h
-   or l
-   jr NZ,checksize
+        ld      a, h
+        or      l
+        jr      NZ, checksize
 
-   ex de,hl                    ; ISO C wants a malloc to occur if realloc block == 0
-   jp asm_HeapAlloc
+        ex      de, hl  ; ISO C wants a malloc to occur if realloc block == 0
+        jp      asm_HeapAlloc
 
 .checksize
 
-   ld a,b
-   or a
-   jp NZ,sizeok
-   ld a,c
-   cp 2
-   jp NC,sizeok
-   ld c,2
+        ld      a, b
+        or      a
+        jp      NZ, sizeok
+        ld      a,  c
+        cp      2
+        jp      NC, sizeok
+        ld      c,  2
 
 .sizeok
 
-   push de
-   push hl
-   push bc
-   ex de,hl
-   call asm_HeapAlloc
-   jr C,success
+        push    de
+        push    hl
+        push    bc
+        ex      de, hl
+        call    asm_HeapAlloc
+        jr      C, success
 
 .fail
 
-   pop bc
-   pop bc
-   pop de
-   ret
+        pop     bc
+        pop     bc
+        pop     de
+        ret
 
 .success
 
-   ; hl = & new block (+2)
-   ; stack = & heap, & old block (+2), new block size
+        ; hl = & new block (+2)
+        ; stack = & heap, & old block (+2), new block size
 
-   pop bc                    ; bc = new block size
-   pop de
-   ex de,hl                  ; de = & new block (+2), hl = & old block (+2)
-   push hl
-   dec hl
-   ld a,(hl)
-   dec hl
-   ld l,(hl)
-   ld h,a                    ; hl = size of old block
+        pop     bc      ; bc = new block size
+        pop     de
+        ex      de, hl  ; de = & new block (+2), hl = & old block (+2)
+        push    hl
+        dec     hl
+        ld      a, (hl)
+        dec     hl
+        ld      l, (hl)
+        ld      h, a    ; hl = size of old block
 
 IF __CPU_8085__
-   sub hl,bc
+        sub     hl, bc
 ELIF __CPU_8080__ || __CPU_GBZ80
-   ld a,l
-   sub c
-   ld l,a
-   ld a,h
-   sbc b
-   ld  h,a
+        ld      a, l
+        sub     c
+        ld      l, a
+        ld      a, h
+        sbc     b
+        ld      h, a
 ELSE
-   or a
-   sbc hl,bc                 ; old size - new size
+        or      a
+        sbc     hl, bc  ; old size - new size
 ENDIF
 
-   jr NC,usenewsize
-   add hl,bc
-   ld bc,hl                  ; bc = old size
+        jr      NC, usenewsize
+        add     hl, bc
+        ld      bc, hl  ; bc = old size
 
 .usenewsize
 
-   ; bc = number of bytes to copy
-   ; de = & new block (+2)
-   ; stack = & heap, & old block (+2)
+        ; bc = number of bytes to copy
+        ; de = & new block (+2)
+        ; stack = & heap, & old block (+2)
 
-   pop hl
-   push hl
-   push de
+        pop     hl
+        push    hl
+        push    de
 
 IF __CPU_INTEL__ || __CPU_GBZ80__
-   dec bc
-   inc b
-   inc c
+        dec     bc
+        inc     b
+        inc     c
 .ldir_loop
-   ld a,(hl+)
-   ld (de+),a
-   dec c
-   jr NZ,ldir_loop
-   dec b
-   jr NZ,ldir_loop
+        ld      a,     (hl+)
+        ld      (de+), a
+        dec     c
+        jr      NZ, ldir_loop
+        dec     b
+        jr      NZ, ldir_loop
 ELSE
-   ldir                      ; copy old data block to new data block
+        ldir    ; copy old data block to new data block
 ENDIF
 
-   ; stack = & heap, & old block (+2), & new block (+2)
+        ; stack = & heap, & old block (+2), & new block (+2)
 
-   pop hl
-   pop de
-   ex (sp),hl
-   ex de,hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
+        ex      de,   hl
 
-   ; de = & heap, hl = & old block (+2)
-   ; stack = & new block
+        ; de = & heap, hl = & old block (+2)
+        ; stack = & new block
 
-   call asm_HeapFree  ; return old block to free list
+        call    asm_HeapFree    ; return old block to free list
 
-   pop hl
-   scf
-   ret
+        pop     hl
+        scf
+        ret

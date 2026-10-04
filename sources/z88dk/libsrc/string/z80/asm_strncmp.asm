@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; int strncmp(const char *s1, const char *s2, size_t n)
 ;
 ; Compare at most n chars of string s1 to string s2.  Return when
@@ -17,57 +17,57 @@ PUBLIC asm_strncmp
 
 asm_strncmp:
 
-   ; enter : bc = uint n
-   ;         de = char *s1
-   ;         hl = char *s2
-   ;
-   ; exit  :  a = h = *s1-*s2 of last char compared
-   ;         de = ptr in s1 to first differing char or s1+n if equal
-   ;
-   ;         if s1==s2 : hl=0, nc+z flags set
-   ;         if s1<<s2 : hl<0, c+nz flags set
-   ;         if s1>>s2 : hl>0, nc+nz flag set
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : bc = uint n
+        ;         de = char *s1
+        ;         hl = char *s2
+        ;
+        ; exit  :  a = h = *s1-*s2 of last char compared
+        ;         de = ptr in s1 to first differing char or s1+n if equal
+        ;
+        ;         if s1==s2 : hl=0, nc+z flags set
+        ;         if s1<<s2 : hl<0, c+nz flags set
+        ;         if s1>>s2 : hl>0, nc+nz flag set
+        ;
+        ; uses  : af, bc, de, hl
 
-   ld a,b
-   or c
-   jr Z,equal
+        ld      a, b
+        or      c
+        jr      Z, equal
 
 loop:
-   ld a,(de)                   ; a = *s1
+        ld      a, (de) ; a = *s1
 
 IF __CPU_INTEL__ || __CPU_GBZ80__
-   cp (hl)
-   inc hl
-   dec bc
-   jr NZ,different
-   and a
-   jr Z,equal
-   ld a,b
-   or c
-   jr Z,equal
-   inc de
-   jr loop
+        cp      (hl)
+        inc     hl
+        dec     bc
+        jr      NZ, different
+        and     a
+        jr      Z, equal
+        ld      a, b
+        or      c
+        jr      Z, equal
+        inc     de
+        jr      loop
 ELSE
-   cpi                         ; *s1 - *s2
-   jr NZ,different
-   jp PO,equal
-   inc de
+        cpi     ; *s1 - *s2
+        jr      NZ, different
+        jp      PO, equal
+        inc     de
 
-   or a
-   jr NZ,loop
+        or      a
+        jr      NZ, loop
 
-   dec de
+        dec     de
 
 ENDIF
 
 equal:
-   ld hl,0
-   ret
+        ld      hl, 0
+        ret
 
 different:
-   dec hl
-   sub (hl)
-   ld h,a
-   ret
+        dec     hl
+        sub     (hl)
+        ld      h, a
+        ret

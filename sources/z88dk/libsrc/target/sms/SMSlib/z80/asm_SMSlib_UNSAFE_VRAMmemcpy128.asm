@@ -14,17 +14,17 @@ EXTERN asm_SMSlib_outi128
 
 asm_SMSlib_UNSAFE_VRAMmemcpy128:
 
-   ; void UNSAFE_SMS_VRAMmemcpy128 (unsigned int dst, void *src)
-   ;
-   ; enter : hl = unsigned int dst
-   ;         de = void *src
-   ;
-   ; uses  : f, bc, de, hl
-   
-   set 6,h
-   INCLUDE "SMS_CRT0_RST08.inc"
-   
-   ld c,VDPDataPort
-   ex de,hl
+        ; void UNSAFE_SMS_VRAMmemcpy128 (unsigned int dst, void *src)
+        ;
+        ; enter : hl = unsigned int dst
+        ;         de = void *src
+        ;
+        ; uses  : f, bc, de, hl
 
-   jp asm_SMSlib_outi128
+        set     6, h
+        INCLUDE "SMS_CRT0_RST08.inc"
+
+        ld      c,  VDPDataPort
+        ex      de, hl
+
+        jp      asm_SMSlib_outi128

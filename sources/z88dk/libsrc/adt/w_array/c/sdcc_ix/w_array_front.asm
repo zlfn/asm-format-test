@@ -10,10 +10,10 @@ EXTERN asm_w_array_front
 
 _w_array_front:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_w_array_front
+        push    hl
+        push    af
+
+        jp      asm_w_array_front

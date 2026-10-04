@@ -14,10 +14,10 @@ EXTERN __SMSlib_PauseRequested
 
 asm_SMSlib_nmi_isr:
 
-   push hl
-   
-   ld hl,__SMSlib_PauseRequested
-   ld (hl),1
-   
-   pop hl
-   retn
+        push    hl
+
+        ld      hl,   __SMSlib_PauseRequested
+        ld      (hl), 1
+
+        pop     hl
+        retn

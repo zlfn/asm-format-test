@@ -4,46 +4,46 @@
 ; int __fastcall__ fgetc (register FILE* f)
 ;
 
-        .export         _fgetc
-        .import         _read, checkferror
-        .import         pusha0, pushax, popptr1, incsp2, returnFFFF
-        .importzp       ptr1
+        .export _fgetc
+        .import _read,  checkferror
+        .import pusha0, pushax, popptr1, incsp2, returnFFFF
+        .importzp ptr1
 
-        .include        "stdio.inc"
-        .include        "_file.inc"
+        .include "stdio.inc"
+        .include "_file.inc"
 
 _fgetc:
         sta     ptr1
         stx     ptr1+1
-        jsr     pushax          ; Backup our ptr
+        jsr     pushax  ; Backup our ptr
 
         jsr     checkferror
         bne     ret_eof
 
-        .if .cap(CPU_HAS_BITIMM)
-        bit     #_FPUSHBACK     ; Check for pushed back char
-        beq     do_read
+        .if     .cap(CPU_HAS_BITIMM)
+                bit     #_FPUSHBACK     ; Check for pushed back char
+                beq     do_read
         .else
-        tax
-        and     #_FPUSHBACK     ; Check for pushed back char
-        beq     do_read
-        txa
+                tax
+                and     #_FPUSHBACK     ; Check for pushed back char
+                beq     do_read
+                txa
         .endif
 
         and     #<(~_FPUSHBACK) ; Reset flag
-        sta     (ptr1),y
+        sta     (ptr1), y
 
         .assert _FILE::f_pushback = _FILE::f_flags+1, error
         iny
         jsr     incsp2          ; Drop our ptr copy
-        lda     (ptr1),y        ; Return pushed back char
+        lda     (ptr1), y       ; Return pushed back char
         ldx     #$00
         rts
 
 do_read:
         ; Push _read parameters
         ldy     #_FILE::f_fd
-        lda     (ptr1),y
+        lda     (ptr1), y
         jsr     pusha0
 
         lda     #<c
@@ -83,10 +83,10 @@ set_err:
         jsr     popptr1
         pla
         ldy     #_FILE::f_flags
-        ora     (ptr1),y
-        sta     (ptr1),y
+        ora     (ptr1), y
+        sta     (ptr1), y
         jmp     returnFFFF
 
         .bss
 
-c:      .res 1
+c:      .res    1

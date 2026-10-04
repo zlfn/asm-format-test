@@ -16,9 +16,9 @@ EXTERN asm_BIFROSTL_showTilePosL
 
 _BIFROSTL_showTilePosL_callee:
 
-   pop hl
-	ex (sp),hl
-	ld d,l          ; D = row
-	ld e,h          ; E = col
-	
-	jp asm_BIFROSTL_showTilePosL
+        pop     hl
+        ex      (sp), hl
+        ld      d,    l ; D = row
+        ld      e,    h ; E = col
+
+        jp      asm_BIFROSTL_showTilePosL

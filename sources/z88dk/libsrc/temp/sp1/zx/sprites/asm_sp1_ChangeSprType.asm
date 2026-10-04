@@ -17,25 +17,25 @@ asm_sp1_ChangeSprType:
 ;         de = address of sprite draw function
 ; uses  : af, bc, de, hl
 
-   ld bc,10
-   add hl,bc
-   ex de,hl              ; de = & struct sp1_CS.draw_code, hl = & draw function
-   ld bc,-10
-   add hl,bc             ; hl = & draw function data
+        ld      bc, 10
+        add     hl, bc
+        ex      de, hl  ; de = & struct sp1_CS.draw_code, hl = & draw function
+        ld      bc, -10
+        add     hl, bc  ; hl = & draw function data
 
-   ldi                   ; copy draw code into struct sp1_cs.draw_code
-   inc hl                ; but skip over graphic pointers
-   inc hl
-   inc de
-   inc de
-   ldi
-   ldi
-   inc hl
-   inc hl
-   inc de
-   inc de
-   ldi
-   ldi
-   ldi
+        ldi             ; copy draw code into struct sp1_cs.draw_code
+        inc     hl      ; but skip over graphic pointers
+        inc     hl
+        inc     de
+        inc     de
+        ldi
+        ldi
+        inc     hl
+        inc     hl
+        inc     de
+        inc     de
+        ldi
+        ldi
+        ldi
 
-   ret
+        ret

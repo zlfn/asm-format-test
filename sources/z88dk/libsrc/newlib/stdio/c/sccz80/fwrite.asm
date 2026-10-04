@@ -16,19 +16,19 @@ EXTERN asm_fwrite
 
 fwrite:
 
-   pop af
-   pop ix
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push hl
-   push af
-   
-   jp asm_fwrite
+        pop     af
+        pop     ix
+        pop     de
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_fwrite
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

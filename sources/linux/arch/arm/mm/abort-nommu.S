@@ -13,9 +13,9 @@
  * Note: There is no FSR/FAR on !CPU_CP15_MMU cores.
  *       Just fill zero into the registers.
  */
-	.align	5
+        .align  5
 ENTRY(nommu_early_abort)
-	mov	r0, #0				@ clear r0, r1 (no FSR/FAR)
-	mov	r1, #0
-	b	do_DataAbort
+        mov     r0, #0  @ clear r0, r1 (no FSR/FAR)
+        mov     r1, #0
+        b       do_DataAbort
 ENDPROC(nommu_early_abort)

@@ -15,12 +15,12 @@ EXTERN asm_NIRVANAP_drawT_di
 
 _NIRVANAP_drawT:
 
-   ld hl,2
-   add hl,sp
-   ld a,(hl)       ; tile
-   inc hl
-   ld d,(hl)       ; lin
-   inc hl
-   ld e,(hl)       ; col
+        ld      hl, 2
+        add     hl, sp
+        ld      a,  (hl)        ; tile
+        inc     hl
+        ld      d, (hl)         ; lin
+        inc     hl
+        ld      e, (hl)         ; col
 
-   jp asm_NIRVANAP_drawT_di
+        jp      asm_NIRVANAP_drawT_di

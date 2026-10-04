@@ -1,8 +1,7 @@
 
-    PUBLIC  VDP_DATA
-    PUBLIC  VDP_DATAIN
-    PUBLIC  VDP_CMD
-    PUBLIC  VDP_STATUS
+        PUBLIC  VDP_DATA
+        PUBLIC  VDP_DATAIN
+        PUBLIC  VDP_CMD
+        PUBLIC  VDP_STATUS
 
-    INCLUDE "classic/video/tms9918/vdp.inc"
-
+        INCLUDE "classic/video/tms9918/vdp.inc"

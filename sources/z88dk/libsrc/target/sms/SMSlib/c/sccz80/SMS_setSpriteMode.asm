@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_setSpriteMode
 defc _SMS_setSpriteMode = SMS_setSpriteMode
 ENDIF
-

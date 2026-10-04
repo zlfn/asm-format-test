@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_f_rmdir
 defc _esx_f_rmdir = esx_f_rmdir
 ENDIF
-

@@ -6,12 +6,10 @@
 ; int __fastcall__ closedir(DIR *dir);
 ;
 
+        .include "dir.inc"
+        .include "zeropage.inc"
 
-        .include        "dir.inc"
-        .include        "zeropage.inc"
-
-        .import         _close, _free
-
+        .import _close, _free
 
 .proc   _closedir
 
@@ -21,10 +19,10 @@
 ; Load dir->fd
 
         ldy     #DIR::fd+1
-        lda     (ptr1),y
+        lda     (ptr1), y
         tax
         dey
-        lda     (ptr1),y
+        lda     (ptr1), y
 
 ; Close the file
 
@@ -50,4 +48,3 @@
         rts
 
 .endproc
-

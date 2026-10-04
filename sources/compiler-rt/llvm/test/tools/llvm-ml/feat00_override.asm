@@ -7,7 +7,7 @@
 @feat.00 = 99
 
 noop:
-  ret
+        ret
 end
 
 ; CHECK:       Symbol {

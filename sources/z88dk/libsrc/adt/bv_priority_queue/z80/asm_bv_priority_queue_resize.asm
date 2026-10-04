@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Mar 2014
 ; ===============================================================
-; 
+;
 ; int bv_priority_queue_resize(bv_priority_queue_t *q, size_t n)
 ;
 ; Attempt to resize the queue to n bytes.
@@ -29,17 +29,17 @@ EXTERN asm_ba_priority_queue_resize
 
 defc asm_bv_priority_queue_resize = asm_ba_priority_queue_resize
 
-   ; enter : hl = queue *
-   ;         de = n = desired size in bytes
-   ;
-   ; exit  : success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail if queue is too small
-   ;
-   ;            hl = -1
-   ;            carry set
-   ;
-   ; uses  : af, bc, de, hl, ix
+        ; enter : hl = queue *
+        ;         de = n = desired size in bytes
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail if queue is too small
+        ;
+        ;            hl = -1
+        ;            carry set
+        ;
+        ; uses  : af, bc, de, hl, ix

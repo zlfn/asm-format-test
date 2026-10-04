@@ -13,15 +13,14 @@
 ; its' bounds.
 ;
 
-        .export         stkchk, cstkchk
-        .constructor    initstkchk, 25
-        .import         __STACKSIZE__                   ; Linker defined
-        .import         pusha0, _exit
-        .importzp       c_sp
+        .export stkchk, cstkchk
+        .constructor initstkchk, 25
+        .import __STACKSIZE__   ; Linker defined
+        .import pusha0, _exit
+        .importzp c_sp
 
         ; Use macros for better readability
-        .macpack        generic
-
+        .macpack generic
 
 ; ----------------------------------------------------------------------------
 ; Initialization code. This is a constructor, so it is called on startup if
@@ -39,9 +38,9 @@
         sta     initialsp+1
         sbc     #>__STACKSIZE__
 .if .cap(CPU_HAS_INA)
-        ina                     ; Add 256 bytes safety area
+        ina     ; Add 256 bytes safety area
 .else
-        add     #1              ; Add 256 bytes safety area
+        add     #1      ; Add 256 bytes safety area
 .endif
         sta     lowwater+1
         rts
@@ -56,8 +55,8 @@
 
 stkchk: tsx
         cpx     #12
-        bcc     Fail            ; Jump on stack overflow
-        rts                     ; Return if ok
+        bcc     Fail    ; Jump on stack overflow
+        rts             ; Return if ok
 
 ; ----------------------------------------------------------------------------
 ; C stack checking routine. Does not need to save any registers.
@@ -104,10 +103,7 @@ Fail:   lda     #4
 
 ; Initial stack pointer value. Stack is reset to this in case of overflows to
 ; allow program exit processing.
-initialsp:      .res    2
+initialsp: .res 2
 
 ; Stack low water mark.
-lowwater:       .res    2
-
-
-
+lowwater: .res  2

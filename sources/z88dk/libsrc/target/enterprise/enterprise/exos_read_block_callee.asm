@@ -8,26 +8,26 @@
 ;	$Id: exos_read_block_callee.asm $
 ;
 
-	SECTION code_clib
-	PUBLIC	exos_read_block_callee
-	PUBLIC	_exos_read_block_callee
-	PUBLIC 	asm_exos_read_block
+        SECTION code_clib
+        PUBLIC  exos_read_block_callee
+        PUBLIC  _exos_read_block_callee
+        PUBLIC  asm_exos_read_block
 
 exos_read_block_callee:
 _exos_read_block_callee:
-	
-	pop	af
-	pop de
-	pop bc
-	pop hl
-	push af
+
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
+        push    af
 
 .asm_exos_read_block
 
-	ld	a,l
-	rst   30h
-	defb  6
-	ld	h,0
-	ld	l,a
+        ld      a, l
+        rst     30h
+        defb    6
+        ld      h, 0
+        ld      l, a
 
-	ret
+        ret

@@ -16,10 +16,10 @@ EXTERN asm_fgetc
 
 fgetc:
 
-   push hl
-   pop ix
-   
-   jp asm_fgetc
+        push    hl
+        pop     ix
+
+        jp      asm_fgetc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

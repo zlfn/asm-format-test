@@ -9,26 +9,25 @@
 ;       $Id: clg.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  clg
-    PUBLIC  _clg
+        SECTION code_clib
+        PUBLIC  clg
+        PUBLIC  _clg
 
-    INCLUDE "classic/gfx/grafix.inc"
-
+        INCLUDE "classic/gfx/grafix.inc"
 
 clg:
 _clg:
-    call    $38a9                       ; FGR
-    ld      hl, $4800
-    ld      bc, $FF0
+        call    $38a9   ; FGR
+        ld      hl, $4800
+        ld      bc, $FF0
 clsloop:
-    ld      (hl), 0
-    inc     hl
-    dec     bc
-    ld      a, b
-    or      c
-    jr      nz, clsloop
-    ret
+        ld      (hl), 0
+        inc     hl
+        dec     bc
+        ld      a, b
+        or      c
+        jr      nz, clsloop
+        ret
 
 ;	call $38a9	; FGR
 ;	xor a	; black

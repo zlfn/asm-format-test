@@ -16,11 +16,11 @@ EXTERN asm_realloc
 
 realloc_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   jp asm_realloc
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_realloc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

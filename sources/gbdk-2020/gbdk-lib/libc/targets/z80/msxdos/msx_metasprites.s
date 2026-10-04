@@ -1,11 +1,11 @@
-        .include    "global.s"
+        .include "global.s"
 
         .title  "Metasprites"
         .module Metasprites
 
         .area   _DATA
 
-___current_metasprite:: 
+___current_metasprite::
         .ds     0x02
 ___current_base_tile::
         .ds     0x01
@@ -29,28 +29,28 @@ ___move_metasprite::
         ld      a, (___render_shadow_OAM)
         ld      d, a
 1$:
-        ld      a, (hl)         ; dy
+        ld      a, (hl) ; dy
         inc     hl
         cp      #0x80
         jp      z, 2$
-        add     b        
+        add     b
         ld      b, a
         cp      #0xD0
         jp      nz, 3$
-        ld      a, #0xC0
+        ld      a,  #0xC0
 3$:
         ld      (de), a
         inc     e
 
-        ld      a, (hl)         ; dx
+        ld      a, (hl) ; dx
         inc     hl
         add     c
-        ld      c, a
+        ld      c,    a
         ld      (de), a
         inc     e
 
         ld      a, (___current_base_tile)
-        add     (hl)            ; tile
+        add     (hl)    ; tile
         inc     hl
         ld      (de), a
         inc     e

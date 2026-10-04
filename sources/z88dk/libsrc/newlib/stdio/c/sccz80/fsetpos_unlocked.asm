@@ -10,12 +10,12 @@ EXTERN asm_fsetpos_unlocked
 
 fsetpos_unlocked:
 
-   pop af
-   pop hl
-   pop ix
-   
-   push hl
-   push hl
-   push af
-   
-   jp asm_fsetpos_unlocked
+        pop     af
+        pop     hl
+        pop     ix
+
+        push    hl
+        push    hl
+        push    af
+
+        jp      asm_fsetpos_unlocked

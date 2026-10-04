@@ -15,21 +15,20 @@ EXTERN asm_BIFROSTH_fillTileAttrH
 
 BIFROSTH_fillTileAttrH:
 
-   	ld hl,2
-   	add hl,sp
-   	ld c,(hl)       ; C=attrib
-   	inc hl
-   	inc hl
-   	ld e,(hl)       ; E=col
-   	inc hl
-   	inc hl
-   	ld d,(hl)       ; D=lin
+        ld      hl, 2
+        add     hl, sp
+        ld      c,  (hl)        ; C=attrib
+        inc     hl
+        inc     hl
+        ld      e, (hl)         ; E=col
+        inc     hl
+        inc     hl
+        ld      d, (hl)         ; D=lin
 
-   	jp asm_BIFROSTH_fillTileAttrH        ; execute 'fill_tile_attr'
+        jp      asm_BIFROSTH_fillTileAttrH      ; execute 'fill_tile_attr'
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _BIFROSTH_fillTileAttrH
 defc _BIFROSTH_fillTileAttrH = BIFROSTH_fillTileAttrH
 ENDIF
-

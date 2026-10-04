@@ -4,8 +4,7 @@
 ; Screen size variables
 ;
 
-        .export         screensize
-        .import         SCREEN
+        .export screensize
+        .import SCREEN
 
-        screensize      = SCREEN
-
+        screensize = SCREEN

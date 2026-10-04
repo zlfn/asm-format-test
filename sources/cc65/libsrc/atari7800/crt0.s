@@ -1,14 +1,14 @@
-        .export     _zonecounter
-        .export     __STARTUP__ : absolute = 1
-        .export     _exit
-        .import     __ROM_START__
-        .import     __RAM3_START__, __RAM3_SIZE__
-        .import     initlib, donelib
-        .import     zerobss, copydata
-        .import     IRQStub
-        .import     push0, _main
-        .include    "atari7800.inc"
-        .include    "zeropage.inc"
+        .export _zonecounter
+        .export __STARTUP__ : absolute = 1
+        .export _exit
+        .import __ROM_START__
+        .import __RAM3_START__, __RAM3_SIZE__
+        .import initlib, donelib
+        .import zerobss, copydata
+        .import IRQStub
+        .import push0, _main
+        .include "atari7800.inc"
+        .include "zeropage.inc"
 
 INPTCTRL        =       $01
 
@@ -39,9 +39,9 @@ start:
         jsr     initlib
 
         ; Call main program (pass empty command line)
-        jsr     push0           ; argc
-        jsr     push0           ; argv
-        ldy     #4              ; Argument size
+        jsr     push0   ; argc
+        jsr     push0   ; argv
+        ldy     #4      ; Argument size
         jsr     _main
 
 _exit:

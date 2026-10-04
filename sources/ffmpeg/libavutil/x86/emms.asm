@@ -26,5 +26,5 @@ SECTION .text
 ; void ff_emms_asm(void)
 ;-----------------------------------------------------------------------------
 cglobal emms_asm, 0, 0
-    emms
-    RET
+        emms
+        RET

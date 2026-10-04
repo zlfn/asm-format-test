@@ -30,44 +30,43 @@ SECTION code_fp_math32
 
 PUBLIC m32_fpclassify
 
-
 .m32_fpclassify
-    ; enter : dehl = float x
-    ; exit  : dehl = float x (unchanged)
-    ;            a = 0 number, 1 zero, 2 nan, 3 inf
-    ; uses  : af
-    ;
-    ; exp = (D << 1) | (E >> 7) with sign shifted out of D.
-    ; Must not AND between capturing E.7 into C and the rla — AND clears C
-    ; and would turn exp 255 into 254 (inf/NaN misclassified as finite).
+        ; enter : dehl = float x
+        ; exit  : dehl = float x (unchanged)
+        ;            a = 0 number, 1 zero, 2 nan, 3 inf
+        ; uses  : af
+        ;
+        ; exp = (D << 1) | (E >> 7) with sign shifted out of D.
+        ; Must not AND between capturing E.7 into C and the rla — AND clears C
+        ; and would turn exp 255 into 254 (inf/NaN misclassified as finite).
 
-    ld a,e
-    add a,a                     ; C = E.7 (exp bit 0); DEHL unchanged
-    ld a,d
-    rla                         ; A = full 8-bit exponent (sign out to C)
+        ld      a, e
+        add     a, a    ; C = E.7 (exp bit 0); DEHL unchanged
+        ld      a, d
+        rla             ; A = full 8-bit exponent (sign out to C)
 
-    or a
-    jr Z,fpclass_zero           ; exp == 0 → ±0 (math32 denorm policy)
+        or      a
+        jr      Z, fpclass_zero ; exp == 0 → ±0 (math32 denorm policy)
 
-    cpl
-    or a
-    jr NZ,fpclass_number        ; exp != 255 → finite number
+        cpl
+        or      a
+        jr      NZ, fpclass_number      ; exp != 255 → finite number
 
-    ; exp == 255: inf if mantissa is 0, else NaN
-    ; mantissa bits: E[6:0], H, L  (E.7 was the exp LSB, already not mant)
-    ld a,e
-    and 07fh
-    or h
-    or l
-    ld a,3                      ; inf
-    ret Z
-    dec a                       ; nan (2)
-    ret
+        ; exp == 255: inf if mantissa is 0, else NaN
+        ; mantissa bits: E[6:0], H, L  (E.7 was the exp LSB, already not mant)
+        ld      a, e
+        and     07fh
+        or      h
+        or      l
+        ld      a, 3    ; inf
+        ret     Z
+        dec     a       ; nan (2)
+        ret
 
 .fpclass_number
-    xor a                       ; 0 = number
-    ret
+        xor     a       ; 0 = number
+        ret
 
 .fpclass_zero
-    inc a                       ; 1 = zero (A was 0)
-    ret
+        inc     a       ; 1 = zero (A was 0)
+        ret

@@ -21,9 +21,9 @@
 // callerStartLine since it is in a different package.
 
 TEXT	·AsmFunc<ABIInternal>(SB),NOSPLIT,$8-0
-	NO_LOCAL_POINTERS
-	MOVQ	$0, AX // wantInlined
-	MOVQ	·CallerStartLine(SB), DX
-	MOVQ	(DX), DX // Move to a register first for -spectre
-	CALL	DX
-	RET
+        NO_LOCAL_POINTERS
+        MOVQ    $0, AX          // wantInlined
+        MOVQ    ·CallerStartLine(SB), DX
+        MOVQ    (DX), DX        // Move to a register first for -spectre
+        CALL    DX
+        RET

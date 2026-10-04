@@ -10,16 +10,16 @@ EXTERN asm_insertion_sort
 
 _insertion_sort_:
 
-   pop af
-   pop ix
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push hl
-   push af
-   
-   jp asm_insertion_sort
+        pop     af
+        pop     ix
+        pop     de
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_insertion_sort

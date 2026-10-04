@@ -7,8 +7,8 @@
 // internal linking executable entry point.
 // ios/arm64 only supports external linking.
 TEXT _rt0_arm64_ios(SB),NOSPLIT|NOFRAME,$0
-	UNDEF
+        UNDEF
 
 // library entry point.
 TEXT _rt0_arm64_ios_lib(SB),NOSPLIT|NOFRAME,$0
-	JMP	_rt0_arm64_lib(SB)
+        JMP     _rt0_arm64_lib(SB)

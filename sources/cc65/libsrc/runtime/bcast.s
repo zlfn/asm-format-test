@@ -4,7 +4,7 @@
 ; CC65 runtime: boolean cast
 ;
 
-        .export         bcasta, bcastax
+        .export bcasta, bcastax
 
 bcastax:
         cpx     #0
@@ -12,10 +12,9 @@ bcastax:
 
 bcasta:
         tax
-        beq     L0              ; Zero already in X
+        beq     L0      ; Zero already in X
 
 L1:     ldx     #0
         lda     #1
 
 L0:     rts
-

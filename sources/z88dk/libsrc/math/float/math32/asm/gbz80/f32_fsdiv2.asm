@@ -19,54 +19,54 @@ PUBLIC _m32_div2f
 
 ._m32_div2f
 .m32_fsdiv2_fastcall
-    ld a,e
-    rla
-    ld e,a
-    ld a,d
-    rla
-    ld d,a                          ; D = exp, C = sign
+        ld      a, e
+        rla
+        ld      e, a
+        ld      a, d
+        rla
+        ld      d, a    ; D = exp, C = sign
 
-    inc d
-    dec d
-    jp Z,zero_legal
+        inc     d
+        dec     d
+        jp      Z, zero_legal
 
-    ld a,d
-    inc a
-    jr Z,exp_max                    ; Inf/NaN unchanged
+        ld      a, d
+        inc     a
+        jr      Z, exp_max      ; Inf/NaN unchanged
 
-    dec d
-    jr Z,zero_underflow
+        dec     d
+        jr      Z, zero_underflow
 
-    ld a,d
-    rra
-    ld d,a
-    ld a,e
-    rra
-    ld e,a
-    ret
+        ld      a, d
+        rra
+        ld      d, a
+        ld      a, e
+        rra
+        ld      e, a
+        ret
 
 .exp_max
-    ld a,d
-    rra
-    ld d,a
-    ld a,e
-    rra
-    ld e,a
-    ret
+        ld      a, d
+        rra
+        ld      d, a
+        ld      a, e
+        rra
+        ld      e, a
+        ret
 
 .zero_legal
-    ld e,d
-    ld hl,de
-    ld a,d
-    rra
-    ld d,a
-    ret
+        ld      e,  d
+        ld      hl, de
+        ld      a,  d
+        rra
+        ld      d, a
+        ret
 
 .zero_underflow
-    ld e,d
-    ld hl,de
-    ld a,d
-    rra
-    ld d,a
-    scf
-    ret
+        ld      e,  d
+        ld      hl, de
+        ld      a,  d
+        rra
+        ld      d, a
+        scf
+        ret

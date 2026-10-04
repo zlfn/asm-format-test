@@ -54,13 +54,13 @@
 
 #if HAVE_AS_ARCH_DIRECTIVE
 #if   HAVE_NEON
-        .arch           armv7-a
+        .arch   armv7-a
 #elif HAVE_ARMV6T2
-        .arch           armv6t2
+        .arch   armv6t2
 #elif HAVE_ARMV6
-        .arch           armv6
+        .arch   armv6
 #elif HAVE_ARMV5TE
-        .arch           armv5te
+        .arch   armv5te
 #endif
 #endif
 #if   HAVE_AS_OBJECT_ARCH
@@ -82,75 +82,75 @@ ELF     .eabi_attribute 25, 1           @ Tag_ABI_align_preserved
 ELF     .section .note.GNU-stack,"",%progbits @ Mark stack as non-executable
 
 .macro  function name, export=0, align=2
-        .set            .Lpic_idx, 0
-        .set            .Lpic_gp, 0
-    .macro endfunc
-      .if .Lpic_idx
-        .align          2
-        .altmacro
-        put_pic         %(.Lpic_idx - 1)
-        .noaltmacro
-      .endif
-      .if .Lpic_gp
-        .unreq          gp
-      .endif
+        .set    .Lpic_idx, 0
+        .set    .Lpic_gp,  0
+        .macro  endfunc
+                .if     .Lpic_idx
+                        .align  2
+                        .altmacro
+                        put_pic %(.Lpic_idx - 1)
+                        .noaltmacro
+                .endif
+                .if     .Lpic_gp
+                        .unreq  gp
+                .endif
 ELF     .size   \name, . - \name
 FUNC    .endfunc
-        .purgem endfunc
-    .endm
+                .purgem endfunc
+        .endm
         .text
-        .align          \align
-    .if \export
-        .global EXTERN_ASM\name
+        .align  \align
+        .if     \export
+                .global EXTERN_ASM\name
 ELF     .type   EXTERN_ASM\name, %function
 FUNC    .func   EXTERN_ASM\name
 TFUNC   .thumb_func EXTERN_ASM\name
 EXTERN_ASM\name:
-    .else
+        .else
 ELF     .type   \name, %function
 FUNC    .func   \name
 TFUNC   .thumb_func \name
 \name:
-    .endif
+        .endif
 .endm
 
 .macro  const   name, align=2, relocate=0
-    .macro endconst
+        .macro  endconst
 ELF     .size   \name, . - \name
-        .purgem endconst
-    .endm
+                .purgem endconst
+        .endm
 #if HAVE_SECTION_DATA_REL_RO
 .if \relocate
-        .section        .data.rel.ro
+        .section .data.rel.ro
 .else
-        .section        .rodata
+        .section .rodata
 .endif
 #elif defined(_WIN32)
-        .section        .rdata
+        .section .rdata
 #elif !defined(__MACH__)
-        .section        .rodata
+        .section .rodata
 #else
         .const_data
 #endif
-        .align          \align
+        .align  \align
 \name:
 .endm
 
 #if !HAVE_ARMV6T2_EXTERNAL
 .macro  movw    rd, val
-        mov             \rd, \val &  255
-        orr             \rd, \val & ~255
+        mov     \rd, \val &  255
+        orr     \rd, \val & ~255
 .endm
 #endif
 
 .macro  mov32   rd, val
 #if HAVE_ARMV6T2_EXTERNAL
-        movw            \rd, #(\val) & 0xffff
-    .if (\val) >> 16
-        movt            \rd, #(\val) >> 16
-    .endif
+        movw    \rd, #(\val) & 0xffff
+        .if     (\val) >> 16
+                movt    \rd, #(\val) >> 16
+        .endif
 #else
-        ldr             \rd, =\val
+        ldr     \rd, =\val
 #endif
 .endm
 
@@ -159,82 +159,82 @@ ELF     .size   \name, . - \name
 .endm
 
 .macro  do_def_pic      num, val, label
-    .macro put_pic_\num
-      .if \num
-        .altmacro
-        put_pic         %(\num - 1)
-        .noaltmacro
-      .endif
+        .macro  put_pic_\num
+                .if     \num
+                        .altmacro
+                        put_pic %(\num - 1)
+                        .noaltmacro
+                .endif
 \label: .word           \val
-        .purgem         put_pic_\num
-    .endm
+                .purgem put_pic_\num
+        .endm
 .endm
 
 .macro  def_pic         val, label
         .altmacro
-        do_def_pic      %.Lpic_idx, \val, \label
+        do_def_pic %.Lpic_idx, \val, \label
         .noaltmacro
-        .set            .Lpic_idx, .Lpic_idx + 1
+        .set    .Lpic_idx, .Lpic_idx + 1
 .endm
 
 .macro  ldpic           rd,  val, indir=0
-        ldr             \rd, .Lpicoff\@
+        ldr     \rd, .Lpicoff\  @
 .Lpic\@:
-    .if \indir
+                .if \indir
 A       ldr             \rd, [pc, \rd]
 T       add             \rd, pc
 T       ldr             \rd, [\rd]
-    .else
-        add             \rd, pc
-    .endif
-        def_pic         \val - (.Lpic\@ + (8 >> CONFIG_THUMB)), .Lpicoff\@
+        .else
+        add     \rd, pc
+        .endif
+        def_pic \val - (.Lpic\  @ + (8 >> CONFIG_THUMB)), .Lpicoff\@
 .endm
 
 .macro  movrel rd, val
 #if CONFIG_PIC
-        ldpic           \rd, \val
+        ldpic   \rd, \val
 #elif HAVE_ARMV6T2_EXTERNAL && !defined(__APPLE__)
-        movw            \rd, #:lower16:\val
-        movt            \rd, #:upper16:\val
+        movw    \rd, #:lower16:\val
+        movt    \rd, #:upper16:\val
 #else
-        ldr             \rd, =\val
+        ldr     \rd, =\val
 #endif
 .endm
 
 .macro  movrelx         rd,  val, gp
-    .ifc \rd,\gp
-        .error      "movrelx needs two distinct registers"
-    .endif
-    .ifc \rd\()_\gp,r12_
-        .warning    "movrelx rd=\rd without explicit set gp"
-    .endif
-    .ifc \rd\()_\gp,ip_
-        .warning    "movrelx rd=\rd without explicit set gp"
-    .endif
+        .ifc    \rd, \gp
+                .error  "movrelx needs two distinct registers"
+        .endif
+        .ifc    \rd\()_\gp, r12_
+                .warning "movrelx rd=\rd without explicit set gp"
+        .endif
+        .ifc    \rd\()_\gp, ip_
+                .warning "movrelx rd=\rd without explicit set gp"
+        .endif
 #if CONFIG_PIC && defined(__ELF__)
-    .ifnb \gp
-      .if .Lpic_gp
-        .unreq          gp
-      .endif
-        gp      .req    \gp
-        ldpic           gp,  _GLOBAL_OFFSET_TABLE_
-    .elseif !.Lpic_gp
-        gp      .req    r12
-        ldpic           gp,  _GLOBAL_OFFSET_TABLE_
-    .endif
-        .set            .Lpic_gp, 1
-        ldr             \rd, .Lpicoff\@
-        ldr             \rd, [gp, \rd]
-        def_pic         \val(GOT), .Lpicoff\@
+        .ifnb   \gp
+                .if     .Lpic_gp
+                        .unreq  gp
+                .endif
+                gp      .req    \gp
+                ldpic   gp, _GLOBAL_OFFSET_TABLE_
+        .elseif !.Lpic_gp
+                gp      .req    r12
+                ldpic   gp, _GLOBAL_OFFSET_TABLE_
+        .endif
+        .set    .Lpic_gp, 1
+        ldr     \rd, .Lpicoff\  @
+                ldr             \rd, [gp, \rd]
+        def_pic \val(GOT), .Lpicoff\    @
 #elif CONFIG_PIC && defined(__APPLE__)
-        ldpic           \rd, .Lpic\@, indir=1
-        .non_lazy_symbol_pointer
+        ldpic   \rd, .Lpic\     @, indir=1
+                .non_lazy_symbol_pointer
 .Lpic\@:
         .indirect_symbol \val
-        .word           0
+        .word   0
         .text
 #else
-        movrel          \rd, \val
+        movrel  \rd, \val
 #endif
 .endm
 

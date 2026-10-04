@@ -16,7 +16,7 @@
 #include <asm/assembler.h>
 #include <asm/unistd.h>
 
-	.text
+        .text
 
 /*
  * NOTE!!!  You may notice that all of the .cfi directives in this file have
@@ -59,7 +59,7 @@
  * identify the calling function.
  * Hack borrowed from arch/powerpc/kernel/vdso64/sigtramp.S.
  */
-	nop	// Mysterious NOP
+        nop     // Mysterious NOP
 
 /*
  * GDB, libgcc and libunwind rely on being able to identify the sigreturn
@@ -70,9 +70,9 @@
  */
 SYM_CODE_START(__kernel_rt_sigreturn)
 //	PLEASE DO NOT MODIFY
-	mov	x8, #__NR_rt_sigreturn
+        mov     x8, #__NR_rt_sigreturn
 //	PLEASE DO NOT MODIFY
-	svc	#0
+        svc     #0
 //	PLEASE DO NOT MODIFY
 //	.cfi_endproc
 SYM_CODE_END(__kernel_rt_sigreturn)

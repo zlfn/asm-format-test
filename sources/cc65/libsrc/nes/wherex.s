@@ -4,9 +4,9 @@
 ; unsigned char wherex (void);
 ;
 
-        .export         _wherex
+        .export _wherex
 
-        .include        "nes.inc"
+        .include "nes.inc"
 
 .proc   _wherex
 
@@ -15,5 +15,3 @@
         rts
 
 .endproc
-
-

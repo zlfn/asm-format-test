@@ -10,10 +10,10 @@ PUBLIC l_gintsp, l_gintsp_gint
 ; HL = (sp + HL + 2)
 
 .l_gintsp
-    add hl,sp
-    inc hl
-    inc hl
+        add     hl, sp
+        inc     hl
+        inc     hl
 .l_gintsp_gint
-    ex de,hl
-    ld hl,(de)
-    ret
+        ex      de, hl
+        ld      hl, (de)
+        ret

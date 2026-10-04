@@ -21,31 +21,31 @@ EXTERN asm_f16_f24
 PUBLIC asm_f16_frexp
 
 .asm_f16_frexp
-    ld a,$7c
-    and h
-    jr Z,frexp_expand
-    cp $7c
-    jr NZ,frexp_expand
-    xor a
-    ld (bc),a
-    inc bc
-    ld (bc),a
-    ret
+        ld      a, $7c
+        and     h
+        jr      Z, frexp_expand
+        cp      $7c
+        jr      NZ, frexp_expand
+        xor     a
+        ld      (bc), a
+        inc     bc
+        ld      (bc), a
+        ret
 
 .frexp_expand
-    push bc                     ; save pw2 pointer
-    call asm_f24_f16
-    pop bc
-    ld a,d
-    and a
-    jr Z,zero
-    ld d,$7e
-    sub d
+        push    bc      ; save pw2 pointer
+        call    asm_f24_f16
+        pop     bc
+        ld      a, d
+        and     a
+        jr      Z, zero
+        ld      d, $7e
+        sub     d
 
 .zero
-    ld (bc),a
-    inc bc
-    rla
-    sbc a,a
-    ld (bc),a
-    jp asm_f16_f24
+        ld      (bc), a
+        inc     bc
+        rla
+        sbc     a,    a
+        ld      (bc), a
+        jp      asm_f16_f24

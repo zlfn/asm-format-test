@@ -1,29 +1,29 @@
 ;
 ; jede jede@oric.org 2017-01-22
 
-        .export         _write
-        .import         popax, popptr1
+        .export _write
+        .import popax, popptr1
 
-        .include        "zeropage.inc"
-        .include        "telestrat.inc"
+        .include "zeropage.inc"
+        .include "telestrat.inc"
 
 ; int write (int fd, const void* buf, int count);
 .proc   _write
 
         sta     ptr3
-        stx     ptr3+1          ; save count as result
+        stx     ptr3+1  ; save count as result
 
         inx
         stx     ptr2+1
         tax
         inx
-        stx     ptr2            ; save count with each byte incremented separately
+        stx     ptr2    ; save count with each byte incremented separately
 
-        jsr     popptr1         ; get buf
+        jsr     popptr1 ; get buf
 
-        jsr     popax           ; get fd
+        jsr     popax   ; get fd
 
-        sta     tmp1            ; save fd
+        sta     tmp1    ; save fd
 
         ; if fd=0001 then it stdout
         cpx     #0
@@ -40,8 +40,8 @@ next:
         sta     PTR_READ_DEST+1
         lda     ptr3
         ldy     ptr3+1
-        ldx     tmp1            ; send fd in X
-        BRK_TELEMON  XFWRITE
+        ldx     tmp1    ; send fd in X
+        BRK_TELEMON XFWRITE
 
         ;  compute nb of bytes written
         sec
@@ -54,24 +54,22 @@ next:
         pla
         rts
 
-
 L1:     dec     ptr2
         bne     L2
         dec     ptr2+1
         beq     L9
 L2:     ldy     #0
-        lda     (ptr1),y
+        lda     (ptr1), y
         tax
         cpx     #$0A            ; check for \n
         bne     L3
-        BRK_TELEMON  XWR0       ; macro send char to screen (channel 0 in telemon terms)
+        BRK_TELEMON XWR0        ; macro send char to screen (channel 0 in telemon terms)
         lda     #$0D            ; return to the beginning of the line
-        BRK_TELEMON  XWR0       ; macro
-
+        BRK_TELEMON XWR0        ; macro
 
         ldx     #$0D
 L3:
-        BRK_TELEMON  XWR0       ; macro
+        BRK_TELEMON XWR0        ; macro
 
         inc     ptr1
         bne     L1

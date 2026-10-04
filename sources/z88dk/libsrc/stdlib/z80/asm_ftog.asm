@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Jun 2015
 ; ===============================================================
-; 
+;
 ; size_t ftog(float x, char *buf, uint16_t prec, uint16_t flag)
 ;
 ; Use either %f or %e format depending on rules in standard.

@@ -10,26 +10,26 @@ EXTERN cm48_sdccixp_d2m48, am48_scalbn, cm48_sdccixp_m482d
 
 cm48_sdccix_scalbn_callee:
 
-   pop af
-   
-   pop de
-   pop hl                      ; hlde = float x
-   
-   exx
-   
-   pop hl                      ; hl = int n
-   
-   exx
-   
-   push af
+        pop     af
+
+        pop     de
+        pop     hl      ; hlde = float x
+
+        exx
+
+        pop     hl      ; hl = int n
+
+        exx
+
+        push    af
 
 l0_cm48_sdccix_scalbn_callee:
 
-   call cm48_sdccixp_d2m48
-   
-   ; AC'= double x
-   ; hl = n
-   
-   call am48_scalbn
+        call    cm48_sdccixp_d2m48
 
-   jp cm48_sdccixp_m482d
+        ; AC'= double x
+        ; hl = n
+
+        call    am48_scalbn
+
+        jp      cm48_sdccixp_m482d

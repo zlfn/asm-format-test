@@ -5,21 +5,20 @@
 ;
 ;
 
-        .export         _sleep
-        .import         _waitvsync
-        .importzp       tmp1
-
+        .export _sleep
+        .import _waitvsync
+        .importzp tmp1
 
 _sleep:
-        stx     tmp1            ; High byte of s in X
-        tay                     ; Low byte in A
+        stx     tmp1    ; High byte of s in X
+        tay             ; Low byte in A
         ora     tmp1
         bne     :+
         rts
 :
 
 sleep_1s:
-        ldx     #60             ; Loop 60 times
+        ldx     #60     ; Loop 60 times
 :       jsr     _waitvsync
         dex
         bne     :-
@@ -27,7 +26,7 @@ sleep_1s:
         bne     sleep_1s
         dec     tmp1
         bmi     done
-        dey                     ; Down to #$FF
+        dey             ; Down to #$FF
         bne     sleep_1s
 
 done:   rts

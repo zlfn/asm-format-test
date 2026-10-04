@@ -19,45 +19,45 @@ ENDIF
 
 asm__fflushall_unlocked:
 
-   ; enter : none
-   ;
-   ; exit  : ix = 0
-   ;         carry reset
-   ;
-   ; uses  : all
+        ; enter : none
+        ;
+        ; exit  : ix = 0
+        ;         carry reset
+        ;
+        ; uses  : all
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF __CLIB_OPT_MULTITHREAD & $04
 
-   call __stdio_lock_file_list   ; acquire list lock
+        call    __stdio_lock_file_list  ; acquire list lock
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-   ld hl,__stdio_open_file_list
+        ld      hl, __stdio_open_file_list
 
 file_loop:
 
-   call asm_p_forward_list_next
+        call    asm_p_forward_list_next
 
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF __CLIB_OPT_MULTITHREAD & $04
 
-   jp z, __stdio_unlock_file_list  ; if no more open files in list
+        jp      z, __stdio_unlock_file_list     ; if no more open files in list
 
 ELSE
 
-   ret z                           ; if no more open files in list
+        ret     z       ; if no more open files in list
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-   push hl
-   
-   call asm1_fflush_unlocked
-   
-   pop hl
-   jr file_loop
+        push    hl
+
+        call    asm1_fflush_unlocked
+
+        pop     hl
+        jr      file_loop

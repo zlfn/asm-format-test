@@ -34,33 +34,32 @@ PUBLIC m32_sqr_32h_24x24
 ;
 ; uses  : af, bc, de, hl, bc', de', hl'
 
-
 .m32_sqr_32h_24x24
 
-    ld h,e                      ; shift to high order of 64_32x32
-    ld e,d                      ; 0lde -> deh0
-    ld d,l
-    ld l,0
+        ld      h, e    ; shift to high order of 64_32x32
+        ld      e, d    ; 0lde -> deh0
+        ld      d, l
+        ld      l, 0
 
-    push de
-    push hl
-    exx
-    pop hl
-    pop de
+        push    de
+        push    hl
+        exx
+        pop     hl
+        pop     de
 
-    ; multiplication of two 32-bit numbers into a 64-bit product
-    ;
-    ; enter : de hl = 32-bit multiplicand = x
-    ;         de'hl'= 32-bit multiplier   = y
-    ;
-    ; exit  : dehl dehl' = 64-bit product
-    ;         carry reset
-    ;
-    ; uses  : af, bc, de, hl, bc', de', hl'
+        ; multiplication of two 32-bit numbers into a 64-bit product
+        ;
+        ; enter : de hl = 32-bit multiplicand = x
+        ;         de'hl'= 32-bit multiplier   = y
+        ;
+        ; exit  : dehl dehl' = 64-bit product
+        ;         carry reset
+        ;
+        ; uses  : af, bc, de, hl, bc', de', hl'
 
-    call l_mulu_64_32x32
+        call    l_mulu_64_32x32
 
-    ex de,hl
-    ret                         ; exit  : HLDE  = 32-bit high product
+        ex      de, hl
+        ret     ; exit  : HLDE  = 32-bit high product
 
 ENDIF

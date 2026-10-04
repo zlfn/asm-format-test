@@ -95,48 +95,48 @@
 ; See the bottom of ops_int.asm for an example.
 
 struc SwsOpExec
-    .in0 resq 1
-    .in1 resq 1
-    .in2 resq 1
-    .in3 resq 1
-    .out0 resq 1
-    .out1 resq 1
-    .out2 resq 1
-    .out3 resq 1
-    .in_stride0 resq 1
-    .in_stride1 resq 1
-    .in_stride2 resq 1
-    .in_stride3 resq 1
-    .out_stride0 resq 1
-    .out_stride1 resq 1
-    .out_stride2 resq 1
-    .out_stride3 resq 1
-    .in_bump0 resq 1
-    .in_bump1 resq 1
-    .in_bump2 resq 1
-    .in_bump3 resq 1
-    .out_bump0 resq 1
-    .out_bump1 resq 1
-    .out_bump2 resq 1
-    .out_bump3 resq 1
-    .width resd 1
-    .height resd 1
-    .slice_y resd 1
-    .slice_h resd 1
-    .block_size_in resd 4
-    .block_size_out resd 4
-    .in_sub_y4 resb 4
-    .out_sub_y4 resb 4
-    .in_sub_x4 resb 4
-    .out_sub_x4 resb 4
-    .in_bump_y resq 1
-    .in_offset_x resq 1
+.in0    resq    1
+.in1    resq    1
+.in2    resq    1
+.in3    resq    1
+.out0   resq    1
+.out1   resq    1
+.out2   resq    1
+.out3   resq    1
+.in_stride0     resq 1
+.in_stride1     resq 1
+.in_stride2     resq 1
+.in_stride3     resq 1
+.out_stride0    resq 1
+.out_stride1    resq 1
+.out_stride2    resq 1
+.out_stride3    resq 1
+.in_bump0       resq 1
+.in_bump1       resq 1
+.in_bump2       resq 1
+.in_bump3       resq 1
+.out_bump0      resq 1
+.out_bump1      resq 1
+.out_bump2      resq 1
+.out_bump3      resq 1
+.width  resd    1
+.height resd    1
+.slice_y        resd 1
+.slice_h        resd 1
+.block_size_in  resd 4
+.block_size_out resd 4
+.in_sub_y4      resb 4
+.out_sub_y4     resb 4
+.in_sub_x4      resb 4
+.out_sub_x4     resb 4
+.in_bump_y      resq 1
+.in_offset_x    resq 1
 endstruc
 
 struc SwsOpImpl
-    .cont resb 16
-    .priv resb 16
-    .next resb 0
+.cont   resb    16
+.priv   resb    16
+.next   resb    0
 endstruc
 
 %define SWS_COMP_NONE           0
@@ -155,83 +155,83 @@ endstruc
 ; Declare an operation kernel, calling a provided macro to generate the body.
 ; Note: This is automatically called by the DECL_*() macros
 %macro DECL_OP 5-6+ ; macro, name, type, uop, mask
-    ; Declare named variables for common macro parameters
-    %ifdef NAME_SUFFIX
-        %xdefine NAME %2 %+ NAME_SUFFIX
-    %else
-        %xdefine NAME %2
-    %endif
-    %xdefine TYPE %3
-    %xdefine UOP  %4
-    %xdefine MASK %5
-
-    ; Declare X/Y/Z/W based on the provided mask
-    %assign X SWS_COMP_TEST(MASK, 0)
-    %assign Y SWS_COMP_TEST(MASK, 1)
-    %assign Z SWS_COMP_TEST(MASK, 2)
-    %assign W SWS_COMP_TEST(MASK, 3)
-    %assign COMPS (X + Y + Z + W)
-
-    ; Declare BYTES and BITS based on the ops type
-    %ifidn TYPE, SWS_PIXEL_U8
-        %assign BYTES 1
-    %elifidn TYPE, SWS_PIXEL_U16
-        %assign BYTES 2
-    %else
-        %assign BYTES 4
-    %endif
-    %assign BITS (BYTES * 8)
-
-    ; Calculate block size helpers
-    %ifdef V2
-        %assign BLOCK_SIZE (mmsize * (1 + V2))
-    %else
-        %assign BLOCK_SIZE (mmsize)
-    %endif
-    %assign BLOCK_WIDTH (BLOCK_SIZE / BYTES)
-
-    ; Add the correct name mangling / suffix for decl_v2
-    %ifdef V2
-        %if V2
-            %define ADD_MUL(name) name %+ _m2
+        ; Declare named variables for common macro parameters
+        %ifdef  NAME_SUFFIX
+                %xdefine NAME %2 %+ NAME_SUFFIX
         %else
-            %define ADD_MUL(name) name %+ _m1
+                %xdefine NAME %2
         %endif
-    %else
-        %define ADD_MUL(name) name
-    %endif
+        %xdefine TYPE %3
+        %xdefine UOP  %4
+        %xdefine MASK %5
 
-    cglobal ADD_MUL(NAME), 0, 0, 0 ; already allocated by entry point
-    %1 %6 ; call the provided macro to generate the kernel body
+        ; Declare X/Y/Z/W based on the provided mask
+        %assign X SWS_COMP_TEST(MASK, 0)
+        %assign Y SWS_COMP_TEST(MASK, 1)
+        %assign Z SWS_COMP_TEST(MASK, 2)
+        %assign W SWS_COMP_TEST(MASK, 3)
+        %assign COMPS (X + Y + Z + W)
 
-    %undef NAME
-    %undef UOP
-    %undef TYPE
-    %undef MASK
-    %undef X
-    %undef Y
-    %undef Z
-    %undef W
-    %undef COMPS
-    %undef BYTES
-    %undef BITS
-    %undef BLOCK_SIZE
-    %undef BLOCK_WIDTH
-    %undef ADD_MUL
+        ; Declare BYTES and BITS based on the ops type
+        %ifidn  TYPE, SWS_PIXEL_U8
+                %assign BYTES 1
+        %elifidn TYPE, SWS_PIXEL_U16
+                %assign BYTES 2
+        %else
+                %assign BYTES 4
+        %endif
+        %assign BITS (BYTES * 8)
+
+        ; Calculate block size helpers
+        %ifdef  V2
+                %assign BLOCK_SIZE (mmsize * (1 + V2))
+        %else
+                %assign BLOCK_SIZE (mmsize)
+        %endif
+        %assign BLOCK_WIDTH (BLOCK_SIZE / BYTES)
+
+        ; Add the correct name mangling / suffix for decl_v2
+        %ifdef  V2
+                %if     V2
+                        %define ADD_MUL(name) name %+ _m2
+                %else
+                        %define ADD_MUL(name) name %+ _m1
+                %endif
+        %else
+                %define ADD_MUL(name) name
+        %endif
+
+        cglobal ADD_MUL(NAME), 0, 0, 0  ; already allocated by entry point
+        %1      %6                      ; call the provided macro to generate the kernel body
+
+        %undef  NAME
+        %undef  UOP
+        %undef  TYPE
+        %undef  MASK
+        %undef  X
+        %undef  Y
+        %undef  Z
+        %undef  W
+        %undef  COMPS
+        %undef  BYTES
+        %undef  BITS
+        %undef  BLOCK_SIZE
+        %undef  BLOCK_WIDTH
+        %undef  ADD_MUL
 %endmacro
 
 ; Declare a set of operations with a custom name suffix
 %macro decl_suffix 2+ ; suffix, func
-    %xdefine NAME_SUFFIX %1
-    %2
-    %undef NAME_SUFFIX
+        %xdefine NAME_SUFFIX %1
+        %2
+        %undef  NAME_SUFFIX
 %endmacro
 
 ; Declare a set of operations with the high half enabled / disabled
 %macro decl_v2 2+ ; v2, func
-    %assign V2 %1
-    %2
-    %undef V2
+        %assign V2 %1
+        %2
+        %undef  V2
 %endmacro
 
 ;---------------------------------------------------------
@@ -303,20 +303,20 @@ endstruc
 
 ; Load the next operation kernel's address to a register
 %macro LOAD_CONT 1 ; reg
-    mov %1, [implq + SwsOpImpl.cont]
+        mov     %1, [implq + SwsOpImpl.cont]
 %endmacro
 
 ; Tail call into the next operation kernel, given that kernel's address
 %macro CONTINUE 1 ; reg
-    add implq, SwsOpImpl.next
-    jmp %1
-    annotate_function_size
+        add     implq, SwsOpImpl.next
+        jmp     %1
+        annotate_function_size
 %endmacro
 
 ; Convenience macro to load and continue to the next kernel in one step
 %macro CONTINUE 0
-    LOAD_CONT tmp0q
-    CONTINUE tmp0q
+        LOAD_CONT tmp0q
+        CONTINUE tmp0q
 %endmacro
 
 ;---------------------------------------------------------
@@ -324,60 +324,60 @@ endstruc
 
 ; Helper for inline conditionals; used to conditionally include single lines
 %macro IF 2+ ; cond, body
-    %if %1
-        %2
-    %endif
+        %if     %1
+                %2
+        %endif
 %endmacro
 
 ; Alternate names; for nested usage (to work around NASM limitations)
 %macro IF1 2+
-    %if %1
-        %2
-    %endif
+        %if     %1
+                %2
+        %endif
 %endmacro
 
 %macro IF2 2+
-    %if %1
-        %2
-    %endif
+        %if     %1
+                %2
+        %endif
 %endmacro
 
 %macro shl_log2 2 ; dst, amount
-    %if %2 == 64
-        shl %1, 6
-    %elif %2 == 32
-        shl %1, 5
-    %elif %2 == 16
-        shl %1, 4
-    %elif %2 == 8
-        shl %1, 3
-    %elif %2 == 4
-        shl %1, 2
-    %elif %2 == 2
-        shl %1, 1
-    %elif %2 == 1
-        ; no-op
-    %else
-        %error "Unsupported value for shl_log2"
-    %endif
+        %if     %2 == 64
+                shl     %1, 6
+        %elif   %2 == 32
+                shl     %1, 5
+        %elif   %2 == 16
+                shl     %1, 4
+        %elif   %2 == 8
+                shl     %1, 3
+        %elif   %2 == 4
+                shl     %1, 2
+        %elif   %2 == 2
+                shl     %1, 1
+        %elif   %2 == 1
+                ; no-op
+        %else
+                %error  "Unsupported value for shl_log2"
+        %endif
 %endmacro
 
 %macro assert 1-2 ; cond, message
-    %if !(%1)
-        %if %0 > 1
-            %error %2
-        %else
-            %error Assertion failed: %1
+        %if     !(%1)
+                %if     %0 > 1
+                        %error  %2
+                %else
+                        %error  Assertion failed: %1
+                %endif
         %endif
-    %endif
 %endmacro
 
 %macro assert_idn 2-3 ; expr1, expr2, message
-    %ifnidn %1, %2
-        %if %0 > 2
-            %error %3
-        %else
-            %error Assertion failed: %1 == %2
+        %ifnidn %1, %2
+                %if     %0 > 2
+                        %error  %3
+                %else
+                        %error  Assertion failed: %1 == %2
+                %endif
         %endif
-    %endif
 %endmacro

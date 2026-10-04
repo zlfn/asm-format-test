@@ -11,13 +11,13 @@
 #define __VDSO_PATH "arch/riscv/kernel/vdso/vdso.so"
 #endif
 
-	__PAGE_ALIGNED_DATA
+        __PAGE_ALIGNED_DATA
 
-	.globl vdso_start, vdso_end
-	.balign PAGE_SIZE
+        .globl  vdso_start, vdso_end
+        .balign PAGE_SIZE
 vdso_start:
-	.incbin __VDSO_PATH
-	.balign PAGE_SIZE
+        .incbin __VDSO_PATH
+        .balign PAGE_SIZE
 vdso_end:
 
-	.previous
+        .previous

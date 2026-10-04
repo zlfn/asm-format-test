@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_slice_dirent
 defc _esx_slice_dirent = esx_slice_dirent
 ENDIF
-

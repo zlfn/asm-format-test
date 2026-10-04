@@ -4,32 +4,31 @@
 ; Ullrich von Bassewitz, 1.12.2000
 ;
 
-        .export         _cprintf
-        .import         pushax, addysp, _vcprintf
-        .importzp       c_sp, ptr1
+        .export _cprintf
+        .import pushax, addysp, _vcprintf
+        .importzp c_sp, ptr1
 
-        .macpack        generic
+        .macpack generic
 
 ; ----------------------------------------------------------------------------
 ; Data
 
 .bss
 
-ParamSize:      .res    1               ; Number of parameter bytes
+ParamSize: .res 1       ; Number of parameter bytes
 
 ; ----------------------------------------------------------------------------
 ; Code
 
 .code
 
-
 _cprintf:
-        sty     ParamSize               ; Number of param bytes passed in Y
+        sty     ParamSize       ; Number of param bytes passed in Y
 
 ; Calculate a pointer that points to Format
 
         dey
-        dey                             ; Sub size of Format
+        dey     ; Sub size of Format
         tya
         add     c_sp
         sta     ptr1
@@ -41,10 +40,10 @@ _cprintf:
 ; Push Format
 
         ldy     #1
-        lda     (ptr1),y
+        lda     (ptr1), y
         tax
         dey
-        lda     (ptr1),y
+        lda     (ptr1), y
         jsr     pushax
 
 ; Load va_list (last and __fastcall__ parameter to vfprintf)
@@ -60,5 +59,3 @@ _cprintf:
 
         ldy     ParamSize
         jmp     addysp
-
-

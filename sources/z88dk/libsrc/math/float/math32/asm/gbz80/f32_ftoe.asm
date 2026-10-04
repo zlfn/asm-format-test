@@ -31,203 +31,201 @@ EXTERN m32__dtoa_digits
 EXTERN m32__dtoa_round
 EXTERN m32__dtoa_special
 
-
 .ftoe
 ._ftoe
-    ld hl,sp+2
-    ld c,(hl+)
-    ld b,(hl)
-    push bc
-    ld hl,sp+6
-    ld a,(hl)
-    ld hl,sp+8
-    ld c,(hl+)
-    ld b,(hl+)                      ; *p++
-    ld e,(hl+)                      ; *p++
-    ld d,(hl)
-    ld hl,bc
-    ld b,0
-    call m32__dtoa_e_core
-    ret
-
+        ld      hl, sp+2
+        ld      c,  (hl+)
+        ld      b,  (hl)
+        push    bc
+        ld      hl, sp+6
+        ld      a,  (hl)
+        ld      hl, sp+8
+        ld      c,  (hl+)
+        ld      b,  (hl+)       ; *p++
+        ld      e,  (hl+)       ; *p++
+        ld      d,  (hl)
+        ld      hl, bc
+        ld      b,  0
+        call    m32__dtoa_e_core
+        ret
 
 .m32__dtoa_e_core
-    push de
-    push hl
-    ld c,b
-    ld b,a
-    push bc
-    ld hl,sp-32
-    ld sp,hl
+        push    de
+        push    hl
+        ld      c, b
+        ld      b, a
+        push    bc
+        ld      hl, sp-32
+        ld      sp, hl
 
-    ld hl,sp+32
-    ld c,(hl+)
-    ld b,(hl)
-    xor a
-    ld hl,sp+0
-    ld (hl+),c                      ; *p++
-    ld (hl+),a                      ; *p++
-    ld (hl+),a                      ; *p++
-    ld (hl+),a                      ; *p++
-    ld (hl+),b                      ; *p++
-    ld (hl),'0'
+        ld      hl, sp+32
+        ld      c,  (hl+)
+        ld      b,  (hl)
+        xor     a
+        ld      hl,    sp+0
+        ld      (hl+), c        ; *p++
+        ld      (hl+), a        ; *p++
+        ld      (hl+), a        ; *p++
+        ld      (hl+), a        ; *p++
+        ld      (hl+), b        ; *p++
+        ld      (hl),  '0'
 
-    ld hl,sp+6
-    ld bc,hl
-    ld hl,sp+30
-    ld (hl+),c
-    ld (hl),b
+        ld      hl,    sp+6
+        ld      bc,    hl
+        ld      hl,    sp+30
+        ld      (hl+), c
+        ld      (hl),  b
 
-    ld hl,sp+34
-    ld c,(hl+)
-    ld b,(hl+)                      ; *p++
-    ld e,(hl+)                      ; *p++
-    ld d,(hl)
-    ld hl,bc
+        ld      hl, sp+34
+        ld      c,  (hl+)
+        ld      b,  (hl+)       ; *p++
+        ld      e,  (hl+)       ; *p++
+        ld      d,  (hl)
+        ld      hl, bc
 
-    call m32__dtoa_sgnabs
-    or a
-    jp Z,e_abs_ok
-    push de
-    push hl
-    ld hl,sp+4
-    ld a,(hl)
-    or 080h
-    ld (hl),a
-    pop hl
-    pop de
+        call    m32__dtoa_sgnabs
+        or      a
+        jp      Z, e_abs_ok
+        push    de
+        push    hl
+        ld      hl, sp+4
+        ld      a,  (hl)
+        or      080h
+        ld      (hl), a
+        pop     hl
+        pop     de
 
 .e_abs_ok
-    call m32_fpclassify
-    or a
-    jp Z,e_normal
+        call    m32_fpclassify
+        or      a
+        jp      Z, e_normal
 
-    ld hl,sp+6
-    call m32__dtoa_special
-    jp C,e_spec
-    ld hl,sp+4
-    ld a,(hl)
-    ld hl,sp+3
-    ld (hl),a
-    jp m32__dtoa_prune
+        ld      hl, sp+6
+        call    m32__dtoa_special
+        jp      C,    e_spec
+        ld      hl,   sp+4
+        ld      a,    (hl)
+        ld      hl,   sp+3
+        ld      (hl), a
+        jp      m32__dtoa_prune
 
 .e_spec
-    ld bc,hl
-    ld hl,sp+30
-    ld (hl+),c
-    ld (hl),b
-    scf
-    jp m32__dtoa_finish
+        ld      bc,    hl
+        ld      hl,    sp+30
+        ld      (hl+), c
+        ld      (hl),  b
+        scf
+        jp      m32__dtoa_finish
 
 .e_normal
-    call m32__dtoa_base10
+        call    m32__dtoa_base10
 
 .m32__dtoe_join
-    ; dehl = mantissa, b = e, c = sig
-    ; Park e at work+26.  Two pushes: work at SP+4, so work+26 = SP+30.
-    push de
-    push hl
-    ld hl,sp+30
-    ld (hl),b
-    pop hl
-    pop de
+        ; dehl = mantissa, b = e, c = sig
+        ; Park e at work+26.  Two pushes: work at SP+4, so work+26 = SP+30.
+        push    de
+        push    hl
+        ld      hl,   sp+30
+        ld      (hl), b
+        pop     hl
+        pop     de
 
-    ld b,1
-    call m32__dtoa_digits           ; one integer digit
+        ld      b, 1
+        call    m32__dtoa_digits        ; one integer digit
 
-    ld a,'.'
-    call m32__dtoa_putc
+        ld      a, '.'
+        call    m32__dtoa_putc
 
-    push de
-    push hl
-    ld hl,sp+8
-    ld b,(hl)
-    inc b
-    pop hl
-    pop de
-    call m32__dtoa_digits
-    jp C,e_round
+        push    de
+        push    hl
+        ld      hl, sp+8
+        ld      b,  (hl)
+        inc     b
+        pop     hl
+        pop     de
+        call    m32__dtoa_digits
+        jp      C, e_round
 
-    dec b
-    ld a,b
-    ld hl,sp+3
-    ld (hl),a
-    jp e_exp
+        dec     b
+        ld      a,    b
+        ld      hl,   sp+3
+        ld      (hl), a
+        jp      e_exp
 
 .e_round
-    call m32__dtoa_getdst
-    call m32__dtoa_round            ; HL at extra rounding digit
-    ld bc,hl
+        call    m32__dtoa_getdst
+        call    m32__dtoa_round ; HL at extra rounding digit
+        ld      bc, hl
 
-    ld hl,sp+5
-    ld a,(hl)                       ; carry slot
-    cp '0'
-    jp Z,e_round_ok
+        ld      hl, sp+5
+        ld      a,  (hl)        ; carry slot
+        cp      '0'
+        jp      Z, e_round_ok
 
-    ; 9.99.. rounded to 10.0 → carry '1', then '.'
-    inc hl
-    ld a,(hl+)                      ; old first digit
-    ld (hl-),a                      ; overwrite '.'
-    ld (hl),'.'
-    ld hl,sp+26
-    inc (hl)                        ; e++
-    dec bc                          ; drop extra digit
+        ; 9.99.. rounded to 10.0 → carry '1', then '.'
+        inc     hl
+        ld      a,     (hl+)    ; old first digit
+        ld      (hl-), a        ; overwrite '.'
+        ld      (hl),  '.'
+        ld      hl,    sp+26
+        inc     (hl)            ; e++
+        dec     bc              ; drop extra digit
 
 .e_round_ok
-    ld hl,sp+30
-    ld (hl+),c
-    ld (hl),b
+        ld      hl,    sp+30
+        ld      (hl+), c
+        ld      (hl),  b
 
 .e_exp
-    ; %g strips fraction zeros before the exponent is written
-    ld hl,sp+0
-    ld a,(hl)
-    and 002h
-    call NZ,m32__dtoa_g_strip
+        ; %g strips fraction zeros before the exponent is written
+        ld      hl, sp+0
+        ld      a,  (hl)
+        and     002h
+        call    NZ, m32__dtoa_g_strip
 
-    ld a,'E'
-    call m32__dtoa_putc
+        ld      a, 'E'
+        call    m32__dtoa_putc
 
-    ld hl,sp+26
-    ld a,(hl)                       ; e
-    ld b,'+'
-    rla
-    jp NC,e_plus_gb
-    rra
-    ld b,'-'
-    neg
-    jp e_plus
+        ld      hl, sp+26
+        ld      a,  (hl)        ; e
+        ld      b,  '+'
+        rla
+        jp      NC, e_plus_gb
+        rra
+        ld      b, '-'
+        neg
+        jp      e_plus
 .e_plus_gb
-    rra
+        rra
 
 .e_plus
-    ld c,a                          ; |e|
-    ld a,b
-    call m32__dtoa_putc
+        ld      c, a    ; |e|
+        ld      a, b
+        call    m32__dtoa_putc
 
-    ld a,c
-    cp 100
-    jp C,e_skip100
-    sub 100
-    ld c,a
-    ld a,'1'
-    call m32__dtoa_putc
-    ld a,c
+        ld      a, c
+        cp      100
+        jp      C, e_skip100
+        sub     100
+        ld      c, a
+        ld      a, '1'
+        call    m32__dtoa_putc
+        ld      a, c
 
 .e_skip100
-    ld b,0                          ; tens
+        ld      b, 0    ; tens
 .e_tens
-    inc b
-    sub 10
-    jp NC,e_tens
-    add a,10
-    dec b
-    ld c,a                          ; ones
-    ld a,b
-    add a,'0'
-    call m32__dtoa_putc
-    ld a,c
-    add a,'0'
-    call m32__dtoa_putc
-    xor a                           ; NC: not special
-    jp m32__dtoa_finish
+        inc     b
+        sub     10
+        jp      NC, e_tens
+        add     a,  10
+        dec     b
+        ld      c, a    ; ones
+        ld      a, b
+        add     a, '0'
+        call    m32__dtoa_putc
+        ld      a, c
+        add     a, '0'
+        call    m32__dtoa_putc
+        xor     a       ; NC: not special
+        jp      m32__dtoa_finish

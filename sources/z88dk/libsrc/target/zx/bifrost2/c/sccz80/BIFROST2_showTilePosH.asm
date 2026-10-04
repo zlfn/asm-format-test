@@ -15,14 +15,14 @@ EXTERN asm_BIFROST2_showTilePosH
 
 BIFROST2_showTilePosH:
 
-        ld hl,2
-        add hl,sp
-        ld e,(hl)       ; E=col
-        inc hl
-        inc hl
-        ld d,(hl)       ; D=lin
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)        ; E=col
+        inc     hl
+        inc     hl
+        ld      d, (hl)         ; D=lin
 
-        jp asm_BIFROST2_showTilePosH        ; execute 'show_tile_pos'
+        jp      asm_BIFROST2_showTilePosH       ; execute 'show_tile_pos'
 
 ; SDCC bridge for Classic
 IF __CLASSIC

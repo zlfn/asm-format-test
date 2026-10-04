@@ -15,17 +15,17 @@ EXTERN asm_BIFROST2_setTile
 
 BIFROST2_setTile:
 
-   	ld hl,2
-   	add hl,sp
-   	ld e,(hl)       ; E=tile
-   	inc hl
-   	inc hl
-   	ld c,(hl)       ; C=py
-   	inc hl
-   	inc hl
-   	ld l,(hl)       ; L=px
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)        ; E=tile
+        inc     hl
+        inc     hl
+        ld      c, (hl)         ; C=py
+        inc     hl
+        inc     hl
+        ld      l, (hl)         ; L=px
 
-   	jp asm_BIFROST2_setTile
+        jp      asm_BIFROST2_setTile
 
 ; SDCC bridge for Classic
 IF __CLASSIC

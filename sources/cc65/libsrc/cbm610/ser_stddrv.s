@@ -10,4 +10,4 @@
 
 .rodata
 
-_ser_stddrv:    .asciiz "cbm610-std.ser"
+_ser_stddrv: .asciiz "cbm610-std.ser"

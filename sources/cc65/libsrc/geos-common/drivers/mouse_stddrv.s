@@ -6,7 +6,7 @@
 ; const char mouse_stddrv[];
 ;
 
-            .export _mouse_stddrv
+        .export _mouse_stddrv
 
 .rodata
 

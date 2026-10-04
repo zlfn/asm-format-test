@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Jan 2014
 ; ===============================================================
-; 
+;
 ; void mtx_destroy(mtx_t *m)
 ;
 ; Release resources associated with mutex.
@@ -21,5 +21,5 @@ EXTERN l_setmem_hl
 
 .asm_mtx_destroy
 
-   xor a
-   jp l_setmem_hl - 12         ; zeroed structure makes mtx_type invalid
+        xor     a
+        jp      l_setmem_hl - 12        ; zeroed structure makes mtx_type invalid

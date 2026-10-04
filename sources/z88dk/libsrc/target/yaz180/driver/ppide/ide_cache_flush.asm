@@ -19,22 +19,21 @@ EXTERN ide_write_byte
 ; tell the drive to flush its write cache
 
 ide_cache_flush:
-    push af
-    push de
-    call ide_wait_ready
-    jr nc, error
-    ld e, __IDE_CMD_CACHE_FLUSH
-    ld a, __IO_PIO_IDE_COMMAND
-    call ide_write_byte
-    call ide_wait_ready
-    jr nc, error
-    pop de 
-    pop af
-    scf                     ;carry = 1 on return = operation ok
-    ret
+        push    af
+        push    de
+        call    ide_wait_ready
+        jr      nc, error
+        ld      e,  __IDE_CMD_CACHE_FLUSH
+        ld      a,  __IO_PIO_IDE_COMMAND
+        call    ide_write_byte
+        call    ide_wait_ready
+        jr      nc, error
+        pop     de
+        pop     af
+        scf     ;carry = 1 on return = operation ok
+        ret
 
 error:
-    pop de 
-    pop af
-    jp ide_test_error       ;carry = 0 on return = operation failed
-
+        pop     de
+        pop     af
+        jp      ide_test_error  ;carry = 0 on return = operation failed

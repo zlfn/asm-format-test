@@ -25,7 +25,7 @@
 %include "libavcodec/x86/h26x/h2656_sao.asm"
 
 %macro HEVC_SAO_BAND_FILTER 2
-    H2656_SAO_BAND_FILTER hevc, %1, %2
+        H2656_SAO_BAND_FILTER hevc, %1, %2
 %endmacro
 
 %macro HEVC_SAO_BAND_FILTER_FUNCS 0
@@ -52,7 +52,7 @@ HEVC_SAO_BAND_FILTER 64, 2
 %endif
 
 %macro HEVC_SAO_EDGE_FILTER 2-3
-    H2656_SAO_EDGE_FILTER hevc, %{1:-1}
+        H2656_SAO_EDGE_FILTER hevc, %{1:-1}
 %endmacro
 
 INIT_XMM ssse3

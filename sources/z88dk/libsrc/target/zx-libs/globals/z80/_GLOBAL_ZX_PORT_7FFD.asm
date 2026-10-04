@@ -4,4 +4,4 @@ PUBLIC _GLOBAL_ZX_PORT_7FFD
 
 _GLOBAL_ZX_PORT_7FFD:
 
-   defb 0x10
+        defb    0x10

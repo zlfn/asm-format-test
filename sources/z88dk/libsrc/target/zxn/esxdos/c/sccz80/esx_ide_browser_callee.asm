@@ -8,15 +8,15 @@ EXTERN asm_esx_ide_browser
 
 esx_ide_browser_callee:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   pop ix
-   exx
-   pop bc
-   push af
-   ld a,c
-   exx
-   
-   jp asm_esx_ide_browser
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
+        pop     ix
+        exx
+        pop     bc
+        push    af
+        ld      a, c
+        exx
+
+        jp      asm_esx_ide_browser

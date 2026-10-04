@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINTN
@@ -27,11 +27,10 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmWriteDr5)
 ASM_PFX(AsmWriteDr5):
-    ;
-    ; There's no obvious reason to access this register, since it's aliased to
-    ; DR7 when DE=0 or an exception generated when DE=1
-    ;
-    mov     dr5, rcx
-    mov     rax, rcx
-    ret
-
+        ;
+        ; There's no obvious reason to access this register, since it's aliased to
+        ; DR7 when DE=0 or an exception generated when DE=1
+        ;
+        mov     dr5, rcx
+        mov     rax, rcx
+        ret

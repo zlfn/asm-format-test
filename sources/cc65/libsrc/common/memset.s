@@ -15,40 +15,40 @@
 ;       in a/x is of any use.
 ;
 
-        .export         _memset, _bzero, ___bzero
-        .import         popax
-        .importzp       c_sp, ptr1, ptr2, ptr3
+        .export _memset, _bzero, ___bzero
+        .import popax
+        .importzp c_sp, ptr1, ptr2, ptr3
 
 _bzero:
 ___bzero:
         sta     ptr3
-        stx     ptr3+1          ; Save n
-        ldx     #0              ; Fill with zeros
+        stx     ptr3+1  ; Save n
+        ldx     #0      ; Fill with zeros
         beq     common
 
 _memset:
-        sta     ptr3            ; Save n
+        sta     ptr3    ; Save n
         stx     ptr3+1
-        jsr     popax           ; Get c
+        jsr     popax   ; Get c
         tax
 
 ; Common stuff for memset and bzero from here
 
 common:                         ; Fill value is in X!
         ldy     #1
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     ptr1+1          ; save high byte of ptr
         dey                     ; Y = 0
-        lda     (c_sp),y        ; Get ptr
+        lda     (c_sp), y       ; Get ptr
         sta     ptr1
 
         lsr     ptr3+1          ; divide number of
         ror     ptr3            ; bytes by two to increase
         bcc     evenCount       ; speed (ptr3 = ptr3/2)
 oddCount:
-                                ; y is still 0 here
+        ; y is still 0 here
         txa                     ; restore fill value
-        sta     (ptr1),y        ; save value and increase
+        sta     (ptr1), y       ; save value and increase
         inc     ptr1            ; dest. pointer
         bne     evenCount
         inc     ptr1+1
@@ -61,15 +61,15 @@ evenCount:
         adc     ptr3+1
         sta     ptr2+1
 
-        txa                     ; restore fill value
-        ldx     ptr3+1          ; Get high byte of n
-        beq     L2              ; Jump if zero
+        txa             ; restore fill value
+        ldx     ptr3+1  ; Get high byte of n
+        beq     L2      ; Jump if zero
 
 ; Set 256/512 byte blocks
-                                ; y is still 0 here
+        ; y is still 0 here
 L1:     .repeat 2               ; Unroll this a bit to make it faster
-        sta     (ptr1),y        ; Set byte in lower section
-        sta     (ptr2),y        ; Set byte in upper section
+        sta     (ptr1), y       ; Set byte in lower section
+        sta     (ptr2), y       ; Set byte in upper section
         iny
         .endrepeat
         bne     L1
@@ -80,14 +80,12 @@ L1:     .repeat 2               ; Unroll this a bit to make it faster
 
 ; Set the remaining bytes if any
 
-L2:     ldy     ptr3            ; Get the low byte of n
-        beq     @leave          ; something to set? No -> leave
+L2:     ldy     ptr3    ; Get the low byte of n
+        beq     @leave  ; something to set? No -> leave
 
 @L3:    dey
-        sta     (ptr1),y                ; set bytes in low
-        sta     (ptr2),y                ; and high section
+        sta     (ptr1), y       ; set bytes in low
+        sta     (ptr2), y       ; and high section
         bne     @L3             ; flags still up to date from dey!
 @leave:
         jmp     popax           ; Pop ptr and return as result
-
-

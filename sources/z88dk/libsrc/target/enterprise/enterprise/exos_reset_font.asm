@@ -9,23 +9,22 @@
 ;
 
         SECTION code_clib
-	PUBLIC	exos_reset_font
-	PUBLIC	_exos_reset_font
+        PUBLIC  exos_reset_font
+        PUBLIC  _exos_reset_font
 
-	INCLUDE "target/enterprise/def/enterprise.def"
+        INCLUDE "target/enterprise/def/enterprise.def"
 
 exos_reset_font:
 _exos_reset_font:
 
-		; __FASTCALL_
-		ld	a,l			; channel
-		ld	b,FN_FONT	; special fn code
+        ; __FASTCALL_
+        ld      a, l            ; channel
+        ld      b, FN_FONT      ; special fn code
 
-        rst   30h
-        defb  11	; call special device dependent exos functions
+        rst     30h
+        defb    11      ; call special device dependent exos functions
 
-		ld	h,0
-		ld	l,a
+        ld      h, 0
+        ld      l, a
 
-
-	ret
+        ret

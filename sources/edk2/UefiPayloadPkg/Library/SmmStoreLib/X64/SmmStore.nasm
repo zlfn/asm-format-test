@@ -19,11 +19,11 @@ SECTION .text
 
 global ASM_PFX(TriggerSmi)
 ASM_PFX(TriggerSmi):
-    push    rbx
-    mov     rax, rcx                    ; Smi handler expect Cmd in RAX
-    mov     rbx, rdx                    ; Smi handler expect Argument in RBX
+        push    rbx
+        mov     rax, rcx        ; Smi handler expect Cmd in RAX
+        mov     rbx, rdx        ; Smi handler expect Argument in RBX
 @Trigger:
-    out     0b2h, al                    ; write to APM port to trigger SMI
+        out     0b2h, al        ; write to APM port to trigger SMI
 
 ; There might be a delay between writing the Smi trigger register and
 ; entering SMM, in which case the Smi handler will do nothing as only
@@ -33,16 +33,16 @@ ASM_PFX(TriggerSmi):
 ; As there's no livesign from SMM, just wait a bit for the handler to fire,
 ; and then try again.
 
-    cmp     rax, rcx                    ; Check if rax was modified by SMM
-    jne     @Return                     ; SMM modified rax, return now
-    push    rcx                         ; save rcx to stack
-    mov     rcx, 10000
-    rep     pause                       ; add a small delay
-    pop     rcx                         ; restore rcx
-    cmp     r8, 0
-    je      @Return
-    dec     r8
-    jmp     @Trigger
+        cmp     rax, rcx        ; Check if rax was modified by SMM
+        jne     @Return         ; SMM modified rax, return now
+        push    rcx             ; save rcx to stack
+        mov     rcx, 10000
+        rep     pause           ; add a small delay
+        pop     rcx             ; restore rcx
+        cmp     r8, 0
+        je      @Return
+        dec     r8
+        jmp     @Trigger
 @Return:
-    pop     rbx
-    ret
+        pop     rbx
+        ret

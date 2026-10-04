@@ -10,14 +10,14 @@ EXTERN asm_fzx_at
 
 fzx_at:
 
-   pop af
-   pop bc
-   pop hl
-   pop ix
-   
-   push hl
-   push hl
-   push bc
-   push af
-   
-   jp asm_fzx_at
+        pop     af
+        pop     bc
+        pop     hl
+        pop     ix
+
+        push    hl
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_fzx_at

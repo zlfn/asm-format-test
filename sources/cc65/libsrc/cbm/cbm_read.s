@@ -36,45 +36,44 @@
 ; }
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_read
-        .importzp       ptr1, ptr2, ptr3, tmp1
-        .import         popax, popa, returnFFFF
-        .import         ___oserror
-
+        .export _cbm_read
+        .importzp ptr1, ptr2, ptr3, tmp1
+        .import popax, popa, returnFFFF
+        .import ___oserror
 
 _cbm_read:
         inx
         stx     ptr1+1
         tax
         inx
-        stx     ptr1            ; Save size with both bytes incremented separately.
+        stx     ptr1    ; Save size with both bytes incremented separately.
 
         jsr     popax
         sta     ptr2
-        stx     ptr2+1          ; Save buffer
+        stx     ptr2+1  ; Save buffer
 
         jsr     popa
         tax
         jsr     CHKIN
-        bcs     @E1             ; Branch on error
+        bcs     @E1     ; Branch on error
 
 ; bytesread = 0;
 
         lda     #$00
         sta     ptr3
         sta     ptr3+1
-        beq     @L3             ; Branch always
+        beq     @L3     ; Branch always
 
 ; Loop
 
 @L1:    jsr     READST
-        cmp     #0              ; Status ok?
+        cmp     #0      ; Status ok?
         bne     @L4
 
-        jsr     BASIN           ; Read next char from file
-        sta     tmp1            ; Save it for later
+        jsr     BASIN   ; Read next char from file
+        sta     tmp1    ; Save it for later
 
         jsr     READST
         and     #$BF
@@ -82,15 +81,15 @@ _cbm_read:
 
         lda     tmp1
         ldy     #0
-        sta     (ptr2),y        ; Save read byte
+        sta     (ptr2), y       ; Save read byte
 
         inc     ptr2
         bne     @L2
-        inc     ptr2+1          ; ++buffer;
+        inc     ptr2+1  ; ++buffer;
 
 @L2:    inc     ptr3
         bne     @L3
-        inc     ptr3+1          ; ++bytesread;
+        inc     ptr3+1  ; ++bytesread;
 
 @L3:    dec     ptr1
         bne     @L1
@@ -100,7 +99,7 @@ _cbm_read:
 @L4:    jsr     CLRCH
 
         lda     ptr3
-        ldx     ptr3+1          ; return bytesread;
+        ldx     ptr3+1  ; return bytesread;
 
         rts
 

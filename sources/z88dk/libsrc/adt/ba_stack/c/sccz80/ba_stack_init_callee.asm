@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _ba_stack_init_callee
 defc _ba_stack_init_callee = ba_stack_init_callee
 ENDIF
-

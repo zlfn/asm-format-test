@@ -31,8 +31,6 @@
 ;/*                                                                           */
 ;/*****************************************************************************/
 
-
-
 ; Standard signal handling functions
 SIG_ERR         = $0000
 
@@ -53,5 +51,3 @@ SIGCOUNT        = 6             ; Number of signals
 .global         ___sig_dfl
 .global         _signal
 .global         _raise
-
-

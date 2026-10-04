@@ -10,8 +10,8 @@ PUBLIC l_gint4
 ; HL = (HL + 4)
 
 .l_gint4
-    ld bc,4
-    add hl,bc
-    ex de,hl
-    ld hl,(de)
-    ret
+        ld      bc, 4
+        add     hl, bc
+        ex      de, hl
+        ld      hl, (de)
+        ret

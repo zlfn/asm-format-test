@@ -9,10 +9,10 @@ EXTERN CDISP_SP1_ITERATEUPDATERECT_CALLEE
 
 .sp1_IterateUpdateRect
 
-   pop bc
-   pop ix
-   pop hl
-   push hl
-   push hl
-   push bc
-   jp sp1_IterateUpdateRect_callee + CDISP_SP1_ITERATEUPDATERECT_CALLEE
+        pop     bc
+        pop     ix
+        pop     hl
+        push    hl
+        push    hl
+        push    bc
+        jp      sp1_IterateUpdateRect_callee + CDISP_SP1_ITERATEUPDATERECT_CALLEE

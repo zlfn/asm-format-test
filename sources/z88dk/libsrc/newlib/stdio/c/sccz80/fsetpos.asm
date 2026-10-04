@@ -16,15 +16,15 @@ EXTERN asm_fsetpos
 
 fsetpos:
 
-   pop af
-   pop hl
-   pop ix
-   
-   push hl
-   push hl
-   push af
-   
-   jp asm_fsetpos
+        pop     af
+        pop     hl
+        pop     ix
+
+        push    hl
+        push    hl
+        push    af
+
+        jp      asm_fsetpos
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -39,4 +39,3 @@ defc fsetpos = fsetpos_unlocked
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-

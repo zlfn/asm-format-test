@@ -3,10 +3,10 @@
 ;
 ;
 
-        .export         _textcolor
-        .export         txtcolor
+        .export _textcolor
+        .export txtcolor
 
-        .include        "atari7800.inc"
+        .include "atari7800.inc"
 
         .data
 ;-----------------------------------------------------------------------------
@@ -48,6 +48,6 @@ txtcolor:
         bne     @L4
         lda     #1
         rts                     ; Old colour was 1
-@L4:    lda #2
+@L4:    lda     #2
         rts                     ; Old colour was 2
         .endproc

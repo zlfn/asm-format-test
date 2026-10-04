@@ -10,12 +10,12 @@ EXTERN l0_bv_priority_queue_push_callee
 
 _bv_priority_queue_push:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     bc
 
-   jp l0_bv_priority_queue_push_callee
+        push    bc
+        push    hl
+        push    af
+
+        jp      l0_bv_priority_queue_push_callee

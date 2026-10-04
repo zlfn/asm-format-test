@@ -185,44 +185,44 @@ SYM_TYPED_FUNC_START(__camellia_enc_blk)
 	 *	%rdx: src
 	 *	%rcx: bool xor
 	 */
-	movq %r12, RR12;
+        movq    %r12, RR12;
 
-	movq %rcx, RXOR;
-	movq %rsi, RDST;
-	movq %rdx, RIO;
+        movq    %rcx, RXOR;
+        movq    %rsi, RDST;
+        movq    %rdx, RIO;
 
-	enc_inpack();
+        enc_inpack();
 
-	enc_rounds(0);
-	enc_fls(8);
-	enc_rounds(8);
-	enc_fls(16);
-	enc_rounds(16);
-	movl $24, RT1d; /* max */
+        enc_rounds(0);
+        enc_fls(8);
+        enc_rounds(8);
+        enc_fls(16);
+        enc_rounds(16);
+        movl    $24, RT1d; /* max */
 
-	cmpb $16, key_length(CTX);
-	je .L__enc_done;
+        cmpb    $16, key_length(CTX);
+        je      .L__enc_done;
 
-	enc_fls(24);
-	enc_rounds(24);
-	movl $32, RT1d; /* max */
+        enc_fls(24);
+        enc_rounds(24);
+        movl    $32, RT1d; /* max */
 
 .L__enc_done:
-	testb RXORbl, RXORbl;
-	movq RDST, RIO;
+        testb   RXORbl, RXORbl;
+        movq    RDST,   RIO;
 
-	jnz .L__enc_xor;
+        jnz     .L__enc_xor;
 
-	enc_outunpack(mov, RT1);
+        enc_outunpack(mov, RT1);
 
-	movq RR12, %r12;
-	RET;
+        movq    RR12, %r12;
+        RET;
 
 .L__enc_xor:
-	enc_outunpack(xor, RT1);
+        enc_outunpack(xor, RT1);
 
-	movq RR12, %r12;
-	RET;
+        movq    RR12, %r12;
+        RET;
 SYM_FUNC_END(__camellia_enc_blk)
 
 SYM_TYPED_FUNC_START(camellia_dec_blk)
@@ -231,36 +231,36 @@ SYM_TYPED_FUNC_START(camellia_dec_blk)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	cmpl $16, key_length(CTX);
-	movl $32, RT2d;
-	movl $24, RXORd;
-	cmovel RXORd, RT2d; /* max */
+        cmpl    $16,   key_length(CTX);
+        movl    $32,   RT2d;
+        movl    $24,   RXORd;
+        cmovel  RXORd, RT2d; /* max */
 
-	movq %r12, RR12;
-	movq %rsi, RDST;
-	movq %rdx, RIO;
+        movq    %r12, RR12;
+        movq    %rsi, RDST;
+        movq    %rdx, RIO;
 
-	dec_inpack(RT2);
+        dec_inpack(RT2);
 
-	cmpb $24, RT2bl;
-	je .L__dec_rounds16;
+        cmpb    $24, RT2bl;
+        je      .L__dec_rounds16;
 
-	dec_rounds(24);
-	dec_fls(24);
+        dec_rounds(24);
+        dec_fls(24);
 
 .L__dec_rounds16:
-	dec_rounds(16);
-	dec_fls(16);
-	dec_rounds(8);
-	dec_fls(8);
-	dec_rounds(0);
+        dec_rounds(16);
+        dec_fls(16);
+        dec_rounds(8);
+        dec_fls(8);
+        dec_rounds(0);
 
-	movq RDST, RIO;
+        movq    RDST, RIO;
 
-	dec_outunpack();
+        dec_outunpack();
 
-	movq RR12, %r12;
-	RET;
+        movq    RR12, %r12;
+        RET;
 SYM_FUNC_END(camellia_dec_blk)
 
 /**********************************************************************
@@ -419,46 +419,46 @@ SYM_TYPED_FUNC_START(__camellia_enc_blk_2way)
 	 *	%rdx: src
 	 *	%rcx: bool xor
 	 */
-	pushq %rbx;
+        pushq   %rbx;
 
-	movq %r12, RR12;
-	movq %rcx, RXOR;
-	movq %rsi, RDST;
-	movq %rdx, RIO;
+        movq    %r12, RR12;
+        movq    %rcx, RXOR;
+        movq    %rsi, RDST;
+        movq    %rdx, RIO;
 
-	enc_inpack2();
+        enc_inpack2();
 
-	enc_rounds2(0);
-	enc_fls2(8);
-	enc_rounds2(8);
-	enc_fls2(16);
-	enc_rounds2(16);
-	movl $24, RT2d; /* max */
+        enc_rounds2(0);
+        enc_fls2(8);
+        enc_rounds2(8);
+        enc_fls2(16);
+        enc_rounds2(16);
+        movl    $24, RT2d; /* max */
 
-	cmpb $16, key_length(CTX);
-	je .L__enc2_done;
+        cmpb    $16, key_length(CTX);
+        je      .L__enc2_done;
 
-	enc_fls2(24);
-	enc_rounds2(24);
-	movl $32, RT2d; /* max */
+        enc_fls2(24);
+        enc_rounds2(24);
+        movl    $32, RT2d; /* max */
 
 .L__enc2_done:
-	test RXORbl, RXORbl;
-	movq RDST, RIO;
-	jnz .L__enc2_xor;
+        test    RXORbl, RXORbl;
+        movq    RDST,   RIO;
+        jnz     .L__enc2_xor;
 
-	enc_outunpack2(mov, RT2);
+        enc_outunpack2(mov, RT2);
 
-	movq RR12, %r12;
-	popq %rbx;
-	RET;
+        movq    RR12, %r12;
+        popq    %rbx;
+        RET;
 
 .L__enc2_xor:
-	enc_outunpack2(xor, RT2);
+        enc_outunpack2(xor, RT2);
 
-	movq RR12, %r12;
-	popq %rbx;
-	RET;
+        movq    RR12, %r12;
+        popq    %rbx;
+        RET;
 SYM_FUNC_END(__camellia_enc_blk_2way)
 
 SYM_TYPED_FUNC_START(camellia_dec_blk_2way)
@@ -467,36 +467,36 @@ SYM_TYPED_FUNC_START(camellia_dec_blk_2way)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	cmpl $16, key_length(CTX);
-	movl $32, RT2d;
-	movl $24, RXORd;
-	cmovel RXORd, RT2d; /* max */
+        cmpl    $16,   key_length(CTX);
+        movl    $32,   RT2d;
+        movl    $24,   RXORd;
+        cmovel  RXORd, RT2d; /* max */
 
-	movq %rbx, RXOR;
-	movq %r12, RR12;
-	movq %rsi, RDST;
-	movq %rdx, RIO;
+        movq    %rbx, RXOR;
+        movq    %r12, RR12;
+        movq    %rsi, RDST;
+        movq    %rdx, RIO;
 
-	dec_inpack2(RT2);
+        dec_inpack2(RT2);
 
-	cmpb $24, RT2bl;
-	je .L__dec2_rounds16;
+        cmpb    $24, RT2bl;
+        je      .L__dec2_rounds16;
 
-	dec_rounds2(24);
-	dec_fls2(24);
+        dec_rounds2(24);
+        dec_fls2(24);
 
 .L__dec2_rounds16:
-	dec_rounds2(16);
-	dec_fls2(16);
-	dec_rounds2(8);
-	dec_fls2(8);
-	dec_rounds2(0);
+        dec_rounds2(16);
+        dec_fls2(16);
+        dec_rounds2(8);
+        dec_fls2(8);
+        dec_rounds2(0);
 
-	movq RDST, RIO;
+        movq    RDST, RIO;
 
-	dec_outunpack2();
+        dec_outunpack2();
 
-	movq RR12, %r12;
-	movq RXOR, %rbx;
-	RET;
+        movq    RR12, %r12;
+        movq    RXOR, %rbx;
+        RET;
 SYM_FUNC_END(camellia_dec_blk_2way)

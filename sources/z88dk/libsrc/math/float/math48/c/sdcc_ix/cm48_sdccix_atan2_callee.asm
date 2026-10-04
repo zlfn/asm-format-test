@@ -10,13 +10,13 @@ EXTERN am48_atan2, cm48_sdccixp_dcallee2, cm48_sdccixp_m482d
 
 cm48_sdccix_atan2_callee:
 
-   call cm48_sdccixp_dcallee2
-   
-   ; AC'= y
-   ; AC = x
+        call    cm48_sdccixp_dcallee2
+
+        ; AC'= y
+        ; AC = x
 
 l0_cm48_sdccix_atan2_callee:
 
-   call am48_atan2
+        call    am48_atan2
 
-   jp cm48_sdccixp_m482d
+        jp      cm48_sdccixp_m482d

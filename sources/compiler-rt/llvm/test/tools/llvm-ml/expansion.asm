@@ -2,12 +2,12 @@
 
 .code
 
-num EQU 276
-var TEXTEQU %num
+num     EQU     276
+var     TEXTEQU %num
 
 ECHO t1
 ECHO var
- ECHO var
+        ECHO    var
 
 ; CHECK-LABEL: t1
 ; CHECK: var
@@ -17,8 +17,8 @@ ECHO var
 ECHO t2
 %ECHO var
 % ECHO var
- %ECHO var
- % ECHO var
+        %ECHO   var
+        %       ECHO var
 
 ; CHECK-LABEL: t2
 ; CHECK: 276

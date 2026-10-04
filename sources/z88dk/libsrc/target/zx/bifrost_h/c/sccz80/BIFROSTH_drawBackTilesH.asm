@@ -15,21 +15,20 @@ EXTERN asm_BIFROSTH_drawBackTilesH
 
 BIFROSTH_drawBackTilesH:
 
-   	ld hl,2
-   	add hl,sp
-   	ld c,(hl)       ; C=attrib
-   	inc hl
-   	inc hl
-   	ld e,(hl)       ; E=col
-   	inc hl
-   	inc hl
-   	ld d,(hl)       ; D=lin
+        ld      hl, 2
+        add     hl, sp
+        ld      c,  (hl)        ; C=attrib
+        inc     hl
+        inc     hl
+        ld      e, (hl)         ; E=col
+        inc     hl
+        inc     hl
+        ld      d, (hl)         ; D=lin
 
-   	jp asm_BIFROSTH_drawBackTilesH        ; execute 'draw_back_tiles'
+        jp      asm_BIFROSTH_drawBackTilesH     ; execute 'draw_back_tiles'
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _BIFROSTH_drawBackTilesH
 defc _BIFROSTH_drawBackTilesH = BIFROSTH_drawBackTilesH
 ENDIF
-

@@ -4,28 +4,25 @@
 ; __sigfunc __fastcall__ signal (int sig, __sigfunc func);
 ;
 
-        .import         popax
-        .importzp       ptr1
+        .import popax
+        .importzp ptr1
 
-        .include        "signal.inc"
-        .include        "errno.inc"
-
+        .include "signal.inc"
+        .include "errno.inc"
 
 ; Default signal functions: The standard specifies explicitly that the values
 ; for SIG_IGN and SIG_DFL must be distinct, so we make them so by using both
 ; rts exits we have. This works because signal functions are __fastcall__, so
 ; we don't have arguments on the stack.
 
-
 ;----------------------------------------------------------------------------
 ; __sigfunc __fastcall__ signal (int sig, __sigfunc func);
 
-
 _signal:
         sta     ptr1
-        stx     ptr1+1          ; Remember func
+        stx     ptr1+1  ; Remember func
 
-        jsr     popax           ; Get sig
+        jsr     popax   ; Get sig
 
         cpx     #0
         bne     invalidsig
@@ -35,19 +32,19 @@ _signal:
 ; Signal number is valid. Replace the pointer in the table saving the old
 ; value temporarily on the stack.
 
-        asl     a               ; Prepare for word access
+        asl     a       ; Prepare for word access
         tax
 
-        sei                     ; Disable interrupts in case of async signals
-        lda     sigtable,x
+        sei     ; Disable interrupts in case of async signals
+        lda     sigtable, x
         pha
         lda     ptr1
-        sta     sigtable,x
-        lda     sigtable+1,x
+        sta     sigtable,   x
+        lda     sigtable+1, x
         pha
         lda     ptr1+1
-        sta     sigtable+1,x
-        cli                     ; Reenable interrupts
+        sta     sigtable+1, x
+        cli     ; Reenable interrupts
 
 ; Get the old value from the stack and return it
 
@@ -65,4 +62,3 @@ invalidsig:
         tax                     ; A/X = 0
 ___sig_dfl:
         rts
-

@@ -10,9 +10,9 @@ EXTERN am48_isunordered, cm48_sdccixp_dread2
 
 cm48_sdccix_isunordered:
 
-   call cm48_sdccixp_dread2
-   
-   ; AC'= y
-   ; AC = x
+        call    cm48_sdccixp_dread2
 
-   jp am48_isunordered
+        ; AC'= y
+        ; AC = x
+
+        jp      am48_isunordered

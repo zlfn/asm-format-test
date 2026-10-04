@@ -46,90 +46,90 @@ PUBLIC m32_mulu_32h_32x32
 
 .m32_mulu_32h_32x32
 
-    push de                     ; x1
-    push de                     ; x1
-    exx
+        push    de      ; x1
+        push    de      ; x1
+        exx
 
-    pop bc                      ; x1
-    push de                     ; y1
-    push bc                     ; x1
+        pop     bc      ; x1
+        push    de      ; y1
+        push    bc      ; x1
 
-    push hl                     ; y0
-    push de                     ; y1 → z1 slot
+        push    hl      ; y0
+        push    de      ; y1 → z1 slot
 
-    exx
-    ld de,hl                    ; de = x0
-    ld hl,0
-    ex (sp),hl                  ; hl = y1, (sp) = z1 = 0
+        exx
+        ld      de,   hl        ; de = x0
+        ld      hl,   0
+        ex      (sp), hl        ; hl = y1, (sp) = z1 = 0
 
-    ; --- y1 * x0 ---  dehl = hl * de  with hl=y1, de=x0
-    call l_mulu_32_16x16
+        ; --- y1 * x0 ---  dehl = hl * de  with hl=y1, de=x0
+        call    l_mulu_32_16x16
 
-    pop bc                      ; z1 = 0
-    add hl,bc
-    ld bc,hl
+        pop     bc      ; z1 = 0
+        add     hl, bc
+        ld      bc, hl
 
-    ld hl,0
-    adc hl,de
-    ex de,hl
-    exx                         ; de'bc' = z2 z1
+        ld      hl, 0
+        adc     hl, de
+        ex      de, hl
+        exx     ; de'bc' = z2 z1
 
-    pop de                      ; y0
-    pop hl                      ; x1
+        pop     de      ; y0
+        pop     hl      ; x1
 
-    ; --- y0 * x1 ---  dehl = hl * de  with hl=x1, de=y0
-    call l_mulu_32_16x16
+        ; --- y0 * x1 ---  dehl = hl * de  with hl=x1, de=y0
+        call    l_mulu_32_16x16
 
-    push de
-    push hl
-    exx
+        push    de
+        push    hl
+        exx
 
-    pop hl
-    add hl,bc                   ; z1 += low(y0*x1)
-    ld a,h                      ; sticky: bit15 of mid-low sum
+        pop     hl
+        add     hl, bc  ; z1 += low(y0*x1)
+        ld      a,  h   ; sticky: bit15 of mid-low sum
 
-    pop hl
-    adc hl,de                   ; z2 += high(y0*x1) + CF
-    ex de,hl
+        pop     hl
+        adc     hl, de  ; z2 += high(y0*x1) + CF
+        ex      de, hl
 
-    ld bc,0
-    rl c                        ; c = z3
+        ld      bc, 0
+        rl      c       ; c = z3
 
-    ; park sticky in b7 (b was 0)
-    and 080h
-    ld b,a                      ; b7 = sticky, c = z3
+        ; park sticky in b7 (b was 0)
+        and     080h
+        ld      b, a    ; b7 = sticky, c = z3
 
-    exx                         ; bc' = sticky:z3, de' = z2
+        exx     ; bc' = sticky:z3, de' = z2
 
-    pop de                      ; y1
-    pop hl                      ; x1
+        pop     de      ; y1
+        pop     hl      ; x1
 
-    ; --- y1 * x1 ---
-    call l_mulu_32_16x16
+        ; --- y1 * x1 ---
+        call    l_mulu_32_16x16
 
-    push de
-    push hl
-    exx
+        push    de
+        push    hl
+        exx
 
-    pop hl
-    add hl,de                   ; + z2
-    ex de,hl                    ; de = z2
+        pop     hl
+        add     hl, de  ; + z2
+        ex      de, hl  ; de = z2
 
-    pop hl                      ; high(y1*x1)
-    ; bc = sticky<<8 | z3  — only c must enter adc as z3
-    ld a,b                      ; sticky flag
-    ld b,0                      ; bc = z3
-    adc hl,bc                   ; z3
+        pop     hl      ; high(y1*x1)
+        ; bc = sticky<<8 | z3  — only c must enter adc as z3
+        ld      a,  b   ; sticky flag
+        ld      b,  0   ; bc = z3
+        adc     hl, bc  ; z3
 
-    ex de,hl                    ; de = z3, hl = z2  → DEHL high product
+        ex      de, hl  ; de = z3, hl = z2  → DEHL high product
 
-    ; sticky: OR bit0 of L if mid-low bit15 was set
-    and 080h
-    jr Z,r2ka_h32_done
-    set 0,l
+        ; sticky: OR bit0 of L if mid-low bit15 was set
+        and     080h
+        jr      Z, r2ka_h32_done
+        set     0, l
 
 .r2ka_h32_done
-    or a                        ; NC
-    ret
+        or      a       ; NC
+        ret
 
 ENDIF

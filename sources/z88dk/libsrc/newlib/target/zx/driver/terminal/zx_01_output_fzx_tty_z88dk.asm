@@ -237,13 +237,13 @@ EXTERN zx_01_output_fzx_tty_z88dk_stdio_msg_ictl
 
 zx_01_output_fzx_tty_z88dk:
 
-   cp OTERM_MSG_TTY
-   jp z, zx_01_output_fzx_tty_z88dk_oterm_msg_tty
+        cp      OTERM_MSG_TTY
+        jp      z, zx_01_output_fzx_tty_z88dk_oterm_msg_tty
 
-   cp STDIO_MSG_FLSH
-   jp z, zx_01_output_fzx_tty_z88dk_stdio_msg_flsh
-   
-   cp STDIO_MSG_ICTL
-   jp z, zx_01_output_fzx_tty_z88dk_stdio_msg_ictl
-   
-   jp zx_01_output_fzx         ; forward to library
+        cp      STDIO_MSG_FLSH
+        jp      z, zx_01_output_fzx_tty_z88dk_stdio_msg_flsh
+
+        cp      STDIO_MSG_ICTL
+        jp      z, zx_01_output_fzx_tty_z88dk_stdio_msg_ictl
+
+        jp      zx_01_output_fzx        ; forward to library

@@ -10,17 +10,17 @@ PUBLIC ___xcc_muluint2ulong
 ; uses : F, B, DE, HL, IY
 
 ___xcc_muluint2ulong:
-    ld iy,0
-    ld b,16
+        ld      iy, 0
+        ld      b,  16
 muluint2ulong_loop:
-    add iy,iy
-    adc hl,hl
-    jr nc,muluint2ulong_skip
-    add iy,de
-    jr nc,muluint2ulong_skip
-    inc hl
+        add     iy, iy
+        adc     hl, hl
+        jr      nc, muluint2ulong_skip
+        add     iy, de
+        jr      nc, muluint2ulong_skip
+        inc     hl
 muluint2ulong_skip:
-    djnz muluint2ulong_loop
-    push iy
-    pop de
-    ret
+        djnz    muluint2ulong_loop
+        push    iy
+        pop     de
+        ret

@@ -4,27 +4,26 @@
 ; Ullrich von Bassewitz, 2009-09-26
 ;
 
-        .export         _snprintf
-        .import         pushax, addysp, decsp6, _vsnprintf
-        .importzp       c_sp, ptr1
+        .export _snprintf
+        .import pushax, addysp, decsp6, _vsnprintf
+        .importzp c_sp, ptr1
 
-        .macpack        generic
+        .macpack generic
 
 ; ----------------------------------------------------------------------------
 ; Data
 
 .bss
 
-ParamSize:      .res    1               ; Number of parameter bytes
+ParamSize: .res 1       ; Number of parameter bytes
 
 ; ----------------------------------------------------------------------------
 ; Code
 
 .code
 
-
 _snprintf:
-        sty     ParamSize               ; Number of param bytes passed in Y
+        sty     ParamSize       ; Number of param bytes passed in Y
 
 ; We have to push buf/size/format, both in the order they already have on stack.
 ; To make this somewhat more efficient, we will create space on the stack and
@@ -48,8 +47,8 @@ _snprintf:
 ; Now copy buf/size/format
 
         ldy     #6-1
-@L2:    lda     (ptr1),y
-        sta     (c_sp),y
+@L2:    lda     (ptr1), y
+        sta     (c_sp), y
         dey
         bpl     @L2
 
@@ -66,4 +65,3 @@ _snprintf:
 
         ldy     ParamSize
         jmp     addysp
-

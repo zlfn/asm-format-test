@@ -16,17 +16,17 @@ EXTERN l_compare_false
 
 l_ult:
 
-    ; DE < HL [unsigned]
+        ; DE < HL [unsigned]
 
-    ld bc,de
+        ld      bc, de
 
 l_ult_hlbc:
 
-    ; set carry if true
+        ; set carry if true
 
-    sub hl,bc
+        sub     hl, bc
 
-    jp c,l_compare_false
-    jp z,l_compare_false
+        jp      c, l_compare_false
+        jp      z, l_compare_false
 
-    jp l_compare_true
+        jp      l_compare_true

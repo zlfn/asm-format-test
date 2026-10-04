@@ -17,7 +17,7 @@
 .section	.rodata.cst16.bswap128_mask, "aM", @progbits, 16
 .align 16
 .Lbswap128_mask:
-	.byte 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
+        .byte   15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 
 .text
 
@@ -81,7 +81,6 @@
 #define RGS2d %r9d
 #define RGS3  %r10
 #define RGS3d %r10d
-
 
 #define lookup_32bit(t0, t1, t2, t3, src, dst, interleave_op, il_reg) \
 	movzbl		src ## bl,        RID1d;     \
@@ -236,37 +235,37 @@ SYM_FUNC_START_LOCAL(__twofish_enc_blk8)
 	 *	RC1, RD1, RA1, RB1, RC2, RD2, RA2, RB2: encrypted blocks
 	 */
 
-	vmovdqu w(CTX), RK1;
+        vmovdqu w(CTX), RK1;
 
-	pushq %r13;
-	pushq %rbx;
-	pushq %rcx;
+        pushq   %r13;
+        pushq   %rbx;
+        pushq   %rcx;
 
-	inpack_blocks(RA1, RB1, RC1, RD1, RK1, RX0, RY0, RK2);
-	preload_rgi(RA1);
-	rotate_1l(RD1);
-	inpack_blocks(RA2, RB2, RC2, RD2, RK1, RX0, RY0, RK2);
-	rotate_1l(RD2);
+        inpack_blocks(RA1, RB1, RC1, RD1, RK1, RX0, RY0, RK2);
+        preload_rgi(RA1);
+        rotate_1l(RD1);
+        inpack_blocks(RA2, RB2, RC2, RD2, RK1, RX0, RY0, RK2);
+        rotate_1l(RD2);
 
-	encrypt_cycle(0);
-	encrypt_cycle(1);
-	encrypt_cycle(2);
-	encrypt_cycle(3);
-	encrypt_cycle(4);
-	encrypt_cycle(5);
-	encrypt_cycle(6);
-	encrypt_cycle_last(7);
+        encrypt_cycle(0);
+        encrypt_cycle(1);
+        encrypt_cycle(2);
+        encrypt_cycle(3);
+        encrypt_cycle(4);
+        encrypt_cycle(5);
+        encrypt_cycle(6);
+        encrypt_cycle_last(7);
 
-	vmovdqu (w+4*4)(CTX), RK1;
+        vmovdqu (w+4*4)(CTX), RK1;
 
-	popq %rcx;
-	popq %rbx;
-	popq %r13;
+        popq    %rcx;
+        popq    %rbx;
+        popq    %r13;
 
-	outunpack_blocks(RC1, RD1, RA1, RB1, RK1, RX0, RY0, RK2);
-	outunpack_blocks(RC2, RD2, RA2, RB2, RK1, RX0, RY0, RK2);
+        outunpack_blocks(RC1, RD1, RA1, RB1, RK1, RX0, RY0, RK2);
+        outunpack_blocks(RC2, RD2, RA2, RB2, RK1, RX0, RY0, RK2);
 
-	RET;
+        RET;
 SYM_FUNC_END(__twofish_enc_blk8)
 
 SYM_FUNC_START_LOCAL(__twofish_dec_blk8)
@@ -277,35 +276,35 @@ SYM_FUNC_START_LOCAL(__twofish_dec_blk8)
 	 *	RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2: decrypted blocks
 	 */
 
-	vmovdqu (w+4*4)(CTX), RK1;
+        vmovdqu (w+4*4)(CTX), RK1;
 
-	pushq %r13;
-	pushq %rbx;
+        pushq   %r13;
+        pushq   %rbx;
 
-	inpack_blocks(RC1, RD1, RA1, RB1, RK1, RX0, RY0, RK2);
-	preload_rgi(RC1);
-	rotate_1l(RA1);
-	inpack_blocks(RC2, RD2, RA2, RB2, RK1, RX0, RY0, RK2);
-	rotate_1l(RA2);
+        inpack_blocks(RC1, RD1, RA1, RB1, RK1, RX0, RY0, RK2);
+        preload_rgi(RC1);
+        rotate_1l(RA1);
+        inpack_blocks(RC2, RD2, RA2, RB2, RK1, RX0, RY0, RK2);
+        rotate_1l(RA2);
 
-	decrypt_cycle(7);
-	decrypt_cycle(6);
-	decrypt_cycle(5);
-	decrypt_cycle(4);
-	decrypt_cycle(3);
-	decrypt_cycle(2);
-	decrypt_cycle(1);
-	decrypt_cycle_last(0);
+        decrypt_cycle(7);
+        decrypt_cycle(6);
+        decrypt_cycle(5);
+        decrypt_cycle(4);
+        decrypt_cycle(3);
+        decrypt_cycle(2);
+        decrypt_cycle(1);
+        decrypt_cycle_last(0);
 
-	vmovdqu (w)(CTX), RK1;
+        vmovdqu (w)(CTX), RK1;
 
-	popq %rbx;
-	popq %r13;
+        popq    %rbx;
+        popq    %r13;
 
-	outunpack_blocks(RA1, RB1, RC1, RD1, RK1, RX0, RY0, RK2);
-	outunpack_blocks(RA2, RB2, RC2, RD2, RK1, RX0, RY0, RK2);
+        outunpack_blocks(RA1, RB1, RC1, RD1, RK1, RX0, RY0, RK2);
+        outunpack_blocks(RA2, RB2, RC2, RD2, RK1, RX0, RY0, RK2);
 
-	RET;
+        RET;
 SYM_FUNC_END(__twofish_dec_blk8)
 
 SYM_FUNC_START(twofish_ecb_enc_8way)
@@ -314,18 +313,18 @@ SYM_FUNC_START(twofish_ecb_enc_8way)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	movq %rsi, %r11;
+        movq    %rsi, %r11;
 
-	load_8way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
+        load_8way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
 
-	call __twofish_enc_blk8;
+        call    __twofish_enc_blk8;
 
-	store_8way(%r11, RC1, RD1, RA1, RB1, RC2, RD2, RA2, RB2);
+        store_8way(%r11, RC1, RD1, RA1, RB1, RC2, RD2, RA2, RB2);
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(twofish_ecb_enc_8way)
 
 SYM_FUNC_START(twofish_ecb_dec_8way)
@@ -334,18 +333,18 @@ SYM_FUNC_START(twofish_ecb_dec_8way)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	movq %rsi, %r11;
+        movq    %rsi, %r11;
 
-	load_8way(%rdx, RC1, RD1, RA1, RB1, RC2, RD2, RA2, RB2);
+        load_8way(%rdx, RC1, RD1, RA1, RB1, RC2, RD2, RA2, RB2);
 
-	call __twofish_dec_blk8;
+        call    __twofish_dec_blk8;
 
-	store_8way(%r11, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
+        store_8way(%r11, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(twofish_ecb_dec_8way)
 
 SYM_FUNC_START(twofish_cbc_dec_8way)
@@ -354,21 +353,21 @@ SYM_FUNC_START(twofish_cbc_dec_8way)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	pushq %r12;
+        pushq   %r12;
 
-	movq %rsi, %r11;
-	movq %rdx, %r12;
+        movq    %rsi, %r11;
+        movq    %rdx, %r12;
 
-	load_8way(%rdx, RC1, RD1, RA1, RB1, RC2, RD2, RA2, RB2);
+        load_8way(%rdx, RC1, RD1, RA1, RB1, RC2, RD2, RA2, RB2);
 
-	call __twofish_dec_blk8;
+        call    __twofish_dec_blk8;
 
-	store_cbc_8way(%r12, %r11, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
+        store_cbc_8way(%r12, %r11, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
 
-	popq %r12;
+        popq    %r12;
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(twofish_cbc_dec_8way)

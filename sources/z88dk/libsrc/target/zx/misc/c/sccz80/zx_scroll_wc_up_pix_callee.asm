@@ -9,10 +9,10 @@ EXTERN asm0_zx_scroll_wc_up_pix
 
 zx_scroll_wc_up_pix_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop ix
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     ix
+        push    af
 
-   jp asm0_zx_scroll_wc_up_pix
+        jp      asm0_zx_scroll_wc_up_pix

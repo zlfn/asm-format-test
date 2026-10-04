@@ -16,13 +16,13 @@ EXTERN _fclose_fastcall
 
 _fclose:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _fclose_fastcall
+        push    hl
+        push    af
+
+        jp      _fclose_fastcall
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

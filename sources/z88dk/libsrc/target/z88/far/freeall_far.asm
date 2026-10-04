@@ -8,45 +8,41 @@
 ;
 
         SECTION code_clib
-        PUBLIC    freeall_far
-        PUBLIC    _freeall_far
+        PUBLIC  freeall_far
+        PUBLIC  _freeall_far
 
-        EXTERN    pool_table
+        EXTERN  pool_table
 
 include "memory.def"
-
 
 ; void freeall(void);
 
 .freeall_far
 ._freeall_far
-        ld      hl,pool_table
-        ld      b,224
+        ld      hl, pool_table
+        ld      b,  224
 .freeloop
-        ld      a,(hl)
-        ld      (hl),0
+        ld      a,    (hl)
+        ld      (hl), 0
         inc     hl
         and     a
-        call    nz,freepool
+        call    nz, freepool
         djnz    freeloop
         ret
-
 
 ; Subroutine to free a pool, compressed handle in A
 
 .freepool
-        ld      d,0
-        add     a,a
+        ld      d, 0
+        add     a, a
         rl      d
-        add     a,a
+        add     a, a
         rl      d
-        add     a,a
+        add     a, a
         rl      d
-        add     a,a
+        add     a, a
         rl      d
-        ld      ixh,d
-        ld      ixl,a
+        ld      ixh, d
+        ld      ixl, a
         call_oz(os_mcl)
         ret
-
-

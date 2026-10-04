@@ -35,201 +35,200 @@ GLOBL expmultirodata<>+0(SB), NOPTR|RODATA, $40
 //
 // func Exp(x float64) float64
 TEXT ·archExp(SB),$0-16
-	MOVD	x+0(FP), F0	// F0 = x
+        MOVD    x+0(FP), F0     // F0 = x
 
-	MOVV	$exprodata<>+0(SB), R10
-	MOVD	56(R10), F1	// Overflow
-	MOVD	64(R10), F2	// Underflow
-	MOVD	88(R10), F3	// NearZero
+        MOVV    $exprodata<>+0(SB), R10
+        MOVD    56(R10), F1     // Overflow
+        MOVD    64(R10), F2     // Underflow
+        MOVD    88(R10), F3     // NearZero
 
-	CMPEQD	F0, F0, FCC0
-	BFPF	isNaN		// x = NaN, return NaN
+        CMPEQD  F0, F0, FCC0
+        BFPF    isNaN   // x = NaN, return NaN
 
-	CMPGTD	F0, F1, FCC0
-	BFPT	overflow	// x > Overflow, return PosInf
+        CMPGTD  F0, F1, FCC0
+        BFPT    overflow        // x > Overflow, return PosInf
 
-	CMPGTD	F2, F0, FCC0
-	BFPT	underflow	// x < Underflow, return 0
+        CMPGTD  F2, F0, FCC0
+        BFPT    underflow       // x < Underflow, return 0
 
-	ABSD	F0, F5
-	CMPGTD	F3, F5, FCC0
-	BFPT	nearzero	// fabs(x) < NearZero, return 1 + x
+        ABSD    F0, F5
+        CMPGTD  F3, F5, FCC0
+        BFPT    nearzero        // fabs(x) < NearZero, return 1 + x
 
-	// argument reduction, x = k*ln2 + r,  |r| <= 0.5*ln2
-	// computed as r = hi - lo for extra precision.
-	MOVD	0(R10), F5
-	MOVD	8(R10), F3
-	MOVD	48(R10), F2
-	CMPGTD	F0, F5, FCC0
-	FMSUBD	F3, F2, F0, F4	// Log2e*x - 0.5
-	FMADDD	F3, F2, F0, F3	// Log2e*x + 0.5
-	FSEL	FCC0, F3, F4, F3
-	FTINTRZVD F3, F4	// float64 -> int64
-	MOVV	F4, R5		// R5 = int(k)
-	FFINTDV	F4, F3		// int64 -> float64
+        // argument reduction, x = k*ln2 + r,  |r| <= 0.5*ln2
+        // computed as r = hi - lo for extra precision.
+        MOVD    0(R10),  F5
+        MOVD    8(R10),  F3
+        MOVD    48(R10), F2
+        CMPGTD  F0,   F5, FCC0
+        FMSUBD  F3,   F2, F0, F4        // Log2e*x - 0.5
+        FMADDD  F3,   F2, F0, F3        // Log2e*x + 0.5
+        FSEL    FCC0, F3, F4, F3
+        FTINTRZVD F3, F4                // float64 -> int64
+        MOVV    F4, R5                  // R5 = int(k)
+        FFINTDV F4, F3                  // int64 -> float64
 
-	MOVD	32(R10), F4
-	MOVD	40(R10), F5
-	FNMSUBD	F0, F3, F4, F4
-	MULD	F3, F5, F5
-	SUBD	F5, F4, F6
-	MULD	F6, F6, F7
+        MOVD    32(R10), F4
+        MOVD    40(R10), F5
+        FNMSUBD F0, F3, F4, F4
+        MULD    F3, F5, F5
+        SUBD    F5, F4, F6
+        MULD    F6, F6, F7
 
-	// compute c
-	MOVV	$expmultirodata<>+0(SB), R11
-	MOVD	0(R11), F12	// P1
-	MOVD	8(R11), F11	// P2
-	MOVD	16(R11), F10	// P3
-	MOVD	24(R11), F9	// P4
-	MOVD	32(R11), F8	// P5
-	// Estrin's scheme: A, B, r4 are mutually independent and
-	// can be computed in parallel; shortens the dependency
-	// chain from 4 serial FMAs to 3.
-	MULD	F7, F7, F18		// F18 = r4 = r2*r2
-	FMADDD	F12, F11, F7, F19	// F19 = A = P1 + P2*r2
-	FMADDD	F10, F9, F7, F20	// F20 = B = P3 + P4*r2
-	FMADDD	F20, F8, F18, F20	// F20 = C = B + P5*r4
-	FMADDD	F19, F20, F18, F13	// F13 = A + C*r4
-	FNMSUBD	F6, F13, F7, F13
+        // compute c
+        MOVV    $expmultirodata<>+0(SB), R11
+        MOVD    0(R11),  F12    // P1
+        MOVD    8(R11),  F11    // P2
+        MOVD    16(R11), F10    // P3
+        MOVD    24(R11), F9     // P4
+        MOVD    32(R11), F8     // P5
+        // Estrin's scheme: A, B, r4 are mutually independent and
+        // can be computed in parallel; shortens the dependency
+        // chain from 4 serial FMAs to 3.
+        MULD    F7,  F7,  F18           // F18 = r4 = r2*r2
+        FMADDD  F12, F11, F7,  F19      // F19 = A = P1 + P2*r2
+        FMADDD  F10, F9,  F7,  F20      // F20 = B = P3 + P4*r2
+        FMADDD  F20, F8,  F18, F20      // F20 = C = B + P5*r4
+        FMADDD  F19, F20, F18, F13      // F13 = A + C*r4
+        FNMSUBD F6,  F13, F7,  F13
 
-	// compute y
-	MOVD	24(R10), F14
-	SUBD	F13, F14, F14
-	MULD	F6, F13, F15
-	DIVD	F14, F15, F15
+        // compute y
+        MOVD    24(R10), F14
+        SUBD    F13,     F14, F14
+        MULD    F6,  F13, F15
+        DIVD    F14, F15, F15
 
-	MOVD    16(R10), F17	// 1.0
-	SUBD	F15, F5, F15
-	SUBD	F4, F15, F15
-	SUBD	F15, F17, F16
+        MOVD    16(R10), F17    // 1.0
+        SUBD    F15,     F5, F15
+        SUBD    F4,  F15, F15
+        SUBD    F15, F17, F16
 
-	// inline Ldexp(y, k), benefit:
-	// 1, no parameter pass overhead.
-	// 2, skip unnecessary checks for Inf/NaN/Zero
-	MOVV	F16, R4
-	MOVV	$FracMask, R9
-	AND	R9, R4, R6	// fraction
-	SRLV	$52, R4, R7	// exponent
-	ADDV	R5, R7
-	MOVV	$1, R12
-	BGE	R7, R12, normal
-	ADDV	$52, R7		// denormal
-	MOVV	$C1, R8
-	MOVV	R8, F17
+        // inline Ldexp(y, k), benefit:
+        // 1, no parameter pass overhead.
+        // 2, skip unnecessary checks for Inf/NaN/Zero
+        MOVV    F16, R4
+        MOVV    $FracMask, R9
+        AND     R9,  R4,  R6    // fraction
+        SRLV    $52, R4,  R7    // exponent
+        ADDV    R5,  R7
+        MOVV    $1,  R12
+        BGE     R7,  R12, normal
+        ADDV    $52, R7         // denormal
+        MOVV    $C1, R8
+        MOVV    R8,  F17
 normal:
-	SLLV	$52, R7
-	OR	R7, R6, R4
-	MOVV	R4, F0
-	MULD	F17, F0		// return m * x
-	MOVD	F0, ret+8(FP)
-	RET
+        SLLV    $52, R7
+        OR      R7,  R6, R4
+        MOVV    R4,  F0
+        MULD    F17, F0         // return m * x
+        MOVD    F0,  ret+8(FP)
+        RET
 nearzero:
-	MOVD    16(R10), F17	// 1.0
-	ADDD	F17, F0, F0
+        MOVD    16(R10), F17    // 1.0
+        ADDD    F17,     F0, F0
 isNaN:
-	MOVD	F0, ret+8(FP)
-	RET
+        MOVD    F0, ret+8(FP)
+        RET
 underflow:
-	MOVV	R0, ret+8(FP)
-	RET
+        MOVV    R0, ret+8(FP)
+        RET
 overflow:
-	MOVV	$PosInf, R4
-	MOVV	R4, ret+8(FP)
-	RET
-
+        MOVV    $PosInf, R4
+        MOVV    R4, ret+8(FP)
+        RET
 
 // Exp2 returns 2**x, the base-2 exponential of x.
 // This is an assembly implementation of the method used for function Exp2 in file exp.go.
 //
 // func Exp2(x float64) float64
 TEXT ·archExp2(SB),$0-16
-	MOVD	x+0(FP), F0	// F0 = x
+        MOVD    x+0(FP), F0     // F0 = x
 
-	MOVV	$exprodata<>+0(SB), R10
-	MOVD	72(R10), F1	// Overflow2
-	MOVD	80(R10), F2	// Underflow2
-	MOVD	88(R10), F3	// NearZero
+        MOVV    $exprodata<>+0(SB), R10
+        MOVD    72(R10), F1     // Overflow2
+        MOVD    80(R10), F2     // Underflow2
+        MOVD    88(R10), F3     // NearZero
 
-	CMPEQD	F0, F0, FCC0
-	BFPF	isNaN		// x = NaN, return NaN
+        CMPEQD  F0, F0, FCC0
+        BFPF    isNaN   // x = NaN, return NaN
 
-	CMPGTD	F0, F1, FCC0
-	BFPT	overflow	// x > Overflow, return PosInf
+        CMPGTD  F0, F1, FCC0
+        BFPT    overflow        // x > Overflow, return PosInf
 
-	CMPGTD	F2, F0, FCC0
-	BFPT	underflow	// x < Underflow, return 0
+        CMPGTD  F2, F0, FCC0
+        BFPT    underflow       // x < Underflow, return 0
 
-	// argument reduction; x = r*lg(e) + k with |r| <= ln(2)/2
-	// computed as r = hi - lo for extra precision.
-	MOVD	0(R10), F10
-	MOVD	8(R10), F2
-	CMPGTD	F0, F10, FCC0
-	SUBD	F2, F0, F4	// x - 0.5
-	ADDD	F2, F0, F3	// x + 0.5
-	FSEL	FCC0, F3, F4, F3
-	FTINTRZVD F3, F4
-	MOVV	F4, R5
-	FFINTDV	F4, F3
+        // argument reduction; x = r*lg(e) + k with |r| <= ln(2)/2
+        // computed as r = hi - lo for extra precision.
+        MOVD    0(R10), F10
+        MOVD    8(R10), F2
+        CMPGTD  F0,     F10, FCC0
+        SUBD    F2,     F0,  F4 // x - 0.5
+        ADDD    F2,     F0,  F3 // x + 0.5
+        FSEL    FCC0,   F3,  F4, F3
+        FTINTRZVD F3, F4
+        MOVV    F4, R5
+        FFINTDV F4, F3
 
-	MOVD	32(R10), F4
-	MOVD	40(R10), F5
-	SUBD	F3, F0, F3
-	MULD	F3, F4
-	FNMSUBD	F10, F3, F5, F5
-	SUBD	F5, F4, F6
-	MULD	F6, F6, F7
+        MOVD    32(R10), F4
+        MOVD    40(R10), F5
+        SUBD    F3,  F0, F3
+        MULD    F3,  F4
+        FNMSUBD F10, F3, F5, F5
+        SUBD    F5,  F4, F6
+        MULD    F6,  F6, F7
 
-	// compute c
-	MOVV	$expmultirodata<>+0(SB), R11
-	MOVD	0(R11), F12	// P1
-	MOVD	8(R11), F11	// P2
-	MOVD	16(R11), F10	// P3
-	MOVD	24(R11), F9	// P4
-	MOVD	32(R11), F8	// P5
-	MULD	F7, F7, F18		// F18 = r4 = r2*r2
-	FMADDD	F12, F11, F7, F19	// F19 = A = P1 + P2*r2
-	FMADDD	F10, F9, F7, F20	// F20 = B = P3 + P4*r2
-	FMADDD	F20, F8, F18, F20	// F20 = C = B + P5*r4
-	FMADDD	F19, F20, F18, F13	// F13 = A + C*r4
-	FNMSUBD	F6, F13, F7, F13
+        // compute c
+        MOVV    $expmultirodata<>+0(SB), R11
+        MOVD    0(R11),  F12            // P1
+        MOVD    8(R11),  F11            // P2
+        MOVD    16(R11), F10            // P3
+        MOVD    24(R11), F9             // P4
+        MOVD    32(R11), F8             // P5
+        MULD    F7,  F7,  F18           // F18 = r4 = r2*r2
+        FMADDD  F12, F11, F7,  F19      // F19 = A = P1 + P2*r2
+        FMADDD  F10, F9,  F7,  F20      // F20 = B = P3 + P4*r2
+        FMADDD  F20, F8,  F18, F20      // F20 = C = B + P5*r4
+        FMADDD  F19, F20, F18, F13      // F13 = A + C*r4
+        FNMSUBD F6,  F13, F7,  F13
 
-	// compute y
-	MOVD	24(R10), F14
-	SUBD	F13, F14, F14
-	MULD	F6, F13, F15
-	DIVD	F14, F15
+        // compute y
+        MOVD    24(R10), F14
+        SUBD    F13,     F14, F14
+        MULD    F6,  F13, F15
+        DIVD    F14, F15
 
-	MOVD	16(R10), F17
-	SUBD	F15, F5, F15
-	SUBD	F4, F15, F15
-	SUBD	F15, F17, F16
+        MOVD    16(R10), F17
+        SUBD    F15,     F5, F15
+        SUBD    F4,  F15, F15
+        SUBD    F15, F17, F16
 
-	// inline Ldexp(y, k), benefit:
-	// 1, no parameter pass overhead.
-	// 2, skip unnecessary checks for Inf/NaN/Zero
-	MOVV	F16, R4
-	MOVV	$FracMask, R9
-	SRLV	$52, R4, R7	// exponent
-	AND	R9, R4, R6	// fraction
-	ADDV	R5, R7
-	MOVV	$1, R12
-	BGE	R7, R12, normal
+        // inline Ldexp(y, k), benefit:
+        // 1, no parameter pass overhead.
+        // 2, skip unnecessary checks for Inf/NaN/Zero
+        MOVV    F16, R4
+        MOVV    $FracMask, R9
+        SRLV    $52, R4,  R7    // exponent
+        AND     R9,  R4,  R6    // fraction
+        ADDV    R5,  R7
+        MOVV    $1,  R12
+        BGE     R7,  R12, normal
 
-	ADDV	$52, R7		// denormal
-	MOVV	$C1, R8
-	MOVV	R8, F17
+        ADDV    $52, R7 // denormal
+        MOVV    $C1, R8
+        MOVV    R8,  F17
 normal:
-	SLLV	$52, R7
-	OR	R7, R6, R4
-	MOVV	R4, F0
-	MULD	F17, F0
+        SLLV    $52, R7
+        OR      R7,  R6, R4
+        MOVV    R4,  F0
+        MULD    F17, F0
 isNaN:
-	MOVD	F0, ret+8(FP)
-	RET
+        MOVD    F0, ret+8(FP)
+        RET
 underflow:
-	MOVV	R0, ret+8(FP)
-	RET
+        MOVV    R0, ret+8(FP)
+        RET
 overflow:
-	MOVV	$PosInf, R4
-	MOVV	R4, ret+8(FP)
-	RET
+        MOVV    $PosInf, R4
+        MOVV    R4, ret+8(FP)
+        RET

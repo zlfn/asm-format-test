@@ -8,13 +8,13 @@
 ; 2014-04-26, Christian Groessler
 ;
 
-        .include        "c128.inc"
+        .include "c128.inc"
 
-        .export         mouse_libref, _pen_adjuster
+        .export mouse_libref, _pen_adjuster
 
         .data
 
-mouse_libref:                   ; generic label for mouse-kernel
+mouse_libref:   ; generic label for mouse-kernel
 
 ; A program optionally can set this pointer to a function that gives
 ; a calibration value to a driver.  If this pointer isn't NULL,
@@ -29,11 +29,10 @@ _pen_adjuster:
         .addr   $0000
 
         .addr   IRQStub2
-callback:                       ; callback into mouse driver after ROM IRQ handler has been run
-        .addr   $0000           ; (filled in by mouse driver)
-jmp_rom_hdlr:                   ; original ROM indirect IRQ handler address
-        .addr   $0000           ; (filled in by mouse driver)
-
+callback:               ; callback into mouse driver after ROM IRQ handler has been run
+        .addr   $0000   ; (filled in by mouse driver)
+jmp_rom_hdlr:           ; original ROM indirect IRQ handler address
+        .addr   $0000   ; (filled in by mouse driver)
 
 .segment        "LOWCODE"
 
@@ -69,8 +68,8 @@ IRQStub2:
         lda     jmp_rom_hdlr
         pha
 
-        sty     MMU_CR          ; map in ROM
-        rts                     ; jump to ROM handler
+        sty     MMU_CR  ; map in ROM
+        rts             ; jump to ROM handler
 
         ; our MMU configuration byte we pushed on the stack before (MMU_CFG_CC65) is now active
 
@@ -85,7 +84,7 @@ IRQStub2:
         pha
         lda     callback
         pha
-        rts                     ; jump to callback routine
+        rts     ; jump to callback routine
 
 @IRQCont2:
 
@@ -94,7 +93,7 @@ IRQStub2:
         ; ROM versions, duplicate that code here.
 
         pla
-        sta     MMU_CR          ; MMU configuration register
+        sta     MMU_CR  ; MMU configuration register
         pla
         tay
         pla

@@ -11,15 +11,14 @@
 ;	$Id: clg.asm $
 ;
 
-    SECTION code_video_vdp
+        SECTION code_video_vdp
 
-    PUBLIC  clg
-    PUBLIC  _clg
+        PUBLIC  clg
+        PUBLIC  _clg
 
-    EXTERN  __tms9918_graphics_cls
+        EXTERN  __tms9918_graphics_cls
 
 clg:
 _clg:
-    ld      hl, (__tms9918_graphics_cls)
-    jp      (hl)
-
+        ld      hl, (__tms9918_graphics_cls)
+        jp      (hl)

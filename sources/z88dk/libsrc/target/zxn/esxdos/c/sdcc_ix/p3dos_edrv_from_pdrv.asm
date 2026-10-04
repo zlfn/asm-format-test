@@ -8,10 +8,10 @@ EXTERN asm_p3dos_edrv_from_pdrv
 
 _p3dos_edrv_from_pdrv:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_p3dos_edrv_from_pdrv
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_p3dos_edrv_from_pdrv

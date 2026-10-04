@@ -13,38 +13,37 @@
         PUBLIC  z80undoc
         PUBLIC  _z80undoc
 
-
 z80undoc:
 _z80undoc:
-	;xor	a
-	;ld	h,a
-	;push	hl	; protect stack in case we have a Rabbit
-	;defb	$ed
-	;defb	$54	; ex (sp),hl ONLY IF we're on a Rabbic Control Module
-	;		; NEG if genuine Z80
-	;nop	; this could help z80 clones not to hurt too much
-	;nop
-	;pop	hl
-	;jr	nz,notgenuine
+        ;xor	a
+        ;ld	h,a
+        ;push	hl	; protect stack in case we have a Rabbit
+        ;defb	$ed
+        ;defb	$54	; ex (sp),hl ONLY IF we're on a Rabbic Control Module
+        ;		; NEG if genuine Z80
+        ;nop	; this could help z80 clones not to hurt too much
+        ;nop
+        ;pop	hl
+        ;jr	nz,notgenuine
 
-        push    ix                      ;save callers ix
+        push    ix      ;save callers ix
         xor     a
-        ld      h, a
+        ld      h,  a
         ld      ix, $0101
 
-	;defb	0fdh		;
-        defb    0ddh                    ; ld a,xh
+        ;defb	0fdh		;
+        defb    0ddh    ; ld a,xh
         ld      a, h
 
-        nop                             ; this could help z80 clones not to hurt too much
+        nop     ; this could help z80 clones not to hurt too much
         nop
 
-        pop     ix                      ; restore callers ix
-        ld      l, a                    ; true (1)
+        pop     ix      ; restore callers ix
+        ld      l, a    ; true (1)
         ld      h, 0
         dec     a
         ret     z
 
 notgenuine:
-        ld      l, h                    ; false (0)
+        ld      l, h    ; false (0)
         ret

@@ -12,7 +12,6 @@
 ; CALLER LINKAGE FOR FUNCTION POINTERS
 ; ----- void  xordrawto(int x2, int y2)
 
-
         SECTION code_graphics
 
         PUBLIC  xordrawto_callee
@@ -22,10 +21,10 @@
 
 xordrawto_callee:
 _xordrawto_callee:
-        pop     af                      ; ret addr
+        pop     af      ; ret addr
         pop     bc
         pop     de
-        push    af                      ; ret addr
+        push    af      ; ret addr
         push    de
         push    bc
 

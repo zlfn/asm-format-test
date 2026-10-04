@@ -24,9 +24,9 @@ NES_TILEMAP_V = 1
 ;
 ; GB window emulation via second nametable
 ;
-; This setting allocates shadow memory for a second nametable and adds code to the 
+; This setting allocates shadow memory for a second nametable and adds code to the
 ; internal tile/attribute set functions to allow use with the GB window functions.
-; It also adds code and RAM storage to the transfer buffer routines and 
+; It also adds code and RAM storage to the transfer buffer routines and
 ; deferred-LCD-isr routines to support switching between window layer and bkg layer.
 ;
 

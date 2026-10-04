@@ -31,14 +31,9 @@
 ;/*                                                                           */
 ;/*****************************************************************************/
 
-
-
 ; Error codes
 JOY_ERR_OK              = 0       ; No error
 JOY_ERR_NO_DRIVER       = 1       ; No driver available
 JOY_ERR_CANNOT_LOAD     = 2       ; Error loading driver
 JOY_ERR_INV_DRIVER      = 3       ; Invalid driver
 JOY_ERR_NO_DEVICE       = 4       ; Device (hardware) not found
-
-
-

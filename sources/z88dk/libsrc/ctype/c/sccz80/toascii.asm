@@ -9,34 +9,33 @@ PUBLIC toascii_fastcall
 
 toascii:
 IF __CPU_GBZ80__
-   ld  hl,sp+2
-   ld  a,(hl+)
-   ld  h,(hl)
-   ld  l,a
+        ld      hl, sp+2
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a
 ELIF __CPU_RABBIT__ | __CPU_KC160__
-   ld hl,(sp+2)
+        ld      hl, (sp+2)
 ELSE
-   pop de
-   pop hl
-   push hl
-   push de
+        pop     de
+        pop     hl
+        push    hl
+        push    de
 ENDIF
 toascii_fastcall:
 
-   ld h,0
+        ld      h, 0
 IF __CPU_INTEL__
-   ld  a,l
-   and 127
-   ld  l,a
+        ld      a, l
+        and     127
+        ld      l, a
 ELSE
-   res 7,l
+        res     7, l
 ENDIF
 IF __CPU_GBZ80__
-   ld d,h
-   ld e,l
+        ld      d, h
+        ld      e, l
 ENDIF
-   ret
-
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -51,4 +50,3 @@ IF __CLASSIC
 PUBLIC ___toascii
 defc ___toascii = toascii
 ENDIF
-

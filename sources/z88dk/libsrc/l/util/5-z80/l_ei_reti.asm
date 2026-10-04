@@ -8,6 +8,6 @@ PUBLIC l_ei_reti
 
 l_ei_reti:
 
-   ei
-   reti
+        ei
+        reti
 ENDIF

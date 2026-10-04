@@ -9,8 +9,8 @@
 ; unsigned char __fastcall__ revers (unsigned char onoff);
 ;
 
-            .export _textcolor, _bgcolor, _bordercolor, _revers
-            .import return0
+        .export _textcolor, _bgcolor, _bordercolor, _revers
+        .import return0
 
 _textcolor      = return0
 _bgcolor        = return0

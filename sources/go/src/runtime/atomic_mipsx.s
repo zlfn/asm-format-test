@@ -7,5 +7,5 @@
 #include "textflag.h"
 
 TEXT ·publicationBarrier(SB),NOSPLIT,$0
-	SYNC
-	RET
+        SYNC
+        RET

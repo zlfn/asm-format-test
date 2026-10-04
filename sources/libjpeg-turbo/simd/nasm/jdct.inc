@@ -20,12 +20,12 @@
 %define COL(n, b, s)  ((b) + (n) * (s) * DCTSIZE)
 
 %define DWBLOCK(m, n, b, s) \
-  ((b) + (m) * DCTSIZE * (s) + (n) * SIZEOF_DWORD)
+        ((b) + (m) * DCTSIZE * (s) + (n) * SIZEOF_DWORD)
 %define MMBLOCK(m, n, b, s) \
-  ((b) + (m) * DCTSIZE * (s) + (n) * SIZEOF_MMWORD)
+        ((b) + (m) * DCTSIZE * (s) + (n) * SIZEOF_MMWORD)
 %define XMMBLOCK(m, n, b, s) \
-  ((b) + (m) * DCTSIZE * (s) + (n) * SIZEOF_XMMWORD)
+        ((b) + (m) * DCTSIZE * (s) + (n) * SIZEOF_XMMWORD)
 %define YMMBLOCK(m, n, b, s) \
-  ((b) + (m) * DCTSIZE * (s) + (n) * SIZEOF_YMMWORD)
+        ((b) + (m) * DCTSIZE * (s) + (n) * SIZEOF_YMMWORD)
 
 ; --------------------------------------------------------------------------

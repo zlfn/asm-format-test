@@ -4,18 +4,18 @@
 ; Ullrich von Bassewitz, 2004-11-28
 ;
 
-        .export         _fscanf
-        .import         addysp, decsp4, _vfscanf
-        .importzp       c_sp, ptr1
+        .export _fscanf
+        .import addysp, decsp4, _vfscanf
+        .importzp c_sp, ptr1
 
-        .macpack        generic
+        .macpack generic
 
 ; ----------------------------------------------------------------------------
 ; Data
 
 .bss
 
-ParamSize:      .res    1               ; Number of parameter bytes
+ParamSize: .res 1       ; Number of parameter bytes
 
 ; ----------------------------------------------------------------------------
 ; int fscanf (FILE* f, const char* format, ...)
@@ -36,7 +36,7 @@ ParamSize:      .res    1               ; Number of parameter bytes
 .code
 
 _fscanf:
-        sty     ParamSize               ; Number of param bytes passed in Y
+        sty     ParamSize       ; Number of param bytes passed in Y
 
 ; We have to push f and format, both in the order they already have on stack.
 ; To make this somewhat more efficient, we will create space on the stack and
@@ -60,8 +60,8 @@ _fscanf:
 ; Now copy both, f and format
 
         ldy     #4-1
-@L2:    lda     (ptr1),y
-        sta     (c_sp),y
+@L2:    lda     (ptr1), y
+        sta     (c_sp), y
         dey
         bpl     @L2
 
@@ -78,4 +78,3 @@ _fscanf:
 
         ldy     ParamSize
         jmp     addysp
-

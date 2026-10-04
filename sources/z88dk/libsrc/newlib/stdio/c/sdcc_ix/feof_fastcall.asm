@@ -15,14 +15,14 @@ PUBLIC _feof_fastcall
 EXTERN asm_feof
 
 _feof_fastcall:
-   
-   push hl
-   ex (sp),ix
-   
-   call asm_feof
-   
-   pop ix
-   ret
+
+        push    hl
+        ex      (sp), ix
+
+        call    asm_feof
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

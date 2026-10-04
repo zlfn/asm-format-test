@@ -10,18 +10,18 @@ EXTERN asm_esxdos_f_readdir
 
 _esxdos_f_readdir_callee:
 
-   pop hl
-   dec sp
-   pop af
-   ex (sp),hl
+        pop     hl
+        dec     sp
+        pop     af
+        ex      (sp), hl
 
 l0_esxdos_f_readdir_callee:
 
-   push ix
-   push iy
-   
-   call asm_esxdos_f_readdir
-   
-   pop iy
-   pop ix
-   ret
+        push    ix
+        push    iy
+
+        call    asm_esxdos_f_readdir
+
+        pop     iy
+        pop     ix
+        ret

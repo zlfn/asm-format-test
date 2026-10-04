@@ -16,11 +16,11 @@ EXTERN asm_BIFROST2_fillTileAttrH
 
 _BIFROST2_fillTileAttrH_callee:
 
-   pop hl
-	dec sp
-	pop de          ; D = lin
-	ex (sp),hl
-	ld e,l          ; E = col
-	ld c,h          ; C = attr
-	
-	jp asm_BIFROST2_fillTileAttrH
+        pop     hl
+        dec     sp
+        pop     de      ; D = lin
+        ex      (sp), hl
+        ld      e,    l ; E = col
+        ld      c,    h ; C = attr
+
+        jp      asm_BIFROST2_fillTileAttrH

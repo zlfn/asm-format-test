@@ -4,11 +4,10 @@
 ; int __fastcall__ chdir (const char* name);
 ;
 
-        .export         _chdir
+        .export _chdir
 
-        .import         __syschdir
-        .import         ___mappederrno
-
+        .import __syschdir
+        .import ___mappederrno
 
 ;--------------------------------------------------------------------------
 ; The function calls __syschdir, which must check the directory, set it, and
@@ -20,5 +19,3 @@
         jmp     ___mappederrno  ; Store into __oserror, set errno, return 0/-1
 
 .endproc
-
-

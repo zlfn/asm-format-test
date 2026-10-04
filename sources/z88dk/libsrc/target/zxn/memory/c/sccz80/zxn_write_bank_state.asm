@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _zxn_write_bank_state
 defc _zxn_write_bank_state = zxn_write_bank_state
 ENDIF
-

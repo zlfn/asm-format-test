@@ -4,8 +4,8 @@
 ; unsigned char getcurrentdevice (void);
 ;
 
-        .export         _getcurrentdevice
-        .import         curunit
+        .export _getcurrentdevice
+        .import curunit
 
 ;------------------------------------------------------------------------------
 ; _getcurrentdevice

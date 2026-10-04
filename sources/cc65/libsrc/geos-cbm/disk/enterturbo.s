@@ -5,8 +5,8 @@
 
 ; void EnterTurbo (void);
 
-            .export _EnterTurbo
+        .export _EnterTurbo
 
-            .include "jumptab.inc"
+        .include "jumptab.inc"
 
 _EnterTurbo     = EnterTurbo

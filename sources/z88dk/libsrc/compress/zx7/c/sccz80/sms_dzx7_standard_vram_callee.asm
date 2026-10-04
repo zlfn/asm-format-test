@@ -10,8 +10,8 @@ EXTERN asm_sms_dzx7_standard_vram
 
 sms_dzx7_standard_vram_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
-   jp asm_sms_dzx7_standard_vram
+        jp      asm_sms_dzx7_standard_vram

@@ -9,10 +9,10 @@ EXTERN asm_sms_border
 
 _sms_border:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_sms_border
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_sms_border

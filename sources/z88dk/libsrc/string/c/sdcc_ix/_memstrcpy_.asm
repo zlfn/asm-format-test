@@ -10,14 +10,14 @@ EXTERN asm__memstrcpy
 
 __memstrcpy_:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push af
-   
-   jp asm__memstrcpy
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    de
+        push    af
+
+        jp      asm__memstrcpy

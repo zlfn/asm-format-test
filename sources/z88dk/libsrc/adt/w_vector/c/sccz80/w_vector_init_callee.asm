@@ -10,17 +10,16 @@ EXTERN asm_w_vector_init
 
 w_vector_init_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   push af
-   
-   jp asm_w_vector_init
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_w_vector_init
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _w_vector_init_callee
 defc _w_vector_init_callee = w_vector_init_callee
 ENDIF
-

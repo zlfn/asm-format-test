@@ -6,4 +6,4 @@ PUBLIC __ENV_MKSNAM
 
 __ENV_MKSNAM:
 
-   defs __ENV_LTMPNAM
+        defs    __ENV_LTMPNAM

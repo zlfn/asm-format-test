@@ -18,15 +18,14 @@ EXTERN ide_write_byte
 ; this should be followed with a call to "ide_init".
 
 ide_soft_reset:
-    push af
-    push de
-    ld e, 00000110b         ;no interrupt, set drives reset
-    ld a, __IO_PIO_IDE_CONTROL
-    call ide_write_byte
-    ld e, 00000010b         ;no interrupt, clear drives reset
-    ld a, __IO_PIO_IDE_CONTROL
-    call ide_write_byte
-    pop de
-    pop af
-    jp ide_wait_ready
-
+        push    af
+        push    de
+        ld      e, 00000110b    ;no interrupt, set drives reset
+        ld      a, __IO_PIO_IDE_CONTROL
+        call    ide_write_byte
+        ld      e, 00000010b    ;no interrupt, clear drives reset
+        ld      a, __IO_PIO_IDE_CONTROL
+        call    ide_write_byte
+        pop     de
+        pop     af
+        jp      ide_wait_ready

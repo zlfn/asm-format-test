@@ -14,11 +14,10 @@
         .macpack generic
         .macpack module
 
-
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c64_ptvjoy_joy
+        module_header _c64_ptvjoy_joy
 
 ; Driver signature
 
@@ -40,7 +39,6 @@
 ; Constants
 
 JOY_COUNT       = 4             ; Number of joysticks we support
-
 
 .code
 
@@ -65,7 +63,6 @@ INSTALL:
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.
 ;
@@ -79,7 +76,7 @@ COUNT:
 ; READ: Read a particular joystick passed in A.
 ;
 
-READ:   tax                     ; Joystick number into X
+READ:   tax     ; Joystick number into X
         bne     joy2
 
 ; Read joystick 1
@@ -141,6 +138,5 @@ joy4:   lda     #$00            ; cia 2 port B read/write
         ora     tmp1
         eor     #$1F
 
-        ldx #0
+        ldx     #0
         rts
-

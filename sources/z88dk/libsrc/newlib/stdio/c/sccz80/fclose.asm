@@ -16,10 +16,10 @@ EXTERN asm_fclose
 
 fclose:
 
-   push hl
-   pop ix
-   
-   jp asm_fclose
+        push    hl
+        pop     ix
+
+        jp      asm_fclose
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -7,15 +7,14 @@
 ; */
 ;
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
-        .importzp       ptr1
+        .importzp ptr1
 
 .proc   _tgi_setpalette
 
         sta     ptr1
         stx     ptr1+1
-        jmp     tgi_setpalette          ; Call the driver
+        jmp     tgi_setpalette  ; Call the driver
 
 .endproc
-

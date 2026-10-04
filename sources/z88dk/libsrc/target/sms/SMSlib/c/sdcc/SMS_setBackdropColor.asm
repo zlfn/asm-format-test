@@ -9,10 +9,10 @@ EXTERN asm_SMSlib_setBackdropColor
 
 _SMS_setBackdropColor:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_SMSlib_setBackdropColor
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_SMSlib_setBackdropColor

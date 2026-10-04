@@ -10,7 +10,7 @@
         .importzp tmp1
         .import fd_table, fd_index
 
-        .export fdt_to_fdi,getfd
+        .export fdt_to_fdi, getfd
 
         .code
 
@@ -26,7 +26,7 @@
         lda     #$ff
         tax
         inx
-loop:   cmp     fd_index,x
+loop:   cmp     fd_index, x
         beq     found
         inx
         cpx     #MAX_FD_INDEX
@@ -34,7 +34,7 @@ loop:   cmp     fd_index,x
         rts
 
 found:  tya
-        sta     fd_index,x
+        sta     fd_index, x
         txa
         clc
         rts
@@ -50,7 +50,7 @@ found:  tya
 ; registers destroyed, tmp1 destroyed
 .proc   getfd
 
-        sta     tmp1            ; save fd_table entry
+        sta     tmp1    ; save fd_table entry
         jsr     fdt_to_fdi
         bcs     error
 
@@ -59,7 +59,7 @@ found:  tya
         asl     a
         asl     a                       ; also clears C
         tax
-        inc     fd_table+ft_usa,x       ; increment usage counter
+        inc     fd_table+ft_usa, x      ; increment usage counter
         pla
 error:  rts
 

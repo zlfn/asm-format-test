@@ -10,14 +10,14 @@ EXTERN asm_memchr
 
 _memchr_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
 l0_memchr_callee:
 
-   ld a,e
+        ld      a, e
 
-   jp asm_memchr
+        jp      asm_memchr

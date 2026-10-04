@@ -10,15 +10,15 @@ EXTERN asm0_zx_scroll_wc_up
 
 zx_scroll_wc_up:
 
-   pop af
-   pop hl
-   pop de
-   pop ix
-   
-   push hl
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     ix
 
-   ld d,0
-   jp asm0_zx_scroll_wc_up
+        push    hl
+        push    de
+        push    hl
+        push    af
+
+        ld      d, 0
+        jp      asm0_zx_scroll_wc_up

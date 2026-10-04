@@ -13,24 +13,24 @@
 
 #define VF_UART_VIRTUAL_BASE	0xfe000000
 
-	.macro	addruart, rp, rv, tmp
-	ldr	\rp, =VF_UART_PHYSICAL_BASE 	@ physical
-	and	\rv, \rp, #0xffffff		@ offset within 16MB section
-	add	\rv, \rv, #VF_UART_VIRTUAL_BASE
-	.endm
+        .macro  addruart, rp, rv, tmp
+                ldr     \rp, =VF_UART_PHYSICAL_BASE     @ physical
+                and     \rv, \rp, #0xffffff             @ offset within 16MB section
+                add     \rv, \rv, #VF_UART_VIRTUAL_BASE
+        .endm
 
-	.macro	senduart, rd, rx
-	strb	\rd, [\rx, #0x7]	@ Data Register
-	.endm
+        .macro  senduart, rd, rx
+                strb    \rd, [\rx, #0x7]        @ Data Register
+        .endm
 
-	.macro	busyuart, rd, rx
-1001:	ldrb	\rd, [\rx, #0x4]	@ Status Register 1
-	tst	\rd, #1 << 6		@ TC
-	beq	1001b			@ wait until transmit done
-	.endm
+        .macro  busyuart, rd, rx
+1001:           ldrb    \rd, [\rx, #0x4]        @ Status Register 1
+                tst     \rd, #1 << 6            @ TC
+                beq     1001b                   @ wait until transmit done
+        .endm
 
-	.macro	waituartcts,rd,rx
-	.endm
+        .macro  waituartcts, rd, rx
+        .endm
 
-	.macro	waituarttxrdy,rd,rx
-	.endm
+        .macro  waituarttxrdy, rd, rx
+        .endm

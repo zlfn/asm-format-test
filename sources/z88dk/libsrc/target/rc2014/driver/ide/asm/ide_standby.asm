@@ -21,11 +21,11 @@ EXTERN ide_wait_ready
 ; return carry on success
 
 .ide_standby
-    call ide_wait_ready
+        call    ide_wait_ready
 
-    ld a,__IDE_CMD_STANDBY
-    out (__IO_CF_IDE_COMMAND),a
-    jp ide_wait_ready           ;carry set on return = operation ok
+        ld      a, __IDE_CMD_STANDBY
+        out     (__IO_CF_IDE_COMMAND), a
+        jp      ide_wait_ready  ;carry set on return = operation ok
 
 ELSE
 
@@ -40,10 +40,10 @@ EXTERN ide_write_byte
 ; return carry on success
 
 .ide_standby
-    call ide_wait_ready
+        call    ide_wait_ready
 
-    ld de,__IO_PIO_IDE_COMMAND<<8|__IDE_CMD_STANDBY
-    call ide_write_byte
-    jp ide_wait_ready           ;carry set on return = operation ok
+        ld      de, __IO_PIO_IDE_COMMAND<<8|__IDE_CMD_STANDBY
+        call    ide_write_byte
+        jp      ide_wait_ready  ;carry set on return = operation ok
 
 ENDIF

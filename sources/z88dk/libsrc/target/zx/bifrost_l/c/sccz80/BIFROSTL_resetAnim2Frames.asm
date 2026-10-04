@@ -20,4 +20,3 @@ IF __CLASSIC
 PUBLIC _BIFROSTL_resetAnim2Frames
 defc _BIFROSTL_resetAnim2Frames = BIFROSTL_resetAnim2Frames
 ENDIF
-

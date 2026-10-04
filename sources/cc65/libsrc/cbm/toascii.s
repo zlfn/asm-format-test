@@ -5,9 +5,9 @@
 ; /* Convert a target specific character to ascii */
 ;
 
-        .export         _toascii
+        .export _toascii
 
-        .macpack        generic
+        .macpack generic
 
 .proc   _toascii
 

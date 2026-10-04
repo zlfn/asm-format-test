@@ -6,26 +6,26 @@
 .text
 .global test_uleb_basic
 test_uleb_basic:
-	lw	a0, second
-	addi	a0, a0, -127
-	ret
+        lw      a0, second
+        addi    a0, a0, -127
+        ret
 
 .global test_uleb_large
 test_uleb_large:
-	lw	a0, fourth
-	addi	a0, a0, -0x07e8
-	ret
+        lw      a0, fourth
+        addi    a0, a0, -0x07e8
+        ret
 
 .data
 first:
-	.space 127
+        .space  127
 second:
-	.reloc second, R_RISCV_SET_ULEB128, second
-	.reloc second, R_RISCV_SUB_ULEB128, first
-	.word 0
+        .reloc  second, R_RISCV_SET_ULEB128, second
+        .reloc  second, R_RISCV_SUB_ULEB128, first
+        .word   0
 third:
-	.space 1000
+        .space  1000
 fourth:
-	.reloc fourth, R_RISCV_SET_ULEB128, fourth
-	.reloc fourth, R_RISCV_SUB_ULEB128, third
-	.word 0
+        .reloc  fourth, R_RISCV_SET_ULEB128, fourth
+        .reloc  fourth, R_RISCV_SUB_ULEB128, third
+        .word   0

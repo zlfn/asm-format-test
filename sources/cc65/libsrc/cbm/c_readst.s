@@ -5,10 +5,9 @@
 ; unsigned char cbm_k_readst (void);
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_k_readst
-
+        .export _cbm_k_readst
 
 _cbm_k_readst:
         ldx     #>$0000

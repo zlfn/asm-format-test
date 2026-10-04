@@ -10,15 +10,15 @@ EXTERN asm_z180_otdr
 
 z180_otdr:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
 
-   ld b,e
-   jp asm_z180_otdr
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        ld      b, e
+        jp      asm_z180_otdr

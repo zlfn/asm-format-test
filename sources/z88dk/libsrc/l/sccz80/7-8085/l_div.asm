@@ -14,34 +14,34 @@ PUBLIC  l_div
 
 ; HL = DE / HL, DE = DE % HL
 .l_div
-    ld      c,d             ;sign of dividend
-    ld      b,h             ;sign of divisor
-    push    bc              ;save signs
+        ld      c, d    ;sign of dividend
+        ld      b, h    ;sign of divisor
+        push    bc      ;save signs
 
-    ld      c,l             ;divisor to bc
+        ld      c, l    ;divisor to bc
 
-    ld      a,d
-    or      a
-    call    M,l_deneg
+        ld      a, d
+        or      a
+        call    M, l_deneg
 
-    ld      a,b
-    or      a
-    call    M,l_bcneg
+        ld      a, b
+        or      a
+        call    M, l_bcneg
 
-    call    l_div_0         ;unsigned HL = DE / BC, DE = DE % BC
+        call    l_div_0 ;unsigned HL = DE / BC, DE = DE % BC
 
-    ; C standard requires that the result of division satisfy
-    ; a = (a/b)*b + a%b
-    ; remainder takes sign of the dividend
+        ; C standard requires that the result of division satisfy
+        ; a = (a/b)*b + a%b
+        ; remainder takes sign of the dividend
 
-    pop     bc              ;restore sign info
+        pop     bc      ;restore sign info
 
-    ld      a,b
-    xor     c               ;quotient, sign of dividend^divisor
-    call    M,l_hlneg
+        ld      a, b
+        xor     c       ;quotient, sign of dividend^divisor
+        call    M, l_hlneg
 
-    ld      a,c
-    or      a,a             ;remainder, sign of dividend
-    ret     P
+        ld      a, c
+        or      a, a    ;remainder, sign of dividend
+        ret     P
 
-    jp      l_deneg
+        jp      l_deneg

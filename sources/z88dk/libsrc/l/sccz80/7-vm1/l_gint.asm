@@ -12,12 +12,12 @@ PUBLIC l_gint, l_gint1, l_gint2, l_gint3
 ; affordable here.
 
 .l_gint3
-    inc hl
+        inc     hl
 .l_gint2
-    inc hl
+        inc     hl
 .l_gint1
-    inc hl
+        inc     hl
 .l_gint
-    ex de,hl
-    ld hl,(de)
-    ret
+        ex      de, hl
+        ld      hl, (de)
+        ret

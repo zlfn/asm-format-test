@@ -8,36 +8,36 @@ EXTERN __thread_context_switch
 
 .asm_spinlock_acquire
 
-   ; enter : hl = & spinlock
-   ;
-   ; exit  : hl = & spinlock
-   ;         carry reset
-   ;
-   ;         spinlock acquired
-   ;
-   ; uses  : f
+        ; enter : hl = & spinlock
+        ;
+        ; exit  : hl = & spinlock
+        ;         carry reset
+        ;
+        ;         spinlock acquired
+        ;
+        ; uses  : f
 
 IF __CPU_INTEL__
 
-   scf
-   inc (hl)                     ; atomic operation
-   jp NZ,acquisition_failed
+        scf
+        inc     (hl)    ; atomic operation
+        jp      NZ, acquisition_failed
 
-   ccf                          ; if acquisition succeeded
-   ret
+        ccf     ; if acquisition succeeded
+        ret
 
 .acquisition_failed
-   dec (hl)
+        dec     (hl)
 
 ELSE
 
-   scf
-   rr (hl)                     ; atomic operation
-   ret NC                      ; if acquisition succeeded
+        scf
+        rr      (hl)    ; atomic operation
+        ret     NC      ; if acquisition succeeded
 
 .acquisition_failed
 
 ENDIF
 
-   call __thread_context_switch
-   jr asm_spinlock_acquire
+        call    __thread_context_switch
+        jr      asm_spinlock_acquire

@@ -10,10 +10,10 @@ EXTERN _iscntrl_fastcall
 
 _iscntrl:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _iscntrl_fastcall
+        push    hl
+        push    af
+
+        jp      _iscntrl_fastcall

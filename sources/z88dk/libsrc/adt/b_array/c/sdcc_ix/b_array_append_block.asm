@@ -10,12 +10,12 @@ EXTERN l0_b_array_append_block_callee
 
 _b_array_append_block:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
 
-   jp l0_b_array_append_block_callee
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_b_array_append_block_callee

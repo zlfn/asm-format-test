@@ -5,24 +5,23 @@
 ; unsigned char cpeekrevers (void);
 ;
 
-        .export         _cpeekrevers
+        .export _cpeekrevers
 
-        .include        "zeropage.inc"
-        .include        "c128.inc"
-
+        .include "zeropage.inc"
+        .include "c128.inc"
 
 _cpeekrevers:
         lda     MODE
         bmi     @c80
 
         ldy     CURS_X
-        lda     (SCREEN_PTR),y  ; get char
+        lda     (SCREEN_PTR), y ; get char
 
 @return:
-        and     #$80            ; get reverse flag
+        and     #$80    ; get reverse flag
         asl     a
-        tax                     ; ldx #>$0000
-        rol     a               ; return boolean value
+        tax             ; ldx #>$0000
+        rol     a       ; return boolean value
         rts
 
 @c80:
@@ -46,6 +45,6 @@ _cpeekrevers:
         ldx     #VDC_RAM_RW
         stx     VDC_INDEX
 @L1:    bit     VDC_INDEX
-        bpl     @L1             ; wait for blanking
+        bpl     @L1     ; wait for blanking
         lda     VDC_DATA
         jmp     @return

@@ -1,7 +1,7 @@
 ; ===============================================================
 ; 2017
 ; ===============================================================
-; 
+;
 ; void tshc_cls(uchar attr)
 ;
 ; Clear screen using attibute.
@@ -17,14 +17,14 @@ EXTERN asm_tshc_cls_pix, asm_tshc_cls_attr
 
 asm_tshc_cls:
 
-   ; enter : l = attr
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : l = attr
+        ;
+        ; uses  : af, bc, de, hl
 
-   push hl
-   
-   ld l,0
-   call asm_tshc_cls_pix
+        push    hl
 
-   pop hl
-   jp asm_tshc_cls_attr
+        ld      l, 0
+        call    asm_tshc_cls_pix
+
+        pop     hl
+        jp      asm_tshc_cls_attr

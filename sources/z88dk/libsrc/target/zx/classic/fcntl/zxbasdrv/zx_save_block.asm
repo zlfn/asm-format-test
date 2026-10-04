@@ -7,52 +7,50 @@
 ;
 ; $Id: zx_save_block.asm,v 1.3 2016-06-23 20:40:25 dom Exp $
 
-    SECTION code_clib
-    PUBLIC  zx_save_block
-    PUBLIC  _zx_save_block
-    PUBLIC  ___zx_save_block
+        SECTION code_clib
+        PUBLIC  zx_save_block
+        PUBLIC  _zx_save_block
+        PUBLIC  ___zx_save_block
 
-    EXTERN  zx_setint
-    EXTERN  zx_goto
-    EXTERN  zxgetfname
-
-
+        EXTERN  zx_setint
+        EXTERN  zx_goto
+        EXTERN  zxgetfname
 
 zx_save_block:
 _zx_save_block:
 ___zx_save_block:
 
-    pop     af
-    pop     bc
-    pop     hl
-    pop     de
-    push    de
-    push    hl
-    push    bc
-    push    af
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        push    af
 
-    push    hl
-    push    bc
+        push    hl
+        push    bc
 
-    ld      hl, lvar                    ; BASIC variable L
-    push    hl
-    push    de                          ; size
-    call    zx_setint
-    pop     de
-    pop     hl
+        ld      hl, lvar        ; BASIC variable L
+        push    hl
+        push    de              ; size
+        call    zx_setint
+        pop     de
+        pop     hl
 
-    pop     bc
+        pop     bc
 
-    ld      hl, avar                    ; BASIC variable A
-    push    hl
-    push    bc                          ; ptr to address
-    call    zx_setint
-    pop     bc
-    pop     hl
+        ld      hl, avar        ; BASIC variable A
+        push    hl
+        push    bc              ; ptr to address
+        call    zx_setint
+        pop     bc
+        pop     hl
 
-    call    zxgetfname                  ; HL is pointing to file name
+        call    zxgetfname      ; HL is pointing to file name
 
-    pop     hl
+        pop     hl
 
 ;7650 - SAVE block
 ;a=addess
@@ -60,21 +58,21 @@ ___zx_save_block:
 ;d=drive number
 ;n$=file name
 
-    ld      hl, 7650
-    call    zx_goto
+        ld      hl, 7650
+        call    zx_goto
 
-    ld      a, l
+        ld      a, l
 
-    ld      hl, 0
-    and     a
-    ret     z
+        ld      hl, 0
+        and     a
+        ret     z
 
-    dec     hl
-    ret
+        dec     hl
+        ret
 
 ; BASIC variable name
-    SECTION rodata_clib
+        SECTION rodata_clib
 avar:
-    defb    'A', 0
+        defb    'A', 0
 lvar:
-    defb    'L', 0
+        defb    'L', 0

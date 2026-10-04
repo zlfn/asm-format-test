@@ -5,10 +5,10 @@
 ; char* utoa (unsigned value, char* s, int radix);
 ;
 
-        .export         _itoa, _utoa
-        .import         addysp1
-        .import         __hextab
-        .importzp       c_sp, sreg, ptr2, ptr3, tmp1
+        .export _itoa, _utoa
+        .import addysp1
+        .import __hextab
+        .importzp c_sp, sreg, ptr2, ptr3, tmp1
 
 .rodata
 specval:
@@ -19,33 +19,33 @@ specval:
 ; Common subroutine to pop the parameters and put them into core
 ;
 
-dopop:  sta     tmp1            ; will lose high byte
+dopop:  sta     tmp1    ; will lose high byte
         ldy     #0
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     ptr2
         sta     ptr3
         iny
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     ptr2+1
         sta     ptr3+1
         iny
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     sreg
         iny
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     sreg+1
-        jmp     addysp1         ; Bump stack pointer
+        jmp     addysp1 ; Bump stack pointer
 
 ;
 ; itoa
 ;
 
-_itoa:  jsr     dopop           ; pop the arguments
+_itoa:  jsr     dopop   ; pop the arguments
 
 ; We must handle $8000 in a special way, since it is the only negative
 ; number that has no positive 16-bit counterpart
 
-        ldy     tmp1            ; get radix
+        ldy     tmp1    ; get radix
         cpy     #10
         bne     utoa
         cmp     #$00
@@ -54,8 +54,8 @@ _itoa:  jsr     dopop           ; pop the arguments
         bne     L2
 
         ldy     #6
-L1:     lda     specval,y       ; copy -32768
-        sta     (ptr2),y
+L1:     lda     specval, y      ; copy -32768
+        sta     (ptr2),  y
         dey
         bpl     L1
         jmp     L10
@@ -67,7 +67,7 @@ L2:     lda     sreg+1          ; get high byte
         bpl     utoa
         lda     #'-'
         ldy     #0
-        sta     (ptr2),y        ; store sign
+        sta     (ptr2), y       ; store sign
         inc     ptr2
         bne     L3
         inc     ptr2+1
@@ -87,17 +87,17 @@ L3:     lda     sreg
 ; utoa
 ;
 
-_utoa:  jsr     dopop           ; pop the arguments
+_utoa:  jsr     dopop   ; pop the arguments
 
 ; Convert to string by dividing and push the result onto the stack
 
 utoa:   lda     #$00
-        pha                     ; sentinel
+        pha     ; sentinel
 
 ; Divide sreg/tmp1 -> sreg, remainder in a
 
-L5:     ldy     #16             ; 16 bit
-        lda     #0              ; remainder
+L5:     ldy     #16     ; 16 bit
+        lda     #0      ; remainder
 L6:     asl     sreg
         rol     sreg+1
         rol     a
@@ -109,7 +109,7 @@ L7:     dey
         bne     L6
 
         tay                     ; get remainder into y
-        lda     __hextab,y      ; get hex character
+        lda     __hextab, y     ; get hex character
         pha                     ; save char value on stack
 
         lda     sreg
@@ -120,27 +120,13 @@ L7:     dey
 
         ldy     #0
 L9:     pla
-        sta     (ptr2),y
-        beq     L10             ; jump if sentinel
+        sta     (ptr2), y
+        beq     L10     ; jump if sentinel
         iny
-        bne     L9              ; jump always
+        bne     L9      ; jump always
 
 ; Done! Return the target string
 
 L10:    lda     ptr3
         ldx     ptr3+1
         rts
-
-
-
-
-
-
-
-
-
-
-
-
-
-

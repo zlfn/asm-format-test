@@ -7,21 +7,20 @@ EXTERN  __far_start
 EXTERN  __far_end
 EXTERN  __far_page
 
-
 ; Entry ehl = extended address
 ;        hl = sign extended char
 lp_gchar:
-    call   __far_start
-    ex     af,af
-    ld     bc,hl
-    call    __far_page
-    ; hl = physical address
-    ld      a,(hl)
-    ld      l,a
-    rlca
-    sbc     a
-    ld      h,a
-    ex      af,af
-    call    __far_end 
-    ret
+        call    __far_start
+        ex      af, af
+        ld      bc, hl
+        call    __far_page
+        ; hl = physical address
+        ld      a, (hl)
+        ld      l, a
+        rlca
+        sbc     a
+        ld      h,  a
+        ex      af, af
+        call    __far_end
+        ret
 ENDIF

@@ -1,7 +1,7 @@
 %ifidn __OUTPUT_FORMAT__,obj
 section code    use32 class=code align=64
 %elifidn __OUTPUT_FORMAT__,win32
-$@feat.00 equ 1
+$@feat.00 equ   1
 section .text   code align=64
 %else
 section .text   code
@@ -2398,9 +2398,9 @@ L$_ecp_nistz256_mul_by_2_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
-        mov     edi,DWORD [20+esp]
-        mov     ebp,esi
+        mov     esi, DWORD [24+esp]
+        mov     edi, DWORD [20+esp]
+        mov     ebp, esi
         call    __ecp_nistz256_add
         pop     edi
         pop     esi
@@ -2415,16 +2415,16 @@ L$_ecp_nistz256_mul_by_3_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
-        sub     esp,32
-        mov     edi,esp
-        mov     ebp,esi
+        mov     esi, DWORD [24+esp]
+        sub     esp, 32
+        mov     edi, esp
+        mov     ebp, esi
         call    __ecp_nistz256_add
-        lea     esi,[edi]
-        mov     ebp,DWORD [56+esp]
-        mov     edi,DWORD [52+esp]
+        lea     esi, [edi]
+        mov     ebp, DWORD [56+esp]
+        mov     edi, DWORD [52+esp]
         call    __ecp_nistz256_add
-        add     esp,32
+        add     esp, 32
         pop     edi
         pop     esi
         pop     ebx
@@ -2438,8 +2438,8 @@ L$_ecp_nistz256_div_by_2_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
-        mov     edi,DWORD [20+esp]
+        mov     esi, DWORD [24+esp]
+        mov     edi, DWORD [20+esp]
         call    __ecp_nistz256_div_by_2
         pop     edi
         pop     esi
@@ -2448,82 +2448,82 @@ L$_ecp_nistz256_div_by_2_begin:
         ret
 align   16
 __ecp_nistz256_div_by_2:
-        mov     ebp,DWORD [esi]
-        xor     edx,edx
-        mov     ebx,DWORD [4+esi]
-        mov     eax,ebp
-        and     ebp,1
-        mov     ecx,DWORD [8+esi]
-        sub     edx,ebp
-        add     eax,edx
-        adc     ebx,edx
-        mov     DWORD [edi],eax
-        adc     ecx,edx
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     eax,DWORD [12+esi]
-        mov     ebx,DWORD [16+esi]
-        adc     eax,0
-        mov     ecx,DWORD [20+esi]
-        adc     ebx,0
-        mov     DWORD [12+edi],eax
-        adc     ecx,0
-        mov     DWORD [16+edi],ebx
-        mov     DWORD [20+edi],ecx
-        mov     eax,DWORD [24+esi]
-        mov     ebx,DWORD [28+esi]
-        adc     eax,ebp
-        adc     ebx,edx
-        mov     DWORD [24+edi],eax
-        sbb     esi,esi
-        mov     DWORD [28+edi],ebx
-        mov     eax,DWORD [edi]
-        mov     ebx,DWORD [4+edi]
-        mov     ecx,DWORD [8+edi]
-        mov     edx,DWORD [12+edi]
-        shr     eax,1
-        mov     ebp,ebx
-        shl     ebx,31
-        or      eax,ebx
-        shr     ebp,1
-        mov     ebx,ecx
-        shl     ecx,31
-        mov     DWORD [edi],eax
-        or      ebp,ecx
-        mov     eax,DWORD [16+edi]
-        shr     ebx,1
-        mov     ecx,edx
-        shl     edx,31
-        mov     DWORD [4+edi],ebp
-        or      ebx,edx
-        mov     ebp,DWORD [20+edi]
-        shr     ecx,1
-        mov     edx,eax
-        shl     eax,31
-        mov     DWORD [8+edi],ebx
-        or      ecx,eax
-        mov     ebx,DWORD [24+edi]
-        shr     edx,1
-        mov     eax,ebp
-        shl     ebp,31
-        mov     DWORD [12+edi],ecx
-        or      edx,ebp
-        mov     ecx,DWORD [28+edi]
-        shr     eax,1
-        mov     ebp,ebx
-        shl     ebx,31
-        mov     DWORD [16+edi],edx
-        or      eax,ebx
-        shr     ebp,1
-        mov     ebx,ecx
-        shl     ecx,31
-        mov     DWORD [20+edi],eax
-        or      ebp,ecx
-        shr     ebx,1
-        shl     esi,31
-        mov     DWORD [24+edi],ebp
-        or      ebx,esi
-        mov     DWORD [28+edi],ebx
+        mov     ebp, DWORD [esi]
+        xor     edx, edx
+        mov     ebx, DWORD [4+esi]
+        mov     eax, ebp
+        and     ebp, 1
+        mov     ecx, DWORD [8+esi]
+        sub     edx, ebp
+        add     eax, edx
+        adc     ebx, edx
+        mov     DWORD [edi], eax
+        adc     ecx, edx
+        mov     DWORD [4+edi], ebx
+        mov     DWORD [8+edi], ecx
+        mov     eax, DWORD [12+esi]
+        mov     ebx, DWORD [16+esi]
+        adc     eax, 0
+        mov     ecx, DWORD [20+esi]
+        adc     ebx, 0
+        mov     DWORD [12+edi], eax
+        adc     ecx, 0
+        mov     DWORD [16+edi], ebx
+        mov     DWORD [20+edi], ecx
+        mov     eax, DWORD [24+esi]
+        mov     ebx, DWORD [28+esi]
+        adc     eax, ebp
+        adc     ebx, edx
+        mov     DWORD [24+edi], eax
+        sbb     esi, esi
+        mov     DWORD [28+edi], ebx
+        mov     eax, DWORD [edi]
+        mov     ebx, DWORD [4+edi]
+        mov     ecx, DWORD [8+edi]
+        mov     edx, DWORD [12+edi]
+        shr     eax, 1
+        mov     ebp, ebx
+        shl     ebx, 31
+        or      eax, ebx
+        shr     ebp, 1
+        mov     ebx, ecx
+        shl     ecx, 31
+        mov     DWORD [edi], eax
+        or      ebp, ecx
+        mov     eax, DWORD [16+edi]
+        shr     ebx, 1
+        mov     ecx, edx
+        shl     edx, 31
+        mov     DWORD [4+edi], ebp
+        or      ebx, edx
+        mov     ebp, DWORD [20+edi]
+        shr     ecx, 1
+        mov     edx, eax
+        shl     eax, 31
+        mov     DWORD [8+edi], ebx
+        or      ecx, eax
+        mov     ebx, DWORD [24+edi]
+        shr     edx, 1
+        mov     eax, ebp
+        shl     ebp, 31
+        mov     DWORD [12+edi], ecx
+        or      edx, ebp
+        mov     ecx, DWORD [28+edi]
+        shr     eax, 1
+        mov     ebp, ebx
+        shl     ebx, 31
+        mov     DWORD [16+edi], edx
+        or      eax, ebx
+        shr     ebp, 1
+        mov     ebx, ecx
+        shl     ecx, 31
+        mov     DWORD [20+edi], eax
+        or      ebp, ecx
+        shr     ebx, 1
+        shl     esi, 31
+        mov     DWORD [24+edi], ebp
+        or      ebx, esi
+        mov     DWORD [28+edi], ebx
         ret
 global  _ecp_nistz256_add
 align   16
@@ -2533,9 +2533,9 @@ L$_ecp_nistz256_add_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
-        mov     ebp,DWORD [28+esp]
-        mov     edi,DWORD [20+esp]
+        mov     esi, DWORD [24+esp]
+        mov     ebp, DWORD [28+esp]
+        mov     edi, DWORD [20+esp]
         call    __ecp_nistz256_add
         pop     edi
         pop     esi
@@ -2544,76 +2544,76 @@ L$_ecp_nistz256_add_begin:
         ret
 align   16
 __ecp_nistz256_add:
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        add     eax,DWORD [ebp]
-        mov     edx,DWORD [12+esi]
-        adc     ebx,DWORD [4+ebp]
-        mov     DWORD [edi],eax
-        adc     ecx,DWORD [8+ebp]
-        mov     DWORD [4+edi],ebx
-        adc     edx,DWORD [12+ebp]
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     eax,DWORD [16+esi]
-        mov     ebx,DWORD [20+esi]
-        mov     ecx,DWORD [24+esi]
-        adc     eax,DWORD [16+ebp]
-        mov     edx,DWORD [28+esi]
-        adc     ebx,DWORD [20+ebp]
-        mov     DWORD [16+edi],eax
-        adc     ecx,DWORD [24+ebp]
-        mov     DWORD [20+edi],ebx
-        mov     esi,0
-        adc     edx,DWORD [28+ebp]
-        mov     DWORD [24+edi],ecx
-        adc     esi,0
-        mov     DWORD [28+edi],edx
-        mov     eax,DWORD [edi]
-        mov     ebx,DWORD [4+edi]
-        mov     ecx,DWORD [8+edi]
-        sub     eax,-1
-        mov     edx,DWORD [12+edi]
-        sbb     ebx,-1
-        mov     eax,DWORD [16+edi]
-        sbb     ecx,-1
-        mov     ebx,DWORD [20+edi]
-        sbb     edx,0
-        mov     ecx,DWORD [24+edi]
-        sbb     eax,0
-        mov     edx,DWORD [28+edi]
-        sbb     ebx,0
-        sbb     ecx,1
-        sbb     edx,-1
-        sbb     esi,0
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        add     eax, DWORD [ebp]
+        mov     edx, DWORD [12+esi]
+        adc     ebx, DWORD [4+ebp]
+        mov     DWORD [edi], eax
+        adc     ecx, DWORD [8+ebp]
+        mov     DWORD [4+edi], ebx
+        adc     edx, DWORD [12+ebp]
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     eax, DWORD [16+esi]
+        mov     ebx, DWORD [20+esi]
+        mov     ecx, DWORD [24+esi]
+        adc     eax, DWORD [16+ebp]
+        mov     edx, DWORD [28+esi]
+        adc     ebx, DWORD [20+ebp]
+        mov     DWORD [16+edi], eax
+        adc     ecx, DWORD [24+ebp]
+        mov     DWORD [20+edi], ebx
+        mov     esi, 0
+        adc     edx, DWORD [28+ebp]
+        mov     DWORD [24+edi], ecx
+        adc     esi, 0
+        mov     DWORD [28+edi], edx
+        mov     eax, DWORD [edi]
+        mov     ebx, DWORD [4+edi]
+        mov     ecx, DWORD [8+edi]
+        sub     eax, -1
+        mov     edx, DWORD [12+edi]
+        sbb     ebx, -1
+        mov     eax, DWORD [16+edi]
+        sbb     ecx, -1
+        mov     ebx, DWORD [20+edi]
+        sbb     edx, 0
+        mov     ecx, DWORD [24+edi]
+        sbb     eax, 0
+        mov     edx, DWORD [28+edi]
+        sbb     ebx, 0
+        sbb     ecx, 1
+        sbb     edx, -1
+        sbb     esi, 0
         not     esi
-        mov     eax,DWORD [edi]
-        mov     ebp,esi
-        mov     ebx,DWORD [4+edi]
-        shr     ebp,31
-        mov     ecx,DWORD [8+edi]
-        sub     eax,esi
-        mov     edx,DWORD [12+edi]
-        sbb     ebx,esi
-        mov     DWORD [edi],eax
-        sbb     ecx,esi
-        mov     DWORD [4+edi],ebx
-        sbb     edx,0
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     eax,DWORD [16+edi]
-        mov     ebx,DWORD [20+edi]
-        mov     ecx,DWORD [24+edi]
-        sbb     eax,0
-        mov     edx,DWORD [28+edi]
-        sbb     ebx,0
-        mov     DWORD [16+edi],eax
-        sbb     ecx,ebp
-        mov     DWORD [20+edi],ebx
-        sbb     edx,esi
-        mov     DWORD [24+edi],ecx
-        mov     DWORD [28+edi],edx
+        mov     eax, DWORD [edi]
+        mov     ebp, esi
+        mov     ebx, DWORD [4+edi]
+        shr     ebp, 31
+        mov     ecx, DWORD [8+edi]
+        sub     eax, esi
+        mov     edx, DWORD [12+edi]
+        sbb     ebx, esi
+        mov     DWORD [edi], eax
+        sbb     ecx, esi
+        mov     DWORD [4+edi], ebx
+        sbb     edx, 0
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     eax, DWORD [16+edi]
+        mov     ebx, DWORD [20+edi]
+        mov     ecx, DWORD [24+edi]
+        sbb     eax, 0
+        mov     edx, DWORD [28+edi]
+        sbb     ebx, 0
+        mov     DWORD [16+edi], eax
+        sbb     ecx, ebp
+        mov     DWORD [20+edi], ebx
+        sbb     edx, esi
+        mov     DWORD [24+edi], ecx
+        mov     DWORD [28+edi], edx
         ret
 global  _ecp_nistz256_sub
 align   16
@@ -2623,9 +2623,9 @@ L$_ecp_nistz256_sub_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
-        mov     ebp,DWORD [28+esp]
-        mov     edi,DWORD [20+esp]
+        mov     esi, DWORD [24+esp]
+        mov     ebp, DWORD [28+esp]
+        mov     edi, DWORD [20+esp]
         call    __ecp_nistz256_sub
         pop     edi
         pop     esi
@@ -2634,57 +2634,57 @@ L$_ecp_nistz256_sub_begin:
         ret
 align   16
 __ecp_nistz256_sub:
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        sub     eax,DWORD [ebp]
-        mov     edx,DWORD [12+esi]
-        sbb     ebx,DWORD [4+ebp]
-        mov     DWORD [edi],eax
-        sbb     ecx,DWORD [8+ebp]
-        mov     DWORD [4+edi],ebx
-        sbb     edx,DWORD [12+ebp]
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     eax,DWORD [16+esi]
-        mov     ebx,DWORD [20+esi]
-        mov     ecx,DWORD [24+esi]
-        sbb     eax,DWORD [16+ebp]
-        mov     edx,DWORD [28+esi]
-        sbb     ebx,DWORD [20+ebp]
-        sbb     ecx,DWORD [24+ebp]
-        mov     DWORD [16+edi],eax
-        sbb     edx,DWORD [28+ebp]
-        mov     DWORD [20+edi],ebx
-        sbb     esi,esi
-        mov     DWORD [24+edi],ecx
-        mov     DWORD [28+edi],edx
-        mov     eax,DWORD [edi]
-        mov     ebp,esi
-        mov     ebx,DWORD [4+edi]
-        shr     ebp,31
-        mov     ecx,DWORD [8+edi]
-        add     eax,esi
-        mov     edx,DWORD [12+edi]
-        adc     ebx,esi
-        mov     DWORD [edi],eax
-        adc     ecx,esi
-        mov     DWORD [4+edi],ebx
-        adc     edx,0
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     eax,DWORD [16+edi]
-        mov     ebx,DWORD [20+edi]
-        mov     ecx,DWORD [24+edi]
-        adc     eax,0
-        mov     edx,DWORD [28+edi]
-        adc     ebx,0
-        mov     DWORD [16+edi],eax
-        adc     ecx,ebp
-        mov     DWORD [20+edi],ebx
-        adc     edx,esi
-        mov     DWORD [24+edi],ecx
-        mov     DWORD [28+edi],edx
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        sub     eax, DWORD [ebp]
+        mov     edx, DWORD [12+esi]
+        sbb     ebx, DWORD [4+ebp]
+        mov     DWORD [edi], eax
+        sbb     ecx, DWORD [8+ebp]
+        mov     DWORD [4+edi], ebx
+        sbb     edx, DWORD [12+ebp]
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     eax, DWORD [16+esi]
+        mov     ebx, DWORD [20+esi]
+        mov     ecx, DWORD [24+esi]
+        sbb     eax, DWORD [16+ebp]
+        mov     edx, DWORD [28+esi]
+        sbb     ebx, DWORD [20+ebp]
+        sbb     ecx, DWORD [24+ebp]
+        mov     DWORD [16+edi], eax
+        sbb     edx, DWORD [28+ebp]
+        mov     DWORD [20+edi], ebx
+        sbb     esi, esi
+        mov     DWORD [24+edi], ecx
+        mov     DWORD [28+edi], edx
+        mov     eax, DWORD [edi]
+        mov     ebp, esi
+        mov     ebx, DWORD [4+edi]
+        shr     ebp, 31
+        mov     ecx, DWORD [8+edi]
+        add     eax, esi
+        mov     edx, DWORD [12+edi]
+        adc     ebx, esi
+        mov     DWORD [edi], eax
+        adc     ecx, esi
+        mov     DWORD [4+edi], ebx
+        adc     edx, 0
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     eax, DWORD [16+edi]
+        mov     ebx, DWORD [20+edi]
+        mov     ecx, DWORD [24+edi]
+        adc     eax, 0
+        mov     edx, DWORD [28+edi]
+        adc     ebx, 0
+        mov     DWORD [16+edi], eax
+        adc     ecx, ebp
+        mov     DWORD [20+edi], ebx
+        adc     edx, esi
+        mov     DWORD [24+edi], ecx
+        mov     DWORD [28+edi], edx
         ret
 global  _ecp_nistz256_neg
 align   16
@@ -2694,21 +2694,21 @@ L$_ecp_nistz256_neg_begin:
         push    ebx
         push    esi
         push    edi
-        mov     ebp,DWORD [24+esp]
-        mov     edi,DWORD [20+esp]
-        xor     eax,eax
-        sub     esp,32
-        mov     DWORD [esp],eax
-        mov     esi,esp
-        mov     DWORD [4+esp],eax
-        mov     DWORD [8+esp],eax
-        mov     DWORD [12+esp],eax
-        mov     DWORD [16+esp],eax
-        mov     DWORD [20+esp],eax
-        mov     DWORD [24+esp],eax
-        mov     DWORD [28+esp],eax
+        mov     ebp, DWORD [24+esp]
+        mov     edi, DWORD [20+esp]
+        xor     eax, eax
+        sub     esp, 32
+        mov     DWORD [esp], eax
+        mov     esi, esp
+        mov     DWORD [4+esp],  eax
+        mov     DWORD [8+esp],  eax
+        mov     DWORD [12+esp], eax
+        mov     DWORD [16+esp], eax
+        mov     DWORD [20+esp], eax
+        mov     DWORD [24+esp], eax
+        mov     DWORD [28+esp], eax
         call    __ecp_nistz256_sub
-        add     esp,32
+        add     esp, 32
         pop     edi
         pop     esi
         pop     ebx
@@ -2716,7 +2716,7 @@ L$_ecp_nistz256_neg_begin:
         ret
 align   16
 __picup_eax:
-        mov     eax,DWORD [esp]
+        mov     eax, DWORD [esp]
         ret
 global  _ecp_nistz256_to_mont
 align   16
@@ -2726,13 +2726,13 @@ L$_ecp_nistz256_to_mont_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
+        mov     esi, DWORD [24+esp]
         call    __picup_eax
 L$000pic:
-        lea     ebp,[(L$RR-L$000pic)+eax]
-        lea     eax,[_OPENSSL_ia32cap_P]
-        mov     eax,DWORD [eax]
-        mov     edi,DWORD [20+esp]
+        lea     ebp, [(L$RR-L$000pic)+eax]
+        lea     eax, [_OPENSSL_ia32cap_P]
+        mov     eax, DWORD [eax]
+        mov     edi, DWORD [20+esp]
         call    __ecp_nistz256_mul_mont
         pop     edi
         pop     esi
@@ -2747,13 +2747,13 @@ L$_ecp_nistz256_from_mont_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
+        mov     esi, DWORD [24+esp]
         call    __picup_eax
 L$001pic:
-        lea     ebp,[(L$ONE-L$001pic)+eax]
-        lea     eax,[_OPENSSL_ia32cap_P]
-        mov     eax,DWORD [eax]
-        mov     edi,DWORD [20+esp]
+        lea     ebp, [(L$ONE-L$001pic)+eax]
+        lea     eax, [_OPENSSL_ia32cap_P]
+        mov     eax, DWORD [eax]
+        mov     edi, DWORD [20+esp]
         call    __ecp_nistz256_mul_mont
         pop     edi
         pop     esi
@@ -2768,13 +2768,13 @@ L$_ecp_nistz256_mul_mont_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
-        mov     ebp,DWORD [28+esp]
+        mov     esi, DWORD [24+esp]
+        mov     ebp, DWORD [28+esp]
         call    __picup_eax
 L$002pic:
-        lea     eax,[_OPENSSL_ia32cap_P]
-        mov     eax,DWORD [eax]
-        mov     edi,DWORD [20+esp]
+        lea     eax, [_OPENSSL_ia32cap_P]
+        mov     eax, DWORD [eax]
+        mov     edi, DWORD [20+esp]
         call    __ecp_nistz256_mul_mont
         pop     edi
         pop     esi
@@ -2789,13 +2789,13 @@ L$_ecp_nistz256_sqr_mont_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
+        mov     esi, DWORD [24+esp]
         call    __picup_eax
 L$003pic:
-        lea     eax,[_OPENSSL_ia32cap_P]
-        mov     eax,DWORD [eax]
-        mov     edi,DWORD [20+esp]
-        mov     ebp,esi
+        lea     eax, [_OPENSSL_ia32cap_P]
+        mov     eax, DWORD [eax]
+        mov     edi, DWORD [20+esp]
+        mov     ebp, esi
         call    __ecp_nistz256_mul_mont
         pop     edi
         pop     esi
@@ -2804,896 +2804,896 @@ L$003pic:
         ret
 align   16
 __ecp_nistz256_mul_mont:
-        and     eax,83886080
-        cmp     eax,83886080
+        and     eax, 83886080
+        cmp     eax, 83886080
         jne     NEAR L$004mul_mont_ialu
-        mov     edx,esp
-        sub     esp,256
-        movd    xmm7,DWORD [ebp]
-        lea     ebp,[4+ebp]
-        pcmpeqd xmm6,xmm6
-        psrlq   xmm6,48
-        pshuflw xmm7,xmm7,220
-        and     esp,-64
-        pshufd  xmm7,xmm7,220
-        lea     ebx,[128+esp]
-        movd    xmm0,DWORD [esi]
-        pshufd  xmm0,xmm0,204
-        movd    xmm1,DWORD [4+esi]
-        movdqa  [ebx],xmm0
-        pmuludq xmm0,xmm7
-        movd    xmm2,DWORD [8+esi]
-        pshufd  xmm1,xmm1,204
-        movdqa  [16+ebx],xmm1
-        pmuludq xmm1,xmm7
-        movq    xmm4,xmm0
-        pslldq  xmm4,6
-        paddq   xmm4,xmm0
-        movdqa  xmm5,xmm4
-        psrldq  xmm4,10
-        pand    xmm5,xmm6
-        movd    xmm3,DWORD [12+esi]
-        pshufd  xmm2,xmm2,204
-        movdqa  [32+ebx],xmm2
-        pmuludq xmm2,xmm7
-        paddq   xmm1,xmm4
-        movdqa  [esp],xmm1
-        movd    xmm0,DWORD [16+esi]
-        pshufd  xmm3,xmm3,204
-        movdqa  [48+ebx],xmm3
-        pmuludq xmm3,xmm7
-        movdqa  [16+esp],xmm2
-        movd    xmm1,DWORD [20+esi]
-        pshufd  xmm0,xmm0,204
-        movdqa  [64+ebx],xmm0
-        pmuludq xmm0,xmm7
-        paddq   xmm3,xmm5
-        movdqa  [32+esp],xmm3
-        movd    xmm2,DWORD [24+esi]
-        pshufd  xmm1,xmm1,204
-        movdqa  [80+ebx],xmm1
-        pmuludq xmm1,xmm7
-        movdqa  [48+esp],xmm0
-        pshufd  xmm4,xmm5,177
-        movd    xmm3,DWORD [28+esi]
-        pshufd  xmm2,xmm2,204
-        movdqa  [96+ebx],xmm2
-        pmuludq xmm2,xmm7
-        movdqa  [64+esp],xmm1
-        psubq   xmm4,xmm5
-        movd    xmm0,DWORD [ebp]
-        pshufd  xmm3,xmm3,204
-        movdqa  [112+ebx],xmm3
-        pmuludq xmm3,xmm7
-        pshuflw xmm7,xmm0,220
-        movdqa  xmm0,[ebx]
-        pshufd  xmm7,xmm7,220
-        mov     ecx,6
-        lea     ebp,[4+ebp]
+        mov     edx,   esp
+        sub     esp,   256
+        movd    xmm7,  DWORD [ebp]
+        lea     ebp,   [4+ebp]
+        pcmpeqd xmm6,  xmm6
+        psrlq   xmm6,  48
+        pshuflw xmm7,  xmm7, 220
+        and     esp,   -64
+        pshufd  xmm7,  xmm7, 220
+        lea     ebx,   [128+esp]
+        movd    xmm0,  DWORD [esi]
+        pshufd  xmm0,  xmm0, 204
+        movd    xmm1,  DWORD [4+esi]
+        movdqa  [ebx], xmm0
+        pmuludq xmm0,  xmm7
+        movd    xmm2,  DWORD [8+esi]
+        pshufd  xmm1,  xmm1, 204
+        movdqa  [16+ebx], xmm1
+        pmuludq xmm1,     xmm7
+        movq    xmm4,     xmm0
+        pslldq  xmm4,     6
+        paddq   xmm4,     xmm0
+        movdqa  xmm5,     xmm4
+        psrldq  xmm4,     10
+        pand    xmm5,     xmm6
+        movd    xmm3,     DWORD [12+esi]
+        pshufd  xmm2,     xmm2, 204
+        movdqa  [32+ebx], xmm2
+        pmuludq xmm2,     xmm7
+        paddq   xmm1,     xmm4
+        movdqa  [esp],    xmm1
+        movd    xmm0,     DWORD [16+esi]
+        pshufd  xmm3,     xmm3, 204
+        movdqa  [48+ebx], xmm3
+        pmuludq xmm3,     xmm7
+        movdqa  [16+esp], xmm2
+        movd    xmm1,     DWORD [20+esi]
+        pshufd  xmm0,     xmm0, 204
+        movdqa  [64+ebx], xmm0
+        pmuludq xmm0,     xmm7
+        paddq   xmm3,     xmm5
+        movdqa  [32+esp], xmm3
+        movd    xmm2,     DWORD [24+esi]
+        pshufd  xmm1,     xmm1, 204
+        movdqa  [80+ebx], xmm1
+        pmuludq xmm1,     xmm7
+        movdqa  [48+esp], xmm0
+        pshufd  xmm4,     xmm5, 177
+        movd    xmm3,     DWORD [28+esi]
+        pshufd  xmm2,     xmm2, 204
+        movdqa  [96+ebx], xmm2
+        pmuludq xmm2,     xmm7
+        movdqa  [64+esp], xmm1
+        psubq   xmm4,     xmm5
+        movd    xmm0,     DWORD [ebp]
+        pshufd  xmm3,     xmm3, 204
+        movdqa  [112+ebx], xmm3
+        pmuludq xmm3, xmm7
+        pshuflw xmm7, xmm0, 220
+        movdqa  xmm0, [ebx]
+        pshufd  xmm7, xmm7, 220
+        mov     ecx,  6
+        lea     ebp,  [4+ebp]
         jmp     NEAR L$005madd_sse2
 align   16
 L$005madd_sse2:
-        paddq   xmm2,xmm5
-        paddq   xmm3,xmm4
-        movdqa  xmm1,[16+ebx]
-        pmuludq xmm0,xmm7
-        movdqa  [80+esp],xmm2
-        movdqa  xmm2,[32+ebx]
-        pmuludq xmm1,xmm7
-        movdqa  [96+esp],xmm3
-        paddq   xmm0,[esp]
-        movdqa  xmm3,[48+ebx]
-        pmuludq xmm2,xmm7
-        movq    xmm4,xmm0
-        pslldq  xmm4,6
-        paddq   xmm1,[16+esp]
-        paddq   xmm4,xmm0
-        movdqa  xmm5,xmm4
-        psrldq  xmm4,10
-        movdqa  xmm0,[64+ebx]
-        pmuludq xmm3,xmm7
-        paddq   xmm1,xmm4
-        paddq   xmm2,[32+esp]
-        movdqa  [esp],xmm1
-        movdqa  xmm1,[80+ebx]
-        pmuludq xmm0,xmm7
-        paddq   xmm3,[48+esp]
-        movdqa  [16+esp],xmm2
-        pand    xmm5,xmm6
-        movdqa  xmm2,[96+ebx]
-        pmuludq xmm1,xmm7
-        paddq   xmm3,xmm5
-        paddq   xmm0,[64+esp]
-        movdqa  [32+esp],xmm3
-        pshufd  xmm4,xmm5,177
-        movdqa  xmm3,xmm7
-        pmuludq xmm2,xmm7
-        movd    xmm7,DWORD [ebp]
-        lea     ebp,[4+ebp]
-        paddq   xmm1,[80+esp]
-        psubq   xmm4,xmm5
-        movdqa  [48+esp],xmm0
-        pshuflw xmm7,xmm7,220
-        pmuludq xmm3,[112+ebx]
-        pshufd  xmm7,xmm7,220
-        movdqa  xmm0,[ebx]
-        movdqa  [64+esp],xmm1
-        paddq   xmm2,[96+esp]
+        paddq   xmm2,     xmm5
+        paddq   xmm3,     xmm4
+        movdqa  xmm1,     [16+ebx]
+        pmuludq xmm0,     xmm7
+        movdqa  [80+esp], xmm2
+        movdqa  xmm2,     [32+ebx]
+        pmuludq xmm1,     xmm7
+        movdqa  [96+esp], xmm3
+        paddq   xmm0,     [esp]
+        movdqa  xmm3,     [48+ebx]
+        pmuludq xmm2,     xmm7
+        movq    xmm4,     xmm0
+        pslldq  xmm4,     6
+        paddq   xmm1,     [16+esp]
+        paddq   xmm4,     xmm0
+        movdqa  xmm5,     xmm4
+        psrldq  xmm4,     10
+        movdqa  xmm0,     [64+ebx]
+        pmuludq xmm3,     xmm7
+        paddq   xmm1,     xmm4
+        paddq   xmm2,     [32+esp]
+        movdqa  [esp],    xmm1
+        movdqa  xmm1,     [80+ebx]
+        pmuludq xmm0,     xmm7
+        paddq   xmm3,     [48+esp]
+        movdqa  [16+esp], xmm2
+        pand    xmm5,     xmm6
+        movdqa  xmm2,     [96+ebx]
+        pmuludq xmm1,     xmm7
+        paddq   xmm3,     xmm5
+        paddq   xmm0,     [64+esp]
+        movdqa  [32+esp], xmm3
+        pshufd  xmm4,     xmm5, 177
+        movdqa  xmm3,     xmm7
+        pmuludq xmm2,     xmm7
+        movd    xmm7,     DWORD [ebp]
+        lea     ebp,  [4+ebp]
+        paddq   xmm1, [80+esp]
+        psubq   xmm4, xmm5
+        movdqa  [48+esp], xmm0
+        pshuflw xmm7,     xmm7, 220
+        pmuludq xmm3,     [112+ebx]
+        pshufd  xmm7,     xmm7, 220
+        movdqa  xmm0,     [ebx]
+        movdqa  [64+esp], xmm1
+        paddq   xmm2,     [96+esp]
         dec     ecx
         jnz     NEAR L$005madd_sse2
-        paddq   xmm2,xmm5
-        paddq   xmm3,xmm4
-        movdqa  xmm1,[16+ebx]
-        pmuludq xmm0,xmm7
-        movdqa  [80+esp],xmm2
-        movdqa  xmm2,[32+ebx]
-        pmuludq xmm1,xmm7
-        movdqa  [96+esp],xmm3
-        paddq   xmm0,[esp]
-        movdqa  xmm3,[48+ebx]
-        pmuludq xmm2,xmm7
-        movq    xmm4,xmm0
-        pslldq  xmm4,6
-        paddq   xmm1,[16+esp]
-        paddq   xmm4,xmm0
-        movdqa  xmm5,xmm4
-        psrldq  xmm4,10
-        movdqa  xmm0,[64+ebx]
-        pmuludq xmm3,xmm7
-        paddq   xmm1,xmm4
-        paddq   xmm2,[32+esp]
-        movdqa  [esp],xmm1
-        movdqa  xmm1,[80+ebx]
-        pmuludq xmm0,xmm7
-        paddq   xmm3,[48+esp]
-        movdqa  [16+esp],xmm2
-        pand    xmm5,xmm6
-        movdqa  xmm2,[96+ebx]
-        pmuludq xmm1,xmm7
-        paddq   xmm3,xmm5
-        paddq   xmm0,[64+esp]
-        movdqa  [32+esp],xmm3
-        pshufd  xmm4,xmm5,177
-        movdqa  xmm3,[112+ebx]
-        pmuludq xmm2,xmm7
-        paddq   xmm1,[80+esp]
-        psubq   xmm4,xmm5
-        movdqa  [48+esp],xmm0
-        pmuludq xmm3,xmm7
-        pcmpeqd xmm7,xmm7
-        movdqa  xmm0,[esp]
-        pslldq  xmm7,8
-        movdqa  [64+esp],xmm1
-        paddq   xmm2,[96+esp]
-        paddq   xmm2,xmm5
-        paddq   xmm3,xmm4
-        movdqa  [80+esp],xmm2
-        movdqa  [96+esp],xmm3
-        movdqa  xmm1,[16+esp]
-        movdqa  xmm2,[32+esp]
-        movdqa  xmm3,[48+esp]
-        movq    xmm4,xmm0
-        pand    xmm0,xmm7
-        xor     ebp,ebp
-        pslldq  xmm4,6
-        movq    xmm5,xmm1
-        paddq   xmm0,xmm4
-        pand    xmm1,xmm7
-        psrldq  xmm0,6
-        movd    eax,xmm0
-        psrldq  xmm0,4
-        paddq   xmm5,xmm0
-        movdqa  xmm0,[64+esp]
-        sub     eax,-1
-        pslldq  xmm5,6
-        movq    xmm4,xmm2
-        paddq   xmm1,xmm5
-        pand    xmm2,xmm7
-        psrldq  xmm1,6
-        mov     DWORD [edi],eax
-        movd    eax,xmm1
-        psrldq  xmm1,4
-        paddq   xmm4,xmm1
-        movdqa  xmm1,[80+esp]
-        sbb     eax,-1
-        pslldq  xmm4,6
-        movq    xmm5,xmm3
-        paddq   xmm2,xmm4
-        pand    xmm3,xmm7
-        psrldq  xmm2,6
-        mov     DWORD [4+edi],eax
-        movd    eax,xmm2
-        psrldq  xmm2,4
-        paddq   xmm5,xmm2
-        movdqa  xmm2,[96+esp]
-        sbb     eax,-1
-        pslldq  xmm5,6
-        movq    xmm4,xmm0
-        paddq   xmm3,xmm5
-        pand    xmm0,xmm7
-        psrldq  xmm3,6
-        mov     DWORD [8+edi],eax
-        movd    eax,xmm3
-        psrldq  xmm3,4
-        paddq   xmm4,xmm3
-        sbb     eax,0
-        pslldq  xmm4,6
-        movq    xmm5,xmm1
-        paddq   xmm0,xmm4
-        pand    xmm1,xmm7
-        psrldq  xmm0,6
-        mov     DWORD [12+edi],eax
-        movd    eax,xmm0
-        psrldq  xmm0,4
-        paddq   xmm5,xmm0
-        sbb     eax,0
-        pslldq  xmm5,6
-        movq    xmm4,xmm2
-        paddq   xmm1,xmm5
-        pand    xmm2,xmm7
-        psrldq  xmm1,6
-        movd    ebx,xmm1
-        psrldq  xmm1,4
-        mov     esp,edx
-        paddq   xmm4,xmm1
-        pslldq  xmm4,6
-        paddq   xmm2,xmm4
-        psrldq  xmm2,6
-        movd    ecx,xmm2
-        psrldq  xmm2,4
-        sbb     ebx,0
-        movd    edx,xmm2
-        pextrw  esi,xmm2,2
-        sbb     ecx,1
-        sbb     edx,-1
-        sbb     esi,0
-        sub     ebp,esi
-        add     DWORD [edi],esi
-        adc     DWORD [4+edi],esi
-        adc     DWORD [8+edi],esi
-        adc     DWORD [12+edi],0
-        adc     eax,0
-        adc     ebx,0
-        mov     DWORD [16+edi],eax
-        adc     ecx,ebp
-        mov     DWORD [20+edi],ebx
-        adc     edx,esi
-        mov     DWORD [24+edi],ecx
-        mov     DWORD [28+edi],edx
+        paddq   xmm2,     xmm5
+        paddq   xmm3,     xmm4
+        movdqa  xmm1,     [16+ebx]
+        pmuludq xmm0,     xmm7
+        movdqa  [80+esp], xmm2
+        movdqa  xmm2,     [32+ebx]
+        pmuludq xmm1,     xmm7
+        movdqa  [96+esp], xmm3
+        paddq   xmm0,     [esp]
+        movdqa  xmm3,     [48+ebx]
+        pmuludq xmm2,     xmm7
+        movq    xmm4,     xmm0
+        pslldq  xmm4,     6
+        paddq   xmm1,     [16+esp]
+        paddq   xmm4,     xmm0
+        movdqa  xmm5,     xmm4
+        psrldq  xmm4,     10
+        movdqa  xmm0,     [64+ebx]
+        pmuludq xmm3,     xmm7
+        paddq   xmm1,     xmm4
+        paddq   xmm2,     [32+esp]
+        movdqa  [esp],    xmm1
+        movdqa  xmm1,     [80+ebx]
+        pmuludq xmm0,     xmm7
+        paddq   xmm3,     [48+esp]
+        movdqa  [16+esp], xmm2
+        pand    xmm5,     xmm6
+        movdqa  xmm2,     [96+ebx]
+        pmuludq xmm1,     xmm7
+        paddq   xmm3,     xmm5
+        paddq   xmm0,     [64+esp]
+        movdqa  [32+esp], xmm3
+        pshufd  xmm4,     xmm5, 177
+        movdqa  xmm3,     [112+ebx]
+        pmuludq xmm2,     xmm7
+        paddq   xmm1,     [80+esp]
+        psubq   xmm4,     xmm5
+        movdqa  [48+esp], xmm0
+        pmuludq xmm3,     xmm7
+        pcmpeqd xmm7,     xmm7
+        movdqa  xmm0,     [esp]
+        pslldq  xmm7,     8
+        movdqa  [64+esp], xmm1
+        paddq   xmm2,     [96+esp]
+        paddq   xmm2,     xmm5
+        paddq   xmm3,     xmm4
+        movdqa  [80+esp], xmm2
+        movdqa  [96+esp], xmm3
+        movdqa  xmm1,     [16+esp]
+        movdqa  xmm2,     [32+esp]
+        movdqa  xmm3,     [48+esp]
+        movq    xmm4,     xmm0
+        pand    xmm0,     xmm7
+        xor     ebp,  ebp
+        pslldq  xmm4, 6
+        movq    xmm5, xmm1
+        paddq   xmm0, xmm4
+        pand    xmm1, xmm7
+        psrldq  xmm0, 6
+        movd    eax,  xmm0
+        psrldq  xmm0, 4
+        paddq   xmm5, xmm0
+        movdqa  xmm0, [64+esp]
+        sub     eax,  -1
+        pslldq  xmm5, 6
+        movq    xmm4, xmm2
+        paddq   xmm1, xmm5
+        pand    xmm2, xmm7
+        psrldq  xmm1, 6
+        mov     DWORD [edi], eax
+        movd    eax,  xmm1
+        psrldq  xmm1, 4
+        paddq   xmm4, xmm1
+        movdqa  xmm1, [80+esp]
+        sbb     eax,  -1
+        pslldq  xmm4, 6
+        movq    xmm5, xmm3
+        paddq   xmm2, xmm4
+        pand    xmm3, xmm7
+        psrldq  xmm2, 6
+        mov     DWORD [4+edi], eax
+        movd    eax,  xmm2
+        psrldq  xmm2, 4
+        paddq   xmm5, xmm2
+        movdqa  xmm2, [96+esp]
+        sbb     eax,  -1
+        pslldq  xmm5, 6
+        movq    xmm4, xmm0
+        paddq   xmm3, xmm5
+        pand    xmm0, xmm7
+        psrldq  xmm3, 6
+        mov     DWORD [8+edi], eax
+        movd    eax,  xmm3
+        psrldq  xmm3, 4
+        paddq   xmm4, xmm3
+        sbb     eax,  0
+        pslldq  xmm4, 6
+        movq    xmm5, xmm1
+        paddq   xmm0, xmm4
+        pand    xmm1, xmm7
+        psrldq  xmm0, 6
+        mov     DWORD [12+edi], eax
+        movd    eax,  xmm0
+        psrldq  xmm0, 4
+        paddq   xmm5, xmm0
+        sbb     eax,  0
+        pslldq  xmm5, 6
+        movq    xmm4, xmm2
+        paddq   xmm1, xmm5
+        pand    xmm2, xmm7
+        psrldq  xmm1, 6
+        movd    ebx,  xmm1
+        psrldq  xmm1, 4
+        mov     esp,  edx
+        paddq   xmm4, xmm1
+        pslldq  xmm4, 6
+        paddq   xmm2, xmm4
+        psrldq  xmm2, 6
+        movd    ecx,  xmm2
+        psrldq  xmm2, 4
+        sbb     ebx,  0
+        movd    edx,  xmm2
+        pextrw  esi,  xmm2, 2
+        sbb     ecx,  1
+        sbb     edx,  -1
+        sbb     esi,  0
+        sub     ebp,  esi
+        add     DWORD [edi],    esi
+        adc     DWORD [4+edi],  esi
+        adc     DWORD [8+edi],  esi
+        adc     DWORD [12+edi], 0
+        adc     eax, 0
+        adc     ebx, 0
+        mov     DWORD [16+edi], eax
+        adc     ecx, ebp
+        mov     DWORD [20+edi], ebx
+        adc     edx, esi
+        mov     DWORD [24+edi], ecx
+        mov     DWORD [28+edi], edx
         ret
 align   16
 L$004mul_mont_ialu:
-        sub     esp,40
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [ebp]
-        mov     DWORD [32+esp],edi
-        mul     ebx
-        mov     DWORD [esp],eax
-        mov     eax,DWORD [4+esi]
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,eax
-        mov     eax,DWORD [8+esi]
-        adc     edx,0
-        mov     DWORD [4+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,eax
-        mov     eax,DWORD [12+esi]
-        adc     edx,0
-        mov     DWORD [8+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,eax
-        mov     eax,DWORD [16+esi]
-        adc     edx,0
-        mov     DWORD [12+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,eax
-        mov     eax,DWORD [20+esi]
-        adc     edx,0
-        mov     DWORD [16+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,eax
-        mov     eax,DWORD [24+esi]
-        adc     edx,0
-        mov     DWORD [20+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,eax
-        mov     eax,DWORD [28+esi]
-        adc     edx,0
-        mov     DWORD [24+esp],ecx
-        mov     ecx,edx
-        xor     edi,edi
-        mul     ebx
-        add     ecx,eax
-        mov     eax,DWORD [esp]
-        adc     edx,0
-        add     DWORD [12+esp],eax
-        adc     DWORD [16+esp],0
-        adc     DWORD [20+esp],0
-        adc     DWORD [24+esp],eax
-        adc     ecx,0
-        adc     edx,eax
-        adc     edi,0
-        mov     ebx,DWORD [4+ebp]
-        sub     ecx,eax
-        mov     eax,DWORD [esi]
-        sbb     edx,0
-        mov     DWORD [28+esp],ecx
-        sbb     edi,0
-        mov     DWORD [esp],edx
-        mul     ebx
-        add     eax,DWORD [4+esp]
-        adc     edx,0
-        mov     DWORD [4+esp],eax
-        mov     eax,DWORD [4+esi]
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [8+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [8+esi]
-        mov     DWORD [8+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [12+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [12+esi]
-        mov     DWORD [12+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [16+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [16+esi]
-        mov     DWORD [16+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [20+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [20+esi]
-        mov     DWORD [20+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [24+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [24+esi]
-        mov     DWORD [24+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [28+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [28+esi]
-        mov     DWORD [28+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [esp]
-        adc     edx,0
-        add     ecx,eax
-        mov     eax,DWORD [4+esp]
-        adc     edx,edi
-        mov     edi,0
-        adc     edi,0
-        add     DWORD [16+esp],eax
-        adc     DWORD [20+esp],0
-        adc     DWORD [24+esp],0
-        adc     DWORD [28+esp],eax
-        adc     ecx,0
-        adc     edx,eax
-        adc     edi,0
-        mov     ebx,DWORD [8+ebp]
-        sub     ecx,eax
-        mov     eax,DWORD [esi]
-        sbb     edx,0
-        mov     DWORD [esp],ecx
-        sbb     edi,0
-        mov     DWORD [4+esp],edx
-        mul     ebx
-        add     eax,DWORD [8+esp]
-        adc     edx,0
-        mov     DWORD [8+esp],eax
-        mov     eax,DWORD [4+esi]
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [12+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [8+esi]
-        mov     DWORD [12+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [16+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [12+esi]
-        mov     DWORD [16+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [20+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [16+esi]
-        mov     DWORD [20+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [24+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [20+esi]
-        mov     DWORD [24+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [28+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [24+esi]
-        mov     DWORD [28+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [28+esi]
-        mov     DWORD [esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [4+esp]
-        adc     edx,0
-        add     ecx,eax
-        mov     eax,DWORD [8+esp]
-        adc     edx,edi
-        mov     edi,0
-        adc     edi,0
-        add     DWORD [20+esp],eax
-        adc     DWORD [24+esp],0
-        adc     DWORD [28+esp],0
-        adc     DWORD [esp],eax
-        adc     ecx,0
-        adc     edx,eax
-        adc     edi,0
-        mov     ebx,DWORD [12+ebp]
-        sub     ecx,eax
-        mov     eax,DWORD [esi]
-        sbb     edx,0
-        mov     DWORD [4+esp],ecx
-        sbb     edi,0
-        mov     DWORD [8+esp],edx
-        mul     ebx
-        add     eax,DWORD [12+esp]
-        adc     edx,0
-        mov     DWORD [12+esp],eax
-        mov     eax,DWORD [4+esi]
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [16+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [8+esi]
-        mov     DWORD [16+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [20+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [12+esi]
-        mov     DWORD [20+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [24+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [16+esi]
-        mov     DWORD [24+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [28+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [20+esi]
-        mov     DWORD [28+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [24+esi]
-        mov     DWORD [esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [4+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [28+esi]
-        mov     DWORD [4+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [8+esp]
-        adc     edx,0
-        add     ecx,eax
-        mov     eax,DWORD [12+esp]
-        adc     edx,edi
-        mov     edi,0
-        adc     edi,0
-        add     DWORD [24+esp],eax
-        adc     DWORD [28+esp],0
-        adc     DWORD [esp],0
-        adc     DWORD [4+esp],eax
-        adc     ecx,0
-        adc     edx,eax
-        adc     edi,0
-        mov     ebx,DWORD [16+ebp]
-        sub     ecx,eax
-        mov     eax,DWORD [esi]
-        sbb     edx,0
-        mov     DWORD [8+esp],ecx
-        sbb     edi,0
-        mov     DWORD [12+esp],edx
-        mul     ebx
-        add     eax,DWORD [16+esp]
-        adc     edx,0
-        mov     DWORD [16+esp],eax
-        mov     eax,DWORD [4+esi]
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [20+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [8+esi]
-        mov     DWORD [20+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [24+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [12+esi]
-        mov     DWORD [24+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [28+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [16+esi]
-        mov     DWORD [28+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [20+esi]
-        mov     DWORD [esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [4+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [24+esi]
-        mov     DWORD [4+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [8+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [28+esi]
-        mov     DWORD [8+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [12+esp]
-        adc     edx,0
-        add     ecx,eax
-        mov     eax,DWORD [16+esp]
-        adc     edx,edi
-        mov     edi,0
-        adc     edi,0
-        add     DWORD [28+esp],eax
-        adc     DWORD [esp],0
-        adc     DWORD [4+esp],0
-        adc     DWORD [8+esp],eax
-        adc     ecx,0
-        adc     edx,eax
-        adc     edi,0
-        mov     ebx,DWORD [20+ebp]
-        sub     ecx,eax
-        mov     eax,DWORD [esi]
-        sbb     edx,0
-        mov     DWORD [12+esp],ecx
-        sbb     edi,0
-        mov     DWORD [16+esp],edx
-        mul     ebx
-        add     eax,DWORD [20+esp]
-        adc     edx,0
-        mov     DWORD [20+esp],eax
-        mov     eax,DWORD [4+esi]
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [24+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [8+esi]
-        mov     DWORD [24+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [28+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [12+esi]
-        mov     DWORD [28+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [16+esi]
-        mov     DWORD [esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [4+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [20+esi]
-        mov     DWORD [4+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [8+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [24+esi]
-        mov     DWORD [8+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [12+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [28+esi]
-        mov     DWORD [12+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [16+esp]
-        adc     edx,0
-        add     ecx,eax
-        mov     eax,DWORD [20+esp]
-        adc     edx,edi
-        mov     edi,0
-        adc     edi,0
-        add     DWORD [esp],eax
-        adc     DWORD [4+esp],0
-        adc     DWORD [8+esp],0
-        adc     DWORD [12+esp],eax
-        adc     ecx,0
-        adc     edx,eax
-        adc     edi,0
-        mov     ebx,DWORD [24+ebp]
-        sub     ecx,eax
-        mov     eax,DWORD [esi]
-        sbb     edx,0
-        mov     DWORD [16+esp],ecx
-        sbb     edi,0
-        mov     DWORD [20+esp],edx
-        mul     ebx
-        add     eax,DWORD [24+esp]
-        adc     edx,0
-        mov     DWORD [24+esp],eax
-        mov     eax,DWORD [4+esi]
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [28+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [8+esi]
-        mov     DWORD [28+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [12+esi]
-        mov     DWORD [esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [4+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [16+esi]
-        mov     DWORD [4+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [8+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [20+esi]
-        mov     DWORD [8+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [12+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [24+esi]
-        mov     DWORD [12+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [16+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [28+esi]
-        mov     DWORD [16+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [20+esp]
-        adc     edx,0
-        add     ecx,eax
-        mov     eax,DWORD [24+esp]
-        adc     edx,edi
-        mov     edi,0
-        adc     edi,0
-        add     DWORD [4+esp],eax
-        adc     DWORD [8+esp],0
-        adc     DWORD [12+esp],0
-        adc     DWORD [16+esp],eax
-        adc     ecx,0
-        adc     edx,eax
-        adc     edi,0
-        mov     ebx,DWORD [28+ebp]
-        sub     ecx,eax
-        mov     eax,DWORD [esi]
-        sbb     edx,0
-        mov     DWORD [20+esp],ecx
-        sbb     edi,0
-        mov     DWORD [24+esp],edx
-        mul     ebx
-        add     eax,DWORD [28+esp]
-        adc     edx,0
-        mov     DWORD [28+esp],eax
-        mov     eax,DWORD [4+esi]
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [8+esi]
-        mov     DWORD [esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [4+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [12+esi]
-        mov     DWORD [4+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [8+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [16+esi]
-        mov     DWORD [8+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [12+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [20+esi]
-        mov     DWORD [12+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [16+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [24+esi]
-        mov     DWORD [16+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [20+esp]
-        adc     edx,0
-        add     ecx,eax
-        adc     edx,0
-        mov     eax,DWORD [28+esi]
-        mov     DWORD [20+esp],ecx
-        mov     ecx,edx
-        mul     ebx
-        add     ecx,DWORD [24+esp]
-        adc     edx,0
-        add     ecx,eax
-        mov     eax,DWORD [28+esp]
-        adc     edx,edi
-        mov     edi,0
-        adc     edi,0
-        mov     ebp,DWORD [32+esp]
-        xor     esi,esi
-        add     DWORD [8+esp],eax
-        adc     DWORD [12+esp],0
-        adc     DWORD [16+esp],0
-        adc     DWORD [20+esp],eax
-        adc     ecx,0
-        adc     edx,eax
-        adc     edi,0
-        mov     ebx,DWORD [4+esp]
-        sub     ecx,eax
-        mov     eax,DWORD [esp]
-        sbb     edx,0
-        mov     DWORD [24+esp],ecx
-        sbb     edi,0
-        mov     DWORD [28+esp],edx
-        mov     ecx,DWORD [8+esp]
-        sub     eax,-1
-        mov     edx,DWORD [12+esp]
-        sbb     ebx,-1
-        mov     DWORD [ebp],eax
-        sbb     ecx,-1
-        mov     DWORD [4+ebp],ebx
-        sbb     edx,0
-        mov     DWORD [8+ebp],ecx
-        mov     DWORD [12+ebp],edx
-        mov     eax,DWORD [16+esp]
-        mov     ebx,DWORD [20+esp]
-        mov     ecx,DWORD [24+esp]
-        sbb     eax,0
-        mov     edx,DWORD [28+esp]
-        sbb     ebx,0
-        sbb     ecx,1
-        sbb     edx,-1
-        sbb     edi,0
-        sub     esi,edi
-        add     DWORD [ebp],edi
-        adc     DWORD [4+ebp],edi
-        adc     DWORD [8+ebp],edi
-        adc     DWORD [12+ebp],0
-        adc     eax,0
-        adc     ebx,0
-        mov     DWORD [16+ebp],eax
-        adc     ecx,esi
-        mov     DWORD [20+ebp],ebx
-        adc     edx,edi
-        mov     DWORD [24+ebp],ecx
-        mov     edi,ebp
-        mov     DWORD [28+ebp],edx
-        add     esp,40
+        sub     esp, 40
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [ebp]
+        mov     DWORD [32+esp], edi
+        mul     ebx
+        mov     DWORD [esp], eax
+        mov     eax, DWORD [4+esi]
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, eax
+        mov     eax, DWORD [8+esi]
+        adc     edx, 0
+        mov     DWORD [4+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, eax
+        mov     eax, DWORD [12+esi]
+        adc     edx, 0
+        mov     DWORD [8+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, eax
+        mov     eax, DWORD [16+esi]
+        adc     edx, 0
+        mov     DWORD [12+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, eax
+        mov     eax, DWORD [20+esi]
+        adc     edx, 0
+        mov     DWORD [16+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, eax
+        mov     eax, DWORD [24+esi]
+        adc     edx, 0
+        mov     DWORD [20+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, eax
+        mov     eax, DWORD [28+esi]
+        adc     edx, 0
+        mov     DWORD [24+esp], ecx
+        mov     ecx, edx
+        xor     edi, edi
+        mul     ebx
+        add     ecx, eax
+        mov     eax, DWORD [esp]
+        adc     edx, 0
+        add     DWORD [12+esp], eax
+        adc     DWORD [16+esp], 0
+        adc     DWORD [20+esp], 0
+        adc     DWORD [24+esp], eax
+        adc     ecx, 0
+        adc     edx, eax
+        adc     edi, 0
+        mov     ebx, DWORD [4+ebp]
+        sub     ecx, eax
+        mov     eax, DWORD [esi]
+        sbb     edx, 0
+        mov     DWORD [28+esp], ecx
+        sbb     edi, 0
+        mov     DWORD [esp], edx
+        mul     ebx
+        add     eax, DWORD [4+esp]
+        adc     edx, 0
+        mov     DWORD [4+esp], eax
+        mov     eax, DWORD [4+esi]
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [8+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [8+esi]
+        mov     DWORD [8+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [12+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [12+esi]
+        mov     DWORD [12+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [16+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [16+esi]
+        mov     DWORD [16+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [20+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [20+esi]
+        mov     DWORD [20+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [24+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [24+esi]
+        mov     DWORD [24+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [28+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [28+esi]
+        mov     DWORD [28+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [esp]
+        adc     edx, 0
+        add     ecx, eax
+        mov     eax, DWORD [4+esp]
+        adc     edx, edi
+        mov     edi, 0
+        adc     edi, 0
+        add     DWORD [16+esp], eax
+        adc     DWORD [20+esp], 0
+        adc     DWORD [24+esp], 0
+        adc     DWORD [28+esp], eax
+        adc     ecx, 0
+        adc     edx, eax
+        adc     edi, 0
+        mov     ebx, DWORD [8+ebp]
+        sub     ecx, eax
+        mov     eax, DWORD [esi]
+        sbb     edx, 0
+        mov     DWORD [esp], ecx
+        sbb     edi, 0
+        mov     DWORD [4+esp], edx
+        mul     ebx
+        add     eax, DWORD [8+esp]
+        adc     edx, 0
+        mov     DWORD [8+esp], eax
+        mov     eax, DWORD [4+esi]
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [12+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [8+esi]
+        mov     DWORD [12+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [16+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [12+esi]
+        mov     DWORD [16+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [20+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [16+esi]
+        mov     DWORD [20+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [24+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [20+esi]
+        mov     DWORD [24+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [28+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [24+esi]
+        mov     DWORD [28+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [28+esi]
+        mov     DWORD [esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [4+esp]
+        adc     edx, 0
+        add     ecx, eax
+        mov     eax, DWORD [8+esp]
+        adc     edx, edi
+        mov     edi, 0
+        adc     edi, 0
+        add     DWORD [20+esp], eax
+        adc     DWORD [24+esp], 0
+        adc     DWORD [28+esp], 0
+        adc     DWORD [esp],    eax
+        adc     ecx, 0
+        adc     edx, eax
+        adc     edi, 0
+        mov     ebx, DWORD [12+ebp]
+        sub     ecx, eax
+        mov     eax, DWORD [esi]
+        sbb     edx, 0
+        mov     DWORD [4+esp], ecx
+        sbb     edi, 0
+        mov     DWORD [8+esp], edx
+        mul     ebx
+        add     eax, DWORD [12+esp]
+        adc     edx, 0
+        mov     DWORD [12+esp], eax
+        mov     eax, DWORD [4+esi]
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [16+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [8+esi]
+        mov     DWORD [16+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [20+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [12+esi]
+        mov     DWORD [20+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [24+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [16+esi]
+        mov     DWORD [24+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [28+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [20+esi]
+        mov     DWORD [28+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [24+esi]
+        mov     DWORD [esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [4+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [28+esi]
+        mov     DWORD [4+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [8+esp]
+        adc     edx, 0
+        add     ecx, eax
+        mov     eax, DWORD [12+esp]
+        adc     edx, edi
+        mov     edi, 0
+        adc     edi, 0
+        add     DWORD [24+esp], eax
+        adc     DWORD [28+esp], 0
+        adc     DWORD [esp],    0
+        adc     DWORD [4+esp],  eax
+        adc     ecx, 0
+        adc     edx, eax
+        adc     edi, 0
+        mov     ebx, DWORD [16+ebp]
+        sub     ecx, eax
+        mov     eax, DWORD [esi]
+        sbb     edx, 0
+        mov     DWORD [8+esp], ecx
+        sbb     edi, 0
+        mov     DWORD [12+esp], edx
+        mul     ebx
+        add     eax, DWORD [16+esp]
+        adc     edx, 0
+        mov     DWORD [16+esp], eax
+        mov     eax, DWORD [4+esi]
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [20+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [8+esi]
+        mov     DWORD [20+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [24+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [12+esi]
+        mov     DWORD [24+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [28+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [16+esi]
+        mov     DWORD [28+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [20+esi]
+        mov     DWORD [esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [4+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [24+esi]
+        mov     DWORD [4+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [8+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [28+esi]
+        mov     DWORD [8+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [12+esp]
+        adc     edx, 0
+        add     ecx, eax
+        mov     eax, DWORD [16+esp]
+        adc     edx, edi
+        mov     edi, 0
+        adc     edi, 0
+        add     DWORD [28+esp], eax
+        adc     DWORD [esp],    0
+        adc     DWORD [4+esp],  0
+        adc     DWORD [8+esp],  eax
+        adc     ecx, 0
+        adc     edx, eax
+        adc     edi, 0
+        mov     ebx, DWORD [20+ebp]
+        sub     ecx, eax
+        mov     eax, DWORD [esi]
+        sbb     edx, 0
+        mov     DWORD [12+esp], ecx
+        sbb     edi, 0
+        mov     DWORD [16+esp], edx
+        mul     ebx
+        add     eax, DWORD [20+esp]
+        adc     edx, 0
+        mov     DWORD [20+esp], eax
+        mov     eax, DWORD [4+esi]
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [24+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [8+esi]
+        mov     DWORD [24+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [28+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [12+esi]
+        mov     DWORD [28+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [16+esi]
+        mov     DWORD [esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [4+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [20+esi]
+        mov     DWORD [4+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [8+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [24+esi]
+        mov     DWORD [8+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [12+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [28+esi]
+        mov     DWORD [12+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [16+esp]
+        adc     edx, 0
+        add     ecx, eax
+        mov     eax, DWORD [20+esp]
+        adc     edx, edi
+        mov     edi, 0
+        adc     edi, 0
+        add     DWORD [esp],    eax
+        adc     DWORD [4+esp],  0
+        adc     DWORD [8+esp],  0
+        adc     DWORD [12+esp], eax
+        adc     ecx, 0
+        adc     edx, eax
+        adc     edi, 0
+        mov     ebx, DWORD [24+ebp]
+        sub     ecx, eax
+        mov     eax, DWORD [esi]
+        sbb     edx, 0
+        mov     DWORD [16+esp], ecx
+        sbb     edi, 0
+        mov     DWORD [20+esp], edx
+        mul     ebx
+        add     eax, DWORD [24+esp]
+        adc     edx, 0
+        mov     DWORD [24+esp], eax
+        mov     eax, DWORD [4+esi]
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [28+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [8+esi]
+        mov     DWORD [28+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [12+esi]
+        mov     DWORD [esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [4+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [16+esi]
+        mov     DWORD [4+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [8+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [20+esi]
+        mov     DWORD [8+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [12+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [24+esi]
+        mov     DWORD [12+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [16+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [28+esi]
+        mov     DWORD [16+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [20+esp]
+        adc     edx, 0
+        add     ecx, eax
+        mov     eax, DWORD [24+esp]
+        adc     edx, edi
+        mov     edi, 0
+        adc     edi, 0
+        add     DWORD [4+esp],  eax
+        adc     DWORD [8+esp],  0
+        adc     DWORD [12+esp], 0
+        adc     DWORD [16+esp], eax
+        adc     ecx, 0
+        adc     edx, eax
+        adc     edi, 0
+        mov     ebx, DWORD [28+ebp]
+        sub     ecx, eax
+        mov     eax, DWORD [esi]
+        sbb     edx, 0
+        mov     DWORD [20+esp], ecx
+        sbb     edi, 0
+        mov     DWORD [24+esp], edx
+        mul     ebx
+        add     eax, DWORD [28+esp]
+        adc     edx, 0
+        mov     DWORD [28+esp], eax
+        mov     eax, DWORD [4+esi]
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [8+esi]
+        mov     DWORD [esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [4+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [12+esi]
+        mov     DWORD [4+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [8+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [16+esi]
+        mov     DWORD [8+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [12+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [20+esi]
+        mov     DWORD [12+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [16+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [24+esi]
+        mov     DWORD [16+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [20+esp]
+        adc     edx, 0
+        add     ecx, eax
+        adc     edx, 0
+        mov     eax, DWORD [28+esi]
+        mov     DWORD [20+esp], ecx
+        mov     ecx, edx
+        mul     ebx
+        add     ecx, DWORD [24+esp]
+        adc     edx, 0
+        add     ecx, eax
+        mov     eax, DWORD [28+esp]
+        adc     edx, edi
+        mov     edi, 0
+        adc     edi, 0
+        mov     ebp, DWORD [32+esp]
+        xor     esi, esi
+        add     DWORD [8+esp],  eax
+        adc     DWORD [12+esp], 0
+        adc     DWORD [16+esp], 0
+        adc     DWORD [20+esp], eax
+        adc     ecx, 0
+        adc     edx, eax
+        adc     edi, 0
+        mov     ebx, DWORD [4+esp]
+        sub     ecx, eax
+        mov     eax, DWORD [esp]
+        sbb     edx, 0
+        mov     DWORD [24+esp], ecx
+        sbb     edi, 0
+        mov     DWORD [28+esp], edx
+        mov     ecx, DWORD [8+esp]
+        sub     eax, -1
+        mov     edx, DWORD [12+esp]
+        sbb     ebx, -1
+        mov     DWORD [ebp], eax
+        sbb     ecx, -1
+        mov     DWORD [4+ebp], ebx
+        sbb     edx, 0
+        mov     DWORD [8+ebp],  ecx
+        mov     DWORD [12+ebp], edx
+        mov     eax, DWORD [16+esp]
+        mov     ebx, DWORD [20+esp]
+        mov     ecx, DWORD [24+esp]
+        sbb     eax, 0
+        mov     edx, DWORD [28+esp]
+        sbb     ebx, 0
+        sbb     ecx, 1
+        sbb     edx, -1
+        sbb     edi, 0
+        sub     esi, edi
+        add     DWORD [ebp],    edi
+        adc     DWORD [4+ebp],  edi
+        adc     DWORD [8+ebp],  edi
+        adc     DWORD [12+ebp], 0
+        adc     eax, 0
+        adc     ebx, 0
+        mov     DWORD [16+ebp], eax
+        adc     ecx, esi
+        mov     DWORD [20+ebp], ebx
+        adc     edx, edi
+        mov     DWORD [24+ebp], ecx
+        mov     edi, ebp
+        mov     DWORD [28+ebp], edx
+        add     esp, 40
         ret
 global  _ecp_nistz256_scatter_w5
 align   16
@@ -3703,22 +3703,22 @@ L$_ecp_nistz256_scatter_w5_begin:
         push    ebx
         push    esi
         push    edi
-        mov     edi,DWORD [20+esp]
-        mov     esi,DWORD [24+esp]
-        mov     ebp,DWORD [28+esp]
-        lea     edi,[124+ebp*4+edi]
-        mov     ebp,6
+        mov     edi, DWORD [20+esp]
+        mov     esi, DWORD [24+esp]
+        mov     ebp, DWORD [28+esp]
+        lea     edi, [124+ebp*4+edi]
+        mov     ebp, 6
 L$006scatter_w5_loop:
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        lea     esi,[16+esi]
-        mov     DWORD [edi-128],eax
-        mov     DWORD [edi-64],ebx
-        mov     DWORD [edi],ecx
-        mov     DWORD [64+edi],edx
-        lea     edi,[256+edi]
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        lea     esi, [16+esi]
+        mov     DWORD [edi-128], eax
+        mov     DWORD [edi-64],  ebx
+        mov     DWORD [edi],     ecx
+        mov     DWORD [64+edi],  edx
+        lea     edi, [256+edi]
         dec     ebp
         jnz     NEAR L$006scatter_w5_loop
         pop     edi
@@ -3734,85 +3734,85 @@ L$_ecp_nistz256_gather_w5_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
-        mov     ebp,DWORD [28+esp]
-        lea     esi,[ebp*4+esi]
+        mov     esi, DWORD [24+esp]
+        mov     ebp, DWORD [28+esp]
+        lea     esi, [ebp*4+esi]
         neg     ebp
-        sar     ebp,31
-        mov     edi,DWORD [20+esp]
-        lea     esi,[ebp*4+esi]
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [64+esi]
-        mov     ecx,DWORD [128+esi]
-        mov     edx,DWORD [192+esi]
-        and     eax,ebp
-        and     ebx,ebp
-        and     ecx,ebp
-        and     edx,ebp
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     eax,DWORD [256+esi]
-        mov     ebx,DWORD [320+esi]
-        mov     ecx,DWORD [384+esi]
-        mov     edx,DWORD [448+esi]
-        and     eax,ebp
-        and     ebx,ebp
-        and     ecx,ebp
-        and     edx,ebp
-        mov     DWORD [16+edi],eax
-        mov     DWORD [20+edi],ebx
-        mov     DWORD [24+edi],ecx
-        mov     DWORD [28+edi],edx
-        mov     eax,DWORD [512+esi]
-        mov     ebx,DWORD [576+esi]
-        mov     ecx,DWORD [640+esi]
-        mov     edx,DWORD [704+esi]
-        and     eax,ebp
-        and     ebx,ebp
-        and     ecx,ebp
-        and     edx,ebp
-        mov     DWORD [32+edi],eax
-        mov     DWORD [36+edi],ebx
-        mov     DWORD [40+edi],ecx
-        mov     DWORD [44+edi],edx
-        mov     eax,DWORD [768+esi]
-        mov     ebx,DWORD [832+esi]
-        mov     ecx,DWORD [896+esi]
-        mov     edx,DWORD [960+esi]
-        and     eax,ebp
-        and     ebx,ebp
-        and     ecx,ebp
-        and     edx,ebp
-        mov     DWORD [48+edi],eax
-        mov     DWORD [52+edi],ebx
-        mov     DWORD [56+edi],ecx
-        mov     DWORD [60+edi],edx
-        mov     eax,DWORD [1024+esi]
-        mov     ebx,DWORD [1088+esi]
-        mov     ecx,DWORD [1152+esi]
-        mov     edx,DWORD [1216+esi]
-        and     eax,ebp
-        and     ebx,ebp
-        and     ecx,ebp
-        and     edx,ebp
-        mov     DWORD [64+edi],eax
-        mov     DWORD [68+edi],ebx
-        mov     DWORD [72+edi],ecx
-        mov     DWORD [76+edi],edx
-        mov     eax,DWORD [1280+esi]
-        mov     ebx,DWORD [1344+esi]
-        mov     ecx,DWORD [1408+esi]
-        mov     edx,DWORD [1472+esi]
-        and     eax,ebp
-        and     ebx,ebp
-        and     ecx,ebp
-        and     edx,ebp
-        mov     DWORD [80+edi],eax
-        mov     DWORD [84+edi],ebx
-        mov     DWORD [88+edi],ecx
-        mov     DWORD [92+edi],edx
+        sar     ebp, 31
+        mov     edi, DWORD [20+esp]
+        lea     esi, [ebp*4+esi]
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [64+esi]
+        mov     ecx, DWORD [128+esi]
+        mov     edx, DWORD [192+esi]
+        and     eax, ebp
+        and     ebx, ebp
+        and     ecx, ebp
+        and     edx, ebp
+        mov     DWORD [edi],    eax
+        mov     DWORD [4+edi],  ebx
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     eax, DWORD [256+esi]
+        mov     ebx, DWORD [320+esi]
+        mov     ecx, DWORD [384+esi]
+        mov     edx, DWORD [448+esi]
+        and     eax, ebp
+        and     ebx, ebp
+        and     ecx, ebp
+        and     edx, ebp
+        mov     DWORD [16+edi], eax
+        mov     DWORD [20+edi], ebx
+        mov     DWORD [24+edi], ecx
+        mov     DWORD [28+edi], edx
+        mov     eax, DWORD [512+esi]
+        mov     ebx, DWORD [576+esi]
+        mov     ecx, DWORD [640+esi]
+        mov     edx, DWORD [704+esi]
+        and     eax, ebp
+        and     ebx, ebp
+        and     ecx, ebp
+        and     edx, ebp
+        mov     DWORD [32+edi], eax
+        mov     DWORD [36+edi], ebx
+        mov     DWORD [40+edi], ecx
+        mov     DWORD [44+edi], edx
+        mov     eax, DWORD [768+esi]
+        mov     ebx, DWORD [832+esi]
+        mov     ecx, DWORD [896+esi]
+        mov     edx, DWORD [960+esi]
+        and     eax, ebp
+        and     ebx, ebp
+        and     ecx, ebp
+        and     edx, ebp
+        mov     DWORD [48+edi], eax
+        mov     DWORD [52+edi], ebx
+        mov     DWORD [56+edi], ecx
+        mov     DWORD [60+edi], edx
+        mov     eax, DWORD [1024+esi]
+        mov     ebx, DWORD [1088+esi]
+        mov     ecx, DWORD [1152+esi]
+        mov     edx, DWORD [1216+esi]
+        and     eax, ebp
+        and     ebx, ebp
+        and     ecx, ebp
+        and     edx, ebp
+        mov     DWORD [64+edi], eax
+        mov     DWORD [68+edi], ebx
+        mov     DWORD [72+edi], ecx
+        mov     DWORD [76+edi], edx
+        mov     eax, DWORD [1280+esi]
+        mov     ebx, DWORD [1344+esi]
+        mov     ecx, DWORD [1408+esi]
+        mov     edx, DWORD [1472+esi]
+        and     eax, ebp
+        and     ebx, ebp
+        and     ecx, ebp
+        and     edx, ebp
+        mov     DWORD [80+edi], eax
+        mov     DWORD [84+edi], ebx
+        mov     DWORD [88+edi], ecx
+        mov     DWORD [92+edi], edx
         pop     edi
         pop     esi
         pop     ebx
@@ -3826,20 +3826,20 @@ L$_ecp_nistz256_scatter_w7_begin:
         push    ebx
         push    esi
         push    edi
-        mov     edi,DWORD [20+esp]
-        mov     esi,DWORD [24+esp]
-        mov     ebp,DWORD [28+esp]
-        lea     edi,[ebp*1+edi]
-        mov     ebp,16
+        mov     edi, DWORD [20+esp]
+        mov     esi, DWORD [24+esp]
+        mov     ebp, DWORD [28+esp]
+        lea     edi, [ebp*1+edi]
+        mov     ebp, 16
 L$007scatter_w7_loop:
-        mov     eax,DWORD [esi]
-        lea     esi,[4+esi]
-        mov     BYTE [edi],al
-        mov     BYTE [64+edi],ah
-        shr     eax,16
-        mov     BYTE [128+edi],al
-        mov     BYTE [192+edi],ah
-        lea     edi,[256+edi]
+        mov     eax, DWORD [esi]
+        lea     esi, [4+esi]
+        mov     BYTE [edi],    al
+        mov     BYTE [64+edi], ah
+        shr     eax, 16
+        mov     BYTE [128+edi], al
+        mov     BYTE [192+edi], ah
+        lea     edi, [256+edi]
         dec     ebp
         jnz     NEAR L$007scatter_w7_loop
         pop     edi
@@ -3855,205 +3855,205 @@ L$_ecp_nistz256_gather_w7_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
-        mov     ebp,DWORD [28+esp]
-        add     esi,ebp
+        mov     esi, DWORD [24+esp]
+        mov     ebp, DWORD [28+esp]
+        add     esi, ebp
         neg     ebp
-        sar     ebp,31
-        mov     edi,DWORD [20+esp]
-        lea     esi,[ebp*1+esi]
-        movzx   eax,BYTE [esi]
-        movzx   ebx,BYTE [64+esi]
-        movzx   ecx,BYTE [128+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [192+esi]
-        and     ebx,ebp
-        mov     BYTE [edi],al
-        and     ecx,ebp
-        mov     BYTE [1+edi],bl
-        and     edx,ebp
-        mov     BYTE [2+edi],cl
-        mov     BYTE [3+edi],dl
-        movzx   eax,BYTE [256+esi]
-        movzx   ebx,BYTE [320+esi]
-        movzx   ecx,BYTE [384+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [448+esi]
-        and     ebx,ebp
-        mov     BYTE [4+edi],al
-        and     ecx,ebp
-        mov     BYTE [5+edi],bl
-        and     edx,ebp
-        mov     BYTE [6+edi],cl
-        mov     BYTE [7+edi],dl
-        movzx   eax,BYTE [512+esi]
-        movzx   ebx,BYTE [576+esi]
-        movzx   ecx,BYTE [640+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [704+esi]
-        and     ebx,ebp
-        mov     BYTE [8+edi],al
-        and     ecx,ebp
-        mov     BYTE [9+edi],bl
-        and     edx,ebp
-        mov     BYTE [10+edi],cl
-        mov     BYTE [11+edi],dl
-        movzx   eax,BYTE [768+esi]
-        movzx   ebx,BYTE [832+esi]
-        movzx   ecx,BYTE [896+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [960+esi]
-        and     ebx,ebp
-        mov     BYTE [12+edi],al
-        and     ecx,ebp
-        mov     BYTE [13+edi],bl
-        and     edx,ebp
-        mov     BYTE [14+edi],cl
-        mov     BYTE [15+edi],dl
-        movzx   eax,BYTE [1024+esi]
-        movzx   ebx,BYTE [1088+esi]
-        movzx   ecx,BYTE [1152+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [1216+esi]
-        and     ebx,ebp
-        mov     BYTE [16+edi],al
-        and     ecx,ebp
-        mov     BYTE [17+edi],bl
-        and     edx,ebp
-        mov     BYTE [18+edi],cl
-        mov     BYTE [19+edi],dl
-        movzx   eax,BYTE [1280+esi]
-        movzx   ebx,BYTE [1344+esi]
-        movzx   ecx,BYTE [1408+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [1472+esi]
-        and     ebx,ebp
-        mov     BYTE [20+edi],al
-        and     ecx,ebp
-        mov     BYTE [21+edi],bl
-        and     edx,ebp
-        mov     BYTE [22+edi],cl
-        mov     BYTE [23+edi],dl
-        movzx   eax,BYTE [1536+esi]
-        movzx   ebx,BYTE [1600+esi]
-        movzx   ecx,BYTE [1664+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [1728+esi]
-        and     ebx,ebp
-        mov     BYTE [24+edi],al
-        and     ecx,ebp
-        mov     BYTE [25+edi],bl
-        and     edx,ebp
-        mov     BYTE [26+edi],cl
-        mov     BYTE [27+edi],dl
-        movzx   eax,BYTE [1792+esi]
-        movzx   ebx,BYTE [1856+esi]
-        movzx   ecx,BYTE [1920+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [1984+esi]
-        and     ebx,ebp
-        mov     BYTE [28+edi],al
-        and     ecx,ebp
-        mov     BYTE [29+edi],bl
-        and     edx,ebp
-        mov     BYTE [30+edi],cl
-        mov     BYTE [31+edi],dl
-        movzx   eax,BYTE [2048+esi]
-        movzx   ebx,BYTE [2112+esi]
-        movzx   ecx,BYTE [2176+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [2240+esi]
-        and     ebx,ebp
-        mov     BYTE [32+edi],al
-        and     ecx,ebp
-        mov     BYTE [33+edi],bl
-        and     edx,ebp
-        mov     BYTE [34+edi],cl
-        mov     BYTE [35+edi],dl
-        movzx   eax,BYTE [2304+esi]
-        movzx   ebx,BYTE [2368+esi]
-        movzx   ecx,BYTE [2432+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [2496+esi]
-        and     ebx,ebp
-        mov     BYTE [36+edi],al
-        and     ecx,ebp
-        mov     BYTE [37+edi],bl
-        and     edx,ebp
-        mov     BYTE [38+edi],cl
-        mov     BYTE [39+edi],dl
-        movzx   eax,BYTE [2560+esi]
-        movzx   ebx,BYTE [2624+esi]
-        movzx   ecx,BYTE [2688+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [2752+esi]
-        and     ebx,ebp
-        mov     BYTE [40+edi],al
-        and     ecx,ebp
-        mov     BYTE [41+edi],bl
-        and     edx,ebp
-        mov     BYTE [42+edi],cl
-        mov     BYTE [43+edi],dl
-        movzx   eax,BYTE [2816+esi]
-        movzx   ebx,BYTE [2880+esi]
-        movzx   ecx,BYTE [2944+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [3008+esi]
-        and     ebx,ebp
-        mov     BYTE [44+edi],al
-        and     ecx,ebp
-        mov     BYTE [45+edi],bl
-        and     edx,ebp
-        mov     BYTE [46+edi],cl
-        mov     BYTE [47+edi],dl
-        movzx   eax,BYTE [3072+esi]
-        movzx   ebx,BYTE [3136+esi]
-        movzx   ecx,BYTE [3200+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [3264+esi]
-        and     ebx,ebp
-        mov     BYTE [48+edi],al
-        and     ecx,ebp
-        mov     BYTE [49+edi],bl
-        and     edx,ebp
-        mov     BYTE [50+edi],cl
-        mov     BYTE [51+edi],dl
-        movzx   eax,BYTE [3328+esi]
-        movzx   ebx,BYTE [3392+esi]
-        movzx   ecx,BYTE [3456+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [3520+esi]
-        and     ebx,ebp
-        mov     BYTE [52+edi],al
-        and     ecx,ebp
-        mov     BYTE [53+edi],bl
-        and     edx,ebp
-        mov     BYTE [54+edi],cl
-        mov     BYTE [55+edi],dl
-        movzx   eax,BYTE [3584+esi]
-        movzx   ebx,BYTE [3648+esi]
-        movzx   ecx,BYTE [3712+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [3776+esi]
-        and     ebx,ebp
-        mov     BYTE [56+edi],al
-        and     ecx,ebp
-        mov     BYTE [57+edi],bl
-        and     edx,ebp
-        mov     BYTE [58+edi],cl
-        mov     BYTE [59+edi],dl
-        movzx   eax,BYTE [3840+esi]
-        movzx   ebx,BYTE [3904+esi]
-        movzx   ecx,BYTE [3968+esi]
-        and     eax,ebp
-        movzx   edx,BYTE [4032+esi]
-        and     ebx,ebp
-        mov     BYTE [60+edi],al
-        and     ecx,ebp
-        mov     BYTE [61+edi],bl
-        and     edx,ebp
-        mov     BYTE [62+edi],cl
-        mov     BYTE [63+edi],dl
+        sar     ebp, 31
+        mov     edi, DWORD [20+esp]
+        lea     esi, [ebp*1+esi]
+        movzx   eax, BYTE [esi]
+        movzx   ebx, BYTE [64+esi]
+        movzx   ecx, BYTE [128+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [192+esi]
+        and     ebx, ebp
+        mov     BYTE [edi], al
+        and     ecx, ebp
+        mov     BYTE [1+edi], bl
+        and     edx, ebp
+        mov     BYTE [2+edi], cl
+        mov     BYTE [3+edi], dl
+        movzx   eax, BYTE [256+esi]
+        movzx   ebx, BYTE [320+esi]
+        movzx   ecx, BYTE [384+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [448+esi]
+        and     ebx, ebp
+        mov     BYTE [4+edi], al
+        and     ecx, ebp
+        mov     BYTE [5+edi], bl
+        and     edx, ebp
+        mov     BYTE [6+edi], cl
+        mov     BYTE [7+edi], dl
+        movzx   eax, BYTE [512+esi]
+        movzx   ebx, BYTE [576+esi]
+        movzx   ecx, BYTE [640+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [704+esi]
+        and     ebx, ebp
+        mov     BYTE [8+edi], al
+        and     ecx, ebp
+        mov     BYTE [9+edi], bl
+        and     edx, ebp
+        mov     BYTE [10+edi], cl
+        mov     BYTE [11+edi], dl
+        movzx   eax, BYTE [768+esi]
+        movzx   ebx, BYTE [832+esi]
+        movzx   ecx, BYTE [896+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [960+esi]
+        and     ebx, ebp
+        mov     BYTE [12+edi], al
+        and     ecx, ebp
+        mov     BYTE [13+edi], bl
+        and     edx, ebp
+        mov     BYTE [14+edi], cl
+        mov     BYTE [15+edi], dl
+        movzx   eax, BYTE [1024+esi]
+        movzx   ebx, BYTE [1088+esi]
+        movzx   ecx, BYTE [1152+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [1216+esi]
+        and     ebx, ebp
+        mov     BYTE [16+edi], al
+        and     ecx, ebp
+        mov     BYTE [17+edi], bl
+        and     edx, ebp
+        mov     BYTE [18+edi], cl
+        mov     BYTE [19+edi], dl
+        movzx   eax, BYTE [1280+esi]
+        movzx   ebx, BYTE [1344+esi]
+        movzx   ecx, BYTE [1408+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [1472+esi]
+        and     ebx, ebp
+        mov     BYTE [20+edi], al
+        and     ecx, ebp
+        mov     BYTE [21+edi], bl
+        and     edx, ebp
+        mov     BYTE [22+edi], cl
+        mov     BYTE [23+edi], dl
+        movzx   eax, BYTE [1536+esi]
+        movzx   ebx, BYTE [1600+esi]
+        movzx   ecx, BYTE [1664+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [1728+esi]
+        and     ebx, ebp
+        mov     BYTE [24+edi], al
+        and     ecx, ebp
+        mov     BYTE [25+edi], bl
+        and     edx, ebp
+        mov     BYTE [26+edi], cl
+        mov     BYTE [27+edi], dl
+        movzx   eax, BYTE [1792+esi]
+        movzx   ebx, BYTE [1856+esi]
+        movzx   ecx, BYTE [1920+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [1984+esi]
+        and     ebx, ebp
+        mov     BYTE [28+edi], al
+        and     ecx, ebp
+        mov     BYTE [29+edi], bl
+        and     edx, ebp
+        mov     BYTE [30+edi], cl
+        mov     BYTE [31+edi], dl
+        movzx   eax, BYTE [2048+esi]
+        movzx   ebx, BYTE [2112+esi]
+        movzx   ecx, BYTE [2176+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [2240+esi]
+        and     ebx, ebp
+        mov     BYTE [32+edi], al
+        and     ecx, ebp
+        mov     BYTE [33+edi], bl
+        and     edx, ebp
+        mov     BYTE [34+edi], cl
+        mov     BYTE [35+edi], dl
+        movzx   eax, BYTE [2304+esi]
+        movzx   ebx, BYTE [2368+esi]
+        movzx   ecx, BYTE [2432+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [2496+esi]
+        and     ebx, ebp
+        mov     BYTE [36+edi], al
+        and     ecx, ebp
+        mov     BYTE [37+edi], bl
+        and     edx, ebp
+        mov     BYTE [38+edi], cl
+        mov     BYTE [39+edi], dl
+        movzx   eax, BYTE [2560+esi]
+        movzx   ebx, BYTE [2624+esi]
+        movzx   ecx, BYTE [2688+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [2752+esi]
+        and     ebx, ebp
+        mov     BYTE [40+edi], al
+        and     ecx, ebp
+        mov     BYTE [41+edi], bl
+        and     edx, ebp
+        mov     BYTE [42+edi], cl
+        mov     BYTE [43+edi], dl
+        movzx   eax, BYTE [2816+esi]
+        movzx   ebx, BYTE [2880+esi]
+        movzx   ecx, BYTE [2944+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [3008+esi]
+        and     ebx, ebp
+        mov     BYTE [44+edi], al
+        and     ecx, ebp
+        mov     BYTE [45+edi], bl
+        and     edx, ebp
+        mov     BYTE [46+edi], cl
+        mov     BYTE [47+edi], dl
+        movzx   eax, BYTE [3072+esi]
+        movzx   ebx, BYTE [3136+esi]
+        movzx   ecx, BYTE [3200+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [3264+esi]
+        and     ebx, ebp
+        mov     BYTE [48+edi], al
+        and     ecx, ebp
+        mov     BYTE [49+edi], bl
+        and     edx, ebp
+        mov     BYTE [50+edi], cl
+        mov     BYTE [51+edi], dl
+        movzx   eax, BYTE [3328+esi]
+        movzx   ebx, BYTE [3392+esi]
+        movzx   ecx, BYTE [3456+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [3520+esi]
+        and     ebx, ebp
+        mov     BYTE [52+edi], al
+        and     ecx, ebp
+        mov     BYTE [53+edi], bl
+        and     edx, ebp
+        mov     BYTE [54+edi], cl
+        mov     BYTE [55+edi], dl
+        movzx   eax, BYTE [3584+esi]
+        movzx   ebx, BYTE [3648+esi]
+        movzx   ecx, BYTE [3712+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [3776+esi]
+        and     ebx, ebp
+        mov     BYTE [56+edi], al
+        and     ecx, ebp
+        mov     BYTE [57+edi], bl
+        and     edx, ebp
+        mov     BYTE [58+edi], cl
+        mov     BYTE [59+edi], dl
+        movzx   eax, BYTE [3840+esi]
+        movzx   ebx, BYTE [3904+esi]
+        movzx   ecx, BYTE [3968+esi]
+        and     eax, ebp
+        movzx   edx, BYTE [4032+esi]
+        and     ebx, ebp
+        mov     BYTE [60+edi], al
+        and     ecx, ebp
+        mov     BYTE [61+edi], bl
+        and     edx, ebp
+        mov     BYTE [62+edi], cl
+        mov     BYTE [63+edi], dl
         pop     edi
         pop     esi
         pop     ebx
@@ -4067,117 +4067,117 @@ L$_ecp_nistz256_point_double_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
-        sub     esp,164
+        mov     esi, DWORD [24+esp]
+        sub     esp, 164
         call    __picup_eax
 L$008pic:
-        lea     edx,[_OPENSSL_ia32cap_P]
-        mov     ebp,DWORD [edx]
+        lea     edx, [_OPENSSL_ia32cap_P]
+        mov     ebp, DWORD [edx]
 L$point_double_shortcut:
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        mov     DWORD [96+esp],eax
-        mov     DWORD [100+esp],ebx
-        mov     DWORD [104+esp],ecx
-        mov     DWORD [108+esp],edx
-        mov     eax,DWORD [16+esi]
-        mov     ebx,DWORD [20+esi]
-        mov     ecx,DWORD [24+esi]
-        mov     edx,DWORD [28+esi]
-        mov     DWORD [112+esp],eax
-        mov     DWORD [116+esp],ebx
-        mov     DWORD [120+esp],ecx
-        mov     DWORD [124+esp],edx
-        mov     DWORD [160+esp],ebp
-        lea     ebp,[32+esi]
-        lea     esi,[32+esi]
-        lea     edi,[esp]
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        mov     DWORD [96+esp],  eax
+        mov     DWORD [100+esp], ebx
+        mov     DWORD [104+esp], ecx
+        mov     DWORD [108+esp], edx
+        mov     eax, DWORD [16+esi]
+        mov     ebx, DWORD [20+esi]
+        mov     ecx, DWORD [24+esi]
+        mov     edx, DWORD [28+esi]
+        mov     DWORD [112+esp], eax
+        mov     DWORD [116+esp], ebx
+        mov     DWORD [120+esp], ecx
+        mov     DWORD [124+esp], edx
+        mov     DWORD [160+esp], ebp
+        lea     ebp, [32+esi]
+        lea     esi, [32+esi]
+        lea     edi, [esp]
         call    __ecp_nistz256_add
-        mov     eax,DWORD [160+esp]
-        mov     esi,64
-        add     esi,DWORD [188+esp]
-        lea     edi,[64+esp]
-        mov     ebp,esi
+        mov     eax, DWORD [160+esp]
+        mov     esi, 64
+        add     esi, DWORD [188+esp]
+        lea     edi, [64+esp]
+        mov     ebp, esi
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [160+esp]
-        lea     esi,[esp]
-        lea     ebp,[esp]
-        lea     edi,[esp]
+        mov     eax, DWORD [160+esp]
+        lea     esi, [esp]
+        lea     ebp, [esp]
+        lea     edi, [esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [160+esp]
-        mov     ebp,DWORD [188+esp]
-        lea     esi,[32+ebp]
-        lea     ebp,[64+ebp]
-        lea     edi,[128+esp]
+        mov     eax, DWORD [160+esp]
+        mov     ebp, DWORD [188+esp]
+        lea     esi, [32+ebp]
+        lea     ebp, [64+ebp]
+        lea     edi, [128+esp]
         call    __ecp_nistz256_mul_mont
-        lea     esi,[96+esp]
-        lea     ebp,[64+esp]
-        lea     edi,[32+esp]
+        lea     esi, [96+esp]
+        lea     ebp, [64+esp]
+        lea     edi, [32+esp]
         call    __ecp_nistz256_add
-        mov     edi,64
-        lea     esi,[128+esp]
-        lea     ebp,[128+esp]
-        add     edi,DWORD [184+esp]
+        mov     edi, 64
+        lea     esi, [128+esp]
+        lea     ebp, [128+esp]
+        add     edi, DWORD [184+esp]
         call    __ecp_nistz256_add
-        lea     esi,[96+esp]
-        lea     ebp,[64+esp]
-        lea     edi,[64+esp]
+        lea     esi, [96+esp]
+        lea     ebp, [64+esp]
+        lea     edi, [64+esp]
         call    __ecp_nistz256_sub
-        mov     eax,DWORD [160+esp]
-        lea     esi,[esp]
-        lea     ebp,[esp]
-        lea     edi,[128+esp]
+        mov     eax, DWORD [160+esp]
+        lea     esi, [esp]
+        lea     ebp, [esp]
+        lea     edi, [128+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [160+esp]
-        lea     esi,[32+esp]
-        lea     ebp,[64+esp]
-        lea     edi,[32+esp]
+        mov     eax, DWORD [160+esp]
+        lea     esi, [32+esp]
+        lea     ebp, [64+esp]
+        lea     edi, [32+esp]
         call    __ecp_nistz256_mul_mont
-        mov     edi,32
-        lea     esi,[128+esp]
-        add     edi,DWORD [184+esp]
+        mov     edi, 32
+        lea     esi, [128+esp]
+        add     edi, DWORD [184+esp]
         call    __ecp_nistz256_div_by_2
-        lea     esi,[32+esp]
-        lea     ebp,[32+esp]
-        lea     edi,[128+esp]
+        lea     esi, [32+esp]
+        lea     ebp, [32+esp]
+        lea     edi, [128+esp]
         call    __ecp_nistz256_add
-        mov     eax,DWORD [160+esp]
-        lea     esi,[96+esp]
-        lea     ebp,[esp]
-        lea     edi,[esp]
+        mov     eax, DWORD [160+esp]
+        lea     esi, [96+esp]
+        lea     ebp, [esp]
+        lea     edi, [esp]
         call    __ecp_nistz256_mul_mont
-        lea     esi,[128+esp]
-        lea     ebp,[32+esp]
-        lea     edi,[32+esp]
+        lea     esi, [128+esp]
+        lea     ebp, [32+esp]
+        lea     edi, [32+esp]
         call    __ecp_nistz256_add
-        lea     esi,[esp]
-        lea     ebp,[esp]
-        lea     edi,[128+esp]
+        lea     esi, [esp]
+        lea     ebp, [esp]
+        lea     edi, [128+esp]
         call    __ecp_nistz256_add
-        mov     eax,DWORD [160+esp]
-        lea     esi,[32+esp]
-        lea     ebp,[32+esp]
-        mov     edi,DWORD [184+esp]
+        mov     eax, DWORD [160+esp]
+        lea     esi, [32+esp]
+        lea     ebp, [32+esp]
+        mov     edi, DWORD [184+esp]
         call    __ecp_nistz256_mul_mont
-        mov     esi,edi
-        lea     ebp,[128+esp]
+        mov     esi, edi
+        lea     ebp, [128+esp]
         call    __ecp_nistz256_sub
-        lea     esi,[esp]
-        mov     ebp,edi
-        lea     edi,[esp]
+        lea     esi, [esp]
+        mov     ebp, edi
+        lea     edi, [esp]
         call    __ecp_nistz256_sub
-        mov     eax,DWORD [160+esp]
-        mov     esi,edi
-        lea     ebp,[32+esp]
+        mov     eax, DWORD [160+esp]
+        mov     esi, edi
+        lea     ebp, [32+esp]
         call    __ecp_nistz256_mul_mont
-        mov     ebp,32
-        lea     esi,[esp]
-        add     ebp,DWORD [184+esp]
-        mov     edi,ebp
+        mov     ebp, 32
+        lea     esi, [esp]
+        add     ebp, DWORD [184+esp]
+        mov     edi, ebp
         call    __ecp_nistz256_sub
-        add     esp,164
+        add     esp, 164
         pop     edi
         pop     esi
         pop     ebx
@@ -4191,504 +4191,504 @@ L$_ecp_nistz256_point_add_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [28+esp]
-        sub     esp,596
+        mov     esi, DWORD [28+esp]
+        sub     esp, 596
         call    __picup_eax
 L$009pic:
-        lea     edx,[_OPENSSL_ia32cap_P]
-        mov     ebp,DWORD [edx]
-        lea     edi,[192+esp]
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        mov     DWORD [edi],eax
-        mov     DWORD [588+esp],ebp
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     eax,DWORD [16+esi]
-        mov     ebx,DWORD [20+esi]
-        mov     ecx,DWORD [24+esi]
-        mov     edx,DWORD [28+esi]
-        mov     DWORD [16+edi],eax
-        mov     DWORD [20+edi],ebx
-        mov     DWORD [24+edi],ecx
-        mov     DWORD [28+edi],edx
-        mov     eax,DWORD [32+esi]
-        mov     ebx,DWORD [36+esi]
-        mov     ecx,DWORD [40+esi]
-        mov     edx,DWORD [44+esi]
-        mov     DWORD [32+edi],eax
-        mov     DWORD [36+edi],ebx
-        mov     DWORD [40+edi],ecx
-        mov     DWORD [44+edi],edx
-        mov     eax,DWORD [48+esi]
-        mov     ebx,DWORD [52+esi]
-        mov     ecx,DWORD [56+esi]
-        mov     edx,DWORD [60+esi]
-        mov     DWORD [48+edi],eax
-        mov     DWORD [52+edi],ebx
-        mov     DWORD [56+edi],ecx
-        mov     DWORD [60+edi],edx
-        mov     eax,DWORD [64+esi]
-        mov     ebx,DWORD [68+esi]
-        mov     ecx,DWORD [72+esi]
-        mov     edx,DWORD [76+esi]
-        mov     DWORD [64+edi],eax
-        mov     ebp,eax
-        mov     DWORD [68+edi],ebx
-        or      ebp,ebx
-        mov     DWORD [72+edi],ecx
-        or      ebp,ecx
-        mov     DWORD [76+edi],edx
-        or      ebp,edx
-        mov     eax,DWORD [80+esi]
-        mov     ebx,DWORD [84+esi]
-        mov     ecx,DWORD [88+esi]
-        mov     edx,DWORD [92+esi]
-        mov     DWORD [80+edi],eax
-        or      ebp,eax
-        mov     DWORD [84+edi],ebx
-        or      ebp,ebx
-        mov     DWORD [88+edi],ecx
-        or      ebp,ecx
-        mov     DWORD [92+edi],edx
-        or      ebp,edx
-        xor     eax,eax
-        mov     esi,DWORD [620+esp]
-        sub     eax,ebp
-        or      ebp,eax
-        sar     ebp,31
-        mov     DWORD [580+esp],ebp
-        lea     edi,[96+esp]
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     eax,DWORD [16+esi]
-        mov     ebx,DWORD [20+esi]
-        mov     ecx,DWORD [24+esi]
-        mov     edx,DWORD [28+esi]
-        mov     DWORD [16+edi],eax
-        mov     DWORD [20+edi],ebx
-        mov     DWORD [24+edi],ecx
-        mov     DWORD [28+edi],edx
-        mov     eax,DWORD [32+esi]
-        mov     ebx,DWORD [36+esi]
-        mov     ecx,DWORD [40+esi]
-        mov     edx,DWORD [44+esi]
-        mov     DWORD [32+edi],eax
-        mov     DWORD [36+edi],ebx
-        mov     DWORD [40+edi],ecx
-        mov     DWORD [44+edi],edx
-        mov     eax,DWORD [48+esi]
-        mov     ebx,DWORD [52+esi]
-        mov     ecx,DWORD [56+esi]
-        mov     edx,DWORD [60+esi]
-        mov     DWORD [48+edi],eax
-        mov     DWORD [52+edi],ebx
-        mov     DWORD [56+edi],ecx
-        mov     DWORD [60+edi],edx
-        mov     eax,DWORD [64+esi]
-        mov     ebx,DWORD [68+esi]
-        mov     ecx,DWORD [72+esi]
-        mov     edx,DWORD [76+esi]
-        mov     DWORD [64+edi],eax
-        mov     ebp,eax
-        mov     DWORD [68+edi],ebx
-        or      ebp,ebx
-        mov     DWORD [72+edi],ecx
-        or      ebp,ecx
-        mov     DWORD [76+edi],edx
-        or      ebp,edx
-        mov     eax,DWORD [80+esi]
-        mov     ebx,DWORD [84+esi]
-        mov     ecx,DWORD [88+esi]
-        mov     edx,DWORD [92+esi]
-        mov     DWORD [80+edi],eax
-        or      ebp,eax
-        mov     DWORD [84+edi],ebx
-        or      ebp,ebx
-        mov     DWORD [88+edi],ecx
-        or      ebp,ecx
-        mov     DWORD [92+edi],edx
-        or      ebp,edx
-        xor     eax,eax
-        sub     eax,ebp
-        or      ebp,eax
-        sar     ebp,31
-        mov     DWORD [576+esp],ebp
-        mov     eax,DWORD [588+esp]
-        lea     esi,[256+esp]
-        lea     ebp,[256+esp]
-        lea     edi,[384+esp]
+        lea     edx, [_OPENSSL_ia32cap_P]
+        mov     ebp, DWORD [edx]
+        lea     edi, [192+esp]
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        mov     DWORD [edi],     eax
+        mov     DWORD [588+esp], ebp
+        mov     DWORD [4+edi],   ebx
+        mov     DWORD [8+edi],   ecx
+        mov     DWORD [12+edi],  edx
+        mov     eax, DWORD [16+esi]
+        mov     ebx, DWORD [20+esi]
+        mov     ecx, DWORD [24+esi]
+        mov     edx, DWORD [28+esi]
+        mov     DWORD [16+edi], eax
+        mov     DWORD [20+edi], ebx
+        mov     DWORD [24+edi], ecx
+        mov     DWORD [28+edi], edx
+        mov     eax, DWORD [32+esi]
+        mov     ebx, DWORD [36+esi]
+        mov     ecx, DWORD [40+esi]
+        mov     edx, DWORD [44+esi]
+        mov     DWORD [32+edi], eax
+        mov     DWORD [36+edi], ebx
+        mov     DWORD [40+edi], ecx
+        mov     DWORD [44+edi], edx
+        mov     eax, DWORD [48+esi]
+        mov     ebx, DWORD [52+esi]
+        mov     ecx, DWORD [56+esi]
+        mov     edx, DWORD [60+esi]
+        mov     DWORD [48+edi], eax
+        mov     DWORD [52+edi], ebx
+        mov     DWORD [56+edi], ecx
+        mov     DWORD [60+edi], edx
+        mov     eax, DWORD [64+esi]
+        mov     ebx, DWORD [68+esi]
+        mov     ecx, DWORD [72+esi]
+        mov     edx, DWORD [76+esi]
+        mov     DWORD [64+edi], eax
+        mov     ebp, eax
+        mov     DWORD [68+edi], ebx
+        or      ebp, ebx
+        mov     DWORD [72+edi], ecx
+        or      ebp, ecx
+        mov     DWORD [76+edi], edx
+        or      ebp, edx
+        mov     eax, DWORD [80+esi]
+        mov     ebx, DWORD [84+esi]
+        mov     ecx, DWORD [88+esi]
+        mov     edx, DWORD [92+esi]
+        mov     DWORD [80+edi], eax
+        or      ebp, eax
+        mov     DWORD [84+edi], ebx
+        or      ebp, ebx
+        mov     DWORD [88+edi], ecx
+        or      ebp, ecx
+        mov     DWORD [92+edi], edx
+        or      ebp, edx
+        xor     eax, eax
+        mov     esi, DWORD [620+esp]
+        sub     eax, ebp
+        or      ebp, eax
+        sar     ebp, 31
+        mov     DWORD [580+esp], ebp
+        lea     edi, [96+esp]
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        mov     DWORD [edi],    eax
+        mov     DWORD [4+edi],  ebx
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     eax, DWORD [16+esi]
+        mov     ebx, DWORD [20+esi]
+        mov     ecx, DWORD [24+esi]
+        mov     edx, DWORD [28+esi]
+        mov     DWORD [16+edi], eax
+        mov     DWORD [20+edi], ebx
+        mov     DWORD [24+edi], ecx
+        mov     DWORD [28+edi], edx
+        mov     eax, DWORD [32+esi]
+        mov     ebx, DWORD [36+esi]
+        mov     ecx, DWORD [40+esi]
+        mov     edx, DWORD [44+esi]
+        mov     DWORD [32+edi], eax
+        mov     DWORD [36+edi], ebx
+        mov     DWORD [40+edi], ecx
+        mov     DWORD [44+edi], edx
+        mov     eax, DWORD [48+esi]
+        mov     ebx, DWORD [52+esi]
+        mov     ecx, DWORD [56+esi]
+        mov     edx, DWORD [60+esi]
+        mov     DWORD [48+edi], eax
+        mov     DWORD [52+edi], ebx
+        mov     DWORD [56+edi], ecx
+        mov     DWORD [60+edi], edx
+        mov     eax, DWORD [64+esi]
+        mov     ebx, DWORD [68+esi]
+        mov     ecx, DWORD [72+esi]
+        mov     edx, DWORD [76+esi]
+        mov     DWORD [64+edi], eax
+        mov     ebp, eax
+        mov     DWORD [68+edi], ebx
+        or      ebp, ebx
+        mov     DWORD [72+edi], ecx
+        or      ebp, ecx
+        mov     DWORD [76+edi], edx
+        or      ebp, edx
+        mov     eax, DWORD [80+esi]
+        mov     ebx, DWORD [84+esi]
+        mov     ecx, DWORD [88+esi]
+        mov     edx, DWORD [92+esi]
+        mov     DWORD [80+edi], eax
+        or      ebp, eax
+        mov     DWORD [84+edi], ebx
+        or      ebp, ebx
+        mov     DWORD [88+edi], ecx
+        or      ebp, ecx
+        mov     DWORD [92+edi], edx
+        or      ebp, edx
+        xor     eax, eax
+        sub     eax, ebp
+        or      ebp, eax
+        sar     ebp, 31
+        mov     DWORD [576+esp], ebp
+        mov     eax, DWORD [588+esp]
+        lea     esi, [256+esp]
+        lea     ebp, [256+esp]
+        lea     edi, [384+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [588+esp]
-        lea     esi,[160+esp]
-        lea     ebp,[160+esp]
-        lea     edi,[320+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [160+esp]
+        lea     ebp, [160+esp]
+        lea     edi, [320+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [588+esp]
-        lea     esi,[384+esp]
-        lea     ebp,[256+esp]
-        lea     edi,[512+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [384+esp]
+        lea     ebp, [256+esp]
+        lea     edi, [512+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [588+esp]
-        lea     esi,[320+esp]
-        lea     ebp,[160+esp]
-        lea     edi,[544+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [320+esp]
+        lea     ebp, [160+esp]
+        lea     edi, [544+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [588+esp]
-        lea     esi,[128+esp]
-        lea     ebp,[512+esp]
-        lea     edi,[512+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [128+esp]
+        lea     ebp, [512+esp]
+        lea     edi, [512+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [588+esp]
-        lea     esi,[224+esp]
-        lea     ebp,[544+esp]
-        lea     edi,[544+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [224+esp]
+        lea     ebp, [544+esp]
+        lea     edi, [544+esp]
         call    __ecp_nistz256_mul_mont
-        lea     esi,[544+esp]
-        lea     ebp,[512+esp]
-        lea     edi,[352+esp]
+        lea     esi, [544+esp]
+        lea     ebp, [512+esp]
+        lea     edi, [352+esp]
         call    __ecp_nistz256_sub
-        or      ebx,eax
-        mov     eax,DWORD [588+esp]
-        or      ebx,ecx
-        or      ebx,edx
-        or      ebx,DWORD [edi]
-        or      ebx,DWORD [4+edi]
-        lea     esi,[96+esp]
-        or      ebx,DWORD [8+edi]
-        lea     ebp,[384+esp]
-        or      ebx,DWORD [12+edi]
-        lea     edi,[448+esp]
-        mov     DWORD [584+esp],ebx
+        or      ebx, eax
+        mov     eax, DWORD [588+esp]
+        or      ebx, ecx
+        or      ebx, edx
+        or      ebx, DWORD [edi]
+        or      ebx, DWORD [4+edi]
+        lea     esi, [96+esp]
+        or      ebx, DWORD [8+edi]
+        lea     ebp, [384+esp]
+        or      ebx, DWORD [12+edi]
+        lea     edi, [448+esp]
+        mov     DWORD [584+esp], ebx
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [588+esp]
-        lea     esi,[192+esp]
-        lea     ebp,[320+esp]
-        lea     edi,[480+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [192+esp]
+        lea     ebp, [320+esp]
+        lea     edi, [480+esp]
         call    __ecp_nistz256_mul_mont
-        lea     esi,[480+esp]
-        lea     ebp,[448+esp]
-        lea     edi,[288+esp]
+        lea     esi, [480+esp]
+        lea     ebp, [448+esp]
+        lea     edi, [288+esp]
         call    __ecp_nistz256_sub
-        or      eax,ebx
-        or      eax,ecx
-        or      eax,edx
-        or      eax,DWORD [edi]
-        or      eax,DWORD [4+edi]
-        or      eax,DWORD [8+edi]
-        or      eax,DWORD [12+edi]
-        mov     ebx,DWORD [576+esp]
+        or      eax, ebx
+        or      eax, ecx
+        or      eax, edx
+        or      eax, DWORD [edi]
+        or      eax, DWORD [4+edi]
+        or      eax, DWORD [8+edi]
+        or      eax, DWORD [12+edi]
+        mov     ebx, DWORD [576+esp]
         not     ebx
-        or      eax,ebx
-        mov     ebx,DWORD [580+esp]
+        or      eax, ebx
+        mov     ebx, DWORD [580+esp]
         not     ebx
-        or      eax,ebx
-        or      eax,DWORD [584+esp]
+        or      eax, ebx
+        or      eax, DWORD [584+esp]
 db      62
         jnz     NEAR L$010add_proceed
 align   16
 L$011add_double:
-        mov     esi,DWORD [620+esp]
-        mov     ebp,DWORD [588+esp]
-        add     esp,432
+        mov     esi, DWORD [620+esp]
+        mov     ebp, DWORD [588+esp]
+        add     esp, 432
         jmp     NEAR L$point_double_shortcut
 align   16
 L$010add_proceed:
-        mov     eax,DWORD [588+esp]
-        lea     esi,[352+esp]
-        lea     ebp,[352+esp]
-        lea     edi,[384+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [352+esp]
+        lea     ebp, [352+esp]
+        lea     edi, [384+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [588+esp]
-        lea     esi,[288+esp]
-        lea     ebp,[160+esp]
-        lea     edi,[64+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [288+esp]
+        lea     ebp, [160+esp]
+        lea     edi, [64+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [588+esp]
-        lea     esi,[288+esp]
-        lea     ebp,[288+esp]
-        lea     edi,[320+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [288+esp]
+        lea     ebp, [288+esp]
+        lea     edi, [320+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [588+esp]
-        lea     esi,[256+esp]
-        lea     ebp,[64+esp]
-        lea     edi,[64+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [256+esp]
+        lea     ebp, [64+esp]
+        lea     edi, [64+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [588+esp]
-        lea     esi,[320+esp]
-        lea     ebp,[448+esp]
-        lea     edi,[480+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [320+esp]
+        lea     ebp, [448+esp]
+        lea     edi, [480+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [588+esp]
-        lea     esi,[288+esp]
-        lea     ebp,[320+esp]
-        lea     edi,[416+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [288+esp]
+        lea     ebp, [320+esp]
+        lea     edi, [416+esp]
         call    __ecp_nistz256_mul_mont
-        lea     esi,[480+esp]
-        lea     ebp,[480+esp]
-        lea     edi,[320+esp]
+        lea     esi, [480+esp]
+        lea     ebp, [480+esp]
+        lea     edi, [320+esp]
         call    __ecp_nistz256_add
-        lea     esi,[384+esp]
-        lea     ebp,[320+esp]
-        lea     edi,[esp]
+        lea     esi, [384+esp]
+        lea     ebp, [320+esp]
+        lea     edi, [esp]
         call    __ecp_nistz256_sub
-        lea     esi,[esp]
-        lea     ebp,[416+esp]
-        lea     edi,[esp]
+        lea     esi, [esp]
+        lea     ebp, [416+esp]
+        lea     edi, [esp]
         call    __ecp_nistz256_sub
-        lea     esi,[480+esp]
-        lea     ebp,[esp]
-        lea     edi,[32+esp]
+        lea     esi, [480+esp]
+        lea     ebp, [esp]
+        lea     edi, [32+esp]
         call    __ecp_nistz256_sub
-        mov     eax,DWORD [588+esp]
-        lea     esi,[416+esp]
-        lea     ebp,[512+esp]
-        lea     edi,[544+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [416+esp]
+        lea     ebp, [512+esp]
+        lea     edi, [544+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [588+esp]
-        lea     esi,[352+esp]
-        lea     ebp,[32+esp]
-        lea     edi,[32+esp]
+        mov     eax, DWORD [588+esp]
+        lea     esi, [352+esp]
+        lea     ebp, [32+esp]
+        lea     edi, [32+esp]
         call    __ecp_nistz256_mul_mont
-        lea     esi,[32+esp]
-        lea     ebp,[544+esp]
-        lea     edi,[32+esp]
+        lea     esi, [32+esp]
+        lea     ebp, [544+esp]
+        lea     edi, [32+esp]
         call    __ecp_nistz256_sub
-        mov     ebp,DWORD [576+esp]
-        mov     esi,DWORD [580+esp]
-        mov     edi,DWORD [616+esp]
-        mov     edx,ebp
+        mov     ebp, DWORD [576+esp]
+        mov     esi, DWORD [580+esp]
+        mov     edi, DWORD [616+esp]
+        mov     edx, ebp
         not     ebp
-        and     edx,esi
-        and     ebp,esi
+        and     edx, esi
+        and     ebp, esi
         not     esi
-        mov     eax,edx
-        and     eax,DWORD [64+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [256+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [160+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [64+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [68+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [260+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [164+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [68+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [72+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [264+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [168+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [72+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [76+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [268+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [172+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [76+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [80+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [272+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [176+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [80+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [84+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [276+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [180+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [84+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [88+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [280+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [184+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [88+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [92+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [284+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [188+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [92+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [192+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [96+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [edi],eax
-        mov     eax,edx
-        and     eax,DWORD [4+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [196+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [100+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [4+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [8+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [200+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [104+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [8+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [12+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [204+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [108+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [12+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [16+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [208+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [112+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [16+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [20+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [212+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [116+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [20+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [24+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [216+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [120+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [24+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [28+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [220+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [124+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [28+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [32+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [224+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [128+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [32+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [36+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [228+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [132+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [36+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [40+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [232+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [136+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [40+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [44+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [236+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [140+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [44+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [48+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [240+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [144+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [48+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [52+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [244+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [148+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [52+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [56+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [248+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [152+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [56+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [60+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [252+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [156+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [60+edi],eax
+        mov     eax, edx
+        and     eax, DWORD [64+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [256+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [160+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [64+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [68+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [260+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [164+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [68+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [72+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [264+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [168+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [72+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [76+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [268+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [172+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [76+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [80+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [272+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [176+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [80+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [84+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [276+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [180+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [84+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [88+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [280+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [184+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [88+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [92+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [284+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [188+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [92+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [192+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [96+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [edi], eax
+        mov     eax, edx
+        and     eax, DWORD [4+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [196+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [100+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [4+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [8+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [200+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [104+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [8+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [12+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [204+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [108+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [12+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [16+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [208+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [112+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [16+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [20+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [212+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [116+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [20+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [24+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [216+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [120+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [24+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [28+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [220+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [124+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [28+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [32+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [224+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [128+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [32+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [36+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [228+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [132+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [36+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [40+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [232+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [136+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [40+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [44+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [236+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [140+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [44+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [48+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [240+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [144+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [48+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [52+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [244+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [148+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [52+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [56+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [248+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [152+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [56+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [60+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [252+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [156+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [60+edi], eax
 L$012add_done:
-        add     esp,596
+        add     esp, 596
         pop     edi
         pop     esi
         pop     ebx
@@ -4702,423 +4702,423 @@ L$_ecp_nistz256_point_add_affine_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
-        sub     esp,492
+        mov     esi, DWORD [24+esp]
+        sub     esp, 492
         call    __picup_eax
 L$013pic:
-        lea     edx,[_OPENSSL_ia32cap_P]
-        mov     ebp,DWORD [edx]
-        lea     edi,[96+esp]
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        mov     DWORD [edi],eax
-        mov     DWORD [488+esp],ebp
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     eax,DWORD [16+esi]
-        mov     ebx,DWORD [20+esi]
-        mov     ecx,DWORD [24+esi]
-        mov     edx,DWORD [28+esi]
-        mov     DWORD [16+edi],eax
-        mov     DWORD [20+edi],ebx
-        mov     DWORD [24+edi],ecx
-        mov     DWORD [28+edi],edx
-        mov     eax,DWORD [32+esi]
-        mov     ebx,DWORD [36+esi]
-        mov     ecx,DWORD [40+esi]
-        mov     edx,DWORD [44+esi]
-        mov     DWORD [32+edi],eax
-        mov     DWORD [36+edi],ebx
-        mov     DWORD [40+edi],ecx
-        mov     DWORD [44+edi],edx
-        mov     eax,DWORD [48+esi]
-        mov     ebx,DWORD [52+esi]
-        mov     ecx,DWORD [56+esi]
-        mov     edx,DWORD [60+esi]
-        mov     DWORD [48+edi],eax
-        mov     DWORD [52+edi],ebx
-        mov     DWORD [56+edi],ecx
-        mov     DWORD [60+edi],edx
-        mov     eax,DWORD [64+esi]
-        mov     ebx,DWORD [68+esi]
-        mov     ecx,DWORD [72+esi]
-        mov     edx,DWORD [76+esi]
-        mov     DWORD [64+edi],eax
-        mov     ebp,eax
-        mov     DWORD [68+edi],ebx
-        or      ebp,ebx
-        mov     DWORD [72+edi],ecx
-        or      ebp,ecx
-        mov     DWORD [76+edi],edx
-        or      ebp,edx
-        mov     eax,DWORD [80+esi]
-        mov     ebx,DWORD [84+esi]
-        mov     ecx,DWORD [88+esi]
-        mov     edx,DWORD [92+esi]
-        mov     DWORD [80+edi],eax
-        or      ebp,eax
-        mov     DWORD [84+edi],ebx
-        or      ebp,ebx
-        mov     DWORD [88+edi],ecx
-        or      ebp,ecx
-        mov     DWORD [92+edi],edx
-        or      ebp,edx
-        xor     eax,eax
-        mov     esi,DWORD [520+esp]
-        sub     eax,ebp
-        or      ebp,eax
-        sar     ebp,31
-        mov     DWORD [480+esp],ebp
-        lea     edi,[192+esp]
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        mov     DWORD [edi],eax
-        mov     ebp,eax
-        mov     DWORD [4+edi],ebx
-        or      ebp,ebx
-        mov     DWORD [8+edi],ecx
-        or      ebp,ecx
-        mov     DWORD [12+edi],edx
-        or      ebp,edx
-        mov     eax,DWORD [16+esi]
-        mov     ebx,DWORD [20+esi]
-        mov     ecx,DWORD [24+esi]
-        mov     edx,DWORD [28+esi]
-        mov     DWORD [16+edi],eax
-        or      ebp,eax
-        mov     DWORD [20+edi],ebx
-        or      ebp,ebx
-        mov     DWORD [24+edi],ecx
-        or      ebp,ecx
-        mov     DWORD [28+edi],edx
-        or      ebp,edx
-        mov     eax,DWORD [32+esi]
-        mov     ebx,DWORD [36+esi]
-        mov     ecx,DWORD [40+esi]
-        mov     edx,DWORD [44+esi]
-        mov     DWORD [32+edi],eax
-        or      ebp,eax
-        mov     DWORD [36+edi],ebx
-        or      ebp,ebx
-        mov     DWORD [40+edi],ecx
-        or      ebp,ecx
-        mov     DWORD [44+edi],edx
-        or      ebp,edx
-        mov     eax,DWORD [48+esi]
-        mov     ebx,DWORD [52+esi]
-        mov     ecx,DWORD [56+esi]
-        mov     edx,DWORD [60+esi]
-        mov     DWORD [48+edi],eax
-        or      ebp,eax
-        mov     DWORD [52+edi],ebx
-        or      ebp,ebx
-        mov     DWORD [56+edi],ecx
-        or      ebp,ecx
-        mov     DWORD [60+edi],edx
-        or      ebp,edx
-        xor     ebx,ebx
-        mov     eax,DWORD [488+esp]
-        sub     ebx,ebp
-        lea     esi,[160+esp]
-        or      ebx,ebp
-        lea     ebp,[160+esp]
-        sar     ebx,31
-        lea     edi,[288+esp]
-        mov     DWORD [484+esp],ebx
+        lea     edx, [_OPENSSL_ia32cap_P]
+        mov     ebp, DWORD [edx]
+        lea     edi, [96+esp]
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        mov     DWORD [edi],     eax
+        mov     DWORD [488+esp], ebp
+        mov     DWORD [4+edi],   ebx
+        mov     DWORD [8+edi],   ecx
+        mov     DWORD [12+edi],  edx
+        mov     eax, DWORD [16+esi]
+        mov     ebx, DWORD [20+esi]
+        mov     ecx, DWORD [24+esi]
+        mov     edx, DWORD [28+esi]
+        mov     DWORD [16+edi], eax
+        mov     DWORD [20+edi], ebx
+        mov     DWORD [24+edi], ecx
+        mov     DWORD [28+edi], edx
+        mov     eax, DWORD [32+esi]
+        mov     ebx, DWORD [36+esi]
+        mov     ecx, DWORD [40+esi]
+        mov     edx, DWORD [44+esi]
+        mov     DWORD [32+edi], eax
+        mov     DWORD [36+edi], ebx
+        mov     DWORD [40+edi], ecx
+        mov     DWORD [44+edi], edx
+        mov     eax, DWORD [48+esi]
+        mov     ebx, DWORD [52+esi]
+        mov     ecx, DWORD [56+esi]
+        mov     edx, DWORD [60+esi]
+        mov     DWORD [48+edi], eax
+        mov     DWORD [52+edi], ebx
+        mov     DWORD [56+edi], ecx
+        mov     DWORD [60+edi], edx
+        mov     eax, DWORD [64+esi]
+        mov     ebx, DWORD [68+esi]
+        mov     ecx, DWORD [72+esi]
+        mov     edx, DWORD [76+esi]
+        mov     DWORD [64+edi], eax
+        mov     ebp, eax
+        mov     DWORD [68+edi], ebx
+        or      ebp, ebx
+        mov     DWORD [72+edi], ecx
+        or      ebp, ecx
+        mov     DWORD [76+edi], edx
+        or      ebp, edx
+        mov     eax, DWORD [80+esi]
+        mov     ebx, DWORD [84+esi]
+        mov     ecx, DWORD [88+esi]
+        mov     edx, DWORD [92+esi]
+        mov     DWORD [80+edi], eax
+        or      ebp, eax
+        mov     DWORD [84+edi], ebx
+        or      ebp, ebx
+        mov     DWORD [88+edi], ecx
+        or      ebp, ecx
+        mov     DWORD [92+edi], edx
+        or      ebp, edx
+        xor     eax, eax
+        mov     esi, DWORD [520+esp]
+        sub     eax, ebp
+        or      ebp, eax
+        sar     ebp, 31
+        mov     DWORD [480+esp], ebp
+        lea     edi, [192+esp]
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        mov     DWORD [edi], eax
+        mov     ebp, eax
+        mov     DWORD [4+edi], ebx
+        or      ebp, ebx
+        mov     DWORD [8+edi], ecx
+        or      ebp, ecx
+        mov     DWORD [12+edi], edx
+        or      ebp, edx
+        mov     eax, DWORD [16+esi]
+        mov     ebx, DWORD [20+esi]
+        mov     ecx, DWORD [24+esi]
+        mov     edx, DWORD [28+esi]
+        mov     DWORD [16+edi], eax
+        or      ebp, eax
+        mov     DWORD [20+edi], ebx
+        or      ebp, ebx
+        mov     DWORD [24+edi], ecx
+        or      ebp, ecx
+        mov     DWORD [28+edi], edx
+        or      ebp, edx
+        mov     eax, DWORD [32+esi]
+        mov     ebx, DWORD [36+esi]
+        mov     ecx, DWORD [40+esi]
+        mov     edx, DWORD [44+esi]
+        mov     DWORD [32+edi], eax
+        or      ebp, eax
+        mov     DWORD [36+edi], ebx
+        or      ebp, ebx
+        mov     DWORD [40+edi], ecx
+        or      ebp, ecx
+        mov     DWORD [44+edi], edx
+        or      ebp, edx
+        mov     eax, DWORD [48+esi]
+        mov     ebx, DWORD [52+esi]
+        mov     ecx, DWORD [56+esi]
+        mov     edx, DWORD [60+esi]
+        mov     DWORD [48+edi], eax
+        or      ebp, eax
+        mov     DWORD [52+edi], ebx
+        or      ebp, ebx
+        mov     DWORD [56+edi], ecx
+        or      ebp, ecx
+        mov     DWORD [60+edi], edx
+        or      ebp, edx
+        xor     ebx, ebx
+        mov     eax, DWORD [488+esp]
+        sub     ebx, ebp
+        lea     esi, [160+esp]
+        or      ebx, ebp
+        lea     ebp, [160+esp]
+        sar     ebx, 31
+        lea     edi, [288+esp]
+        mov     DWORD [484+esp], ebx
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [488+esp]
-        lea     esi,[192+esp]
-        mov     ebp,edi
-        lea     edi,[256+esp]
+        mov     eax, DWORD [488+esp]
+        lea     esi, [192+esp]
+        mov     ebp, edi
+        lea     edi, [256+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [488+esp]
-        lea     esi,[160+esp]
-        lea     ebp,[288+esp]
-        lea     edi,[288+esp]
+        mov     eax, DWORD [488+esp]
+        lea     esi, [160+esp]
+        lea     ebp, [288+esp]
+        lea     edi, [288+esp]
         call    __ecp_nistz256_mul_mont
-        lea     esi,[256+esp]
-        lea     ebp,[96+esp]
-        lea     edi,[320+esp]
+        lea     esi, [256+esp]
+        lea     ebp, [96+esp]
+        lea     edi, [320+esp]
         call    __ecp_nistz256_sub
-        mov     eax,DWORD [488+esp]
-        lea     esi,[224+esp]
-        lea     ebp,[288+esp]
-        lea     edi,[288+esp]
+        mov     eax, DWORD [488+esp]
+        lea     esi, [224+esp]
+        lea     ebp, [288+esp]
+        lea     edi, [288+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [488+esp]
-        lea     esi,[160+esp]
-        lea     ebp,[320+esp]
-        lea     edi,[64+esp]
+        mov     eax, DWORD [488+esp]
+        lea     esi, [160+esp]
+        lea     ebp, [320+esp]
+        lea     edi, [64+esp]
         call    __ecp_nistz256_mul_mont
-        lea     esi,[288+esp]
-        lea     ebp,[128+esp]
-        lea     edi,[352+esp]
+        lea     esi, [288+esp]
+        lea     ebp, [128+esp]
+        lea     edi, [352+esp]
         call    __ecp_nistz256_sub
-        mov     eax,DWORD [488+esp]
-        lea     esi,[320+esp]
-        lea     ebp,[320+esp]
-        lea     edi,[384+esp]
+        mov     eax, DWORD [488+esp]
+        lea     esi, [320+esp]
+        lea     ebp, [320+esp]
+        lea     edi, [384+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [488+esp]
-        lea     esi,[352+esp]
-        lea     ebp,[352+esp]
-        lea     edi,[448+esp]
+        mov     eax, DWORD [488+esp]
+        lea     esi, [352+esp]
+        lea     ebp, [352+esp]
+        lea     edi, [448+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [488+esp]
-        lea     esi,[96+esp]
-        lea     ebp,[384+esp]
-        lea     edi,[256+esp]
+        mov     eax, DWORD [488+esp]
+        lea     esi, [96+esp]
+        lea     ebp, [384+esp]
+        lea     edi, [256+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [488+esp]
-        lea     esi,[320+esp]
-        lea     ebp,[384+esp]
-        lea     edi,[416+esp]
+        mov     eax, DWORD [488+esp]
+        lea     esi, [320+esp]
+        lea     ebp, [384+esp]
+        lea     edi, [416+esp]
         call    __ecp_nistz256_mul_mont
-        lea     esi,[256+esp]
-        lea     ebp,[256+esp]
-        lea     edi,[384+esp]
+        lea     esi, [256+esp]
+        lea     ebp, [256+esp]
+        lea     edi, [384+esp]
         call    __ecp_nistz256_add
-        lea     esi,[448+esp]
-        lea     ebp,[384+esp]
-        lea     edi,[esp]
+        lea     esi, [448+esp]
+        lea     ebp, [384+esp]
+        lea     edi, [esp]
         call    __ecp_nistz256_sub
-        lea     esi,[esp]
-        lea     ebp,[416+esp]
-        lea     edi,[esp]
+        lea     esi, [esp]
+        lea     ebp, [416+esp]
+        lea     edi, [esp]
         call    __ecp_nistz256_sub
-        lea     esi,[256+esp]
-        lea     ebp,[esp]
-        lea     edi,[32+esp]
+        lea     esi, [256+esp]
+        lea     ebp, [esp]
+        lea     edi, [32+esp]
         call    __ecp_nistz256_sub
-        mov     eax,DWORD [488+esp]
-        lea     esi,[416+esp]
-        lea     ebp,[128+esp]
-        lea     edi,[288+esp]
+        mov     eax, DWORD [488+esp]
+        lea     esi, [416+esp]
+        lea     ebp, [128+esp]
+        lea     edi, [288+esp]
         call    __ecp_nistz256_mul_mont
-        mov     eax,DWORD [488+esp]
-        lea     esi,[352+esp]
-        lea     ebp,[32+esp]
-        lea     edi,[32+esp]
+        mov     eax, DWORD [488+esp]
+        lea     esi, [352+esp]
+        lea     ebp, [32+esp]
+        lea     edi, [32+esp]
         call    __ecp_nistz256_mul_mont
-        lea     esi,[32+esp]
-        lea     ebp,[288+esp]
-        lea     edi,[32+esp]
+        lea     esi, [32+esp]
+        lea     ebp, [288+esp]
+        lea     edi, [32+esp]
         call    __ecp_nistz256_sub
-        mov     ebp,DWORD [480+esp]
-        mov     esi,DWORD [484+esp]
-        mov     edi,DWORD [512+esp]
-        mov     edx,ebp
+        mov     ebp, DWORD [480+esp]
+        mov     esi, DWORD [484+esp]
+        mov     edi, DWORD [512+esp]
+        mov     edx, ebp
         not     ebp
-        and     edx,esi
-        and     ebp,esi
+        and     edx, esi
+        and     ebp, esi
         not     esi
-        mov     eax,edx
-        and     eax,DWORD [64+esp]
-        mov     ebx,ebp
-        and     ebx,1
-        mov     ecx,esi
-        and     ecx,DWORD [160+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [64+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [68+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [164+esp]
-        or      eax,ecx
-        mov     DWORD [68+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [72+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [168+esp]
-        or      eax,ecx
-        mov     DWORD [72+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [76+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [172+esp]
-        or      eax,ebp
-        or      eax,ecx
-        mov     DWORD [76+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [80+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [176+esp]
-        or      eax,ebp
-        or      eax,ecx
-        mov     DWORD [80+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [84+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [180+esp]
-        or      eax,ebp
-        or      eax,ecx
-        mov     DWORD [84+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [88+esp]
-        mov     ebx,ebp
-        and     ebx,-2
-        mov     ecx,esi
-        and     ecx,DWORD [184+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [88+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [92+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [188+esp]
-        or      eax,ecx
-        mov     DWORD [92+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [192+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [96+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [edi],eax
-        mov     eax,edx
-        and     eax,DWORD [4+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [196+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [100+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [4+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [8+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [200+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [104+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [8+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [12+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [204+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [108+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [12+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [16+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [208+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [112+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [16+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [20+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [212+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [116+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [20+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [24+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [216+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [120+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [24+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [28+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [220+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [124+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [28+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [32+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [224+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [128+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [32+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [36+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [228+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [132+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [36+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [40+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [232+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [136+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [40+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [44+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [236+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [140+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [44+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [48+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [240+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [144+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [48+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [52+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [244+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [148+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [52+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [56+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [248+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [152+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [56+edi],eax
-        mov     eax,edx
-        and     eax,DWORD [60+esp]
-        mov     ebx,ebp
-        and     ebx,DWORD [252+esp]
-        mov     ecx,esi
-        and     ecx,DWORD [156+esp]
-        or      eax,ebx
-        or      eax,ecx
-        mov     DWORD [60+edi],eax
-        add     esp,492
+        mov     eax, edx
+        and     eax, DWORD [64+esp]
+        mov     ebx, ebp
+        and     ebx, 1
+        mov     ecx, esi
+        and     ecx, DWORD [160+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [64+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [68+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [164+esp]
+        or      eax, ecx
+        mov     DWORD [68+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [72+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [168+esp]
+        or      eax, ecx
+        mov     DWORD [72+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [76+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [172+esp]
+        or      eax, ebp
+        or      eax, ecx
+        mov     DWORD [76+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [80+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [176+esp]
+        or      eax, ebp
+        or      eax, ecx
+        mov     DWORD [80+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [84+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [180+esp]
+        or      eax, ebp
+        or      eax, ecx
+        mov     DWORD [84+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [88+esp]
+        mov     ebx, ebp
+        and     ebx, -2
+        mov     ecx, esi
+        and     ecx, DWORD [184+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [88+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [92+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [188+esp]
+        or      eax, ecx
+        mov     DWORD [92+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [192+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [96+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [edi], eax
+        mov     eax, edx
+        and     eax, DWORD [4+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [196+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [100+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [4+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [8+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [200+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [104+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [8+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [12+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [204+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [108+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [12+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [16+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [208+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [112+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [16+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [20+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [212+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [116+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [20+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [24+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [216+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [120+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [24+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [28+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [220+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [124+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [28+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [32+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [224+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [128+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [32+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [36+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [228+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [132+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [36+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [40+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [232+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [136+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [40+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [44+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [236+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [140+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [44+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [48+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [240+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [144+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [48+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [52+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [244+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [148+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [52+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [56+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [248+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [152+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [56+edi], eax
+        mov     eax, edx
+        and     eax, DWORD [60+esp]
+        mov     ebx, ebp
+        and     ebx, DWORD [252+esp]
+        mov     ecx, esi
+        and     ecx, DWORD [156+esp]
+        or      eax, ebx
+        or      eax, ecx
+        mov     DWORD [60+edi], eax
+        add     esp, 492
         pop     edi
         pop     esi
         pop     ebx

@@ -16,12 +16,12 @@ EXTERN asm_freopen
 
 freopen_callee:
 
-   pop hl
-   pop ix
-   pop de
-   ex (sp),hl
-   
-   jp asm_freopen
+        pop     hl
+        pop     ix
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_freopen
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

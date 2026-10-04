@@ -20,4 +20,3 @@ IF __CLASSIC
 PUBLIC _NIRVANAM_start
 defc _NIRVANAM_start = NIRVANAM_start
 ENDIF
-

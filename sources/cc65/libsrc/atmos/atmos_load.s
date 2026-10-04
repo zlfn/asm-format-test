@@ -4,11 +4,10 @@
 ;
 ; void __fastcall__ atmos_load(const char* name);
 
-        .export         _atmos_load
-        .import         store_filename
+        .export _atmos_load
+        .import store_filename
 
-        .include        "atmos.inc"
-
+        .include "atmos.inc"
 
 .proc   _atmos_load
 

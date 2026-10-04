@@ -4,28 +4,28 @@
 ; Startup code for cc65 (Apple2 version)
 ;
 
-        .export         done, return
-        .export         zpsave, rvsave, reset
-        .export         __STARTUP__ : absolute = 1      ; Mark as startup
+        .export done,   return
+        .export zpsave, rvsave, reset
+        .export __STARTUP__ : absolute = 1      ; Mark as startup
 
-        .import         initlib, _exit
-        .import         zerobss, callmain
-        .import         bltu2
-        .import         __ONCE_LOAD__, __ONCE_SIZE__    ; Linker generated
-        .import         __LC_START__, __LC_LAST__       ; Linker generated
+        .import initlib, _exit
+        .import zerobss, callmain
+        .import bltu2
+        .import __ONCE_LOAD__, __ONCE_SIZE__    ; Linker generated
+        .import __LC_START__,  __LC_LAST__      ; Linker generated
 
-        .include        "zeropage.inc"
-        .include        "apple2.inc"
+        .include "zeropage.inc"
+        .include "apple2.inc"
 
 ; ------------------------------------------------------------------------
 
-        .segment        "STARTUP"
+        .segment "STARTUP"
 
         ; ProDOS TechRefMan, chapter 5.2.1:
         ; "For maximum interrupt efficiency, a system program should not
         ;  use more than the upper 3/4 of the stack."
         ldx     #$FF
-        txs                     ; Init stack pointer
+        txs     ; Init stack pointer
 
         ; Save space by putting some of the start-up code in the ONCE segment,
         ; which can be re-used by the BSS segment, the heap and the C stack.
@@ -39,27 +39,27 @@
 
 ; ------------------------------------------------------------------------
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
         ; Save the zero-page locations that we need.
 init:   ldx     #zpspace-1
-:       lda     c_sp,x
-        sta     zpsave,x
+:       lda     c_sp,   x
+        sta     zpsave, x
         dex
         bpl     :-
 
         ; Save the original RESET vector.
         ldx     #$02
-:       lda     SOFTEV,x
-        sta     rvsave,x
+:       lda     SOFTEV, x
+        sta     rvsave, x
         dex
         bpl     :-
 
         ; Check for ProDOS.
-        lda     $BF00           ; MLI call entry point
+        lda     $BF00   ; MLI call entry point
         sec
-        sbc     #$4C            ; Is MLI present? (JMP opcode)
-        pha                     ; Backup the result for later
+        sbc     #$4C    ; Is MLI present? (JMP opcode)
+        pha             ; Backup the result for later
         bne     basic
 
         ; Check the ProDOS system bit map.
@@ -76,7 +76,7 @@ init:   ldx     #zpspace-1
         ; No BASIC.SYSTEM; so, use the addr of the ProDOS system global page.
         lda     #<$BF00
         ldx     #>$BF00
-        bne     :+              ; Branch always
+        bne     :+      ; Branch always
 
         ; Get the highest available mem addr from the BASIC interpreter.
 basic:  lda     HIMEM
@@ -91,7 +91,7 @@ basic:  lda     HIMEM
         ;  address of a routine that ... closes the files."
         ldx     #<_exit
         lda     #>_exit
-        jsr     reset           ; Setup RESET vector
+        jsr     reset   ; Setup RESET vector
 
         ; Call the module constructors.
         jsr     initlib
@@ -101,7 +101,7 @@ basic:  lda     HIMEM
         bit     $C081
         bit     $C081
 
-        pla                     ; If not running ProDOS, we need to patch 6502 vectors.
+        pla     ; If not running ProDOS, we need to patch 6502 vectors.
         beq     :+
 
         lda     #<reset_6502
@@ -114,8 +114,8 @@ basic:  lda     HIMEM
         sta     ROM_IRQ
         stx     ROM_IRQ+1
 
-:       ; Set the source start address.
-        ; Aka __LC_LOAD__ iff segment LC exists.
+:               ; Set the source start address.
+                ; Aka __LC_LOAD__ iff segment LC exists.
         lda     #<(__ONCE_LOAD__ + __ONCE_SIZE__)
         ldy     #>(__ONCE_LOAD__ + __ONCE_SIZE__)
         sta     $9B
@@ -155,8 +155,8 @@ reset:  stx     SOFTEV
 return: rts
 
         ; Quit to the ProDOS dispatcher.
-quit:   jsr     $BF00           ; MLI call entry point
-        .byte   $65             ; Quit
+quit:   jsr     $BF00   ; MLI call entry point
+        .byte   $65     ; Quit
         .word   q_param
 
 reset_6502:                     ; Used with DOS3.3 programs
@@ -172,22 +172,22 @@ irq_6502:                       ; Used with DOS3.3 programs
         .rodata
 
         ; MLI parameter list for quit
-q_param:.byte   $04             ; param_count
-        .byte   $00             ; quit_type
-        .word   $0000           ; reserved
-        .byte   $00             ; reserved
-        .word   $0000           ; reserved
+q_param: .byte  $04     ; param_count
+        .byte   $00     ; quit_type
+        .word   $0000   ; reserved
+        .byte   $00     ; reserved
+        .word   $0000   ; reserved
 
 ; ------------------------------------------------------------------------
 
         .data
 
         ; Final jump when we're done
-done:   jmp     DOSWARM         ; Potentially patched at runtime
+done:   jmp     DOSWARM ; Potentially patched at runtime
 
 ; ------------------------------------------------------------------------
 
-        .segment        "INIT"
+        .segment "INIT"
 
 zpsave: .res    zpspace
 rvsave: .res    3

@@ -8,10 +8,10 @@ EXTERN _esx_f_rmdir_fastcall
 
 _esx_f_rmdir:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _esx_f_rmdir_fastcall
+        push    hl
+        push    af
+
+        jp      _esx_f_rmdir_fastcall

@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_setBGScrollY
 defc _SMS_setBGScrollY = SMS_setBGScrollY
 ENDIF
-

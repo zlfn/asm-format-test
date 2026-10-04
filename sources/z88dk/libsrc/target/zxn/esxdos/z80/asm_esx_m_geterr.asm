@@ -8,61 +8,60 @@ PUBLIC asm_esx_m_geterr
 
 asm_esx_m_geterr:
 
-   ; enter : de = uint16_t error (from "asm_esx_m_execcmd")
-   ;         hl = char msg[33]
-   ;
-   ; exit  : error message stored in msg[33] as zero terminated string
-   ;
-   ; uses  : af, bc, de, hl, ix
-   
-   ld a,d
-   or e
-   
-   ld (hl),a                   ; zero terminate if no error
-   ret z                       ; if no error
+        ; enter : de = uint16_t error (from "asm_esx_m_execcmd")
+        ;         hl = char msg[33]
+        ;
+        ; exit  : error message stored in msg[33] as zero terminated string
+        ;
+        ; uses  : af, bc, de, hl, ix
 
-   ex de,hl                    ; de = char *msg, hl = uint16_t error
+        ld      a, d
+        or      e
 
-   inc h
-   dec h
-   jr z, have_error_code       ; canned esxdos error in a = l
-   
-   xor a                       ; custom error in hl
+        ld      (hl), a ; zero terminate if no error
+        ret     z       ; if no error
+
+        ex      de, hl  ; de = char *msg, hl = uint16_t error
+
+        inc     h
+        dec     h
+        jr      z, have_error_code      ; canned esxdos error in a = l
+
+        xor     a       ; custom error in hl
 
 IF __SDCC_IY
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 ELSE
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 ENDIF
 
 have_error_code:
 
-   push de                     ; save char *msg
-   
-   ld b,1
-   
-   rst __ESX_RST_SYS
-   defb __ESX_M_GETERR
-   
-   pop hl
-   
-   ; find end of message and zero terminate
-   
-   ld a,$7f
+        push    de      ; save char *msg
+
+        ld      b, 1
+
+        rst     __ESX_RST_SYS
+        defb    __ESX_M_GETERR
+
+        pop     hl
+
+        ; find end of message and zero terminate
+
+        ld      a, $7f
 
 loop:
 
-   cpi
-   jp p, loop
-   
-   ld (hl),0
-   dec hl
-   
-   res 7,(hl)  
-   ret
+        cpi
+        jp      p, loop
 
+        ld      (hl), 0
+        dec     hl
+
+        res     7, (hl)
+        ret
 
 ; ***************************************************************************
 ; * M_GETERR ($93) *

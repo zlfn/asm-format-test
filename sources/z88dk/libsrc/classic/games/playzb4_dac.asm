@@ -16,18 +16,18 @@
 ; extern void __LIB__ playzb4(uchar *SamStart, ushort SamLen);
 ; play 4 bit pulse wave encoded data using sid master volume
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  playzb4_dac
-    PUBLIC  _playzb4_dac
+        PUBLIC  playzb4_dac
+        PUBLIC  _playzb4_dac
 
 playzb4_dac:
 _playzb4_dac:
-  IF    __CPU_GBZ80__||__CPU_INTEL__||__CPU_RABBIT__
+        IF      __CPU_GBZ80__||__CPU_INTEL__||__CPU_RABBIT__
 
-     ret
+                ret
 
-  ELSE
+        ELSE
 
 ;call    csv
 ;ld      l,(ix+6)        ;sample start addr
@@ -35,49 +35,47 @@ _playzb4_dac:
 ;ld      e,(ix+8)        ;sample length
 ;ld      d,(ix+9)
 
-    pop     af
-    pop     de                          ;sample length
-    pop     hl                          ;sample start addr
-    pop     bc                          ;I/O port
-    push    bc
-    push    hl
-    push    de
-    push    af
-
+                pop     af
+                pop     de      ;sample length
+                pop     hl      ;sample start addr
+                pop     bc      ;I/O port
+                push    bc
+                push    hl
+                push    de
+                push    af
 
 rep1:
 ;; delay 1
-	push    bc
-    ld      b, 31
-rep1b:                                  ;repeat
-    djnz    rep1b
-	pop     bc
+                push    bc
+                ld      b, 31
+rep1b:                  ;repeat
+                djnz    rep1b
+                pop     bc
 
-    ld      a, (hl)                     ; a = sample byte
-    and     $f0                         ; 4 bit nibble
-    out     (c), a
-
+                ld      a, (hl) ; a = sample byte
+                and     $f0     ; 4 bit nibble
+                out     (c), a
 
 ;; delay 2
-	push    bc
-    ld      b, 31
-rep2:                                   ;repeat
-    djnz    rep2
-	pop     bc
+                push    bc
+                ld      b, 31
+rep2:                   ;repeat
+                djnz    rep2
+                pop     bc
 
-    ld      a, (hl)                     ; a = sample byte
-    rlca                                ; a = a div 16
-    rlca                                ;
-    rlca                                ;
-    rlca                                ;
-    and     $f0                         ; 4 bit nibble
-    out     (c), a
+                ld      a, (hl) ; a = sample byte
+                rlca            ; a = a div 16
+                rlca            ;
+                rlca            ;
+                rlca            ;
+                and     $f0     ; 4 bit nibble
+                out     (c), a
 
-    inc     hl                          ; hl = hl+1
-    dec     e                           ;
-    jr      nz, rep1                    ;
-    dec     d                           ; de = de-1
-    jr      nz, rep1                    ;until de = 0
+                inc     hl              ; hl = hl+1
+                dec     e               ;
+                jr      nz, rep1        ;
+                dec     d               ; de = de-1
+                jr      nz, rep1        ;until de = 0
 
-    ret
-  ENDIF
+                ret
+        ENDIF

@@ -10,10 +10,10 @@ EXTERN asm_z180_inp
 
 _z180_inp:
 
-   pop af
-   pop bc
-   
-   push bc
-   push af
-   in l,(c)
-   ret
+        pop     af
+        pop     bc
+
+        push    bc
+        push    af
+        in      l, (c)
+        ret

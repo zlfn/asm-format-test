@@ -2,17 +2,17 @@
 
 .data
 
-FOO STRUCT
-  a BYTE ?
-  b BYTE ?
-  c BYTE ?
-  d BYTE ?
-FOO ENDS
+FOO     STRUCT
+        a       BYTE ?
+        b       BYTE ?
+        c       BYTE ?
+        d       BYTE ?
+FOO     ENDS
 
-BAR STRUCT
-  e WORD ?
-  f WORD ?
-BAR ENDS
+BAR     STRUCT
+        e       WORD ?
+        f       WORD ?
+BAR     ENDS
 
 var FOO <>
 

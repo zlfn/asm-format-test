@@ -17,22 +17,22 @@
 	 * aligned and add in the offset when we load the value here.
 	 */
 
-	.macro addruart, rp, rv, tmp
-		mrc	p15, 0, \tmp, c0, c0, 0
-		and	\tmp, \tmp, #0xf0
-		teq	\tmp, #0xf0		@@ A15
-		beq	100f
-		mrc	p15, 0, \tmp, c0, c0, 5
-		and	\tmp, \tmp, #0xf00
-		teq	\tmp, #0x100		@@ A15 + A7 but boot to A7
-100:		ldreq	\rp, =EXYNOS5_PA_UART
-		movne	\rp, #EXYNOS4_PA_UART	@@ EXYNOS4
-		ldr	\rv, =S3C_VA_UART
+        .macro  addruart, rp, rv, tmp
+                mrc     p15,  0,    \tmp, c0, c0, 0
+                and     \tmp, \tmp, #0xf0
+                teq     \tmp, #0xf0             @@ A15
+                beq     100f
+                mrc     p15,  0,    \tmp, c0, c0, 5
+                and     \tmp, \tmp, #0xf00
+                teq     \tmp, #0x100            @@ A15 + A7 but boot to A7
+100:            ldreq   \rp,  =EXYNOS5_PA_UART
+                movne   \rp,  #EXYNOS4_PA_UART  @@ EXYNOS4
+                ldr     \rv,  =S3C_VA_UART
 #if CONFIG_DEBUG_S3C_UART != 0
-		add	\rp, \rp, #(0x10000 * CONFIG_DEBUG_S3C_UART)
-		add	\rv, \rv, #(0x10000 * CONFIG_DEBUG_S3C_UART)
+                add     \rp, \rp, #(0x10000 * CONFIG_DEBUG_S3C_UART)
+                add     \rv, \rv, #(0x10000 * CONFIG_DEBUG_S3C_UART)
 #endif
-	.endm
+        .endm
 
 #define fifo_full fifo_full_s5pv210
 #define fifo_level fifo_level_s5pv210

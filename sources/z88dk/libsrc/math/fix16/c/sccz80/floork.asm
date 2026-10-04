@@ -1,22 +1,19 @@
 
+        SECTION code_clib
 
-    SECTION code_clib
-
-    PUBLIC  floork
-    PUBLIC  _floork
-
+        PUBLIC  floork
+        PUBLIC  _floork
 
 floork:
 _floork:
-    ld      hl, 2
-    add     hl, sp
-    ld      a, (hl)
-    inc     hl
-    ld      h, (hl)
-    inc     hl
-    ld      l, a
+        ld      hl, 2
+        add     hl, sp
+        ld      a,  (hl)
+        inc     hl
+        ld      h, (hl)
+        inc     hl
+        ld      l, a
 floork_fastcall:
 _floork_fastcall:
-    ld      l, 0
-    ret
-
+        ld      l, 0
+        ret

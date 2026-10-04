@@ -10,9 +10,9 @@
 ; int ispunct (int c);
 ;
 
-        .export         _ispunct
-        .include        "ctype.inc"
-        .import         ctypemask
+        .export _ispunct
+        .include "ctype.inc"
+        .import ctypemask
 
 _ispunct:
         jsr     ctypemask       ; (always clears X)

@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013 / Dec 2021 feilipu
 ; ===============================================================
-; 
+;
 ; char *stpncpy(char * restrict s1, const char * restrict s2, size_t n)
 ;
 ; Copy at most n chars from string s2 to string s1, return address
@@ -22,77 +22,77 @@ PUBLIC asm_stpncpy
 
 asm_stpncpy:
 
-   ; enter : de = char *s1 = dst
-   ;         hl = char *s2 = src
-   ;         bc = size_t n
-   ;
-   ; exit  : hl = address in s1 of first NUL written or &s1[n
+        ; enter : de = char *s1 = dst
+        ;         hl = char *s2 = src
+        ;         bc = size_t n
+        ;
+        ; exit  : hl = address in s1 of first NUL written or &s1[n
 
-   ;         bc = 0
-   ;         z flag set if NUL was written to s1
-   ;
-   ; uses  : af, bc, de, hl
+        ;         bc = 0
+        ;         z flag set if NUL was written to s1
+        ;
+        ; uses  : af, bc, de, hl
 
-   ld a,b
-   or c
-   jr Z,exit
+        ld      a, b
+        or      c
+        jr      Z, exit
 
 IF __CPU_INTEL__ || __CPU_GBZ80__
 
-   dec bc
-   inc b
-   inc c
+        dec     bc
+        inc     b
+        inc     c
 
-   ; copy src to dst
+        ; copy src to dst
 loop:
-   xor a
-   cp (hl)
-   jr Z,copied
+        xor     a
+        cp      (hl)
+        jr      Z, copied
 
-   ld a,(hl+)
-   ld (de+),a
+        ld      a,     (hl+)
+        ld      (de+), a
 
-   dec c
-   jr NZ,loop
-   dec b
-   jr NZ,loop
+        dec     c
+        jr      NZ, loop
+        dec     b
+        jr      NZ, loop
 
 copied:
-   ld hl,de                     ; save addr of first NUL in s1
-   xor a
+        ld      hl, de  ; save addr of first NUL in s1
+        xor     a
 zeroloop:
-   ld (de+),a
+        ld      (de+), a
 
-   dec c
-   jr NZ,zeroloop
-   dec b
-   jr NZ,zeroloop
+        dec     c
+        jr      NZ, zeroloop
+        dec     b
+        jr      NZ, zeroloop
 
 ELSE
-   xor a
+        xor     a
 loop:
-   cp (hl)
-   ldi
-   jp PO,done                  ; reached max number of chars
-   jr NZ,loop
+        cp      (hl)
+        ldi
+        jp      PO, done        ; reached max number of chars
+        jr      NZ, loop
 
-   ; now pad with zeroes
+        ; now pad with zeroes
 
-   ld hl,de
-   dec hl
+        ld      hl, de
+        dec     hl
 
-   push hl                    ; save addr of first NUL in s1
-   ldir
-   pop hl
+        push    hl      ; save addr of first NUL in s1
+        ldir
+        pop     hl
 
 ENDIF
 
-   ret
+        ret
 
 done:
-   jr NZ,exit                 ; if last char was not NUL
-   dec de                     ; move back to NUL
+        jr      NZ, exit        ; if last char was not NUL
+        dec     de              ; move back to NUL
 
 exit:
-   ex de,hl
-   ret
+        ex      de, hl
+        ret

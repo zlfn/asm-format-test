@@ -10,16 +10,16 @@ EXTERN asm_call_once
 
 _call_once_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
 l0_call_once_callee:
-   
-   push ix
-   
-   call asm_call_once
-   
-   pop ix
-   ret
+
+        push    ix
+
+        call    asm_call_once
+
+        pop     ix
+        ret

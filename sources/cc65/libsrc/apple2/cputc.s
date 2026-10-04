@@ -7,26 +7,26 @@
 ; Important note: The implementation of cputs() relies on the cputc() function
 ; not clobbering ptr1. Beware when rewriting or changing this function!
 
-        .constructor    initconio
-        .export         _cputcxy, _cputc
-        .export         cputdirect, newline, putchar, putchardirect
-        .import         gotoxy, VTABZ
+        .constructor initconio
+        .export _cputcxy,   _cputc
+        .export cputdirect, newline, putchar, putchardirect
+        .import gotoxy,     VTABZ
 
         .ifndef __APPLE2ENH__
-        .import         machinetype
-        .import         uppercasemask
+                .import machinetype
+                .import uppercasemask
         .endif
 
-        .include        "zeropage.inc"
-        .include        "apple2.inc"
+        .include "zeropage.inc"
+        .include "apple2.inc"
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 initconio:
         .ifndef __APPLE2ENH__
-        bit     machinetype
-        bmi     :+
-        rts
+                bit     machinetype
+                bmi     :+
+                rts
 :
         .endif
         sta     SETALTCHAR      ; Switch in alternate charset
@@ -38,9 +38,9 @@ initconio:
 ; Plot a character - also used as internal function
 
 _cputcxy:
-        pha                     ; Save C
-        jsr     gotoxy          ; Call this one, will pop params
-        pla                     ; Restore C and run into _cputc
+        pha             ; Save C
+        jsr     gotoxy  ; Call this one, will pop params
+        pla             ; Restore C and run into _cputc
 
 _cputc:
         cmp     #$0D            ; Test for \r = carriage return
@@ -49,26 +49,26 @@ _cputc:
         beq     newline
         eor     #$80            ; Invert high bit
         .ifndef __APPLE2ENH__
-        cmp     #$E0            ; Test for lowercase
-        bcc     cputdirect
-        and     uppercasemask
+                cmp     #$E0    ; Test for lowercase
+                bcc     cputdirect
+                and     uppercasemask
         .endif
 
 cputdirect:
         jsr     putchar
 
         .ifndef __APPLE2ENH__
-        bit     machinetype
-        bpl     :+
+                bit     machinetype
+                bpl     :+
         .endif
         bit     RD80VID         ; In 80 column mode?
         bpl     :+
         inc     OURCH           ; Bump to next column
         lda     OURCH
-        .ifdef __APPLE2ENH__
-        bra     check           ; Must leave CH alone
+        .ifdef  __APPLE2ENH__
+                bra     check   ; Must leave CH alone
         .else
-        jmp     check
+                jmp     check
         .endif
 
 :       inc     CH              ; Bump to next column
@@ -78,73 +78,73 @@ check:  cmp     WNDWDTH
         jsr     newline
 left:
         .ifdef  __APPLE2ENH__
-        stz     CH              ; Goto left edge of screen
+                stz     CH      ; Goto left edge of screen
         .else
-        lda     #$00
-        sta     CH
+                lda     #$00
+                sta     CH
         .endif
 
         .ifndef __APPLE2ENH__
-        bit     machinetype
-        bpl     done
+                bit     machinetype
+                bpl     done
         .endif
 
         bit     RD80VID         ; In 80 column mode?
         bpl     done
         .ifdef  __APPLE2ENH__
-        stz     OURCH           ; Goto left edge of screen
+                stz     OURCH   ; Goto left edge of screen
         .else
-        sta     OURCH
+                sta     OURCH
         .endif
 
 done:   rts
 
 newline:
-        inc     CV              ; Bump to next line
+        inc     CV      ; Bump to next line
         lda     CV
         cmp     WNDBTM
         bcc     :+
-        lda     WNDTOP          ; Goto top of screen
+        lda     WNDTOP  ; Goto top of screen
         sta     CV
 :       jmp     VTABZ
 
 putchar:
-        cmp     #$E0            ; Lowercase?
-        and     INVFLG          ; Apply normal, inverse, flash
-        bcc     putchardirect   ; Not lowercase, no special handling
+        cmp     #$E0                    ; Lowercase?
+        and     INVFLG                  ; Apply normal, inverse, flash
+        bcc     putchardirect           ; Not lowercase, no special handling
         .ifndef __APPLE2ENH__
-        bit     machinetype
-        bpl     putchardirect   ; Mask normally for ][/+ ; done
+                bit     machinetype
+                bpl     putchardirect   ; Mask normally for ][/+ ; done
         .endif
-        ora     #$40            ; Restore lowercase bit for //e and up
+        ora     #$40                    ; Restore lowercase bit for //e and up
 
 putchardirect:
         tax
         ldy     CH
 
-        sec                     ; Assume main memory
+        sec     ; Assume main memory
 
         .ifndef __APPLE2ENH__
-        bit     machinetype
-        bpl     put
+                bit     machinetype
+                bpl     put
         .endif
 
-        bit     RD80VID         ; In 80 column mode?
-        bpl     put             ; No, just go ahead
+        bit     RD80VID ; In 80 column mode?
+        bpl     put     ; No, just go ahead
         lda     OURCH
-        lsr                     ; Div by 2
+        lsr             ; Div by 2
         tay
-        bcs     put             ; Odd cols go in main memory
+        bcs     put     ; Odd cols go in main memory
         php
-        sei                     ; No valid MSLOT et al. in aux memory
-        bit     HISCR           ; Assume SET80COL
+        sei             ; No valid MSLOT et al. in aux memory
+        bit     HISCR   ; Assume SET80COL
 
-put:    lda     (BASL),Y        ; Get current character
+put:    lda     (BASL), Y       ; Get current character
         sta     tmp3            ; Save old character for _cgetc
         txa
-        sta     (BASL),Y
+        sta     (BASL), Y
 
-        bcs     :+              ; In main memory
+        bcs     :+      ; In main memory
         bit     LOWSCR
         plp
 :       rts

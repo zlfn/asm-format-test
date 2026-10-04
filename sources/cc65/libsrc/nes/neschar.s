@@ -2,7 +2,7 @@
 ; Character data
 ; ------------------------------------------------------------------------
 
-        .export         NESfont
+        .export NESfont
 
 .segment        "CHARS"
 

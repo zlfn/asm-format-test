@@ -5,10 +5,10 @@
 ; unsigned char cpeekcolor (void);
 ;
 
-        .include        "mega65.inc"
+        .include "mega65.inc"
 
-        .export         _cpeekcolor
-        .importzp       ptr1
+        .export _cpeekcolor
+        .importzp ptr1
 
 _cpeekcolor:
         lda     SCREEN_PTR + 1
@@ -19,7 +19,7 @@ _cpeekcolor:
         sta     ptr1
 
         ldy     CURS_X
-        lda     (ptr1),y
+        lda     (ptr1), y
 
         ldx     #>$0000
         rts

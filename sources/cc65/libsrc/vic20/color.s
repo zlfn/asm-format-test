@@ -7,13 +7,10 @@
 ; unsigned char __fastcall__ bordercolor (unsigned char color);
 ;
 
+        .export _textcolor, _bgcolor, _bordercolor
+        .importzp tmp1
 
-        .export         _textcolor, _bgcolor, _bordercolor
-        .importzp       tmp1
-
-        .include        "vic20.inc"
-
-
+        .include "vic20.inc"
 
 .code
 
@@ -22,7 +19,6 @@ _textcolor:
         sta     CHARCOLOR       ; set new value
         txa
         rts
-
 
 _bgcolor:
         asl
@@ -44,7 +40,6 @@ _bgcolor:
         lsr
         rts
 
-
 _bordercolor:
         and     #$07
         sta     tmp1
@@ -57,4 +52,3 @@ _bordercolor:
         cli
         txa
         rts
-

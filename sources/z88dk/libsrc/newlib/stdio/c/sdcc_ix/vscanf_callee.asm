@@ -16,19 +16,19 @@ EXTERN asm_vscanf
 
 _vscanf_callee:
 
-   pop af
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        push    af
 
 l0_vscanf_callee:
 
-   push ix
-   
-   call asm_vscanf
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_vscanf
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

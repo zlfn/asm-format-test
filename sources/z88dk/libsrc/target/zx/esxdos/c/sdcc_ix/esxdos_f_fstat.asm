@@ -9,13 +9,13 @@ EXTERN l0_esxdos_f_fstat_callee
 
 _esxdos_f_fstat:
 
-   pop bc
-   dec sp
-   pop af
-   pop hl
-   
-   push hl
-   dec sp
-   push bc
-   
-   jp l0_esxdos_f_fstat_callee
+        pop     bc
+        dec     sp
+        pop     af
+        pop     hl
+
+        push    hl
+        dec     sp
+        push    bc
+
+        jp      l0_esxdos_f_fstat_callee

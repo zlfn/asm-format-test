@@ -16,17 +16,16 @@ EXTERN asm_BIFROSTL_fillTileAttrL
 
 BIFROSTL_fillTileAttrL_callee:
 
-        pop hl          ; RET address
-        pop bc          ; C=attrib
-        pop de          ; E=col
-        ex (sp),hl      ; L=row
-        ld d,l          ; D=row
+        pop     hl              ; RET address
+        pop     bc              ; C=attrib
+        pop     de              ; E=col
+        ex      (sp), hl        ; L=row
+        ld      d,    l         ; D=row
 
-        jp asm_BIFROSTL_fillTileAttrL        ; execute 'fill_tile_attr'
+        jp      asm_BIFROSTL_fillTileAttrL      ; execute 'fill_tile_attr'
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _BIFROSTL_fillTileAttrL_callee
 defc _BIFROSTL_fillTileAttrL_callee = BIFROSTL_fillTileAttrL_callee
 ENDIF
-

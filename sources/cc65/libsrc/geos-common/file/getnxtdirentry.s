@@ -5,21 +5,21 @@
 
 ; struct filehandle* GetNxtDirEntry (void);
 
-            .import ___oserror, return0
-            .export _GetNxtDirEntry
+        .import ___oserror, return0
+        .export _GetNxtDirEntry
 
-            .include "diskdrv.inc"
-            .include "geossym.inc"
+        .include "diskdrv.inc"
+        .include "geossym.inc"
 
 _GetNxtDirEntry:
-        jsr GetNxtDirEntry
-        stx ___oserror
+        jsr     GetNxtDirEntry
+        stx     ___oserror
         txa
-        bne L1                  ; jump if disk error
+        bne     L1      ; jump if disk error
         tya
-        bne L1                  ; jump when no more entries
-        lda r5L
-        ldx r5H
+        bne     L1      ; jump when no more entries
+        lda     r5L
+        ldx     r5H
         rts
 
-L1:     jmp return0             ; return NULL if not valid entry
+L1:     jmp     return0 ; return NULL if not valid entry

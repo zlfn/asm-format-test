@@ -1,4 +1,4 @@
-;       Z88 Small C+ Run Time Library 
+;       Z88 Small C+ Run Time Library
 ;       Long support functions
 ;       "8080" mode
 ;       Stefano - 30/4/2002
@@ -24,61 +24,61 @@ PUBLIC l_long_cmp
 ; Code takes secondary from primary
 
 .l_long_cmp
-    ld      bc,de       ;get the upper 16 into bc
-    ld      de,sp+4     ;points to i32 on stack
+        ld      bc, de          ;get the upper 16 into bc
+        ld      de, sp+4        ;points to i32 on stack
 
-    ld      a,(de)
-    sub     a,l
-    ld      l,a
+        ld      a, (de)
+        sub     a, l
+        ld      l, a
 
-    inc     de
+        inc     de
 
-    ld      a,(de)
-    sbc     a,h
-    ld      h,a
+        ld      a, (de)
+        sbc     a, h
+        ld      h, a
 
-    inc     de
+        inc     de
 
-    ld      a,(de)
-    sbc     a,c
-    ld      c,a
+        ld      a, (de)
+        sbc     a, c
+        ld      c, a
 
-    inc     de
+        inc     de
 
-    ld      a,(de)
-    sbc     a,b
+        ld      a, (de)
+        sbc     a, b
 ;   ld      b,a
 
 ; ATP we have done the comparision and are left with bchl = result of
 ; primary - secondary, if we have a negative sign then secondary > primary
 
-    jp      M,l_long_cmp1
+        jp      M, l_long_cmp1
 
 ; Primary was larger, return NC
 ;   ld      a,b
-    or      c
-    or      h
-    or      l
-    scf
-    ccf
-    jp      l_long_cmp2
+        or      c
+        or      h
+        or      l
+        scf
+        ccf
+        jp      l_long_cmp2
 
 ; Secondary was larger, return C
 .l_long_cmp1
 ;   ld      a,b
-    or      c
-    or      h
-    or      l
-    scf
+        or      c
+        or      h
+        or      l
+        scf
 
 ; We need to preserve flags in af
 .l_long_cmp2
-    pop     bc          ;get returns
-    pop     de
-    pop     hl          ;pop i32
-    pop     hl
-    push    de          ;save returns
-    push    bc
+        pop     bc      ;get returns
+        pop     de
+        pop     hl      ;pop i32
+        pop     hl
+        push    de      ;save returns
+        push    bc
 
-    ld      hl,1        ;saves some mem in comparision functions
-    ret
+        ld      hl, 1   ;saves some mem in comparision functions
+        ret

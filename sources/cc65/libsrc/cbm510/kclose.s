@@ -8,7 +8,7 @@
 ; this somewhat compatible with the C64, set the carry before jumping to the
 ; kernal.
 
-        .export         CLOSE
+        .export CLOSE
 
 .proc   CLOSE
 
@@ -16,6 +16,3 @@
         jmp     $FFC3
 
 .endproc
-
-
-

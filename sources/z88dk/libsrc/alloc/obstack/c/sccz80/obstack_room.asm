@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; size_t obstack_room(struct obstack *ob)
 ;
 ; Number of free bytes available in the obstack.
@@ -23,4 +23,3 @@ IF __CLASSIC
 PUBLIC _obstack_room
 defc _obstack_room = obstack_room
 ENDIF
-

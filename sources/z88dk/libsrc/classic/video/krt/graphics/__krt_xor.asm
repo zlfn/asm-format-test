@@ -1,8 +1,8 @@
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  __krt_xor
+        PUBLIC  __krt_xor
 
 __krt_xor:
-    defc    NEEDxor=1
-    INCLUDE "pixel_krt.inc"
+        defc    NEEDxor=1
+        INCLUDE "pixel_krt.inc"

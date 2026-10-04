@@ -10,15 +10,15 @@ EXTERN asm_open_memstream
 
 _open_memstream_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 l0_open_memstream_callee:
 
-   push ix
-   
-   call asm_open_memstream
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_open_memstream
+
+        pop     ix
+        ret

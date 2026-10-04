@@ -10,14 +10,14 @@ EXTERN fzx0_write_callee
 
 fzx_write:
 
-   pop af
-   pop bc
-   pop de
-   pop ix
-   
-   push hl
-   push de
-   push bc
-   push af
-   
-   jp fzx0_write_callee
+        pop     af
+        pop     bc
+        pop     de
+        pop     ix
+
+        push    hl
+        push    de
+        push    bc
+        push    af
+
+        jp      fzx0_write_callee

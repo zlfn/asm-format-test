@@ -46,17 +46,16 @@
 ;* Rev 4.9.0 - 24-Jun-23 : Added definitions for interrupt vectors (sukus)
 ;* Rev 4.9.1 - 11-Sep-23 : Added repository link and CC0 waiver notice
 
-
 ; NOTE: REVISION NUMBER CHANGES MUST BE REFLECTED
 ; IN `rev_Check_hardware_inc` BELOW!
 
 IF __RGBDS_MAJOR__ == 0 && __RGBDS_MINOR__ < 5
-    FAIL "This version of 'hardware.inc' requires RGBDS version 0.5.0 or later."
+        FAIL    "This version of 'hardware.inc' requires RGBDS version 0.5.0 or later."
 ENDC
 
 ; If all of these are already defined, don't do it again.
 
-    IF !DEF(HARDWARE_INC)
+        IF      !DEF(HARDWARE_INC)
 DEF HARDWARE_INC EQU 1
 
 ; Usage: rev_Check_hardware_inc <min_ver>
@@ -64,19 +63,18 @@ DEF HARDWARE_INC EQU 1
 ;           rev_Check_hardware_inc 4.1 (equivalent to 4.1.0)
 ;           rev_Check_hardware_inc 4 (equivalent to 4.0.0)
 MACRO rev_Check_hardware_inc
-    DEF CUR_VER equs "4,9,1"    ; ** UPDATE THIS LINE WHEN CHANGING THE REVISION NUMBER **
+                DEF     CUR_VER equs "4,9,1"    ; ** UPDATE THIS LINE WHEN CHANGING THE REVISION NUMBER **
 
-    DEF MIN_VER equs STRRPL("\1", ".", ",")
-    DEF INTERNAL_CHK equs """MACRO ___internal
+                DEF     MIN_VER equs STRRPL("\1", ".", ",")
+                DEF     INTERNAL_CHK equs """MACRO ___internal
     IF \\1 != \\4 || \\2 < \\5 || (\\2 == \\5 && \\3 < \\6)
     	FAIL "Version \\1.\\2.\\3 of 'hardware.inc' is incompatible with requested version \\4.\\5.\\6"
     ENDC
 \nENDM"""
-    INTERNAL_CHK
-    ___internal {CUR_VER}, {MIN_VER},0,0
-    PURGE CUR_VER, MIN_VER, INTERNAL_CHK, ___internal
+                INTERNAL_CHK
+                ___internal {CUR_VER}, {MIN_VER}, 0, 0
+                PURGE   CUR_VER, MIN_VER, INTERNAL_CHK, ___internal
 ENDM
-
 
 ;***************************************************************************
 ;*
@@ -95,7 +93,6 @@ DEF _IO          EQU $FF00 ; $FF00->$FF7F,$FFFF
 DEF _AUD3WAVERAM EQU $FF30 ; $FF30->$FF3F
 DEF _HRAM        EQU $FF80 ; $FF80->$FFFE
 
-
 ;***************************************************************************
 ;*
 ;* MBC registers
@@ -112,7 +109,6 @@ DEF rRAMG EQU $0000
 
 DEF CART_SRAM_ENABLE  EQU $0A
 DEF CART_SRAM_DISABLE EQU $00
-
 
 ; --
 ; -- ROMB0 ($2000-$3FFF)
@@ -131,7 +127,6 @@ DEF rROMB0 EQU $2000
 ; --
 DEF rRAMB EQU $4000
 
-
 ; *** MBC3-specific registers ***
 
 ; Write one of these to rRAMG to map the corresponding RTC register to all SRAM space
@@ -140,16 +135,14 @@ DEF RTC_M  EQU $09 ; Minutes  (0-59)
 DEF RTC_H  EQU $0A ; Hours    (0-23)
 DEF RTC_DL EQU $0B ; Lower 8 bits of Day Counter ($00-$FF)
 DEF RTC_DH EQU $0C ; Bit 7 - Day Counter Carry Bit (1=Counter Overflow)
-                   ; Bit 6 - Halt (0=Active, 1=Stop Timer)
-                   ; Bit 0 - Most significant bit of Day Counter (Bit 8)
-
+                ; Bit 6 - Halt (0=Active, 1=Stop Timer)
+                ; Bit 0 - Most significant bit of Day Counter (Bit 8)
 
 ; --
 ; -- RTCLATCH ($6000-$7FFF)
 ; -- Write $00 then $01 to latch the current time into the RTC registers (W)
 ; --
 DEF rRTCLATCH EQU $6000
-
 
 ; *** MBC5-specific register ***
 
@@ -161,10 +154,8 @@ DEF rRTCLATCH EQU $6000
 ; --
 DEF rROMB1 EQU $3000
 
-
 ; Bit 3 of RAMB enables the rumble motor (if any)
 DEF CART_RUMBLE_ON EQU 1 << 3
-
 
 ;***************************************************************************
 ;*
@@ -189,13 +180,11 @@ DEF P1F_GET_DPAD EQU P1F_5
 DEF P1F_GET_BTN  EQU P1F_4
 DEF P1F_GET_NONE EQU P1F_4 | P1F_5
 
-
 ; --
 ; -- SB ($FF01)
 ; -- Serial Transfer Data (R/W)
 ; --
 DEF rSB EQU $FF01
-
 
 ; --
 ; -- SC ($FF02)
@@ -217,20 +206,17 @@ DEF SCB_SOURCE EQU 0
 ; --
 DEF rDIV EQU $FF04
 
-
 ; --
 ; -- TIMA ($FF05)
 ; -- Timer counter (R/W)
 ; --
 DEF rTIMA EQU $FF05
 
-
 ; --
 ; -- TMA ($FF06)
 ; -- Timer modulo (R/W)
 ; --
 DEF rTMA EQU $FF06
-
 
 ; --
 ; -- TAC ($FF07)
@@ -247,13 +233,11 @@ DEF TACF_262KHZ EQU %00000001
 
 DEF TACB_START  EQU 2
 
-
 ; --
 ; -- IF ($FF0F)
 ; -- Interrupt Flag (R/W)
 ; --
 DEF rIF EQU $FF0F
-
 
 ; --
 ; -- AUD1SWEEP/NR10 ($FF10)
@@ -272,7 +256,6 @@ DEF rAUD1SWEEP EQU rNR10
 DEF AUD1SWEEP_UP   EQU %00000000
 DEF AUD1SWEEP_DOWN EQU %00001000
 
-
 ; --
 ; -- AUD1LEN/NR11 ($FF11)
 ; -- Sound length/Wave pattern duty (R/W)
@@ -282,7 +265,6 @@ DEF AUD1SWEEP_DOWN EQU %00001000
 ; --
 DEF rNR11 EQU $FF11
 DEF rAUD1LEN EQU rNR11
-
 
 ; --
 ; -- AUD1ENV/NR12 ($FF12)
@@ -297,14 +279,12 @@ DEF rAUD1LEN EQU rNR11
 DEF rNR12 EQU $FF12
 DEF rAUD1ENV EQU rNR12
 
-
 ; --
 ; -- AUD1LOW/NR13 ($FF13)
 ; -- Frequency low byte (W)
 ; --
 DEF rNR13 EQU $FF13
 DEF rAUD1LOW EQU rNR13
-
 
 ; --
 ; -- AUD1HIGH/NR14 ($FF14)
@@ -317,7 +297,6 @@ DEF rAUD1LOW EQU rNR13
 DEF rNR14 EQU $FF14
 DEF rAUD1HIGH EQU rNR14
 
-
 ; --
 ; -- AUD2LEN/NR21 ($FF16)
 ; -- Sound Length; Wave Pattern Duty (R/W)
@@ -326,7 +305,6 @@ DEF rAUD1HIGH EQU rNR14
 ; --
 DEF rNR21 EQU $FF16
 DEF rAUD2LEN EQU rNR21
-
 
 ; --
 ; -- AUD2ENV/NR22 ($FF17)
@@ -337,14 +315,12 @@ DEF rAUD2LEN EQU rNR21
 DEF rNR22 EQU $FF17
 DEF rAUD2ENV EQU rNR22
 
-
 ; --
 ; -- AUD2LOW/NR23 ($FF18)
 ; -- Frequency low byte (W)
 ; --
 DEF rNR23 EQU $FF18
 DEF rAUD2LOW EQU rNR23
-
 
 ; --
 ; -- AUD2HIGH/NR24 ($FF19)
@@ -354,7 +330,6 @@ DEF rAUD2LOW EQU rNR23
 ; --
 DEF rNR24 EQU $FF19
 DEF rAUD2HIGH EQU rNR24
-
 
 ; --
 ; -- AUD3ENA/NR30 ($FF1A)
@@ -368,7 +343,6 @@ DEF rAUD3ENA EQU rNR30
 DEF AUD3ENA_OFF EQU %00000000
 DEF AUD3ENA_ON  EQU %10000000
 
-
 ; --
 ; -- AUD3LEN/NR31 ($FF1B)
 ; -- Sound length (R/W)
@@ -377,7 +351,6 @@ DEF AUD3ENA_ON  EQU %10000000
 ; --
 DEF rNR31 EQU $FF1B
 DEF rAUD3LEN EQU rNR31
-
 
 ; --
 ; -- AUD3LEVEL/NR32 ($FF1C)
@@ -397,7 +370,6 @@ DEF AUD3LEVEL_100  EQU %00100000
 DEF AUD3LEVEL_50   EQU %01000000
 DEF AUD3LEVEL_25   EQU %01100000
 
-
 ; --
 ; -- AUD3LOW/NR33 ($FF1D)
 ; -- Frequency low byte (W)
@@ -406,7 +378,6 @@ DEF AUD3LEVEL_25   EQU %01100000
 ; --
 DEF rNR33 EQU $FF1D
 DEF rAUD3LOW EQU rNR33
-
 
 ; --
 ; -- AUD3HIGH/NR34 ($FF1E)
@@ -417,7 +388,6 @@ DEF rAUD3LOW EQU rNR33
 DEF rNR34 EQU $FF1E
 DEF rAUD3HIGH EQU rNR34
 
-
 ; --
 ; -- AUD4LEN/NR41 ($FF20)
 ; -- Sound length (R/W)
@@ -427,7 +397,6 @@ DEF rAUD3HIGH EQU rNR34
 DEF rNR41 EQU $FF20
 DEF rAUD4LEN EQU rNR41
 
-
 ; --
 ; -- AUD4ENV/NR42 ($FF21)
 ; -- Envelope (R/W)
@@ -436,7 +405,6 @@ DEF rAUD4LEN EQU rNR41
 ; --
 DEF rNR42 EQU $FF21
 DEF rAUD4ENV EQU rNR42
-
 
 ; --
 ; -- AUD4POLY/NR43 ($FF22)
@@ -458,7 +426,6 @@ DEF rAUD4POLY EQU rNR43
 DEF AUD4POLY_15STEP EQU %00000000
 DEF AUD4POLY_7STEP  EQU %00001000
 
-
 ; --
 ; -- AUD4GO/NR44 ($FF23)
 ; --
@@ -467,7 +434,6 @@ DEF AUD4POLY_7STEP  EQU %00001000
 ; --
 DEF rNR44 EQU $FF23
 DEF rAUD4GO EQU rNR44
-
 
 ; --
 ; -- AUDVOL/NR50 ($FF24)
@@ -483,7 +449,6 @@ DEF rAUDVOL EQU rNR50
 
 DEF AUDVOL_VIN_LEFT  EQU %10000000 ; SO2
 DEF AUDVOL_VIN_RIGHT EQU %00001000 ; SO1
-
 
 ; --
 ; -- AUDTERM/NR51 ($FF25)
@@ -512,7 +477,6 @@ DEF AUDTERM_3_RIGHT EQU %00000100
 DEF AUDTERM_2_RIGHT EQU %00000010
 DEF AUDTERM_1_RIGHT EQU %00000001
 
-
 ; --
 ; -- AUDENA/NR52 ($FF26)
 ; -- Sound on/off (R/W)
@@ -528,7 +492,6 @@ DEF rAUDENA EQU rNR52
 
 DEF AUDENA_ON    EQU %10000000
 DEF AUDENA_OFF   EQU %00000000  ; sets all audio regs to 0!
-
 
 ; --
 ; -- LCDC ($FF40)
@@ -563,7 +526,6 @@ DEF LCDCB_OBJON   EQU 1 ; OBJ Display
 DEF LCDCB_BGON    EQU 0 ; BG Display
 ; "Window Character Data Select" follows BG
 
-
 ; --
 ; -- STAT ($FF41)
 ; -- LCDC Status   (R/W)
@@ -594,13 +556,11 @@ DEF STATB_BUSY    EQU  1
 ; --
 DEF rSCY EQU $FF42
 
-
 ; --
 ; -- SCX ($FF43)
 ; -- Scroll X (R/W)
 ; --
 DEF rSCX EQU $FF43
-
 
 ; --
 ; -- LY ($FF44)
@@ -610,7 +570,6 @@ DEF rSCX EQU $FF43
 ; --
 DEF rLY EQU $FF44
 
-
 ; --
 ; -- LYC ($FF45)
 ; -- LY Compare (R/W)
@@ -619,13 +578,11 @@ DEF rLY EQU $FF44
 ; --
 DEF rLYC EQU $FF45
 
-
 ; --
 ; -- DMA ($FF46)
 ; -- DMA Transfer and Start Address (W)
 ; --
 DEF rDMA EQU $FF46
-
 
 ; --
 ; -- BGP ($FF47)
@@ -638,7 +595,6 @@ DEF rDMA EQU $FF46
 ; --
 DEF rBGP EQU $FF47
 
-
 ; --
 ; -- OBP0 ($FF48)
 ; -- Object Palette 0 Data (W)
@@ -646,7 +602,6 @@ DEF rBGP EQU $FF47
 ; -- See BGP for info
 ; --
 DEF rOBP0 EQU $FF48
-
 
 ; --
 ; -- OBP1 ($FF49)
@@ -656,7 +611,6 @@ DEF rOBP0 EQU $FF48
 ; --
 DEF rOBP1 EQU $FF49
 
-
 ; --
 ; -- WY ($FF4A)
 ; -- Window Y Position (R/W)
@@ -665,7 +619,6 @@ DEF rOBP1 EQU $FF49
 ; -- When WY = 0, the window is displayed from the top edge of the LCD screen.
 ; --
 DEF rWY EQU $FF4A
-
 
 ; --
 ; -- WX ($FF4B)
@@ -679,7 +632,6 @@ DEF rWX EQU $FF4B
 
 DEF WX_OFS EQU 7 ; add this to a screen position to get a WX position
 
-
 ; --
 ; -- SPEED ($FF4D)
 ; -- Select CPU Speed (R/W)
@@ -690,7 +642,6 @@ DEF rSPD  EQU rKEY1
 DEF KEY1F_DBLSPEED EQU %10000000 ; 0=Normal Speed, 1=Double Speed (R)
 DEF KEY1F_PREPARE  EQU %00000001 ; 0=No, 1=Prepare (R/W)
 
-
 ; --
 ; -- VBK ($FF4F)
 ; -- Select Video RAM Bank (R/W)
@@ -699,14 +650,12 @@ DEF KEY1F_PREPARE  EQU %00000001 ; 0=No, 1=Prepare (R/W)
 ; --
 DEF rVBK EQU $FF4F
 
-
 ; --
 ; -- HDMA1 ($FF51)
 ; -- High byte for Horizontal Blanking/General Purpose DMA source address (W)
 ; -- CGB Mode Only
 ; --
 DEF rHDMA1 EQU $FF51
-
 
 ; --
 ; -- HDMA2 ($FF52)
@@ -715,7 +664,6 @@ DEF rHDMA1 EQU $FF51
 ; --
 DEF rHDMA2 EQU $FF52
 
-
 ; --
 ; -- HDMA3 ($FF53)
 ; -- High byte for Horizontal Blanking/General Purpose DMA destination address (W)
@@ -723,14 +671,12 @@ DEF rHDMA2 EQU $FF52
 ; --
 DEF rHDMA3 EQU $FF53
 
-
 ; --
 ; -- HDMA4 ($FF54)
 ; -- Low byte for Horizontal Blanking/General Purpose DMA destination address (W)
 ; -- CGB Mode Only
 ; --
 DEF rHDMA4 EQU $FF54
-
 
 ; --
 ; -- HDMA5 ($FF55)
@@ -745,7 +691,6 @@ DEF HDMA5B_MODE EQU 7 ; DMA mode select (W)
 
 ; -- Once DMA has started, use HDMA5F_BUSY to check when the transfer is complete
 DEF HDMA5F_BUSY EQU %10000000 ; 0=Busy (DMA still in progress), 1=Transfer complete (R)
-
 
 ; --
 ; -- RP ($FF56)
@@ -762,7 +707,6 @@ DEF RPF_WRITE_LO EQU %00000000
 DEF RPB_LED_ON   EQU 0
 DEF RPB_DATAIN   EQU 1
 
-
 ; --
 ; -- BCPS/BGPI ($FF68)
 ; -- Background Color Palette Specification (aka Background Palette Index) (R/W)
@@ -775,14 +719,12 @@ DEF BCPSB_AUTOINC EQU 7
 DEF BGPIF_AUTOINC EQU BCPSF_AUTOINC
 DEF BGPIB_AUTOINC EQU BCPSB_AUTOINC
 
-
 ; --
 ; -- BCPD/BGPD ($FF69)
 ; -- Background Color Palette Data (aka Background Palette Data) (R/W)
 ; --
 DEF rBCPD EQU $FF69
 DEF rBGPD EQU rBCPD
-
 
 ; --
 ; -- OCPS/OBPI ($FF6A)
@@ -796,14 +738,12 @@ DEF OCPSB_AUTOINC EQU 7
 DEF OBPIF_AUTOINC EQU OCPSF_AUTOINC
 DEF OBPIB_AUTOINC EQU OCPSB_AUTOINC
 
-
 ; --
 ; -- OCPD/OBPD ($FF6B)
 ; -- Object Color Palette Data (aka Object Background Palette Data) (R/W)
 ; --
 DEF rOCPD EQU $FF6B
 DEF rOBPD EQU rOCPD
-
 
 ; --
 ; -- OPRI ($FF6C)
@@ -818,8 +758,6 @@ DEF rOPRI EQU $FF6C
 DEF OPRI_OAM   EQU 0 ; Prioritize objects by location in OAM (CGB Mode default)
 DEF OPRI_COORD EQU 1 ; Prioritize objects by x-coordinate (Non-CGB Mode default)
 
-
-
 ; --
 ; -- SMBK/SVBK ($FF70)
 ; -- Select Main RAM Bank (R/W)
@@ -828,7 +766,6 @@ DEF OPRI_COORD EQU 1 ; Prioritize objects by x-coordinate (Non-CGB Mode default)
 ; --
 DEF rSVBK EQU $FF70
 DEF rSMBK EQU rSVBK
-
 
 ; --
 ; -- PCM12 ($FF76)
@@ -839,7 +776,6 @@ DEF rSMBK EQU rSVBK
 ; --
 DEF rPCM12 EQU $FF76
 
-
 ; --
 ; -- PCM34 ($FF77)
 ; -- Sound channel 3&4 PCM amplitude (R)
@@ -848,7 +784,6 @@ DEF rPCM12 EQU $FF76
 ; -- Bit 3-0 - Copy of sound channel 3's PCM amplitude
 ; --
 DEF rPCM34 EQU $FF77
-
 
 ; --
 ; -- IE ($FFFF)
@@ -868,7 +803,6 @@ DEF IEB_TIMER  EQU 2
 DEF IEB_STAT   EQU 1
 DEF IEB_VBLANK EQU 0
 
-
 ;***************************************************************************
 ;*
 ;* Flags common to multiple sound channels
@@ -886,7 +820,6 @@ DEF AUDLEN_DUTY_25      EQU %01000000 ; 25%
 DEF AUDLEN_DUTY_50      EQU %10000000 ; 50%
 DEF AUDLEN_DUTY_75      EQU %11000000 ; 75%
 
-
 ; --
 ; -- Audio envelope flags
 ; --
@@ -895,7 +828,6 @@ DEF AUDLEN_DUTY_75      EQU %11000000 ; 75%
 ; --
 DEF AUDENV_UP           EQU %00001000
 DEF AUDENV_DOWN         EQU %00000000
-
 
 ; --
 ; -- Audio trigger flags
@@ -906,7 +838,6 @@ DEF AUDENV_DOWN         EQU %00000000
 DEF AUDHIGH_RESTART     EQU %10000000
 DEF AUDHIGH_LENGTH_ON   EQU %01000000
 DEF AUDHIGH_LENGTH_OFF  EQU %00000000
-
 
 ;***************************************************************************
 ;*
@@ -923,7 +854,6 @@ DEF BOOTUP_A_MGB    EQU $FF ; Mini GameBoy (Pocket GameBoy)
 DEF BOOTUP_B_CGB    EQU %00000000
 DEF BOOTUP_B_AGB    EQU %00000001   ; GBA, GBA SP, Game Boy Player, or New GBA SP
 
-
 ;***************************************************************************
 ;*
 ;* Interrupt vector addresses
@@ -936,7 +866,6 @@ DEF INT_HANDLER_TIMER  EQU $0050
 DEF INT_HANDLER_SERIAL EQU $0058
 DEF INT_HANDLER_JOYPAD EQU $0060
 
-
 ;***************************************************************************
 ;*
 ;* Header
@@ -948,9 +877,9 @@ DEF INT_HANDLER_JOYPAD EQU $0060
 ;* (Code won't work on a real GameBoy)
 ;* (if next lines are altered.)
 MACRO NINTENDO_LOGO
-    DB  $CE,$ED,$66,$66,$CC,$0D,$00,$0B,$03,$73,$00,$83,$00,$0C,$00,$0D
-    DB  $00,$08,$11,$1F,$88,$89,$00,$0E,$DC,$CC,$6E,$E6,$DD,$DD,$D9,$99
-    DB  $BB,$BB,$67,$63,$6E,$0E,$EC,$CC,$DD,$DC,$99,$9F,$BB,$B9,$33,$3E
+                DB      $CE, $ED, $66, $66, $CC, $0D, $00, $0B, $03, $73, $00, $83, $00, $0C, $00, $0D
+                DB      $00, $08, $11, $1F, $88, $89, $00, $0E, $DC, $CC, $6E, $E6, $DD, $DD, $D9, $99
+                DB      $BB, $BB, $67, $63, $6E, $0E, $EC, $CC, $DD, $DC, $99, $9F, $BB, $B9, $33, $3E
 ENDM
 
 ; $0143 Color GameBoy compatibility code
@@ -1017,7 +946,6 @@ DEF CART_SRAM_128KB EQU 4 ; 16 banks
 DEF CART_DEST_JAPANESE     EQU $00
 DEF CART_DEST_NON_JAPANESE EQU $01
 
-
 ;***************************************************************************
 ;*
 ;* Keypad related
@@ -1042,7 +970,6 @@ DEF PADB_SELECT EQU $2
 DEF PADB_B      EQU $1
 DEF PADB_A      EQU $0
 
-
 ;***************************************************************************
 ;*
 ;* Screen related
@@ -1058,7 +985,6 @@ DEF SCRN_VX   EQU 256 ; Virtual width of screen in pixels
 DEF SCRN_VY   EQU 256 ; Virtual height of screen in pixels
 DEF SCRN_VX_B EQU 32  ; Virtual width of screen in bytes
 DEF SCRN_VY_B EQU 32  ; Virtual height of screen in bytes
-
 
 ;***************************************************************************
 ;*
@@ -1097,7 +1023,6 @@ DEF OAMB_XFLIP      EQU 5 ; X flip
 DEF OAMB_PAL1       EQU 4 ; Palette number; 0,1 (DMG)
 DEF OAMB_BANK1      EQU 3 ; Bank number; 0,1 (GBC)
 
-
 ; Deprecated constants. Please avoid using.
 
 DEF IEF_LCDC   EQU %00000010 ; LCDC (see STAT)
@@ -1109,5 +1034,4 @@ DEF LCDCF_BG8800  EQU %00000000 ; BG & Window Tile Data Select
 DEF LCDCF_BG8000  EQU %00010000 ; BG & Window Tile Data Select
 DEF LCDCB_BG8000  EQU 4 ; BG & Window Tile Data Select
 
-
-    ENDC ;HARDWARE_INC
+        ENDC    ;HARDWARE_INC

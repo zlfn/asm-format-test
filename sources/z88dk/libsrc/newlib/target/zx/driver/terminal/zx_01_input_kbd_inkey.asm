@@ -97,7 +97,7 @@
 ; * IOCTL_ITERM_GET_DELAY
 ;
 ; * IOCTL_ITERM_SET_DELAY
-; 
+;
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; BYTES RESERVED IN FDSTRUCT
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -129,13 +129,13 @@ EXTERN zx_01_input_inkey_stdio_msg_ictl
 
 zx_01_input_kbd_inkey:
 
-   cp ITERM_MSG_GETC
-   jp z, zx_01_input_inkey_iterm_msg_getc
-   
-   cp STDIO_MSG_FLSH
-   jp z, zx_01_input_inkey_stdio_msg_flsh
-   
-   cp STDIO_MSG_ICTL
-   jp z, zx_01_input_inkey_stdio_msg_ictl
-   
-   jp console_01_input_terminal    ; forward to library
+        cp      ITERM_MSG_GETC
+        jp      z, zx_01_input_inkey_iterm_msg_getc
+
+        cp      STDIO_MSG_FLSH
+        jp      z, zx_01_input_inkey_stdio_msg_flsh
+
+        cp      STDIO_MSG_ICTL
+        jp      z, zx_01_input_inkey_stdio_msg_ictl
+
+        jp      console_01_input_terminal       ; forward to library

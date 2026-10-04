@@ -9,10 +9,10 @@
 ;
 ; void lynx_exec(int fileno)
 ;
-        .importzp       _FileDestAddr
-        .import         pushax,ldax0sp,incsp2
-        .import         _lynx_load
-        .export         _lynx_exec
+        .importzp _FileDestAddr
+        .import pushax, ldax0sp, incsp2
+        .import _lynx_load
+        .export _lynx_exec
 
 ; ---------------------------------------------------------------
 ; void __near__ __fastcall__ lynx_exec (int)
@@ -31,4 +31,3 @@
         jmp     (_FileDestAddr)
 
 .endproc
-

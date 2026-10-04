@@ -5,18 +5,13 @@
 ;
 ; Defines for the get_tv function.
 
-
-
 ; Error codes returned by all functions
 .enum TV
-    NTSC
-    PAL
-    OTHER
+        NTSC
+        PAL
+        OTHER
 .endenum
-
 
 ; get_tv function
 
         .global _get_tv
-
-

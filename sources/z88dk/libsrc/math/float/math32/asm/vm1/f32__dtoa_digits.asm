@@ -17,73 +17,72 @@ SECTION code_fp_math32
 
 PUBLIC m32__dtoa_digits
 
-
 .m32__dtoa_digits
-    ld a,c
-    or a
-    ret Z
+        ld      a, c
+        or      a
+        ret     Z
 
-    ld a,d
-    rra
-    rra
-    rra
-    rra
-    and 00fh
-    add a,'0'
+        ld      a, d
+        rra
+        rra
+        rra
+        rra
+        and     00fh
+        add     a, '0'
 
-    push bc
-    push de
-    push hl                         ; CALL+3 pushes: work at SP+8
-    ld c,a
-    ld hl,sp+38
-    ex de,hl
-    ld hl,(de)
-    ld (hl+),c                      ; *p++
-    ld (de),hl
-    pop hl
-    pop de                          ; counts remain stacked
+        push    bc
+        push    de
+        push    hl              ; CALL+3 pushes: work at SP+8
+        ld      c,     a
+        ld      hl,    sp+38
+        ex      de,    hl
+        ld      hl,    (de)
+        ld      (hl+), c        ; *p++
+        ld      (de),  hl
+        pop     hl
+        pop     de              ; counts remain stacked
 
-    ld a,d
-    and 00fh
-    ld d,a
+        ld      a, d
+        and     00fh
+        ld      d, a
 
-    push de
-    push hl
-    add hl,hl
-    ld a,e
-    rla
-    ld e,a
-    ld a,d
-    rla
-    ld d,a
-    add hl,hl
-    ld a,e
-    rla
-    ld e,a
-    ld a,d
-    rla
-    ld d,a
-    pop bc
-    add hl,bc
-    pop bc
-    ld a,c
-    adc a,e
-    ld e,a
-    ld a,b
-    adc a,d
-    ld d,a
-    add hl,hl
-    ld a,e
-    rla
-    ld e,a
-    ld a,d
-    rla
-    ld d,a
+        push    de
+        push    hl
+        add     hl, hl
+        ld      a,  e
+        rla
+        ld      e, a
+        ld      a, d
+        rla
+        ld      d,  a
+        add     hl, hl
+        ld      a,  e
+        rla
+        ld      e, a
+        ld      a, d
+        rla
+        ld      d, a
+        pop     bc
+        add     hl, bc
+        pop     bc
+        ld      a,  c
+        adc     a,  e
+        ld      e,  a
+        ld      a,  b
+        adc     a,  d
+        ld      d,  a
+        add     hl, hl
+        ld      a,  e
+        rla
+        ld      e, a
+        ld      a, d
+        rla
+        ld      d, a
 
-    pop bc
-    dec c
-    dec b
-    jp NZ,m32__dtoa_digits
+        pop     bc
+        dec     c
+        dec     b
+        jp      NZ, m32__dtoa_digits
 
-    scf
-    ret
+        scf
+        ret

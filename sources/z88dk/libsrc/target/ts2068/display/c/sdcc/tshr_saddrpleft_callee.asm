@@ -9,11 +9,11 @@ EXTERN asm_tshr_saddrpleft
 
 _tshr_saddrpleft_callee:
 
-   pop af
-   pop hl
-   dec sp
-   pop de
-   push af
+        pop     af
+        pop     hl
+        dec     sp
+        pop     de
+        push    af
 
-   ld e,d
-   jp asm_tshr_saddrpleft
+        ld      e, d
+        jp      asm_tshr_saddrpleft

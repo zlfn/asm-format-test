@@ -25,32 +25,32 @@
 ; ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ; POSSIBILITY OF SUCH DAMAGE.
 
-    INCLUDE "config_private.inc"
+        INCLUDE "config_private.inc"
 
-    SECTION code_driver
-    
-    PUBLIC	asm_system_tick
-    
-    EXTERN  __system_time_fraction, __system_time
+        SECTION code_driver
 
-    asm_system_tick:
-        push af
-        push hl
+        PUBLIC  asm_system_tick
 
-        in0 a, (TCR)                ; to clear the PRT0 interrupt, read the TCR
-        in0 a, (TMDR0L)             ; followed by the TMDR0
+        EXTERN  __system_time_fraction, __system_time
 
-        ld hl, __system_time_fraction
-        inc (hl)
-        jr Z, system_tick_update    ; at 0 we're at 1 second count, interrupted 256 times
+asm_system_tick:
+        push    af
+        push    hl
 
-    system_tick_exit:
-        pop hl
-        pop af
-        ei                          ; interrupts were enabled, or we wouldn't have been here
+        in0     a, (TCR)        ; to clear the PRT0 interrupt, read the TCR
+        in0     a, (TMDR0L)     ; followed by the TMDR0
+
+        ld      hl, __system_time_fraction
+        inc     (hl)
+        jr      Z, system_tick_update   ; at 0 we're at 1 second count, interrupted 256 times
+
+system_tick_exit:
+        pop     hl
+        pop     af
+        ei      ; interrupts were enabled, or we wouldn't have been here
         ret
 
-    system_tick_update:
+system_tick_update:
 ;       push bc
 ;       ld bc, __IO_PIO_PORT_B      ; see the low byte of __system_time
 ;       ld hl, __system_time
@@ -58,16 +58,15 @@
 ;       out (c), l
 ;       pop bc
 
-        ld hl, __system_time        ; increment through the __system_time bytes
-        inc (hl)
-        jr NZ, system_tick_exit
-        inc hl
-        inc (hl)
-        jr NZ, system_tick_exit
-        inc hl
-        inc (hl)
-        jr NZ, system_tick_exit
-        inc hl
-        inc (hl)
-        jr system_tick_exit
-
+        ld      hl, __system_time       ; increment through the __system_time bytes
+        inc     (hl)
+        jr      NZ, system_tick_exit
+        inc     hl
+        inc     (hl)
+        jr      NZ, system_tick_exit
+        inc     hl
+        inc     (hl)
+        jr      NZ, system_tick_exit
+        inc     hl
+        inc     (hl)
+        jr      system_tick_exit

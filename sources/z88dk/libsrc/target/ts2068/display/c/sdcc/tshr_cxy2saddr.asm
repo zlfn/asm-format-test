@@ -9,10 +9,10 @@ EXTERN asm_zx_cxy2saddr
 
 _tshr_cxy2saddr:
 
-   pop af
-   pop hl
+        pop     af
+        pop     hl
 
-   push hl
-   push af
+        push    hl
+        push    af
 
-   jp asm_zx_cxy2saddr
+        jp      asm_zx_cxy2saddr

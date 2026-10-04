@@ -2,10 +2,10 @@
 ; Robert Justice, 2026
 ;
 
-        .export         isdevice, devname
+        .export isdevice, devname
 
-        .include        "zeropage.inc"
-        .include        "sos.inc"
+        .include "zeropage.inc"
+        .include "sos.inc"
 
 isdevice:
         ; Set device
@@ -25,20 +25,19 @@ isdevice:
         lda     #D_INFO_CALL
         ldx     #D_INFO_COUNT
         jsr     callsos
-        bne     :+         ; error, not valid
+        bne     :+      ; error, not valid
 
         ; check if its a block dev
         lda     sosoption + OPTION::DINFO::DEV_TYPE
-        bpl     :+         ; char dev, not valid
+        bpl     :+      ; char dev, not valid
 
-        lda     #0         ; dev ok
+        lda     #0      ; dev ok
         rts
 
 :       lda     #$FF
         rts
 
-
         .bss
 
 devname:
-        .res   16
+        .res    16

@@ -4,7 +4,7 @@
 ; CC65 runtime: Return -1 in a/x
 ;
 
-        .export         returnFFFF
+        .export returnFFFF
 
 .proc   returnFFFF
 

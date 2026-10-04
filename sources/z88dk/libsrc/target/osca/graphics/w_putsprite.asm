@@ -22,16 +22,14 @@
 ; __gfx_coords: d,e (vert-horz)
 ; sprite: (ix)
 
-
-
 putsprite:
 _putsprite:
-        push    ix                      ;save callers
+        push    ix      ;save callers
         ld      hl, 2
         add     hl, sp
-        ld      e, (hl)
+        ld      e,  (hl)
         inc     hl
-        ld      d, (hl)                 ; sprite address
+        ld      d, (hl) ; sprite address
         push    de
         pop     ix
 
@@ -42,17 +40,17 @@ _putsprite:
         inc     hl
         ld      c, (hl)
         inc     hl
-        ld      b, (hl)                 ; x and y __gfx_coords
+        ld      b, (hl) ; x and y __gfx_coords
 
         inc     hl
-        ld      a, (hl)                 ; and/or/xor mode
-        ld      (ortype+1), a           ; Self modifying code
-        ld      (ortype2+1), a          ; Self modifying code
+        ld      a, (hl)         ; and/or/xor mode
+        ld      (ortype+1),  a  ; Self modifying code
+        ld      (ortype2+1), a  ; Self modifying code
 
         inc     hl
         ld      a, (hl)
-        ld      (ortype), a             ; Self modifying code
-        ld      (ortype2), a            ; Self modifying code
+        ld      (ortype),  a    ; Self modifying code
+        ld      (ortype2), a    ; Self modifying code
 
         call    __gfx_vram_page_in
         ; @@@@@@@@@@@@
@@ -65,18 +63,18 @@ _putsprite:
         ; ------
         ;ld		a,(hl)
         ; @@@@@@@@@@@@
-        ld      c, a
+        ld      c,  a
         ld      hl, offsets_table
-        ld      c, a
-        ld      b, 0
+        ld      c,  a
+        ld      b,  0
         add     hl, bc
-        ld      a, (hl)
+        ld      a,  (hl)
         ld      (wsmc1+1), a
         ld      (wsmc2+1), a
         ld      (_smc1+1), a
 
         ld      h, d
-        ld      l, e                    ; display location from pixeladdress
+        ld      l, e    ; display location from pixeladdress
 
         ld      a, (ix+0)
         ld      d, a
@@ -84,23 +82,23 @@ _putsprite:
         cp      9
         jp      nc, putspritew
 
-_oloop: push    bc                      ;Save # of rows
-        ld      b, d                    ;Load width
-        ld      c, (ix+2)               ;Load one line of image
+_oloop: push    bc              ;Save # of rows
+        ld      b, d            ;Load width
+        ld      c, (ix+2)       ;Load one line of image
         inc     ix
-_smc1:  ld      a, 1                    ;Load pixel mask
-_iloop: sla     c                       ;Test leftmost pixel
-        jp      nc, _noplot             ;See if a plot is needed
-        ld      e, a
+_smc1:  ld      a, 1            ;Load pixel mask
+_iloop: sla     c               ;Test leftmost pixel
+        jp      nc, _noplot     ;See if a plot is needed
+        ld      e,  a
 ortype:
-        nop                             ; changed into nop / cpl
-        nop                             ; changed into and/or/xor (hl)
+        nop                     ; changed into nop / cpl
+        nop                     ; changed into and/or/xor (hl)
         ld      (hl), a
-        ld      a, e
+        ld      a,    e
 _noplot:
         rrca
 
-        jp      nc, _notedge            ;Test if edge of byte reached
+        jp      nc, _notedge    ;Test if edge of byte reached
 
         ;@@@@@@@@@@
         ;Go to next byte
@@ -119,38 +117,37 @@ _notedge:
         ld      de, 40
         add     hl, de
         ld      (curaddr), hl
-         ;ld      hl,(oldx)
-         ;ld      de,(cury)
-         ;inc     de
-         ;ld      (cury),de
-         ;call    w_pixeladdress
-         ;ld      h,d
-         ;ld      l,e
+        ;ld      hl,(oldx)
+        ;ld      de,(cury)
+        ;inc     de
+        ;ld      (cury),de
+        ;call    w_pixeladdress
+        ;ld      h,d
+        ;ld      l,e
         ;@@@@@@@@@@
         pop     de
-        pop     bc                      ;Restore data
+        pop     bc      ;Restore data
         djnz    _oloop
-        pop     ix                      ;restore callers
+        pop     ix      ;restore callers
         jp      __gfx_vram_page_out
 
-
 putspritew:
-woloop: push    bc                      ;Save # of rows
-        ld      b, d                    ;Load width
-        ld      c, (ix+2)               ;Load one line of image
+woloop: push    bc              ;Save # of rows
+        ld      b, d            ;Load width
+        ld      c, (ix+2)       ;Load one line of image
         inc     ix
-wsmc1:  ld      a, 1                    ;Load pixel mask
-wiloop: sla     c                       ;Test leftmost pixel
-        jp      nc, wnoplot             ;See if a plot is needed
-        ld      e, a
+wsmc1:  ld      a, 1            ;Load pixel mask
+wiloop: sla     c               ;Test leftmost pixel
+        jp      nc, wnoplot     ;See if a plot is needed
+        ld      e,  a
 ortype2:
-        nop                             ; changed into nop / cpl
-        nop                             ; changed into and/or/xor (hl)
+        nop                     ; changed into nop / cpl
+        nop                     ; changed into and/or/xor (hl)
         ld      (hl), a
-        ld      a, e
+        ld      a,    e
 wnoplot:
         rrca
-        jp      nc, wnotedge            ;Test if edge of byte reached
+        jp      nc, wnotedge    ;Test if edge of byte reached
 
         ;@@@@@@@@@@
         ;Go to next byte
@@ -182,11 +179,10 @@ wsmc2:  cp      1
         ;@@@@@@@@@@
         pop     de
 
-        pop     bc                      ;Restore data
+        pop     bc      ;Restore data
         djnz    woloop
-        pop     ix                      ;restore callers
+        pop     ix      ;restore callers
         jp      __gfx_vram_page_out
-
 
 wover_1:
         ld      c, (ix+2)
@@ -214,7 +210,7 @@ wover_1:
 
         pop     bc
         djnz    woloop
-        pop     ix                      ;restore callers
+        pop     ix      ;restore callers
         jp      __gfx_vram_page_out
 
         SECTION rodata_clib

@@ -26,63 +26,63 @@ SECTION code_fp_math16
 PUBLIC asm_f24_discardfraction
 
 .asm_f24_discardfraction
-    ld a,d                      ; Exponent
-    or a
-    jr Z,zero_legal             ; exp 0 -> signed zero, NC
+        ld      a, d            ; Exponent
+        or      a
+        jr      Z, zero_legal   ; exp 0 -> signed zero, NC
 
-    sub $7f                     ; Exponent value of 127 is 1.xx
-    jr C,return_zero            ; |x| < 1 -> signed zero, C
+        sub     $7f             ; Exponent value of 127 is 1.xx
+        jr      C, return_zero  ; |x| < 1 -> signed zero, C
 
-    inc a
-    cp 16
-    jr C,mask_frac
-    or a                        ; |x| >= 2^15: already integer, NC
-    ret
+        inc     a
+        cp      16
+        jr      C, mask_frac
+        or      a       ; |x| >= 2^15: already integer, NC
+        ret
 
 .mask_frac
-    push hl                     ; save original mantissa
+        push    hl      ; save original mantissa
 
-                                ; a = number of bits to keep
-    ld bc,0                     ; build mask for integer bits
+        ; a = number of bits to keep
+        ld      bc, 0   ; build mask for integer bits
 
-.shift_right                    ; shift mantissa mask right
-    scf
-    rr b
-    rr c
-    dec a
-    jr NZ,shift_right
+.shift_right    ; shift mantissa mask right
+        scf
+        rr      b
+        rr      c
+        dec     a
+        jr      NZ, shift_right
 
-    ld a,b                      ; mask out fractional bits
-    and h
-    ld h,a
+        ld      a, b    ; mask out fractional bits
+        and     h
+        ld      h, a
 
-    ld a,c
-    and l
-    ld l,a                      ; hl = truncated mantissa
+        ld      a, c
+        and     l
+        ld      l, a    ; hl = truncated mantissa
 
-    pop bc                      ; orig HL
-    ld a,l
-    cp c
-    jr NZ,changed
-    ld a,h
-    cp b
-    jr NZ,changed
-    or a                        ; identical -> NC
-    ret
+        pop     bc      ; orig HL
+        ld      a, l
+        cp      c
+        jr      NZ, changed
+        ld      a,  h
+        cp      b
+        jr      NZ, changed
+        or      a       ; identical -> NC
+        ret
 
 .changed
-    scf                         ; C: fraction discarded
-    ret
+        scf     ; C: fraction discarded
+        ret
 
 .return_zero
-    ld d,0
-    ld h,d                      ; use 0
-    ld l,d
-    scf                         ; nonzero |x|<1 -> C
-    ret                         ; return f24 signed ZERO in DEHL
+        ld      d, 0
+        ld      h, d    ; use 0
+        ld      l, d
+        scf             ; nonzero |x|<1 -> C
+        ret             ; return f24 signed ZERO in DEHL
 
 .zero_legal
-    ld h,d                      ; use 0
-    ld l,d
-    or a                        ; NC
-    ret                         ; return f24 signed ZERO in DEHL
+        ld      h, d    ; use 0
+        ld      l, d
+        or      a       ; NC
+        ret             ; return f24 signed ZERO in DEHL

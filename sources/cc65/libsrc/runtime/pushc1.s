@@ -4,8 +4,8 @@
 ; CC65 runtime: Push (char)1 onto the stack
 ;
 
-        .export         pushc1
-        .import         pusha
+        .export pushc1
+        .import pusha
 
 ; Beware: The optimizer knows about this function!
 
@@ -15,5 +15,3 @@
         jmp     pusha
 
 .endproc
-
-

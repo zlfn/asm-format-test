@@ -9,10 +9,10 @@ EXTERN _esxdos_f_close_fastcall
 
 _esxdos_f_close:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _esxdos_f_close_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _esxdos_f_close_fastcall

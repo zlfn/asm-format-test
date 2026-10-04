@@ -8,12 +8,12 @@ PUBLIC asm_imaxabs
 
 IFDEF __SDCC
 
-   EXTERN asm_llabs
-   defc asm_imaxabs = asm_llabs
+        EXTERN  asm_llabs
+        defc    asm_imaxabs = asm_llabs
 
 ELSE
 
-   EXTERN asm_labs
-   defc asm_imaxabs = asm_labs
+        EXTERN  asm_labs
+        defc    asm_imaxabs = asm_labs
 
 ENDIF

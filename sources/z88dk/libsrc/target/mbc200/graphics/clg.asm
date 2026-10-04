@@ -1,11 +1,10 @@
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  clg
-    PUBLIC  _clg
+        PUBLIC  clg
+        PUBLIC  _clg
 
-    EXTERN  mbc_sendchar
-
+        EXTERN  mbc_sendchar
 
 ;
 ;	$Id: clg.asm $
@@ -18,6 +17,5 @@
 
 clg:
 _clg:
-    ld      l, 26
-    jp      mbc_sendchar
-
+        ld      l, 26
+        jp      mbc_sendchar

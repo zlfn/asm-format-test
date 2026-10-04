@@ -6,46 +6,46 @@
 #include "textflag.h"
 
 TEXT ·StdCall<ABIInternal>(SB),NOSPLIT,$4-8
-	MOVL	fn+0(FP), AX
-	MOVL	AX, 0(SP)
-	CALL	·asmstdcall(SB)
-	MOVL	AX, ret+4(FP)
-	RET
+        MOVL    fn+0(FP), AX
+        MOVL    AX, 0(SP)
+        CALL    ·asmstdcall(SB)
+        MOVL    AX, ret+4(FP)
+        RET
 
 TEXT ·asmstdcall(SB),NOSPLIT,$0-4
-	MOVL	fn+0(FP), BX
-	MOVL	SP, BP	// save stack pointer
+        MOVL    fn+0(FP), BX
+        MOVL    SP, BP  // save stack pointer
 
-	// SetLastError(0).
-	MOVL	$0, 0x34(FS)
+        // SetLastError(0).
+        MOVL    $0, 0x34(FS)
 
-	MOVL	StdCallInfo_N(BX), CX
+        MOVL    StdCallInfo_N(BX), CX
 
-	// Fast version, do not store args on the stack.
-	CMPL	CX, $0
-	JE	docall
+        // Fast version, do not store args on the stack.
+        CMPL    CX, $0
+        JE      docall
 
-	// Copy args to the stack.
-	MOVL	CX, AX
-	SALL	$2, AX
-	SUBL	AX, SP			// room for args
-	MOVL	SP, DI
-	MOVL	StdCallInfo_Args(BX), SI
-	CLD
-	REP; MOVSL
+        // Copy args to the stack.
+        MOVL    CX, AX
+        SALL    $2, AX
+        SUBL    AX, SP  // room for args
+        MOVL    SP, DI
+        MOVL    StdCallInfo_Args(BX), SI
+        CLD
+        REP; MOVSL
 
 docall:
-	// Call stdcall or cdecl function.
-	// DI SI BP BX are preserved, SP is not
-	CALL	StdCallInfo_Fn(BX)
-	MOVL	BP, SP
+        // Call stdcall or cdecl function.
+        // DI SI BP BX are preserved, SP is not
+        CALL    StdCallInfo_Fn(BX)
+        MOVL    BP, SP
 
-	// Return result.
-	MOVL	fn+0(FP), BX
-	MOVL	AX, StdCallInfo_R1(BX)
-	MOVL	DX, StdCallInfo_R2(BX)
+        // Return result.
+        MOVL    fn+0(FP), BX
+        MOVL    AX, StdCallInfo_R1(BX)
+        MOVL    DX, StdCallInfo_R2(BX)
 
-	// GetLastError().
-	MOVL	0x34(FS), AX
+        // GetLastError().
+        MOVL    0x34(FS), AX
 
-	RET
+        RET

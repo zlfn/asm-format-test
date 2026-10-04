@@ -7,4 +7,3 @@ PUBLIC  l_f32_invf
 EXTERN  asm_am9511_finv_fastcall
 
 defc l_f32_invf = asm_am9511_finv_fastcall
-

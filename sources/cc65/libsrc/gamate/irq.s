@@ -2,12 +2,12 @@
 ; IRQ handling (Gamate version)
 ;
 
-        .export         initirq, doneirq, IRQStub
+        .export initirq, doneirq, IRQStub
 
-        .import         __INTERRUPTOR_COUNT__, callirq_y
+        .import __INTERRUPTOR_COUNT__, callirq_y
 
-        .include        "gamate.inc"
-        .include        "extzp.inc"
+        .include "gamate.inc"
+        .include "extzp.inc"
 
 ; ------------------------------------------------------------------------
 .segment        "ONCE"
@@ -46,7 +46,7 @@ IRQStub:
         pla
         tax
 
-@L1:    ;pla
-        ;tay
-        ;pla
+@L1:            ;pla
+                ;tay
+                ;pla
         rts

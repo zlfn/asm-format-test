@@ -10,10 +10,10 @@ EXTERN _system_fastcall
 
 _system:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _system_fastcall
+        push    hl
+        push    af
+
+        jp      _system_fastcall

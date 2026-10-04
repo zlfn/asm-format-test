@@ -4,9 +4,9 @@
 ; void __fastcall__ cbm_k_close (unsigned char FN);
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_k_close
+        .export _cbm_k_close
 
 _cbm_k_close:
         clc

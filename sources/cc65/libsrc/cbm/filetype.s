@@ -4,12 +4,9 @@
 ; Default file type used when creating new files
 ;
 
-        .export         __filetype
-
+        .export __filetype
 
 .data
 
 __filetype:
-        .byte   's'             ; Create sequential files by default
-
-
+        .byte   's'     ; Create sequential files by default

@@ -10,21 +10,20 @@ EXTERN asm__ldiv
 
 _ldiv__callee:
 
-   pop af
-   pop hl
-   pop de
-   exx
-   pop hl
-   pop de
-   exx
-   pop bc
-   push af
-   
-   jp asm__ldiv
+        pop     af
+        pop     hl
+        pop     de
+        exx
+        pop     hl
+        pop     de
+        exx
+        pop     bc
+        push    af
+
+        jp      asm__ldiv
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC __ldiv__callee
 defc __ldiv__callee = _ldiv__callee
 ENDIF
-

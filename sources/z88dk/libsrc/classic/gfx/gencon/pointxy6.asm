@@ -3,13 +3,9 @@
 ;
 ;       Point pixel at (x,y) coordinate.
 
-
-
-    SECTION code_clib
-    PUBLIC  pointxy
-
+        SECTION code_clib
+        PUBLIC  pointxy
 
 pointxy:
-    defc    NEEDpoint=1
-    INCLUDE "pixel6.inc"
-
+        defc    NEEDpoint=1
+        INCLUDE "pixel6.inc"

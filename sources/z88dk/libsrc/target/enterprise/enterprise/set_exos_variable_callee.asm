@@ -16,23 +16,20 @@ PUBLIC 	asm_set_exos_variable
 set_exos_variable_callee:
 _set_exos_variable_callee:
 
-	pop hl
-	pop de
-	ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 ; enter : e = unsigned char value
 ;         l = unsigned char variable
 
 .asm_set_exos_variable
 
-	ld	b,1		; SET mode
-	ld	c,l		; Variable
-	ld	d,e		; Value
-	rst   30h
-	defb  16	; SET_GET_EXOS_VARIABLE
-	ld	h,0
-	ld	l,d
-	ret
-
-
- 
+        ld      b, 1    ; SET mode
+        ld      c, l    ; Variable
+        ld      d, e    ; Value
+        rst     30h
+        defb    16      ; SET_GET_EXOS_VARIABLE
+        ld      h, 0
+        ld      l, d
+        ret

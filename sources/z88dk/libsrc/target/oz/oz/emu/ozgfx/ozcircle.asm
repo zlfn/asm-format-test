@@ -20,22 +20,20 @@
 
         EXTERN  ozpointcolor
 
-
-
 ozcircle:
 _ozcircle:
-        push    ix                      ;save callers
+        push    ix      ;save callers
         ld      ix, 2
         add     ix, sp
-        ld      a, (ix+2)
+        ld      a,  (ix+2)
         and     4
         push    af
         call    ozpointcolor
 
-        ld      e, 1                    ;skip
-        ld      d, (ix+4)               ;radius
-        ld      c, (ix+6)               ;y
-        ld      b, (ix+8)               ;x
+        ld      e,  1           ;skip
+        ld      d,  (ix+4)      ;radius
+        ld      c,  (ix+6)      ;y
+        ld      b,  (ix+8)      ;x
         ld      ix, ozplotpixel
         call    __gfx_vram_page_in
         pop     af
@@ -52,4 +50,3 @@ filloop:
         dec     d
         jr      nz, filloop
         jp      __oz_gfxend
-

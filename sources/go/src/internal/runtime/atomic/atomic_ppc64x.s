@@ -16,67 +16,67 @@
 
 // uint32 ·Load(uint32 volatile* ptr)
 TEXT ·Load(SB),NOSPLIT|NOFRAME,$-8-12
-	MOVD	ptr+0(FP), R3
-	SYNC
-	MOVWZ	0(R3), R3
-	CMPW	R3, R3, CR7
-	BC	4, 30, 1(PC) // bne- cr7,0x4
-	ISYNC
-	MOVW	R3, ret+8(FP)
-	RET
+        MOVD    ptr+0(FP), R3
+        SYNC
+        MOVWZ   0(R3), R3
+        CMPW    R3,    R3, CR7
+        BC      4,     30, 1(PC)        // bne- cr7,0x4
+        ISYNC
+        MOVW    R3, ret+8(FP)
+        RET
 
 // uint8 ·Load8(uint8 volatile* ptr)
 TEXT ·Load8(SB),NOSPLIT|NOFRAME,$-8-9
-	MOVD	ptr+0(FP), R3
-	SYNC
-	MOVBZ	0(R3), R3
-	CMP	R3, R3, CR7
-	BC	4, 30, 1(PC) // bne- cr7,0x4
-	ISYNC
-	MOVB	R3, ret+8(FP)
-	RET
+        MOVD    ptr+0(FP), R3
+        SYNC
+        MOVBZ   0(R3), R3
+        CMP     R3,    R3, CR7
+        BC      4,     30, 1(PC)        // bne- cr7,0x4
+        ISYNC
+        MOVB    R3, ret+8(FP)
+        RET
 
 // uint64 ·Load64(uint64 volatile* ptr)
 TEXT ·Load64(SB),NOSPLIT|NOFRAME,$-8-16
-	MOVD	ptr+0(FP), R3
-	SYNC
-	MOVD	0(R3), R3
-	CMP	R3, R3, CR7
-	BC	4, 30, 1(PC) // bne- cr7,0x4
-	ISYNC
-	MOVD	R3, ret+8(FP)
-	RET
+        MOVD    ptr+0(FP), R3
+        SYNC
+        MOVD    0(R3), R3
+        CMP     R3,    R3, CR7
+        BC      4,     30, 1(PC)        // bne- cr7,0x4
+        ISYNC
+        MOVD    R3, ret+8(FP)
+        RET
 
 // void *·Loadp(void *volatile *ptr)
 TEXT ·Loadp(SB),NOSPLIT|NOFRAME,$-8-16
-	MOVD	ptr+0(FP), R3
-	SYNC
-	MOVD	0(R3), R3
-	CMP	R3, R3, CR7
-	BC	4, 30, 1(PC) // bne- cr7,0x4
-	ISYNC
-	MOVD	R3, ret+8(FP)
-	RET
+        MOVD    ptr+0(FP), R3
+        SYNC
+        MOVD    0(R3), R3
+        CMP     R3,    R3, CR7
+        BC      4,     30, 1(PC)        // bne- cr7,0x4
+        ISYNC
+        MOVD    R3, ret+8(FP)
+        RET
 
 // uint32 ·LoadAcq(uint32 volatile* ptr)
 TEXT ·LoadAcq(SB),NOSPLIT|NOFRAME,$-8-12
-	MOVD   ptr+0(FP), R3
-	MOVWZ  0(R3), R3
-	CMPW   R3, R3, CR7
-	BC     4, 30, 1(PC) // bne- cr7, 0x4
-	ISYNC
-	MOVW   R3, ret+8(FP)
-	RET
+        MOVD    ptr+0(FP), R3
+        MOVWZ   0(R3),     R3
+        CMPW    R3, R3, CR7
+        BC      4,  30, 1(PC)   // bne- cr7, 0x4
+        ISYNC
+        MOVW    R3, ret+8(FP)
+        RET
 
 // uint64 ·LoadAcq64(uint64 volatile* ptr)
 TEXT ·LoadAcq64(SB),NOSPLIT|NOFRAME,$-8-16
-	MOVD   ptr+0(FP), R3
-	MOVD   0(R3), R3
-	CMP    R3, R3, CR7
-	BC     4, 30, 1(PC) // bne- cr7, 0x4
-	ISYNC
-	MOVD   R3, ret+8(FP)
-	RET
+        MOVD    ptr+0(FP), R3
+        MOVD    0(R3),     R3
+        CMP     R3, R3, CR7
+        BC      4,  30, 1(PC)   // bne- cr7, 0x4
+        ISYNC
+        MOVD    R3, ret+8(FP)
+        RET
 
 // func Cas(ptr *int32, old, new int32) bool
 // Atomically:
@@ -87,24 +87,24 @@ TEXT ·LoadAcq64(SB),NOSPLIT|NOFRAME,$-8-16
 //		return false
 //	}
 TEXT ·Cas(SB), NOSPLIT, $0-17
-	MOVD	ptr+0(FP), R3
-	MOVWZ	old+8(FP), R4
-	MOVWZ	new+12(FP), R5
-	LWSYNC
+        MOVD    ptr+0(FP),  R3
+        MOVWZ   old+8(FP),  R4
+        MOVWZ   new+12(FP), R5
+        LWSYNC
 cas_again:
-	LWAR	(R3), R6
-	CMPW	R6, R4
-	BNE	cas_fail
-	STWCCC	R5, (R3)
-	BNE	cas_again
-	MOVD	$1, R3
-	LWSYNC
-	MOVB	R3, ret+16(FP)
-	RET
+        LWAR    (R3), R6
+        CMPW    R6,   R4
+        BNE     cas_fail
+        STWCCC  R5, (R3)
+        BNE     cas_again
+        MOVD    $1, R3
+        LWSYNC
+        MOVB    R3, ret+16(FP)
+        RET
 cas_fail:
-	LWSYNC
-	MOVB	R0, ret+16(FP)
-	RET
+        LWSYNC
+        MOVB    R0, ret+16(FP)
+        RET
 
 // func	Cas64(ptr *uint64, old, new uint64) bool
 // Atomically:
@@ -115,87 +115,87 @@ cas_fail:
 //		return false
 //	}
 TEXT ·Cas64(SB), NOSPLIT, $0-25
-	MOVD	ptr+0(FP), R3
-	MOVD	old+8(FP), R4
-	MOVD	new+16(FP), R5
-	LWSYNC
+        MOVD    ptr+0(FP),  R3
+        MOVD    old+8(FP),  R4
+        MOVD    new+16(FP), R5
+        LWSYNC
 cas64_again:
-	LDAR	(R3), R6
-	CMP	R6, R4
-	BNE	cas64_fail
-	STDCCC	R5, (R3)
-	BNE	cas64_again
-	MOVD	$1, R3
-	LWSYNC
-	MOVB	R3, ret+24(FP)
-	RET
+        LDAR    (R3), R6
+        CMP     R6,   R4
+        BNE     cas64_fail
+        STDCCC  R5, (R3)
+        BNE     cas64_again
+        MOVD    $1, R3
+        LWSYNC
+        MOVB    R3, ret+24(FP)
+        RET
 cas64_fail:
-	LWSYNC
-	MOVB	R0, ret+24(FP)
-	RET
+        LWSYNC
+        MOVB    R0, ret+24(FP)
+        RET
 
 TEXT ·CasRel(SB), NOSPLIT, $0-17
-	MOVD    ptr+0(FP), R3
-	MOVWZ   old+8(FP), R4
-	MOVWZ   new+12(FP), R5
-	LWSYNC
+        MOVD    ptr+0(FP),  R3
+        MOVWZ   old+8(FP),  R4
+        MOVWZ   new+12(FP), R5
+        LWSYNC
 cas_again:
-	LWAR    (R3), $0, R6        // 0 = Mutex release hint
-	CMPW    R6, R4
-	BNE     cas_fail
-	STWCCC  R5, (R3)
-	BNE     cas_again
-	MOVD    $1, R3
-	MOVB    R3, ret+16(FP)
-	RET
+        LWAR    (R3), $0, R6    // 0 = Mutex release hint
+        CMPW    R6,   R4
+        BNE     cas_fail
+        STWCCC  R5, (R3)
+        BNE     cas_again
+        MOVD    $1, R3
+        MOVB    R3, ret+16(FP)
+        RET
 cas_fail:
-	MOVB    R0, ret+16(FP)
-	RET
+        MOVB    R0, ret+16(FP)
+        RET
 
 TEXT ·Casint32(SB), NOSPLIT, $0-17
-	BR	·Cas(SB)
+        BR      ·Cas(SB)
 
 TEXT ·Casint64(SB), NOSPLIT, $0-25
-	BR	·Cas64(SB)
+        BR      ·Cas64(SB)
 
 TEXT ·Casuintptr(SB), NOSPLIT, $0-25
-	BR	·Cas64(SB)
+        BR      ·Cas64(SB)
 
 TEXT ·Loaduintptr(SB),  NOSPLIT|NOFRAME, $0-16
-	BR	·Load64(SB)
+        BR      ·Load64(SB)
 
 TEXT ·LoadAcquintptr(SB),  NOSPLIT|NOFRAME, $0-16
-	BR	·LoadAcq64(SB)
+        BR      ·LoadAcq64(SB)
 
 TEXT ·Loaduint(SB), NOSPLIT|NOFRAME, $0-16
-	BR	·Load64(SB)
+        BR      ·Load64(SB)
 
 TEXT ·Storeint32(SB), NOSPLIT, $0-12
-	BR	·Store(SB)
+        BR      ·Store(SB)
 
 TEXT ·Storeint64(SB), NOSPLIT, $0-16
-	BR	·Store64(SB)
+        BR      ·Store64(SB)
 
 TEXT ·Storeuintptr(SB), NOSPLIT, $0-16
-	BR	·Store64(SB)
+        BR      ·Store64(SB)
 
 TEXT ·StoreReluintptr(SB), NOSPLIT, $0-16
-	BR	·StoreRel64(SB)
+        BR      ·StoreRel64(SB)
 
 TEXT ·Xadduintptr(SB), NOSPLIT, $0-24
-	BR	·Xadd64(SB)
+        BR      ·Xadd64(SB)
 
 TEXT ·Loadint32(SB), NOSPLIT, $0-12
-	BR	·Load(SB)
+        BR      ·Load(SB)
 
 TEXT ·Loadint64(SB), NOSPLIT, $0-16
-	BR	·Load64(SB)
+        BR      ·Load64(SB)
 
 TEXT ·Xaddint32(SB), NOSPLIT, $0-20
-	BR	·Xadd(SB)
+        BR      ·Xadd(SB)
 
 TEXT ·Xaddint64(SB), NOSPLIT, $0-24
-	BR	·Xadd64(SB)
+        BR      ·Xadd64(SB)
 
 // func Casp1(ptr *unsafe.Pointer, old, new unsafe.Pointer) bool
 // Atomically:
@@ -206,39 +206,39 @@ TEXT ·Xaddint64(SB), NOSPLIT, $0-24
 //		return false
 //	}
 TEXT ·Casp1(SB), NOSPLIT, $0-25
-	BR ·Cas64(SB)
+        BR      ·Cas64(SB)
 
 // uint32 xadd(uint32 volatile *ptr, int32 delta)
 // Atomically:
 //	*val += delta;
 //	return *val;
 TEXT ·Xadd(SB), NOSPLIT, $0-20
-	MOVD	ptr+0(FP), R4
-	MOVW	delta+8(FP), R5
-	LWSYNC
-	LWAR	(R4), R3
-	ADD	R5, R3
-	STWCCC	R3, (R4)
-	BNE	-3(PC)
-	LWSYNC
-	MOVW	R3, ret+16(FP)
-	RET
+        MOVD    ptr+0(FP),   R4
+        MOVW    delta+8(FP), R5
+        LWSYNC
+        LWAR    (R4), R3
+        ADD     R5,   R3
+        STWCCC  R3,   (R4)
+        BNE     -3(PC)
+        LWSYNC
+        MOVW    R3, ret+16(FP)
+        RET
 
 // uint64 Xadd64(uint64 volatile *val, int64 delta)
 // Atomically:
 //	*val += delta;
 //	return *val;
 TEXT ·Xadd64(SB), NOSPLIT, $0-24
-	MOVD	ptr+0(FP), R4
-	MOVD	delta+8(FP), R5
-	LWSYNC
-	LDAR	(R4), R3
-	ADD	R5, R3
-	STDCCC	R3, (R4)
-	BNE	-3(PC)
-	LWSYNC
-	MOVD	R3, ret+16(FP)
-	RET
+        MOVD    ptr+0(FP),   R4
+        MOVD    delta+8(FP), R5
+        LWSYNC
+        LDAR    (R4), R3
+        ADD     R5,   R3
+        STDCCC  R3,   (R4)
+        BNE     -3(PC)
+        LWSYNC
+        MOVD    R3, ret+16(FP)
+        RET
 
 // uint8 Xchg(ptr *uint8, new uint8)
 // Atomically:
@@ -246,15 +246,15 @@ TEXT ·Xadd64(SB), NOSPLIT, $0-24
 //	*ptr = new;
 //	return old;
 TEXT ·Xchg8(SB), NOSPLIT, $0-17
-	MOVD	ptr+0(FP), R4
-	MOVB	new+8(FP), R5
-	LWSYNC
-	LBAR	(R4), R3
-	STBCCC	R5, (R4)
-	BNE	-2(PC)
-	ISYNC
-	MOVB	R3, ret+16(FP)
-	RET
+        MOVD    ptr+0(FP), R4
+        MOVB    new+8(FP), R5
+        LWSYNC
+        LBAR    (R4), R3
+        STBCCC  R5,   (R4)
+        BNE     -2(PC)
+        ISYNC
+        MOVB    R3, ret+16(FP)
+        RET
 
 // uint32 Xchg(ptr *uint32, new uint32)
 // Atomically:
@@ -262,15 +262,15 @@ TEXT ·Xchg8(SB), NOSPLIT, $0-17
 //	*ptr = new;
 //	return old;
 TEXT ·Xchg(SB), NOSPLIT, $0-20
-	MOVD	ptr+0(FP), R4
-	MOVW	new+8(FP), R5
-	LWSYNC
-	LWAR	(R4), R3
-	STWCCC	R5, (R4)
-	BNE	-2(PC)
-	ISYNC
-	MOVW	R3, ret+16(FP)
-	RET
+        MOVD    ptr+0(FP), R4
+        MOVW    new+8(FP), R5
+        LWSYNC
+        LWAR    (R4), R3
+        STWCCC  R5,   (R4)
+        BNE     -2(PC)
+        ISYNC
+        MOVW    R3, ret+16(FP)
+        RET
 
 // uint64 Xchg64(ptr *uint64, new uint64)
 // Atomically:
@@ -278,175 +278,175 @@ TEXT ·Xchg(SB), NOSPLIT, $0-20
 //	*ptr = new;
 //	return old;
 TEXT ·Xchg64(SB), NOSPLIT, $0-24
-	MOVD	ptr+0(FP), R4
-	MOVD	new+8(FP), R5
-	LWSYNC
-	LDAR	(R4), R3
-	STDCCC	R5, (R4)
-	BNE	-2(PC)
-	ISYNC
-	MOVD	R3, ret+16(FP)
-	RET
+        MOVD    ptr+0(FP), R4
+        MOVD    new+8(FP), R5
+        LWSYNC
+        LDAR    (R4), R3
+        STDCCC  R5,   (R4)
+        BNE     -2(PC)
+        ISYNC
+        MOVD    R3, ret+16(FP)
+        RET
 
 TEXT ·Xchgint32(SB), NOSPLIT, $0-20
-	BR	·Xchg(SB)
+        BR      ·Xchg(SB)
 
 TEXT ·Xchgint64(SB), NOSPLIT, $0-24
-	BR	·Xchg64(SB)
+        BR      ·Xchg64(SB)
 
 TEXT ·Xchguintptr(SB), NOSPLIT, $0-24
-	BR	·Xchg64(SB)
+        BR      ·Xchg64(SB)
 
 TEXT ·StorepNoWB(SB), NOSPLIT, $0-16
-	BR	·Store64(SB)
+        BR      ·Store64(SB)
 
 TEXT ·Store(SB), NOSPLIT, $0-12
-	MOVD	ptr+0(FP), R3
-	MOVW	val+8(FP), R4
-	SYNC
-	MOVW	R4, 0(R3)
-	RET
+        MOVD    ptr+0(FP), R3
+        MOVW    val+8(FP), R4
+        SYNC
+        MOVW    R4, 0(R3)
+        RET
 
 TEXT ·Store8(SB), NOSPLIT, $0-9
-	MOVD	ptr+0(FP), R3
-	MOVB	val+8(FP), R4
-	SYNC
-	MOVB	R4, 0(R3)
-	RET
+        MOVD    ptr+0(FP), R3
+        MOVB    val+8(FP), R4
+        SYNC
+        MOVB    R4, 0(R3)
+        RET
 
 TEXT ·Store64(SB), NOSPLIT, $0-16
-	MOVD	ptr+0(FP), R3
-	MOVD	val+8(FP), R4
-	SYNC
-	MOVD	R4, 0(R3)
-	RET
+        MOVD    ptr+0(FP), R3
+        MOVD    val+8(FP), R4
+        SYNC
+        MOVD    R4, 0(R3)
+        RET
 
 TEXT ·StoreRel(SB), NOSPLIT, $0-12
-	MOVD	ptr+0(FP), R3
-	MOVW	val+8(FP), R4
-	LWSYNC
-	MOVW	R4, 0(R3)
-	RET
+        MOVD    ptr+0(FP), R3
+        MOVW    val+8(FP), R4
+        LWSYNC
+        MOVW    R4, 0(R3)
+        RET
 
 TEXT ·StoreRel64(SB), NOSPLIT, $0-16
-	MOVD	ptr+0(FP), R3
-	MOVD	val+8(FP), R4
-	LWSYNC
-	MOVD	R4, 0(R3)
-	RET
+        MOVD    ptr+0(FP), R3
+        MOVD    val+8(FP), R4
+        LWSYNC
+        MOVD    R4, 0(R3)
+        RET
 
 // void ·Or8(byte volatile*, byte);
 TEXT ·Or8(SB), NOSPLIT, $0-9
-	MOVD	ptr+0(FP), R3
-	MOVBZ	val+8(FP), R4
-	LWSYNC
+        MOVD    ptr+0(FP), R3
+        MOVBZ   val+8(FP), R4
+        LWSYNC
 again:
-	LBAR	(R3), R6
-	OR	R4, R6
-	STBCCC	R6, (R3)
-	BNE	again
-	LWSYNC
-	RET
+        LBAR    (R3), R6
+        OR      R4,   R6
+        STBCCC  R6,   (R3)
+        BNE     again
+        LWSYNC
+        RET
 
 // void ·And8(byte volatile*, byte);
 TEXT ·And8(SB), NOSPLIT, $0-9
-	MOVD	ptr+0(FP), R3
-	MOVBZ	val+8(FP), R4
-	LWSYNC
+        MOVD    ptr+0(FP), R3
+        MOVBZ   val+8(FP), R4
+        LWSYNC
 again:
-	LBAR	(R3), R6
-	AND	R4, R6
-	STBCCC	R6, (R3)
-	BNE	again
-	LWSYNC
-	RET
+        LBAR    (R3), R6
+        AND     R4,   R6
+        STBCCC  R6,   (R3)
+        BNE     again
+        LWSYNC
+        RET
 
 // func Or(addr *uint32, v uint32)
 TEXT ·Or(SB), NOSPLIT, $0-12
-	MOVD	ptr+0(FP), R3
-	MOVW	val+8(FP), R4
-	LWSYNC
+        MOVD    ptr+0(FP), R3
+        MOVW    val+8(FP), R4
+        LWSYNC
 again:
-	LWAR	(R3), R6
-	OR	R4, R6
-	STWCCC	R6, (R3)
-	BNE	again
-	LWSYNC
-	RET
+        LWAR    (R3), R6
+        OR      R4,   R6
+        STWCCC  R6,   (R3)
+        BNE     again
+        LWSYNC
+        RET
 
 // func And(addr *uint32, v uint32)
 TEXT ·And(SB), NOSPLIT, $0-12
-	MOVD	ptr+0(FP), R3
-	MOVW	val+8(FP), R4
-	LWSYNC
+        MOVD    ptr+0(FP), R3
+        MOVW    val+8(FP), R4
+        LWSYNC
 again:
-	LWAR	(R3),R6
-	AND	R4, R6
-	STWCCC	R6, (R3)
-	BNE	again
-	LWSYNC
-	RET
+        LWAR    (R3), R6
+        AND     R4,   R6
+        STWCCC  R6,   (R3)
+        BNE     again
+        LWSYNC
+        RET
 
 // func Or32(addr *uint32, v uint32) old uint32
 TEXT ·Or32(SB), NOSPLIT, $0-20
-	MOVD	ptr+0(FP), R3
-	MOVW	val+8(FP), R4
-	LWSYNC
+        MOVD    ptr+0(FP), R3
+        MOVW    val+8(FP), R4
+        LWSYNC
 again:
-	LWAR	(R3), R6
-	OR	R4, R6, R7
-	STWCCC	R7, (R3)
-	BNE	again
-	LWSYNC
-	MOVW	R6, ret+16(FP)
-	RET
+        LWAR    (R3), R6
+        OR      R4,   R6, R7
+        STWCCC  R7,   (R3)
+        BNE     again
+        LWSYNC
+        MOVW    R6, ret+16(FP)
+        RET
 
 // func And32(addr *uint32, v uint32) old uint32
 TEXT ·And32(SB), NOSPLIT, $0-20
-	MOVD	ptr+0(FP), R3
-	MOVW	val+8(FP), R4
-	LWSYNC
+        MOVD    ptr+0(FP), R3
+        MOVW    val+8(FP), R4
+        LWSYNC
 again:
-	LWAR	(R3),R6
-	AND	R4, R6, R7
-	STWCCC	R7, (R3)
-	BNE	again
-	LWSYNC
-	MOVW	R6, ret+16(FP)
-	RET
+        LWAR    (R3), R6
+        AND     R4,   R6, R7
+        STWCCC  R7,   (R3)
+        BNE     again
+        LWSYNC
+        MOVW    R6, ret+16(FP)
+        RET
 
 // func Or64(addr *uint64, v uint64) old uint64
 TEXT ·Or64(SB), NOSPLIT, $0-24
-	MOVD	ptr+0(FP), R3
-	MOVD	val+8(FP), R4
-	LWSYNC
+        MOVD    ptr+0(FP), R3
+        MOVD    val+8(FP), R4
+        LWSYNC
 again:
-	LDAR	(R3), R6
-	OR	R4, R6, R7
-	STDCCC	R7, (R3)
-	BNE	again
-	LWSYNC
-	MOVD	R6, ret+16(FP)
-	RET
+        LDAR    (R3), R6
+        OR      R4,   R6, R7
+        STDCCC  R7,   (R3)
+        BNE     again
+        LWSYNC
+        MOVD    R6, ret+16(FP)
+        RET
 
 // func And64(addr *uint64, v uint64) old uint64
 TEXT ·And64(SB), NOSPLIT, $0-24
-	MOVD	ptr+0(FP), R3
-	MOVD	val+8(FP), R4
-	LWSYNC
+        MOVD    ptr+0(FP), R3
+        MOVD    val+8(FP), R4
+        LWSYNC
 again:
-	LDAR	(R3),R6
-	AND	R4, R6, R7
-	STDCCC	R7, (R3)
-	BNE	again
-	LWSYNC
-	MOVD	R6, ret+16(FP)
-	RET
+        LDAR    (R3), R6
+        AND     R4,   R6, R7
+        STDCCC  R7,   (R3)
+        BNE     again
+        LWSYNC
+        MOVD    R6, ret+16(FP)
+        RET
 
 // func Anduintptr(addr *uintptr, v uintptr) old uintptr
 TEXT ·Anduintptr(SB), NOSPLIT, $0-24
-	JMP	·And64(SB)
+        JMP     ·And64(SB)
 
 // func Oruintptr(addr *uintptr, v uintptr) old uintptr
 TEXT ·Oruintptr(SB), NOSPLIT, $0-24
-	JMP	·Or64(SB)
+        JMP     ·Or64(SB)

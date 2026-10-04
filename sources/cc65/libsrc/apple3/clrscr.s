@@ -4,12 +4,11 @@
 ; void clrscr (void);
 ;
 
-        .export         _clrscr
-        .import         putcdirect
+        .export _clrscr
+        .import putcdirect
 
-        .include        "apple3.inc"
+        .include "apple3.inc"
 
 _clrscr:
         lda     #CONSOLE_CLR_VIEWPORT
         jmp     putcdirect
-

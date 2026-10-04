@@ -11,15 +11,15 @@ EXTERN l0_esxdos_f_open_p3_callee
 
 _esxdos_f_open_p3:
 
-   pop af
-   pop hl
-   dec sp
-   pop bc
-   pop de
-   
-   push de
-   dec sp
-   push hl
-   push af
+        pop     af
+        pop     hl
+        dec     sp
+        pop     bc
+        pop     de
 
-   jp l0_esxdos_f_open_p3_callee
+        push    de
+        dec     sp
+        push    hl
+        push    af
+
+        jp      l0_esxdos_f_open_p3_callee

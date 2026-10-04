@@ -4,19 +4,19 @@
 ; char* stpcpy (char* dest, const char* src);
 ;
 
-        .export         _stpcpy
-        .import         _strcpy
+        .export _stpcpy
+        .import _strcpy
 
-        .importzp       tmp1, ptr2
+        .importzp tmp1, ptr2
 
 _stpcpy:
         jsr     _strcpy
 
-        ldx     ptr2+1        ; Load dest pointer's last high byte
-        tya                   ; Get the last offset strcpy wrote to
+        ldx     ptr2+1  ; Load dest pointer's last high byte
+        tya             ; Get the last offset strcpy wrote to
 
         clc
-        adc     ptr2          ; Add to low byte value
+        adc     ptr2    ; Add to low byte value
         bcc     :+
         inx
-:       rts                   ; Return pointer to dest's terminator
+:       rts             ; Return pointer to dest's terminator

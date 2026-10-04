@@ -4,10 +4,9 @@
 ; RDTIM replacement function for the PETs
 ;
 
-        .export         RDTIM
+        .export RDTIM
 
-        .include        "pet.inc"
-
+        .include "pet.inc"
 
 .proc   RDTIM
 
@@ -19,4 +18,3 @@
         rts
 
 .endproc
-

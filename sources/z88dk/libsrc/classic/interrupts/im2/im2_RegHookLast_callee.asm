@@ -10,9 +10,9 @@ EXTERN _im2_hookDisp
 .im2_RegHookLast_callee
 ._im2_RegHookLast_callee
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 .asm_im2_RegHookLast
 
@@ -22,23 +22,23 @@ EXTERN _im2_hookDisp
 
 .IM2RegHookLast
 
-   ld a,i
-   ld h,a
-   ld c,(hl)
-   inc hl
-   ld b,(hl)
-   ld hl,_im2_hookDisp - 1
-   add hl,bc            ; hl points at hooks list-1
+        ld      a, i
+        ld      h, a
+        ld      c, (hl)
+        inc     hl
+        ld      b,  (hl)
+        ld      hl, _im2_hookDisp - 1
+        add     hl, bc  ; hl points at hooks list-1
 
 .loop
 
-   inc hl
-   ld a,(hl)
-   inc hl
-   or (hl)
-   jp nz, loop
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        or      (hl)
+        jp      nz, loop
 
-   ld (hl),d            ; found empty slot
-   dec hl
-   ld (hl),e
-   ret
+        ld      (hl), d ; found empty slot
+        dec     hl
+        ld      (hl), e
+        ret

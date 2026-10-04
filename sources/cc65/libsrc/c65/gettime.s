@@ -5,13 +5,12 @@
 ; int __fastcall__ clock_gettime (clockid_t clk_id, struct timespec *tp);
 ;
 
-        .include        "time.inc"
-        .include        "c65.inc"
+        .include "time.inc"
+        .include "c65.inc"
 
-        .importzp       sreg, tmp1, tmp2
-        .import         pushax, pusheax, tosmul0ax, steaxspidx, incsp1, return0
-        .import         TM, load_tenth
-
+        .importzp sreg, tmp1, tmp2
+        .import pushax, pusheax, tosmul0ax, steaxspidx, incsp1, return0
+        .import TM,     load_tenth
 
 ;----------------------------------------------------------------------------
 .code
@@ -23,12 +22,12 @@
 
         lda     CIA1_TODHR
         sed
-        tax                     ; Save PM flag
+        tax             ; Save PM flag
         and     #%01111111
-        cmp     #$12            ; 12 AM/PM
+        cmp     #$12    ; 12 AM/PM
         bcc     @L1
         sbc     #$12
-@L1:    inx                     ; Get PM flag
+@L1:    inx             ; Get PM flag
         bpl     @L2
         clc
         adc     #$12

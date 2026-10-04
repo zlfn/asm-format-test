@@ -10,11 +10,11 @@
 
 .proc           _scandisplay
 
-        sta     $F9             ; Rightmost display data
+        sta     $F9     ; Rightmost display data
         jsr     popa
-        sta     $FA             ; Middle display data
+        sta     $FA     ; Middle display data
         jsr     popa
-        sta     $FB             ; Leftmost display data
+        sta     $FB     ; Leftmost display data
         jmp     SCANDS
 
 .endproc

@@ -18,34 +18,34 @@ PUBLIC asm_zx_pxy2aaddr
 
 asm_zx_pxy2aaddr:
 
-   ; enter : l = x coordinate
-   ;         h = valid y coordinate
-   ;
-   ; exit  : hl = attribute address corresponding to pixel
-   ;
-   ; uses  : af, hl
+        ; enter : l = x coordinate
+        ;         h = valid y coordinate
+        ;
+        ; exit  : hl = attribute address corresponding to pixel
+        ;
+        ; uses  : af, hl
 
-   srl l
-   srl l
-   srl l
+        srl     l
+        srl     l
+        srl     l
 
-   ld a,h
+        ld      a, h
 
 IF __USE_SPECTRUM_128_SECOND_DFILE
-   ld h,$d8/4
+        ld      h, $d8/4
 ELIF __USE_OFFSET_SCREEN
-   EXTERN SCREEN_BASE
-   or +((SCREEN_BASE/256) + $18) / 4
+        EXTERN  SCREEN_BASE
+        or      +((SCREEN_BASE/256) + $18) / 4
 ELSE
-   ld h,$58/4
+        ld      h, $58/4
 ENDIF
 
-   rla
-   rl h
-   rla
-   rl h
+        rla
+        rl      h
+        rla
+        rl      h
 
-   and $e0
-   or l
-   ld l,a
-   ret
+        and     $e0
+        or      l
+        ld      l, a
+        ret

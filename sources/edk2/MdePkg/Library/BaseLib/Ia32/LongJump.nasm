@@ -15,7 +15,7 @@
 
 %include "Nasm.inc"
 
-    SECTION .text
+        SECTION .text
 
 extern ASM_PFX(PcdGet32 (PcdControlFlowEnforcementPropertyMask))
 
@@ -30,31 +30,30 @@ extern ASM_PFX(PcdGet32 (PcdControlFlowEnforcementPropertyMask))
 global ASM_PFX(InternalLongJump)
 ASM_PFX(InternalLongJump):
 
-    mov     eax, FixedPcdGet32 (PcdControlFlowEnforcementPropertyMask)
-    test    eax, eax
-    jz      CetDone
-    mov     eax, cr4
-    bt      eax, 23                ; check if CET is enabled
-    jnc     CetDone
+        mov     eax, FixedPcdGet32 (PcdControlFlowEnforcementPropertyMask)
+        test    eax, eax
+        jz      CetDone
+        mov     eax, cr4
+        bt      eax, 23 ; check if CET is enabled
+        jnc     CetDone
 
-    mov     edx, [esp + 4]         ; edx = JumpBuffer
-    mov     edx, [edx + 24]        ; edx = target SSP
-    rdsspd  eax
-    sub     edx, eax               ; edx = delta
-    mov     eax, edx               ; eax = delta
+        mov     edx, [esp + 4]  ; edx = JumpBuffer
+        mov     edx, [edx + 24] ; edx = target SSP
+        rdsspd  eax
+        sub     edx, eax        ; edx = delta
+        mov     eax, edx        ; eax = delta
 
-    shr     eax, 2                 ; eax = delta/sizeof(UINT32)
-    incsspd eax
+        shr     eax, 2  ; eax = delta/sizeof(UINT32)
+        incsspd eax
 
 CetDone:
 
-    pop     eax                         ; skip return address
-    pop     edx                         ; edx <- JumpBuffer
-    pop     eax                         ; eax <- Value
-    mov     ebx, [edx]
-    mov     esi, [edx + 4]
-    mov     edi, [edx + 8]
-    mov     ebp, [edx + 12]
-    mov     esp, [edx + 16]
-    jmp     dword [edx + 20]        ; restore "eip"
-
+        pop     eax                     ; skip return address
+        pop     edx                     ; edx <- JumpBuffer
+        pop     eax                     ; eax <- Value
+        mov     ebx, [edx]
+        mov     esi, [edx + 4]
+        mov     edi, [edx + 8]
+        mov     ebp, [edx + 12]
+        mov     esp, [edx + 16]
+        jmp     dword [edx + 20]        ; restore "eip"

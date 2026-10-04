@@ -19,7 +19,7 @@
  * fails, or the completion status of the SEAMCALL leaf function.
  */
 SYM_FUNC_START(__seamcall)
-	TDX_MODULE_CALL host=1
+        TDX_MODULE_CALL host=1
 SYM_FUNC_END(__seamcall)
 
 /*
@@ -38,7 +38,7 @@ SYM_FUNC_END(__seamcall)
  * fails, or the completion status of the SEAMCALL leaf function.
  */
 SYM_FUNC_START(__seamcall_ret)
-	TDX_MODULE_CALL host=1 ret=1
+        TDX_MODULE_CALL host=1 ret=1
 SYM_FUNC_END(__seamcall_ret)
 
 /* KVM requires non-instrumentable __seamcall_saved_ret() for TDH.VP.ENTER */
@@ -60,5 +60,5 @@ SYM_FUNC_END(__seamcall_ret)
  * fails, or the completion status of the SEAMCALL leaf function.
  */
 SYM_FUNC_START(__seamcall_saved_ret)
-	TDX_MODULE_CALL host=1 ret=1 saved=1
+        TDX_MODULE_CALL host=1 ret=1 saved=1
 SYM_FUNC_END(__seamcall_saved_ret)

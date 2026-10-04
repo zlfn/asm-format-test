@@ -10,16 +10,16 @@ EXTERN l0_vasprintf_callee
 
 _vasprintf:
 
-   pop af
-   exx
-   pop de
-   exx
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push de
-   push af
+        pop     af
+        exx
+        pop     de
+        exx
+        pop     de
+        pop     bc
 
-   jp l0_vasprintf_callee
+        push    bc
+        push    de
+        push    de
+        push    af
+
+        jp      l0_vasprintf_callee

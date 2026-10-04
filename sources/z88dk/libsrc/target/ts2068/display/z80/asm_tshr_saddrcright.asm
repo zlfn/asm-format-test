@@ -16,28 +16,27 @@ PUBLIC asm_tshr_saddrcright
 
 asm_tshr_saddrcright:
 
-   ; enter : hl = screen address
-   ;
-   ; exit  : hl = screen address moved to right one character
-   ;         carry set if new screen address is off screen
-   ;
-   ; uses  : af, hl
-   
-   bit 5,h
-   set 5,h
-   ret z
-   res 5,h
+        ; enter : hl = screen address
+        ;
+        ; exit  : hl = screen address moved to right one character
+        ;         carry set if new screen address is off screen
+        ;
+        ; uses  : af, hl
 
-   inc l
-   ret nz
-   
-   ld a,$08
-   add a,h
-   ld h,a
-   
-   and $18
-   cp $18
-   
-   ccf
-   ret
-   
+        bit     5, h
+        set     5, h
+        ret     z
+        res     5, h
+
+        inc     l
+        ret     nz
+
+        ld      a, $08
+        add     a, h
+        ld      h, a
+
+        and     $18
+        cp      $18
+
+        ccf
+        ret

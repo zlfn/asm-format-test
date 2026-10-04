@@ -10,45 +10,44 @@ EXTERN __esxdos_error_mc
 
 asm_esx_f_open_p3:
 
-   ; enter : hl = char *filename
-   ;         de = struct esx_p3_hdr *h
-   ;          a = mode
-   ;
-   ; exit  : success
-   ;
-   ;            h = 0
-   ;            l = file handle
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl, ix
+        ; enter : hl = char *filename
+        ;         de = struct esx_p3_hdr *h
+        ;          a = mode
+        ;
+        ; exit  : success
+        ;
+        ;            h = 0
+        ;            l = file handle
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl, ix
 
-   or __esx_mode_use_header  ; make sure +3 header is enabled
-   ld b,a
-   
-   ld a,'*'
-   
+        or      __esx_mode_use_header   ; make sure +3 header is enabled
+        ld      b, a
+
+        ld      a, '*'
+
 IF __SDCC_IY
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 ELSE
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 ENDIF
 
-   rst __ESX_RST_SYS
-   defb __ESX_F_OPEN
+        rst     __ESX_RST_SYS
+        defb    __ESX_F_OPEN
 
-   ld l,a
-   ld h,0
-   
-   ret nc
-   jp __esxdos_error_mc
+        ld      l, a
+        ld      h, 0
 
+        ret     nc
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * F_OPEN ($9a) *

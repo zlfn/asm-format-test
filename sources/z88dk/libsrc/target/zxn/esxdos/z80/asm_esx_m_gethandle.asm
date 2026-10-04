@@ -8,22 +8,21 @@ PUBLIC asm_esx_m_gethandle
 
 asm_esx_m_gethandle:
 
-   ; MAY NOT BE EQUIVALENT TO ESXDOS FUNCTION
-   ;
-   ; enter : none
-   ;
-   ; exit  : hl = file handle (no error checking)
-   ;
-   ; uses  : af, bc, de, hl
-   
-   rst  __ESX_RST_SYS
-   defb __ESX_M_GETHANDLE
-   
-   ld l,a
-   ld h,0
-   
-   ret
+        ; MAY NOT BE EQUIVALENT TO ESXDOS FUNCTION
+        ;
+        ; enter : none
+        ;
+        ; exit  : hl = file handle (no error checking)
+        ;
+        ; uses  : af, bc, de, hl
 
+        rst     __ESX_RST_SYS
+        defb    __ESX_M_GETHANDLE
+
+        ld      l, a
+        ld      h, 0
+
+        ret
 
 ; ***************************************************************************
 ; * M_GETHANDLE ($8d) *

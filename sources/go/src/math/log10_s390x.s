@@ -54,103 +54,103 @@ GLOBL log10tab2074<>+0(SB), RODATA, $128
 // with coefficients determined with a Remez exchange algorithm.
 
 TEXT ·log10Asm(SB),NOSPLIT,$8-16
-	FMOVD   x+0(FP), F0
-	MOVD    $log10rodataL19<>+0(SB), R9
-	FMOVD   F0, x-8(SP)
-	WORD    $0xC0298006     //iilf %r2,2147909631
-	BYTE    $0x7F
-	BYTE    $0xFF
-	WORD    $0x5840F008     //l %r4, 8(%r15)
-	SUBW    R4, R2, R3
-	RISBGZ	$32, $47, $0, R3, R5
-	MOVH    $0x0, R1
-	RISBGN	$0, $31, $32, R5, R1
-	WORD    $0xC0590016     //iilf %r5,1507327
-	BYTE    $0xFF
-	BYTE    $0xFF
-	MOVW    R4, R10
-	MOVW    R5, R11
-	CMPBLE  R10, R11, L2
-	WORD    $0xC0297FEF     //iilf %r2,2146435071
-	BYTE    $0xFF
-	BYTE    $0xFF
-	MOVW    R4, R10
-	MOVW    R2, R11
-	CMPBLE  R10, R11, L16
+        FMOVD   x+0(FP), F0
+        MOVD    $log10rodataL19<>+0(SB), R9
+        FMOVD   F0, x-8(SP)
+        WORD    $0xC0298006     //iilf %r2,2147909631
+        BYTE    $0x7F
+        BYTE    $0xFF
+        WORD    $0x5840F008     //l %r4, 8(%r15)
+        SUBW    R4,   R2,  R3
+        RISBGZ  $32,  $47, $0,  R3, R5
+        MOVH    $0x0, R1
+        RISBGN  $0,   $31, $32, R5, R1
+        WORD    $0xC0590016     //iilf %r5,1507327
+        BYTE    $0xFF
+        BYTE    $0xFF
+        MOVW    R4,  R10
+        MOVW    R5,  R11
+        CMPBLE  R10, R11, L2
+        WORD    $0xC0297FEF     //iilf %r2,2146435071
+        BYTE    $0xFF
+        BYTE    $0xFF
+        MOVW    R4,  R10
+        MOVW    R2,  R11
+        CMPBLE  R10, R11, L16
 L3:
 L1:
-	FMOVD   F0, ret+8(FP)
-	RET
+        FMOVD   F0, ret+8(FP)
+        RET
 
 L2:
-	LTDBR	F0, F0
-	BLEU    L13
-	WORD    $0xED009080     //mdb %f0,.L20-.L19(%r9)
-	BYTE    $0x00
-	BYTE    $0x1C
-	FMOVD   F0, x-8(SP)
-	WORD    $0x5B20F008     //s %r2, 8(%r15)
-	RISBGZ	$57, $60, $51, R2, R3
-	ANDW    $0xFFFF0000, R2
-	RISBGN	$0, $31, $32, R2, R1
-	ADDW    $0x4000000, R2
-	BLEU    L17
+        LTDBR   F0, F0
+        BLEU    L13
+        WORD    $0xED009080     //mdb %f0,.L20-.L19(%r9)
+        BYTE    $0x00
+        BYTE    $0x1C
+        FMOVD   F0, x-8(SP)
+        WORD    $0x5B20F008     //s %r2, 8(%r15)
+        RISBGZ  $57, $60, $51, R2, R3
+        ANDW    $0xFFFF0000, R2
+        RISBGN  $0, $31, $32, R2, R1
+        ADDW    $0x4000000, R2
+        BLEU    L17
 L8:
-	SRW     $8, R2, R2
-	ORW     $0x45000000, R2
+        SRW     $8, R2, R2
+        ORW     $0x45000000, R2
 L4:
-	FMOVD   log10rodataL19<>+120(SB), F2
-	LDGR    R1, F4
-	WFMADB  V4, V0, V2, V0
-	FMOVD   log10rodataL19<>+112(SB), F4
-	FMOVD   log10rodataL19<>+104(SB), F6
-	WFMADB  V0, V6, V4, V6
-	FMOVD   log10rodataL19<>+96(SB), F4
-	FMOVD   log10rodataL19<>+88(SB), F1
-	WFMADB  V0, V1, V4, V1
-	WFMDB   V0, V0, V4
-	FMOVD   log10rodataL19<>+80(SB), F2
-	WFMADB  V6, V4, V1, V6
-	FMOVD   log10rodataL19<>+72(SB), F1
-	WFMADB  V0, V2, V1, V2
-	FMOVD   log10rodataL19<>+64(SB), F1
-	RISBGZ	$57, $60, $0, R3, R3
-	WFMADB  V4, V6, V2, V6
-	FMOVD   log10rodataL19<>+56(SB), F2
-	WFMADB  V0, V1, V2, V1
-	VLVGF   $0, R2, V2
-	WFMADB  V4, V6, V1, V4
-	LDEBR   F2, F2
-	FMOVD   log10rodataL19<>+48(SB), F6
-	WFMADB  V0, V4, V6, V4
-	FMOVD   log10rodataL19<>+40(SB), F1
-	FMOVD   log10rodataL19<>+32(SB), F6
-	MOVD    $log10tab2074<>+0(SB), R1
-	WFMADB  V2, V1, V6, V2
-	WORD    $0x68331000     //ld %f3,0(%r3,%r1)
-	WFMADB  V0, V4, V3, V0
-	FMOVD   log10rodataL19<>+24(SB), F4
-	FMADD   F4, F2, F0
-	FMOVD   F0, ret+8(FP)
-	RET
+        FMOVD   log10rodataL19<>+120(SB), F2
+        LDGR    R1, F4
+        WFMADB  V4, V0, V2, V0
+        FMOVD   log10rodataL19<>+112(SB), F4
+        FMOVD   log10rodataL19<>+104(SB), F6
+        WFMADB  V0, V6, V4, V6
+        FMOVD   log10rodataL19<>+96(SB), F4
+        FMOVD   log10rodataL19<>+88(SB), F1
+        WFMADB  V0, V1, V4, V1
+        WFMDB   V0, V0, V4
+        FMOVD   log10rodataL19<>+80(SB), F2
+        WFMADB  V6, V4, V1, V6
+        FMOVD   log10rodataL19<>+72(SB), F1
+        WFMADB  V0, V2, V1, V2
+        FMOVD   log10rodataL19<>+64(SB), F1
+        RISBGZ  $57, $60, $0, R3, R3
+        WFMADB  V4,  V6,  V2, V6
+        FMOVD   log10rodataL19<>+56(SB), F2
+        WFMADB  V0, V1, V2, V1
+        VLVGF   $0, R2, V2
+        WFMADB  V4, V6, V1, V4
+        LDEBR   F2, F2
+        FMOVD   log10rodataL19<>+48(SB), F6
+        WFMADB  V0, V4, V6, V4
+        FMOVD   log10rodataL19<>+40(SB), F1
+        FMOVD   log10rodataL19<>+32(SB), F6
+        MOVD    $log10tab2074<>+0(SB),   R1
+        WFMADB  V2, V1, V6, V2
+        WORD    $0x68331000     //ld %f3,0(%r3,%r1)
+        WFMADB  V0, V4, V3, V0
+        FMOVD   log10rodataL19<>+24(SB), F4
+        FMADD   F4, F2, F0
+        FMOVD   F0, ret+8(FP)
+        RET
 
 L16:
-	RISBGZ	$40, $55, $56, R3, R2
-	RISBGZ	$57, $60, $51, R3, R3
-	ORW     $0x45000000, R2
-	BR      L4
+        RISBGZ  $40, $55, $56, R3, R2
+        RISBGZ  $57, $60, $51, R3, R3
+        ORW     $0x45000000, R2
+        BR      L4
 L13:
-	BGE     L18     //jnl .L18
-	BVS     L18
-	FMOVD   log10rodataL19<>+16(SB), F0
-	BR      L1
+        BGE     L18             //jnl .L18
+        BVS     L18
+        FMOVD   log10rodataL19<>+16(SB), F0
+        BR      L1
 L17:
-	SRAW    $1, R2, R2
-	SUBW    $0x40000000, R2
-	BR      L8
+        SRAW    $1, R2, R2
+        SUBW    $0x40000000, R2
+        BR      L8
 L18:
-	FMOVD   log10rodataL19<>+8(SB), F0
-	WORD    $0xED009000     //ddb %f0,.L36-.L19(%r9)
-	BYTE    $0x00
-	BYTE    $0x1D
-	BR      L1
+        FMOVD   log10rodataL19<>+8(SB), F0
+        WORD    $0xED009000     //ddb %f0,.L36-.L19(%r9)
+        BYTE    $0x00
+        BYTE    $0x1D
+        BR      L1

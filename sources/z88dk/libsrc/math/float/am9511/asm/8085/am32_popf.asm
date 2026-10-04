@@ -27,91 +27,88 @@ INCLUDE "../../newlib/target/am9511/config_am9511_private.inc"
 
 PUBLIC asm_am9511_popf
 
-
 .am9511_popf_wait
-    ex (sp),hl
-    ex (sp),hl
+        ex      (sp), hl
+        ex      (sp), hl
 
 .asm_am9511_popf
 
-    ; float primitive
-    ; pop a IEEE-754 floating point from the Am9511 stack.
-    ;
-    ; Convert from am9511_float to IEEE_float.
-    ;
-    ; enter : stack = ret0
-    ;
-    ; exit  : dehl = IEEE_float
-    ; 
-    ; uses  : af, de, hl
+        ; float primitive
+        ; pop a IEEE-754 floating point from the Am9511 stack.
+        ;
+        ; Convert from am9511_float to IEEE_float.
+        ;
+        ; enter : stack = ret0
+        ;
+        ; exit  : dehl = IEEE_float
+        ;
+        ; uses  : af, de, hl
 
-    AM9511_IN_APU_STATUS      ; read the APU status register
-    rlca                        ; busy? and __IO_APU_STATUS_BUSY
-    jp C,am9511_popf_wait
+        AM9511_IN_APU_STATUS    ; read the APU status register
+        rlca                    ; busy? and __IO_APU_STATUS_BUSY
+        jp      C, am9511_popf_wait
 
-    AM9511_IN_APU_DATA        ; load MSW from APU
-    ld d,a
-    AM9511_IN_APU_DATA
-    ld e,a
+        AM9511_IN_APU_DATA      ; load MSW from APU
+        ld      d, a
+        AM9511_IN_APU_DATA
+        ld      e, a
 
-    AM9511_IN_APU_DATA        ; load LSW from APU
-    ld h,a
-    AM9511_IN_APU_DATA
-    ld l,a
+        AM9511_IN_APU_DATA      ; load LSW from APU
+        ld      h, a
+        AM9511_IN_APU_DATA
+        ld      l, a
 
-    AM9511_IN_APU_STATUS      ; read the APU status register
-    and 03eh                    ; errors from status register
-    jp NZ,errors
+        AM9511_IN_APU_STATUS    ; read the APU status register
+        and     03eh            ; errors from status register
+        jp      NZ, errors
 
-    ld a,d                      ; get sign and exponent
-    rla                         ; remove sign
-    rlca                        ; adjust twos complement exponent
-    rra                         ; with sign extention
-    rra
-    add 127-1                   ; bias including shift binary point
+        ld      a, d    ; get sign and exponent
+        rla             ; remove sign
+        rlca            ; adjust twos complement exponent
+        rra             ; with sign extention
+        rra
+        add     127-1   ; bias including shift binary point
 
-    rl de                       ; get sign to carry, remove 1 leading mantissa
-    rra                         ; reposition sign and exponent
-    ld d,a                      ; restore exponent and carry
-    ld a,e
-    rra                         ; resposition exponent and mantissa
-    ld e,a
+        rl      de      ; get sign to carry, remove 1 leading mantissa
+        rra             ; reposition sign and exponent
+        ld      d, a    ; restore exponent and carry
+        ld      a, e
+        rra             ; resposition exponent and mantissa
+        ld      e, a
 
-    ret
+        ret
 
-    ; A = status & 0x3E.  OVRFL→±Inf, UNDFL→0, NEGRT→NaN, DIV0→±Inf, ZERO→0
+        ; A = status & 0x3E.  OVRFL→±Inf, UNDFL→0, NEGRT→NaN, DIV0→±Inf, ZERO→0
 .errors
-    rrca                        ; OVRFL
-    jp C,infinity
-    rrca                        ; UNDFL
-    jp C,zero
-    rrca                        ; NEGRT
-    jp C,nan
-    rrca                        ; DIV0 → ±Inf (0/0 handled in software specials)
-    jp C,infinity
-    ; ZERO
+        rrca    ; OVRFL
+        jp      C, infinity
+        rrca    ; UNDFL
+        jp      C, zero
+        rrca    ; NEGRT
+        jp      C, nan
+        rrca    ; DIV0 → ±Inf (0/0 handled in software specials)
+        jp      C, infinity
+        ; ZERO
 .zero
-    ld de,0
-    ld hl,de
-    ret
+        ld      de, 0
+        ld      hl, de
+        ret
 
 .nan
-    ld a,d
-    and 080h
-    or 07fh
-    ld d,a
-    ld e,0ffh
-    ld h,e
-    ld l,e
-    ret
+        ld      a, d
+        and     080h
+        or      07fh
+        ld      d, a
+        ld      e, 0ffh
+        ld      h, e
+        ld      l, e
+        ret
 
 .infinity
-    ld a,d
-    and 080h
-    or 07fh
-    ld d,a
-    ld e,080h
-    ld hl,0
-    ret
-
-
+        ld      a, d
+        and     080h
+        or      07fh
+        ld      d,  a
+        ld      e,  080h
+        ld      hl, 0
+        ret

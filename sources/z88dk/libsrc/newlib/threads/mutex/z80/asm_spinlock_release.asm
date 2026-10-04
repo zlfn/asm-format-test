@@ -6,18 +6,18 @@ PUBLIC asm_spinlock_release
 
 .asm_spinlock_release
 
-   ; enter : hl = & spinlock
-   ;
-   ; exit  : hl = & spinlock
-   ;
-   ; uses  : none
+        ; enter : hl = & spinlock
+        ;
+        ; exit  : hl = & spinlock
+        ;
+        ; uses  : none
 
 IF __CPU_INTEL__
-   dec (hl)                    ; atomic operation
-   ret
+        dec     (hl)    ; atomic operation
+        ret
 
 ELSE
-   ld (hl),$fe                 ; atomic operation
-   ret
+        ld      (hl), $fe       ; atomic operation
+        ret
 
 ENDIF

@@ -9,21 +9,20 @@ EXTERN asm_sms_memcpy_mem_to_cram
 
 sms_memcpy_mem_to_cram:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
 
-   jp asm_sms_memcpy_mem_to_cram
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_sms_memcpy_mem_to_cram
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sms_memcpy_mem_to_cram
 defc _sms_memcpy_mem_to_cram = sms_memcpy_mem_to_cram
 ENDIF
-

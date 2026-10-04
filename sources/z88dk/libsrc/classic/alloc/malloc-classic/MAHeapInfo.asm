@@ -12,50 +12,50 @@ PUBLIC MAHeapInfo
 ;         de = total available bytes in heap
 ; uses  : af, bc, de, hl
 
-   ld de,0                   ; de = total available bytes in heap
-   ld bc,0                   ; bc = largest single block available
+        ld      de, 0   ; de = total available bytes in heap
+        ld      bc, 0   ; bc = largest single block available
 
-   inc hl
-   inc hl
+        inc     hl
+        inc     hl
 
 .loop
 
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a                    ; hl = & block
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a    ; hl = & block
 
-   or h
-   ret Z                     ; if no more blocks, all done
+        or      h
+        ret     Z       ; if no more blocks, all done
 
-   ld a,(hl)
-   inc hl
-   push hl                   ; save & block->size + 1b
-   ld h,(hl)
-   ld l,a                    ; hl = block size
+        ld      a, (hl)
+        inc     hl
+        push    hl      ; save & block->size + 1b
+        ld      h, (hl)
+        ld      l, a    ; hl = block size
 
 IF __CPU_8085__
-   sub hl,bc
+        sub     hl, bc
 ELIF __CPU_8080__ || __CPU_GBZ80
-   ld a,l
-   sub c
-   ld l,a
-   ld a,h
-   sbc b
-   ld  h,a
+        ld      a, l
+        sub     c
+        ld      l, a
+        ld      a, h
+        sbc     b
+        ld      h, a
 ELSE
-   sbc hl,bc
+        sbc     hl, bc
 ENDIF
 
-   add hl,bc
-   jr C,notbigger
-   ld bc,hl                   ; bc = new largest block size
+        add     hl, bc
+        jr      C,  notbigger
+        ld      bc, hl  ; bc = new largest block size
 
 .notbigger
 
-   add hl,de
-   ex de,hl                  ; de = add this block size into total bytes available
+        add     hl, de
+        ex      de, hl  ; de = add this block size into total bytes available
 
-   pop hl
-   inc hl
-   jp loop
+        pop     hl
+        inc     hl
+        jp      loop

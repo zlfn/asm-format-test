@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; void *realloc(void *p, size_t size)
 ;
 ; Reallocation occurs from the thread's default heap.
@@ -42,30 +42,30 @@ EXTERN asm_heap_realloc
 
 asm_realloc:
 
-   ; Realloc using the thread's default heap
-   ;
-   ; enter : hl = void *p (existing pointer to memory)
-   ;         bc = uint size (realloc size)
-   ;
-   ; exit  : success
-   ;
-   ;            hl = void *p_new
-   ;            carry reset
-   ;
-   ;         fail on insufficient memory
-   ;
-   ;            hl = 0
-   ;            carry set, errno = ENOMEM
-   ;
-   ;         fail on lock acquisition
-   ;
-   ;            hl = 0
-   ;            carry set, errno = ENOLCK
-   ;
-   ; uses  : af, bc, de, hl
+        ; Realloc using the thread's default heap
+        ;
+        ; enter : hl = void *p (existing pointer to memory)
+        ;         bc = uint size (realloc size)
+        ;
+        ; exit  : success
+        ;
+        ;            hl = void *p_new
+        ;            carry reset
+        ;
+        ;         fail on insufficient memory
+        ;
+        ;            hl = 0
+        ;            carry set, errno = ENOMEM
+        ;
+        ;         fail on lock acquisition
+        ;
+        ;            hl = 0
+        ;            carry set, errno = ENOLCK
+        ;
+        ; uses  : af, bc, de, hl
 
-   ld de,(__malloc_heap)
-   jp asm_heap_realloc
+        ld      de, (__malloc_heap)
+        jp      asm_heap_realloc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

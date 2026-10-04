@@ -1,5 +1,4 @@
 
-
         SECTION code_clib
 
         PUBLIC  ansi_del_line

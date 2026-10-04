@@ -14,41 +14,41 @@
 ; sio_val is (sio_command | sio_direction << 8)
 ;
 
-        .export         __sio_call
-        .include        "atari.inc"
-        .import         popa,popax,popptr1
-        .import         sectsizetab,___oserror
-        .importzp       ptr1
+        .export __sio_call
+        .include "atari.inc"
+        .import popa, popax, popptr1
+        .import sectsizetab, ___oserror
+        .importzp ptr1
 
 .proc   __sio_call
 
-        sta     DCOMND          ; set command into DCB
-        stx     DSTATS          ; set data flow direction
-        jsr     popax           ; get buffer address
-        sta     DBUFLO          ; set buffer address into DCB
+        sta     DCOMND  ; set command into DCB
+        stx     DSTATS  ; set data flow direction
+        jsr     popax   ; get buffer address
+        sta     DBUFLO  ; set buffer address into DCB
         stx     DBUFHI
         jsr     popax
-        sta     DAUX1           ; set sector #
+        sta     DAUX1   ; set sector #
         stx     DAUX2
 
         jsr     popptr1
 
         ldy     #sst_flag
-        lda     (ptr1),y
+        lda     (ptr1), y
         and     #128
         beq     _inv_hand       ; handle not open or invalid
 
         ldy     #sst_driveno
-        lda     (ptr1),y
+        lda     (ptr1), y
 
         clc
         adc     #1
-        sta     DUNIT           ; unit number (d1,d2,d3,...)
+        sta     DUNIT   ; unit number (d1,d2,d3,...)
 
-        lda     DAUX2           ; high byte sector #
+        lda     DAUX2   ; high byte sector #
         bne     _realsz
         lda     DAUX1
-        cmp     #4              ; sectors 1 to 3 are special (always 128 bytes)
+        cmp     #4      ; sectors 1 to 3 are special (always 128 bytes)
         bcs     _realsz
 
         lda     #$80
@@ -57,19 +57,19 @@
         sta     DBYTHI
         beq     _cont
 
-_realsz:ldy     #sst_sectsize
-        lda     (ptr1),y
+_realsz: ldy    #sst_sectsize
+        lda     (ptr1), y
         sta     DBYTLO
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     DBYTHI
 
-_cont:  lda     #DISKID         ; SIO bus ID of diskette drive
+_cont:  lda     #DISKID ; SIO bus ID of diskette drive
         sta     DDEVIC
         lda     #15
-        sta     DTIMLO          ; value got from DOS source
+        sta     DTIMLO  ; value got from DOS source
 
-        jsr     SIOV            ; execute
+        jsr     SIOV    ; execute
 
         ldx     #0
         lda     DSTATS

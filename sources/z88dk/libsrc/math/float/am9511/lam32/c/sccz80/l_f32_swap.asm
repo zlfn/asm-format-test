@@ -13,19 +13,19 @@ EXTERN  asm_switch_arg
 ;        defw left hand LSW
 ;        defw left hand MSW
 .l_f32_swap
-    pop bc
-    push de
-    push hl
-    push bc
+        pop     bc
+        push    de
+        push    hl
+        push    bc
 
-    call asm_switch_arg
+        call    asm_switch_arg
 
-    pop bc
-    pop hl
-    pop de
-    push bc
+        pop     bc
+        pop     hl
+        pop     de
+        push    bc
 
-    ret
+        ret
 
 ELSE
 
@@ -34,14 +34,14 @@ ELSE
 ;        defw left hand LSW
 ;        defw left hand MSW
 .l_f32_swap
-        pop     af      ; Return
-        pop     bc      ; left-LSW
-        ex      de,hl   ; de = right-LSW, hl = right-MSW
-        ex      (sp),hl ; hl = left-MSW, (sp) = right-MSW
-        push    de      ; Push right-LSW
-        push    af      ; Return address
-        ex      de,hl   ; de = left-MSW
-        ld      hl,bc   ; hl = left-LSW
+        pop     af              ; Return
+        pop     bc              ; left-LSW
+        ex      de,   hl        ; de = right-LSW, hl = right-MSW
+        ex      (sp), hl        ; hl = left-MSW, (sp) = right-MSW
+        push    de              ; Push right-LSW
+        push    af              ; Return address
+        ex      de, hl          ; de = left-MSW
+        ld      hl, bc          ; hl = left-LSW
         ret
 
 ENDIF

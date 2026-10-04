@@ -4,8 +4,8 @@
 ; unsigned char __fastcall__ _sysuname (struct utsname* buf);
 ;
 
-            .import utscopy
-            .export __sysuname, utsdata
+        .import utscopy
+        .export __sysuname, utsdata
 
 __sysuname      = utscopy
 
@@ -22,17 +22,14 @@ utsdata:
         .asciiz ""
 
         ; release
-        .byte           .string (>.version)
-        .byte           '.'
-        .byte           .string (<.version)
-        .byte           $00
+        .byte   .string (>.version)
+        .byte   '.'
+        .byte   .string (<.version)
+        .byte   $00
 
         ; version
-        .byte           '0'     ; unused
-        .byte           $00
+        .byte   '0'     ; unused
+        .byte   $00
 
         ; machine
         .asciiz "GEOS"
-
-
-

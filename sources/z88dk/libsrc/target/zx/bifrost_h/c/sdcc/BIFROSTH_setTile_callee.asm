@@ -16,12 +16,12 @@ EXTERN asm_BIFROSTH_setTile
 
 _BIFROSTH_setTile_callee:
 
-   pop hl
-	pop de
-	dec sp
-	ex (sp),hl
-	ld l,e          ; L = px
-	ld e,h          ; E = tile
-	ld c,d          ; C = py
+        pop     hl
+        pop     de
+        dec     sp
+        ex      (sp), hl
+        ld      l,    e ; L = px
+        ld      e,    h ; E = tile
+        ld      c,    d ; C = py
 
-   jp asm_BIFROSTH_setTile
+        jp      asm_BIFROSTH_setTile

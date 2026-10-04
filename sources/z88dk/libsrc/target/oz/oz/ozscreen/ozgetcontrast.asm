@@ -11,16 +11,15 @@
 ; $Id: ozgetcontrast.asm,v 1.3 2016-06-28 14:48:17 dom Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  ozgetcontrast
-    PUBLIC  _ozgetcontrast
+        SECTION code_clib
+        PUBLIC  ozgetcontrast
+        PUBLIC  _ozgetcontrast
 
-    EXTERN  ozcontrast
-
+        EXTERN  ozcontrast
 
 ozgetcontrast:
 _ozgetcontrast:
-    ld      a, (ozcontrast)
-    ld      l, a
-    ld      h, 0
-    ret
+        ld      a, (ozcontrast)
+        ld      l, a
+        ld      h, 0
+        ret

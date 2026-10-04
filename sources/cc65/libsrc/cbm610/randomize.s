@@ -6,12 +6,11 @@
 ; /* Initialize the random number generator */
 ;
 
-        .export         ___randomize
-        .import         _srand
-        .importzp       time
+        .export ___randomize
+        .import _srand
+        .importzp time
 
 ___randomize:
-        ldx     time+2          ; Use 50/60HZ clock
+        ldx     time+2  ; Use 50/60HZ clock
         lda     time+1
-        jmp     _srand          ; Initialize generator
-
+        jmp     _srand  ; Initialize generator

@@ -8,12 +8,12 @@ EXTERN l0_esx_m_tapein_info_callee
 
 _esx_m_tapein_info:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     hl
 
-   jp l0_esx_m_tapein_info_callee
+        push    hl
+        push    de
+        push    af
+
+        jp      l0_esx_m_tapein_info_callee

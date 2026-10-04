@@ -11,21 +11,19 @@ EXTERN asm_sp1_TileEntry
 
 sp1_TileEntry_callee:
 
-   pop hl
-   pop de
-   pop bc
-   push hl
+        pop     hl
+        pop     de
+        pop     bc
+        push    hl
 
 ;   jp asm_sp1_TileEntry
-   push ix
-   call asm_sp1_TileEntry
-   pop ix
-   ret
-
+        push    ix
+        call    asm_sp1_TileEntry
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_TileEntry_callee
 defc _sp1_TileEntry_callee = sp1_TileEntry_callee
 ENDIF
-

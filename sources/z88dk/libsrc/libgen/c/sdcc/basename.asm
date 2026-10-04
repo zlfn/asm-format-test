@@ -8,10 +8,10 @@ EXTERN asm_basename
 
 _basename:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_basename
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_basename

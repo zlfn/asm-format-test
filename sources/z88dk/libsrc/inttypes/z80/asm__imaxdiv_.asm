@@ -8,12 +8,12 @@ PUBLIC asm__imaxdiv_
 
 IFDEF __SDCC
 
-   EXTERN asm__lldiv
-   defc asm__imaxdiv_ = asm__lldiv
+        EXTERN  asm__lldiv
+        defc    asm__imaxdiv_ = asm__lldiv
 
 ELSE
 
-   EXTERN asm__ldiv
-   defc asm__imaxdiv_ = asm__ldiv
+        EXTERN  asm__ldiv
+        defc    asm__imaxdiv_ = asm__ldiv
 
 ENDIF

@@ -13,7 +13,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT64
@@ -25,20 +25,19 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMathRRotU64)
 ASM_PFX(InternalMathRRotU64):
-    push    ebx
-    mov     cl, [esp + 16]
-    mov     eax, [esp + 8]
-    mov     edx, [esp + 12]
-    shrd    ebx, eax, cl
-    shrd    eax, edx, cl
-    rol     ebx, cl
-    shrd    edx, ebx, cl
-    test    cl, 32                      ; Count >= 32?
-    jz      .0
-    mov     ecx, eax                    ; switch eax & edx if Count >= 32
-    mov     eax, edx
-    mov     edx, ecx
+        push    ebx
+        mov     cl,  [esp + 16]
+        mov     eax, [esp + 8]
+        mov     edx, [esp + 12]
+        shrd    ebx, eax, cl
+        shrd    eax, edx, cl
+        rol     ebx, cl
+        shrd    edx, ebx, cl
+        test    cl,  32         ; Count >= 32?
+        jz      .0
+        mov     ecx, eax        ; switch eax & edx if Count >= 32
+        mov     eax, edx
+        mov     edx, ecx
 .0:
-    pop     ebx
-    ret
-
+        pop     ebx
+        ret

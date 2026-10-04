@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _b_array_destroy
 defc _b_array_destroy = b_array_destroy
 ENDIF
-

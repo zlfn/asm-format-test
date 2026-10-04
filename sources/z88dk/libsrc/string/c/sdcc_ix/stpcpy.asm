@@ -10,12 +10,12 @@ EXTERN asm_stpcpy
 
 _stpcpy:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp asm_stpcpy
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_stpcpy

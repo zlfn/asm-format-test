@@ -19,7 +19,7 @@ PUBLIC _m32_fabsf
 
 ._m32_fabsf
 .m32_fabs_fastcall
-    ld a,d
-    and 07fh
-    ld d,a
-    ret
+        ld      a, d
+        and     07fh
+        ld      d, a
+        ret

@@ -8,34 +8,34 @@
 ; Important note: The implementation of cputs() relies on the cputc() function
 ; not clobbering ptr1. Beware when rewriting or changing this function!
 
-        .include        "atari5200.inc"
+        .include "atari5200.inc"
 
-        .export         _cputcxy, _cputc
-        .export         plot, cputdirect, putchar
-        .import         gotoxy, _mul20
-        .import         conio_color
-        .importzp       screen_width, screen_height
-        .importzp       ptr4
+        .export _cputcxy, _cputc
+        .export plot,     cputdirect, putchar
+        .import gotoxy,   _mul20
+        .import conio_color
+        .importzp screen_width, screen_height
+        .importzp ptr4
 
-        .import         screen_setup
-        .constructor    initconio
+        .import screen_setup
+        .constructor initconio
 initconio               =       screen_setup
 
 _cputcxy:
-        pha                     ; Save C
-        jsr      gotoxy         ; Set cursor, drop x and y
-        pla                     ; Restore C
+        pha             ; Save C
+        jsr     gotoxy  ; Set cursor, drop x and y
+        pla             ; Restore C
 
 _cputc:
-        cmp     #$0D            ; CR
+        cmp     #$0D    ; CR
         bne     L4
         lda     #0
         sta     COLCRS_5200
-        beq     plot            ; return
+        beq     plot    ; return
 
-L4:     cmp     #$0A            ; LF
+L4:     cmp     #$0A    ; LF
         beq     newline
-        cmp     #ATEOL          ; Atari-EOL?
+        cmp     #ATEOL  ; Atari-EOL?
         beq     newline
 
         tay
@@ -47,9 +47,9 @@ L4:     cmp     #$0A            ; LF
         tax
         tya
         and     #$9F
-        ora     ataint,x
+        ora     ataint, x
 
-cputdirect:                     ; accepts screen code
+cputdirect:     ; accepts screen code
         jsr     putchar
 
 ; advance cursor
@@ -73,23 +73,23 @@ plot:   ldy     COLCRS_5200
         rts
 
 putchar:
-        pha                     ; save char
+        pha     ; save char
 
         lda     ROWCRS_5200
-        jsr     _mul20          ; destroys tmp4, carry is cleared
-        adc     SAVMSC          ; add start of screen memory
+        jsr     _mul20  ; destroys tmp4, carry is cleared
+        adc     SAVMSC  ; add start of screen memory
         sta     ptr4
         txa
         adc     SAVMSC+1
         sta     ptr4+1
-        pla                     ; get char again
+        pla             ; get char again
 
         and     #$3F            ; clear palette index bits
         ora     conio_color     ; use currently selected palette
 
         ldy     COLCRS_5200
-        sta     (ptr4),y
+        sta     (ptr4), y
         rts
 
         .rodata
-ataint: .byte   64,0,32,96
+ataint: .byte   64, 0, 32, 96

@@ -9,12 +9,11 @@ EXTERN asm_im2_RemoveHook
 .im2_RemoveHook
 ._im2_RemoveHook
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
 
-   jp asm_im2_RemoveHook
-   
+        jp      asm_im2_RemoveHook

@@ -10,11 +10,11 @@ EXTERN asm_fzx_buffer_partition_ww
 
 fzx_buffer_partition_ww_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   pop ix
-   push af
-   
-   jp asm_fzx_buffer_partition_ww
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        pop     ix
+        push    af
+
+        jp      asm_fzx_buffer_partition_ww

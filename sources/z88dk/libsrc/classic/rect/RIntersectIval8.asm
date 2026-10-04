@@ -22,38 +22,38 @@ PUBLIC RIntersectIval8
 
 .RIntersectIval8
 
-   ld a,b
-   sub d
-   sub e
-   jr c, i1ini2
-   
-   ld a,d
-   sub b
-   sub c
-   ret nc
-   
+        ld      a, b
+        sub     d
+        sub     e
+        jr      c, i1ini2
+
+        ld      a, d
+        sub     b
+        sub     c
+        ret     nc
+
 .i2ini1
 
-   ld b,d
-   neg
-   cp e
-   ld c,a
-   jr c, min
-   ld c,e
+        ld      b, d
+        neg
+        cp      e
+        ld      c, a
+        jr      c, min
+        ld      c, e
 
 .min
 
-   scf
-   ret
+        scf
+        ret
 
 .i1ini2
 
-   neg
-   cp c
-   jr nc, max
-   ld c,a
+        neg
+        cp      c
+        jr      nc, max
+        ld      c,  a
 
 .max
 
-   scf
-   ret
+        scf
+        ret

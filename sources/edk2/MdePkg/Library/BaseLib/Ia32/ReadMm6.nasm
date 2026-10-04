@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT64
@@ -26,10 +26,9 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmReadMm6)
 ASM_PFX(AsmReadMm6):
-    push    eax
-    push    eax
-    movq    [esp], mm6
-    pop     eax
-    pop     edx
-    ret
-
+        push    eax
+        push    eax
+        movq    [esp], mm6
+        pop     eax
+        pop     edx
+        ret

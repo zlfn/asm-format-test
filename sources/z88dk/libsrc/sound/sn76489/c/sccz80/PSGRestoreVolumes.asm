@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _PSGRestoreVolumes
 defc _PSGRestoreVolumes = PSGRestoreVolumes
 ENDIF
-

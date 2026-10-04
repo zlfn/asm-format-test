@@ -4,12 +4,11 @@
 ; A default directory with just the main executable.
 ;
         .include "lynx.inc"
-        .import         __STARTOFDIRECTORY__
-        .import         __MAIN_START__
-        .import         __STARTUP_LOAD__, __BSS_LOAD__
-        .import         __BANK0BLOCKSIZE__
-        .export         __DEFDIR__: absolute = 1
-
+        .import __STARTOFDIRECTORY__
+        .import __MAIN_START__
+        .import __STARTUP_LOAD__, __BSS_LOAD__
+        .import __BANK0BLOCKSIZE__
+        .export __DEFDIR__: absolute = 1
 
 ; ------------------------------------------------------------------------
 ; Lynx directory

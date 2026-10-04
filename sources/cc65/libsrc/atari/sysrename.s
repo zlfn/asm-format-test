@@ -19,31 +19,31 @@
 
 .proc   __sysrename
 
-        pha                     ; save input parameter
+        pha     ; save input parameter
         txa
         pha
 
         jsr     findfreeiocb
-        beq     iocbok          ; we found one
+        beq     iocbok  ; we found one
 
         pla
-        pla                     ; fix up stack
+        pla     ; fix up stack
         jsr     incsp2
 
-        lda     #TMOF           ; too many open files
+        lda     #TMOF   ; too many open files
         rts
 
-iocbok: stx     tmp4            ; remember IOCB index
+iocbok: stx     tmp4    ; remember IOCB index
 
         pla
-        sta     ptr2+1          ; remember newname
+        sta     ptr2+1  ; remember newname
         pla
-        sta     ptr2            ; ditto.
+        sta     ptr2    ; ditto.
 
-        jsr     popax           ; get oldname
+        jsr     popax   ; get oldname
 
         ldy     #0
-        sty     sspc+1          ; initialize stack space
+        sty     sspc+1  ; initialize stack space
 
 .ifdef  UCASE_FILENAME
 
@@ -51,24 +51,24 @@ iocbok: stx     tmp4            ; remember IOCB index
 
 .ifdef  DEFAULT_DEVICE
         ldy     #$80
-        sty     tmp2            ; set flag for ucase_fn
+        sty     tmp2    ; set flag for ucase_fn
 .endif
         jsr     ucase_fn
         bcc     ucok1
 
-        lda     #183            ; see oserror.s
+        lda     #183    ; see oserror.s
         rts
 
 ucok1:  sta     ptr3
-        stx     ptr3+1          ; remember pointer to uppercased old name
-        lda     tmp3            ; # of bytes reserved on the stack
-        sta     sspc            ; remember...
+        stx     ptr3+1  ; remember pointer to uppercased old name
+        lda     tmp3    ; # of bytes reserved on the stack
+        sta     sspc    ; remember...
 
 ; uppercase second (new) name and don't prepend device
 
 .ifdef  DEFAULT_DEVICE
         ldy     #0
-        sty     tmp2            ; set flag for ucase_fn
+        sty     tmp2    ; set flag for ucase_fn
 .endif
         lda     ptr2
         ldx     ptr2+1
@@ -76,12 +76,12 @@ ucok1:  sta     ptr3
         jsr     ucase_fn
         bcc     ucok2
 
-        ldy     tmp3            ; get size
-        jsr     addysp          ; free used space on the stack
-        lda     #183            ; see oserror.s
+        ldy     tmp3    ; get size
+        jsr     addysp  ; free used space on the stack
+        lda     #183    ; see oserror.s
         rts
 
-ucok2:  sta     ptr2            ; remember pointer to uppercased new name
+ucok2:  sta     ptr2    ; remember pointer to uppercased new name
         stx     ptr2+1
 
 ; update sspc -- # of bytes used on the stack
@@ -113,47 +113,47 @@ ukok4:
         sta     sspc
         bcc     L1
         inc     sspc+1
-L1:     jsr     subysp          ; make room on the stack
+L1:     jsr     subysp  ; make room on the stack
 
 ; copy old name
         ldy     #0
-con:    lda     (ptr3),y
-        sta     (c_sp),y
+con:    lda     (ptr3), y
+        sta     (c_sp), y
         beq     copyend
         iny
         bne     con
 
-copyend:lda     #$20            ; space
-        sta     (c_sp),y
+copyend: lda    #$20    ; space
+        sta     (c_sp), y
         iny
-        tya                     ; get current offset (beyond old name)
+        tya             ; get current offset (beyond old name)
         clc
         adc     c_sp
         sta     ptr3
         lda     c_sp+1
         adc     #0
-        sta     ptr3+1          ; ptr3 now contains pointer to space for new filename
+        sta     ptr3+1  ; ptr3 now contains pointer to space for new filename
 
 ; copy new name
         ldy     #0
-cnn:    lda     (ptr2),y
-        sta     (ptr3),y
+cnn:    lda     (ptr2), y
+        sta     (ptr3), y
         beq     copend2
         iny
         bne     cnn
 
-copend2:ldx     tmp4
+copend2: ldx    tmp4
         lda     c_sp
-        sta     ICBAL,x
+        sta     ICBAL, x
         lda     c_sp+1
-        sta     ICBAH,x
+        sta     ICBAH, x
         lda     #RENAME
-        sta     ICCOM,x
+        sta     ICCOM, x
         lda     #0
-        sta     ICAX1,x
-        sta     ICAX2,x
-        sta     ICBLL,x
-        sta     ICBLH,x
+        sta     ICAX1, x
+        sta     ICAX2, x
+        sta     ICBLL, x
+        sta     ICBLH, x
         jsr     CIOV
         tya
         pha
@@ -182,4 +182,4 @@ cioerr: tya
 
         .bss
 
-sspc:   .res    2               ; stack space used
+sspc:   .res    2       ; stack space used

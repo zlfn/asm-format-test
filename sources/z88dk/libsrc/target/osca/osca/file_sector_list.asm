@@ -32,49 +32,48 @@
 ;
 ; Notes: Obtaining the sector list is fast (it doesn't need to load the actual file data)
 ; and using an obtained sector list to load the file in question is much faster than
-; the normal filesystem load routine. 
+; the normal filesystem load routine.
 ;
 ;
 
-    INCLUDE "target/osca/def/flos.def"
+        INCLUDE "target/osca/def/flos.def"
 
         SECTION code_clib
-	PUBLIC  file_sector_list
-	PUBLIC  _file_sector_list
-
+        PUBLIC  file_sector_list
+        PUBLIC  _file_sector_list
 
 file_sector_list:
 _file_sector_list:
-	; __FASTCALL__, HL=ptr to struct
-	ld	de,17
-	add hl,de
+        ; __FASTCALL__, HL=ptr to struct
+        ld      de, 17
+        add     hl, de
 
-	push	hl		; struct ptr
+        push    hl      ; struct ptr
 
-	ld		e,(hl)	; get  current cluster number
-	inc		hl
-	ld		d,(hl)
-	inc		hl
-	ld		a,(hl)	; get current sector
-	call	kjt_file_sector_list
+        ld      e, (hl) ; get  current cluster number
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      a, (hl) ; get current sector
+        call    kjt_file_sector_list
 
-	ex		(sp),hl	; struct ptr <-> sector ptr
+        ex      (sp), hl        ; struct ptr <-> sector ptr
 
-	ld		(hl),e	; set  current cluster number
-	inc		hl
-	ld		(hl),d
-	inc		hl
-	ld		(hl),a	; set current sector
+        ld      (hl), e ; set  current cluster number
+        inc     hl
+        ld      (hl), d
+        inc     hl
+        ld      (hl), a ; set current sector
 
-	pop		hl		; sector ptr
-	ld		e,(hl)	; get  current cluster number
-	inc		hl
-	ld		d,(hl)
-	inc		hl
-	ld		a,(hl)	; get  current cluster number
-	inc		hl
-	ld		h,(hl)	; get  current cluster number
-	ld		l,a
-	ex		de,hl
+        pop     hl              ; sector ptr
+        ld      e, (hl)         ; get  current cluster number
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      a, (hl)         ; get  current cluster number
+        inc     hl
+        ld      h,  (hl)        ; get  current cluster number
+        ld      l,  a
+        ex      de, hl
 
-	ret
+        ret

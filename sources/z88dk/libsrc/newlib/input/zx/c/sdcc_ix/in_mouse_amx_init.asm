@@ -10,12 +10,12 @@ EXTERN l0_in_mouse_amx_init_callee
 
 _in_mouse_amx_init:
 
-   pop af
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
 
-   jp l0_in_mouse_amx_init_callee
+        push    bc
+        push    de
+        push    af
+
+        jp      l0_in_mouse_amx_init_callee

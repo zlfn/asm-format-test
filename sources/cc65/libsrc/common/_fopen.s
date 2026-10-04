@@ -5,17 +5,15 @@
 ; /* Open the specified file and fill the descriptor values into f */
 ;
 
-        .export         __fopen
+        .export __fopen
 
-        .import         _open
-        .import         pushax, incsp4, return0
-        .importzp       c_sp, ptr1
+        .import _open
+        .import pushax, incsp4, return0
+        .importzp c_sp, ptr1
 
-
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "_file.inc"
-
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "_file.inc"
 
 ; ------------------------------------------------------------------------
 ; Code
@@ -23,21 +21,21 @@
 .proc   __fopen
 
         sta     file
-        stx     file+1          ; Save f
+        stx     file+1  ; Save f
 
 ; Get a pointer to the mode string
 
         ldy     #1
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     ptr1+1
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     ptr1
 
 ; Look at the first character in mode
 
         ldx     #$00            ; Mode will be in X
-        lda     (ptr1),y        ; Get first char from mode
+        lda     (ptr1), y       ; Get first char from mode
         cmp     #'w'
         bne     @L1
         ldx     #(O_WRONLY | O_CREAT | O_TRUNC)
@@ -52,18 +50,18 @@
 
 ; Look at more chars from the mode string
 
-@L3:    iny                     ; Next char
+@L3:    iny             ; Next char
         beq     invmode
-        lda     (ptr1),y
-        beq     modeok          ; End of mode string reached
+        lda     (ptr1), y
+        beq     modeok  ; End of mode string reached
         cmp     #'+'
         bne     @L4
         txa
-        ora     #O_RDWR         ; Always do r/w in addition to anything else
+        ora     #O_RDWR ; Always do r/w in addition to anything else
         tax
         bne     @L3
 @L4:    cmp     #'b'
-        beq     @L3             ; Binary mode is ignored
+        beq     @L3     ; Binary mode is ignored
 
 ; Invalid mode
 
@@ -77,13 +75,13 @@ invmode:
 ; the same place where the mode string pointer was before. Then call open()
 
 modeok: ldy     #$00
-        txa                     ; Mode -> A
-        sta     (c_sp),y
+        txa             ; Mode -> A
+        sta     (c_sp), y
         tya
         iny
-        sta     (c_sp),y
-        ldy     #4              ; Size of arguments in bytes
-        jsr     _open           ; Will cleanup the stack
+        sta     (c_sp), y
+        ldy     #4      ; Size of arguments in bytes
+        jsr     _open   ; Will cleanup the stack
 
 ; Check the result of the open() call
 
@@ -91,7 +89,7 @@ modeok: ldy     #$00
         bne     openok
         cmp     #$FF
         bne     openok
-        jmp     return0         ; Failure, errno/__oserror already set
+        jmp     return0 ; Failure, errno/__oserror already set
 
 ; Open call succeeded
 
@@ -100,10 +98,10 @@ openok: ldy     file
         ldy     file+1
         sty     ptr1+1
         ldy     #_FILE::f_fd
-        sta     (ptr1),y        ; file->f_fd = fd;
+        sta     (ptr1), y       ; file->f_fd = fd;
         ldy     #_FILE::f_flags
         lda     #_FOPEN
-        sta     (ptr1),y        ; file->f_flags = _FOPEN;
+        sta     (ptr1), y       ; file->f_flags = _FOPEN;
 
 ; Return the pointer to the file structure
 
@@ -118,5 +116,3 @@ openok: ldy     file
 
 .bss
 file:   .res    2
-
-

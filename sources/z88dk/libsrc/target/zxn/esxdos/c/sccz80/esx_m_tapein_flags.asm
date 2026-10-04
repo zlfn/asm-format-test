@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_m_tapein_flags
 defc _esx_m_tapein_flags = esx_m_tapein_flags
 ENDIF
-

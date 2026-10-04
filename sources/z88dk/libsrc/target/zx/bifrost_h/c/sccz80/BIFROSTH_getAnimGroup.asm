@@ -20,4 +20,3 @@ IF __CLASSIC
 PUBLIC _BIFROSTH_getAnimGroup
 defc _BIFROSTH_getAnimGroup = BIFROSTH_getAnimGroup
 ENDIF
-

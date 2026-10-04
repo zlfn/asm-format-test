@@ -33,58 +33,55 @@
 ;/*                                                                           */
 ;/*****************************************************************************/
 
-
-
-
 ;------------------------------------------------------------------------------
 ; Error codes
 
 .enum
-        MOUSE_ERR_OK                    ; No error
-        MOUSE_ERR_NO_DRIVER             ; No driver available
-        MOUSE_ERR_CANNOT_LOAD           ; Error loading driver
-        MOUSE_ERR_INV_DRIVER            ; Invalid driver
-        MOUSE_ERR_NO_DEVICE             ; Mouse hardware not found
-        MOUSE_ERR_INV_IOCTL             ; Invalid ioctl code
+        MOUSE_ERR_OK            ; No error
+        MOUSE_ERR_NO_DRIVER     ; No driver available
+        MOUSE_ERR_CANNOT_LOAD   ; Error loading driver
+        MOUSE_ERR_INV_DRIVER    ; Invalid driver
+        MOUSE_ERR_NO_DEVICE     ; Mouse hardware not found
+        MOUSE_ERR_INV_IOCTL     ; Invalid ioctl code
 
-        MOUSE_ERR_COUNT                 ; Special: Number of error codes
+        MOUSE_ERR_COUNT ; Special: Number of error codes
 .endenum
 
 ;------------------------------------------------------------------------------
 ; The driver header
 
 .struct MOUSE_HDR
-        ID              .byte   3       ; Contains 0x6D, 0x6F, 0x75 ("mou")
-        VERSION         .byte   1       ; Interface version
-        LIBREF          .addr           ; Library reference
-        JUMPTAB         .struct
-            INSTALL     .addr
-            UNINSTALL   .addr
-            HIDE        .addr
-            SHOW        .addr
-            SETBOX      .addr
-            GETBOX      .addr
-            MOVE        .addr
-            BUTTONS     .addr
-            POS         .addr
-            INFO        .addr
-            IOCTL       .addr
-            IRQ         .addr
+        ID      .byte   3       ; Contains 0x6D, 0x6F, 0x75 ("mou")
+        VERSION .byte   1       ; Interface version
+        LIBREF  .addr           ; Library reference
+        JUMPTAB .struct
+        INSTALL .addr
+        UNINSTALL .addr
+        HIDE    .addr
+        SHOW    .addr
+        SETBOX  .addr
+        GETBOX  .addr
+        MOVE    .addr
+        BUTTONS .addr
+        POS     .addr
+        INFO    .addr
+        IOCTL   .addr
+        IRQ     .addr
         .endstruct
-        FLAGS           .byte           ; Mouse driver flags
-        CALLBACKS .struct               ; Jump instructions
-                        .byte           ; JMP opcode
-            CHIDE       .addr           ; Jump address
-                        .byte
-            CSHOW       .addr
-                        .byte
-            CPREP       .addr
-                        .byte
-            CDRAW       .addr
-                        .byte
-            CMOVEX      .addr
-                        .byte
-            CMOVEY      .addr
+        FLAGS   .byte           ; Mouse driver flags
+        CALLBACKS .struct       ; Jump instructions
+        .byte                   ; JMP opcode
+        CHIDE   .addr           ; Jump address
+        .byte
+        CSHOW   .addr
+        .byte
+        CPREP   .addr
+        .byte
+        CDRAW   .addr
+        .byte
+        CMOVEX  .addr
+        .byte
+        CMOVEY  .addr
         .endstruct
 .endstruct
 
@@ -92,12 +89,12 @@
 ; The mouse callback structure
 
 .struct MOUSE_CALLBACKS
-        HIDE    .addr                   ; Hide the mouse cursor
-        SHOW    .addr                   ; Show the mouse cursor
-        PREP    .addr                   ; Prepare to move the mouse cursor
-        DRAW    .addr                   ; Draw the mouse cursor
-        MOVEX   .addr                   ; Move the mouse cursor to X coord
-        MOVEY   .addr                   ; Move the mouse cursor to Y coord
+        HIDE    .addr   ; Hide the mouse cursor
+        SHOW    .addr   ; Show the mouse cursor
+        PREP    .addr   ; Prepare to move the mouse cursor
+        DRAW    .addr   ; Draw the mouse cursor
+        MOVEX   .addr   ; Move the mouse cursor to X coord
+        MOVEY   .addr   ; Move the mouse cursor to Y coord
 .endstruct
 
 ;------------------------------------------------------------------------------
@@ -145,8 +142,8 @@ MOUSE_BTN_RIGHT         = $01
 ;------------------------------------------------------------------------------
 ; Variables
 
-        .global _mouse_drv              ; Pointer to driver
-        .global _mouse_hidden           ; Counter, 0 = mouse is visible
+        .global _mouse_drv      ; Pointer to driver
+        .global _mouse_hidden   ; Counter, 0 = mouse is visible
 
 ;------------------------------------------------------------------------------
 ; C callable functions

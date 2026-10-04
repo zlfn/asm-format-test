@@ -26,12 +26,11 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.area   _CODE
+        .area   _CODE
 
-	.globl ___sdcc_call_iy
+        .globl  ___sdcc_call_iy
 
 ; The Z80 has the jp (iy) instruction, which is perfect for implementing function pointers.
 
 ___sdcc_call_iy:
-	jp	(iy)
-
+        jp      (iy)

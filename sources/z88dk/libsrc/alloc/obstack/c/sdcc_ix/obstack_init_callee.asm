@@ -10,9 +10,9 @@ EXTERN asm_obstack_init
 
 _obstack_init_callee:
 
-   pop af
-   pop de
-   pop bc
-   push af
-   
-   jp asm_obstack_init
+        pop     af
+        pop     de
+        pop     bc
+        push    af
+
+        jp      asm_obstack_init

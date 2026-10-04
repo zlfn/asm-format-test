@@ -7,19 +7,19 @@
 ; unsigned char __fastcall__ bgcolor (unsigned char color);
 ;
 
-        .export         soft80_textcolor, soft80_bgcolor
-        .import         soft80_internal_cellcolor, soft80_internal_bgcolor
-        .import         soft80_internal_cursorxlsb
-        .import         soft80_kplot, soft80_checkchar
+        .export soft80_textcolor, soft80_bgcolor
+        .import soft80_internal_cellcolor, soft80_internal_bgcolor
+        .import soft80_internal_cursorxlsb
+        .import soft80_kplot, soft80_checkchar
 
-        .importzp       tmp1, tmp2
+        .importzp tmp1, tmp2
 
-        .include        "c64.inc"
-        .include        "soft80.inc"
+        .include "c64.inc"
+        .include "soft80.inc"
 
 soft80_textcolor:
-        ldx     CHARCOLOR                       ; get old value
-        sta     CHARCOLOR                       ; set new value
+        ldx     CHARCOLOR       ; get old value
+        sta     CHARCOLOR       ; set new value
 
 mkcharcolor:
         lda     soft80_internal_bgcolor
@@ -31,13 +31,13 @@ mkcharcolor:
         ora     CHARCOLOR
         sta     soft80_internal_cellcolor       ; text/bg combo for new chars
 
-        txa                                     ; get old value
+        txa     ; get old value
         rts
 
 soft80_bgcolor:
-        ldx     soft80_internal_bgcolor         ; get old value
-        stx     tmp2                            ; save old value
-        sta     soft80_internal_bgcolor         ; set new value
+        ldx     soft80_internal_bgcolor ; get old value
+        stx     tmp2                    ; save old value
+        sta     soft80_internal_bgcolor ; set new value
 
         jsr     mkcharcolor
 
@@ -55,7 +55,7 @@ soft80_bgcolor:
         lda     $01
         pha
         ldx     #$34
-        stx     $01                             ; $34
+        stx     $01     ; $34
 
         ;ldy     #0                              ; is still 0
 
@@ -70,12 +70,12 @@ lpx:
         ; if the old bg color is equal to color ram of that cell, then also
         ; update the color ram to the new value.
 
-        inc     $01                             ; $35
-        lda     (CRAM_PTR),y                    ; colram
-        stx     $01                             ; $34
+        inc     $01             ; $35
+        lda     (CRAM_PTR), y   ; colram
+        stx     $01             ; $34
 
         and     #$0f
-        cmp     tmp2                            ; old bg color
+        cmp     tmp2    ; old bg color
         bne     @sk1
 
         ; if the left character in the cell is not a space, then dont update
@@ -84,19 +84,19 @@ lpx:
         sta     soft80_internal_cursorxlsb
         jsr     soft80_checkchar
         bcc     @sk1
-        lda     soft80_internal_bgcolor         ; new bg color
+        lda     soft80_internal_bgcolor ; new bg color
 
-        inc     $01                             ; $35
-        sta     (CRAM_PTR),y                    ; colram
-        stx     $01                             ; $34
+        inc     $01             ; $35
+        sta     (CRAM_PTR), y   ; colram
+        stx     $01             ; $34
 @sk1:
 .endif
         ; if the old bg color is equal to text color in this cell, then also
         ; update the text color to the new value.
 
-        lda     (CRAM_PTR),y                    ; vram
+        lda     (CRAM_PTR), y   ; vram
         and     #$0f
-        cmp     tmp2                            ; old bg color
+        cmp     tmp2            ; old bg color
         bne     @sk2
 
         ; if there are non space characters in the cell, do not update the
@@ -114,10 +114,10 @@ lpx:
         pla
         bcc     @sk2
 
-        lda     soft80_internal_bgcolor         ; new bg color
+        lda     soft80_internal_bgcolor ; new bg color
 @sk2:
-        ora     tmp1                            ; new bg color (high nibble)
-        sta     (CRAM_PTR),y                    ; vram
+        ora     tmp1                    ; new bg color (high nibble)
+        sta     (CRAM_PTR), y           ; vram
 
         inc     CRAM_PTR
         bne     @sk3
@@ -139,7 +139,7 @@ lpx:
         bpl     lpy
 
         pla
-        sta     $01                             ; enable I/O
+        sta     $01     ; enable I/O
         cli
 
         pla     ; CURS_Y
@@ -149,7 +149,7 @@ lpx:
         clc
         jsr     soft80_kplot
 
-        lda     tmp2                            ; get old value
+        lda     tmp2    ; get old value
         rts
 
 ;-------------------------------------------------------------------------------

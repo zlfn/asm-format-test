@@ -9,20 +9,19 @@ EXTERN asm_sms_cxy2saddr
 
 sms_cxy2saddr:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   ld h,c
-   jp asm_sms_cxy2saddr
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        ld      h, c
+        jp      asm_sms_cxy2saddr
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sms_cxy2saddr
 defc _sms_cxy2saddr = sms_cxy2saddr
 ENDIF
-

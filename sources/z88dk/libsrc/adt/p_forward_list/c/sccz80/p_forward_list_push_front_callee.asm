@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _p_forward_list_push_front_callee
 defc _p_forward_list_push_front_callee = p_forward_list_push_front_callee
 ENDIF
-

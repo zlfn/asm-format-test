@@ -14,11 +14,10 @@ PUBLIC _i2c_set_speed
 ;   void i2c_set_speed( uint8_t device, enum i2c_speed_mode )
 
 ._i2c_set_speed
-    pop af                              ;ret
-    pop hl                              ;speed mode, device address
-    push hl
-    push af    
-    ld a,l
-    ld l,h
-    jp asm_i2c_set_speed
-
+        pop     af      ;ret
+        pop     hl      ;speed mode, device address
+        push    hl
+        push    af
+        ld      a, l
+        ld      l, h
+        jp      asm_i2c_set_speed

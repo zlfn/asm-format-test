@@ -1,4 +1,4 @@
-;       Z88 Small C+ Run Time Library 
+;       Z88 Small C+ Run Time Library
 ;       Long support functions
 ;
 ;       djm 25/2/99
@@ -24,18 +24,18 @@ PUBLIC l_long_aslo
 ; counter in a
 
 .l_long_aslo
-   and 31
-   ret z
-   
-   ld b,a
-   ld a,e         ; primary = dahl
+        and     31
+        ret     z
+
+        ld      b, a
+        ld      a, e    ; primary = dahl
 
 .loop
 
-   add hl,hl
-   rla
-   rl d
-   djnz loop
-   
-   ld e,a
-   ret
+        add     hl, hl
+        rla
+        rl      d
+        djnz    loop
+
+        ld      e, a
+        ret

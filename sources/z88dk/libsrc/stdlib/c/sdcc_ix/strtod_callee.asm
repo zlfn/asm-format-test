@@ -10,17 +10,17 @@ EXTERN mlib2d, asm_strtod
 
 _strtod_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
 l0_strtod_callee:
 
-   push ix
-   
-   call asm_strtod
-   
-   pop ix
-   
-   jp mlib2d                   ; to sdcc_float
+        push    ix
+
+        call    asm_strtod
+
+        pop     ix
+
+        jp      mlib2d  ; to sdcc_float

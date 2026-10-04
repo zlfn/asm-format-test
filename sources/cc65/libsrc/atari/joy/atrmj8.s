@@ -7,29 +7,28 @@
 ; Using code from Carsten Strotmann and help from Christian Groessler
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "atari.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "atari.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
 .ifdef __ATARIXL__
-        module_header   _atrxmj8_joy
+        module_header _atrxmj8_joy
 .else
-        module_header   _atrmj8_joy
+        module_header _atrmj8_joy
 .endif
 
 ; Driver signature
 
-        .byte   $6A, $6F, $79           ; "joy"
-        .byte   JOY_API_VERSION         ; Driver API version number
+        .byte   $6A, $6F, $79   ; "joy"
+        .byte   JOY_API_VERSION ; Driver API version number
 
 ; Library reference
 
@@ -47,10 +46,8 @@
 
 JOY_COUNT       = 8             ; Number of joysticks we support
 
-
 ; ------------------------------------------------------------------------
 ; Data.
-
 
 .code
 
@@ -81,7 +78,6 @@ INSTALL:
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.
 ;
@@ -106,19 +102,19 @@ READJOY:
 
 ; Read joystick
 
-        lda     STRIG0          ; get button
+        lda     STRIG0  ; get button
         asl     a
         asl     a
         asl     a
         asl     a
-        ora     PORTA           ; add position information
+        ora     PORTA   ; add position information
         eor     #$1F
-        cmp     oldval,x
+        cmp     oldval, x
         beq     :+
-        sta     oldval,x
+        sta     oldval, x
         ldx     #0
-        stx     ATRACT          ; we have interaction, disable "attract mode"
-:       ldx     #0              ; fix X
+        stx     ATRACT  ; we have interaction, disable "attract mode"
+:       ldx     #0      ; fix X
         rts
 
         .bss

@@ -5,10 +5,10 @@
 ; char* ultoa (unsigned long value, char* s, int radix);
 ;
 
-        .export         _ltoa, _ultoa
-        .import         popax, popptr1, negeax
-        .import         __hextab, __longminstr
-        .importzp       sreg, ptr1, ptr2, ptr3, tmp1
+        .export _ltoa,    _ultoa
+        .import popax,    popptr1, negeax
+        .import __hextab, __longminstr
+        .importzp sreg, ptr1, ptr2, ptr3, tmp1
 
 .code
 
@@ -16,14 +16,14 @@
 ; Common subroutine to pop the parameters and put them into core
 ;
 
-dopop:  sta     tmp1            ; will lose high byte
-        jsr     popax           ; get s to ptr2
+dopop:  sta     tmp1    ; will lose high byte
+        jsr     popax   ; get s to ptr2
         sta     ptr2
         stx     ptr2+1
-        sta     ptr3            ; save for return
+        sta     ptr3    ; save for return
         stx     ptr3+1
-        jsr     popptr1         ; get low word of value to ptr1
-        jsr     popax           ; get high word of value to sreg
+        jsr     popptr1 ; get low word of value to ptr1
+        jsr     popax   ; get high word of value to sreg
         sta     sreg
         stx     sreg+1
         rts
@@ -32,13 +32,13 @@ dopop:  sta     tmp1            ; will lose high byte
 ; ltoa
 ;
 
-_ltoa:  jsr     dopop           ; pop the arguments
+_ltoa:  jsr     dopop   ; pop the arguments
 
 ; We must handle $80000000 in a special way, since it is the only negative
 ; number that has no positive 32-bit counterpart
 
-        ldx     sreg+1          ; get high byte
-        ldy     tmp1            ; get radix
+        ldx     sreg+1  ; get high byte
+        ldy     tmp1    ; get radix
         cpy     #10
         bne     ultoa
         lda     sreg
@@ -49,8 +49,8 @@ _ltoa:  jsr     dopop           ; pop the arguments
         bne     L2
 
         ldy     #11
-L1:     lda     __longminstr,y  ; copy -2147483648
-        sta     (ptr2),y
+L1:     lda     __longminstr, y ; copy -2147483648
+        sta     (ptr2), y
         dey
         bpl     L1
         jmp     L10
@@ -58,7 +58,7 @@ L1:     lda     __longminstr,y  ; copy -2147483648
 ; Check if the value is negative. If so, write a - sign and negate the
 ; number.
 
-L2:     txa                     ; get high byte
+L2:     txa     ; get high byte
         bpl     ultoa
         lda     #'-'
 
@@ -66,14 +66,14 @@ L2:     txa                     ; get high byte
         sta     (ptr2)
 .else
         ldy     #0
-        sta     (ptr2),y        ; store sign
+        sta     (ptr2), y       ; store sign
 .endif
 
         inc     ptr2
         bne     L3
         inc     ptr2+1
 
-L3:     lda     ptr1            ; negate val
+L3:     lda     ptr1    ; negate val
         ldx     ptr1+1
 
         jsr     negeax
@@ -86,17 +86,17 @@ L3:     lda     ptr1            ; negate val
 ; utoa
 ;
 
-_ultoa: jsr     dopop           ; pop the arguments
+_ultoa: jsr     dopop   ; pop the arguments
 
 ; Convert to string by dividing and push the result onto the stack
 
 ultoa:  lda     #$00
-        pha                     ; sentinel
+        pha     ; sentinel
 
 ; Divide val/tmp1 -> val, remainder in a
 
-L5:     ldy     #32             ; 32 bit
-        lda     #0              ; remainder
+L5:     ldy     #32     ; 32 bit
+        lda     #0      ; remainder
 L6:     asl     ptr1
         rol     ptr1+1
         rol     sreg
@@ -110,7 +110,7 @@ L7:     dey
         bne     L6
 
         tay                     ; get remainder into y
-        lda     __hextab,y      ; get hex character
+        lda     __hextab, y     ; get hex character
         pha                     ; save char value on stack
 
         lda     ptr1
@@ -123,27 +123,13 @@ L7:     dey
 
         ldy     #0
 L9:     pla
-        sta     (ptr2),y
-        beq     L10             ; jump if sentinel
+        sta     (ptr2), y
+        beq     L10     ; jump if sentinel
         iny
-        bne     L9              ; jump always
+        bne     L9      ; jump always
 
 ; Done! Return the target string
 
 L10:    lda     ptr3
         ldx     ptr3+1
         rts
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -9,14 +9,13 @@ EXTERN asm_zx_cxy2saddr
 
 tshr_cxy2saddr_callee:
 
-   pop hl
-   ex (sp),hl
+        pop     hl
+        ex      (sp), hl
 
-   jp asm_zx_cxy2saddr
+        jp      asm_zx_cxy2saddr
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _tshr_cxy2saddr_callee
 defc _tshr_cxy2saddr_callee = tshr_cxy2saddr_callee
 ENDIF
-

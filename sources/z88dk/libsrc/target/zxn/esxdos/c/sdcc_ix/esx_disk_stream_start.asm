@@ -8,10 +8,10 @@ EXTERN _esx_disk_stream_start_fastcall
 
 _esx_disk_stream_start:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _esx_disk_stream_start_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _esx_disk_stream_start_fastcall

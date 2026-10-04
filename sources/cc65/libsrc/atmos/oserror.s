@@ -5,8 +5,8 @@
 ; /* Map a system specific error into a system independent code */
 ;
 
-        .include        "errno.inc"
-        .export         ___osmaperrno
+        .include "errno.inc"
+        .export ___osmaperrno
 
 .proc   ___osmaperrno
 

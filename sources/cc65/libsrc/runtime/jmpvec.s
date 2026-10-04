@@ -10,5 +10,3 @@
 .data
 
 jmpvec: jmp     $FFFF
-
-

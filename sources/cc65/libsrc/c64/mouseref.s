@@ -4,11 +4,11 @@
 ; 2013-07-25, Greg King
 ;
 
-        .export         mouse_libref, _pen_adjuster
+        .export mouse_libref, _pen_adjuster
 
         .data
 
-mouse_libref:                   ; generic label for mouse-kernel
+mouse_libref:   ; generic label for mouse-kernel
 
 ; A program optionally can set this pointer to a function that gives
 ; a calibration value to a driver.  If this pointer isn't NULL,

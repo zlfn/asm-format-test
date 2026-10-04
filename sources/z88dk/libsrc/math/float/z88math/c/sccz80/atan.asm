@@ -6,31 +6,27 @@
 ;
 ;       7/12/98 djm
 
-
 ;double asin(double)
 ;Number in FA..
 
-    SECTION code_fp
+        SECTION code_fp
 IF  FORz88
-    INCLUDE "target/z88/def/fpp.def"
+        INCLUDE "target/z88/def/fpp.def"
 ELSE
-    INCLUDE "fpp.def"
+        INCLUDE "fpp.def"
 ENDIF
 
-    PUBLIC  atan
+        PUBLIC  atan
 
-    EXTERN  fsetup
-    EXTERN  stkequ2
+        EXTERN  fsetup
+        EXTERN  stkequ2
 
 atan:
-    call    fsetup
+        call    fsetup
 IF  FORz88
-    fpp     (FP_ATN)
+        fpp     (FP_ATN)
 ELSE
-    ld      a, +(FP_ATN)
-    call    FPP
+        ld      a, +(FP_ATN)
+        call    FPP
 ENDIF
-    jp      stkequ2
-
-
-
+        jp      stkequ2

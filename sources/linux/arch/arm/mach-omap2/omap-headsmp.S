@@ -24,11 +24,11 @@
 
 ENTRY(omap_secondary_startup)
 #ifdef CONFIG_SMP
-	b	secondary_startup
+        b       secondary_startup
 #else
 /* Should never get here */
-again:	wfi
-	b	again
+again:  wfi
+        b       again
 #endif
 #ENDPROC(omap_secondary_startup)
 
@@ -40,14 +40,14 @@ again:	wfi
  * register AuxCoreBoot0.
  */
 ENTRY(omap5_secondary_startup)
-wait:	ldr	r2, =AUX_CORE_BOOT0_PA	@ read from AuxCoreBoot0
-	ldr	r0, [r2]
-	mov	r0, r0, lsr #5
-	mrc	p15, 0, r4, c0, c0, 5
-	and	r4, r4, #0x0f
-	cmp	r0, r4
-	bne	wait
-	b	omap_secondary_startup
+wait:   ldr     r2,  =AUX_CORE_BOOT0_PA @ read from AuxCoreBoot0
+        ldr     r0,  [r2]
+        mov     r0,  r0, lsr #5
+        mrc     p15, 0,  r4, c0, c0, 5
+        and     r4,  r4, #0x0f
+        cmp     r0,  r4
+        bne     wait
+        b       omap_secondary_startup
 ENDPROC(omap5_secondary_startup)
 /*
  * Same as omap5_secondary_startup except we call into the ROM to
@@ -55,21 +55,21 @@ ENDPROC(omap5_secondary_startup)
  * omap5_secondary_startup if the primary CPU was put into HYP mode by
  * the boot loader.
  */
-	.arch armv7-a
-	.arch_extension sec
+        .arch   armv7-a
+        .arch_extension sec
 ENTRY(omap5_secondary_hyp_startup)
-wait_2:	ldr	r2, =AUX_CORE_BOOT0_PA	@ read from AuxCoreBoot0
-	ldr	r0, [r2]
-	mov	r0, r0, lsr #5
-	mrc	p15, 0, r4, c0, c0, 5
-	and	r4, r4, #0x0f
-	cmp	r0, r4
-	bne	wait_2
-	ldr	r12, =API_HYP_ENTRY
-	badr	r0, hyp_boot
-	smc	#0
+wait_2: ldr     r2,  =AUX_CORE_BOOT0_PA @ read from AuxCoreBoot0
+        ldr     r0,  [r2]
+        mov     r0,  r0, lsr #5
+        mrc     p15, 0,  r4, c0, c0, 5
+        and     r4,  r4, #0x0f
+        cmp     r0,  r4
+        bne     wait_2
+        ldr     r12, =API_HYP_ENTRY
+        badr    r0,  hyp_boot
+        smc     #0
 hyp_boot:
-	b	omap_secondary_startup
+        b       omap_secondary_startup
 ENDPROC(omap5_secondary_hyp_startup)
 /*
  * OMAP4 specific entry point for secondary CPU to jump from ROM
@@ -79,31 +79,31 @@ ENDPROC(omap5_secondary_hyp_startup)
  * register AuxCoreBoot0.
  */
 ENTRY(omap4_secondary_startup)
-hold:	ldr	r12,=0x103
-	dsb
-	smc	#0			@ read from AuxCoreBoot0
-	mov	r0, r0, lsr #9
-	mrc	p15, 0, r4, c0, c0, 5
-	and	r4, r4, #0x0f
-	cmp	r0, r4
-	bne	hold
+hold:   ldr     r12, =0x103
+        dsb
+        smc     #0      @ read from AuxCoreBoot0
+        mov     r0,  r0, lsr #9
+        mrc     p15, 0,  r4, c0, c0, 5
+        and     r4,  r4, #0x0f
+        cmp     r0,  r4
+        bne     hold
 
 	/*
 	 * we've been released from the wait loop,secondary_stack
 	 * should now contain the SVC stack for this core
 	 */
-	b	omap_secondary_startup
+        b       omap_secondary_startup
 ENDPROC(omap4_secondary_startup)
 
 ENTRY(omap4460_secondary_startup)
-hold_2:	ldr	r12,=0x103
-	dsb
-	smc	#0			@ read from AuxCoreBoot0
-	mov	r0, r0, lsr #9
-	mrc	p15, 0, r4, c0, c0, 5
-	and	r4, r4, #0x0f
-	cmp	r0, r4
-	bne	hold_2
+hold_2: ldr     r12, =0x103
+        dsb
+        smc     #0      @ read from AuxCoreBoot0
+        mov     r0,  r0, lsr #9
+        mrc     p15, 0,  r4, c0, c0, 5
+        and     r4,  r4, #0x0f
+        cmp     r0,  r4
+        bne     hold_2
 
 	/*
 	 * GIC distributor control register has changed between
@@ -120,14 +120,14 @@ hold_2:	ldr	r12,=0x103
 	 * 2) CPU1 must re-enable the GIC distributor on
 	 * it's wakeup path.
 	 */
-	ldr	r1, =OMAP44XX_GIC_DIST_BASE
-	ldr	r0, [r1]
-	orr	r0, #1
-	str	r0, [r1]
+        ldr     r1, =OMAP44XX_GIC_DIST_BASE
+        ldr     r0, [r1]
+        orr     r0, #1
+        str     r0, [r1]
 
 	/*
 	 * we've been released from the wait loop,secondary_stack
 	 * should now contain the SVC stack for this core
 	 */
-	b	omap_secondary_startup
+        b       omap_secondary_startup
 ENDPROC(omap4460_secondary_startup)

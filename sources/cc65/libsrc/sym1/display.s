@@ -12,6 +12,6 @@
 
 .proc _fdisp:   near
 
-        jmp     SCAND            ;  Flash Display
+        jmp     SCAND   ;  Flash Display
 
 .endproc

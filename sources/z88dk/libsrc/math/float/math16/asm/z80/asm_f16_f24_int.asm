@@ -29,25 +29,25 @@ PUBLIC asm_u16_f24
 ; Convert floating point number to int
 .asm_i16_f24
 .asm_u16_f24
-    ld a,d                      ;Holds exponent
-    and a
-    jr Z,izero                  ;exponent was 0, return 0
-    cp $7e + 16
-    jp NC,imax                  ;number too large
+        ld      a, d            ;Holds exponent
+        and     a
+        jr      Z, izero        ;exponent was 0, return 0
+        cp      $7e + 16
+        jp      NC, imax        ;number too large
 .iloop
-    srl h                       ;fill with 0
-    rr l
-    inc a
-    cp $7e + 16
-    jr NZ,iloop
-    rl e                        ;check sign bit
-    call C,l_neg_hl
-    ret
+        srl     h               ;fill with 0
+        rr      l
+        inc     a
+        cp      $7e + 16
+        jr      NZ, iloop
+        rl      e               ;check sign bit
+        call    C, l_neg_hl
+        ret
 
 .izero
-    ld hl,0
-    ret
+        ld      hl, 0
+        ret
 
 .imax
-    ld hl,0FFh
-    ret
+        ld      hl, 0FFh
+        ret

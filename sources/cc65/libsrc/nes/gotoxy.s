@@ -4,14 +4,14 @@
 ; void gotoxy (unsigned char x, unsigned char y);
 ;
 
-        .export         gotoxy, _gotoxy
-        .import         setcursor
-        .import         popa
+        .export gotoxy, _gotoxy
+        .import setcursor
+        .import popa
 
-        .include        "nes.inc"
+        .include "nes.inc"
 
 gotoxy:
-        jsr     popa            ; Get Y
+        jsr     popa    ; Get Y
 
 _gotoxy:
         sta     CURS_Y          ; Set Y

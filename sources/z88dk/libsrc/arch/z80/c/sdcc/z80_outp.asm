@@ -10,12 +10,12 @@ EXTERN asm_z80_outp
 
 _z80_outp:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   out (c),l
-   ret
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+        out     (c), l
+        ret

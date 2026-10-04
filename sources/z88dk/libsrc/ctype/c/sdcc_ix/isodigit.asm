@@ -10,10 +10,10 @@ EXTERN _isodigit_fastcall
 
 _isodigit:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _isodigit_fastcall
+        push    hl
+        push    af
+
+        jp      _isodigit_fastcall

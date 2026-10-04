@@ -10,20 +10,20 @@ EXTERN l0__ldivu__callee
 
 __ldivu_:
 
-   pop af
-   pop bc
-   exx
-   pop hl
-   pop de
-   exx
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push de
-   push hl
-   push bc
-   push af
+        pop     af
+        pop     bc
+        exx
+        pop     hl
+        pop     de
+        exx
+        pop     hl
+        pop     de
 
-   jp l0__ldivu__callee
+        push    de
+        push    hl
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        jp      l0__ldivu__callee

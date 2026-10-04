@@ -28,9 +28,9 @@ DEFINE_COMPILERRT_FUNCTION(__aeabi_uldivmod)
 #else
         push    {r6, lr}
 #endif
-        sub	sp, sp, #16
-        add	r6, sp, #8
-        str	r6, [sp]
+        sub     sp, sp, #16
+        add     r6, sp, #8
+        str     r6, [sp]
 #if defined(__MINGW32__)
         movs    r6, r0
         movs    r0, r2
@@ -39,10 +39,10 @@ DEFINE_COMPILERRT_FUNCTION(__aeabi_uldivmod)
         movs    r1, r3
         movs    r3, r6
 #endif
-        bl	SYMBOL_NAME(__udivmoddi4)
-        ldr	r2, [sp, #8]
-        ldr	r3, [sp, #12]
-        add	sp, sp, #16
+        bl      SYMBOL_NAME(__udivmoddi4)
+        ldr     r2, [sp, #8]
+        ldr     r3, [sp, #12]
+        add     sp, sp, #16
 #if defined(__ARM_FEATURE_PAC_DEFAULT)
         pop     {r6, r12, lr}
         PAC_RETURN
@@ -52,4 +52,3 @@ DEFINE_COMPILERRT_FUNCTION(__aeabi_uldivmod)
 END_COMPILERRT_FUNCTION(__aeabi_uldivmod)
 
 NO_EXEC_STACK_DIRECTIVE
-

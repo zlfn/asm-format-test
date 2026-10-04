@@ -7,12 +7,12 @@
 ;
 ;
 
-        .importzp       ptr1, ptr2
-        .export         ___heapmemavail
+        .importzp ptr1, ptr2
+        .export ___heapmemavail
 
-        .include        "_heap.inc"
+        .include "_heap.inc"
 
-        .macpack        generic
+        .macpack generic
 
 ;-----------------------------------------------------------------------------
 ; Code
@@ -35,26 +35,26 @@ ___heapmemavail:
 ; while (F) {
 
         ora     ptr1
-        beq     @L2             ; Jump if end of free list reached
+        beq     @L2     ; Jump if end of free list reached
 
 ; Size += F->size;
 
         ldy     #freeblock::size
-        lda     (ptr1),y
+        lda     (ptr1), y
         add     ptr2
         sta     ptr2
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         adc     ptr2+1
         sta     ptr2+1
 
 ; F = F->next;
 
-        iny                             ; Points to F->next
-        lda     (ptr1),y
+        iny     ; Points to F->next
+        lda     (ptr1), y
         tax
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         stx     ptr1
         jmp     @L1
 

@@ -8,5 +8,5 @@ EXTERN asm_sdcc_read1_callee
 
 .cam32_sdcc___fs2sint_callee
 .cam32_sdcc___fs2schar_callee
-    call asm_sdcc_read1_callee
-    jp asm_am9511_f2sint
+        call    asm_sdcc_read1_callee
+        jp      asm_am9511_f2sint

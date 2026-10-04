@@ -31,28 +31,24 @@
 ;*                                                                           */
 ;*****************************************************************************/
 
-
-
 ; This files exports structures and constants to handle the o65 relocatable
 ; file format as defined by Andre Fachat.
 
-
-
 ; The o65 header structure (6502 format)
 .struct O65_HDR
-        MARKER          .byte   2       ; Non-C64 marker: $01 $00
-        MAGIC           .byte   3       ; o65 magic: "o65"
-        VERSION         .byte   1       ; Version number
-        MODE            .word           ; Mode word
-        TBASE           .word           ; Original text (code) segment address
-        TLEN            .word           ; Size of text (code) segment
-        DBASE           .word           ; Original data segment address
-        DLEN            .word           ; Size of data segment
-        BBASE           .word           ; Original bss segment address
-        BLEN            .word           ; Size of bss segment
-        ZBASE           .word           ; Original zp segment address
-        ZLEN            .word           ; Size of zp segment
-        STACK           .word           ; Stacksize needed
+        MARKER  .byte   2       ; Non-C64 marker: $01 $00
+        MAGIC   .byte   3       ; o65 magic: "o65"
+        VERSION .byte   1       ; Version number
+        MODE    .word           ; Mode word
+        TBASE   .word           ; Original text (code) segment address
+        TLEN    .word           ; Size of text (code) segment
+        DBASE   .word           ; Original data segment address
+        DLEN    .word           ; Size of data segment
+        BBASE   .word           ; Original bss segment address
+        BLEN    .word           ; Size of bss segment
+        ZBASE   .word           ; Original zp segment address
+        ZLEN    .word           ; Size of zp segment
+        STACK   .word           ; Stacksize needed
 .endstruct
 
 ; Marker, magic and version number
@@ -145,6 +141,3 @@ O65_LOAD_ERR_HDR        =       2       ; Header error
 O65_LOAD_ERR_OS         =       3       ; Wrong OS
 O65_LOAD_ERR_FMT        =       4       ; Data format error
 O65_LOAD_ERR_MEM        =       5       ; Not enough memory
-
-
-

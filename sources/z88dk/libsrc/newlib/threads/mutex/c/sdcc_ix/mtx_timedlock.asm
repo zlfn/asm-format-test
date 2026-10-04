@@ -10,12 +10,12 @@ EXTERN asm_mtx_timedlock
 
 _mtx_timedlock:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   
-   jp asm_mtx_timedlock
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_mtx_timedlock

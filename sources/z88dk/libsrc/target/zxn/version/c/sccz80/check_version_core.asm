@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _check_version_core
 defc _check_version_core = check_version_core
 ENDIF
-

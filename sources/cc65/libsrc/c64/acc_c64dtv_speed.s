@@ -28,10 +28,10 @@
 ; * make sure you use 'detect_c64dtv();' before using.
 ; */
 
-        .export         _set_c64dtv_speed
-        .export         _get_c64dtv_speed
+        .export _set_c64dtv_speed
+        .export _get_c64dtv_speed
 
-        .include        "accelerator.inc"
+        .include "accelerator.inc"
 
 _set_c64dtv_speed:
         cmp     #SPEED_2X
@@ -39,20 +39,19 @@ _set_c64dtv_speed:
 low_speed:
         ldx     #C64DTV_Slow
 set_speed:
-        .byte   $32,$99               ; SAC #$99   set accumulator to reg 9 (cpu control)
-        txa                           ; (re)set skip and burst bits
-        .byte   $32,$00               ; SAC #$00   set accumulator back to reg 0
+        .byte   $32, $99        ; SAC #$99   set accumulator to reg 9 (cpu control)
+        txa                     ; (re)set skip and burst bits
+        .byte   $32, $00        ; SAC #$00   set accumulator back to reg 0
         jmp     _get_c64dtv_speed
 
 high_speed:
         ldx     #C64DTV_Fast
         bne     set_speed
 
-
 _get_c64dtv_speed:
-        .byte   $32,$99               ; SAC #$99   set accumulator to reg 9 (cpu control)
+        .byte   $32, $99        ; SAC #$99   set accumulator to reg 9 (cpu control)
         tax
-        .byte   $32,$00               ; SAC #$00   set accumulator back to reg 0
+        .byte   $32, $00        ; SAC #$00   set accumulator back to reg 0
         txa
         and     #C64DTV_Fast
         bne     in_fast_mode

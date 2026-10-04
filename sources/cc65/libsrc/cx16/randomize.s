@@ -5,10 +5,10 @@
 ; /* Initialize the random number generator */
 ;
 
-        .export         ___randomize
+        .export ___randomize
 
-        .import         ENTROPY_GET, _srand
+        .import ENTROPY_GET, _srand
 
 ___randomize:
         jsr     ENTROPY_GET
-        jmp     _srand          ; Initialize generator
+        jmp     _srand  ; Initialize generator

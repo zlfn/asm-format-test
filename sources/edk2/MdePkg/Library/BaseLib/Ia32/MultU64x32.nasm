@@ -13,7 +13,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT64
@@ -25,10 +25,9 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMathMultU64x32)
 ASM_PFX(InternalMathMultU64x32):
-    mov     ecx, [esp + 12]
-    mov     eax, ecx
-    imul    ecx, [esp + 8]              ; overflow not detectable
-    mul     dword [esp + 4]
-    add     edx, ecx
-    ret
-
+        mov     ecx, [esp + 12]
+        mov     eax, ecx
+        imul    ecx, [esp + 8]  ; overflow not detectable
+        mul     dword [esp + 4]
+        add     edx, ecx
+        ret

@@ -74,9 +74,9 @@ DATA  ·gcExpandersAVX512+0x210(SB)/8, $0
 DATA  ·gcExpandersAVX512+0x218(SB)/8, $0
 
 TEXT ·expandAVX512_1<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 (AX), Z1
-	VMOVDQU64 64(AX), Z2
-	RET
+        VMOVDQU64 (AX),   Z1
+        VMOVDQU64 64(AX), Z2
+        RET
 
 GLOBL ·expandAVX512_2_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_2_inShuf0<>+0x00(SB)/8, $0x0706050403020100
@@ -119,18 +119,18 @@ DATA  ·expandAVX512_2_outShufLo+0x30(SB)/8, $0x3b333a3239313830
 DATA  ·expandAVX512_2_outShufLo+0x38(SB)/8, $0x3f373e363d353c34
 
 TEXT ·expandAVX512_2<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_2_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_2_mat0<>(SB), Z1
-	VMOVDQU64 ·expandAVX512_2_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_2_outShufLo(SB), Z3
-	VMOVDQU64 (AX), Z4
-	VPERMB Z4, Z0, Z0
-	VGF2P8AFFINEQB $0, Z1, Z0, Z0
-	VPERMB Z4, Z2, Z2
-	VGF2P8AFFINEQB $0, Z1, Z2, Z2
-	VPERMB Z0, Z3, Z1
-	VPERMB Z2, Z3, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_2_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_2_mat0<>(SB),    Z1
+        VMOVDQU64 ·expandAVX512_2_inShuf1<>(SB), Z2
+        VMOVDQU64 ·expandAVX512_2_outShufLo(SB), Z3
+        VMOVDQU64 (AX), Z4
+        VPERMB  Z4, Z0, Z0
+        VGF2P8AFFINEQB $0, Z1, Z0, Z0
+        VPERMB  Z4, Z2, Z2
+        VGF2P8AFFINEQB $0, Z1, Z2, Z2
+        VPERMB  Z0, Z3, Z1
+        VPERMB  Z2, Z3, Z2
+        RET
 
 GLOBL ·expandAVX512_3_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_3_inShuf0<>+0x00(SB)/8, $0x0706050403020100
@@ -193,22 +193,22 @@ DATA  ·expandAVX512_3_outShufHi+0x30(SB)/8, $0x574f47564e46554d
 DATA  ·expandAVX512_3_outShufHi+0x38(SB)/8, $0x625a696159686058
 
 TEXT ·expandAVX512_3<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_3_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_3_mat0<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_3_inShuf1<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_3_inShuf2<>(SB), Z5
-	VMOVDQU64 ·expandAVX512_3_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_3_outShufHi(SB), Z2
-	VMOVDQU64 (AX), Z6
-	VPERMB Z6, Z0, Z0
-	VGF2P8AFFINEQB $0, Z3, Z0, Z0
-	VPERMB Z6, Z4, Z4
-	VGF2P8AFFINEQB $0, Z3, Z4, Z4
-	VPERMB Z6, Z5, Z5
-	VGF2P8AFFINEQB $0, Z3, Z5, Z3
-	VPERMI2B Z4, Z0, Z1
-	VPERMI2B Z3, Z4, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_3_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_3_mat0<>(SB),    Z3
+        VMOVDQU64 ·expandAVX512_3_inShuf1<>(SB), Z4
+        VMOVDQU64 ·expandAVX512_3_inShuf2<>(SB), Z5
+        VMOVDQU64 ·expandAVX512_3_outShufLo(SB), Z1
+        VMOVDQU64 ·expandAVX512_3_outShufHi(SB), Z2
+        VMOVDQU64 (AX), Z6
+        VPERMB  Z6, Z0, Z0
+        VGF2P8AFFINEQB $0, Z3, Z0, Z0
+        VPERMB  Z6, Z4, Z4
+        VGF2P8AFFINEQB $0, Z3, Z4, Z4
+        VPERMB  Z6, Z5, Z5
+        VGF2P8AFFINEQB $0, Z3, Z5, Z3
+        VPERMI2B Z4, Z0, Z1
+        VPERMI2B Z3, Z4, Z2
+        RET
 
 GLOBL ·expandAVX512_4_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_4_inShuf0<>+0x00(SB)/8, $0x0706050403020100
@@ -251,18 +251,18 @@ DATA  ·expandAVX512_4_outShufLo+0x30(SB)/8, $0x3d352d253c342c24
 DATA  ·expandAVX512_4_outShufLo+0x38(SB)/8, $0x3f372f273e362e26
 
 TEXT ·expandAVX512_4<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_4_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_4_mat0<>(SB), Z1
-	VMOVDQU64 ·expandAVX512_4_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_4_outShufLo(SB), Z3
-	VMOVDQU64 (AX), Z4
-	VPERMB Z4, Z0, Z0
-	VGF2P8AFFINEQB $0, Z1, Z0, Z0
-	VPERMB Z4, Z2, Z2
-	VGF2P8AFFINEQB $0, Z1, Z2, Z2
-	VPERMB Z0, Z3, Z1
-	VPERMB Z2, Z3, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_4_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_4_mat0<>(SB),    Z1
+        VMOVDQU64 ·expandAVX512_4_inShuf1<>(SB), Z2
+        VMOVDQU64 ·expandAVX512_4_outShufLo(SB), Z3
+        VMOVDQU64 (AX), Z4
+        VPERMB  Z4, Z0, Z0
+        VGF2P8AFFINEQB $0, Z1, Z0, Z0
+        VPERMB  Z4, Z2, Z2
+        VGF2P8AFFINEQB $0, Z1, Z2, Z2
+        VPERMB  Z0, Z3, Z1
+        VPERMB  Z2, Z3, Z2
+        RET
 
 GLOBL ·expandAVX512_6_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_6_inShuf0<>+0x00(SB)/8, $0x0706050403020100
@@ -325,22 +325,22 @@ DATA  ·expandAVX512_6_outShufHi+0x30(SB)/8, $0x6b635b534b436a62
 DATA  ·expandAVX512_6_outShufHi+0x38(SB)/8, $0x4d456c645c544c44
 
 TEXT ·expandAVX512_6<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_6_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_6_mat0<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_6_inShuf1<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_6_inShuf2<>(SB), Z5
-	VMOVDQU64 ·expandAVX512_6_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_6_outShufHi(SB), Z2
-	VMOVDQU64 (AX), Z6
-	VPERMB Z6, Z0, Z0
-	VGF2P8AFFINEQB $0, Z3, Z0, Z0
-	VPERMB Z6, Z4, Z4
-	VGF2P8AFFINEQB $0, Z3, Z4, Z4
-	VPERMB Z6, Z5, Z5
-	VGF2P8AFFINEQB $0, Z3, Z5, Z3
-	VPERMI2B Z4, Z0, Z1
-	VPERMI2B Z3, Z4, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_6_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_6_mat0<>(SB),    Z3
+        VMOVDQU64 ·expandAVX512_6_inShuf1<>(SB), Z4
+        VMOVDQU64 ·expandAVX512_6_inShuf2<>(SB), Z5
+        VMOVDQU64 ·expandAVX512_6_outShufLo(SB), Z1
+        VMOVDQU64 ·expandAVX512_6_outShufHi(SB), Z2
+        VMOVDQU64 (AX), Z6
+        VPERMB  Z6, Z0, Z0
+        VGF2P8AFFINEQB $0, Z3, Z0, Z0
+        VPERMB  Z6, Z4, Z4
+        VGF2P8AFFINEQB $0, Z3, Z4, Z4
+        VPERMB  Z6, Z5, Z5
+        VGF2P8AFFINEQB $0, Z3, Z5, Z3
+        VPERMI2B Z4, Z0, Z1
+        VPERMI2B Z3, Z4, Z2
+        RET
 
 GLOBL ·expandAVX512_8_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_8_inShuf0<>+0x00(SB)/8, $0x0706050403020100
@@ -383,18 +383,18 @@ DATA  ·expandAVX512_8_outShufLo+0x30(SB)/8, $0x3e362e261e160e06
 DATA  ·expandAVX512_8_outShufLo+0x38(SB)/8, $0x3f372f271f170f07
 
 TEXT ·expandAVX512_8<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_8_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_8_mat0<>(SB), Z1
-	VMOVDQU64 ·expandAVX512_8_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_8_outShufLo(SB), Z3
-	VMOVDQU64 (AX), Z4
-	VPERMB Z4, Z0, Z0
-	VGF2P8AFFINEQB $0, Z1, Z0, Z0
-	VPERMB Z4, Z2, Z2
-	VGF2P8AFFINEQB $0, Z1, Z2, Z2
-	VPERMB Z0, Z3, Z1
-	VPERMB Z2, Z3, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_8_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_8_mat0<>(SB),    Z1
+        VMOVDQU64 ·expandAVX512_8_inShuf1<>(SB), Z2
+        VMOVDQU64 ·expandAVX512_8_outShufLo(SB), Z3
+        VMOVDQU64 (AX), Z4
+        VPERMB  Z4, Z0, Z0
+        VGF2P8AFFINEQB $0, Z1, Z0, Z0
+        VPERMB  Z4, Z2, Z2
+        VGF2P8AFFINEQB $0, Z1, Z2, Z2
+        VPERMB  Z0, Z3, Z1
+        VPERMB  Z2, Z3, Z2
+        RET
 
 GLOBL ·expandAVX512_10_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_10_inShuf0<>+0x00(SB)/8, $0xff06050403020100
@@ -477,21 +477,21 @@ DATA  ·expandAVX512_10_outShufHi+0x30(SB)/8, $0x3d352d251d155c54
 DATA  ·expandAVX512_10_outShufHi+0x38(SB)/8, $0x2e261e165d554d45
 
 TEXT ·expandAVX512_10<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_10_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_10_inShuf1<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_10_inShuf2<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_10_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_10_outShufHi(SB), Z2
-	VMOVDQU64 (AX), Z5
-	VPERMB Z5, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_10_mat0<>(SB), Z0, Z0
-	VPERMB Z5, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_10_mat1<>(SB), Z3, Z3
-	VPERMB Z5, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_10_mat2<>(SB), Z4, Z4
-	VPERMI2B Z3, Z0, Z1
-	VPERMI2B Z4, Z3, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_10_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_10_inShuf1<>(SB), Z3
+        VMOVDQU64 ·expandAVX512_10_inShuf2<>(SB), Z4
+        VMOVDQU64 ·expandAVX512_10_outShufLo(SB), Z1
+        VMOVDQU64 ·expandAVX512_10_outShufHi(SB), Z2
+        VMOVDQU64 (AX), Z5
+        VPERMB  Z5, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_10_mat0<>(SB), Z0, Z0
+        VPERMB  Z5, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_10_mat1<>(SB), Z3, Z3
+        VPERMB  Z5, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_10_mat2<>(SB), Z4, Z4
+        VPERMI2B Z3, Z0, Z1
+        VPERMI2B Z4, Z3, Z2
+        RET
 
 GLOBL ·expandAVX512_12_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_12_inShuf0<>+0x00(SB)/8, $0xffff050403020100
@@ -574,21 +574,21 @@ DATA  ·expandAVX512_12_outShufHi+0x30(SB)/8, $0x5c544c443c342c24
 DATA  ·expandAVX512_12_outShufHi+0x38(SB)/8, $0x3d352d257c746c64
 
 TEXT ·expandAVX512_12<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_12_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_12_inShuf1<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_12_inShuf2<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_12_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_12_outShufHi(SB), Z2
-	VMOVDQU64 (AX), Z5
-	VPERMB Z5, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_12_mat0<>(SB), Z0, Z0
-	VPERMB Z5, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_12_mat1<>(SB), Z3, Z3
-	VPERMB Z5, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_12_mat2<>(SB), Z4, Z4
-	VPERMI2B Z3, Z0, Z1
-	VPERMI2B Z4, Z3, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_12_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_12_inShuf1<>(SB), Z3
+        VMOVDQU64 ·expandAVX512_12_inShuf2<>(SB), Z4
+        VMOVDQU64 ·expandAVX512_12_outShufLo(SB), Z1
+        VMOVDQU64 ·expandAVX512_12_outShufHi(SB), Z2
+        VMOVDQU64 (AX), Z5
+        VPERMB  Z5, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_12_mat0<>(SB), Z0, Z0
+        VPERMB  Z5, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_12_mat1<>(SB), Z3, Z3
+        VPERMB  Z5, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_12_mat2<>(SB), Z4, Z4
+        VPERMI2B Z3, Z0, Z1
+        VPERMI2B Z4, Z3, Z2
+        RET
 
 GLOBL ·expandAVX512_14_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_14_inShuf0<>+0x00(SB)/8, $0xffffff0403020100
@@ -701,31 +701,31 @@ DATA  ·expandAVX512_14_outShufHi1+0x30(SB)/8, $0x1b130b03ffffffff
 DATA  ·expandAVX512_14_outShufHi1+0x38(SB)/8, $0xffffffffffffffff
 
 TEXT ·expandAVX512_14<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_14_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_14_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_14_inShuf2<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_14_inShuf3<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_14_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_14_outShufHi0(SB), Z5
-	VMOVDQU64 ·expandAVX512_14_outShufHi1(SB), Z6
-	VMOVDQU64 (AX), Z7
-	VPERMB Z7, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_14_mat0<>(SB), Z0, Z0
-	VPERMB Z7, Z2, Z2
-	VGF2P8AFFINEQB $0, ·expandAVX512_14_mat1<>(SB), Z2, Z2
-	VPERMB Z7, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_14_mat2<>(SB), Z3, Z3
-	VPERMB Z7, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_14_mat3<>(SB), Z4, Z4
-	VPERMI2B Z2, Z0, Z1
-	MOVQ $0xff0ffc3ff0ffc3ff, AX
-	KMOVQ AX, K1
-	VPERMI2B.Z Z3, Z2, K1, Z5
-	MOVQ $0xf003c00f003c00, AX
-	KMOVQ AX, K1
-	VPERMB.Z Z4, Z6, K1, Z0
-	VPORQ Z0, Z5, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_14_inShuf0<>(SB),  Z0
+        VMOVDQU64 ·expandAVX512_14_inShuf1<>(SB),  Z2
+        VMOVDQU64 ·expandAVX512_14_inShuf2<>(SB),  Z3
+        VMOVDQU64 ·expandAVX512_14_inShuf3<>(SB),  Z4
+        VMOVDQU64 ·expandAVX512_14_outShufLo(SB),  Z1
+        VMOVDQU64 ·expandAVX512_14_outShufHi0(SB), Z5
+        VMOVDQU64 ·expandAVX512_14_outShufHi1(SB), Z6
+        VMOVDQU64 (AX), Z7
+        VPERMB  Z7, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_14_mat0<>(SB), Z0, Z0
+        VPERMB  Z7, Z2, Z2
+        VGF2P8AFFINEQB $0, ·expandAVX512_14_mat1<>(SB), Z2, Z2
+        VPERMB  Z7, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_14_mat2<>(SB), Z3, Z3
+        VPERMB  Z7, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_14_mat3<>(SB), Z4, Z4
+        VPERMI2B Z2, Z0, Z1
+        MOVQ    $0xff0ffc3ff0ffc3ff, AX
+        KMOVQ   AX, K1
+        VPERMI2B.Z Z3, Z2, K1, Z5
+        MOVQ    $0xf003c00f003c00, AX
+        KMOVQ   AX, K1
+        VPERMB.Z Z4, Z6, K1, Z0
+        VPORQ   Z0, Z5, Z2
+        RET
 
 GLOBL ·expandAVX512_16_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_16_inShuf0<>+0x00(SB)/8, $0x0303020201010000
@@ -768,18 +768,18 @@ DATA  ·expandAVX512_16_outShufLo+0x30(SB)/8, $0x1f1e17160f0e0706
 DATA  ·expandAVX512_16_outShufLo+0x38(SB)/8, $0x3f3e37362f2e2726
 
 TEXT ·expandAVX512_16<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_16_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_16_mat0<>(SB), Z1
-	VMOVDQU64 ·expandAVX512_16_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_16_outShufLo(SB), Z3
-	VMOVDQU64 (AX), Z4
-	VPERMB Z4, Z0, Z0
-	VGF2P8AFFINEQB $0, Z1, Z0, Z0
-	VPERMB Z4, Z2, Z2
-	VGF2P8AFFINEQB $0, Z1, Z2, Z2
-	VPERMB Z0, Z3, Z1
-	VPERMB Z2, Z3, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_16_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_16_mat0<>(SB),    Z1
+        VMOVDQU64 ·expandAVX512_16_inShuf1<>(SB), Z2
+        VMOVDQU64 ·expandAVX512_16_outShufLo(SB), Z3
+        VMOVDQU64 (AX), Z4
+        VPERMB  Z4, Z0, Z0
+        VGF2P8AFFINEQB $0, Z1, Z0, Z0
+        VPERMB  Z4, Z2, Z2
+        VGF2P8AFFINEQB $0, Z1, Z2, Z2
+        VPERMB  Z0, Z3, Z1
+        VPERMB  Z2, Z3, Z2
+        RET
 
 GLOBL ·expandAVX512_18_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_18_inShuf0<>+0x00(SB)/8, $0x0303020201010000
@@ -892,31 +892,31 @@ DATA  ·expandAVX512_18_outShufHi1+0x30(SB)/8, $0xffffff1d1c120a02
 DATA  ·expandAVX512_18_outShufHi1+0x38(SB)/8, $0xffffffffffffffff
 
 TEXT ·expandAVX512_18<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_18_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_18_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_18_inShuf2<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_18_inShuf3<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_18_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_18_outShufHi0(SB), Z5
-	VMOVDQU64 ·expandAVX512_18_outShufHi1(SB), Z6
-	VMOVDQU64 (AX), Z7
-	VPERMB Z7, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_18_mat0<>(SB), Z0, Z0
-	VPERMB Z7, Z2, Z2
-	VGF2P8AFFINEQB $0, ·expandAVX512_18_mat1<>(SB), Z2, Z2
-	VPERMB Z7, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_18_mat2<>(SB), Z3, Z3
-	VPERMB Z7, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_18_mat3<>(SB), Z4, Z4
-	VPERMI2B Z2, Z0, Z1
-	MOVQ $0xffe0fff83ffe0fff, AX
-	KMOVQ AX, K1
-	VPERMI2B.Z Z3, Z2, K1, Z5
-	MOVQ $0x1f0007c001f000, AX
-	KMOVQ AX, K1
-	VPERMB.Z Z4, Z6, K1, Z0
-	VPORQ Z0, Z5, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_18_inShuf0<>(SB),  Z0
+        VMOVDQU64 ·expandAVX512_18_inShuf1<>(SB),  Z2
+        VMOVDQU64 ·expandAVX512_18_inShuf2<>(SB),  Z3
+        VMOVDQU64 ·expandAVX512_18_inShuf3<>(SB),  Z4
+        VMOVDQU64 ·expandAVX512_18_outShufLo(SB),  Z1
+        VMOVDQU64 ·expandAVX512_18_outShufHi0(SB), Z5
+        VMOVDQU64 ·expandAVX512_18_outShufHi1(SB), Z6
+        VMOVDQU64 (AX), Z7
+        VPERMB  Z7, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_18_mat0<>(SB), Z0, Z0
+        VPERMB  Z7, Z2, Z2
+        VGF2P8AFFINEQB $0, ·expandAVX512_18_mat1<>(SB), Z2, Z2
+        VPERMB  Z7, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_18_mat2<>(SB), Z3, Z3
+        VPERMB  Z7, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_18_mat3<>(SB), Z4, Z4
+        VPERMI2B Z2, Z0, Z1
+        MOVQ    $0xffe0fff83ffe0fff, AX
+        KMOVQ   AX, K1
+        VPERMI2B.Z Z3, Z2, K1, Z5
+        MOVQ    $0x1f0007c001f000, AX
+        KMOVQ   AX, K1
+        VPERMB.Z Z4, Z6, K1, Z0
+        VPORQ   Z0, Z5, Z2
+        RET
 
 GLOBL ·expandAVX512_20_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_20_inShuf0<>+0x00(SB)/8, $0x0303020201010000
@@ -999,21 +999,21 @@ DATA  ·expandAVX512_20_outShufHi+0x30(SB)/8, $0x6d6c625d5c55544a
 DATA  ·expandAVX512_20_outShufHi+0x38(SB)/8, $0x332f2e26257a7574
 
 TEXT ·expandAVX512_20<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_20_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_20_inShuf1<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_20_inShuf2<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_20_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_20_outShufHi(SB), Z2
-	VMOVDQU64 (AX), Z5
-	VPERMB Z5, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_20_mat0<>(SB), Z0, Z0
-	VPERMB Z5, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_20_mat1<>(SB), Z3, Z3
-	VPERMB Z5, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_20_mat2<>(SB), Z4, Z4
-	VPERMI2B Z3, Z0, Z1
-	VPERMI2B Z4, Z3, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_20_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_20_inShuf1<>(SB), Z3
+        VMOVDQU64 ·expandAVX512_20_inShuf2<>(SB), Z4
+        VMOVDQU64 ·expandAVX512_20_outShufLo(SB), Z1
+        VMOVDQU64 ·expandAVX512_20_outShufHi(SB), Z2
+        VMOVDQU64 (AX), Z5
+        VPERMB  Z5, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_20_mat0<>(SB), Z0, Z0
+        VPERMB  Z5, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_20_mat1<>(SB), Z3, Z3
+        VPERMB  Z5, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_20_mat2<>(SB), Z4, Z4
+        VPERMI2B Z3, Z0, Z1
+        VPERMI2B Z4, Z3, Z2
+        RET
 
 GLOBL ·expandAVX512_22_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_22_inShuf0<>+0x00(SB)/8, $0xffff020201010000
@@ -1126,31 +1126,31 @@ DATA  ·expandAVX512_22_outShufHi1+0x30(SB)/8, $0xffffffffffffffff
 DATA  ·expandAVX512_22_outShufHi1+0x38(SB)/8, $0x140a0504ffffffff
 
 TEXT ·expandAVX512_22<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_22_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_22_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_22_inShuf2<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_22_inShuf3<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_22_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_22_outShufHi0(SB), Z5
-	VMOVDQU64 ·expandAVX512_22_outShufHi1(SB), Z6
-	VMOVDQU64 (AX), Z7
-	VPERMB Z7, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_22_mat0<>(SB), Z0, Z0
-	VPERMB Z7, Z2, Z2
-	VGF2P8AFFINEQB $0, ·expandAVX512_22_mat1<>(SB), Z2, Z2
-	VPERMB Z7, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_22_mat2<>(SB), Z3, Z3
-	VPERMB Z7, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_22_mat3<>(SB), Z4, Z4
-	VPERMI2B Z2, Z0, Z1
-	MOVQ $0xffff03fffc0ffff, AX
-	KMOVQ AX, K1
-	VPERMI2B.Z Z3, Z2, K1, Z5
-	MOVQ $0xf0000fc0003f0000, AX
-	KMOVQ AX, K1
-	VPERMB.Z Z4, Z6, K1, Z0
-	VPORQ Z0, Z5, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_22_inShuf0<>(SB),  Z0
+        VMOVDQU64 ·expandAVX512_22_inShuf1<>(SB),  Z2
+        VMOVDQU64 ·expandAVX512_22_inShuf2<>(SB),  Z3
+        VMOVDQU64 ·expandAVX512_22_inShuf3<>(SB),  Z4
+        VMOVDQU64 ·expandAVX512_22_outShufLo(SB),  Z1
+        VMOVDQU64 ·expandAVX512_22_outShufHi0(SB), Z5
+        VMOVDQU64 ·expandAVX512_22_outShufHi1(SB), Z6
+        VMOVDQU64 (AX), Z7
+        VPERMB  Z7, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_22_mat0<>(SB), Z0, Z0
+        VPERMB  Z7, Z2, Z2
+        VGF2P8AFFINEQB $0, ·expandAVX512_22_mat1<>(SB), Z2, Z2
+        VPERMB  Z7, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_22_mat2<>(SB), Z3, Z3
+        VPERMB  Z7, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_22_mat3<>(SB), Z4, Z4
+        VPERMI2B Z2, Z0, Z1
+        MOVQ    $0xffff03fffc0ffff, AX
+        KMOVQ   AX, K1
+        VPERMI2B.Z Z3, Z2, K1, Z5
+        MOVQ    $0xf0000fc0003f0000, AX
+        KMOVQ   AX, K1
+        VPERMB.Z Z4, Z6, K1, Z0
+        VPORQ   Z0, Z5, Z2
+        RET
 
 GLOBL ·expandAVX512_24_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_24_inShuf0<>+0x00(SB)/8, $0x0202010101000000
@@ -1253,32 +1253,32 @@ DATA  ·expandAVX512_24_outShufHi1+0x30(SB)/8, $0xffffffffffffffff
 DATA  ·expandAVX512_24_outShufHi1+0x38(SB)/8, $0xffff00ffffffffff
 
 TEXT ·expandAVX512_24<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_24_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_24_mat0<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_24_inShuf1<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_24_inShuf2<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_24_inShuf3<>(SB), Z5
-	VMOVDQU64 ·expandAVX512_24_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_24_outShufHi0(SB), Z6
-	VMOVDQU64 ·expandAVX512_24_outShufHi1(SB), Z7
-	VMOVDQU64 (AX), Z8
-	VPERMB Z8, Z0, Z0
-	VGF2P8AFFINEQB $0, Z2, Z0, Z0
-	VPERMB Z8, Z3, Z3
-	VGF2P8AFFINEQB $0, Z2, Z3, Z2
-	VPERMB Z8, Z4, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_24_mat2<>(SB), Z3, Z3
-	VPERMB Z8, Z5, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_24_mat3<>(SB), Z4, Z4
-	VPERMI2B Z2, Z0, Z1
-	MOVQ $0xdfffffffffffffff, AX
-	KMOVQ AX, K1
-	VPERMI2B.Z Z3, Z2, K1, Z6
-	MOVQ $0x2000000000000000, AX
-	KMOVQ AX, K1
-	VPERMB.Z Z4, Z7, K1, Z0
-	VPORQ Z0, Z6, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_24_inShuf0<>(SB),  Z0
+        VMOVDQU64 ·expandAVX512_24_mat0<>(SB),     Z2
+        VMOVDQU64 ·expandAVX512_24_inShuf1<>(SB),  Z3
+        VMOVDQU64 ·expandAVX512_24_inShuf2<>(SB),  Z4
+        VMOVDQU64 ·expandAVX512_24_inShuf3<>(SB),  Z5
+        VMOVDQU64 ·expandAVX512_24_outShufLo(SB),  Z1
+        VMOVDQU64 ·expandAVX512_24_outShufHi0(SB), Z6
+        VMOVDQU64 ·expandAVX512_24_outShufHi1(SB), Z7
+        VMOVDQU64 (AX), Z8
+        VPERMB  Z8, Z0, Z0
+        VGF2P8AFFINEQB $0, Z2, Z0, Z0
+        VPERMB  Z8, Z3, Z3
+        VGF2P8AFFINEQB $0, Z2, Z3, Z2
+        VPERMB  Z8, Z4, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_24_mat2<>(SB), Z3, Z3
+        VPERMB  Z8, Z5, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_24_mat3<>(SB), Z4, Z4
+        VPERMI2B Z2, Z0, Z1
+        MOVQ    $0xdfffffffffffffff, AX
+        KMOVQ   AX, K1
+        VPERMI2B.Z Z3, Z2, K1, Z6
+        MOVQ    $0x2000000000000000, AX
+        KMOVQ   AX, K1
+        VPERMB.Z Z4, Z7, K1, Z0
+        VPORQ   Z0, Z6, Z2
+        RET
 
 GLOBL ·expandAVX512_26_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_26_inShuf0<>+0x00(SB)/8, $0x0202010101000000
@@ -1391,31 +1391,31 @@ DATA  ·expandAVX512_26_outShufHi1+0x30(SB)/8, $0x28ffffffffff211b
 DATA  ·expandAVX512_26_outShufHi1+0x38(SB)/8, $0xffffffffffffffff
 
 TEXT ·expandAVX512_26<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_26_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_26_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_26_inShuf2<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_26_inShuf3<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_26_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_26_outShufHi0(SB), Z5
-	VMOVDQU64 ·expandAVX512_26_outShufHi1(SB), Z6
-	VMOVDQU64 (AX), Z7
-	VPERMB Z7, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_26_mat0<>(SB), Z0, Z0
-	VPERMB Z7, Z2, Z2
-	VGF2P8AFFINEQB $0, ·expandAVX512_26_mat1<>(SB), Z2, Z2
-	VPERMB Z7, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_26_mat2<>(SB), Z3, Z3
-	VPERMB Z7, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_26_mat3<>(SB), Z4, Z4
-	VPERMI2B Z2, Z0, Z1
-	MOVQ $0xff7c07ffff01ffff, AX
-	KMOVQ AX, K1
-	VPERMI2B.Z Z3, Z2, K1, Z5
-	MOVQ $0x83f80000fe0000, AX
-	KMOVQ AX, K1
-	VPERMB.Z Z4, Z6, K1, Z0
-	VPORQ Z0, Z5, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_26_inShuf0<>(SB),  Z0
+        VMOVDQU64 ·expandAVX512_26_inShuf1<>(SB),  Z2
+        VMOVDQU64 ·expandAVX512_26_inShuf2<>(SB),  Z3
+        VMOVDQU64 ·expandAVX512_26_inShuf3<>(SB),  Z4
+        VMOVDQU64 ·expandAVX512_26_outShufLo(SB),  Z1
+        VMOVDQU64 ·expandAVX512_26_outShufHi0(SB), Z5
+        VMOVDQU64 ·expandAVX512_26_outShufHi1(SB), Z6
+        VMOVDQU64 (AX), Z7
+        VPERMB  Z7, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_26_mat0<>(SB), Z0, Z0
+        VPERMB  Z7, Z2, Z2
+        VGF2P8AFFINEQB $0, ·expandAVX512_26_mat1<>(SB), Z2, Z2
+        VPERMB  Z7, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_26_mat2<>(SB), Z3, Z3
+        VPERMB  Z7, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_26_mat3<>(SB), Z4, Z4
+        VPERMI2B Z2, Z0, Z1
+        MOVQ    $0xff7c07ffff01ffff, AX
+        KMOVQ   AX, K1
+        VPERMI2B.Z Z3, Z2, K1, Z5
+        MOVQ    $0x83f80000fe0000, AX
+        KMOVQ   AX, K1
+        VPERMB.Z Z4, Z6, K1, Z0
+        VPORQ   Z0, Z5, Z2
+        RET
 
 GLOBL ·expandAVX512_28_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_28_inShuf0<>+0x00(SB)/8, $0x0202010101000000
@@ -1528,31 +1528,31 @@ DATA  ·expandAVX512_28_outShufHi1+0x30(SB)/8, $0xff0d0c0b01ffffff
 DATA  ·expandAVX512_28_outShufHi1+0x38(SB)/8, $0xffff10ffffffffff
 
 TEXT ·expandAVX512_28<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_28_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_28_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_28_inShuf2<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_28_inShuf3<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_28_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_28_outShufHi0(SB), Z5
-	VMOVDQU64 ·expandAVX512_28_outShufHi1(SB), Z6
-	VMOVDQU64 (AX), Z7
-	VPERMB Z7, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_28_mat0<>(SB), Z0, Z0
-	VPERMB Z7, Z2, Z2
-	VGF2P8AFFINEQB $0, ·expandAVX512_28_mat1<>(SB), Z2, Z2
-	VPERMB Z7, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_28_mat2<>(SB), Z3, Z3
-	VPERMB Z7, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_28_mat3<>(SB), Z4, Z4
-	VPERMI2B Z2, Z0, Z1
-	MOVQ $0xdf87fffff87fffff, AX
-	KMOVQ AX, K1
-	VPERMI2B.Z Z3, Z2, K1, Z5
-	MOVQ $0x2078000007800000, AX
-	KMOVQ AX, K1
-	VPERMB.Z Z4, Z6, K1, Z0
-	VPORQ Z0, Z5, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_28_inShuf0<>(SB),  Z0
+        VMOVDQU64 ·expandAVX512_28_inShuf1<>(SB),  Z2
+        VMOVDQU64 ·expandAVX512_28_inShuf2<>(SB),  Z3
+        VMOVDQU64 ·expandAVX512_28_inShuf3<>(SB),  Z4
+        VMOVDQU64 ·expandAVX512_28_outShufLo(SB),  Z1
+        VMOVDQU64 ·expandAVX512_28_outShufHi0(SB), Z5
+        VMOVDQU64 ·expandAVX512_28_outShufHi1(SB), Z6
+        VMOVDQU64 (AX), Z7
+        VPERMB  Z7, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_28_mat0<>(SB), Z0, Z0
+        VPERMB  Z7, Z2, Z2
+        VGF2P8AFFINEQB $0, ·expandAVX512_28_mat1<>(SB), Z2, Z2
+        VPERMB  Z7, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_28_mat2<>(SB), Z3, Z3
+        VPERMB  Z7, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_28_mat3<>(SB), Z4, Z4
+        VPERMI2B Z2, Z0, Z1
+        MOVQ    $0xdf87fffff87fffff, AX
+        KMOVQ   AX, K1
+        VPERMI2B.Z Z3, Z2, K1, Z5
+        MOVQ    $0x2078000007800000, AX
+        KMOVQ   AX, K1
+        VPERMB.Z Z4, Z6, K1, Z0
+        VPORQ   Z0, Z5, Z2
+        RET
 
 GLOBL ·expandAVX512_30_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_30_inShuf0<>+0x00(SB)/8, $0x0202010101000000
@@ -1665,31 +1665,31 @@ DATA  ·expandAVX512_30_outShufHi1+0x30(SB)/8, $0x15141309050403ff
 DATA  ·expandAVX512_30_outShufHi1+0x38(SB)/8, $0xff28ffff211d1c1b
 
 TEXT ·expandAVX512_30<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_30_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_30_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_30_inShuf2<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_30_inShuf3<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_30_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_30_outShufHi0(SB), Z5
-	VMOVDQU64 ·expandAVX512_30_outShufHi1(SB), Z6
-	VMOVDQU64 (AX), Z7
-	VPERMB Z7, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_30_mat0<>(SB), Z0, Z0
-	VPERMB Z7, Z2, Z2
-	VGF2P8AFFINEQB $0, ·expandAVX512_30_mat1<>(SB), Z2, Z2
-	VPERMB Z7, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_30_mat2<>(SB), Z3, Z3
-	VPERMB Z7, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_30_mat3<>(SB), Z4, Z4
-	VPERMI2B Z2, Z0, Z1
-	MOVQ $0xb001ffffc007ffff, AX
-	KMOVQ AX, K1
-	VPERMI2B.Z Z3, Z2, K1, Z5
-	MOVQ $0x4ffe00003ff80000, AX
-	KMOVQ AX, K1
-	VPERMB.Z Z4, Z6, K1, Z0
-	VPORQ Z0, Z5, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_30_inShuf0<>(SB),  Z0
+        VMOVDQU64 ·expandAVX512_30_inShuf1<>(SB),  Z2
+        VMOVDQU64 ·expandAVX512_30_inShuf2<>(SB),  Z3
+        VMOVDQU64 ·expandAVX512_30_inShuf3<>(SB),  Z4
+        VMOVDQU64 ·expandAVX512_30_outShufLo(SB),  Z1
+        VMOVDQU64 ·expandAVX512_30_outShufHi0(SB), Z5
+        VMOVDQU64 ·expandAVX512_30_outShufHi1(SB), Z6
+        VMOVDQU64 (AX), Z7
+        VPERMB  Z7, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_30_mat0<>(SB), Z0, Z0
+        VPERMB  Z7, Z2, Z2
+        VGF2P8AFFINEQB $0, ·expandAVX512_30_mat1<>(SB), Z2, Z2
+        VPERMB  Z7, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_30_mat2<>(SB), Z3, Z3
+        VPERMB  Z7, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_30_mat3<>(SB), Z4, Z4
+        VPERMI2B Z2, Z0, Z1
+        MOVQ    $0xb001ffffc007ffff, AX
+        KMOVQ   AX, K1
+        VPERMI2B.Z Z3, Z2, K1, Z5
+        MOVQ    $0x4ffe00003ff80000, AX
+        KMOVQ   AX, K1
+        VPERMB.Z Z4, Z6, K1, Z0
+        VPORQ   Z0, Z5, Z2
+        RET
 
 GLOBL ·expandAVX512_32_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_32_inShuf0<>+0x00(SB)/8, $0x0101010100000000
@@ -1732,18 +1732,18 @@ DATA  ·expandAVX512_32_outShufLo+0x30(SB)/8, $0x2f2e2d2c27262524
 DATA  ·expandAVX512_32_outShufLo+0x38(SB)/8, $0x3f3e3d3c37363534
 
 TEXT ·expandAVX512_32<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_32_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_32_mat0<>(SB), Z1
-	VMOVDQU64 ·expandAVX512_32_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_32_outShufLo(SB), Z3
-	VMOVDQU64 (AX), Z4
-	VPERMB Z4, Z0, Z0
-	VGF2P8AFFINEQB $0, Z1, Z0, Z0
-	VPERMB Z4, Z2, Z2
-	VGF2P8AFFINEQB $0, Z1, Z2, Z2
-	VPERMB Z0, Z3, Z1
-	VPERMB Z2, Z3, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_32_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_32_mat0<>(SB),    Z1
+        VMOVDQU64 ·expandAVX512_32_inShuf1<>(SB), Z2
+        VMOVDQU64 ·expandAVX512_32_outShufLo(SB), Z3
+        VMOVDQU64 (AX), Z4
+        VPERMB  Z4, Z0, Z0
+        VGF2P8AFFINEQB $0, Z1, Z0, Z0
+        VPERMB  Z4, Z2, Z2
+        VGF2P8AFFINEQB $0, Z1, Z2, Z2
+        VPERMB  Z0, Z3, Z1
+        VPERMB  Z2, Z3, Z2
+        RET
 
 GLOBL ·expandAVX512_36_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_36_inShuf0<>+0x00(SB)/8, $0x0101010100000000
@@ -1826,21 +1826,21 @@ DATA  ·expandAVX512_36_outShufHi+0x30(SB)/8, $0x5655544f4e4d4c41
 DATA  ·expandAVX512_36_outShufHi+0x38(SB)/8, $0x6d6c676665645957
 
 TEXT ·expandAVX512_36<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_36_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_36_inShuf1<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_36_inShuf2<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_36_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_36_outShufHi(SB), Z2
-	VMOVDQU64 (AX), Z5
-	VPERMB Z5, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_36_mat0<>(SB), Z0, Z0
-	VPERMB Z5, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_36_mat1<>(SB), Z3, Z3
-	VPERMB Z5, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_36_mat2<>(SB), Z4, Z4
-	VPERMI2B Z3, Z0, Z1
-	VPERMI2B Z4, Z3, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_36_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_36_inShuf1<>(SB), Z3
+        VMOVDQU64 ·expandAVX512_36_inShuf2<>(SB), Z4
+        VMOVDQU64 ·expandAVX512_36_outShufLo(SB), Z1
+        VMOVDQU64 ·expandAVX512_36_outShufHi(SB), Z2
+        VMOVDQU64 (AX), Z5
+        VPERMB  Z5, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_36_mat0<>(SB), Z0, Z0
+        VPERMB  Z5, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_36_mat1<>(SB), Z3, Z3
+        VPERMB  Z5, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_36_mat2<>(SB), Z4, Z4
+        VPERMI2B Z3, Z0, Z1
+        VPERMI2B Z4, Z3, Z2
+        RET
 
 GLOBL ·expandAVX512_40_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_40_inShuf0<>+0x00(SB)/8, $0x0101010000000000
@@ -1953,31 +1953,31 @@ DATA  ·expandAVX512_40_outShufHi1+0x30(SB)/8, $0xffffffffffffffff
 DATA  ·expandAVX512_40_outShufHi1+0x38(SB)/8, $0xffffff0100ffffff
 
 TEXT ·expandAVX512_40<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_40_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_40_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_40_inShuf2<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_40_inShuf3<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_40_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_40_outShufHi0(SB), Z5
-	VMOVDQU64 ·expandAVX512_40_outShufHi1(SB), Z6
-	VMOVDQU64 (AX), Z7
-	VPERMB Z7, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_40_mat0<>(SB), Z0, Z0
-	VPERMB Z7, Z2, Z2
-	VGF2P8AFFINEQB $0, ·expandAVX512_40_mat1<>(SB), Z2, Z2
-	VPERMB Z7, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_40_mat2<>(SB), Z3, Z3
-	VPERMB Z7, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_40_mat3<>(SB), Z4, Z4
-	VPERMI2B Z2, Z0, Z1
-	MOVQ $0xe7ffffffffffffff, AX
-	KMOVQ AX, K1
-	VPERMI2B.Z Z3, Z2, K1, Z5
-	MOVQ $0x1800000000000000, AX
-	KMOVQ AX, K1
-	VPERMB.Z Z4, Z6, K1, Z0
-	VPORQ Z0, Z5, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_40_inShuf0<>(SB),  Z0
+        VMOVDQU64 ·expandAVX512_40_inShuf1<>(SB),  Z2
+        VMOVDQU64 ·expandAVX512_40_inShuf2<>(SB),  Z3
+        VMOVDQU64 ·expandAVX512_40_inShuf3<>(SB),  Z4
+        VMOVDQU64 ·expandAVX512_40_outShufLo(SB),  Z1
+        VMOVDQU64 ·expandAVX512_40_outShufHi0(SB), Z5
+        VMOVDQU64 ·expandAVX512_40_outShufHi1(SB), Z6
+        VMOVDQU64 (AX), Z7
+        VPERMB  Z7, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_40_mat0<>(SB), Z0, Z0
+        VPERMB  Z7, Z2, Z2
+        VGF2P8AFFINEQB $0, ·expandAVX512_40_mat1<>(SB), Z2, Z2
+        VPERMB  Z7, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_40_mat2<>(SB), Z3, Z3
+        VPERMB  Z7, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_40_mat3<>(SB), Z4, Z4
+        VPERMI2B Z2, Z0, Z1
+        MOVQ    $0xe7ffffffffffffff, AX
+        KMOVQ   AX, K1
+        VPERMI2B.Z Z3, Z2, K1, Z5
+        MOVQ    $0x1800000000000000, AX
+        KMOVQ   AX, K1
+        VPERMB.Z Z4, Z6, K1, Z0
+        VPORQ   Z0, Z5, Z2
+        RET
 
 GLOBL ·expandAVX512_44_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_44_inShuf0<>+0x00(SB)/8, $0x0101010000000000
@@ -2090,31 +2090,31 @@ DATA  ·expandAVX512_44_outShufHi1+0x30(SB)/8, $0x20ffffffff1918ff
 DATA  ·expandAVX512_44_outShufHi1+0x38(SB)/8, $0xffff2928ffffff21
 
 TEXT ·expandAVX512_44<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_44_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_44_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_44_inShuf2<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_44_inShuf3<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_44_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_44_outShufHi0(SB), Z5
-	VMOVDQU64 ·expandAVX512_44_outShufHi1(SB), Z6
-	VMOVDQU64 (AX), Z7
-	VPERMB Z7, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_44_mat0<>(SB), Z0, Z0
-	VPERMB Z7, Z2, Z2
-	VGF2P8AFFINEQB $0, ·expandAVX512_44_mat1<>(SB), Z2, Z2
-	VPERMB Z7, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_44_mat2<>(SB), Z3, Z3
-	VPERMB Z7, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_44_mat3<>(SB), Z4, Z4
-	VPERMI2B Z2, Z0, Z1
-	MOVQ $0xce79fe003fffffff, AX
-	KMOVQ AX, K1
-	VPERMI2B.Z Z3, Z2, K1, Z5
-	MOVQ $0x318601ffc0000000, AX
-	KMOVQ AX, K1
-	VPERMB.Z Z4, Z6, K1, Z0
-	VPORQ Z0, Z5, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_44_inShuf0<>(SB),  Z0
+        VMOVDQU64 ·expandAVX512_44_inShuf1<>(SB),  Z2
+        VMOVDQU64 ·expandAVX512_44_inShuf2<>(SB),  Z3
+        VMOVDQU64 ·expandAVX512_44_inShuf3<>(SB),  Z4
+        VMOVDQU64 ·expandAVX512_44_outShufLo(SB),  Z1
+        VMOVDQU64 ·expandAVX512_44_outShufHi0(SB), Z5
+        VMOVDQU64 ·expandAVX512_44_outShufHi1(SB), Z6
+        VMOVDQU64 (AX), Z7
+        VPERMB  Z7, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_44_mat0<>(SB), Z0, Z0
+        VPERMB  Z7, Z2, Z2
+        VGF2P8AFFINEQB $0, ·expandAVX512_44_mat1<>(SB), Z2, Z2
+        VPERMB  Z7, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_44_mat2<>(SB), Z3, Z3
+        VPERMB  Z7, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_44_mat3<>(SB), Z4, Z4
+        VPERMI2B Z2, Z0, Z1
+        MOVQ    $0xce79fe003fffffff, AX
+        KMOVQ   AX, K1
+        VPERMI2B.Z Z3, Z2, K1, Z5
+        MOVQ    $0x318601ffc0000000, AX
+        KMOVQ   AX, K1
+        VPERMB.Z Z4, Z6, K1, Z0
+        VPORQ   Z0, Z5, Z2
+        RET
 
 GLOBL ·expandAVX512_48_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_48_inShuf0<>+0x00(SB)/8, $0x0101000000000000
@@ -2197,21 +2197,21 @@ DATA  ·expandAVX512_48_outShufHi+0x30(SB)/8, $0x5b5a595827261f1e
 DATA  ·expandAVX512_48_outShufHi+0x38(SB)/8, $0x3736636261602f2e
 
 TEXT ·expandAVX512_48<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_48_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_48_inShuf1<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_48_inShuf2<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_48_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_48_outShufHi(SB), Z2
-	VMOVDQU64 (AX), Z5
-	VPERMB Z5, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_48_mat0<>(SB), Z0, Z0
-	VPERMB Z5, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_48_mat1<>(SB), Z3, Z3
-	VPERMB Z5, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_48_mat2<>(SB), Z4, Z4
-	VPERMI2B Z3, Z0, Z1
-	VPERMI2B Z4, Z3, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_48_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_48_inShuf1<>(SB), Z3
+        VMOVDQU64 ·expandAVX512_48_inShuf2<>(SB), Z4
+        VMOVDQU64 ·expandAVX512_48_outShufLo(SB), Z1
+        VMOVDQU64 ·expandAVX512_48_outShufHi(SB), Z2
+        VMOVDQU64 (AX), Z5
+        VPERMB  Z5, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_48_mat0<>(SB), Z0, Z0
+        VPERMB  Z5, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_48_mat1<>(SB), Z3, Z3
+        VPERMB  Z5, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_48_mat2<>(SB), Z4, Z4
+        VPERMI2B Z3, Z0, Z1
+        VPERMI2B Z4, Z3, Z2
+        RET
 
 GLOBL ·expandAVX512_52_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_52_inShuf0<>+0x00(SB)/8, $0x0101000000000000
@@ -2324,31 +2324,31 @@ DATA  ·expandAVX512_52_outShufHi1+0x30(SB)/8, $0x10ffffffffffffff
 DATA  ·expandAVX512_52_outShufHi1+0x38(SB)/8, $0x1918ffffff131211
 
 TEXT ·expandAVX512_52<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_52_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_52_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_52_inShuf2<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_52_inShuf3<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_52_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_52_outShufHi0(SB), Z5
-	VMOVDQU64 ·expandAVX512_52_outShufHi1(SB), Z6
-	VMOVDQU64 (AX), Z7
-	VPERMB Z7, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_52_mat0<>(SB), Z0, Z0
-	VPERMB Z7, Z2, Z2
-	VGF2P8AFFINEQB $0, ·expandAVX512_52_mat1<>(SB), Z2, Z2
-	VPERMB Z7, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_52_mat2<>(SB), Z3, Z3
-	VPERMB Z7, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_52_mat3<>(SB), Z4, Z4
-	VPERMI2B Z2, Z0, Z1
-	MOVQ $0x387f80ffffffffff, AX
-	KMOVQ AX, K1
-	VPERMI2B.Z Z3, Z2, K1, Z5
-	MOVQ $0xc7807f0000000000, AX
-	KMOVQ AX, K1
-	VPERMB.Z Z4, Z6, K1, Z0
-	VPORQ Z0, Z5, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_52_inShuf0<>(SB),  Z0
+        VMOVDQU64 ·expandAVX512_52_inShuf1<>(SB),  Z2
+        VMOVDQU64 ·expandAVX512_52_inShuf2<>(SB),  Z3
+        VMOVDQU64 ·expandAVX512_52_inShuf3<>(SB),  Z4
+        VMOVDQU64 ·expandAVX512_52_outShufLo(SB),  Z1
+        VMOVDQU64 ·expandAVX512_52_outShufHi0(SB), Z5
+        VMOVDQU64 ·expandAVX512_52_outShufHi1(SB), Z6
+        VMOVDQU64 (AX), Z7
+        VPERMB  Z7, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_52_mat0<>(SB), Z0, Z0
+        VPERMB  Z7, Z2, Z2
+        VGF2P8AFFINEQB $0, ·expandAVX512_52_mat1<>(SB), Z2, Z2
+        VPERMB  Z7, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_52_mat2<>(SB), Z3, Z3
+        VPERMB  Z7, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_52_mat3<>(SB), Z4, Z4
+        VPERMI2B Z2, Z0, Z1
+        MOVQ    $0x387f80ffffffffff, AX
+        KMOVQ   AX, K1
+        VPERMI2B.Z Z3, Z2, K1, Z5
+        MOVQ    $0xc7807f0000000000, AX
+        KMOVQ   AX, K1
+        VPERMB.Z Z4, Z6, K1, Z0
+        VPORQ   Z0, Z5, Z2
+        RET
 
 GLOBL ·expandAVX512_56_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_56_inShuf0<>+0x00(SB)/8, $0x0100000000000000
@@ -2421,22 +2421,22 @@ DATA  ·expandAVX512_56_outShufHi+0x30(SB)/8, $0x0e46454443424140
 DATA  ·expandAVX512_56_outShufHi+0x38(SB)/8, $0x50174c4b4a49480f
 
 TEXT ·expandAVX512_56<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_56_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_56_mat0<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_56_inShuf1<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_56_inShuf2<>(SB), Z5
-	VMOVDQU64 ·expandAVX512_56_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_56_outShufHi(SB), Z2
-	VMOVDQU64 (AX), Z6
-	VPERMB Z6, Z0, Z0
-	VGF2P8AFFINEQB $0, Z3, Z0, Z0
-	VPERMB Z6, Z4, Z4
-	VGF2P8AFFINEQB $0, Z3, Z4, Z3
-	VPERMB Z6, Z5, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_56_mat2<>(SB), Z4, Z4
-	VPERMI2B Z3, Z0, Z1
-	VPERMI2B Z4, Z3, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_56_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_56_mat0<>(SB),    Z3
+        VMOVDQU64 ·expandAVX512_56_inShuf1<>(SB), Z4
+        VMOVDQU64 ·expandAVX512_56_inShuf2<>(SB), Z5
+        VMOVDQU64 ·expandAVX512_56_outShufLo(SB), Z1
+        VMOVDQU64 ·expandAVX512_56_outShufHi(SB), Z2
+        VMOVDQU64 (AX), Z6
+        VPERMB  Z6, Z0, Z0
+        VGF2P8AFFINEQB $0, Z3, Z0, Z0
+        VPERMB  Z6, Z4, Z4
+        VGF2P8AFFINEQB $0, Z3, Z4, Z3
+        VPERMB  Z6, Z5, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_56_mat2<>(SB), Z4, Z4
+        VPERMI2B Z3, Z0, Z1
+        VPERMI2B Z4, Z3, Z2
+        RET
 
 GLOBL ·expandAVX512_60_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_60_inShuf0<>+0x00(SB)/8, $0x0100000000000000
@@ -2549,31 +2549,31 @@ DATA  ·expandAVX512_60_outShufHi1+0x30(SB)/8, $0x06050403020100ff
 DATA  ·expandAVX512_60_outShufHi1+0x38(SB)/8, $0xff0908ffffffffff
 
 TEXT ·expandAVX512_60<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_60_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_60_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_60_inShuf2<>(SB), Z3
-	VMOVDQU64 ·expandAVX512_60_inShuf3<>(SB), Z4
-	VMOVDQU64 ·expandAVX512_60_outShufLo(SB), Z1
-	VMOVDQU64 ·expandAVX512_60_outShufHi0(SB), Z5
-	VMOVDQU64 ·expandAVX512_60_outShufHi1(SB), Z6
-	VMOVDQU64 (AX), Z7
-	VPERMB Z7, Z0, Z0
-	VGF2P8AFFINEQB $0, ·expandAVX512_60_mat0<>(SB), Z0, Z0
-	VPERMB Z7, Z2, Z2
-	VGF2P8AFFINEQB $0, ·expandAVX512_60_mat1<>(SB), Z2, Z2
-	VPERMB Z7, Z3, Z3
-	VGF2P8AFFINEQB $0, ·expandAVX512_60_mat2<>(SB), Z3, Z3
-	VPERMB Z7, Z4, Z4
-	VGF2P8AFFINEQB $0, ·expandAVX512_60_mat3<>(SB), Z4, Z4
-	VPERMI2B Z2, Z0, Z1
-	MOVQ $0x9f01ffffffffffff, AX
-	KMOVQ AX, K1
-	VPERMI2B.Z Z3, Z2, K1, Z5
-	MOVQ $0x60fe000000000000, AX
-	KMOVQ AX, K1
-	VPERMB.Z Z4, Z6, K1, Z0
-	VPORQ Z0, Z5, Z2
-	RET
+        VMOVDQU64 ·expandAVX512_60_inShuf0<>(SB),  Z0
+        VMOVDQU64 ·expandAVX512_60_inShuf1<>(SB),  Z2
+        VMOVDQU64 ·expandAVX512_60_inShuf2<>(SB),  Z3
+        VMOVDQU64 ·expandAVX512_60_inShuf3<>(SB),  Z4
+        VMOVDQU64 ·expandAVX512_60_outShufLo(SB),  Z1
+        VMOVDQU64 ·expandAVX512_60_outShufHi0(SB), Z5
+        VMOVDQU64 ·expandAVX512_60_outShufHi1(SB), Z6
+        VMOVDQU64 (AX), Z7
+        VPERMB  Z7, Z0, Z0
+        VGF2P8AFFINEQB $0, ·expandAVX512_60_mat0<>(SB), Z0, Z0
+        VPERMB  Z7, Z2, Z2
+        VGF2P8AFFINEQB $0, ·expandAVX512_60_mat1<>(SB), Z2, Z2
+        VPERMB  Z7, Z3, Z3
+        VGF2P8AFFINEQB $0, ·expandAVX512_60_mat2<>(SB), Z3, Z3
+        VPERMB  Z7, Z4, Z4
+        VGF2P8AFFINEQB $0, ·expandAVX512_60_mat3<>(SB), Z4, Z4
+        VPERMI2B Z2, Z0, Z1
+        MOVQ    $0x9f01ffffffffffff, AX
+        KMOVQ   AX, K1
+        VPERMI2B.Z Z3, Z2, K1, Z5
+        MOVQ    $0x60fe000000000000, AX
+        KMOVQ   AX, K1
+        VPERMB.Z Z4, Z6, K1, Z0
+        VPORQ   Z0, Z5, Z2
+        RET
 
 GLOBL ·expandAVX512_64_inShuf0<>(SB), RODATA, $0x40
 DATA  ·expandAVX512_64_inShuf0<>+0x00(SB)/8, $0x0000000000000000
@@ -2616,16 +2616,15 @@ DATA  ·expandAVX512_64_outShufLo+0x30(SB)/8, $0x3736353433323130
 DATA  ·expandAVX512_64_outShufLo+0x38(SB)/8, $0x3f3e3d3c3b3a3938
 
 TEXT ·expandAVX512_64<>(SB), NOSPLIT, $0-0
-	VMOVDQU64 ·expandAVX512_64_inShuf0<>(SB), Z0
-	VMOVDQU64 ·expandAVX512_64_mat0<>(SB), Z1
-	VMOVDQU64 ·expandAVX512_64_inShuf1<>(SB), Z2
-	VMOVDQU64 ·expandAVX512_64_outShufLo(SB), Z3
-	VMOVDQU64 (AX), Z4
-	VPERMB Z4, Z0, Z0
-	VGF2P8AFFINEQB $0, Z1, Z0, Z0
-	VPERMB Z4, Z2, Z2
-	VGF2P8AFFINEQB $0, Z1, Z2, Z2
-	VPERMB Z0, Z3, Z1
-	VPERMB Z2, Z3, Z2
-	RET
-
+        VMOVDQU64 ·expandAVX512_64_inShuf0<>(SB), Z0
+        VMOVDQU64 ·expandAVX512_64_mat0<>(SB),    Z1
+        VMOVDQU64 ·expandAVX512_64_inShuf1<>(SB), Z2
+        VMOVDQU64 ·expandAVX512_64_outShufLo(SB), Z3
+        VMOVDQU64 (AX), Z4
+        VPERMB  Z4, Z0, Z0
+        VGF2P8AFFINEQB $0, Z1, Z0, Z0
+        VPERMB  Z4, Z2, Z2
+        VGF2P8AFFINEQB $0, Z1, Z2, Z2
+        VPERMB  Z0, Z3, Z1
+        VPERMB  Z2, Z3, Z2
+        RET

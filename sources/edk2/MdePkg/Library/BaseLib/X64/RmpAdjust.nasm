@@ -17,7 +17,7 @@
 
 %include "Nasm.inc"
 
-    SECTION .text
+        SECTION .text
 
 ;-----------------------------------------------------------------------------
 ;  UINT32
@@ -30,11 +30,11 @@
 ;-----------------------------------------------------------------------------
 global ASM_PFX(AsmRmpAdjust)
 ASM_PFX(AsmRmpAdjust):
-  mov     rax, rcx       ; Input Rax is in RCX by calling convention
-  mov     rcx, rdx       ; Input Rcx is in RDX by calling convention
-  mov     rdx, r8        ; Input Rdx is in R8  by calling convention
+        mov     rax, rcx        ; Input Rax is in RCX by calling convention
+        mov     rcx, rdx        ; Input Rcx is in RDX by calling convention
+        mov     rdx, r8         ; Input Rdx is in R8  by calling convention
 
-  RMPADJUST
+        RMPADJUST
 
-  ; RMPADJUST returns the status in the EAX register.
-  ret
+        ; RMPADJUST returns the status in the EAX register.
+        ret

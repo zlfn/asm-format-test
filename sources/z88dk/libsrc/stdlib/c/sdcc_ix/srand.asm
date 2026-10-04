@@ -10,10 +10,10 @@ EXTERN asm_srand
 
 _srand:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_srand
+        push    hl
+        push    af
+
+        jp      asm_srand

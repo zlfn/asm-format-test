@@ -10,14 +10,14 @@
 ; int isascii (int c);
 ;
 
-        .export         _isascii
-        .import         return0
+        .export _isascii
+        .import return0
 
 _isascii:
-        asl     a               ; high-bit to carry
-        txa                     ; check range of input param
-        bne     @L1             ; out-of bounds?
-        adc     #$FF            ; calculate return value based on carry
+        asl     a       ; high-bit to carry
+        txa             ; check range of input param
+        bne     @L1     ; out-of bounds?
+        adc     #$FF    ; calculate return value based on carry
         rts
 
-@L1:    jmp     return0         ; return false
+@L1:    jmp     return0 ; return false

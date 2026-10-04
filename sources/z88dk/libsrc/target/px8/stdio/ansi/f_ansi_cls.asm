@@ -8,10 +8,10 @@
 ;	$Id: f_ansi_cls.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_cls
+        SECTION code_clib
+        PUBLIC  ansi_cls
 
-    EXTERN  clg
+        EXTERN  clg
 
 ansi_cls:
-    jp      clg
+        jp      clg

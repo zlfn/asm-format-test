@@ -13,15 +13,15 @@ EXTERN asm_astar_Search_resume_success, asm_astar_Search_resume_fail
 
 .astar_SearchResume
 ._astar_SearchResume
-   push ix
-   ld a,h
-   or l
-   jr nz,astar_SearchResume_ResumeFail
-   push ix
-   call asm_astar_Search_resume_success
-   pop  ix
-   ret 
+        push    ix
+        ld      a, h
+        or      l
+        jr      nz, astar_SearchResume_ResumeFail
+        push    ix
+        call    asm_astar_Search_resume_success
+        pop     ix
+        ret
 .astar_SearchResume_ResumeFail
-   call asm_astar_Search_resume_fail
-   pop ix
-   ret
+        call    asm_astar_Search_resume_fail
+        pop     ix
+        ret

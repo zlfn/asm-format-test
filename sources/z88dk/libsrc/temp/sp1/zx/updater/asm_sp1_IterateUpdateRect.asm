@@ -25,32 +25,32 @@ asm_sp1_IterateUpdateRect:
 ;        ix = void (*func)(struct sp1_update*), hl also holds parameter
 ; uses  : af, bc, de, hl  (de can be used by user function to hold state between calls)
 
-   call asm_sp1_GetUpdateStruct  ; hl = & struct sp1_update
+        call    asm_sp1_GetUpdateStruct ; hl = & struct sp1_update
 
 .rowloop
 
-   push bc
-   push hl                       ; save update position
+        push    bc
+        push    hl      ; save update position
 
 .colloop
 
-   push ix
-   push bc
-   push hl
-   call l_jpix
-   pop hl
-   ld bc,10
-   add hl,bc
-   pop bc
-   pop ix
-   djnz colloop
+        push    ix
+        push    bc
+        push    hl
+        call    l_jpix
+        pop     hl
+        ld      bc, 10
+        add     hl, bc
+        pop     bc
+        pop     ix
+        djnz    colloop
 
-   pop hl                        ; hl = & struct sp1_update same row leftmost column
-   ld bc,10*SP1V_DISPWIDTH
-   add hl,bc                     ; hl = & struct sp1_update next row leftmost column
-   pop bc
+        pop     hl      ; hl = & struct sp1_update same row leftmost column
+        ld      bc, 10*SP1V_DISPWIDTH
+        add     hl, bc  ; hl = & struct sp1_update next row leftmost column
+        pop     bc
 
-   dec c                         ; c = height
-   jp nz, rowloop
+        dec     c       ; c = height
+        jp      nz, rowloop
 
-   ret
+        ret

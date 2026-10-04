@@ -17,103 +17,103 @@ PUBLIC asm_f16_compare_callee
 
 ; stack top-first: this_ret, real_ret, left, right
 .asm_f16_compare
-    pop bc                      ; this
-    pop de                      ; real
-    pop hl                      ; left
-    ex (sp),hl                  ; HL = right; (sp) = left
-    push de                     ; real
-    push bc                     ; this
-    ; stack: this, real, left; HL = right
-    push hl                     ; save right
-    ld de,sp+6                  ; left @+4, +2 after push
-    ld hl,(de)                  ; HL = left
-    pop de                      ; DE = right
-    jr continue
+        pop     bc              ; this
+        pop     de              ; real
+        pop     hl              ; left
+        ex      (sp), hl        ; HL = right; (sp) = left
+        push    de              ; real
+        push    bc              ; this
+        ; stack: this, real, left; HL = right
+        push    hl              ; save right
+        ld      de, sp+6        ; left @+4, +2 after push
+        ld      hl, (de)        ; HL = left
+        pop     de              ; DE = right
+        jr      continue
 
 ; HL = right; stack after call: this_ret, real_ret, left, ...
 .asm_f16_compare_callee
-    pop bc                      ; this
-    pop de                      ; real
-    ; HL=right, stack=left
-    ex de,hl                    ; DE=right, HL=real
-    ex (sp),hl                  ; HL=left, (sp)=real
-    push bc                     ; this on top of real
-    ; HL=left, DE=right, stack: this, real, ...
+        pop     bc      ; this
+        pop     de      ; real
+        ; HL=right, stack=left
+        ex      de,   hl        ; DE=right, HL=real
+        ex      (sp), hl        ; HL=left, (sp)=real
+        push    bc              ; this on top of real
+        ; HL=left, DE=right, stack: this, real, ...
 
 .continue
-    ld a,$7c
-    and d
-    jr Z,zero_right
+        ld      a, $7c
+        and     d
+        jr      Z, zero_right
 
-    ld a,d
-    add a,a
-    ld d,a
-    ccf
-    jr C,positive_right
-    ld a,e
-    cpl
-    ld e,a
-    ld a,d
-    cpl
-    ld d,a
+        ld      a, d
+        add     a, a
+        ld      d, a
+        ccf
+        jr      C, positive_right
+        ld      a, e
+        cpl
+        ld      e, a
+        ld      a, d
+        cpl
+        ld      d, a
 .positive_right
-    ld a,d
-    rra
-    ld d,a
+        ld      a, d
+        rra
+        ld      d, a
 
-    ld a,$7c
-    and h
-    jr Z,zero_left
+        ld      a, $7c
+        and     h
+        jr      Z, zero_left
 
-    ld a,h
-    add a,a
-    ld h,a
-    ccf
-    jr C,positive_left
-    ld a,l
-    cpl
-    ld l,a
-    ld a,h
-    cpl
-    ld h,a
+        ld      a, h
+        add     a, a
+        ld      h, a
+        ccf
+        jr      C, positive_left
+        ld      a, l
+        cpl
+        ld      l, a
+        ld      a, h
+        cpl
+        ld      h, a
 .positive_left
-    ld a,h
-    rra
-    ld h,a
+        ld      a, h
+        rra
+        ld      h, a
 
-    ld bc,de
-    or a
-    sub hl,bc
-    jr C,consider_negative
+        ld      bc, de
+        or      a
+        sub     hl, bc
+        jr      C,  consider_negative
 
 .consider_positive
-    ld a,h
-    or l
+        ld      a, h
+        or      l
 .return_positive
-    ld hl,1
-    scf
-    ccf
-    ret
+        ld      hl, 1
+        scf
+        ccf
+        ret
 
 .consider_negative
-    ld a,h
-    or l
+        ld      a, h
+        or      l
 .return_negative
-    ld hl,1
-    scf
-    ret
+        ld      hl, 1
+        scf
+        ret
 
 .zero_right
-    ld a,$7c
-    and h
-    jr Z,return_positive
-    ld a,h
-    add a,a
-    jr NC,return_positive
-    jr return_negative
+        ld      a, $7c
+        and     h
+        jr      Z,  return_positive
+        ld      a,  h
+        add     a,  a
+        jr      NC, return_positive
+        jr      return_negative
 
 .zero_left
-    ld a,d
-    add a,a
-    jr NC,return_positive
-    jr return_negative
+        ld      a,  d
+        add     a,  a
+        jr      NC, return_positive
+        jr      return_negative

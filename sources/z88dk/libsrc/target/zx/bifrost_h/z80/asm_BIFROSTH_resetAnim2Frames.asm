@@ -12,8 +12,8 @@ PUBLIC asm_BIFROSTH_resetAnim2Frames
 asm_BIFROSTH_resetAnim2Frames:
 
         halt
-        xor a
-        ld (58698),a
-        ld hl,128
-        ld (58700),hl
+        xor     a
+        ld      (58698), a
+        ld      hl, 128
+        ld      (58700), hl
         ret

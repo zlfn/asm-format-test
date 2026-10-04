@@ -10,10 +10,10 @@ EXTERN am48_pow, cm48_sccz80p_dread2
 
 cm48_sccz80_pow:
 
-   call cm48_sccz80p_dread2
-   
-   ; AC'= y
-   ; AC = x
-   
-   exx
-   jp am48_pow
+        call    cm48_sccz80p_dread2
+
+        ; AC'= y
+        ; AC = x
+
+        exx
+        jp      am48_pow

@@ -12,13 +12,13 @@
 .proc           _write
 
         sta     ptr3
-        stx     ptr3+1          ; Count in ptr3
+        stx     ptr3+1  ; Count in ptr3
         inx
-        stx     ptr2+1          ; Increment and store in ptr2
+        stx     ptr2+1  ; Increment and store in ptr2
         tax
         inx
         stx     ptr2
-        jsr     popptr1         ; Buffer address in ptr1
+        jsr     popptr1 ; Buffer address in ptr1
         jsr     popax
 
 begin:  dec     ptr2
@@ -27,13 +27,13 @@ begin:  dec     ptr2
         beq     done
 
 outch:  ldy     #0
-        lda     (ptr1),y
-        pha                     ; Save A (changed by OUTCHR)
-        jsr     OUTCHR          ; Send character using Monitor call
-        pla                     ; Restore A
-        cmp     #$0A            ; Check for '\n'
-        bne     next            ; ...if LF character
-        lda     #$0D            ; Add a carriage return
+        lda     (ptr1), y
+        pha             ; Save A (changed by OUTCHR)
+        jsr     OUTCHR  ; Send character using Monitor call
+        pla             ; Restore A
+        cmp     #$0A    ; Check for '\n'
+        bne     next    ; ...if LF character
+        lda     #$0D    ; Add a carriage return
         jsr     OUTCHR
 
 next:   inc     ptr1
@@ -43,6 +43,6 @@ next:   inc     ptr1
 
 done:   lda     ptr3
         ldx     ptr3+1
-        rts                     ; Return count
+        rts     ; Return count
 
 .endproc

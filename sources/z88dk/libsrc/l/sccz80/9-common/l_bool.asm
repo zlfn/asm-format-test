@@ -11,9 +11,9 @@ PUBLIC l_bool
 
 l_bool:
 
-   ld a,h
-   or l
-   ret z
-   
-   ld hl,1
-   ret
+        ld      a, h
+        or      l
+        ret     z
+
+        ld      hl, 1
+        ret

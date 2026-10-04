@@ -9,10 +9,10 @@ EXTERN _esxdos_f_getcwd_fastcall
 
 _esxdos_f_getcwd:
 
-   pop af
-   pop hl
+        pop     af
+        pop     hl
 
-   push hl
-   push af
+        push    hl
+        push    af
 
-   jp _esxdos_f_getcwd_fastcall
+        jp      _esxdos_f_getcwd_fastcall

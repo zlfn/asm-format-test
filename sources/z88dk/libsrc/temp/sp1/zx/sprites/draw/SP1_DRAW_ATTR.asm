@@ -12,10 +12,10 @@ EXTERN SP1RETSPRDRAW
 
 ; following data segment copied into struct sp1_cs
 
-   ld hl,0
-   nop
-   ld de,0
-   call SP1RETSPRDRAW
+        ld      hl, 0
+        nop
+        ld      de, 0
+        call    SP1RETSPRDRAW
 
 _SP1_DRAW_ATTR:
 

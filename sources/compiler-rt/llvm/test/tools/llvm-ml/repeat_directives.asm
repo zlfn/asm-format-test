@@ -8,9 +8,9 @@ a BYTE ?
 
 repeat_test PROC
 ; CHECK-LABEL: repeat_test:
-  REPEAT 1+2
-    xor eax, 0
-  ENDM
+        REPEAT  1+2
+                xor     eax, 0
+        ENDM
 ; CHECK: xor eax, 0
 ; CHECK: xor eax, 0
 ; CHECK: xor eax, 0
@@ -19,11 +19,11 @@ repeat_test ENDP
 
 while_test PROC
 ; CHECK-LABEL: while_test:
-  C = 1
-  WHILE C <= 3
-    xor eax, C
-    C = C + 1
-  ENDM
+        C       = 1
+        WHILE   C <= 3
+                xor     eax, C
+                C       = C + 1
+        ENDM
 ; CHECK: xor eax, 1
 ; CHECK: xor eax, 2
 ; CHECK: xor eax, 3
@@ -32,9 +32,9 @@ while_test ENDP
 
 for_test PROC
 ; CHECK-LABEL: for_test:
-  FOR arg, <'O', 'K', 13, 10>
-    mov al, arg
-  ENDM
+        FOR     arg, <'O', 'K', 13, 10>
+                mov     al, arg
+        ENDM
 ; CHECK: mov al, 79
 ; CHECK: mov al, 75
 ; CHECK: mov al, 13
@@ -44,9 +44,9 @@ for_test ENDP
 
 for_without_substitution_test PROC
 ; CHECK-LABEL: for_without_substitution_test:
-  FOR a, <'O', 'K', 13, 10>
-    mov al, 'a'
-  ENDM
+        FOR     a, <'O', 'K', 13, 10>
+                mov     al, 'a'
+        ENDM
 ; CHECK: mov al, 97
 ; CHECK: mov al, 97
 ; CHECK: mov al, 97
@@ -56,9 +56,9 @@ for_without_substitution_test ENDP
 
 for_with_default_test PROC
 ; CHECK-LABEL: for_with_default_test:
-  FOR arg:=<'K'>, <'O', ,, 13,>
-    mov al, arg
-  ENDM
+        FOR     arg:=<'K'>, <'O', ,, 13,>
+                mov     al, arg
+        ENDM
 ; CHECK: mov al, 79
 ; CHECK: mov al, 75
 ; CHECK: mov al, 75
@@ -69,9 +69,9 @@ for_with_default_test ENDP
 
 forc_test PROC
 ; CHECK-LABEL: forc_test:
-  FORC arg, <OK>
-    mov al, "&arg"
-  ENDM
+        FORC    arg, <OK>
+                mov     al, "&arg"
+        ENDM
 ; CHECK: mov al, 79
 ; CHECK: mov al, 75
 ; CHECK-NOT: mov al,
@@ -79,9 +79,9 @@ forc_test ENDP
 
 forc_improper_test PROC
 ; CHECK-LABEL: forc_improper_test:
-  FORC arg, A-; OK
-    mov al, "&arg"
-  ENDM
+        FORC    arg, A- ; OK
+                mov     al, "&arg"
+        ENDM
 ; CHECK: mov al, 65
 ; CHECK: mov al, 45
 ; CHECK: mov al, 59
@@ -90,11 +90,11 @@ forc_improper_test ENDP
 
 nested_substitution_test PROC
 ; CHECK-LABEL: nested_substitution_test:
-  FOR s, <A-, OK>
-    FORC c, <s>
-      mov al, '&c'
-    ENDM
-  ENDM
+        FOR     s, <A-, OK>
+                FORC    c, <s>
+                        mov     al, '&c'
+                ENDM
+        ENDM
 ; CHECK: mov al, 65
 ; CHECK: mov al, 45
 ; CHECK: mov al, 79

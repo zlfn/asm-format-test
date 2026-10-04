@@ -2,10 +2,10 @@
 ; IRQ handling (C128 version)
 ;
 
-        .export         initirq, doneirq
-        .import         callirq
+        .export initirq, doneirq
+        .import callirq
 
-        .include        "c128.inc"
+        .include "c128.inc"
 
 ; ------------------------------------------------------------------------
 
@@ -46,12 +46,12 @@ setvec: sei
 .segment        "LOWCODE"
 
 IRQStub:
-        cld                             ; Just to be sure
-        lda     MMU_CR                  ; Get old register value
-        pha                             ; And save on stack
-        lda     #MMU_CFG_CC65           ; Bank 0 with kernal ROM
+        cld                     ; Just to be sure
+        lda     MMU_CR          ; Get old register value
+        pha                     ; And save on stack
+        lda     #MMU_CFG_CC65   ; Bank 0 with kernal ROM
         sta     MMU_CR
-        jsr     callirq                 ; Call the functions
-        pla                             ; Get old register value
+        jsr     callirq         ; Call the functions
+        pla                     ; Get old register value
         sta     MMU_CR
-        jmp     IRQInd                  ; Jump to the saved IRQ vector
+        jmp     IRQInd          ; Jump to the saved IRQ vector

@@ -9,16 +9,16 @@ EXTERN asm_sp1_Initialize
 
 _sp1_Initialize:
 
-   ld hl,2
-   add hl,sp
-   
-   ld a,(hl)
-   inc hl
-   inc hl
-   ld d,(hl)
-   inc hl
-   inc hl
-   ld e,(hl)
-   ex de,hl
+        ld      hl, 2
+        add     hl, sp
 
-   jp asm_sp1_Initialize
+        ld      a, (hl)
+        inc     hl
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        inc     hl
+        ld      e,  (hl)
+        ex      de, hl
+
+        jp      asm_sp1_Initialize

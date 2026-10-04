@@ -8,7 +8,7 @@ EXTERN console_01_input_stdio_msg_flsh
 
 rc_01_input_uarta_stdio_msg_flsh:
 
-   ; get rid of any pending chars in the uarta buffer
+        ; get rid of any pending chars in the uarta buffer
 
-   call _uarta_flush_rx_di
-   jp console_01_input_stdio_msg_flsh
+        call    _uarta_flush_rx_di
+        jp      console_01_input_stdio_msg_flsh

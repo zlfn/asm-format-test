@@ -9,12 +9,12 @@ EXTERN asm_strrstr
 
 _strrstr:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   jp asm_strrstr
+        pop     af
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_strrstr

@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _ba_stack_destroy
 defc _ba_stack_destroy = ba_stack_destroy
 ENDIF
-

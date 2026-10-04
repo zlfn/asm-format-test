@@ -9,15 +9,15 @@ EXTERN asm_esx_m_geterr
 
 _esx_m_geterr_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 l0_esx_m_geterr_callee:
 
-   push ix
-   
-   call asm_esx_m_geterr
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_m_geterr
+
+        pop     ix
+        ret

@@ -13,58 +13,57 @@
 
 ;; void stencil_add_point(int x, int y, unsigned char *stencil)
 
+        SECTION code_graphics
+        PUBLIC  stencil_add_point
+        PUBLIC  _stencil_add_point
 
-    SECTION code_graphics
-    PUBLIC  stencil_add_point
-    PUBLIC  _stencil_add_point
+        EXTERN  stencil_add_pixel
 
-    EXTERN  stencil_add_pixel
-
-    ; No paging required on the 'stencil' structures !
+        ; No paging required on the 'stencil' structures !
         ;EXTERN    __gfx_vram_page_in
         ;EXTERN    __gfx_vram_page_out
 
-    EXTERN  stencil_ptr
-    INCLUDE "classic/gfx/grafix.inc"
+        EXTERN  stencil_ptr
+        INCLUDE "classic/gfx/grafix.inc"
 
 stencil_add_point:
 _stencil_add_point:
 
 IF  !__CPU_INTEL__&!__CPU_GBZ80__
 
-    push    ix
-    ld      ix, 2
-    add     ix, sp
+        push    ix
+        ld      ix, 2
+        add     ix, sp
 
-    ld      l, (ix+2)                   ;pointer to stencil
-    ld      h, (ix+3)
-    ld      (stencil_ptr), hl
+        ld      l, (ix+2)       ;pointer to stencil
+        ld      h, (ix+3)
+        ld      (stencil_ptr), hl
 
-    ;ld    l,(ix+4)    ;pointer to leftmost vector
-    ;ld    h,(ix+5)
-    ;ld    (gfx_area),hl
+        ;ld    l,(ix+4)    ;pointer to leftmost vector
+        ;ld    h,(ix+5)
+        ;ld    (gfx_area),hl
 
-    ld      l, (ix+4)                   ;y0
-    ld      h, (ix+6)                   ;x0
+        ld      l, (ix+4)       ;y0
+        ld      h, (ix+6)       ;x0
 
-    pop     ix
+        pop     ix
 
 ELSE
 
-    pop     af
-    pop     hl
-    ld      (stencil_ptr), hl
+        pop     af
+        pop     hl
+        ld      (stencil_ptr), hl
 
-    pop     de                          ; y
-    pop     hl                          ; x
-    ld      d,l
-    
-    push    hl
-    push    de
+        pop     de      ; y
+        pop     hl      ; x
+        ld      d, l
 
-    push    hl
-    push    af
+        push    hl
+        push    de
+
+        push    hl
+        push    af
 
 ENDIF
 
-    jp      stencil_add_pixel
+        jp      stencil_add_pixel

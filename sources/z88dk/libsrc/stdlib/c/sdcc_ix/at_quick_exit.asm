@@ -10,10 +10,10 @@ EXTERN asm_at_quick_exit
 
 _at_quick_exit:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_at_quick_exit
+        push    hl
+        push    af
+
+        jp      asm_at_quick_exit

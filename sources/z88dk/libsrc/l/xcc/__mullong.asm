@@ -24,26 +24,26 @@ EXTERN l_mulu_32_32x32
 
 __mul32:
 __mullong:
-   push ix
-   ld ix,0
-   add ix,sp                   ; ix = sp; 4(ix)..7(ix) = y bytes (lsb..msb)
+        push    ix
+        ld      ix, 0
+        add     ix, sp  ; ix = sp; 4(ix)..7(ix) = y bytes (lsb..msb)
 
-   ex de,hl                    ; bank A: DE=hi(x), HL=lo(x)  — z88dk order
-   exx                         ; bank B now active; x parked in shadow
+        ex      de, hl  ; bank A: DE=hi(x), HL=lo(x)  — z88dk order
+        exx             ; bank B now active; x parked in shadow
 
-   ld l,(ix+4)
-   ld h,(ix+5)                 ; HL = y_low_word
-   ld e,(ix+6)
-   ld d,(ix+7)                 ; DE = y_high_word — bank B in z88dk order
+        ld      l, (ix+4)
+        ld      h, (ix+5)       ; HL = y_low_word
+        ld      e, (ix+6)
+        ld      d, (ix+7)       ; DE = y_high_word — bank B in z88dk order
 
-   call l_mulu_32_32x32        ; bank B = product (z88dk)
+        call    l_mulu_32_32x32 ; bank B = product (z88dk)
 
-   ex de,hl                    ; bank B: DE=lo, HL=hi  — xcc order
-   push hl
-   push de
-   exx                         ; back to bank A (clobbered by mul; product on stack)
-   pop de
-   pop hl                      ; bank A = product (xcc order)
+        ex      de, hl  ; bank B: DE=lo, HL=hi  — xcc order
+        push    hl
+        push    de
+        exx             ; back to bank A (clobbered by mul; product on stack)
+        pop     de
+        pop     hl      ; bank A = product (xcc order)
 
-   pop ix
-   ret
+        pop     ix
+        ret

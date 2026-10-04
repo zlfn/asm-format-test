@@ -8,12 +8,12 @@ EXTERN asm_esx_ide_bank_alloc
 
 _esx_ide_bank_alloc_fastcall:
 
-   push ix
-   push iy
-   
-   call asm_esx_ide_bank_alloc
-   
-   pop iy
-   pop ix
+        push    ix
+        push    iy
 
-   ret
+        call    asm_esx_ide_bank_alloc
+
+        pop     iy
+        pop     ix
+
+        ret

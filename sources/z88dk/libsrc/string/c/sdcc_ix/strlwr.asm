@@ -10,10 +10,10 @@ EXTERN asm_strlwr
 
 _strlwr:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_strlwr
+        push    hl
+        push    af
+
+        jp      asm_strlwr

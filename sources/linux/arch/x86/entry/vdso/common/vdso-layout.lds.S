@@ -18,69 +18,67 @@ SECTIONS
 	 * segment.
 	 */
 
-	VDSO_VVAR_SYMS
+        VDSO_VVAR_SYMS
 
-	vclock_pages = VDSO_VCLOCK_PAGES_START(vdso_u_data);
-	pvclock_page = vclock_pages + VDSO_PAGE_PVCLOCK_OFFSET * PAGE_SIZE;
-	hvclock_page = vclock_pages + VDSO_PAGE_HVCLOCK_OFFSET * PAGE_SIZE;
+        vclock_pages = VDSO_VCLOCK_PAGES_START(vdso_u_data);
+        pvclock_page = vclock_pages + VDSO_PAGE_PVCLOCK_OFFSET * PAGE_SIZE;
+        hvclock_page = vclock_pages + VDSO_PAGE_HVCLOCK_OFFSET * PAGE_SIZE;
 
-	. = SIZEOF_HEADERS;
+        .       = SIZEOF_HEADERS;
 
-	.hash		: { *(.hash) }			:text
-	.gnu.hash	: { *(.gnu.hash) }
-	.dynsym		: { *(.dynsym) }
-	.dynstr		: { *(.dynstr) }
-	.gnu.version	: { *(.gnu.version) }
-	.gnu.version_d	: { *(.gnu.version_d) }
-	.gnu.version_r	: { *(.gnu.version_r) }
+        .hash   : { *(.hash) }			:text
+        .gnu.hash : { *(.gnu.hash) }
+        .dynsym : { *(.dynsym) }
+        .dynstr : { *(.dynstr) }
+        .gnu.version : { *(.gnu.version) }
+        .gnu.version_d : { *(.gnu.version_d) }
+        .gnu.version_r : { *(.gnu.version_r) }
 
-	.dynamic	: { *(.dynamic) }		:text	:dynamic
+        .dynamic : { *(.dynamic) }		:text	:dynamic
 
-	.rodata		: {
-		*(.rodata*)
-		*(.data*)
-		*(.sdata*)
-		*(.got.plt) *(.got)
-		*(.gnu.linkonce.d.*)
-		*(.bss*)
-		*(.dynbss*)
-		*(.gnu.linkonce.b.*)
-	}						:text
+        .rodata : {
+        *(.rodata*)
+        *(.data*)
+        *(.sdata*)
+        *(.got.plt) *(.got)
+        *(.gnu.linkonce.d.*)
+        *(.bss*)
+        *(.dynbss*)
+        *(.gnu.linkonce.b.*)
+        }       :text
 
-	.note.gnu.property : {
-		*(.note.gnu.property)
-	}					:text :note :gnu_property
-	.note		: {
-		*(.note*)
-	}					:text :note
+        .note.gnu.property : {
+        *(.note.gnu.property)
+        }       :text :note :gnu_property
+        .note   : {
+        *(.note*)
+        }       :text :note
 
-	.eh_frame_hdr	: { *(.eh_frame_hdr) }	:text :eh_frame_hdr
-	.eh_frame	: {
-		KEEP (*(.eh_frame))
-		*(.eh_frame.*)
-	}					:text
+        .eh_frame_hdr : { *(.eh_frame_hdr) }	:text :eh_frame_hdr
+        .eh_frame : {
+        KEEP    (*(.eh_frame))
+        *(.eh_frame.*)
+        }       :text
 
 	/*
 	 * Text is well-separated from actual data: there's plenty of
 	 * stuff that isn't used at runtime in between.
 	 */
 
-	.text		: {
-		*(.text*)
-	}						:text	=0x90909090,
+        .text   : {
+        *(.text*)
+        }       :text	=0x90909090,
 
+        .altinstructions : { *(.altinstructions) }	:text
+        .altinstr_replacement : { *(.altinstr_replacement) }	:text
 
+        __ex_table : { *(__ex_table) }		:text
 
-	.altinstructions	: { *(.altinstructions) }	:text
-	.altinstr_replacement	: { *(.altinstr_replacement) }	:text
-
-	__ex_table		: { *(__ex_table) }		:text
-
-	/DISCARD/ : {
-		*(.discard)
-		*(.discard.*)
-		*(__bug_table)
-	}
+        /DISCARD/ : {
+        *(.discard)
+        *(.discard.*)
+        *(__bug_table)
+        }
 }
 
 /*
@@ -100,10 +98,10 @@ SECTIONS
 
 PHDRS
 {
-	text		PT_LOAD		PF_RX FILEHDR PHDRS;
-	dynamic		PT_DYNAMIC	PF_R;
-	note		PT_NOTE		PF_R;
-	eh_frame_hdr	PT_GNU_EH_FRAME PF_R;
-	gnu_stack	PT_GNU_STACK	PF_RW;
-	gnu_property	PT_GNU_PROPERTY	PF_R;
+        text    PT_LOAD		PF_RX FILEHDR PHDRS;
+        dynamic PT_DYNAMIC	PF_R;
+        note    PT_NOTE		PF_R;
+        eh_frame_hdr PT_GNU_EH_FRAME PF_R;
+        gnu_stack PT_GNU_STACK	PF_RW;
+        gnu_property PT_GNU_PROPERTY	PF_R;
 }

@@ -7,16 +7,16 @@ PUBLIC asm_sms_vram_read_hl
 
 asm_sms_vram_read_hl:
 
-   ; enter : hl = vram address
-   ;
-   ; uses  : af
+        ; enter : hl = vram address
+        ;
+        ; uses  : af
 
-   di
+        di
 
-   ld a,l
-   out (__IO_VDP_COMMAND),a
-   ld a,h
-   out (__IO_VDP_COMMAND),a
+        ld      a, l
+        out     (__IO_VDP_COMMAND), a
+        ld      a, h
+        out     (__IO_VDP_COMMAND), a
 
-   ei   
-   ret
+        ei
+        ret

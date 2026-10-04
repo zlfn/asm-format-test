@@ -8,20 +8,20 @@ EXTERN l0_esx_f_seek_callee
 
 _esx_f_seek:
 
-   pop af
-   ex af,af'
-   dec sp
-   pop af
-   pop de
-   pop bc
-   dec sp
-   pop hl
-   
-   push hl
-   push hl
-   push hl
-   ex af,af'
-   push af
-   ex af,af'
+        pop     af
+        ex      af, af'
+        dec     sp
+        pop     af
+        pop     de
+        pop     bc
+        dec     sp
+        pop     hl
 
-   jp l0_esx_f_seek_callee
+        push    hl
+        push    hl
+        push    hl
+        ex      af, af'
+        push    af
+        ex      af, af'
+
+        jp      l0_esx_f_seek_callee

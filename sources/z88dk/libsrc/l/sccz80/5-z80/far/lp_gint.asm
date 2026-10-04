@@ -9,17 +9,17 @@ EXTERN  __far_page
 EXTERN  l_far_incptrs
 
 lp_gint:
-    call   __far_start
-    ex     af,af
-    ld     bc,hl
-    call    __far_page
-    ; hl = physical address
-    ld      a,(hl)
-    call    l_far_incptrs
-    ld      h,(hl)
-    ld      l,a
-    ex      af,af
-    call    __far_end
-    ret
+        call    __far_start
+        ex      af, af
+        ld      bc, hl
+        call    __far_page
+        ; hl = physical address
+        ld      a, (hl)
+        call    l_far_incptrs
+        ld      h,  (hl)
+        ld      l,  a
+        ex      af, af
+        call    __far_end
+        ret
 
 ENDIF

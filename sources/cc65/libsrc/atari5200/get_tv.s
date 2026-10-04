@@ -5,8 +5,7 @@
 ; /* Return the video mode the machine is using */
 ;
 
-        .include        "get_tv.inc"
-
+        .include "get_tv.inc"
 
 ;--------------------------------------------------------------------------
 ; _get_tv

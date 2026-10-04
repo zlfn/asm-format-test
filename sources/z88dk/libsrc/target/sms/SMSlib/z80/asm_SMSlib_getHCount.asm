@@ -12,10 +12,10 @@ PUBLIC asm_SMSlib_getHCount
 
 asm_SMSlib_getHCount:
 
-   ; unsigned char SMS_getHCount (void)
-   ;
-   ; uses  : af, l
-   
-   in a,(VDPHCounterPort)
-   ld l,a
-   ret
+        ; unsigned char SMS_getHCount (void)
+        ;
+        ; uses  : af, l
+
+        in      a, (VDPHCounterPort)
+        ld      l, a
+        ret

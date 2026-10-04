@@ -10,4 +10,4 @@
 
 .rodata
 
-_tgi_stddrv:    .asciiz "atmos-240-200-2.tgi"
+_tgi_stddrv: .asciiz "atmos-240-200-2.tgi"

@@ -9,21 +9,20 @@ EXTERN asm_SMSlib_VRAMmemset
 
 SMS_VRAMmemset:
 
-   pop af
-   pop bc
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     de
+        pop     hl
 
-   jp asm_SMSlib_VRAMmemset
+        push    hl
+        push    de
+        push    bc
+        push    af
+
+        jp      asm_SMSlib_VRAMmemset
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _SMS_VRAMmemset
 defc _SMS_VRAMmemset = SMS_VRAMmemset
 ENDIF
-

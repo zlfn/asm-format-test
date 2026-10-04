@@ -16,25 +16,25 @@ EXTERN asm_getdelim
 
 _getdelim_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   exx
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        exx
+        pop     bc
+        push    af
 
 l0_getdelim_callee:
 
-   push bc
-   exx
-   
-   ex (sp),ix
-   
-   call asm_getdelim
-   
-   pop ix
-   ret
+        push    bc
+        exx
+
+        ex      (sp), ix
+
+        call    asm_getdelim
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

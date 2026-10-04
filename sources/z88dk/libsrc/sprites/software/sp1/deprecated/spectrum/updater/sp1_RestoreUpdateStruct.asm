@@ -17,8 +17,8 @@ PUBLIC sp1_RestoreUpdateStruct
 
 .sp1_RestoreUpdateStruct
 
-   bit 6,(hl)
-   ret z                ; this cell was never removed so just return
+        bit     6, (hl)
+        ret     z       ; this cell was never removed so just return
 
-   ld (hl),1            ; clear invalidated + removed flags
-   ret
+        ld      (hl), 1 ; clear invalidated + removed flags
+        ret

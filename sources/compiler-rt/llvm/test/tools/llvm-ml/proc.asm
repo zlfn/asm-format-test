@@ -3,9 +3,9 @@
 
 .code
 
-t1 PROC
-  ret
-t1 ENDP
+t1      PROC
+        ret
+t1      ENDP
 
 ; CHECK: t1:
 ; CHECK: ret

@@ -13,7 +13,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT32
@@ -25,12 +25,11 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMathModU64x32)
 ASM_PFX(InternalMathModU64x32):
-    mov     eax, [esp + 8]
-    mov     ecx, [esp + 12]
-    xor     edx, edx
-    div     ecx
-    mov     eax, [esp + 4]
-    div     ecx
-    mov     eax, edx
-    ret
-
+        mov     eax, [esp + 8]
+        mov     ecx, [esp + 12]
+        xor     edx, edx
+        div     ecx
+        mov     eax, [esp + 4]
+        div     ecx
+        mov     eax, edx
+        ret

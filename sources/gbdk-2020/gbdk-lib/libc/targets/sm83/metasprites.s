@@ -1,4 +1,4 @@
-        .include    "global.s"
+        .include "global.s"
 
         .title  "Metasprites"
         .module Metasprites
@@ -10,7 +10,7 @@ ___current_metasprite::
 ___current_base_tile::
         .ds     0x01
 ___current_base_prop::
-	.ds     0x01
+        .ds     0x01
 
         .area   _INITIALIZED
 ___render_shadow_OAM::
@@ -35,35 +35,35 @@ ___move_metasprite::
         ld      c, a
 
         ld      hl, #___current_metasprite
-        ld      a, (hl+)
-        ld      h, (hl)
-        ld      l, a
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a
 
         ld      a, (___render_shadow_OAM)
         ld      b, a
 1$:
-        ld      a, (hl+)    ; dy
+        ld      a, (hl+)        ; dy
         cp      #0x80
         jr      z, 2$
         add     d
-        ld      d, a
+        ld      d,    a
         ld      (bc), a
         inc     c
 
-        ld      a, (hl+)    ; dx
+        ld      a, (hl+)        ; dx
         add     e
-        ld      e, a
+        ld      e,    a
         ld      (bc), a
         inc     c
 
         ld      a, (___current_base_tile)
-        add     (hl)        ; tile
+        add     (hl)    ; tile
         inc     hl
         ld      (bc), a
         inc     c
 
-		ld      a, (___current_base_prop)
-        add     (hl)        ; props
+        ld      a, (___current_base_prop)
+        add     (hl)    ; props
         inc     hl
         ld      (bc), a
         inc     c
@@ -73,8 +73,8 @@ ___move_metasprite::
         jr      c, 1$
 2$:
         ld      a, c
-		rrca
-		rrca
+        rrca
+        rrca
         pop     de
         sub     d
 

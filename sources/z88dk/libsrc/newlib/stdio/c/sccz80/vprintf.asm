@@ -16,15 +16,15 @@ EXTERN asm_vprintf
 
 vprintf:
 
-   pop af
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push af
-   
-   jp asm_vprintf
+        pop     af
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    af
+
+        jp      asm_vprintf
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

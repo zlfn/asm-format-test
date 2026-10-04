@@ -10,7 +10,7 @@ EXTERN asm_quick_exit
 
 _quick_exit:
 
-   pop af
-   pop hl
-   
-   jp asm_quick_exit
+        pop     af
+        pop     hl
+
+        jp      asm_quick_exit

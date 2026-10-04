@@ -10,10 +10,10 @@ EXTERN asm__div
 
 __div__callee:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   push af
-   
-   jp asm__div
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm__div

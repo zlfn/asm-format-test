@@ -8,10 +8,10 @@ EXTERN _esx_f_chdir_fastcall
 
 _esx_f_chdir:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _esx_f_chdir_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _esx_f_chdir_fastcall

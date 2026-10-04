@@ -17,74 +17,74 @@ SECTION code_fp_am9511
 PUBLIC asm_am9511_fmul10u_fastcall
 
 .asm_am9511_fmul10u_fastcall
-    sla e                       ; get exponent into d
-    rl d
-    jr Z,zero_legal             ; return IEEE zero
+        sla     e               ; get exponent into d
+        rl      d
+        jr      Z, zero_legal   ; return IEEE zero
 
-    ld a,d
-    inc a
-    jr Z,exp_max                ; Inf/NaN: force non-negative, keep payload
+        ld      a, d
+        inc     a
+        jr      Z, exp_max      ; Inf/NaN: force non-negative, keep payload
 
-    scf                         ; set hidden bit
-    rr e                        ; return mantissa to ehl
+        scf             ; set hidden bit
+        rr      e       ; return mantissa to ehl
 
-                                ; 10*a = 2*(4*a + a)     
-    push de                     ; dehl *= 10
-    push hl
+        ; 10*a = 2*(4*a + a)
+        push    de      ; dehl *= 10
+        push    hl
 
-    srl e
-    rr h
-    rr l
-    srl e
-    rr h
-    rr l
+        srl     e
+        rr      h
+        rr      l
+        srl     e
+        rr      h
+        rr      l
 
-    ex de,hl
-    ex (sp),hl
-    add hl,de
-    pop de
-    ex (sp),hl
-    ld a,l
-    adc a,e
-    ld e,a
-    pop hl
+        ex      de,   hl
+        ex      (sp), hl
+        add     hl,   de
+        pop     de
+        ex      (sp), hl
+        ld      a,    l
+        adc     a,    e
+        ld      e,    a
+        pop     hl
 
-    ld a,3                      ; exponent increase
-    jr NC,no_carry
+        ld      a,  3   ; exponent increase
+        jr      NC, no_carry
 
-    rr e                        ; shift if a carry
-    rr h
-    rr l
-    inc a                       ; and increment exponent
+        rr      e       ; shift if a carry
+        rr      h
+        rr      l
+        inc     a       ; and increment exponent
 
 .no_carry
-    add a,d                     ; resulting exponent
-    jr C,infinity
+        add     a, d    ; resulting exponent
+        jr      C, infinity
 
-    ld d,a
-    sla e
-    srl d
-    rr e
-    ret                         ; return IEEE DEHL
+        ld      d, a
+        sla     e
+        srl     d
+        rr      e
+        ret     ; return IEEE DEHL
 
 .zero_legal
-    ld e,d                      ; use 0
-    ld hl,de
+        ld      e,  d   ; use 0
+        ld      hl, de
 
-    ld a,d
-    rra                         ; restore the sign and exponent
-    ld d,a
+        ld      a, d
+        rra     ; restore the sign and exponent
+        ld      d, a
 
-    ret                         ; return IEEE signed ZERO in DEHL
+        ret     ; return IEEE signed ZERO in DEHL
 
 .exp_max
-    rr d
-    rr e
-    res 7,d                     ; mul10u is non-negative (Z80; asm/z80 only)
-    ret
+        rr      d
+        rr      e
+        res     7, d    ; mul10u is non-negative (Z80; asm/z80 only)
+        ret
 
 .infinity
-    ld de,$7f80                 ; +Inf
-    ld hl,0
-    scf
-    ret                         ; return IEEE signed INFINITY in DEHL
+        ld      de, $7f80       ; +Inf
+        ld      hl, 0
+        scf
+        ret                     ; return IEEE signed INFINITY in DEHL

@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _p_queue_push_callee
 defc _p_queue_push_callee = p_queue_push_callee
 ENDIF
-

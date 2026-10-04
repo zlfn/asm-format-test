@@ -9,19 +9,18 @@ EXTERN asm_SMSlib_UNSAFE_VRAMmemcpy128
 
 UNSAFE_SMS_VRAMmemcpy128:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     hl
 
-   jp asm_SMSlib_UNSAFE_VRAMmemcpy128
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_SMSlib_UNSAFE_VRAMmemcpy128
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _UNSAFE_SMS_VRAMmemcpy128
 defc _UNSAFE_SMS_VRAMmemcpy128 = UNSAFE_SMS_VRAMmemcpy128
 ENDIF
-

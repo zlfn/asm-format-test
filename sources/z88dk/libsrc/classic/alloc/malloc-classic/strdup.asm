@@ -17,59 +17,58 @@ PUBLIC ___strdup
 PUBLIC strdup_fastcall
 PUBLIC _strdup_fastcall
 
-
 EXTERN asm_HeapAlloc
 EXTERN _heap
 
 .strdup
 ._strdup
 .___strdup
-    pop bc
-    pop hl
-    push hl
-    push bc
+        pop     bc
+        pop     hl
+        push    hl
+        push    bc
 
 .strdup_fastcall
 ._strdup_fastcall
 
-   push hl
-   ld bc,0
-   
+        push    hl
+        ld      bc, 0
+
 .sizeloop
 
-   inc bc
-   ld a,(hl)
-   inc hl
-   or a
-   jp NZ,sizeloop
+        inc     bc
+        ld      a, (hl)
+        inc     hl
+        or      a
+        jp      NZ, sizeloop
 
-   ld hl,_heap
-   push bc
-   call asm_HeapAlloc
-   pop bc
-   pop de
-   ret NC
+        ld      hl, _heap
+        push    bc
+        call    asm_HeapAlloc
+        pop     bc
+        pop     de
+        ret     NC
 
-   ex de,hl
-   push de
+        ex      de, hl
+        push    de
 
 IF __CPU_INTEL__ || __CPU_GBZ80__
-   dec bc
-   inc b
-   inc c
+        dec     bc
+        inc     b
+        inc     c
 .ldir_loop
-   ld a,(hl+)
-   ld (de+),a
-   dec c
-   jr NZ,ldir_loop
-   dec b
-   jr NZ,ldir_loop
+        ld      a,     (hl+)
+        ld      (de+), a
+        dec     c
+        jr      NZ, ldir_loop
+        dec     b
+        jr      NZ, ldir_loop
 ELSE
-   ldir
+        ldir
 ENDIF
 
-   pop hl
-   ret
+        pop     hl
+        ret
 
 ;
 ;#include <stdlib.h>

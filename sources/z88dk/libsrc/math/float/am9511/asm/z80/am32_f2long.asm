@@ -29,45 +29,42 @@ PUBLIC asm_am9511_f2uint
 PUBLIC asm_am9511_f2slong
 PUBLIC asm_am9511_f2ulong
 
-
 ; Convert floating point number to int
 .asm_am9511_f2sint
 .asm_am9511_f2uint
-    ld a,e                      ;Holds sign + 7bits of exponent
-    rla
+        ld      a, e    ;Holds sign + 7bits of exponent
+        rla
 
-    ld a,d                      ;a = Exponent
-    rl a
-    jp Z,asm_am9511_zero        ;exponent was 0, return 0
+        ld      a, d                    ;a = Exponent
+        rl      a
+        jp      Z, asm_am9511_zero      ;exponent was 0, return 0
 
-    cp $7e + 16
-    jp NC,asm_am9511_max        ;number too large
+        cp      $7e + 16
+        jp      NC, asm_am9511_max      ;number too large
 
-    call asm_am9511_pushf_fastcall  ;float x
+        call    asm_am9511_pushf_fastcall       ;float x
 
-    ld a,__IO_APU_OP_FIXS
-    AM9511_OUT_APU_CONTROL        ;int x
+        ld      a, __IO_APU_OP_FIXS
+        AM9511_OUT_APU_CONTROL  ;int x
 
-    jp asm_am9511_popi
-
+        jp      asm_am9511_popi
 
 ; Convert floating point number to long
 .asm_am9511_f2slong
 .asm_am9511_f2ulong
-    ld a,e                      ;Holds sign + 7bits of exponent
-    rla
+        ld      a, e    ;Holds sign + 7bits of exponent
+        rla
 
-    ld a,d                      ;a = Exponent
-    rl a
-    jp Z,asm_am9511_zero        ;exponent was 0, return 0
+        ld      a, d                    ;a = Exponent
+        rl      a
+        jp      Z, asm_am9511_zero      ;exponent was 0, return 0
 
-    cp $7e + 32
-    jp NC,asm_am9511_max        ;number too large
+        cp      $7e + 32
+        jp      NC, asm_am9511_max      ;number too large
 
-    call asm_am9511_pushf_fastcall  ;float x
+        call    asm_am9511_pushf_fastcall       ;float x
 
-    ld a,__IO_APU_OP_FIXD
-    AM9511_OUT_APU_CONTROL        ;long x
+        ld      a, __IO_APU_OP_FIXD
+        AM9511_OUT_APU_CONTROL  ;long x
 
-    jp asm_am9511_popl
-
+        jp      asm_am9511_popl

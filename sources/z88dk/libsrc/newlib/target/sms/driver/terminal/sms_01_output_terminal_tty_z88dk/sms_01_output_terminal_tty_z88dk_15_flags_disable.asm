@@ -6,14 +6,14 @@ PUBLIC sms_01_output_terminal_tty_z88dk_15_flags_disable
 
 sms_01_output_terminal_tty_z88dk_15_flags_disable:
 
-   ; disable flag bits
-   
-   ; de = parameters *
-   
-   ld a,(de)
+        ; disable flag bits
 
-   cpl
-   and (ix+25)
-   ld (ix+25),a
-   
-   ret
+        ; de = parameters *
+
+        ld      a, (de)
+
+        cpl
+        and     (ix+25)
+        ld      (ix+25), a
+
+        ret

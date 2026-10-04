@@ -10,23 +10,22 @@ EXTERN asm_z80_otir
 
 z80_otir:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
 
-   ld b,e
-   otir
-   ret
-   
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        ld      b, e
+        otir
+        ret
+
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _z80_otir
 defc _z80_otir = z80_otir
 ENDIF
-

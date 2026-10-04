@@ -18,7 +18,7 @@
 .section	.rodata.cst16.bswap128_mask, "aM", @progbits, 16
 .align 16
 .Lbswap128_mask:
-	.byte 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
+        .byte   15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 
 .text
 
@@ -558,49 +558,49 @@ SYM_FUNC_START_LOCAL(__serpent_enc_blk16)
 	 *	RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2: ciphertext
 	 */
 
-	vpcmpeqd RNOT, RNOT, RNOT;
+        vpcmpeqd RNOT, RNOT, RNOT;
 
-	read_blocks(RA1, RB1, RC1, RD1, RK0, RK1, RK2);
-	read_blocks(RA2, RB2, RC2, RD2, RK0, RK1, RK2);
+        read_blocks(RA1, RB1, RC1, RD1, RK0, RK1, RK2);
+        read_blocks(RA2, RB2, RC2, RD2, RK0, RK1, RK2);
 
-						 K2(RA, RB, RC, RD, RE, 0);
-	S(S0, RA, RB, RC, RD, RE);		LK2(RC, RB, RD, RA, RE, 1);
-	S(S1, RC, RB, RD, RA, RE);		LK2(RE, RD, RA, RC, RB, 2);
-	S(S2, RE, RD, RA, RC, RB);		LK2(RB, RD, RE, RC, RA, 3);
-	S(S3, RB, RD, RE, RC, RA);		LK2(RC, RA, RD, RB, RE, 4);
-	S(S4, RC, RA, RD, RB, RE);		LK2(RA, RD, RB, RE, RC, 5);
-	S(S5, RA, RD, RB, RE, RC);		LK2(RC, RA, RD, RE, RB, 6);
-	S(S6, RC, RA, RD, RE, RB);		LK2(RD, RB, RA, RE, RC, 7);
-	S(S7, RD, RB, RA, RE, RC);		LK2(RC, RA, RE, RD, RB, 8);
-	S(S0, RC, RA, RE, RD, RB);		LK2(RE, RA, RD, RC, RB, 9);
-	S(S1, RE, RA, RD, RC, RB);		LK2(RB, RD, RC, RE, RA, 10);
-	S(S2, RB, RD, RC, RE, RA);		LK2(RA, RD, RB, RE, RC, 11);
-	S(S3, RA, RD, RB, RE, RC);		LK2(RE, RC, RD, RA, RB, 12);
-	S(S4, RE, RC, RD, RA, RB);		LK2(RC, RD, RA, RB, RE, 13);
-	S(S5, RC, RD, RA, RB, RE);		LK2(RE, RC, RD, RB, RA, 14);
-	S(S6, RE, RC, RD, RB, RA);		LK2(RD, RA, RC, RB, RE, 15);
-	S(S7, RD, RA, RC, RB, RE);		LK2(RE, RC, RB, RD, RA, 16);
-	S(S0, RE, RC, RB, RD, RA);		LK2(RB, RC, RD, RE, RA, 17);
-	S(S1, RB, RC, RD, RE, RA);		LK2(RA, RD, RE, RB, RC, 18);
-	S(S2, RA, RD, RE, RB, RC);		LK2(RC, RD, RA, RB, RE, 19);
-	S(S3, RC, RD, RA, RB, RE);		LK2(RB, RE, RD, RC, RA, 20);
-	S(S4, RB, RE, RD, RC, RA);		LK2(RE, RD, RC, RA, RB, 21);
-	S(S5, RE, RD, RC, RA, RB);		LK2(RB, RE, RD, RA, RC, 22);
-	S(S6, RB, RE, RD, RA, RC);		LK2(RD, RC, RE, RA, RB, 23);
-	S(S7, RD, RC, RE, RA, RB);		LK2(RB, RE, RA, RD, RC, 24);
-	S(S0, RB, RE, RA, RD, RC);		LK2(RA, RE, RD, RB, RC, 25);
-	S(S1, RA, RE, RD, RB, RC);		LK2(RC, RD, RB, RA, RE, 26);
-	S(S2, RC, RD, RB, RA, RE);		LK2(RE, RD, RC, RA, RB, 27);
-	S(S3, RE, RD, RC, RA, RB);		LK2(RA, RB, RD, RE, RC, 28);
-	S(S4, RA, RB, RD, RE, RC);		LK2(RB, RD, RE, RC, RA, 29);
-	S(S5, RB, RD, RE, RC, RA);		LK2(RA, RB, RD, RC, RE, 30);
-	S(S6, RA, RB, RD, RC, RE);		LK2(RD, RE, RB, RC, RA, 31);
-	S(S7, RD, RE, RB, RC, RA);		 K2(RA, RB, RC, RD, RE, 32);
+        K2(RA,  RB, RC, RD, RE, 0);
+        S(S0,   RA, RB, RC, RD, RE);		LK2(RC, RB, RD, RA, RE, 1);
+        S(S1,   RC, RB, RD, RA, RE);		LK2(RE, RD, RA, RC, RB, 2);
+        S(S2,   RE, RD, RA, RC, RB);		LK2(RB, RD, RE, RC, RA, 3);
+        S(S3,   RB, RD, RE, RC, RA);		LK2(RC, RA, RD, RB, RE, 4);
+        S(S4,   RC, RA, RD, RB, RE);		LK2(RA, RD, RB, RE, RC, 5);
+        S(S5,   RA, RD, RB, RE, RC);		LK2(RC, RA, RD, RE, RB, 6);
+        S(S6,   RC, RA, RD, RE, RB);		LK2(RD, RB, RA, RE, RC, 7);
+        S(S7,   RD, RB, RA, RE, RC);		LK2(RC, RA, RE, RD, RB, 8);
+        S(S0,   RC, RA, RE, RD, RB);		LK2(RE, RA, RD, RC, RB, 9);
+        S(S1,   RE, RA, RD, RC, RB);		LK2(RB, RD, RC, RE, RA, 10);
+        S(S2,   RB, RD, RC, RE, RA);		LK2(RA, RD, RB, RE, RC, 11);
+        S(S3,   RA, RD, RB, RE, RC);		LK2(RE, RC, RD, RA, RB, 12);
+        S(S4,   RE, RC, RD, RA, RB);		LK2(RC, RD, RA, RB, RE, 13);
+        S(S5,   RC, RD, RA, RB, RE);		LK2(RE, RC, RD, RB, RA, 14);
+        S(S6,   RE, RC, RD, RB, RA);		LK2(RD, RA, RC, RB, RE, 15);
+        S(S7,   RD, RA, RC, RB, RE);		LK2(RE, RC, RB, RD, RA, 16);
+        S(S0,   RE, RC, RB, RD, RA);		LK2(RB, RC, RD, RE, RA, 17);
+        S(S1,   RB, RC, RD, RE, RA);		LK2(RA, RD, RE, RB, RC, 18);
+        S(S2,   RA, RD, RE, RB, RC);		LK2(RC, RD, RA, RB, RE, 19);
+        S(S3,   RC, RD, RA, RB, RE);		LK2(RB, RE, RD, RC, RA, 20);
+        S(S4,   RB, RE, RD, RC, RA);		LK2(RE, RD, RC, RA, RB, 21);
+        S(S5,   RE, RD, RC, RA, RB);		LK2(RB, RE, RD, RA, RC, 22);
+        S(S6,   RB, RE, RD, RA, RC);		LK2(RD, RC, RE, RA, RB, 23);
+        S(S7,   RD, RC, RE, RA, RB);		LK2(RB, RE, RA, RD, RC, 24);
+        S(S0,   RB, RE, RA, RD, RC);		LK2(RA, RE, RD, RB, RC, 25);
+        S(S1,   RA, RE, RD, RB, RC);		LK2(RC, RD, RB, RA, RE, 26);
+        S(S2,   RC, RD, RB, RA, RE);		LK2(RE, RD, RC, RA, RB, 27);
+        S(S3,   RE, RD, RC, RA, RB);		LK2(RA, RB, RD, RE, RC, 28);
+        S(S4,   RA, RB, RD, RE, RC);		LK2(RB, RD, RE, RC, RA, 29);
+        S(S5,   RB, RD, RE, RC, RA);		LK2(RA, RB, RD, RC, RE, 30);
+        S(S6,   RA, RB, RD, RC, RE);		LK2(RD, RE, RB, RC, RA, 31);
+        S(S7,   RD, RE, RB, RC, RA);		 K2(RA, RB, RC, RD, RE, 32);
 
-	write_blocks(RA1, RB1, RC1, RD1, RK0, RK1, RK2);
-	write_blocks(RA2, RB2, RC2, RD2, RK0, RK1, RK2);
+        write_blocks(RA1, RB1, RC1, RD1, RK0, RK1, RK2);
+        write_blocks(RA2, RB2, RC2, RD2, RK0, RK1, RK2);
 
-	RET;
+        RET;
 SYM_FUNC_END(__serpent_enc_blk16)
 
 SYM_FUNC_START_LOCAL(__serpent_dec_blk16)
@@ -611,49 +611,49 @@ SYM_FUNC_START_LOCAL(__serpent_dec_blk16)
 	 *	RC1, RD1, RB1, RE1, RC2, RD2, RB2, RE2: plaintext
 	 */
 
-	vpcmpeqd RNOT, RNOT, RNOT;
+        vpcmpeqd RNOT, RNOT, RNOT;
 
-	read_blocks(RA1, RB1, RC1, RD1, RK0, RK1, RK2);
-	read_blocks(RA2, RB2, RC2, RD2, RK0, RK1, RK2);
+        read_blocks(RA1, RB1, RC1, RD1, RK0, RK1, RK2);
+        read_blocks(RA2, RB2, RC2, RD2, RK0, RK1, RK2);
 
-						 K2(RA, RB, RC, RD, RE, 32);
-	SP(SI7, RA, RB, RC, RD, RE, 31);	KL2(RB, RD, RA, RE, RC, 31);
-	SP(SI6, RB, RD, RA, RE, RC, 30);	KL2(RA, RC, RE, RB, RD, 30);
-	SP(SI5, RA, RC, RE, RB, RD, 29);	KL2(RC, RD, RA, RE, RB, 29);
-	SP(SI4, RC, RD, RA, RE, RB, 28);	KL2(RC, RA, RB, RE, RD, 28);
-	SP(SI3, RC, RA, RB, RE, RD, 27);	KL2(RB, RC, RD, RE, RA, 27);
-	SP(SI2, RB, RC, RD, RE, RA, 26);	KL2(RC, RA, RE, RD, RB, 26);
-	SP(SI1, RC, RA, RE, RD, RB, 25);	KL2(RB, RA, RE, RD, RC, 25);
-	SP(SI0, RB, RA, RE, RD, RC, 24);	KL2(RE, RC, RA, RB, RD, 24);
-	SP(SI7, RE, RC, RA, RB, RD, 23);	KL2(RC, RB, RE, RD, RA, 23);
-	SP(SI6, RC, RB, RE, RD, RA, 22);	KL2(RE, RA, RD, RC, RB, 22);
-	SP(SI5, RE, RA, RD, RC, RB, 21);	KL2(RA, RB, RE, RD, RC, 21);
-	SP(SI4, RA, RB, RE, RD, RC, 20);	KL2(RA, RE, RC, RD, RB, 20);
-	SP(SI3, RA, RE, RC, RD, RB, 19);	KL2(RC, RA, RB, RD, RE, 19);
-	SP(SI2, RC, RA, RB, RD, RE, 18);	KL2(RA, RE, RD, RB, RC, 18);
-	SP(SI1, RA, RE, RD, RB, RC, 17);	KL2(RC, RE, RD, RB, RA, 17);
-	SP(SI0, RC, RE, RD, RB, RA, 16);	KL2(RD, RA, RE, RC, RB, 16);
-	SP(SI7, RD, RA, RE, RC, RB, 15);	KL2(RA, RC, RD, RB, RE, 15);
-	SP(SI6, RA, RC, RD, RB, RE, 14);	KL2(RD, RE, RB, RA, RC, 14);
-	SP(SI5, RD, RE, RB, RA, RC, 13);	KL2(RE, RC, RD, RB, RA, 13);
-	SP(SI4, RE, RC, RD, RB, RA, 12);	KL2(RE, RD, RA, RB, RC, 12);
-	SP(SI3, RE, RD, RA, RB, RC, 11);	KL2(RA, RE, RC, RB, RD, 11);
-	SP(SI2, RA, RE, RC, RB, RD, 10);	KL2(RE, RD, RB, RC, RA, 10);
-	SP(SI1, RE, RD, RB, RC, RA, 9);		KL2(RA, RD, RB, RC, RE, 9);
-	SP(SI0, RA, RD, RB, RC, RE, 8);		KL2(RB, RE, RD, RA, RC, 8);
-	SP(SI7, RB, RE, RD, RA, RC, 7);		KL2(RE, RA, RB, RC, RD, 7);
-	SP(SI6, RE, RA, RB, RC, RD, 6);		KL2(RB, RD, RC, RE, RA, 6);
-	SP(SI5, RB, RD, RC, RE, RA, 5);		KL2(RD, RA, RB, RC, RE, 5);
-	SP(SI4, RD, RA, RB, RC, RE, 4);		KL2(RD, RB, RE, RC, RA, 4);
-	SP(SI3, RD, RB, RE, RC, RA, 3);		KL2(RE, RD, RA, RC, RB, 3);
-	SP(SI2, RE, RD, RA, RC, RB, 2);		KL2(RD, RB, RC, RA, RE, 2);
-	SP(SI1, RD, RB, RC, RA, RE, 1);		KL2(RE, RB, RC, RA, RD, 1);
-	S(SI0, RE, RB, RC, RA, RD);		 K2(RC, RD, RB, RE, RA, 0);
+        K2(RA,  RB, RC, RD, RE, 32);
+        SP(SI7, RA, RB, RC, RD, RE, 31);	KL2(RB, RD, RA, RE, RC, 31);
+        SP(SI6, RB, RD, RA, RE, RC, 30);	KL2(RA, RC, RE, RB, RD, 30);
+        SP(SI5, RA, RC, RE, RB, RD, 29);	KL2(RC, RD, RA, RE, RB, 29);
+        SP(SI4, RC, RD, RA, RE, RB, 28);	KL2(RC, RA, RB, RE, RD, 28);
+        SP(SI3, RC, RA, RB, RE, RD, 27);	KL2(RB, RC, RD, RE, RA, 27);
+        SP(SI2, RB, RC, RD, RE, RA, 26);	KL2(RC, RA, RE, RD, RB, 26);
+        SP(SI1, RC, RA, RE, RD, RB, 25);	KL2(RB, RA, RE, RD, RC, 25);
+        SP(SI0, RB, RA, RE, RD, RC, 24);	KL2(RE, RC, RA, RB, RD, 24);
+        SP(SI7, RE, RC, RA, RB, RD, 23);	KL2(RC, RB, RE, RD, RA, 23);
+        SP(SI6, RC, RB, RE, RD, RA, 22);	KL2(RE, RA, RD, RC, RB, 22);
+        SP(SI5, RE, RA, RD, RC, RB, 21);	KL2(RA, RB, RE, RD, RC, 21);
+        SP(SI4, RA, RB, RE, RD, RC, 20);	KL2(RA, RE, RC, RD, RB, 20);
+        SP(SI3, RA, RE, RC, RD, RB, 19);	KL2(RC, RA, RB, RD, RE, 19);
+        SP(SI2, RC, RA, RB, RD, RE, 18);	KL2(RA, RE, RD, RB, RC, 18);
+        SP(SI1, RA, RE, RD, RB, RC, 17);	KL2(RC, RE, RD, RB, RA, 17);
+        SP(SI0, RC, RE, RD, RB, RA, 16);	KL2(RD, RA, RE, RC, RB, 16);
+        SP(SI7, RD, RA, RE, RC, RB, 15);	KL2(RA, RC, RD, RB, RE, 15);
+        SP(SI6, RA, RC, RD, RB, RE, 14);	KL2(RD, RE, RB, RA, RC, 14);
+        SP(SI5, RD, RE, RB, RA, RC, 13);	KL2(RE, RC, RD, RB, RA, 13);
+        SP(SI4, RE, RC, RD, RB, RA, 12);	KL2(RE, RD, RA, RB, RC, 12);
+        SP(SI3, RE, RD, RA, RB, RC, 11);	KL2(RA, RE, RC, RB, RD, 11);
+        SP(SI2, RA, RE, RC, RB, RD, 10);	KL2(RE, RD, RB, RC, RA, 10);
+        SP(SI1, RE, RD, RB, RC, RA, 9);		KL2(RA, RD, RB, RC, RE, 9);
+        SP(SI0, RA, RD, RB, RC, RE, 8);		KL2(RB, RE, RD, RA, RC, 8);
+        SP(SI7, RB, RE, RD, RA, RC, 7);		KL2(RE, RA, RB, RC, RD, 7);
+        SP(SI6, RE, RA, RB, RC, RD, 6);		KL2(RB, RD, RC, RE, RA, 6);
+        SP(SI5, RB, RD, RC, RE, RA, 5);		KL2(RD, RA, RB, RC, RE, 5);
+        SP(SI4, RD, RA, RB, RC, RE, 4);		KL2(RD, RB, RE, RC, RA, 4);
+        SP(SI3, RD, RB, RE, RC, RA, 3);		KL2(RE, RD, RA, RC, RB, 3);
+        SP(SI2, RE, RD, RA, RC, RB, 2);		KL2(RD, RB, RC, RA, RE, 2);
+        SP(SI1, RD, RB, RC, RA, RE, 1);		KL2(RE, RB, RC, RA, RD, 1);
+        S(SI0,  RE, RB, RC, RA, RD);		 K2(RC, RD, RB, RE, RA, 0);
 
-	write_blocks(RC1, RD1, RB1, RE1, RK0, RK1, RK2);
-	write_blocks(RC2, RD2, RB2, RE2, RK0, RK1, RK2);
+        write_blocks(RC1, RD1, RB1, RE1, RK0, RK1, RK2);
+        write_blocks(RC2, RD2, RB2, RE2, RK0, RK1, RK2);
 
-	RET;
+        RET;
 SYM_FUNC_END(__serpent_dec_blk16)
 
 SYM_FUNC_START(serpent_ecb_enc_16way)
@@ -662,20 +662,20 @@ SYM_FUNC_START(serpent_ecb_enc_16way)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	vzeroupper;
+        vzeroupper;
 
-	load_16way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
+        load_16way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
 
-	call __serpent_enc_blk16;
+        call    __serpent_enc_blk16;
 
-	store_16way(%rsi, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
+        store_16way(%rsi, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
 
-	vzeroupper;
+        vzeroupper;
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(serpent_ecb_enc_16way)
 
 SYM_FUNC_START(serpent_ecb_dec_16way)
@@ -684,20 +684,20 @@ SYM_FUNC_START(serpent_ecb_dec_16way)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	vzeroupper;
+        vzeroupper;
 
-	load_16way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
+        load_16way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
 
-	call __serpent_dec_blk16;
+        call    __serpent_dec_blk16;
 
-	store_16way(%rsi, RC1, RD1, RB1, RE1, RC2, RD2, RB2, RE2);
+        store_16way(%rsi, RC1, RD1, RB1, RE1, RC2, RD2, RB2, RE2);
 
-	vzeroupper;
+        vzeroupper;
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(serpent_ecb_dec_16way)
 
 SYM_FUNC_START(serpent_cbc_dec_16way)
@@ -706,19 +706,19 @@ SYM_FUNC_START(serpent_cbc_dec_16way)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	vzeroupper;
+        vzeroupper;
 
-	load_16way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
+        load_16way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
 
-	call __serpent_dec_blk16;
+        call    __serpent_dec_blk16;
 
-	store_cbc_16way(%rdx, %rsi, RC1, RD1, RB1, RE1, RC2, RD2, RB2, RE2,
-			RK0);
+        store_cbc_16way(%rdx, %rsi, RC1, RD1, RB1, RE1, RC2, RD2, RB2, RE2,
+        RK0);
 
-	vzeroupper;
+        vzeroupper;
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(serpent_cbc_dec_16way)

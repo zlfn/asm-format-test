@@ -8,16 +8,16 @@
 ; Important note: The implementation of cputs() relies on the cputc() function
 ; not clobbering ptr1. Beware when rewriting or changing this function!
 
-        .export         _cputcxy, _cputc, cputdirect, putchar
-        .export         newline, plot
-        .import         gotoxy
-        .import         PLOT
+        .export _cputcxy, _cputc, cputdirect, putchar
+        .export newline,  plot
+        .import gotoxy
+        .import PLOT
 
 .scope  KERNAL
-        .include        "cbm_kernal.inc"
+        .include "cbm_kernal.inc"
 .endscope
 
-        .include        "vic20.inc"
+        .include "vic20.inc"
 
 ; VIC-20 KERNAL routines (such as PLOT) do not always leave the color RAM
 ; pointer CRAM_PTR pointing at the color RAM location matching the screen
@@ -34,40 +34,40 @@
 ; incorrect for us at program startup, causing cputc() not to work. We fix
 ; this with a constructor that ensures CRAM_PTR matches SCREEN_PTR.
 ;
-        UPDCRAMPTR := KERNAL::UPDCRAMPTR    ; .constructor doesn't understand namespaces
-        .constructor    UPDCRAMPTR
+        UPDCRAMPTR := KERNAL::UPDCRAMPTR        ; .constructor doesn't understand namespaces
+        .constructor UPDCRAMPTR
 
 _cputcxy:
-        pha                     ; Save C
-        jsr     gotoxy          ; Set cursor, drop x and y
-        pla                     ; Restore C
+        pha             ; Save C
+        jsr     gotoxy  ; Set cursor, drop x and y
+        pla             ; Restore C
 
 ; Plot a character -- also used as an internal function
 
-_cputc: cmp     #$0D            ; Is it CBM '\n'?
-        beq     newline         ; Recalculate pointers
-        cmp     #$0A            ; Is it CBM '\r'?
+_cputc: cmp     #$0D    ; Is it CBM '\n'?
+        beq     newline ; Recalculate pointers
+        cmp     #$0A    ; Is it CBM '\r'?
         beq     cr
 
 ; Printable char. of some sort
 ; Convert it from PetSCII into a screen-code
 
-        cmp     #$FF            ; BASIC token?
+        cmp     #$FF    ; BASIC token?
         bne     convert
-        lda     #$DE            ; Pi symbol
+        lda     #$DE    ; Pi symbol
 convert:
         tay
-        lsr     a               ; Divide by 256/8
+        lsr     a       ; Divide by 256/8
         lsr     a
         lsr     a
         lsr     a
         lsr     a
-        tax                     ; .X = %00000xxx
+        tax             ; .X = %00000xxx
         tya
-        eor     pet_to_screen,x
+        eor     pet_to_screen, x
 
 cputdirect:
-        jsr     putchar         ; Write the character to the screen
+        jsr     putchar ; Write the character to the screen
 
 ; Advance the cursor position
 
@@ -75,12 +75,11 @@ advance:
         iny
         cpy     #XSIZE
         bne     L3
-        jsr     newline         ; Wrap around
+        jsr     newline ; Wrap around
 
-cr:     ldy     #$00            ; Do carriage-return
+cr:     ldy     #$00    ; Do carriage-return
 L3:     sty     CURS_X
         rts
-
 
 ; Move down by one full screen-line.  Note: this routine doesn't scroll.
 ;
@@ -100,14 +99,12 @@ newline:
 L5:     inc     CURS_Y
         rts
 
-
 ; Set cursor position, calculate RAM pointers
 
 plot:   ldy     CURS_X
         ldx     CURS_Y
         clc
-        jmp     PLOT            ; Set the new cursor
-
+        jmp     PLOT    ; Set the new cursor
 
 ; Write one character to the screen without doing anything else,
 ; return the X position in .Y
@@ -115,13 +112,12 @@ plot:   ldy     CURS_X
 putchar:
         ora     RVS             ; Set revers bit
         ldy     CURS_X
-        sta     (SCREEN_PTR),y  ; Set char.
+        sta     (SCREEN_PTR), y ; Set char.
         lda     CHARCOLOR
-        sta     (CRAM_PTR),y    ; Set color
+        sta     (CRAM_PTR), y   ; Set color
         rts
-
 
         .rodata
 pet_to_screen:
-        .byte   %10000000,%00000000,%01000000,%00100000 ; PetSCII -> screen-code
-        .byte   %01000000,%11000000,%10000000,%10000000
+        .byte   %10000000, %00000000, %01000000, %00100000 ; PetSCII -> screen-code
+        .byte   %01000000, %11000000, %10000000, %10000000

@@ -15,8 +15,8 @@ dzx1rb_literals:
 dzx1rb_literals_loop:
         call    dzx1rb_copy_byte        ; copy literals
         jp      pe, dzx1rb_literals_loop
-        add     a, a                    ; copy from last offset or new offset?
-        jr      c, dzx1rb_new_offset
+        add     a,  a                   ; copy from last offset or new offset?
+        jr      c,  dzx1rb_new_offset
         call    dzx1rb_elias            ; obtain length
 dzx1rb_copy:
         ex      (sp), hl                ; preserve source, restore offset
@@ -33,8 +33,8 @@ dzx1rb_copy_loop:
         jp      pe, dzx1rb_copy_loop
         pop     hl                      ; restore offset
         ex      (sp), hl                ; preserve offset, restore source
-        add     a, a                    ; copy from literals or new offset?
-        jr      nc, dzx1rb_literals
+        add     a,    a                 ; copy from literals or new offset?
+        jr      nc,   dzx1rb_literals
 dzx1rb_new_offset:
         inc     sp                      ; discard last offset
         inc     sp
@@ -42,7 +42,7 @@ dzx1rb_new_offset:
         dec     hl
         srl     c                       ; single byte offset?
         jr      nc, dzx1rb_msb_skip
-        ld      b, (hl)                 ; obtain offset MSB
+        ld      b,  (hl)                ; obtain offset MSB
         dec     hl
         srl     b                       ; replace last LSB bit with last MSB bit
         ret     z                       ; check end marker
@@ -57,9 +57,9 @@ dzx1rb_msb_skip:
 dzx1rb_elias:
         ld      bc, 1                   ; interlaced Elias gamma coding
 dzx1rb_elias_loop:
-        add     a, a
+        add     a,  a
         jr      nz, dzx1rb_elias_skip
-        ld      a, (hl)                 ; load another group of 8 bits
+        ld      a,  (hl)                ; load another group of 8 bits
         dec     hl
         rla
 dzx1rb_elias_skip:
@@ -78,19 +78,19 @@ dzx1rb_copy_byte:
 ; Convert an RCS address 010RRccc ccrrrppp to screen address 010RRppp rrrccccc
 dzx1rb_convert:
         ex      af, af'
-        ld      a, d                    ; A = 010RRccc
+        ld      a,  d   ; A = 010RRccc
         cp      $58
         jr      nc, dzx1rb_skip
         xor     e
         and     $f8
-        xor     e                       ; A = 010RRppp
+        xor     e       ; A = 010RRppp
         push    af
         xor     d
-        xor     e                       ; A = ccrrrccc
+        xor     e       ; A = ccrrrccc
         rlca
-        rlca                            ; A = rrrccccc
-        pop     de                      ; D = 010RRppp
-        ld      e, a                    ; E = rrrccccc
+        rlca            ; A = rrrccccc
+        pop     de      ; D = 010RRppp
+        ld      e, a    ; E = rrrccccc
 dzx1rb_skip:
         ex      af, af'
         ret

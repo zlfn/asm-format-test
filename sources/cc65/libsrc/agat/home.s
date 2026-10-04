@@ -4,12 +4,12 @@
 ; HOME routine
 ;
 
-        .export         HOME
-        .import         COUT
+        .export HOME
+        .import COUT
 
-        .include        "agat.inc"
+        .include "agat.inc"
 
 HOME:
-    lda    #$8C
-    jmp    COUT
-    rts
+        lda     #$8C
+        jmp     COUT
+        rts

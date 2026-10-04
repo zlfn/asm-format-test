@@ -12,15 +12,14 @@
 ;	stencil_render(unsigned char *stencil, unsigned char intensity)
 ;
 
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  stencil_render
-    PUBLIC  _stencil_render
+        PUBLIC  stencil_render
+        PUBLIC  _stencil_render
 
-    EXTERN  __generic_stencil_render
-
+        EXTERN  __generic_stencil_render
 
 ;
 ;	$Id: w_stencil_render.asm $
@@ -28,4 +27,4 @@
 
 stencil_render:
 _stencil_render:
-    jp      __generic_stencil_render
+        jp      __generic_stencil_render

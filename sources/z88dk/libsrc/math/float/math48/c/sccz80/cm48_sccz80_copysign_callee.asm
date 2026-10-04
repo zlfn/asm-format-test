@@ -10,10 +10,10 @@ EXTERN am48_copysign, cm48_sccz80p_dcallee2
 
 cm48_sccz80_copysign_callee:
 
-   call cm48_sccz80p_dcallee2
-   
-   ; AC'= y
-   ; AC = x
-   
-   exx
-   jp am48_copysign
+        call    cm48_sccz80p_dcallee2
+
+        ; AC'= y
+        ; AC = x
+
+        exx
+        jp      am48_copysign

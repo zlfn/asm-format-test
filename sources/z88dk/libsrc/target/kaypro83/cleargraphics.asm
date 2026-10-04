@@ -1,6 +1,5 @@
-    SECTION code_graphics
-    PUBLIC  cleargraphics
-
+        SECTION code_graphics
+        PUBLIC  cleargraphics
 
 ; ******************************************************************
 ;
@@ -14,9 +13,9 @@
 ;		.f....../....	different
 ;
 cleargraphics:
-    ld      hl, $3000
-    ld      de, $3001
-    ld      bc, +(128*24)-1
-    ld      (hl), ' '
-    ldir
-    ret
+        ld      hl,   $3000
+        ld      de,   $3001
+        ld      bc,   +(128*24)-1
+        ld      (hl), ' '
+        ldir
+        ret

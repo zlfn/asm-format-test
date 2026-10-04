@@ -16,18 +16,17 @@ EXTERN asm_NIRVANAM_drawW_di
 
 NIRVANAM_drawW_callee:
 
-        pop hl          ; RET address
-        pop de          ; col
-        pop bc
-        ld d,c          ; lin
-        ex (sp),hl      ; tile
-        ld a,l
+        pop     hl              ; RET address
+        pop     de              ; col
+        pop     bc
+        ld      d,    c         ; lin
+        ex      (sp), hl        ; tile
+        ld      a,    l
 
-	jp asm_NIRVANAM_drawW_di
+        jp      asm_NIRVANAM_drawW_di
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _NIRVANAM_drawW_callee
 defc _NIRVANAM_drawW_callee = NIRVANAM_drawW_callee
 ENDIF
-

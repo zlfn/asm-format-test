@@ -14,16 +14,16 @@ PUBLIC _adt_StackPeek
 .adt_StackPeek
 ._adt_StackPeek
 
-   inc hl
-   inc hl
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a
-   or h
-   ret z
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a
-   ret
+        inc     hl
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
+        or      h
+        ret     z
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
+        ret

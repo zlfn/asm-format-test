@@ -16,13 +16,13 @@ EXTERN asm_fflush
 
 _fflush_fastcall:
 
-   push hl
-   ex (sp),ix
-   
-   call asm_fflush
-   
-   pop ix
-   ret
+        push    hl
+        ex      (sp), ix
+
+        call    asm_fflush
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

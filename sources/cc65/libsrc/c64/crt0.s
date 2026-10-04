@@ -2,18 +2,17 @@
 ; Startup code for cc65 (C64 version)
 ;
 
-        .export         _exit
-        .export         __STARTUP__ : absolute = 1      ; Mark as startup
+        .export _exit
+        .export __STARTUP__ : absolute = 1      ; Mark as startup
 
-        .import         initlib, donelib
-        .import         zerobss, callmain
-        .import         BSOUT
-        .import         __MAIN_START__, __MAIN_SIZE__   ; Linker generated
-        .import         __STACKSIZE__                   ; from configure file
+        .import initlib, donelib
+        .import zerobss, callmain
+        .import BSOUT
+        .import __MAIN_START__, __MAIN_SIZE__   ; Linker generated
+        .import __STACKSIZE__                   ; from configure file
 
-        .include        "zeropage.inc"
-        .include        "c64.inc"
-
+        .include "zeropage.inc"
+        .include "c64.inc"
 
 ; ------------------------------------------------------------------------
 ; Startup code
@@ -25,13 +24,13 @@ Start:
 ; Switch off the BASIC ROM.
 
         lda     $01
-        sta     mmusave         ; Save the memory configuration
+        sta     mmusave ; Save the memory configuration
         and     #$F8
-        ora     #$06            ; Enable Kernal+I/O, disable BASIC
+        ora     #$06    ; Enable Kernal+I/O, disable BASIC
         sta     $01
 
         tsx
-        stx     spsave          ; Save the system stack ptr
+        stx     spsave  ; Save the system stack ptr
 
 ; Save space by putting some of the start-up code in the ONCE segment,
 ; which can be re-used by the BSS segment, the heap and the C stack.
@@ -48,14 +47,14 @@ Start:
 
 ; Back from main() [this is also the exit() entry]. Run the module destructors.
 
-_exit:  pha                     ; Save the return code on stack
+_exit:  pha     ; Save the return code on stack
         jsr     donelib
 
 ; Copy back the zero-page stuff.
 
         ldx     #zpspace-1
-L2:     lda     zpsave,x
-        sta     c_sp,x
+L2:     lda     zpsave, x
+        sta     c_sp,   x
         dex
         bpl     L2
 
@@ -67,14 +66,13 @@ L2:     lda     zpsave,x
 ; Restore the system stuff.
 
         ldx     spsave
-        txs                     ; Restore stack pointer
+        txs             ; Restore stack pointer
         ldx     mmusave
-        stx     $01             ; Restore memory configuration
+        stx     $01     ; Restore memory configuration
 
 ; Back to BASIC.
 
         rts
-
 
 ; ------------------------------------------------------------------------
 
@@ -85,8 +83,8 @@ init:
 ; Save the zero-page locations that we need.
 
         ldx     #zpspace-1
-L1:     lda     c_sp,x
-        sta     zpsave,x
+L1:     lda     c_sp,   x
+        sta     zpsave, x
         dex
         bpl     L1
 
@@ -95,7 +93,7 @@ L1:     lda     c_sp,x
         lda     #<(__MAIN_START__ + __MAIN_SIZE__)
         ldx     #>(__MAIN_START__ + __MAIN_SIZE__)
         sta     c_sp
-        stx     c_sp+1          ; Set argument stack ptr
+        stx     c_sp+1  ; Set argument stack ptr
 
 ; Switch to the second charset.
 
@@ -106,12 +104,11 @@ L1:     lda     c_sp,x
 
         jmp     initlib
 
-
 ; ------------------------------------------------------------------------
 ; Data
 
 .segment        "INIT"
 
-mmusave:.res    1
+mmusave: .res   1
 spsave: .res    1
 zpsave: .res    zpspace

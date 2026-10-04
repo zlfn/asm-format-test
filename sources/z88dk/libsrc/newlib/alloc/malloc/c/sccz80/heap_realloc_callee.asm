@@ -16,13 +16,13 @@ EXTERN asm_heap_realloc
 
 heap_realloc_callee:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   push af
-   
-   jp asm_heap_realloc
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_heap_realloc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

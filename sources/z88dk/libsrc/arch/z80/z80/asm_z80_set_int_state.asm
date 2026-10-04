@@ -20,47 +20,47 @@ PUBLIC asm_cpu_set_int_state
 asm_z80_set_int_state:
 asm_cpu_set_int_state:
 
-   ; enter : l = ei/di status
-   ;
-   ; uses  : f
+        ; enter : l = ei/di status
+        ;
+        ; uses  : f
 
 IF  __CPU_RABBIT__
 
-   push hl
-   pop ip
-   inc sp
-   ret
+        push    hl
+        pop     ip
+        inc     sp
+        ret
 
 ELSE
 
 IF __CPU_8085__
 
-   and $80                     ; isolate IE bit
+        and     $80     ; isolate IE bit
 
 ELSE
 
-   IF __Z80 & __Z80_NMOS
-   
-      bit 0,l                  ; check carry flag
-   
-   ELSE
-   
-      bit 2,l                  ; check p/v flag
-   
-   ENDIF
+        IF      __Z80 & __Z80_NMOS
+
+                bit     0, l    ; check carry flag
+
+        ELSE
+
+                bit     2, l    ; check p/v flag
+
+        ENDIF
 
 ENDIF
 
-   jr Z, di_state
+        jr      Z, di_state
 
 ei_state:
 
-   ei
-   ret
+        ei
+        ret
 
 di_state:
 
-   di
-   ret
+        di
+        ret
 
 ENDIF

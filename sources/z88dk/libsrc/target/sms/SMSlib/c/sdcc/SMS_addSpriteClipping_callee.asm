@@ -9,10 +9,10 @@ EXTERN asm_SMSlib_addSpriteClipping
 
 _SMS_addSpriteClipping_callee:
 
-   pop hl
-   pop bc
-   pop de
-   dec sp
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        pop     de
+        dec     sp
+        ex      (sp), hl
 
-   jp asm_SMSlib_addSpriteClipping
+        jp      asm_SMSlib_addSpriteClipping

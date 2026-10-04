@@ -4,11 +4,10 @@
 ;
 ; void __fastcall__ atmos_save(const char* name, const void* start, const void* end);
 
-        .export         _atmos_save
-        .import         popax, store_filename
+        .export _atmos_save
+        .import popax, store_filename
 
-        .include        "atmos.inc"
-
+        .include "atmos.inc"
 
 .proc   _atmos_save
 

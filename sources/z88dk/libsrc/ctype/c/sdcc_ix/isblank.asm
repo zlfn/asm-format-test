@@ -10,10 +10,10 @@ EXTERN _isblank_fastcall
 
 _isblank:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _isblank_fastcall
+        push    hl
+        push    af
+
+        jp      _isblank_fastcall

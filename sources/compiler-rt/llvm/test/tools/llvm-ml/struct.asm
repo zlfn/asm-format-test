@@ -1,21 +1,21 @@
 ; RUN: llvm-ml64 -filetype=s %s /Fo - | FileCheck %s
 
 .data
-BAZ STRUCT
-  a BYTE 1
-  b BYTE 2
-BAZ ENDS
+BAZ     STRUCT
+        a       BYTE 1
+        b       BYTE 2
+BAZ     ENDS
 
-FOOBAR struct 2
-  c BYTE 3 DUP (4)
-  d DWORD 5
-  e BAZ <>
-  STRUCT f
-    g BYTE 6
-    h BYTE 7
-  ends
-  h BYTE "abcde"
-foobar ENDS
+FOOBAR  struct  2
+        c       BYTE 3 DUP (4)
+        d       DWORD 5
+        e       BAZ <>
+        STRUCT  f
+        g       BYTE 6
+        h       BYTE 7
+        ends
+        h       BYTE "abcde"
+foobar  ENDS
 
 t1 foobar <>
 
@@ -143,19 +143,19 @@ mov al, [t2.FOOBAR.e.b]
 ; CHECK-NEXT: mov al, byte ptr [rip + t2+9]
 ; CHECK-NEXT: mov al, byte ptr [rip + t2+9]
 
-QUUX STRUCT
-  u DWORD ?
-  UNION
-    v WORD ?
-    w DWORD ?
-    STRUCT
-      x BYTE ?
-      y BYTE ?
-    ENDS
-    after_struct BYTE ?
-  ENDS
-  z DWORD ?
-QUUX ENDS
+QUUX    STRUCT
+        u       DWORD ?
+        UNION
+        v       WORD ?
+        w       DWORD ?
+        STRUCT
+        x       BYTE ?
+        y       BYTE ?
+        ENDS
+        after_struct BYTE ?
+        ENDS
+        z       DWORD ?
+QUUX    ENDS
 
 t9:
 mov eax, [ebx].QUUX.u

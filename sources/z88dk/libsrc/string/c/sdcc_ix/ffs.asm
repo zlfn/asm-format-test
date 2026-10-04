@@ -10,10 +10,10 @@ EXTERN asm_ffs
 
 _ffs:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_ffs
+        push    hl
+        push    af
+
+        jp      asm_ffs

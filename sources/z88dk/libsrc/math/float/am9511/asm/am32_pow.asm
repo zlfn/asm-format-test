@@ -26,31 +26,28 @@ EXTERN asm_am9511_popf
 
 PUBLIC asm_am9511_pow, asm_am9511_pow_callee
 
-
 ; enter here for floating power, x^y x on stack, y in dehl
 .asm_am9511_pow
-    call asm_am9511_pushf           ; x
+        call    asm_am9511_pushf        ; x
 
-    call asm_am9511_pushf_fastcall  ; y
+        call    asm_am9511_pushf_fastcall       ; y
 
-    ld a,__IO_APU_OP_PWR
-    AM9511_OUT_APU_CONTROL        ; x ^ y
+        ld      a, __IO_APU_OP_PWR
+        AM9511_OUT_APU_CONTROL  ; x ^ y
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf
 
 ; enter here for floating power callee, x^y x on stack, y in dehl
 .asm_am9511_pow_callee
-    call asm_am9511_pushf           ; x
+        call    asm_am9511_pushf        ; x
 
-    call asm_am9511_pushf_fastcall  ; y
+        call    asm_am9511_pushf_fastcall       ; y
 
-    ld a,__IO_APU_OP_PWR
-    AM9511_OUT_APU_CONTROL        ; x ^ y
+        ld      a, __IO_APU_OP_PWR
+        AM9511_OUT_APU_CONTROL  ; x ^ y
 
-    pop hl                          ; ret
-    pop de
-    ex (sp),hl                      ; ret back on stack
+        pop     hl              ; ret
+        pop     de
+        ex      (sp), hl        ; ret back on stack
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf

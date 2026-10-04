@@ -25,4 +25,3 @@
         .export gotoxy := mono_gotoxy
         .import _mono_gotoxy
         .export _gotoxy := _mono_gotoxy
-

@@ -2,77 +2,76 @@
 ;
 ; 28-May-2014, Christian Groessler <chris@groessler.org>
 
-                .include "atari5200.inc"
+        .include "atari5200.inc"
 
 SCREEN_BUF_SIZE =       20 * 24
 SCREEN_BUF      =       $4000 - SCREEN_BUF_SIZE
 
-                .import _clrscr
-                .export screen_setup
-                .export screen_width, screen_height
-                .export conio_color
+        .import _clrscr
+        .export screen_setup
+        .export screen_width, screen_height
+        .export conio_color
 
 screen_width    =       20
 screen_height   =       24
 
-
-                .segment "ONCE"
+        .segment "ONCE"
 
 ; initialize color registers, display list, and screen memory
 screen_setup:
 
-                ; initialize SAVMSC
-                lda     #<SCREEN_BUF
-                sta     SAVMSC
-                lda     #>SCREEN_BUF
-                sta     SAVMSC+1
+        ; initialize SAVMSC
+        lda     #<SCREEN_BUF
+        sta     SAVMSC
+        lda     #>SCREEN_BUF
+        sta     SAVMSC+1
 
-                ; clear screen buffer
-                jsr     _clrscr
+        ; clear screen buffer
+        jsr     _clrscr
 
-                ; set default colors
-                lda     #GTIA_COLOR_WHITE
-                sta     COLOR0
-                lda     #GTIA_COLOR_LIGHTRED
-                sta     COLOR1
-                lda     #GTIA_COLOR_LIGHTGREEN
-                sta     COLOR2
-                lda     #GTIA_COLOR_BLACK
-                sta     COLOR3
-                sta     COLOR4          ; background
+        ; set default colors
+        lda     #GTIA_COLOR_WHITE
+        sta     COLOR0
+        lda     #GTIA_COLOR_LIGHTRED
+        sta     COLOR1
+        lda     #GTIA_COLOR_LIGHTGREEN
+        sta     COLOR2
+        lda     #GTIA_COLOR_BLACK
+        sta     COLOR3
+        sta     COLOR4  ; background
 
-                ; set display list
-                lda     #<dlist
-                sta     SDLSTL
-                lda     #>dlist
-                sta     SDLSTH
+        ; set display list
+        lda     #<dlist
+        sta     SDLSTL
+        lda     #>dlist
+        sta     SDLSTH
 
-                rts
+        rts
 
-                .bss
+        .bss
 
-conio_color:    .res    1
+conio_color: .res 1
 
-                .segment "DLIST"
+        .segment "DLIST"
 
 ; display list for 20x24 text mode
 
-dlist:          .repeat 3
-                .byte   DL_BLK8
-                .endrepeat
+dlist:  .repeat 3
+        .byte   DL_BLK8
+        .endrepeat
 
-                .byte   DL_CHR20x8x2 | DL_LMS
-                .word   SCREEN_BUF
+        .byte   DL_CHR20x8x2 | DL_LMS
+        .word   SCREEN_BUF
 
-                .repeat 23
+        .repeat 23
                 .byte   DL_CHR20x8x2
-                .endrepeat
+        .endrepeat
 
-                .byte   DL_JVB
-                .word   dlist
+        .byte   DL_JVB
+        .word   dlist
 
 ; end of display list
 
 .assert ((* >> 10) = (dlist >> 10)), error, "Display list crosses 1K boundary"
 
-                .end
+        .end

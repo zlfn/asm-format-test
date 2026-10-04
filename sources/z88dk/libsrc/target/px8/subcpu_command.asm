@@ -11,35 +11,31 @@
 ;	int subcpu_command(char *cmdsequence);
 ;
 
+        SECTION code_clib
 
-    SECTION code_clib
+        PUBLIC  subcpu_command
+        PUBLIC  _subcpu_command
 
-    PUBLIC  subcpu_command
-    PUBLIC  _subcpu_command
-
-    EXTERN  subcpu_call
+        EXTERN  subcpu_call
 
 subcpu_command:
 _subcpu_command:
 
 asmentry:
-    ld      a, (hl)
-    inc     hl
-    ld      (packet), hl
-    inc     a
-    ld      (packet+2), a
+        ld      a, (hl)
+        inc     hl
+        ld      (packet), hl
+        inc     a
+        ld      (packet+2), a
 
-    ld      hl, packet
-    jp      subcpu_call
+        ld      hl, packet
+        jp      subcpu_call
 
+        SECTION bss_clib
 
-
-    SECTION bss_clib
-
-rcvpkt:                                 ; foo return addr, it will be rewritten on the next call
+rcvpkt:                 ; foo return addr, it will be rewritten on the next call
 packet:
-    defw    0                           ; sndpkt
-    defw    0                           ; packet sz
-    defw    rcvpkt                      ; packet addr expected back from the slave CPU
-    defw    1                           ; size of the expected packet being received ('bytes'+1)
-
+        defw    0       ; sndpkt
+        defw    0       ; packet sz
+        defw    rcvpkt  ; packet addr expected back from the slave CPU
+        defw    1       ; size of the expected packet being received ('bytes'+1)

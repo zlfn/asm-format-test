@@ -31,8 +31,6 @@
 ;*                                                                           */
 ;*****************************************************************************/
 
-
-
 ;------------------------------------------------------------------------------
 ; Vectorfont constants
 
@@ -46,25 +44,22 @@ TGI_VF_CCOUNT           = (TGI_VF_LASTCHAR - TGI_VF_FIRSTCHAR + 1)
 
 ; TCH file header
 .struct TGI_VF_HDR
-        MAGIC           .byte   3               ; "TCH"
-        VERSION         .byte   1               ; Version number
-        SIZE            .word   1               ; Font data size
+        MAGIC   .byte   3       ; "TCH"
+        VERSION .byte   1       ; Version number
+        SIZE    .word   1       ; Font data size
 .endstruct
 
 ; Font data loaded directly from file
 .struct TGI_VECTORFONT
-        TOP             .byte                   ; Height of char
-        BOTTOM          .byte                   ; Descender
-        HEIGHT          .byte                   ; Maximum char height
-        WIDTHS          .byte   ::TGI_VF_CCOUNT ; Char widths
-        CHARS           .word   ::TGI_VF_CCOUNT ; Pointer to character defs
-        OPS             .byte                   ; Actually dynamic
+        TOP     .byte                   ; Height of char
+        BOTTOM  .byte                   ; Descender
+        HEIGHT  .byte                   ; Maximum char height
+        WIDTHS  .byte   ::TGI_VF_CCOUNT ; Char widths
+        CHARS   .word   ::TGI_VF_CCOUNT ; Pointer to character defs
+        OPS     .byte                   ; Actually dynamic
 .endstruct
 
 ;------------------------------------------------------------------------------
 ; C callable functions
 
         .global _tgi_vectorchar
-
-
-

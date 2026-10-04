@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _sms_border
 defc _sms_border = sms_border
 ENDIF
-

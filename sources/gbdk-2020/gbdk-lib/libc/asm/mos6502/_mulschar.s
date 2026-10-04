@@ -27,78 +27,78 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _mulschar
+        .module _mulschar
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __mulschar
-	.globl __muluschar
-	.globl __mulsuchar
+        .globl  __mulschar
+        .globl  __muluschar
+        .globl  __mulsuchar
 
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define arg1 "___SDCC_m6502_ret0"
-	.define arg2 "___SDCC_m6502_ret2"
-	.define s1 "___SDCC_m6502_ret4"
-	.define s2 "___SDCC_m6502_ret5"
+        .define arg1 "___SDCC_m6502_ret0"
+        .define arg2 "___SDCC_m6502_ret2"
+        .define s1 "___SDCC_m6502_ret4"
+        .define s2 "___SDCC_m6502_ret5"
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 __mulschar:
-	sta	*s1
-	cmp	#0x00
-	bpl 	pos1
-	sec
-	eor	#0xff
-	adc	#0x00
-pos1:	
-	sta     *arg1
-	txa
-	sta	*s2
-	bpl 	pos2
-	sec
-	eor	#0xff
-	adc	#0x00
-pos2:	
-	sta     *arg2
-	
-	jsr 	___umul8
-	lda	*s1
-	eor	*s2
-	bpl	skip
-	lda	arg2
-	jmp	___negax
+        sta     *s1
+        cmp     #0x00
+        bpl     pos1
+        sec
+        eor     #0xff
+        adc     #0x00
+pos1:
+        sta     *arg1
+        txa
+        sta     *s2
+        bpl     pos2
+        sec
+        eor     #0xff
+        adc     #0x00
+pos2:
+        sta     *arg2
 
-skip:	lda 	arg2
-	rts
+        jsr     ___umul8
+        lda     *s1
+        eor     *s2
+        bpl     skip
+        lda     arg2
+        jmp     ___negax
+
+skip:   lda     arg2
+        rts
 
 __mulsuchar:
-	stx	*__mulint_PARM_2
-	ldx	#0x00
-	stx	*__mulint_PARM_2+1
-	cmp	#0x00
-	bpl	pos1m
-	ldx 	#0xff
+        stx     *__mulint_PARM_2
+        ldx     #0x00
+        stx     *__mulint_PARM_2+1
+        cmp     #0x00
+        bpl     pos1m
+        ldx     #0xff
 pos1m:
-	jmp	__mulint
-	
+        jmp     __mulint
+
 __muluschar:
-	sta	*__mulint_PARM_2
-	txa
-	ldx	#0x00
-	stx	*__mulint_PARM_2+1
-	cmp	#0x00
-	bpl	pos2m
-	ldx 	#0xff
+        sta     *__mulint_PARM_2
+        txa
+        ldx     #0x00
+        stx     *__mulint_PARM_2+1
+        cmp     #0x00
+        bpl     pos2m
+        ldx     #0xff
 pos2m:
-	jmp	__mulint
+        jmp     __mulint

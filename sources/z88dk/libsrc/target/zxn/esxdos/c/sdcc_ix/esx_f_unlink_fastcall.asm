@@ -8,9 +8,9 @@ EXTERN asm_esx_f_unlink
 
 _esx_f_unlink_fastcall:
 
-   push ix
-   
-   call asm_esx_f_unlink
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_unlink
+
+        pop     ix
+        ret

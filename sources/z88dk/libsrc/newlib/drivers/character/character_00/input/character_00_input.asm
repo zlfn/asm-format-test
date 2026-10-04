@@ -50,7 +50,7 @@
 ;
 ; * IOCTL_ICHAR_CRLF
 ;   enable / disable crlf processing
-; 
+;
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; BYTES RESERVED IN FDSTRUCT
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -74,25 +74,25 @@ EXTERN character_00_input_stdio_msg_ictl, error_znc, error_enotsup_zc
 
 character_00_input:
 
-   cp STDIO_MSG_GETC
-   jp z, character_00_input_stdio_msg_getc
+        cp      STDIO_MSG_GETC
+        jp      z, character_00_input_stdio_msg_getc
 
-   cp STDIO_MSG_EATC
-   jp z, character_00_input_stdio_msg_eatc
-   
-   cp STDIO_MSG_READ
-   jp z, character_00_input_stdio_msg_read
-   
-   cp STDIO_MSG_SEEK
-   jp z, character_00_input_stdio_msg_seek
+        cp      STDIO_MSG_EATC
+        jp      z, character_00_input_stdio_msg_eatc
 
-   cp STDIO_MSG_FLSH
-   jp z, error_znc             ; do nothing and report no error
-   
-   cp STDIO_MSG_ICTL
-   jp z, character_00_input_stdio_msg_ictl
-   
-   cp STDIO_MSG_CLOS
-   jp z, error_znc             ; do nothing and report no error
-   
-   jp error_enotsup_zc         ; hl = 0 puts FILE stream in error state
+        cp      STDIO_MSG_READ
+        jp      z, character_00_input_stdio_msg_read
+
+        cp      STDIO_MSG_SEEK
+        jp      z, character_00_input_stdio_msg_seek
+
+        cp      STDIO_MSG_FLSH
+        jp      z, error_znc    ; do nothing and report no error
+
+        cp      STDIO_MSG_ICTL
+        jp      z, character_00_input_stdio_msg_ictl
+
+        cp      STDIO_MSG_CLOS
+        jp      z, error_znc    ; do nothing and report no error
+
+        jp      error_enotsup_zc        ; hl = 0 puts FILE stream in error state

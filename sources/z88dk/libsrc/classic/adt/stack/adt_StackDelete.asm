@@ -10,11 +10,11 @@ EXTERN asm_adt_StackDelete
 .adt_StackDelete
 ._adt_StackDelete
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
-   
-   jp asm_adt_StackDelete
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
+
+        jp      asm_adt_StackDelete

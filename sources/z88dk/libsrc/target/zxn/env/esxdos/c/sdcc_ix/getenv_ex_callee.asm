@@ -9,18 +9,18 @@ EXTERN asm_getenv_ex
 
 _getenv_ex_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 l0_getenv_ex_callee:
 
-   push ix
-   push iy
-   
-   call asm_getenv_ex
-   
-   pop iy
-   pop ix
+        push    ix
+        push    iy
 
-   ret
+        call    asm_getenv_ex
+
+        pop     iy
+        pop     ix
+
+        ret

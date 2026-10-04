@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ;  Generates a 16 bit random number through RDRAND instruction.
@@ -26,15 +26,15 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalX86RdRand16)
 ASM_PFX(InternalX86RdRand16):
-    rdrand eax                     ; generate a 16 bit RN into eax,
-                                   ; CF=1 if RN generated ok, otherwise CF=0
-    jc     rn16_ok                 ; jmp if CF=1
-    xor    rax, rax                ; reg=0 if CF=0
-    ret                            ; return with failure status
+        rdrand  eax             ; generate a 16 bit RN into eax,
+                                ; CF=1 if RN generated ok, otherwise CF=0
+        jc      rn16_ok         ; jmp if CF=1
+        xor     rax, rax        ; reg=0 if CF=0
+        ret                     ; return with failure status
 rn16_ok:
-    mov    [rcx], ax
-    mov    rax,  1
-    ret
+        mov     [rcx], ax
+        mov     rax,   1
+        ret
 
 ;------------------------------------------------------------------------------
 ;  Generates a 32 bit random number through RDRAND instruction.
@@ -44,15 +44,15 @@ rn16_ok:
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalX86RdRand32)
 ASM_PFX(InternalX86RdRand32):
-    rdrand eax                     ; generate a 32 bit RN into eax,
-                                   ; CF=1 if RN generated ok, otherwise CF=0
-    jc     rn32_ok                 ; jmp if CF=1
-    xor    rax, rax                ; reg=0 if CF=0
-    ret                            ; return with failure status
+        rdrand  eax             ; generate a 32 bit RN into eax,
+                                ; CF=1 if RN generated ok, otherwise CF=0
+        jc      rn32_ok         ; jmp if CF=1
+        xor     rax, rax        ; reg=0 if CF=0
+        ret                     ; return with failure status
 rn32_ok:
-    mov    [rcx], eax
-    mov    rax,  1
-    ret
+        mov     [rcx], eax
+        mov     rax,   1
+        ret
 
 ;------------------------------------------------------------------------------
 ;  Generates a 64 bit random number through one RDRAND instruction.
@@ -62,13 +62,12 @@ rn32_ok:
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalX86RdRand64)
 ASM_PFX(InternalX86RdRand64):
-    rdrand rax                     ; generate a 64 bit RN into rax,
-                                   ; CF=1 if RN generated ok, otherwise CF=0
-    jc     rn64_ok                 ; jmp if CF=1
-    xor    rax, rax                ; reg=0 if CF=0
-    ret                            ; return with failure status
+        rdrand  rax             ; generate a 64 bit RN into rax,
+                                ; CF=1 if RN generated ok, otherwise CF=0
+        jc      rn64_ok         ; jmp if CF=1
+        xor     rax, rax        ; reg=0 if CF=0
+        ret                     ; return with failure status
 rn64_ok:
-    mov    [rcx], rax
-    mov    rax, 1
-    ret
-
+        mov     [rcx], rax
+        mov     rax,   1
+        ret

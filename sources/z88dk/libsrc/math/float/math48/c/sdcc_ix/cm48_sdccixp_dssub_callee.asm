@@ -10,20 +10,20 @@ EXTERN cm48_sdccixp_dcallee2, am48_dsub, cm48_sdccixp_m482d
 
 cm48_sdccixp_dssub_callee:
 
-   ; subtract two sdcc floats
-   ;
-   ; enter : stack = sdcc_float right, sdcc_float left, ret
-   ;
-   ; exit  : dehl = sdcc_float(left-right)
-   ;
-   ; uses  : af, bc, de, hl, af', bc', de', hl'
-   
-   call cm48_sdccixp_dcallee2
+        ; subtract two sdcc floats
+        ;
+        ; enter : stack = sdcc_float right, sdcc_float left, ret
+        ;
+        ; exit  : dehl = sdcc_float(left-right)
+        ;
+        ; uses  : af, bc, de, hl, af', bc', de', hl'
 
-   ; AC'= right
-   ; AC = left
+        call    cm48_sdccixp_dcallee2
 
-   exx
-   call am48_dsub
+        ; AC'= right
+        ; AC = left
 
-   jp cm48_sdccixp_m482d
+        exx
+        call    am48_dsub
+
+        jp      cm48_sdccixp_m482d

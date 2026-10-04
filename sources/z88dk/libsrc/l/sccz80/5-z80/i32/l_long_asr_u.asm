@@ -1,5 +1,5 @@
 ;
-;       Z88 Small C+ Run Time Library 
+;       Z88 Small C+ Run Time Library
 ;       Long support functions
 ;
 ;
@@ -20,13 +20,13 @@ EXTERN l_lsr_dehl
 
 l_long_asr_u:
 
-   ; Shift primary (on stack) right by secondary, 
+        ; Shift primary (on stack) right by secondary,
 
-   ld a,l                      ; a = shift amount
-   
-   pop hl                      ; hl = return address
-   pop de                      ; de = primary.LSW
-   ex (sp),hl                  ; hl = primary.MSW
-   
-   ex de,hl
-   jp l_lsr_dehl
+        ld      a, l    ; a = shift amount
+
+        pop     hl              ; hl = return address
+        pop     de              ; de = primary.LSW
+        ex      (sp), hl        ; hl = primary.MSW
+
+        ex      de, hl
+        jp      l_lsr_dehl

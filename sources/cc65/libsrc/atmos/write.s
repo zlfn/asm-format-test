@@ -6,33 +6,33 @@
 ; This function is a hack!
 ;
 
-        .export         _write
-        .import         popax, popptr1
-        .importzp       ptr1, ptr2, ptr3, tmp1
+        .export _write
+        .import popax, popptr1
+        .importzp ptr1, ptr2, ptr3, tmp1
 
-        .include        "atmos.inc"
+        .include "atmos.inc"
 
 .proc   _write
 
         sta     ptr3
-        stx     ptr3+1          ; save count as result
+        stx     ptr3+1  ; save count as result
 
         inx
         stx     ptr2+1
         tax
         inx
-        stx     ptr2            ; save count with each byte incremented separately
+        stx     ptr2    ; save count with each byte incremented separately
 
-        jsr     popptr1         ; get buf
-        jsr     popax           ; get fd and discard
+        jsr     popptr1 ; get buf
+        jsr     popax   ; get fd and discard
 L1:     dec     ptr2
         bne     L2
         dec     ptr2+1
         beq     L9
 L2:     ldy     #0
-        lda     (ptr1),y
+        lda     (ptr1), y
         tax
-        cpx     #$0A            ; Check for \n
+        cpx     #$0A    ; Check for \n
         bne     L3
         jsr     PRINT
         ldx     #$0D
@@ -49,5 +49,3 @@ L9:     lda     ptr3
         rts
 
 .endproc
-
-

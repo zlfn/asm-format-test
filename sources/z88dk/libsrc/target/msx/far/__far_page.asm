@@ -11,29 +11,29 @@ EXTERN  __far_map_bank
 ;
 ; Corrupts: d,a
 __far_page:
-    ld      a,e        ;With e=0 it refers to local memory
-    and     a
-    jr      z,localfar
-    ld      d,e
-    dec     d
-    ld      a,b
-    rla
-    rl      d
-    rla
-    rl      d
-    ; e is now which bank we should look at
-    ld      a,b
-    and     @00111111      ;Take mod 16384
-    or      @10000000	;Map to 0x8000 page
-    ld      h,a
-    ld      l,c
-    jp      __far_map_bank
+        ld      a, e    ;With e=0 it refers to local memory
+        and     a
+        jr      z, localfar
+        ld      d, e
+        dec     d
+        ld      a, b
+        rla
+        rl      d
+        rla
+        rl      d
+        ; e is now which bank we should look at
+        ld      a, b
+        and     @00111111       ;Take mod 16384
+        or      @10000000       ;Map to 0x8000 page
+        ld      h, a
+        ld      l, c
+        jp      __far_map_bank
 
 localfar:
-    ex     af,af
-    ld     d,a
-    call   PUT_P2
-    ld     a,d
-    ex     af,af
-    ld     hl,bc
-    ret
+        ex      af, af
+        ld      d,  a
+        call    PUT_P2
+        ld      a,  d
+        ex      af, af
+        ld      hl, bc
+        ret

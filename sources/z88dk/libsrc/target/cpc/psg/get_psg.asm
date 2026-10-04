@@ -12,12 +12,11 @@
 ;
 
         SECTION code_clib
-	PUBLIC	get_psg
-	PUBLIC	_get_psg
-	
+        PUBLIC  get_psg
+        PUBLIC  _get_psg
+
 get_psg:
 _get_psg:
-
 
 ;;------------------------------------------------
 ;; Read from a AY-3-8912 register

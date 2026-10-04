@@ -9,10 +9,10 @@ EXTERN asm_tshr_scroll_up
 
 _tshr_scroll_up_callee:
 
-   pop hl
-   ex (sp),hl
-   
-   ld e,l
-   ld l,h
-   ld d,0
-   jp asm_tshr_scroll_up
+        pop     hl
+        ex      (sp), hl
+
+        ld      e, l
+        ld      l, h
+        ld      d, 0
+        jp      asm_tshr_scroll_up

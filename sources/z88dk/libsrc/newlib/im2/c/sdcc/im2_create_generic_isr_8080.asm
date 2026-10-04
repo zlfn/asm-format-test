@@ -10,14 +10,14 @@ EXTERN l_im2_create_generic_isr_8080_callee
 
 _im2_create_generic_isr_8080:
 
-   pop hl
-   dec sp
-   pop af
-   pop de
+        pop     hl
+        dec     sp
+        pop     af
+        pop     de
 
-   push de
-   push af
-   inc sp
-   push hl
+        push    de
+        push    af
+        inc     sp
+        push    hl
 
-   jp l_im2_create_generic_isr_8080_callee
+        jp      l_im2_create_generic_isr_8080_callee

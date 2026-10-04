@@ -10,12 +10,12 @@
 #include <linux/kern_levels.h>
 #include <asm/assembler.h>
 
-		.text
-		.align
+        .text
+        .align
 
 .Liosl_warning:
-		.ascii	KERN_WARNING "insl/outsl not implemented, called from %08lX\0"
-		.align
+        .ascii  KERN_WARNING "insl/outsl not implemented, called from %08lX\0"
+        .align
 
 /*
  * These make no sense on Acorn machines.
@@ -23,6 +23,6 @@
  */
 ENTRY(insl)
 ENTRY(outsl)
-		adr	r0, .Liosl_warning
-		mov	r1, lr
-		b	_printk
+        adr     r0, .Liosl_warning
+        mov     r1, lr
+        b       _printk

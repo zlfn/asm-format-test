@@ -8,9 +8,9 @@ EXTERN asm_esx_f_opendir
 
 _esx_f_opendir_fastcall:
 
-   push ix
-   
-   call asm_esx_f_opendir
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_opendir
+
+        pop     ix
+        ret

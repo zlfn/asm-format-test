@@ -26,30 +26,28 @@ EXTERN asm_am9511_popl
 
 PUBLIC asm_am9511_ldiv, asm_am9511_ldiv_callee
 
-
 ; enter here for long divide, x/y, x on stack, y in dehl
 .asm_am9511_ldiv
-    call asm_am9511_pushl           ; x
+        call    asm_am9511_pushl        ; x
 
-    call asm_am9511_pushl_fastcall  ; y
+        call    asm_am9511_pushl_fastcall       ; y
 
-    ld a,__IO_APU_OP_DDIV
-    AM9511_OUT_APU_CONTROL        ; x / y
+        ld      a, __IO_APU_OP_DDIV
+        AM9511_OUT_APU_CONTROL  ; x / y
 
-    jp asm_am9511_popl              ; quotient in dehl
-
+        jp      asm_am9511_popl ; quotient in dehl
 
 ; enter here for long divide callee, x/y, x on stack, y in dehl
 .asm_am9511_ldiv_callee
-    call asm_am9511_pushl           ; x
+        call    asm_am9511_pushl        ; x
 
-    call asm_am9511_pushl_fastcall  ; y
+        call    asm_am9511_pushl_fastcall       ; y
 
-    ld a,__IO_APU_OP_DDIV
-    AM9511_OUT_APU_CONTROL        ; x / y
+        ld      a, __IO_APU_OP_DDIV
+        AM9511_OUT_APU_CONTROL  ; x / y
 
-    pop hl                          ; ret
-    pop de
-    ex (sp),hl                      ; ret back on stack
+        pop     hl              ; ret
+        pop     de
+        ex      (sp), hl        ; ret back on stack
 
-    jp asm_am9511_popl              ; dividend in dehl
+        jp      asm_am9511_popl ; dividend in dehl

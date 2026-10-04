@@ -9,10 +9,10 @@ EXTERN asm_ulap_read_color
 
 _ulap_read_color:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_ulap_read_color
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_ulap_read_color

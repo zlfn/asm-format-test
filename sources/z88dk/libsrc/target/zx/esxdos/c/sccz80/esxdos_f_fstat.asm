@@ -9,16 +9,16 @@ EXTERN asm_esxdos_f_fstat
 
 esxdos_f_fstat:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   
-   ld a,c
-   jp asm_esxdos_f_fstat
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+
+        ld      a, c
+        jp      asm_esxdos_f_fstat
 
 ; SDCC bridge for Classic
 IF __CLASSIC

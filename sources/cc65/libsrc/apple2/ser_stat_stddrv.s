@@ -8,9 +8,9 @@
 
         .export _ser_static_stddrv
         .ifdef  __APPLE2ENH__
-        .import _a2e_ssc_ser
+                .import _a2e_ssc_ser
         .else
-        .import _a2_ssc_ser
+                .import _a2_ssc_ser
         .endif
 
 .rodata

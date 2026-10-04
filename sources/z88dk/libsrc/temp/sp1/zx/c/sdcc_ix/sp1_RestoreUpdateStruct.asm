@@ -10,10 +10,10 @@ EXTERN asm_sp1_RestoreUpdateStruct
 
 _sp1_RestoreUpdateStruct:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_sp1_RestoreUpdateStruct
+        push    hl
+        push    af
+
+        jp      asm_sp1_RestoreUpdateStruct

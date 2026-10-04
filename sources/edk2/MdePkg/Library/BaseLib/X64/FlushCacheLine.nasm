@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID *
@@ -27,7 +27,6 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmFlushCacheLine)
 ASM_PFX(AsmFlushCacheLine):
-    clflush [rcx]
-    mov     rax, rcx
-    ret
-
+        clflush [rcx]
+        mov     rax, rcx
+        ret

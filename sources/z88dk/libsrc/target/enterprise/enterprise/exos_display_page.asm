@@ -9,28 +9,27 @@
 ;
 
         SECTION code_clib
-	PUBLIC	exos_display_page
-	PUBLIC	_exos_display_page
+        PUBLIC  exos_display_page
+        PUBLIC  _exos_display_page
 
-	INCLUDE "target/enterprise/def/enterprise.def"
-
+        INCLUDE "target/enterprise/def/enterprise.def"
 
 exos_display_page:
 _exos_display_page:
-		push	ix	
-		ld	ix,2
-		add	ix,sp
-		ld	e,(ix+2)
-		ld	d,(ix+4)
-		ld	c,(ix+6)
-		ld	a,(ix+8)
+        push    ix
+        ld      ix, 2
+        add     ix, sp
+        ld      e,  (ix+2)
+        ld      d,  (ix+4)
+        ld      c,  (ix+6)
+        ld      a,  (ix+8)
 
-		ld	b,FN_DISP	; special fn code
+        ld      b, FN_DISP      ; special fn code
 
-        rst   30h
-        defb  11	; call special device dependent exos functions
+        rst     30h
+        defb    11      ; call special device dependent exos functions
 
-		ld	h,0
-		ld	l,a
-		pop	ix
-		ret
+        ld      h, 0
+        ld      l, a
+        pop     ix
+        ret

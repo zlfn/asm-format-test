@@ -19,25 +19,25 @@ PUBLIC l_long_mod
 EXTERN l_divs_32_32x32
 
 l_long_mod:
-  and a
-  jr common
+        and     a
+        jr      common
 l_long_div:
-   scf
+        scf
 common:
 
-   ; dehl  = divisor
-   ; stack = dividend, ret
-   
-   exx
-   pop bc
+        ; dehl  = divisor
+        ; stack = dividend, ret
 
-   pop hl
-   pop de
+        exx
+        pop     bc
 
-   push bc
-   exx
-   
-   jp c,l_divs_32_32x32
-   call l_divs_32_32x32
-   exx
-   ret
+        pop     hl
+        pop     de
+
+        push    bc
+        exx
+
+        jp      c, l_divs_32_32x32
+        call    l_divs_32_32x32
+        exx
+        ret

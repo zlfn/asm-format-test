@@ -65,7 +65,6 @@
 ;|         |           1 = Monochrome display                         |
 ;+---------+----------------------------------------------------------+
 
-
 ;-----------------------------------------------------------------------------
 
 .segment        "ONCE"
@@ -120,7 +119,7 @@
         sta     PPU_VRAM_ADDR2
 
         ldx     #0
-@loop:  lda     paldata,x
+@loop:  lda     paldata, x
         sta     PPU_VRAM_IO
         inx
         cpx     #(16*2)
@@ -136,23 +135,23 @@
 
 paldata:
         .repeat 2
-        .byte   $0f     ; 0 black
-        .byte   $14     ; 4 violet
-        .byte   $3b     ; 3 cyan
-        .byte   $3d     ; 1 white
+                .byte   $0f     ; 0 black
+                .byte   $14     ; 4 violet
+                .byte   $3b     ; 3 cyan
+                .byte   $3d     ; 1 white
 
-        .byte   $38     ; 7 yellow
-        .byte   $2d     ; b dark grey
-        .byte   $22     ; e light blue
-        .byte   $04     ; 2 red
+                .byte   $38     ; 7 yellow
+                .byte   $2d     ; b dark grey
+                .byte   $22     ; e light blue
+                .byte   $04     ; 2 red
 
-        .byte   $18     ; 8 orange
-        .byte   $08     ; 9 brown
-        .byte   $35     ; a light red
-        .byte   $01     ; 6 blue
+                .byte   $18     ; 8 orange
+                .byte   $08     ; 9 brown
+                .byte   $35     ; a light red
+                .byte   $01     ; 6 blue
 
-        .byte   $10     ; c middle grey
-        .byte   $2b     ; d light green
-        .byte   $3d     ; f light gray
-        .byte   $1a     ; 5 green
+                .byte   $10     ; c middle grey
+                .byte   $2b     ; d light green
+                .byte   $3d     ; f light gray
+                .byte   $1a     ; 5 green
         .endrepeat

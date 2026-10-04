@@ -26,57 +26,57 @@ SECTION .text
 
 INIT_XMM sse2
 cglobal process_one_line, 5, 7, 5, src, dst, contrast, brightness, w
-    movd m3, contrastd
-    movd m4, brightnessd
-    movsx r5d, contrastw
-    movsx r6d, brightnessw
-    SPLATW m3, m3, 0
-    SPLATW m4, m4, 0
+        movd    m3,  contrastd
+        movd    m4,  brightnessd
+        movsx   r5d, contrastw
+        movsx   r6d, brightnessw
+        SPLATW  m3,  m3, 0
+        SPLATW  m4,  m4, 0
 
-    DEFINE_ARGS src, dst, tmp, scalar, w
-    xor tmpd, tmpd
-    pxor m0, m0
-    pxor m1, m1
-    mov scalard, wd
-    and scalard, mmsize-1
-    sar wd, 4
-    cmp wd, 1
-    jl .loop1
+        DEFINE_ARGS src, dst, tmp, scalar, w
+        xor     tmpd, tmpd
+        pxor    m0,   m0
+        pxor    m1,   m1
+        mov     scalard, wd
+        and     scalard, mmsize-1
+        sar     wd, 4
+        cmp     wd, 1
+        jl      .loop1
 
-    .loop0:
-        movu m1, [srcq]
-        mova m2, m1
+.loop0:
+        movu    m1, [srcq]
+        mova    m2, m1
         punpcklbw m1, m0
         punpckhbw m2, m0
-        psllw m1, 4
-        psllw m2, 4
-        pmulhw m1, m3
-        pmulhw m2, m3
-        paddw m1, m4
-        paddw m2, m4
+        psllw   m1, 4
+        psllw   m2, 4
+        pmulhw  m1, m3
+        pmulhw  m2, m3
+        paddw   m1, m4
+        paddw   m2, m4
         packuswb m1, m2
-        movu [dstq], m1
-        add srcq, mmsize
-        add dstq, mmsize
-        sub wd, 1
-        cmp wd, 0
-        jne .loop0
+        movu    [dstq], m1
+        add     srcq,   mmsize
+        add     dstq,   mmsize
+        sub     wd,     1
+        cmp     wd,     0
+        jne     .loop0
 
-    .loop1:
-        cmp scalard, 0
-        je .end
-        movzx tmpd, byte [srcq]
-        imul tmpd, r5d
-        sar tmpd, 12
-        add tmpd, r6d
-        movd m1, tmpd
+.loop1:
+        cmp     scalard, 0
+        je      .end
+        movzx   tmpd, byte [srcq]
+        imul    tmpd, r5d
+        sar     tmpd, 12
+        add     tmpd, r6d
+        movd    m1,   tmpd
         packuswb m1, m0
-        movd tmpd, m1
-        mov [dstq], tmpb
-        inc srcq
-        inc dstq
-        dec scalard
-        jmp .loop1
+        movd    tmpd,   m1
+        mov     [dstq], tmpb
+        inc     srcq
+        inc     dstq
+        dec     scalard
+        jmp     .loop1
 
-    .end:
+.end:
         RET

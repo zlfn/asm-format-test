@@ -10,9 +10,9 @@ EXTERN asm_obstack_align_distance
 
 _obstack_align_distance_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_obstack_align_distance
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_obstack_align_distance

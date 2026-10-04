@@ -19,7 +19,7 @@
 #define CACHE_DSEGMENTS	4
 #define CACHE_DENTRIES	64
 
-	.text
+        .text
 /*
  * cpu_arm940_proc_init()
  * cpu_arm940_switch_mm()
@@ -27,22 +27,22 @@
  * These are not required.
  */
 SYM_TYPED_FUNC_START(cpu_arm940_proc_init)
-	ret	lr
+        ret     lr
 SYM_FUNC_END(cpu_arm940_proc_init)
 
 SYM_TYPED_FUNC_START(cpu_arm940_switch_mm)
-	ret	lr
+        ret     lr
 SYM_FUNC_END(cpu_arm940_switch_mm)
 
 /*
  * cpu_arm940_proc_fin()
  */
 SYM_TYPED_FUNC_START(cpu_arm940_proc_fin)
-	mrc	p15, 0, r0, c1, c0, 0		@ ctrl register
-	bic	r0, r0, #0x00001000		@ i-cache
-	bic	r0, r0, #0x00000004		@ d-cache
-	mcr	p15, 0, r0, c1, c0, 0		@ disable caches
-	ret	lr
+        mrc     p15, 0,  r0, c1, c0, 0  @ ctrl register
+        bic     r0,  r0, #0x00001000    @ i-cache
+        bic     r0,  r0, #0x00000004    @ d-cache
+        mcr     p15, 0,  r0, c1, c0, 0  @ disable caches
+        ret     lr
 SYM_FUNC_END(cpu_arm940_proc_fin)
 
 /*
@@ -50,27 +50,27 @@ SYM_FUNC_END(cpu_arm940_proc_fin)
  * Params  : r0 = address to jump to
  * Notes   : This sets up everything for a reset
  */
-	.pushsection	.idmap.text, "ax"
+        .pushsection .idmap.text, "ax"
 SYM_TYPED_FUNC_START(cpu_arm940_reset)
-	mov	ip, #0
-	mcr	p15, 0, ip, c7, c5, 0		@ flush I cache
-	mcr	p15, 0, ip, c7, c6, 0		@ flush D cache
-	mcr	p15, 0, ip, c7, c10, 4		@ drain WB
-	mrc	p15, 0, ip, c1, c0, 0		@ ctrl register
-	bic	ip, ip, #0x00000005		@ .............c.p
-	bic	ip, ip, #0x00001000		@ i-cache
-	mcr	p15, 0, ip, c1, c0, 0		@ ctrl register
-	ret	r0
+        mov     ip,  #0
+        mcr     p15, 0,  ip, c7, c5,  0 @ flush I cache
+        mcr     p15, 0,  ip, c7, c6,  0 @ flush D cache
+        mcr     p15, 0,  ip, c7, c10, 4 @ drain WB
+        mrc     p15, 0,  ip, c1, c0,  0 @ ctrl register
+        bic     ip,  ip, #0x00000005    @ .............c.p
+        bic     ip,  ip, #0x00001000    @ i-cache
+        mcr     p15, 0,  ip, c1, c0,  0 @ ctrl register
+        ret     r0
 SYM_FUNC_END(cpu_arm940_reset)
-	.popsection
+        .popsection
 
 /*
  * cpu_arm940_do_idle()
  */
-	.align	5
+        .align  5
 SYM_TYPED_FUNC_START(cpu_arm940_do_idle)
-	mcr	p15, 0, r0, c7, c0, 4		@ Wait for interrupt
-	ret	lr
+        mcr     p15, 0, r0, c7, c0, 4   @ Wait for interrupt
+        ret     lr
 SYM_FUNC_END(cpu_arm940_do_idle)
 
 /*
@@ -79,9 +79,9 @@ SYM_FUNC_END(cpu_arm940_do_idle)
  *	Unconditionally clean and invalidate the entire icache.
  */
 SYM_TYPED_FUNC_START(arm940_flush_icache_all)
-	mov	r0, #0
-	mcr	p15, 0, r0, c7, c5, 0		@ invalidate I cache
-	ret	lr
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c5, 0   @ invalidate I cache
+        ret     lr
 SYM_FUNC_END(arm940_flush_icache_all)
 
 /*
@@ -95,8 +95,8 @@ SYM_FUNC_ALIAS(arm940_flush_user_cache_all, arm940_flush_kern_cache_all)
  *	Clean and invalidate the entire cache.
  */
 SYM_TYPED_FUNC_START(arm940_flush_kern_cache_all)
-	mov	r2, #VM_EXEC
-	b	arm940_flush_user_cache_range
+        mov     r2, #VM_EXEC
+        b       arm940_flush_user_cache_range
 SYM_FUNC_END(arm940_flush_kern_cache_all)
 
 /*
@@ -110,22 +110,22 @@ SYM_FUNC_END(arm940_flush_kern_cache_all)
  *	- flags	- vm_flags describing address space
  */
 SYM_TYPED_FUNC_START(arm940_flush_user_cache_range)
-	mov	ip, #0
+        mov     ip, #0
 #ifdef CONFIG_CPU_DCACHE_WRITETHROUGH
-	mcr	p15, 0, ip, c7, c6, 0		@ flush D cache
+        mcr     p15, 0, ip, c7, c6, 0   @ flush D cache
 #else
-	mov	r1, #(CACHE_DSEGMENTS - 1) << 4	@ 4 segments
-1:	orr	r3, r1, #(CACHE_DENTRIES - 1) << 26 @ 64 entries
-2:	mcr	p15, 0, r3, c7, c14, 2		@ clean/flush D index
-	subs	r3, r3, #1 << 26
-	bcs	2b				@ entries 63 to 0
-	subs	r1, r1, #1 << 4
-	bcs	1b				@ segments 3 to 0
+        mov     r1,  #(CACHE_DSEGMENTS - 1) << 4        @ 4 segments
+1:      orr     r3,  r1, #(CACHE_DENTRIES - 1) << 26    @ 64 entries
+2:      mcr     p15, 0,  r3, c7, c14, 2                 @ clean/flush D index
+        subs    r3,  r3, #1 << 26
+        bcs     2b                                      @ entries 63 to 0
+        subs    r1, r1, #1 << 4
+        bcs     1b                                      @ segments 3 to 0
 #endif
-	tst	r2, #VM_EXEC
-	mcrne	p15, 0, ip, c7, c5, 0		@ invalidate I cache
-	mcrne	p15, 0, ip, c7, c10, 4		@ drain WB
-	ret	lr
+        tst     r2,  #VM_EXEC
+        mcrne   p15, 0, ip, c7, c5,  0  @ invalidate I cache
+        mcrne   p15, 0, ip, c7, c10, 4  @ drain WB
+        ret     lr
 SYM_FUNC_END(arm940_flush_user_cache_range)
 
 /*
@@ -139,7 +139,7 @@ SYM_FUNC_END(arm940_flush_user_cache_range)
  *	- end	- virtual end address
  */
 SYM_TYPED_FUNC_START(arm940_coherent_kern_range)
-	b	arm940_flush_kern_dcache_area
+        b       arm940_flush_kern_dcache_area
 SYM_FUNC_END(arm940_coherent_kern_range)
 
 /*
@@ -154,7 +154,7 @@ SYM_FUNC_END(arm940_coherent_kern_range)
  */
 SYM_TYPED_FUNC_START(arm940_coherent_user_range)
 #ifdef CONFIG_CFI /* Fallthrough if !CFI */
-	b	arm940_flush_kern_dcache_area
+        b       arm940_flush_kern_dcache_area
 #endif
 SYM_FUNC_END(arm940_coherent_user_range)
 
@@ -168,17 +168,17 @@ SYM_FUNC_END(arm940_coherent_user_range)
  *	- size	- region size
  */
 SYM_TYPED_FUNC_START(arm940_flush_kern_dcache_area)
-	mov	r0, #0
-	mov	r1, #(CACHE_DSEGMENTS - 1) << 4	@ 4 segments
-1:	orr	r3, r1, #(CACHE_DENTRIES - 1) << 26 @ 64 entries
-2:	mcr	p15, 0, r3, c7, c14, 2		@ clean/flush D index
-	subs	r3, r3, #1 << 26
-	bcs	2b				@ entries 63 to 0
-	subs	r1, r1, #1 << 4
-	bcs	1b				@ segments 7 to 0
-	mcr	p15, 0, r0, c7, c5, 0		@ invalidate I cache
-	mcr	p15, 0, r0, c7, c10, 4		@ drain WB
-	ret	lr
+        mov     r0,  #0
+        mov     r1,  #(CACHE_DSEGMENTS - 1) << 4        @ 4 segments
+1:      orr     r3,  r1, #(CACHE_DENTRIES - 1) << 26    @ 64 entries
+2:      mcr     p15, 0,  r3, c7, c14, 2                 @ clean/flush D index
+        subs    r3,  r3, #1 << 26
+        bcs     2b                                      @ entries 63 to 0
+        subs    r1, r1, #1 << 4
+        bcs     1b                                      @ segments 7 to 0
+        mcr     p15, 0, r0, c7, c5,  0                  @ invalidate I cache
+        mcr     p15, 0, r0, c7, c10, 4                  @ drain WB
+        ret     lr
 SYM_FUNC_END(arm940_flush_kern_dcache_area)
 
 /*
@@ -191,16 +191,16 @@ SYM_FUNC_END(arm940_flush_kern_dcache_area)
  *	- end	- virtual end address
  */
 arm940_dma_inv_range:
-	mov	ip, #0
-	mov	r1, #(CACHE_DSEGMENTS - 1) << 4	@ 4 segments
-1:	orr	r3, r1, #(CACHE_DENTRIES - 1) << 26 @ 64 entries
-2:	mcr	p15, 0, r3, c7, c6, 2		@ flush D entry
-	subs	r3, r3, #1 << 26
-	bcs	2b				@ entries 63 to 0
-	subs	r1, r1, #1 << 4
-	bcs	1b				@ segments 7 to 0
-	mcr	p15, 0, ip, c7, c10, 4		@ drain WB
-	ret	lr
+        mov     ip,  #0
+        mov     r1,  #(CACHE_DSEGMENTS - 1) << 4        @ 4 segments
+1:      orr     r3,  r1, #(CACHE_DENTRIES - 1) << 26    @ 64 entries
+2:      mcr     p15, 0,  r3, c7, c6, 2                  @ flush D entry
+        subs    r3,  r3, #1 << 26
+        bcs     2b                                      @ entries 63 to 0
+        subs    r1, r1, #1 << 4
+        bcs     1b                                      @ segments 7 to 0
+        mcr     p15, 0, ip, c7, c10, 4                  @ drain WB
+        ret     lr
 
 /*
  *	dma_clean_range(start, end)
@@ -213,18 +213,18 @@ arm940_dma_inv_range:
  */
 arm940_dma_clean_range:
 SYM_TYPED_FUNC_START(cpu_arm940_dcache_clean_area)
-	mov	ip, #0
+        mov     ip, #0
 #ifndef CONFIG_CPU_DCACHE_WRITETHROUGH
-	mov	r1, #(CACHE_DSEGMENTS - 1) << 4	@ 4 segments
-1:	orr	r3, r1, #(CACHE_DENTRIES - 1) << 26 @ 64 entries
-2:	mcr	p15, 0, r3, c7, c10, 2		@ clean D entry
-	subs	r3, r3, #1 << 26
-	bcs	2b				@ entries 63 to 0
-	subs	r1, r1, #1 << 4
-	bcs	1b				@ segments 7 to 0
+        mov     r1,  #(CACHE_DSEGMENTS - 1) << 4        @ 4 segments
+1:      orr     r3,  r1, #(CACHE_DENTRIES - 1) << 26    @ 64 entries
+2:      mcr     p15, 0,  r3, c7, c10, 2                 @ clean D entry
+        subs    r3,  r3, #1 << 26
+        bcs     2b                                      @ entries 63 to 0
+        subs    r1, r1, #1 << 4
+        bcs     1b                                      @ segments 7 to 0
 #endif
-	mcr	p15, 0, ip, c7, c10, 4		@ drain WB
-	ret	lr
+        mcr     p15, 0, ip, c7, c10, 4  @ drain WB
+        ret     lr
 SYM_FUNC_END(cpu_arm940_dcache_clean_area)
 
 /*
@@ -237,21 +237,21 @@ SYM_FUNC_END(cpu_arm940_dcache_clean_area)
  *	- end	- virtual end address
  */
 SYM_TYPED_FUNC_START(arm940_dma_flush_range)
-	mov	ip, #0
-	mov	r1, #(CACHE_DSEGMENTS - 1) << 4	@ 4 segments
-1:	orr	r3, r1, #(CACHE_DENTRIES - 1) << 26 @ 64 entries
+        mov     ip, #0
+        mov     r1, #(CACHE_DSEGMENTS - 1) << 4         @ 4 segments
+1:      orr     r3, r1, #(CACHE_DENTRIES - 1) << 26     @ 64 entries
 2:
 #ifndef CONFIG_CPU_DCACHE_WRITETHROUGH
-	mcr	p15, 0, r3, c7, c14, 2		@ clean/flush D entry
+        mcr     p15, 0, r3, c7, c14, 2  @ clean/flush D entry
 #else
-	mcr	p15, 0, r3, c7, c6, 2		@ invalidate D entry
+        mcr     p15, 0, r3, c7, c6, 2   @ invalidate D entry
 #endif
-	subs	r3, r3, #1 << 26
-	bcs	2b				@ entries 63 to 0
-	subs	r1, r1, #1 << 4
-	bcs	1b				@ segments 7 to 0
-	mcr	p15, 0, ip, c7, c10, 4		@ drain WB
-	ret	lr
+        subs    r3, r3, #1 << 26
+        bcs     2b                      @ entries 63 to 0
+        subs    r1, r1, #1 << 4
+        bcs     1b                      @ segments 7 to 0
+        mcr     p15, 0, ip, c7, c10, 4  @ drain WB
+        ret     lr
 SYM_FUNC_END(arm940_dma_flush_range)
 
 /*
@@ -261,11 +261,11 @@ SYM_FUNC_END(arm940_dma_flush_range)
  *	- dir	- DMA direction
  */
 SYM_TYPED_FUNC_START(arm940_dma_map_area)
-	add	r1, r1, r0
-	cmp	r2, #DMA_TO_DEVICE
-	beq	arm940_dma_clean_range
-	bcs	arm940_dma_inv_range
-	b	arm940_dma_flush_range
+        add     r1, r1, r0
+        cmp     r2, #DMA_TO_DEVICE
+        beq     arm940_dma_clean_range
+        bcs     arm940_dma_inv_range
+        b       arm940_dma_flush_range
 SYM_FUNC_END(arm940_dma_map_area)
 
 /*
@@ -275,95 +275,94 @@ SYM_FUNC_END(arm940_dma_map_area)
  *	- dir	- DMA direction
  */
 SYM_TYPED_FUNC_START(arm940_dma_unmap_area)
-	ret	lr
+        ret     lr
 SYM_FUNC_END(arm940_dma_unmap_area)
 
-	.type	__arm940_setup, #function
+        .type   __arm940_setup, #function
 __arm940_setup:
-	mov	r0, #0
-	mcr	p15, 0, r0, c7, c5, 0		@ invalidate I cache
-	mcr	p15, 0, r0, c7, c6, 0		@ invalidate D cache
-	mcr	p15, 0, r0, c7, c10, 4		@ drain WB
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c5,  0  @ invalidate I cache
+        mcr     p15, 0, r0, c7, c6,  0  @ invalidate D cache
+        mcr     p15, 0, r0, c7, c10, 4  @ drain WB
 
-	mcr	p15, 0, r0, c6, c3, 0		@ disable data area 3~7
-	mcr	p15, 0, r0, c6, c4, 0
-	mcr	p15, 0, r0, c6, c5, 0
-	mcr	p15, 0, r0, c6, c6, 0
-	mcr	p15, 0, r0, c6, c7, 0
+        mcr     p15, 0, r0, c6, c3, 0   @ disable data area 3~7
+        mcr     p15, 0, r0, c6, c4, 0
+        mcr     p15, 0, r0, c6, c5, 0
+        mcr     p15, 0, r0, c6, c6, 0
+        mcr     p15, 0, r0, c6, c7, 0
 
-	mcr	p15, 0, r0, c6, c3, 1		@ disable instruction area 3~7
-	mcr	p15, 0, r0, c6, c4, 1
-	mcr	p15, 0, r0, c6, c5, 1
-	mcr	p15, 0, r0, c6, c6, 1
-	mcr	p15, 0, r0, c6, c7, 1
+        mcr     p15, 0, r0, c6, c3, 1   @ disable instruction area 3~7
+        mcr     p15, 0, r0, c6, c4, 1
+        mcr     p15, 0, r0, c6, c5, 1
+        mcr     p15, 0, r0, c6, c6, 1
+        mcr     p15, 0, r0, c6, c7, 1
 
-	mov	r0, #0x0000003F			@ base = 0, size = 4GB
-	mcr	p15, 0, r0, c6,	c0, 0		@ set area 0, default
-	mcr	p15, 0, r0, c6,	c0, 1
+        mov     r0,  #0x0000003F        @ base = 0, size = 4GB
+        mcr     p15, 0, r0, c6, c0, 0   @ set area 0, default
+        mcr     p15, 0, r0, c6, c0, 1
 
-	ldr	r0, =(CONFIG_DRAM_BASE & 0xFFFFF000) @ base[31:12] of RAM
-	ldr	r7, =CONFIG_DRAM_SIZE >> 12	@ size of RAM (must be >= 4KB)
-	pr_val	r3, r0, r7, #1
-	mcr	p15, 0, r3, c6,	c1, 0		@ set area 1, RAM
-	mcr	p15, 0, r3, c6,	c1, 1
+        ldr     r0,  =(CONFIG_DRAM_BASE & 0xFFFFF000)   @ base[31:12] of RAM
+        ldr     r7,  =CONFIG_DRAM_SIZE >> 12            @ size of RAM (must be >= 4KB)
+        pr_val  r3,  r0, r7, #1
+        mcr     p15, 0,  r3, c6, c1, 0                  @ set area 1, RAM
+        mcr     p15, 0,  r3, c6, c1, 1
 
-	ldr	r0, =(CONFIG_FLASH_MEM_BASE & 0xFFFFF000) @ base[31:12] of FLASH
-	ldr	r7, =CONFIG_FLASH_SIZE		@ size of FLASH (must be >= 4KB)
-	pr_val	r3, r0, r6, #1
-	mcr	p15, 0, r3, c6,	c2, 0		@ set area 2, ROM/FLASH
-	mcr	p15, 0, r3, c6,	c2, 1
+        ldr     r0,  =(CONFIG_FLASH_MEM_BASE & 0xFFFFF000) @ base[31:12] of FLASH
+        ldr     r7,  =CONFIG_FLASH_SIZE @ size of FLASH (must be >= 4KB)
+        pr_val  r3,  r0, r6, #1
+        mcr     p15, 0,  r3, c6, c2, 0  @ set area 2, ROM/FLASH
+        mcr     p15, 0,  r3, c6, c2, 1
 
-	mov	r0, #0x06
-	mcr	p15, 0, r0, c2, c0, 0		@ Region 1&2 cacheable
-	mcr	p15, 0, r0, c2, c0, 1
+        mov     r0,  #0x06
+        mcr     p15, 0, r0, c2, c0, 0   @ Region 1&2 cacheable
+        mcr     p15, 0, r0, c2, c0, 1
 #ifdef CONFIG_CPU_DCACHE_WRITETHROUGH
-	mov	r0, #0x00			@ disable whole write buffer
+        mov     r0, #0x00       @ disable whole write buffer
 #else
-	mov	r0, #0x02			@ Region 1 write bufferred
+        mov     r0, #0x02       @ Region 1 write bufferred
 #endif
-	mcr	p15, 0, r0, c3, c0, 0
+        mcr     p15, 0, r0, c3, c0, 0
 
-	mov	r0, #0x10000
-	sub	r0, r0, #1			@ r0 = 0xffff
-	mcr	p15, 0, r0, c5, c0, 0		@ all read/write access
-	mcr	p15, 0, r0, c5, c0, 1
+        mov     r0,  #0x10000
+        sub     r0,  r0, #1             @ r0 = 0xffff
+        mcr     p15, 0,  r0, c5, c0, 0  @ all read/write access
+        mcr     p15, 0,  r0, c5, c0, 1
 
-	mrc	p15, 0, r0, c1, c0		@ get control register
-	orr	r0, r0, #0x00001000		@ I-cache
-	orr	r0, r0, #0x00000005		@ MPU/D-cache
+        mrc     p15, 0,  r0, c1, c0     @ get control register
+        orr     r0,  r0, #0x00001000    @ I-cache
+        orr     r0,  r0, #0x00000005    @ MPU/D-cache
 
-	ret	lr
+        ret     lr
 
-	.size	__arm940_setup, . - __arm940_setup
+        .size   __arm940_setup, . - __arm940_setup
 
-	__INITDATA
+        __INITDATA
 
-	@ define struct processor (see <asm/proc-fns.h> and proc-macros.S)
-	define_processor_functions arm940, dabort=nommu_early_abort, pabort=legacy_pabort, nommu=1
+        @ define struct processor (see <asm/proc-fns.h> and proc-macros.S)
+        define_processor_functions arm940, dabort=nommu_early_abort, pabort=legacy_pabort, nommu=1
 
-	.section ".rodata"
+        .section ".rodata"
 
-	string	cpu_arch_name, "armv4t"
-	string	cpu_elf_name, "v4"
-	string	cpu_arm940_name, "ARM940T"
+        string  cpu_arch_name,   "armv4t"
+        string  cpu_elf_name,    "v4"
+        string  cpu_arm940_name, "ARM940T"
 
-	.align
+        .align
 
-	.section ".proc.info.init", "a"
+        .section ".proc.info.init", "a"
 
-	.type	__arm940_proc_info,#object
+        .type   __arm940_proc_info, #object
 __arm940_proc_info:
-	.long	0x41009400
-	.long	0xff00fff0
-	.long	0
-	initfn	__arm940_setup, __arm940_proc_info
-	.long	cpu_arch_name
-	.long	cpu_elf_name
-	.long	HWCAP_SWP | HWCAP_HALF | HWCAP_THUMB
-	.long	cpu_arm940_name
-	.long	arm940_processor_functions
-	.long	0
-	.long	0
-	.long	arm940_cache_fns
-	.size	__arm940_proc_info, . - __arm940_proc_info
-
+        .long   0x41009400
+        .long   0xff00fff0
+        .long   0
+        initfn  __arm940_setup, __arm940_proc_info
+        .long   cpu_arch_name
+        .long   cpu_elf_name
+        .long   HWCAP_SWP | HWCAP_HALF | HWCAP_THUMB
+        .long   cpu_arm940_name
+        .long   arm940_processor_functions
+        .long   0
+        .long   0
+        .long   arm940_cache_fns
+        .size   __arm940_proc_info, . - __arm940_proc_info

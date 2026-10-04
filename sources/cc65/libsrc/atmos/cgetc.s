@@ -5,28 +5,27 @@
 ; char cgetc (void);
 ;
 
-        .export         _cgetc
+        .export _cgetc
 
-        .import         cursor
-        .forceimport    disable_caps
+        .import cursor
+        .forceimport disable_caps
 
-        .include        "atmos.inc"
-
+        .include "atmos.inc"
 
 ; ------------------------------------------------------------------------
 ;
 
 .proc   _cgetc
 
-        lda     KEYBUF          ; Do we have a character?
-        bmi     @L2             ; Yes: Get it
+        lda     KEYBUF  ; Do we have a character?
+        bmi     @L2     ; Yes: Get it
 
 ; No character, enable cursor and wait
 
-        lda     cursor          ; Should cursor be off?
-        beq     @L1             ; Skip if so
+        lda     cursor  ; Should cursor be off?
+        beq     @L1     ; Skip if so
         lsr     STATUS
-        sec                     ; Cursor ON
+        sec             ; Cursor ON
         rol     STATUS
 @L1:    lda     KEYBUF
         bpl     @L1
@@ -35,17 +34,17 @@
 
         ldx     cursor
         beq     @L2
-        dec     STATUS          ; Clear bit zero
+        dec     STATUS  ; Clear bit zero
 
 ; We have the character, clear the "available" flag
 
-@L2:    and     #$7F            ; Mask out avail flag
+@L2:    and     #$7F    ; Mask out avail flag
         sta     KEYBUF
         ldx     #>$0000
         ldy     MODEKEY
         cpy     #FUNCTKEY
         bne     @L3
-        ora     #$80            ; FUNCT-key pressed
+        ora     #$80    ; FUNCT-key pressed
 
 ; Done
 

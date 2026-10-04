@@ -10,36 +10,35 @@ EXTERN asm_sp1_CreateSpr
 
 sp1_CreateSpr:
 
-   ld hl,2
-   add hl,sp
-   ld c,(hl)
-   inc hl
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   ld a,(hl)
-   inc hl
-   inc hl
-   ld b,(hl)
-   inc hl
-   inc hl
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a
-   ex de,hl
-   
+        ld      hl, 2
+        add     hl, sp
+        ld      c,  (hl)
+        inc     hl
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        ld      h,  (hl)
+        ld      l,  a
+        ex      de, hl
+
 ;   jp asm_sp1_CreateSpr
-   push ix
-   call asm_sp1_CreateSpr
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_CreateSpr
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_CreateSpr
 defc _sp1_CreateSpr = sp1_CreateSpr
 ENDIF
-

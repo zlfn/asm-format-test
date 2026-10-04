@@ -9,15 +9,15 @@ EXTERN asm_SMSlib_updateSpritePosition
 
 _SMS_updateSpritePosition:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   ld c,d
-   ld a,l
+        pop     af
+        pop     de
+        pop     hl
 
-   jp asm_SMSlib_updateSpritePosition
+        push    hl
+        push    de
+        push    af
+
+        ld      c, d
+        ld      a, l
+
+        jp      asm_SMSlib_updateSpritePosition

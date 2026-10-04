@@ -4,23 +4,22 @@
 ; unsigned char __fastcall__ _sysrename (const char *oldpath, const char *newpath);
 ;
 
-        .export         __sysrename
+        .export __sysrename
 
-        .import         fnparse, fnadd, fnparsename
-        .import         opencmdchannel, closecmdchannel
-        .import         writefndiskcmd, readdiskerror
-        .import         popptr1
+        .import fnparse, fnadd, fnparsename
+        .import opencmdchannel, closecmdchannel
+        .import writefndiskcmd, readdiskerror
+        .import popptr1
 
-        .import         fncmd, fnunit
-        .importzp       ptr1
-
+        .import fncmd, fnunit
+        .importzp ptr1
 
 ;--------------------------------------------------------------------------
 ; __sysrename:
 
 .proc   __sysrename
 
-        jsr     fnparse         ; Parse first filename, pops newpath
+        jsr     fnparse ; Parse first filename, pops newpath
         bne     done
 
         lda     #'='
@@ -35,7 +34,7 @@
         jsr     opencmdchannel
         bne     done
 
-        lda     #'r'            ; Rename command
+        lda     #'r'    ; Rename command
         sta     fncmd
         jsr     writefndiskcmd
 
@@ -50,5 +49,3 @@
 done:   rts
 
 .endproc
-
-

@@ -8,19 +8,17 @@
 ;	$Id: f_ansi_bel.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_BEL
-	
-    EXTERN invtxt
+        SECTION code_clib
+        PUBLIC  ansi_BEL
 
+        EXTERN  invtxt
 
 ansi_BEL:
-    call invtxt
-    ld hl,8000
+        call    invtxt
+        ld      hl, 8000
 inv_pause:
-    dec hl
-	ld a,h
-	or l
-    jr nz,inv_pause
-    jp invtxt
-
+        dec     hl
+        ld      a, h
+        or      l
+        jr      nz, inv_pause
+        jp      invtxt

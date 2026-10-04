@@ -38,122 +38,122 @@ GLOBL exprodata<>+0(SB), RODATA, $72
 
 // func Exp(x float64) float64
 TEXT ·archExp(SB),NOSPLIT,$0
-	// test bits for not-finite
-	MOVQ    x+0(FP), BX
-	MOVQ    $~(1<<63), AX // sign bit mask
-	MOVQ    BX, DX
-	ANDQ    AX, DX
-	MOVQ    $PosInf, AX
-	CMPQ    AX, DX
-	JLE     notFinite
-	// check if argument will overflow
-	MOVQ    BX, X0
-	MOVSD   $Overflow, X1
-	COMISD  X1, X0
-	JA      overflow
-	MOVSD   $LOG2E, X1
-	MULSD   X0, X1
-	CVTSD2SL X1, BX // BX = exponent
-	CVTSL2SD BX, X1
-	CMPB ·useFMA(SB), $1
-	JE   avxfma
-	MOVSD   $LN2U, X2
-	MULSD   X1, X2
-	SUBSD   X2, X0
-	MOVSD   $LN2L, X2
-	MULSD   X1, X2
-	SUBSD   X2, X0
-	// reduce argument
-	MULSD   $0.0625, X0
-	// Taylor series evaluation
-	MOVSD   exprodata<>+64(SB), X1
-	MULSD   X0, X1
-	ADDSD   exprodata<>+56(SB), X1
-	MULSD   X0, X1
-	ADDSD   exprodata<>+48(SB), X1
-	MULSD   X0, X1
-	ADDSD   exprodata<>+40(SB), X1
-	MULSD   X0, X1
-	ADDSD   exprodata<>+32(SB), X1
-	MULSD   X0, X1
-	ADDSD   exprodata<>+24(SB), X1
-	MULSD   X0, X1
-	ADDSD   exprodata<>+0(SB), X1
-	MULSD   X0, X1
-	ADDSD   exprodata<>+8(SB), X1
-	MULSD   X1, X0
-	MOVSD   exprodata<>+16(SB), X1
-	ADDSD   X0, X1
-	MULSD   X1, X0
-	MOVSD   exprodata<>+16(SB), X1
-	ADDSD   X0, X1
-	MULSD   X1, X0
-	MOVSD   exprodata<>+16(SB), X1
-	ADDSD   X0, X1
-	MULSD   X1, X0
-	MOVSD   exprodata<>+16(SB), X1
-	ADDSD   X0, X1
-	MULSD   X1, X0
-	ADDSD exprodata<>+8(SB), X0
-	// return fr * 2**exponent
+        // test bits for not-finite
+        MOVQ    x+0(FP),   BX
+        MOVQ    $~(1<<63), AX   // sign bit mask
+        MOVQ    BX, DX
+        ANDQ    AX, DX
+        MOVQ    $PosInf, AX
+        CMPQ    AX, DX
+        JLE     notFinite
+        // check if argument will overflow
+        MOVQ    BX, X0
+        MOVSD   $Overflow, X1
+        COMISD  X1, X0
+        JA      overflow
+        MOVSD   $LOG2E, X1
+        MULSD   X0,     X1
+        CVTSD2SL X1, BX // BX = exponent
+        CVTSL2SD BX, X1
+        CMPB    ·useFMA(SB), $1
+        JE      avxfma
+        MOVSD   $LN2U, X2
+        MULSD   X1,    X2
+        SUBSD   X2,    X0
+        MOVSD   $LN2L, X2
+        MULSD   X1,    X2
+        SUBSD   X2,    X0
+        // reduce argument
+        MULSD   $0.0625, X0
+        // Taylor series evaluation
+        MOVSD   exprodata<>+64(SB), X1
+        MULSD   X0, X1
+        ADDSD   exprodata<>+56(SB), X1
+        MULSD   X0, X1
+        ADDSD   exprodata<>+48(SB), X1
+        MULSD   X0, X1
+        ADDSD   exprodata<>+40(SB), X1
+        MULSD   X0, X1
+        ADDSD   exprodata<>+32(SB), X1
+        MULSD   X0, X1
+        ADDSD   exprodata<>+24(SB), X1
+        MULSD   X0, X1
+        ADDSD   exprodata<>+0(SB), X1
+        MULSD   X0, X1
+        ADDSD   exprodata<>+8(SB), X1
+        MULSD   X1, X0
+        MOVSD   exprodata<>+16(SB), X1
+        ADDSD   X0, X1
+        MULSD   X1, X0
+        MOVSD   exprodata<>+16(SB), X1
+        ADDSD   X0, X1
+        MULSD   X1, X0
+        MOVSD   exprodata<>+16(SB), X1
+        ADDSD   X0, X1
+        MULSD   X1, X0
+        MOVSD   exprodata<>+16(SB), X1
+        ADDSD   X0, X1
+        MULSD   X1, X0
+        ADDSD   exprodata<>+8(SB), X0
+        // return fr * 2**exponent
 ldexp:
-	ADDL    $0x3FF, BX // add bias
-	JLE     denormal
-	CMPL    BX, $0x7FF
-	JGE     overflow
+        ADDL    $0x3FF, BX      // add bias
+        JLE     denormal
+        CMPL    BX, $0x7FF
+        JGE     overflow
 lastStep:
-	SHLQ    $52, BX
-	MOVQ    BX, X1
-	MULSD   X1, X0
-	MOVSD   X0, ret+8(FP)
-	RET
+        SHLQ    $52, BX
+        MOVQ    BX,  X1
+        MULSD   X1,  X0
+        MOVSD   X0,  ret+8(FP)
+        RET
 notFinite:
-	// test bits for -Inf
-	MOVQ    $NegInf, AX
-	CMPQ    AX, BX
-	JNE     notNegInf
-	// -Inf, return 0
-underflow: // return 0
-	MOVQ    $0, ret+8(FP)
-	RET
-overflow: // return +Inf
-	MOVQ    $PosInf, BX
-notNegInf: // NaN or +Inf, return x
-	MOVQ    BX, ret+8(FP)
-	RET
+        // test bits for -Inf
+        MOVQ    $NegInf, AX
+        CMPQ    AX, BX
+        JNE     notNegInf
+        // -Inf, return 0
+underflow:                      // return 0
+        MOVQ    $0, ret+8(FP)
+        RET
+overflow:                       // return +Inf
+        MOVQ    $PosInf, BX
+notNegInf:                      // NaN or +Inf, return x
+        MOVQ    BX, ret+8(FP)
+        RET
 denormal:
-	CMPL    BX, $-52
-	JL      underflow
-	ADDL    $0x3FE, BX // add bias - 1
-	SHLQ    $52, BX
-	MOVQ    BX, X1
-	MULSD   X1, X0
-	MOVQ    $1, BX
-	JMP     lastStep
+        CMPL    BX, $-52
+        JL      underflow
+        ADDL    $0x3FE, BX      // add bias - 1
+        SHLQ    $52,    BX
+        MOVQ    BX,     X1
+        MULSD   X1,     X0
+        MOVQ    $1,     BX
+        JMP     lastStep
 
 avxfma:
-	MOVSD   $LN2U, X2
-	VFNMADD231SD X2, X1, X0
-	MOVSD   $LN2L, X2
-	VFNMADD231SD X2, X1, X0
-	// reduce argument
-	MULSD   $0.0625, X0
-	// Taylor series evaluation
-	MOVSD   exprodata<>+64(SB), X1
-	VFMADD213SD exprodata<>+56(SB), X0, X1
-	VFMADD213SD exprodata<>+48(SB), X0, X1
-	VFMADD213SD exprodata<>+40(SB), X0, X1
-	VFMADD213SD exprodata<>+32(SB), X0, X1
-	VFMADD213SD exprodata<>+24(SB), X0, X1
-	VFMADD213SD exprodata<>+0(SB), X0, X1
-	VFMADD213SD exprodata<>+8(SB), X0, X1
-	MULSD   X1, X0
-	VADDSD exprodata<>+16(SB), X0, X1
-	MULSD   X1, X0
-	VADDSD exprodata<>+16(SB), X0, X1
-	MULSD   X1, X0
-	VADDSD exprodata<>+16(SB), X0, X1
-	MULSD   X1, X0
-	VADDSD exprodata<>+16(SB), X0, X1
-	VFMADD213SD   exprodata<>+8(SB), X1, X0
-	JMP ldexp
+        MOVSD   $LN2U, X2
+        VFNMADD231SD X2, X1, X0
+        MOVSD   $LN2L, X2
+        VFNMADD231SD X2, X1, X0
+        // reduce argument
+        MULSD   $0.0625, X0
+        // Taylor series evaluation
+        MOVSD   exprodata<>+64(SB), X1
+        VFMADD213SD exprodata<>+56(SB), X0, X1
+        VFMADD213SD exprodata<>+48(SB), X0, X1
+        VFMADD213SD exprodata<>+40(SB), X0, X1
+        VFMADD213SD exprodata<>+32(SB), X0, X1
+        VFMADD213SD exprodata<>+24(SB), X0, X1
+        VFMADD213SD exprodata<>+0(SB),  X0, X1
+        VFMADD213SD exprodata<>+8(SB),  X0, X1
+        MULSD   X1, X0
+        VADDSD  exprodata<>+16(SB), X0, X1
+        MULSD   X1, X0
+        VADDSD  exprodata<>+16(SB), X0, X1
+        MULSD   X1, X0
+        VADDSD  exprodata<>+16(SB), X0, X1
+        MULSD   X1, X0
+        VADDSD  exprodata<>+16(SB), X0, X1
+        VFMADD213SD exprodata<>+8(SB), X1, X0
+        JMP     ldexp

@@ -11,26 +11,24 @@
 ;       $Id: cpc_PrintGphStr2X.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_PrintGphStr2X
-        PUBLIC    _cpc_PrintGphStr2X
-		
-        EXTERN    cpc_GetScrAddress0
-        EXTERN    cpc_PrintGphStr0
+        SECTION code_clib
+        PUBLIC  cpc_PrintGphStr2X
+        PUBLIC  _cpc_PrintGphStr2X
 
+        EXTERN  cpc_GetScrAddress0
+        EXTERN  cpc_PrintGphStr0
 
 .cpc_PrintGphStr2X
 ._cpc_PrintGphStr2X
 
-	ld ix,2
-	add ix,sp
-	
-	ld l,(ix+0)
-	ld h,(ix+1)	;destino
-	
-   	ld e,(ix+2)
-	ld d,(ix+3)	;texto origen
-	ld a,1
+        ld      ix, 2
+        add     ix, sp
 
-    
- JP cpc_PrintGphStr0
+        ld      l, (ix+0)
+        ld      h, (ix+1)       ;destino
+
+        ld      e, (ix+2)
+        ld      d, (ix+3)       ;texto origen
+        ld      a, 1
+
+        JP      cpc_PrintGphStr0

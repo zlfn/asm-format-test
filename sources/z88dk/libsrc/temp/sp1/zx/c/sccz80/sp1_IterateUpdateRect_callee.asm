@@ -11,36 +11,35 @@ EXTERN asm_sp1_IterateUpdateRect
 
 sp1_IterateUpdateRect_callee:
 
-   push ix      ; save IX to BC'
-   exx
-   pop bc
-   exx
+        push    ix      ; save IX to BC'
+        exx
+        pop     bc
+        exx
 
-   pop hl
-   pop ix
-   ex (sp),hl
+        pop     hl
+        pop     ix
+        ex      (sp), hl
 
 asm0_sp1_IterateUpdateRect:
 
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
+        ld      d, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
 
 ;   jp asm_sp1_IterateUpdateRect
-   exx
-   push bc	; save old IX
-   exx
-   call asm_sp1_IterateUpdateRect
-   pop ix	; restore it
-   ret
+        exx
+        push    bc      ; save old IX
+        exx
+        call    asm_sp1_IterateUpdateRect
+        pop     ix      ; restore it
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_IterateUpdateRect_callee
 defc _sp1_IterateUpdateRect_callee = sp1_IterateUpdateRect_callee
 ENDIF
-

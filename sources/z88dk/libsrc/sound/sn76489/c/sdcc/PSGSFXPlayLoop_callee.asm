@@ -9,10 +9,10 @@ EXTERN asm_PSGlib_SFXPlayLoop
 
 _PSGSFXPlayLoop_callee:
 
-   pop hl
-   pop de
-   dec sp
-   ex (sp),hl
-   ld c,h
+        pop     hl
+        pop     de
+        dec     sp
+        ex      (sp), hl
+        ld      c,    h
 
-   jp asm_PSGlib_SFXPlayLoop
+        jp      asm_PSGlib_SFXPlayLoop

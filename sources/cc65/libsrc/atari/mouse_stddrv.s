@@ -12,7 +12,7 @@
 
 _mouse_stddrv:
         .ifdef  __ATARIXL__
-        .asciiz "ATRXST.MOU"
+                .asciiz "ATRXST.MOU"
         .else
-        .asciiz "ATRST.MOU"
+                .asciiz "ATRST.MOU"
         .endif

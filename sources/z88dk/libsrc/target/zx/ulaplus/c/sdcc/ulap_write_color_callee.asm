@@ -9,7 +9,7 @@ EXTERN asm_ulap_write_color
 
 _ulap_write_color_callee:
 
-   pop hl
-   ex (sp),hl
+        pop     hl
+        ex      (sp), hl
 
-   jp asm_ulap_write_color
+        jp      asm_ulap_write_color

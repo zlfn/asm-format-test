@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_m_tapein_open
 defc _esx_m_tapein_open = esx_m_tapein_open
 ENDIF
-

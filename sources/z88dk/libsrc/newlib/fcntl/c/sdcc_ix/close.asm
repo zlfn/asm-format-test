@@ -10,10 +10,10 @@ EXTERN _close_fastcall
 
 _close:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _close_fastcall
+        push    hl
+        push    af
+
+        jp      _close_fastcall

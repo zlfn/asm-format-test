@@ -16,16 +16,15 @@ EXTERN asm_BIFROSTH_setTile
 
 BIFROSTH_setTile_callee:
 
-        pop hl          ; RET address
-        pop de          ; E=tile
-        pop bc          ; C=py
-        ex (sp),hl      ; L=px
+        pop     hl              ; RET address
+        pop     de              ; E=tile
+        pop     bc              ; C=py
+        ex      (sp), hl        ; L=px
 
-		  jp asm_BIFROSTH_setTile
+        jp      asm_BIFROSTH_setTile
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _BIFROSTH_setTile_callee
 defc _BIFROSTH_setTile_callee = BIFROSTH_setTile_callee
 ENDIF
-

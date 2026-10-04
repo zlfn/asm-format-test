@@ -10,28 +10,27 @@ EXTERN __esxdos_error_mc
 
 asm_esx_m_tapein_getpos:
 
-   ; enter : none
-   ;
-   ; exit  : success
-   ;
-   ;            hl = tape pointer position in blocks
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : none
+        ;
+        ; exit  : success
+        ;
+        ;            hl = tape pointer position in blocks
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl
 
-   ld b,4
+        ld      b, 4
 
-   rst __ESX_RST_SYS
-   defb __ESX_M_TAPEIN
+        rst     __ESX_RST_SYS
+        defb    __ESX_M_TAPEIN
 
-   ret nc
-   jp __esxdos_error_mc
-
+        ret     nc
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * M_TAPEIN ($8b) *

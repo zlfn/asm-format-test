@@ -4,8 +4,8 @@
 ; CC65 runtime: Scale the 32 bit primary register by 8
 ;
 
-        .export         asleax3, shleax3
-        .importzp       sreg, tmp1
+        .export asleax3, shleax3
+        .importzp sreg, tmp1
 
 asleax3:
 shleax3:
@@ -24,4 +24,3 @@ shleax3:
         rol     sreg+1
         ldx     tmp1
         rts
-

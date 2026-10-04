@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Mar 2014
 ; ===============================================================
-; 
+;
 ; void wa_stack_destroy(wa_stack_t *s)
 ;
 ; Zero the stack structure.
@@ -19,6 +19,6 @@ EXTERN asm_w_array_destroy
 
 defc asm_wa_stack_destroy = asm_w_array_destroy
 
-   ; enter : hl = stack *
-   ;
-   ; uses  : af, hl
+        ; enter : hl = stack *
+        ;
+        ; uses  : af, hl

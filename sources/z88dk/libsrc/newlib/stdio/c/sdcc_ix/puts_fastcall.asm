@@ -15,12 +15,12 @@ EXTERN asm_puts
 
 _puts_fastcall:
 
-   push ix
-   
-   call asm_puts
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_puts
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

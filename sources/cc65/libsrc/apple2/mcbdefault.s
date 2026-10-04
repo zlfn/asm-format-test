@@ -7,20 +7,20 @@
 ; be called from an interrupt handler
 ;
 
-        .export         _mouse_def_callbacks
+        .export _mouse_def_callbacks
 
         .ifndef __APPLE2ENH__
-        .import         machinetype
+                .import machinetype
         .endif
 
-        .include        "apple2.inc"
+        .include "apple2.inc"
 
 ; ------------------------------------------------------------------------
 
         .bss
 
 backup: .res    1
-visible:.res    1
+visible: .res   1
 
 ; ------------------------------------------------------------------------
 
@@ -47,21 +47,21 @@ cursor = '+' | $40              ; Flashing crosshair
 
 getcursor:
         .ifndef __APPLE2ENH__
-        bit     machinetype
-        bpl     column
+                bit     machinetype
+                bpl     column
         .endif
-        bit     RD80VID         ; In 80 column mode?
-        bpl     column          ; No, skip bank switching
-switch: bit     LOWSCR          ; Patched at runtime
+        bit     RD80VID ; In 80 column mode?
+        bpl     column  ; No, skip bank switching
+switch: bit     LOWSCR  ; Patched at runtime
 
 column: ldx     #$00            ; Patched at runtime
-getscr: lda     $0400,x         ; Patched at runtime
+getscr: lda     $0400, x        ; Patched at runtime
         cmp     #cursor
         rts
 
 setcursor:
         lda     #cursor
-setscr: sta     $0400,x         ; Patched at runtime
+setscr: sta     $0400, x        ; Patched at runtime
         bit     LOWSCR          ; Doesn't hurt in 40 column mode
         rts
 
@@ -70,7 +70,7 @@ setscr: sta     $0400,x         ; Patched at runtime
         .code
 
 done:
-        bit     LOWSCR          ; Doesn't hurt in 40 column mode
+        bit     LOWSCR  ; Doesn't hurt in 40 column mode
 return: rts
 
 ; Hide the mouse cursor.

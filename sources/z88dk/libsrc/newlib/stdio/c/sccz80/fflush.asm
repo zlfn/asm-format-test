@@ -16,10 +16,10 @@ EXTERN asm_fflush
 
 fflush:
 
-   push hl
-   pop ix
-   
-   jp asm_fflush
+        push    hl
+        pop     ix
+
+        jp      asm_fflush
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

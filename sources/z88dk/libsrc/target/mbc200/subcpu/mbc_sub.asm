@@ -9,53 +9,50 @@
 ;
 ;	$Id: mbc_sub.asm $
 ;
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  mbc_sub
+        PUBLIC  mbc_sub
 
-    EXTERN  mbc_sendchar
-
+        EXTERN  mbc_sendchar
 
 mbc_sub:
 
-    push    hl
-    push    de
+        push    hl
+        push    de
 
-	; ESC 'L':  upload code
-    ld      l, 27
-    call    mbc_sendchar
-    ld      l, 'L'
-    call    mbc_sendchar
+        ; ESC 'L':  upload code
+        ld      l, 27
+        call    mbc_sendchar
+        ld      l, 'L'
+        call    mbc_sendchar
 
-    pop     de
+        pop     de
 
-    ld      l, d
-    call    mbc_sendchar
-    ld      l, e
-    call    mbc_sendchar
+        ld      l, d
+        call    mbc_sendchar
+        ld      l, e
+        call    mbc_sendchar
 
-    pop     hl
+        pop     hl
 
 upload_code:
-    ld      a, (hl)
+        ld      a, (hl)
 
-    push    hl
-    ld      l, a
-    call    mbc_sendchar
-    pop     hl
+        push    hl
+        ld      l, a
+        call    mbc_sendchar
+        pop     hl
 
-    inc     hl
-    dec     de
-    ld      a, d
-    or      e
-    jr      nz, upload_code
+        inc     hl
+        dec     de
+        ld      a, d
+        or      e
+        jr      nz, upload_code
 
-
-	; ESC 'JP':  execute the uploaded code
-    ld      l, 27
-    call    mbc_sendchar
-    ld      l, 'J'
-    call    mbc_sendchar
-    ld      l, 'P'
-    jp      mbc_sendchar
-
+        ; ESC 'JP':  execute the uploaded code
+        ld      l, 27
+        call    mbc_sendchar
+        ld      l, 'J'
+        call    mbc_sendchar
+        ld      l, 'P'
+        jp      mbc_sendchar

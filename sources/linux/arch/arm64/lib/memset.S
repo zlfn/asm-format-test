@@ -44,178 +44,178 @@ tmp3w		.req	w9
 tmp3		.req	x9
 
 SYM_FUNC_START_LOCAL(__pi_memset_generic)
-	mov	dst, dstin	/* Preserve return value.  */
-	and	A_lw, val, #255
-	orr	A_lw, A_lw, A_lw, lsl #8
-	orr	A_lw, A_lw, A_lw, lsl #16
-	orr	A_l, A_l, A_l, lsl #32
+        mov     dst,  dstin     /* Preserve return value.  */
+        and     A_lw, val,  #255
+        orr     A_lw, A_lw, A_lw, lsl #8
+        orr     A_lw, A_lw, A_lw, lsl #16
+        orr     A_l,  A_l,  A_l,  lsl #32
 
-	cmp	count, #15
-	b.hi	.Lover16_proc
-	/*All store maybe are non-aligned..*/
-	tbz	count, #3, 1f
-	str	A_l, [dst], #8
+        cmp     count, #15
+        b.hi    .Lover16_proc
+        /*All store maybe are non-aligned..*/
+        tbz     count, #3,    1f
+        str     A_l,   [dst], #8
 1:
-	tbz	count, #2, 2f
-	str	A_lw, [dst], #4
+        tbz     count, #2,    2f
+        str     A_lw,  [dst], #4
 2:
-	tbz	count, #1, 3f
-	strh	A_lw, [dst], #2
+        tbz     count, #1,    3f
+        strh    A_lw,  [dst], #2
 3:
-	tbz	count, #0, 4f
-	strb	A_lw, [dst]
+        tbz     count, #0, 4f
+        strb    A_lw,  [dst]
 4:
-	ret
+        ret
 
 .Lover16_proc:
-	/*Whether  the start address is aligned with 16.*/
-	neg	tmp2, dst
-	ands	tmp2, tmp2, #15
-	b.eq	.Laligned
+        /*Whether  the start address is aligned with 16.*/
+        neg     tmp2, dst
+        ands    tmp2, tmp2, #15
+        b.eq    .Laligned
 /*
 * The count is not less than 16, we can use stp to store the start 16 bytes,
 * then adjust the dst aligned with 16.This process will make the current
 * memory address at alignment boundary.
 */
-	stp	A_l, A_l, [dst] /*non-aligned store..*/
-	/*make the dst aligned..*/
-	sub	count, count, tmp2
-	add	dst, dst, tmp2
+        stp     A_l, A_l, [dst] /*non-aligned store..*/
+        /*make the dst aligned..*/
+        sub     count, count, tmp2
+        add     dst,   dst,   tmp2
 
 .Laligned:
-	cbz	A_l, .Lzero_mem
+        cbz     A_l, .Lzero_mem
 
 .Ltail_maybe_long:
-	cmp	count, #64
-	b.ge	.Lnot_short
+        cmp     count, #64
+        b.ge    .Lnot_short
 .Ltail63:
-	ands	tmp1, count, #0x30
-	b.eq	3f
-	cmp	tmp1w, #0x20
-	b.eq	1f
-	b.lt	2f
-	stp	A_l, A_l, [dst], #16
+        ands    tmp1, count, #0x30
+        b.eq    3f
+        cmp     tmp1w, #0x20
+        b.eq    1f
+        b.lt    2f
+        stp     A_l, A_l, [dst], #16
 1:
-	stp	A_l, A_l, [dst], #16
+        stp     A_l, A_l, [dst], #16
 2:
-	stp	A_l, A_l, [dst], #16
+        stp     A_l, A_l, [dst], #16
 /*
 * The last store length is less than 16,use stp to write last 16 bytes.
 * It will lead some bytes written twice and the access is non-aligned.
 */
 3:
-	ands	count, count, #15
-	cbz	count, 4f
-	add	dst, dst, count
-	stp	A_l, A_l, [dst, #-16]	/* Repeat some/all of last store. */
+        ands    count, count, #15
+        cbz     count, 4f
+        add     dst,   dst,   count
+        stp     A_l,   A_l,   [dst, #-16]       /* Repeat some/all of last store. */
 4:
-	ret
+        ret
 
 	/*
 	* Critical loop. Start at a new cache line boundary. Assuming
 	* 64 bytes per line, this ensures the entire loop is in one line.
 	*/
-	.p2align	L1_CACHE_SHIFT
+        .p2align L1_CACHE_SHIFT
 .Lnot_short:
-	sub	dst, dst, #16/* Pre-bias.  */
-	sub	count, count, #64
+        sub     dst,   dst,   #16       /* Pre-bias.  */
+        sub     count, count, #64
 1:
-	stp	A_l, A_l, [dst, #16]
-	stp	A_l, A_l, [dst, #32]
-	stp	A_l, A_l, [dst, #48]
-	stp	A_l, A_l, [dst, #64]!
-	subs	count, count, #64
-	b.ge	1b
-	tst	count, #0x3f
-	add	dst, dst, #16
-	b.ne	.Ltail63
+        stp     A_l,   A_l,   [dst, #16]
+        stp     A_l,   A_l,   [dst, #32]
+        stp     A_l,   A_l,   [dst, #48]
+        stp     A_l,   A_l,   [dst, #64]!
+        subs    count, count, #64
+        b.ge    1b
+        tst     count, #0x3f
+        add     dst,   dst, #16
+        b.ne    .Ltail63
 .Lexitfunc:
-	ret
+        ret
 
 	/*
 	* For zeroing memory, check to see if we can use the ZVA feature to
 	* zero entire 'cache' lines.
 	*/
 .Lzero_mem:
-	cmp	count, #63
-	b.le	.Ltail63
+        cmp     count, #63
+        b.le    .Ltail63
 	/*
 	* For zeroing small amounts of memory, it's not worth setting up
 	* the line-clear code.
 	*/
-	cmp	count, #128
-	b.lt	.Lnot_short /*count is at least  128 bytes*/
+        cmp     count, #128
+        b.lt    .Lnot_short     /*count is at least  128 bytes*/
 
-	mrs	tmp1, dczid_el0
-	tbnz	tmp1, #4, .Lnot_short
-	mov	tmp3w, #4
-	and	zva_len, tmp1w, #15	/* Safety: other bits reserved.  */
-	lsl	zva_len, tmp3w, zva_len
+        mrs     tmp1,    dczid_el0
+        tbnz    tmp1,    #4,    .Lnot_short
+        mov     tmp3w,   #4
+        and     zva_len, tmp1w, #15     /* Safety: other bits reserved.  */
+        lsl     zva_len, tmp3w, zva_len
 
-	ands	tmp3w, zva_len, #63
+        ands    tmp3w, zva_len, #63
 	/*
 	* ensure the zva_len is not less than 64.
 	* It is not meaningful to use ZVA if the block size is less than 64.
 	*/
-	b.ne	.Lnot_short
+        b.ne    .Lnot_short
 .Lzero_by_line:
 	/*
 	* Compute how far we need to go to become suitably aligned. We're
 	* already at quad-word alignment.
 	*/
-	cmp	count, zva_len_x
-	b.lt	.Lnot_short		/* Not enough to reach alignment.  */
-	sub	zva_bits_x, zva_len_x, #1
-	neg	tmp2, dst
-	ands	tmp2, tmp2, zva_bits_x
-	b.eq	2f			/* Already aligned.  */
-	/* Not aligned, check that there's enough to copy after alignment.*/
-	sub	tmp1, count, tmp2
+        cmp     count, zva_len_x
+        b.lt    .Lnot_short     /* Not enough to reach alignment.  */
+        sub     zva_bits_x, zva_len_x, #1
+        neg     tmp2, dst
+        ands    tmp2, tmp2, zva_bits_x
+        b.eq    2f              /* Already aligned.  */
+        /* Not aligned, check that there's enough to copy after alignment.*/
+        sub     tmp1, count, tmp2
 	/*
 	* grantee the remain length to be ZVA is bigger than 64,
 	* avoid to make the 2f's process over mem range.*/
-	cmp	tmp1, #64
-	ccmp	tmp1, zva_len_x, #8, ge	/* NZCV=0b1000 */
-	b.lt	.Lnot_short
+        cmp     tmp1, #64
+        ccmp    tmp1, zva_len_x, #8, ge /* NZCV=0b1000 */
+        b.lt    .Lnot_short
 	/*
 	* We know that there's at least 64 bytes to zero and that it's safe
 	* to overrun by 64 bytes.
 	*/
-	mov	count, tmp1
+        mov     count, tmp1
 1:
-	stp	A_l, A_l, [dst]
-	stp	A_l, A_l, [dst, #16]
-	stp	A_l, A_l, [dst, #32]
-	subs	tmp2, tmp2, #64
-	stp	A_l, A_l, [dst, #48]
-	add	dst, dst, #64
-	b.ge	1b
-	/* We've overrun a bit, so adjust dst downwards.*/
-	add	dst, dst, tmp2
+        stp     A_l,  A_l,  [dst]
+        stp     A_l,  A_l,  [dst, #16]
+        stp     A_l,  A_l,  [dst, #32]
+        subs    tmp2, tmp2, #64
+        stp     A_l,  A_l,  [dst, #48]
+        add     dst,  dst,  #64
+        b.ge    1b
+        /* We've overrun a bit, so adjust dst downwards.*/
+        add     dst, dst, tmp2
 2:
-	sub	count, count, zva_len_x
+        sub     count, count, zva_len_x
 3:
-	dc	zva, dst
-	add	dst, dst, zva_len_x
-	subs	count, count, zva_len_x
-	b.ge	3b
-	ands	count, count, zva_bits_x
-	b.ne	.Ltail_maybe_long
-	ret
+        dc      zva,   dst
+        add     dst,   dst,   zva_len_x
+        subs    count, count, zva_len_x
+        b.ge    3b
+        ands    count, count, zva_bits_x
+        b.ne    .Ltail_maybe_long
+        ret
 SYM_FUNC_END(__pi_memset_generic)
 
 #ifdef CONFIG_AS_HAS_MOPS
-	.arch_extension mops
+        .arch_extension mops
 SYM_FUNC_START(__pi_memset)
 alternative_if_not ARM64_HAS_MOPS
-	b	__pi_memset_generic
+        b       __pi_memset_generic
 alternative_else_nop_endif
 
-	mov	dst, dstin
-	setp	[dst]!, count!, val_x
-	setm	[dst]!, count!, val_x
-	sete	[dst]!, count!, val_x
-	ret
+        mov     dst,    dstin
+        setp    [dst]!, count!, val_x
+        setm    [dst]!, count!, val_x
+        sete    [dst]!, count!, val_x
+        ret
 SYM_FUNC_END(__pi_memset)
 #else
 SYM_FUNC_ALIAS(__pi_memset, __pi_memset_generic)

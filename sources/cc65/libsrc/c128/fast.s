@@ -7,10 +7,9 @@
 ; */
 ;
 
-        .export         _fast
+        .export _fast
 
-        .include        "c128.inc"
-
+        .include "c128.inc"
 
 .proc   _fast
 
@@ -19,5 +18,3 @@
         rts
 
 .endproc
-
-

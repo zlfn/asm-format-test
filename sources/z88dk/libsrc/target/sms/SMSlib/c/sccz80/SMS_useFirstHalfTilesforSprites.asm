@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_useFirstHalfTilesforSprites
 defc _SMS_useFirstHalfTilesforSprites = SMS_useFirstHalfTilesforSprites
 ENDIF
-

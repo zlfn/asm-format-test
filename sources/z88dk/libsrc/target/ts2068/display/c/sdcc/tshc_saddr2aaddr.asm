@@ -9,10 +9,10 @@ EXTERN asm_tshc_saddr2aaddr
 
 _tshc_saddr2aaddr:
 
-   pop af
-   pop hl
+        pop     af
+        pop     hl
 
-   push hl
-   push af
+        push    hl
+        push    af
 
-   jp asm_tshc_saddr2aaddr
+        jp      asm_tshc_saddr2aaddr

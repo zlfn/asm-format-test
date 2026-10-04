@@ -17,125 +17,124 @@
 
 ;#define BACKWARD
 
-
 ; We enter here with hl=source, de=dest
 dzx0_standard:
-       ld bc,de
+        ld      bc, de
 IF BACKWARD
-        lxi d,1
-		push d
-		dcr e
+        lxi     d, 1
+        push    d
+        dcr     e
 ELSE
-        lxi d,0FFFFh
-		push d
-		inx d
+        lxi     d, 0FFFFh
+        push    d
+        inx     d
 ENDIF
-		mvi a,080h
+        mvi     a, 080h
 dzx0s_literals:
-		call dzx0s_elias
-		call ldir
-		add a
-		jc dzx0s_new_offset
-		call dzx0s_elias
+        call    dzx0s_elias
+        call    ldir
+        add     a
+        jc      dzx0s_new_offset
+        call    dzx0s_elias
 dzx0s_copy:
-		xthl
-		push h
-		dad b
-		call ldir
-		pop h
-		xthl
-		add a
-		jnc dzx0s_literals
+        xthl
+        push    h
+        dad     b
+        call    ldir
+        pop     h
+        xthl
+        add     a
+        jnc     dzx0s_literals
 dzx0s_new_offset:
-		call dzx0s_elias
+        call    dzx0s_elias
 IF BACKWARD
-		inx sp
-		inx sp
-		dcr d
-		rz
-		dcr e
-		mov d,e
+        inx     sp
+        inx     sp
+        dcr     d
+        rz
+        dcr     e
+        mov     d, e
 ELSE
-		mov d,a
-		pop psw
-		xra a
-		sub e
-		rz
-		mov e,d
-		mov d,a
-		mov a,e
+        mov     d, a
+        pop     psw
+        xra     a
+        sub     e
+        rz
+        mov     e, d
+        mov     d, a
+        mov     a, e
 ENDIF
-		push b
-		mov b,a
-		mov a,d
-		rar
-		mov d,a
-		mov a,m
-		rar 
-		mov e,a
-		mov a,b
-		pop b
+        push    b
+        mov     b, a
+        mov     a, d
+        rar
+        mov     d, a
+        mov     a, m
+        rar
+        mov     e, a
+        mov     a, b
+        pop     b
 IF BACKWARD
-		dcx h
+        dcx     h
 ELSE
-		inx h
+        inx     h
 ENDIF
 IF BACKWARD
-		inx d
+        inx     d
 ENDIF
-		push d
-		lxi d,1
+        push    d
+        lxi     d, 1
 IF BACKWARD
-		cc dzx0s_elias_backtrack
+        cc      dzx0s_elias_backtrack
 ELSE
-		cnc dzx0s_elias_backtrack
+        cnc     dzx0s_elias_backtrack
 ENDIF
-		inx d
-		jmp dzx0s_copy
+        inx     d
+        jmp     dzx0s_copy
 dzx0s_elias:
-		inr e
-dzx0s_elias_loop:	
-		add a
-		jnz dzx0s_elias_skip
-		mov a,m
+        inr     e
+dzx0s_elias_loop:
+        add     a
+        jnz     dzx0s_elias_skip
+        mov     a, m
 IF BACKWARD
-		dcx h
+        dcx     h
 ELSE
-		inx h
+        inx     h
 ENDIF
-		ral
+        ral
 dzx0s_elias_skip:
 IF BACKWARD
-		rnc
+        rnc
 ELSE
-		rc
+        rc
 ENDIF
 dzx0s_elias_backtrack:
-		xchg
-		dad h
-		xchg
-		add a
-		jnc dzx0s_elias_loop
-		inr e
-		jmp dzx0s_elias_loop
-		
-ldir:
-		push psw						
-ldir_loop:
-		mov a,m
-		stax b
-IF BACKWARD
-		dcx h
-		dcx b
-ELSE
-		inx h
-		inx b
-ENDIF
-		dcx d
-		mov a,d
-		ora e
-		jnz ldir_loop
-		pop psw
-		ret
+        xchg
+        dad     h
+        xchg
+        add     a
+        jnc     dzx0s_elias_loop
+        inr     e
+        jmp     dzx0s_elias_loop
 
-		.end
+ldir:
+        push    psw
+ldir_loop:
+        mov     a, m
+        stax    b
+IF BACKWARD
+        dcx     h
+        dcx     b
+ELSE
+        inx     h
+        inx     b
+ENDIF
+        dcx     d
+        mov     a, d
+        ora     e
+        jnz     ldir_loop
+        pop     psw
+        ret
+
+.end

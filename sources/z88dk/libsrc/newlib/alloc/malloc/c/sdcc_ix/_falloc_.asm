@@ -16,15 +16,15 @@ EXTERN asm__falloc
 
 __falloc_:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp asm__falloc
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm__falloc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

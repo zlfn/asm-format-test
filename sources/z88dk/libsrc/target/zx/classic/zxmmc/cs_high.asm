@@ -10,15 +10,14 @@
 ;------------------------------------------------------------------------------------
 ;
 
-    SECTION code_clib
-    PUBLIC  cs_high
+        SECTION code_clib
+        PUBLIC  cs_high
 
-    INCLUDE "target/zx/def/zxmmc.def"
-
+        INCLUDE "target/zx/def/zxmmc.def"
 
 cs_high:
-    push    af
-    ld      a, 255
-    out     (OUT_PORT), a
-    pop     af
-    ret
+        push    af
+        ld      a, 255
+        out     (OUT_PORT), a
+        pop     af
+        ret

@@ -12,14 +12,13 @@ EXTERN asm_sp1_RemoveCharStruct
 
 sp1_RemoveCharStruct:
 
-   push ix
-   call asm_sp1_RemoveCharStruct
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_RemoveCharStruct
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_RemoveCharStruct
 defc _sp1_RemoveCharStruct = sp1_RemoveCharStruct
 ENDIF
-

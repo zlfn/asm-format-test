@@ -10,27 +10,27 @@ EXTERN asm_in_mouse_amx
 
 _in_mouse_amx_callee:
 
-   call asm_in_mouse_amx
-   
-   exx
-   pop bc
-   exx
-   
-   pop hl
-   ld (hl),a
-   
-   pop hl
-   ld (hl),e
-   inc hl
-   ld (hl),d
-   
-   pop hl
-   ld (hl),c
-   inc hl
-   ld (hl),b
-   
-   exx
-   push bc
-   exx
-   
-   ret
+        call    asm_in_mouse_amx
+
+        exx
+        pop     bc
+        exx
+
+        pop     hl
+        ld      (hl), a
+
+        pop     hl
+        ld      (hl), e
+        inc     hl
+        ld      (hl), d
+
+        pop     hl
+        ld      (hl), c
+        inc     hl
+        ld      (hl), b
+
+        exx
+        push    bc
+        exx
+
+        ret

@@ -9,11 +9,11 @@ PUBLIC _ftrylockfile_fastcall
 EXTERN asm_ftrylockfile
 
 _ftrylockfile_fastcall:
-   
-   push hl
-   ex (sp),ix
-   
-   call asm_ftrylockfile
-   
-   pop ix
-   ret
+
+        push    hl
+        ex      (sp), ix
+
+        call    asm_ftrylockfile
+
+        pop     ix
+        ret

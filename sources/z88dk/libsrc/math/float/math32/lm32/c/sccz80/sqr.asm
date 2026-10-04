@@ -9,13 +9,13 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 sqr:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_sqrf
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_sqrf
 
 ; SDCC bridge for Classic
 PUBLIC _sqr

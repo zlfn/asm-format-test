@@ -8,15 +8,15 @@ EXTERN asm0_atoi, l_eat_ddigits
 
 __strtod_exponent:
 
-   ; hl = char *
+        ; hl = char *
 
-   push bc
-   
-   call asm0_atoi
-   
-   ex de,hl                    ; de = decimal exponent
-   call l_eat_ddigits          ; move hl past trailing digits
-   
-   pop bc
+        push    bc
 
-   ret
+        call    asm0_atoi
+
+        ex      de, hl          ; de = decimal exponent
+        call    l_eat_ddigits   ; move hl past trailing digits
+
+        pop     bc
+
+        ret

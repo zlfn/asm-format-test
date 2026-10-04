@@ -4,15 +4,13 @@
 ; CC65 library: 16x16 => 32 signed multiplication
 ;
 
-        .export         _imul16x16r32
-        .import         imul16x16r32, popax
+        .export _imul16x16r32
+        .import imul16x16r32, popax
 
-        .include        "zeropage.inc"
-
+        .include "zeropage.inc"
 
 ;---------------------------------------------------------------------------
 ; 16x16 => 32 signed multiplication routine.
-
 
 .proc   _imul16x16r32
 
@@ -22,4 +20,3 @@
         jmp     imul16x16r32
 
 .endproc
-

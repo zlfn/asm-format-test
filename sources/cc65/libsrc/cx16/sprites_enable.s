@@ -7,10 +7,9 @@
 ; */
 ;
 
-        .export         _vera_sprites_enable
+        .export _vera_sprites_enable
 
-        .include        "cx16.inc"
-
+        .include "cx16.inc"
 
 .proc   _vera_sprites_enable
         stz     VERA::CTRL                      ; Use display register bank 0
@@ -21,7 +20,7 @@
 
         eor     VERA::DISP::VIDEO
         and     #VERA::DISP::ENABLE::SPRITES
-        eor     VERA::DISP::VIDEO               ; Replace old flag with new flag
+        eor     VERA::DISP::VIDEO       ; Replace old flag with new flag
         sta     VERA::DISP::VIDEO
 
         tya

@@ -2,8 +2,7 @@
 ; Ullrich von Bassewitz, 2011-07-17
 ;
 
-        .include        "tgi-kernel.inc"
-
+        .include "tgi-kernel.inc"
 
 ;-----------------------------------------------------------------------------
 ; void __fastcall__ tgi_settextdir (unsigned char dir);
@@ -14,8 +13,7 @@
 
 .proc   _tgi_settextdir
 
-        sta     _tgi_textdir            ; Remember the direction
+        sta     _tgi_textdir    ; Remember the direction
         rts
 
 .endproc
-

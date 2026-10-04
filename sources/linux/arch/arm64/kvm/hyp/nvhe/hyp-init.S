@@ -18,31 +18,31 @@
 #include <asm/sysreg.h>
 #include <asm/virt.h>
 
-	.text
-	.pushsection	.idmap.text, "ax"
+        .text
+        .pushsection .idmap.text, "ax"
 
-	.align	11
+        .align  11
 
 SYM_CODE_START(__kvm_hyp_init)
-	ventry	.			// Synchronous EL2t
-	ventry	.			// IRQ EL2t
-	ventry	.			// FIQ EL2t
-	ventry	.			// Error EL2t
+        ventry  .       // Synchronous EL2t
+        ventry  .       // IRQ EL2t
+        ventry  .       // FIQ EL2t
+        ventry  .       // Error EL2t
 
-	ventry	.			// Synchronous EL2h
-	ventry	.			// IRQ EL2h
-	ventry	.			// FIQ EL2h
-	ventry	.			// Error EL2h
+        ventry  .       // Synchronous EL2h
+        ventry  .       // IRQ EL2h
+        ventry  .       // FIQ EL2h
+        ventry  .       // Error EL2h
 
-	ventry	__do_hyp_init		// Synchronous 64-bit EL1
-	ventry	.			// IRQ 64-bit EL1
-	ventry	.			// FIQ 64-bit EL1
-	ventry	.			// Error 64-bit EL1
+        ventry  __do_hyp_init   // Synchronous 64-bit EL1
+        ventry  .               // IRQ 64-bit EL1
+        ventry  .               // FIQ 64-bit EL1
+        ventry  .               // Error 64-bit EL1
 
-	ventry	.			// Synchronous 32-bit EL1
-	ventry	.			// IRQ 32-bit EL1
-	ventry	.			// FIQ 32-bit EL1
-	ventry	.			// Error 32-bit EL1
+        ventry  .       // Synchronous 32-bit EL1
+        ventry  .       // IRQ 32-bit EL1
+        ventry  .       // FIQ 32-bit EL1
+        ventry  .       // Error 32-bit EL1
 
 	/*
 	 * Only uses x0..x3 so as to not clobber callee-saved SMCCC registers.
@@ -51,26 +51,26 @@ SYM_CODE_START(__kvm_hyp_init)
 	 * x1: struct kvm_nvhe_init_params PA
 	 */
 __do_hyp_init:
-	/* Check for a stub HVC call */
-	cmp	x0, #HVC_STUB_HCALL_NR
-	b.lo	__kvm_handle_stub_hvc
+        /* Check for a stub HVC call */
+        cmp     x0, #HVC_STUB_HCALL_NR
+        b.lo    __kvm_handle_stub_hvc
 
-	bic	x0, x0, #ARM_SMCCC_CALL_HINTS
-	mov	x3, #KVM_HOST_SMCCC_FUNC(__kvm_hyp_init)
-	cmp	x0, x3
-	b.eq	1f
+        bic     x0, x0, #ARM_SMCCC_CALL_HINTS
+        mov     x3, #KVM_HOST_SMCCC_FUNC(__kvm_hyp_init)
+        cmp     x0, x3
+        b.eq    1f
 
-	mov	x0, #SMCCC_RET_NOT_SUPPORTED
-	eret
+        mov     x0, #SMCCC_RET_NOT_SUPPORTED
+        eret
 
-1:	mov	x0, x1
-	mov	x3, lr
-	bl	___kvm_hyp_init			// Clobbers x0..x2
-	mov	lr, x3
+1:      mov     x0, x1
+        mov     x3, lr
+        bl      ___kvm_hyp_init // Clobbers x0..x2
+        mov     lr, x3
 
-	/* Hello, World! */
-	mov	x0, #SMCCC_RET_SUCCESS
-	eret
+        /* Hello, World! */
+        mov     x0, #SMCCC_RET_SUCCESS
+        eret
 SYM_CODE_END(__kvm_hyp_init)
 
 /*
@@ -79,9 +79,9 @@ SYM_CODE_END(__kvm_hyp_init)
  * HCR_EL2.E2H must have been initialized already.
  */
 SYM_CODE_START_LOCAL(__kvm_init_el2_state)
-	init_el2_state				// Clobbers x0..x2
-	finalise_el2_state
-	ret
+        init_el2_state  // Clobbers x0..x2
+        finalise_el2_state
+        ret
 SYM_CODE_END(__kvm_init_el2_state)
 
 /*
@@ -93,81 +93,81 @@ SYM_CODE_END(__kvm_init_el2_state)
  * x0: struct kvm_nvhe_init_params PA
  */
 SYM_CODE_START_LOCAL(___kvm_hyp_init)
-	ldr	x1, [x0, #NVHE_INIT_STACK_HYP_VA]
-	mov	sp, x1
+        ldr     x1, [x0, #NVHE_INIT_STACK_HYP_VA]
+        mov     sp, x1
 
-	ldr	x1, [x0, #NVHE_INIT_MAIR_EL2]
-	msr	mair_el2, x1
+        ldr     x1, [x0, #NVHE_INIT_MAIR_EL2]
+        msr     mair_el2, x1
 
-	ldr	x1, [x0, #NVHE_INIT_HCR_EL2]
-	msr_hcr_el2 x1
+        ldr     x1, [x0, #NVHE_INIT_HCR_EL2]
+        msr_hcr_el2 x1
 
-	mov	x2, #HCR_E2H
-	and	x2, x1, x2
-	cbz	x2, 1f
+        mov     x2, #HCR_E2H
+        and     x2, x1, x2
+        cbz     x2, 1f
 
 	/*
 	 * hVHE: Replay the EL2 setup to account for the E2H bit
 	 * TPIDR_EL2 and FAR_EL2 are used to preserve x0 and LR across
 	 * the macro maze...
 	 */
-	isb
-	msr	tpidr_el2, x0
-	msr	far_el2, lr
+        isb
+        msr     tpidr_el2, x0
+        msr     far_el2,   lr
 
-	bl	__kvm_init_el2_state
+        bl      __kvm_init_el2_state
 
-	mrs	lr, far_el2
-	mrs	x0, tpidr_el2
+        mrs     lr, far_el2
+        mrs     x0, tpidr_el2
 
 1:
-	ldr	x1, [x0, #NVHE_INIT_TPIDR_EL2]
-	msr	tpidr_el2, x1
+        ldr     x1, [x0, #NVHE_INIT_TPIDR_EL2]
+        msr     tpidr_el2, x1
 
-	ldr	x1, [x0, #NVHE_INIT_VTTBR]
-	msr	vttbr_el2, x1
+        ldr     x1, [x0, #NVHE_INIT_VTTBR]
+        msr     vttbr_el2, x1
 
-	ldr	x1, [x0, #NVHE_INIT_VTCR]
-	msr	vtcr_el2, x1
+        ldr     x1, [x0, #NVHE_INIT_VTCR]
+        msr     vtcr_el2, x1
 
-	ldr	x1, [x0, #NVHE_INIT_PGD_PA]
-	phys_to_ttbr x2, x1
+        ldr     x1, [x0, #NVHE_INIT_PGD_PA]
+        phys_to_ttbr x2, x1
 alternative_if ARM64_HAS_CNP
-	orr	x2, x2, #TTBRx_EL1_CnP
+        orr     x2, x2, #TTBRx_EL1_CnP
 alternative_else_nop_endif
-	msr	ttbr0_el2, x2
+        msr     ttbr0_el2, x2
 
-	ldr	x0, [x0, #NVHE_INIT_TCR_EL2]
-	msr	tcr_el2, x0
+        ldr     x0, [x0, #NVHE_INIT_TCR_EL2]
+        msr     tcr_el2, x0
 
-	isb
+        isb
 
-	/* Invalidate the stale TLBs from Bootloader */
-	tlbi	alle2
-	tlbi	alle1
-	dsb	sy
+        /* Invalidate the stale TLBs from Bootloader */
+        tlbi    alle2
+        tlbi    alle1
+        dsb     sy
 
-	mov_q	x0, INIT_SCTLR_EL2_MMU_ON
+        mov_q   x0, INIT_SCTLR_EL2_MMU_ON
 alternative_if ARM64_HAS_ADDRESS_AUTH
-	mov_q	x1, (SCTLR_ELx_ENIA | SCTLR_ELx_ENIB | \
-		     SCTLR_ELx_ENDA | SCTLR_ELx_ENDB)
-	orr	x0, x0, x1
+        mov_q   x1, (SCTLR_ELx_ENIA | SCTLR_ELx_ENIB | \
+                SCTLR_ELx_ENDA | SCTLR_ELx_ENDB)
+        orr     x0, x0, x1
 alternative_else_nop_endif
 
 #ifdef CONFIG_ARM64_BTI_KERNEL
 alternative_if ARM64_BTI
-	orr	x0, x0, #SCTLR_EL2_BT
+        orr     x0, x0, #SCTLR_EL2_BT
 alternative_else_nop_endif
 #endif /* CONFIG_ARM64_BTI_KERNEL */
 
-	msr	sctlr_el2, x0
-	isb
+        msr     sctlr_el2, x0
+        isb
 
-	/* Set the host vector */
-	ldr	x0, =__kvm_hyp_host_vector
-	msr	vbar_el2, x0
+        /* Set the host vector */
+        ldr     x0, =__kvm_hyp_host_vector
+        msr     vbar_el2, x0
 
-	ret
+        ret
 SYM_CODE_END(___kvm_hyp_init)
 
 /*
@@ -176,8 +176,8 @@ SYM_CODE_END(___kvm_hyp_init)
  * x0: struct kvm_nvhe_init_params PA
  */
 SYM_CODE_START(kvm_hyp_cpu_entry)
-	ldr	x29, =__kvm_host_psci_cpu_on_entry
-	b	__kvm_hyp_init_cpu
+        ldr     x29, =__kvm_host_psci_cpu_on_entry
+        b       __kvm_hyp_init_cpu
 
 /*
  * PSCI CPU_SUSPEND / SYSTEM_SUSPEND entry point
@@ -185,34 +185,34 @@ SYM_CODE_START(kvm_hyp_cpu_entry)
  * x0: struct kvm_nvhe_init_params PA
  */
 SYM_CODE_START(kvm_hyp_cpu_resume)
-	ldr	x29, =__kvm_host_psci_cpu_resume_entry
+        ldr     x29, =__kvm_host_psci_cpu_resume_entry
 
 SYM_INNER_LABEL(__kvm_hyp_init_cpu, SYM_L_LOCAL)
-	mov	x28, x0				// Stash arguments
+        mov     x28, x0 // Stash arguments
 
-	/* Check that the core was booted in EL2. */
-	mrs	x0, CurrentEL
-	cmp	x0, #CurrentEL_EL2
-	b.ne	1f
+        /* Check that the core was booted in EL2. */
+        mrs     x0, CurrentEL
+        cmp     x0, #CurrentEL_EL2
+        b.ne    1f
 
-	msr	SPsel, #1			// We want to use SP_EL2
+        msr     SPsel, #1       // We want to use SP_EL2
 
-	init_el2_hcr	0
+        init_el2_hcr 0
 
-	bl	__kvm_init_el2_state
+        bl      __kvm_init_el2_state
 
-	/* Enable MMU, set vectors and stack. */
-	mov	x0, x28
-	bl	___kvm_hyp_init			// Clobbers x0..x2
+        /* Enable MMU, set vectors and stack. */
+        mov     x0, x28
+        bl      ___kvm_hyp_init // Clobbers x0..x2
 
-	/* Leave idmap -- using BLR is OK, LR is restored from host context */
-	blr	x29
+        /* Leave idmap -- using BLR is OK, LR is restored from host context */
+        blr     x29
 
-	// The core booted in EL1, or the C code unexpectedly returned.
-	// Either way, KVM cannot be initialized on it.
-1:	wfe
-	wfi
-	b	1b
+        // The core booted in EL1, or the C code unexpectedly returned.
+        // Either way, KVM cannot be initialized on it.
+1:      wfe
+        wfi
+        b       1b
 SYM_CODE_END(kvm_hyp_cpu_resume)
 SYM_CODE_END(kvm_hyp_cpu_entry)
 
@@ -221,45 +221,45 @@ SYM_CODE_START(__kvm_handle_stub_hvc)
 	 * __kvm_handle_stub_hvc called from __host_hvc through branch instruction(br) so
 	 * we need bti j at beginning.
 	 */
-	bti j
-	cmp	x0, #HVC_SOFT_RESTART
-	b.ne	1f
+        bti     j
+        cmp     x0, #HVC_SOFT_RESTART
+        b.ne    1f
 
-	/* This is where we're about to jump, staying at EL2 */
-	msr	elr_el2, x1
-	mov	x0, #(PSR_F_BIT | PSR_I_BIT | PSR_A_BIT | PSR_D_BIT | PSR_MODE_EL2h)
-	msr	spsr_el2, x0
+        /* This is where we're about to jump, staying at EL2 */
+        msr     elr_el2, x1
+        mov     x0, #(PSR_F_BIT | PSR_I_BIT | PSR_A_BIT | PSR_D_BIT | PSR_MODE_EL2h)
+        msr     spsr_el2, x0
 
-	/* Shuffle the arguments, and don't come back */
-	mov	x0, x2
-	mov	x1, x3
-	mov	x2, x4
-	b	reset
+        /* Shuffle the arguments, and don't come back */
+        mov     x0, x2
+        mov     x1, x3
+        mov     x2, x4
+        b       reset
 
-1:	cmp	x0, #HVC_RESET_VECTORS
-	b.ne	1f
+1:      cmp     x0, #HVC_RESET_VECTORS
+        b.ne    1f
 
 	/*
 	 * Set the HVC_RESET_VECTORS return code before entering the common
 	 * path so that we do not clobber x0-x2 in case we are coming via
 	 * HVC_SOFT_RESTART.
 	 */
-	mov	x0, xzr
+        mov     x0, xzr
 reset:
-	/* Reset kvm back to the hyp stub. */
-	mov_q	x5, INIT_SCTLR_EL2_MMU_OFF
-	pre_disable_mmu_workaround
-	msr	sctlr_el2, x5
-	isb
+        /* Reset kvm back to the hyp stub. */
+        mov_q   x5, INIT_SCTLR_EL2_MMU_OFF
+        pre_disable_mmu_workaround
+        msr     sctlr_el2, x5
+        isb
 
-	/* Install stub vectors */
-	adr_l	x5, __hyp_stub_vectors
-	msr	vbar_el2, x5
-	eret
+        /* Install stub vectors */
+        adr_l   x5, __hyp_stub_vectors
+        msr     vbar_el2, x5
+        eret
 
-1:	/* Bad stub call */
-	mov_q	x0, HVC_STUB_ERR
-	eret
+1:              /* Bad stub call */
+        mov_q   x0, HVC_STUB_ERR
+        eret
 
 SYM_CODE_END(__kvm_handle_stub_hvc)
 
@@ -271,30 +271,30 @@ SYM_CODE_END(__kvm_handle_stub_hvc)
  * using a physical pointer without triggering a kCFI failure.
  */
 SYM_TYPED_FUNC_START(__pkvm_init_switch_pgd)
-	/* Turn the MMU off */
-	pre_disable_mmu_workaround
-	mrs	x3, sctlr_el2
-	bic	x4, x3, #SCTLR_ELx_M
-	msr	sctlr_el2, x4
-	isb
+        /* Turn the MMU off */
+        pre_disable_mmu_workaround
+        mrs     x3, sctlr_el2
+        bic     x4, x3, #SCTLR_ELx_M
+        msr     sctlr_el2, x4
+        isb
 
-	tlbi	alle2
+        tlbi    alle2
 
-	/* Install the new pgtables */
-	phys_to_ttbr x5, x0
+        /* Install the new pgtables */
+        phys_to_ttbr x5, x0
 alternative_if ARM64_HAS_CNP
-	orr	x5, x5, #TTBRx_EL1_CnP
+        orr     x5, x5, #TTBRx_EL1_CnP
 alternative_else_nop_endif
-	msr	ttbr0_el2, x5
+        msr     ttbr0_el2, x5
 
-	/* Set the new stack pointer */
-	mov	sp, x1
+        /* Set the new stack pointer */
+        mov     sp, x1
 
-	/* And turn the MMU back on! */
-	dsb	nsh
-	isb
-	set_sctlr_el2	x3
-	ret	x2
+        /* And turn the MMU back on! */
+        dsb     nsh
+        isb
+        set_sctlr_el2 x3
+        ret     x2
 SYM_FUNC_END(__pkvm_init_switch_pgd)
 
-	.popsection
+        .popsection

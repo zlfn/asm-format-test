@@ -5,23 +5,23 @@
 ; int open (const char* name, int flags, ...);
 ;
 
-        .export         _open, closedirect
-        .export         __filetype, __auxtype, __datetime
-        .constructor    raisefilelevel
-        .destructor     closeallfiles, 5
+        .export _open, closedirect
+        .export __filetype, __auxtype, __datetime
+        .constructor raisefilelevel
+        .destructor closeallfiles, 5
 
-        .import         pushname_tos, popname, sos_set_pathname_tos
-        .import         iobuf_alloc, iobuf_free
-        .import         addysp, incsp4, incaxy, pushax, popax
+        .import pushname_tos, popname, sos_set_pathname_tos
+        .import iobuf_alloc,  iobuf_free
+        .import addysp, incsp4, incaxy, pushax, popax
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "sos.inc"
-        .include        "filedes.inc"
-        .include        "time.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "sos.inc"
+        .include "filedes.inc"
+        .include "time.inc"
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 raisefilelevel:
         ; Raise file level
@@ -54,7 +54,7 @@ _open:
         ldy     #$00
 
         ; Check for free fdtab slot
-:       lda     fdtab + FD::REF_NUM,y
+:       lda     fdtab + FD::REF_NUM, y
         beq     found
 
         ; Advance to next fdtab slot
@@ -70,7 +70,7 @@ _open:
         lda     #EMFILE
 
         ; Cleanup stack
-errno:  jsr     incsp4          ; Preserves A
+errno:  jsr     incsp4  ; Preserves A
 
         ; Set __errno
         jmp     ___directerrno
@@ -90,7 +90,7 @@ found:  sty     tmp2
         jsr     sos_set_pathname_tos
 
         ; Check for create flag
-        lda     tmp3            ; Restore flags
+        lda     tmp3    ; Restore flags
         and     #O_CREAT
         beq     open
 
@@ -101,8 +101,8 @@ found:  sty     tmp2
         ldx     #(OPTION::CREATE::STORAGE_TYPE+1) - (OPTION::CREATE::FILE_TYPE)
         stx     sosparam + SOS::CREATE::LENGTH
         dex
-:       lda     CREATE,x
-        sta     sosoption + OPTION::CREATE::FILE_TYPE,x
+:       lda     CREATE, x
+        sta     sosoption + OPTION::CREATE::FILE_TYPE, x
         dex
         bpl     :-
 
@@ -113,25 +113,25 @@ found:  sty     tmp2
         beq     open
 
         ; Check for ordinary errors
-        cmp     #$47            ; "Duplicate filename"
+        cmp     #$47    ; "Duplicate filename"
         bne     oserr2
 
         ; Check for exclusive flag
-        lda     tmp3            ; Restore flags
+        lda     tmp3    ; Restore flags
         and     #O_EXCL
         beq     open
 
-        lda     #$47            ; "Duplicate filename"
+        lda     #$47    ; "Duplicate filename"
 
         ; Cleanup name
-oserr2: jsr     popname         ; Preserves A
+oserr2: jsr     popname ; Preserves A
 
-oserr1: ldy     tmp2            ; Restore fdtab slot
+oserr1: ldy     tmp2    ; Restore fdtab slot
 
         ; Set ___oserror
         jmp     ___mappederrno
 
-open:   lda     #0              ; no option list
+open:   lda     #0      ; no option list
         sta     sosparam + SOS::OPEN::LENGTH
 
         ; Open file
@@ -142,12 +142,12 @@ open:   lda     #0              ; no option list
 
         ; Get and save fd
         ldx     sosparam + SOS::OPEN::REF_NUM
-        stx     tmp1            ; Save fd
+        stx     tmp1    ; Save fd
 
         ; Set flags and check for truncate flag
-        ldy     tmp2            ; Restore fdtab slot
-        lda     tmp3            ; Restore flags
-        sta     fdtab + FD::FLAGS,y
+        ldy     tmp2    ; Restore fdtab slot
+        lda     tmp3    ; Restore flags
+        sta     fdtab + FD::FLAGS, y
         and     #O_TRUNC
         beq     done
 
@@ -155,7 +155,7 @@ open:   lda     #0              ; no option list
         stx     sosparam + SOS::SET_EOF::REF_NUM
         ldx     #$04
         lda     #$00
-:       sta     sosparam + SOS::SET_EOF::BASE,x   ; base & eof = 0
+:       sta     sosparam + SOS::SET_EOF::BASE, x        ; base & eof = 0
         dex
         bpl     :-
 
@@ -166,16 +166,16 @@ open:   lda     #0              ; no option list
         beq     done
 
         ; Cleanup file
-        pha                     ; Save oserror code
-        lda     tmp1            ; Restore fd
+        pha             ; Save oserror code
+        lda     tmp1    ; Restore fd
         jsr     closedirect
-        pla                     ; Restore oserror code
-        bne     oserr2          ; Branch always
+        pla             ; Restore oserror code
+        bne     oserr2  ; Branch always
 
         ; Store fd
-done:   ldy     tmp2            ; Restore fdtab slot
-        lda     tmp1            ; Restore fd
-        sta     fdtab + FD::REF_NUM,y
+done:   ldy     tmp2    ; Restore fdtab slot
+        lda     tmp1    ; Restore fd
+        sta     fdtab + FD::REF_NUM, y
 
         ; Convert fdtab slot to handle
         .assert .sizeof(FD) = 2, error
@@ -183,7 +183,7 @@ done:   ldy     tmp2            ; Restore fdtab slot
         lsr
 
         ; Cleanup name
-        jsr     popname         ; Preserves A
+        jsr     popname ; Preserves A
 
         ; Return success
         ldx     #>$0000
@@ -213,19 +213,18 @@ closeallfiles:
         jsr     callsos
         rts
 
-
         .data
 
 LEVEL:  .byte   0
 
 CREATE:
 __filetype:
-        .byte   $06             ; FILE_TYPE:    Standard binary file
+        .byte   $06     ; FILE_TYPE:    Standard binary file
 __auxtype:
-        .word   $0000           ; AUX_TYPE:     Load address N/A
-        .byte   $01             ; STORAGE_TYPE: Standard seedling file
+        .word   $0000   ; AUX_TYPE:     Load address N/A
+        .byte   $01     ; STORAGE_TYPE: Standard seedling file
 
 ; not currently used, SOS does this itself?
 __datetime:
-        .word   $0000           ; CREATE_DATE:  Current date
-        .word   $0000           ; CREATE_TIME:  Current time
+        .word   $0000   ; CREATE_DATE:  Current date
+        .word   $0000   ; CREATE_TIME:  Current time

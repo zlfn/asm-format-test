@@ -17,53 +17,53 @@ EXTERN __SMSlib_PreviousKeysStatus, __SMSlib_KeysStatus
 EXTERN __SMSlib_theLineInterruptHandler
 
 asm_SMSlib_isr:
-   
-   push af
-   push hl
 
-   in a,(VDPStatusPort)        ; acknowledge VDP interrupt
-   ld (__SMSlib_VDPFlags),a
+        push    af
+        push    hl
 
-   rlca
-   jr nc, line_interrupt
+        in      a, (VDPStatusPort)      ; acknowledge VDP interrupt
+        ld      (__SMSlib_VDPFlags), a
+
+        rlca
+        jr      nc, line_interrupt
 
 frame_interrupt:
 
-   ld hl,__SMSlib_VDPBlank
-   ld (hl),1
-   
-   ld hl,(__SMSlib_KeysStatus)
-   ld (__SMSlib_PreviousKeysStatus),hl
-   
-   in a,(IOPortL)
-   cpl
-   ld (__SMSlib_KeysStatus),a
-   
-   in a,(IOPortH)
-   cpl
-   ld (__SMSlib_KeysStatus + 1),a
-   
-   jr exit
+        ld      hl,   __SMSlib_VDPBlank
+        ld      (hl), 1
+
+        ld      hl, (__SMSlib_KeysStatus)
+        ld      (__SMSlib_PreviousKeysStatus), hl
+
+        in      a, (IOPortL)
+        cpl
+        ld      (__SMSlib_KeysStatus), a
+
+        in      a, (IOPortH)
+        cpl
+        ld      (__SMSlib_KeysStatus + 1), a
+
+        jr      exit
 
 line_interrupt:
 
-   push bc
-   push de
-   push ix
-   push iy
+        push    bc
+        push    de
+        push    ix
+        push    iy
 
-   ld hl,(__SMSlib_theLineInterruptHandler)
-   call l_jphl
+        ld      hl, (__SMSlib_theLineInterruptHandler)
+        call    l_jphl
 
-   pop iy
-   pop ix
-   pop de
-   pop bc
-   
+        pop     iy
+        pop     ix
+        pop     de
+        pop     bc
+
 exit:
 
-   pop hl
-   pop af
-   
-   ei
-   reti
+        pop     hl
+        pop     af
+
+        ei
+        reti

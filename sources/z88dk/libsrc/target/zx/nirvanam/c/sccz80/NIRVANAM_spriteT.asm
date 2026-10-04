@@ -15,25 +15,24 @@ EXTERN asm_NIRVANAM_spriteT
 
 NIRVANAM_spriteT:
 
-   	ld hl,2
-   	add hl,sp
-   	ld e,(hl)       ; col
-   	inc hl
-   	inc hl
-   	ld d,(hl)       ; lin
-   	inc hl
-   	inc hl
-   	ld a,(hl)       ; tile
-        inc hl
-   	inc hl
-   	ld l,(hl)       ; sprite
-   	ld h,0
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)        ; col
+        inc     hl
+        inc     hl
+        ld      d, (hl)         ; lin
+        inc     hl
+        inc     hl
+        ld      a, (hl)         ; tile
+        inc     hl
+        inc     hl
+        ld      l, (hl)         ; sprite
+        ld      h, 0
 
-   	jp asm_NIRVANAM_spriteT
+        jp      asm_NIRVANAM_spriteT
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _NIRVANAM_spriteT
 defc _NIRVANAM_spriteT = NIRVANAM_spriteT
 ENDIF
-

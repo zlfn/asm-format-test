@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ;  VOID
@@ -31,28 +31,27 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmCpuid)
 ASM_PFX(AsmCpuid):
-    push    rbx
-    mov     eax, ecx
-    push    rax                         ; save Index on stack
-    push    rdx
-    cpuid
-    test    r9, r9
-    jz      .0
-    mov     [r9], ecx
+        push    rbx
+        mov     eax, ecx
+        push    rax     ; save Index on stack
+        push    rdx
+        cpuid
+        test    r9, r9
+        jz      .0
+        mov     [r9], ecx
 .0:
-    pop     rcx
-    jrcxz   .1
-    mov     [rcx], eax
+        pop     rcx
+        jrcxz   .1
+        mov     [rcx], eax
 .1:
-    mov     rcx, r8
-    jrcxz   .2
-    mov     [rcx], ebx
+        mov     rcx, r8
+        jrcxz   .2
+        mov     [rcx], ebx
 .2:
-    mov     rcx, [rsp + 0x38]
-    jrcxz   .3
-    mov     [rcx], edx
+        mov     rcx, [rsp + 0x38]
+        jrcxz   .3
+        mov     [rcx], edx
 .3:
-    pop     rax                         ; restore Index to rax as return value
-    pop     rbx
-    ret
-
+        pop     rax     ; restore Index to rax as return value
+        pop     rbx
+        ret

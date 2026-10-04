@@ -1,12 +1,12 @@
-	.include	"global.s"
+        .include "global.s"
 
-	.title	"System clock"
-	.module	Clock
+        .title  "System clock"
+        .module Clock
 
         .globl  .sys_time
 
-	.area	_HOME
+        .area   _HOME
 
 _clock::
-	LD	HL,(.sys_time)
-	RET
+        LD      HL, (.sys_time)
+        RET

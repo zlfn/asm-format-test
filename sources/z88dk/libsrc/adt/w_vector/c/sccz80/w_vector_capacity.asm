@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _w_vector_capacity
 defc _w_vector_capacity = w_vector_capacity
 ENDIF
-

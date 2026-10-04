@@ -10,14 +10,11 @@
 ;
 ;
 
-    section code_graphics
-    PUBLIC  ansi_SCROLLUP
-	
-	EXTERN scrollup_6px
+        section code_graphics
+        PUBLIC  ansi_SCROLLUP
 
-
+        EXTERN  scrollup_6px
 
 ansi_SCROLLUP:
 
-	jp  scrollup_6px
-	
+        jp      scrollup_6px

@@ -10,9 +10,9 @@ EXTERN asm_p_list_push_front
 
 _p_list_push_front_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
-   jp asm_p_list_push_front
+        jp      asm_p_list_push_front

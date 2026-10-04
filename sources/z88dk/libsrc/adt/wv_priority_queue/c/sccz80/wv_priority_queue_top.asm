@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _wv_priority_queue_top
 defc _wv_priority_queue_top = wv_priority_queue_top
 ENDIF
-

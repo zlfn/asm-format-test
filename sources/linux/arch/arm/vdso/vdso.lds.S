@@ -20,38 +20,37 @@ OUTPUT_ARCH(arm)
 
 SECTIONS
 {
-	VDSO_VVAR_SYMS
+        VDSO_VVAR_SYMS
 
-	. = SIZEOF_HEADERS;
+        .       = SIZEOF_HEADERS;
 
-	.hash		: { *(.hash) }			:text
-	.gnu.hash	: { *(.gnu.hash) }
-	.dynsym		: { *(.dynsym) }
-	.dynstr		: { *(.dynstr) }
-	.gnu.version	: { *(.gnu.version) }
-	.gnu.version_d	: { *(.gnu.version_d) }
-	.gnu.version_r	: { *(.gnu.version_r) }
+        .hash   : { *(.hash) }			:text
+        .gnu.hash : { *(.gnu.hash) }
+        .dynsym : { *(.dynsym) }
+        .dynstr : { *(.dynstr) }
+        .gnu.version : { *(.gnu.version) }
+        .gnu.version_d : { *(.gnu.version_d) }
+        .gnu.version_r : { *(.gnu.version_r) }
 
-	.note		: { *(.note.*) }		:text	:note
+        .note   : { *(.note.*) }		:text	:note
 
+        .eh_frame_hdr : { *(.eh_frame_hdr) }		:text	:eh_frame_hdr
+        .eh_frame : { KEEP (*(.eh_frame)) }	:text
 
-	.eh_frame_hdr	: { *(.eh_frame_hdr) }		:text	:eh_frame_hdr
-	.eh_frame	: { KEEP (*(.eh_frame)) }	:text
+        .dynamic : { *(.dynamic) }		:text	:dynamic
 
-	.dynamic	: { *(.dynamic) }		:text	:dynamic
+        .rodata : { *(.rodata*) }		:text
 
-	.rodata		: { *(.rodata*) }		:text
+        .text   : { *(.text*) }			:text	=0xe7f001f2
 
-	.text		: { *(.text*) }			:text	=0xe7f001f2
+        .got    : { *(.got) }
+        .rel.plt : { *(.rel.plt) }
 
-	.got		: { *(.got) }
-	.rel.plt	: { *(.rel.plt) }
-
-	/DISCARD/	: {
-		*(.note.GNU-stack)
-		*(.data .data.* .gnu.linkonce.d.* .sdata*)
-		*(.bss .sbss .dynbss .dynsbss)
-	}
+        /DISCARD/ : {
+        *(.note.GNU-stack)
+        *(.data .data.* .gnu.linkonce.d.* .sdata*)
+        *(.bss  .sbss .dynbss .dynsbss)
+        }
 }
 
 /*
@@ -60,23 +59,23 @@ SECTIONS
  */
 PHDRS
 {
-	text		PT_LOAD		FLAGS(5) FILEHDR PHDRS; /* PF_R|PF_X */
-	dynamic		PT_DYNAMIC	FLAGS(4);		/* PF_R */
-	note		PT_NOTE		FLAGS(4);		/* PF_R */
-	eh_frame_hdr	PT_GNU_EH_FRAME;
+        text    PT_LOAD		FLAGS(5) FILEHDR PHDRS; /* PF_R|PF_X */
+        dynamic PT_DYNAMIC	FLAGS(4);		/* PF_R */
+        note    PT_NOTE		FLAGS(4);		/* PF_R */
+        eh_frame_hdr PT_GNU_EH_FRAME;
 }
 
 VERSION
 {
-	LINUX_2.6 {
-	global:
+        LINUX_2.6 {
+global:
 #ifdef CONFIG_COMPAT_32BIT_TIME
-		__vdso_clock_gettime;
-		__vdso_gettimeofday;
-		__vdso_clock_getres;
+        __vdso_clock_gettime;
+        __vdso_gettimeofday;
+        __vdso_clock_getres;
 #endif /* CONFIG_COMPAT_32BIT_TIME */
-		__vdso_clock_gettime64;
-		__vdso_clock_getres_time64;
-	local: *;
-	};
+        __vdso_clock_gettime64;
+        __vdso_clock_getres_time64;
+local:  *;
+        };
 }

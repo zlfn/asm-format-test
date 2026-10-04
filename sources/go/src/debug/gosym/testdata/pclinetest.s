@@ -35,14 +35,11 @@ BYTE $1; BYTE $0;
 
 BYTE $2; BYTE $4; BYTE $0; BYTE $0; BYTE $0; BYTE $0;
 
-
 #include "pclinetest.h"
 BYTE $4; BYTE $0;
 
-
 BYTE $3; BYTE $3; BYTE $0; BYTE $0; BYTE $0;
 #include "pclinetest.h"
-
 
 BYTE $4; BYTE $3; BYTE $0; BYTE $0; BYTE $0;
 BYTE $255;

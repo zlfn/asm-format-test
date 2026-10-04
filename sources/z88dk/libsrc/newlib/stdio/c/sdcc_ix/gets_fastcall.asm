@@ -16,12 +16,12 @@ EXTERN asm_gets
 
 _gets_fastcall:
 
-   push ix
-   
-   call asm_gets
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_gets
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

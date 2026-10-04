@@ -27,62 +27,59 @@ PUBLIC m32_fshypot, m32_fshypot_callee
 
 .m32_fshypot
 
-    ; evaluation of a hypotenuse function
-    ;
-    ; enter : stack = float x, ret
-    ;         dehl  = float y
-    ;
-    ; exit  : stack = float x, ret
-    ;         dehl  = 32-bit product
-    ;         carry reset
-    ;
-    ; uses  : af, bc, de, hl, af', bc', de', hl'
+        ; evaluation of a hypotenuse function
+        ;
+        ; enter : stack = float x, ret
+        ;         dehl  = float y
+        ;
+        ; exit  : stack = float x, ret
+        ;         dehl  = 32-bit product
+        ;         carry reset
+        ;
+        ; uses  : af, bc, de, hl, af', bc', de', hl'
 
-    call m32_fssqr_fastcall     ; sqrf(y)
+        call    m32_fssqr_fastcall      ; sqrf(y)
 
-    exx
-    pop bc                      ; return
-    pop hl                      ; (float) x in dehl
-    pop de
-    push de
-    push hl
-    push bc                     ; return on stack
+        exx
+        pop     bc      ; return
+        pop     hl      ; (float) x in dehl
+        pop     de
+        push    de
+        push    hl
+        push    bc      ; return on stack
 
-    exx
-    push de                     ; sqrf(y) on stack
-    push hl
-    jr rejoin
-
+        exx
+        push    de      ; sqrf(y) on stack
+        push    hl
+        jr      rejoin
 
 .m32_fshypot_callee
 
-    ; evaluation of a hypotenuse function
-    ;
-    ; enter : stack = float x, ret
-    ;         dehl  = float y
-    ;
-    ; exit  : dehl  = 32-bit product
-    ;         carry reset
-    ;
-    ; uses  : af, bc, de, hl, bc', de', hl'
+        ; evaluation of a hypotenuse function
+        ;
+        ; enter : stack = float x, ret
+        ;         dehl  = float y
+        ;
+        ; exit  : dehl  = 32-bit product
+        ;         carry reset
+        ;
+        ; uses  : af, bc, de, hl, bc', de', hl'
 
+        call    m32_fssqr_fastcall      ; sqrf(y)
 
-    call m32_fssqr_fastcall     ; sqrf(y)
+        exx
+        pop     bc      ; return
+        pop     hl      ; (float) x in dehl
+        pop     de
+        push    bc      ; return on stack
 
-    exx
-    pop bc                      ; return
-    pop hl                      ; (float) x in dehl
-    pop de
-    push bc                     ; return on stack
-
-    exx
-    push de                     ; sqrf(y) on stack
-    push hl
+        exx
+        push    de      ; sqrf(y) on stack
+        push    hl
 
 .rejoin
-    exx
-    call m32_fssqr_fastcall     ; sqrf(x)
-    call m32_fsadd_callee       ; sqrf(y) + sqrf(x)
-    call m32_fssqrt_fastcall
-    ret
-
+        exx
+        call    m32_fssqr_fastcall      ; sqrf(x)
+        call    m32_fsadd_callee        ; sqrf(y) + sqrf(x)
+        call    m32_fssqrt_fastcall
+        ret

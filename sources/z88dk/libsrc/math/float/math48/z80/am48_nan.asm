@@ -8,15 +8,15 @@ PUBLIC am48_nan
 
 EXTERN am48_derror_einval_zc
 
-   ; return nan
-   ;
-   ; enter : hl = char *tagp
-   ;
-   ; exit  : AC' = 0
-   ;         carry set, errno set
-   ;
-   ; note  : math48 does not support nan
-   ;
-   ; uses  : af, bc', de', hl'
+        ; return nan
+        ;
+        ; enter : hl = char *tagp
+        ;
+        ; exit  : AC' = 0
+        ;         carry set, errno set
+        ;
+        ; note  : math48 does not support nan
+        ;
+        ; uses  : af, bc', de', hl'
 
 defc am48_nan = am48_derror_einval_zc

@@ -15,7 +15,7 @@ EXTERN asm_smc_PLY_AKG_INITSOUNDEFFECTS
 ;;   (param in HL)
 ;;
 _ply_akg_initsoundeffects:
-        push ix         ; preserve IX for sdcc_ix
-        call asm_smc_PLY_AKG_INITSOUNDEFFECTS
-        pop ix
+        push    ix      ; preserve IX for sdcc_ix
+        call    asm_smc_PLY_AKG_INITSOUNDEFFECTS
+        pop     ix
         ret

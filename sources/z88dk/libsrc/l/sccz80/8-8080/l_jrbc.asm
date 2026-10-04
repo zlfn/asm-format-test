@@ -13,7 +13,7 @@ PUBLIC l_jrbc
 
 l_jrbc:
 
-   ex (sp),hl
-   add hl,bc
-   ex (sp),hl
-   ret
+        ex      (sp), hl
+        add     hl,   bc
+        ex      (sp), hl
+        ret

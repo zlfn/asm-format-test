@@ -9,11 +9,11 @@ EXTERN SP1RETSPRDRAW, SP1V_ROTTBL, SP1V_PIXELBUFFER
 
 ; following data segment copied into struct sp1_cs
 
-   ld de,0
-   nop
-   ld hl,0
-   call SP1_DRAW_LOAD2RBIM
-   
+        ld      de, 0
+        nop
+        ld      hl, 0
+        call    SP1_DRAW_LOAD2RBIM
+
 ; following draw code called by way of SP1UpdateNow
 ;
 ;  a = hor rot table
@@ -25,20 +25,20 @@ EXTERN SP1RETSPRDRAW, SP1V_ROTTBL, SP1V_PIXELBUFFER
 
 .SP1_DRAW_LOAD2RBIM
 
-   cp SP1V_ROTTBL/256
-   jp z, SP1RETSPRDRAW
+        cp      SP1V_ROTTBL/256
+        jp      z, SP1RETSPRDRAW
 
-   add hl,bc
-   ex de,hl
-   ld h,a
-   ld l,$ff
-   ld c,(hl)
-   inc h
-   
-   ;  h = shift table
-   ;  c = constant mask
-   ; de = sprite def (graph only)
+        add     hl, bc
+        ex      de, hl
+        ld      h,  a
+        ld      l,  $ff
+        ld      c,  (hl)
+        inc     h
+
+        ;  h = shift table
+        ;  c = constant mask
+        ; de = sprite def (graph only)
 
 .SP1Load2RBIMRotate
 
-   jp SP1_DRAW_LOAD2LBIM + 13
+        jp      SP1_DRAW_LOAD2LBIM + 13

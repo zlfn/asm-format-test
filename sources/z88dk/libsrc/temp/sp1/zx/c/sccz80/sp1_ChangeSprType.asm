@@ -9,22 +9,21 @@ EXTERN asm_sp1_ChangeSprType
 
 sp1_ChangeSprType:
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
-   
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
+
 ;   jp asm_sp1_ChangeSprType
-   push ix
-   call asm_sp1_ChangeSprType
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_ChangeSprType
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_ChangeSprType
 defc _sp1_ChangeSprType = sp1_ChangeSprType
 ENDIF
-

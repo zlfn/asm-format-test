@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _tshc_cls
 defc _tshc_cls = tshc_cls
 ENDIF
-

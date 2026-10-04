@@ -10,10 +10,10 @@ EXTERN cm48_sccz80p_dcallee1, am48_ldexp
 
 cm48_sccz80_ldexp_callee:
 
-   pop af
-   pop hl                      ; hl = exp
-   push af
-   
-   call cm48_sccz80p_dcallee1  ; AC'= x
-   
-   jp am48_ldexp
+        pop     af
+        pop     hl      ; hl = exp
+        push    af
+
+        call    cm48_sccz80p_dcallee1   ; AC'= x
+
+        jp      am48_ldexp

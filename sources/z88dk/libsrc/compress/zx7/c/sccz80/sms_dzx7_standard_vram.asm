@@ -10,12 +10,12 @@ EXTERN asm_sms_dzx7_standard_vram
 
 sms_dzx7_standard_vram:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp asm_sms_dzx7_standard_vram
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_sms_dzx7_standard_vram

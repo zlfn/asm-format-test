@@ -4,20 +4,17 @@
 ; unsigned char __fastcall__ joy_load_driver (const char* driver);
 ; /* Load and install a joystick driver. Return an error code. */
 
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "modload.inc"
+        .include "fcntl.inc"
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "modload.inc"
-        .include        "fcntl.inc"
-
-        .import         pushax
-        .import         pusha0
-        .import         incsp2
-        .import         _open
-        .import         _read
-        .import         _close
-
-
+        .import pushax
+        .import pusha0
+        .import incsp2
+        .import _open
+        .import _read
+        .import _close
 
 ;----------------------------------------------------------------------------
 ; Variables
@@ -25,10 +22,10 @@
 .data
 
 ctrl:   .addr   _read
-        .res    2                       ; CALLERDATA
-        .res    2                       ; MODULE
-        .res    2                       ; MODULE_SIZE
-        .res    2                       ; MODULE_ID
+        .res    2       ; CALLERDATA
+        .res    2       ; MODULE
+        .res    2       ; MODULE_SIZE
+        .res    2       ; MODULE_ID
 
 ;----------------------------------------------------------------------------
 ; Code
@@ -54,7 +51,7 @@ ctrl:   .addr   _read
 
 @L1:    lda     #<O_RDONLY
         jsr     pusha0
-        ldy     #4                      ; Argument size
+        ldy     #4      ; Argument size
         jsr     _open
         sta     ctrl + MOD_CTRL::CALLERDATA
         stx     ctrl + MOD_CTRL::CALLERDATA+1
@@ -101,14 +98,14 @@ ctrl:   .addr   _read
 ; The driver didn't install correctly. Remove it from memory and return the
 ; error code.
 
-        pha                             ; Save the error code
+        pha                     ; Save the error code
         lda     _joy_drv
         ldx     _joy_drv+1
-        jsr     _mod_free               ; Free the driver memory
-        jsr     _joy_clear_ptr          ; Clear joy_drv
-        pla                             ; Restore the error code
-        ldx     #0                      ; We must return an int
-@L2:    rts                             ; Done
+        jsr     _mod_free       ; Free the driver memory
+        jsr     _joy_clear_ptr  ; Clear joy_drv
+        pla                     ; Restore the error code
+        ldx     #0              ; We must return an int
+@L2:    rts                     ; Done
 
 ; Open or mod_load failed. Return an error code.
 
@@ -117,5 +114,3 @@ ctrl:   .addr   _read
         rts
 
 .endproc
-
-

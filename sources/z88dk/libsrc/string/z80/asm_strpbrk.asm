@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; char *strpbrk(const char *s1, const char *s2)
 ;
 ; Return ptr to first occurrence in s1 of any char from s2.
@@ -18,39 +18,39 @@ EXTERN asm_strchr, error_zc
 
 asm_strpbrk:
 
-   ; enter : hl = char *s1 = string
-   ;         de = char *s2 = needles
-   ;
-   ; exit  : de = char *s2 = needles
-   ;
-   ;         found
-   ;
-   ;           carry reset
-   ;           hl = ptr in s1
-   ;
-   ;         not found
-   ;
-   ;           carry set
-   ;           hl = 0
-   ;
-   ; uses  : af, c, hl
+        ; enter : hl = char *s1 = string
+        ;         de = char *s2 = needles
+        ;
+        ; exit  : de = char *s2 = needles
+        ;
+        ;         found
+        ;
+        ;           carry reset
+        ;           hl = ptr in s1
+        ;
+        ;         not found
+        ;
+        ;           carry set
+        ;           hl = 0
+        ;
+        ; uses  : af, c, hl
 
 loop:
 
-   ld a,(hl)
-   or a
-   jp Z,error_zc
-   
-   ; see if this char from string is in needles
-   
-   push hl                     ; save current string
-   
-   ld c,a                      ; c = char
-   ld hl,de                    ; hl = needles
-   call asm_strchr             ; is c in needles?
-   
-   pop hl                      ; current s1
-   ret nc                      ; char found in needles
+        ld      a, (hl)
+        or      a
+        jp      Z, error_zc
 
-   inc hl
-   jr loop
+        ; see if this char from string is in needles
+
+        push    hl      ; save current string
+
+        ld      c,  a           ; c = char
+        ld      hl, de          ; hl = needles
+        call    asm_strchr      ; is c in needles?
+
+        pop     hl      ; current s1
+        ret     nc      ; char found in needles
+
+        inc     hl
+        jr      loop

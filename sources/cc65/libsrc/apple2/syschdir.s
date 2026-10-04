@@ -4,12 +4,12 @@
 ; unsigned char __fastcall__ _syschdir (const char* name);
 ;
 
-        .export         __syschdir
-        .import         pushname, popname, mli_set_pathname_tos
-        .import         initcwd
+        .export __syschdir
+        .import pushname, popname, mli_set_pathname_tos
+        .import initcwd
 
-        .include        "zeropage.inc"
-        .include        "mli.inc"
+        .include "zeropage.inc"
+        .include "mli.inc"
 
 __syschdir:
         ; Push name
@@ -30,6 +30,6 @@ __syschdir:
         lda     #$00
 
         ; Cleanup name
-cleanup:jsr     popname         ; Preserves A
+cleanup: jsr    popname ; Preserves A
 
 oserr:  rts

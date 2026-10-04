@@ -10,10 +10,10 @@ EXTERN _sp1_DrawUpdateStructAlways_fastcall
 
 _sp1_DrawUpdateStructAlways:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _sp1_DrawUpdateStructAlways_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _sp1_DrawUpdateStructAlways_fastcall

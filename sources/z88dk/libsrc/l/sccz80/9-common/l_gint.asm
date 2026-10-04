@@ -8,15 +8,15 @@ SECTION code_l_sccz80
 PUBLIC l_gint, l_gint1, l_gint2, l_gint3
 
 l_gint3:
-   inc hl
+        inc     hl
 l_gint2:
-   inc hl
+        inc     hl
 l_gint1:
-   inc hl
+        inc     hl
 l_gint:
 
-   ld a,(hl+)
-   ld h,(hl)
-   ld l,a
-   
-   ret
+        ld      a, (hl+)
+        ld      h, (hl)
+        ld      l, a
+
+        ret

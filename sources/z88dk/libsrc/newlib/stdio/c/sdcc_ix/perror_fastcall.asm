@@ -10,9 +10,9 @@ EXTERN asm_perror
 
 _perror_fastcall:
 
-   push ix
-   
-   call asm_perror
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_perror
+
+        pop     ix
+        ret

@@ -20,22 +20,21 @@
 
         EXTERN  ozpointcolor
 
-
 ozhline:
 _ozhline:
-        push    ix                      ;save callers
+        push    ix      ;save callers
         ld      ix, 2
         add     ix, sp
         call    ozpointcolor
 
-        ld      l, (ix+6)               ;y0
-        ld      h, (ix+8)               ;x0
+        ld      l, (ix+6)       ;y0
+        ld      h, (ix+8)       ;x0
 
-        ld      d, l                    ;y1
+        ld      d, l    ;y1
         ld      a, (ix+4)
         add     h
         dec     a
-        ld      e, a                    ;x1 (x0 + len-1)
+        ld      e, a    ;x1 (x0 + len-1)
 
         call    __gfx_vram_page_in
         push    hl

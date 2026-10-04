@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; int obstack_align_to(struct obstack *ob, size_t alignment)
 ;
 ; Set the obstack fence to the next address aligned to alignment.
@@ -20,15 +20,14 @@ EXTERN asm_obstack_align_to
 
 obstack_align_to_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   jp asm_obstack_align_to
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_obstack_align_to
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _obstack_align_to_callee
 defc _obstack_align_to_callee = obstack_align_to_callee
 ENDIF
-

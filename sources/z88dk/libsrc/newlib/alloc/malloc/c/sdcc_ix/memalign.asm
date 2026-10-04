@@ -25,7 +25,7 @@ PUBLIC _memalign
 EXTERN _memalign_unlocked
 
 defc _memalign = _memalign_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -2,19 +2,18 @@
 ; clock_t clock (void);
 ;
 
-        .constructor    initclock
-        .export         _clock
+        .constructor initclock
+        .export _clock
 
-        .forceimport    ticktock        ; make sure that tickcount changes
-        .importzp       tickcount, sreg
-
+        .forceimport ticktock   ; make sure that tickcount changes
+        .importzp tickcount, sreg
 
 ; Make the process clock start at zero.
 
-        .segment        "ONCE"
+        .segment "ONCE"
 initclock:
         ldx     #4 - 1
-@lp:    stz     tickcount,x
+@lp:    stz     tickcount, x
         dex
         bpl     @lp
         rts
@@ -35,6 +34,6 @@ initclock:
         sty     sreg
         ldx     tickcount+1
         cmp     tickcount
-        bne     _clock                  ; clock changed; reread it
+        bne     _clock  ; clock changed; reread it
         rts
 .endproc

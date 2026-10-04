@@ -12,10 +12,10 @@ PUBLIC asm_SMSlib_getVCount
 
 asm_SMSlib_getVCount:
 
-   ; unsigned char SMS_getVCount (void)
-   ;
-   ; uses  : af, l
-   
-   in a,(VDPVCounterPort)
-   ld l,a
-   ret
+        ; unsigned char SMS_getVCount (void)
+        ;
+        ; uses  : af, l
+
+        in      a, (VDPVCounterPort)
+        ld      l, a
+        ret

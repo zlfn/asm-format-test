@@ -10,12 +10,12 @@ EXTERN cm48_sdccix_floor_fastcall
 
 cm48_sdccix_floor:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   jp cm48_sdccix_floor_fastcall
+        pop     af
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        jp      cm48_sdccix_floor_fastcall

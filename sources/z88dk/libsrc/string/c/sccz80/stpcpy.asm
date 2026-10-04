@@ -10,15 +10,15 @@ EXTERN asm_stpcpy
 
 stpcpy:
 
-   pop bc
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push bc
-   
-   jp asm_stpcpy
+        pop     bc
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    bc
+
+        jp      asm_stpcpy
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -26,10 +26,8 @@ PUBLIC _stpcpy
 defc _stpcpy = stpcpy
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___stpcpy
 defc ___stpcpy = stpcpy
 ENDIF
-

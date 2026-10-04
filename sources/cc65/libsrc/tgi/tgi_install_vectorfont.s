@@ -2,8 +2,7 @@
 ; Ullrich von Bassewitz, 2009-11-06
 ;
 
-        .include        "tgi-kernel.inc"
-
+        .include "tgi-kernel.inc"
 
 ;-----------------------------------------------------------------------------
 ; void __fastcall__ tgi_install_vectorfont (const tgi_vectorfont* font);
@@ -21,4 +20,3 @@
         rts
 
 .endproc
-

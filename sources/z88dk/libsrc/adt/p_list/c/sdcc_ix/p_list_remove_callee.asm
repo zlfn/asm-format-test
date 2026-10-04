@@ -10,8 +10,8 @@ EXTERN asm_p_list_remove
 
 _p_list_remove_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   jp asm_p_list_remove
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_p_list_remove

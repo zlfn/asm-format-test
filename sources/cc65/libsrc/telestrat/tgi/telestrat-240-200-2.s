@@ -3,15 +3,14 @@
 ;
 ; Jede (jede@oric.org), 2017-10-15
 
+        .include "zeropage.inc"
 
-        .include        "zeropage.inc"
+        .include "tgi-kernel.inc"
+        .include "tgi-error.inc"
+        .include "telestrat.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-error.inc"
-        .include        "telestrat.inc"
-
-        .macpack        generic
-        .macpack        module
+        .macpack generic
+        .macpack module
 
 XSIZE   =       6                       ; System font width
 YSIZE   =       8                       ; System font height
@@ -19,22 +18,22 @@ YSIZE   =       8                       ; System font height
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table and constants.
 
-        module_header   _telestrat_240_200_2_tgi
+        module_header _telestrat_240_200_2_tgi
 
 ; First part of the header is a structure that has a magic and defines the
 ; capabilities of the driver
 
-        .byte   $74, $67, $69           ; "tgi"
-        .byte   TGI_API_VERSION         ; TGI API version number
-        .addr   $0000                   ; Library reference
-        .word   240                     ; X resolution
-        .word   200                     ; Y resolution
-        .byte   2                       ; Number of drawing colors
-        .byte   1                       ; Number of screens available
-        .byte   XSIZE                   ; System font X size
-        .byte   YSIZE                   ; System font Y size
-        .word   $011C                   ; Aspect ratio (based on 4/3 display)
-        .byte   0                       ; TGI driver flags
+        .byte   $74, $67, $69   ; "tgi"
+        .byte   TGI_API_VERSION ; TGI API version number
+        .addr   $0000           ; Library reference
+        .word   240             ; X resolution
+        .word   200             ; Y resolution
+        .byte   2               ; Number of drawing colors
+        .byte   1               ; Number of screens available
+        .byte   XSIZE           ; System font X size
+        .byte   YSIZE           ; System font Y size
+        .word   $011C           ; Aspect ratio (based on 4/3 display)
+        .byte   0               ; TGI driver flags
 
 ; Next comes the jump table. Currently all entries must be valid and may point
 ; to an RTS for test versions (function not implemented).
@@ -74,14 +73,14 @@ Y2              := ptr4
 
 .bss
 
-ERROR:          .res    1       ; Error code
-MODE:           .res    1       ; Graphics mode
+ERROR:  .res    1       ; Error code
+MODE:   .res    1       ; Graphics mode
 
 ; Constant table
 
 .rodata
 
-DEFPALETTE:     .byte   0, 1
+DEFPALETTE: .byte 0, 1
 
 .code
 
@@ -247,16 +246,14 @@ GETDEFPALETTE:
 ;
 
 SETPIXEL:
-        lda #$80       ; curset on
+        lda     #$80    ; curset on
 SETPIXELSETMODE:
-        sta HRSFB
+        sta     HRSFB
 
-        lda X1
-        sta HRS1
-        lda Y1
-        sta HRS2
-
-
+        lda     X1
+        sta     HRS1
+        lda     Y1
+        sta     HRS2
 
         BRK_TELEMON(XCURSE)
 
@@ -280,31 +277,30 @@ GETPIXEL:
 
 LINE:
 
-        lda   X1
-        sta   HRS1
-        lda   Y1
-        sta   HRS2
+        lda     X1
+        sta     HRS1
+        lda     Y1
+        sta     HRS2
 
-        lda   X2
-        sta   HRS3
-        lda   Y2
-        sta   HRS4
+        lda     X2
+        sta     HRS3
+        lda     Y2
+        sta     HRS4
 
+        lda     X1+1
+        sta     HRS1+1
 
-        lda   X1+1
-        sta   HRS1+1
+        lda     Y1+1
+        sta     HRS2+1
 
-        lda   Y1+1
-        sta   HRS2+1
+        lda     X2+1
+        sta     HRS3+1
 
-        lda   X2+1
-        sta   HRS3+1
+        lda     Y2+1
+        sta     HRS4+1
 
-        lda   Y2+1
-        sta   HRS4+1
-
-        lda   #$FF
-        sta   HRSPAT
+        lda     #$FF
+        sta     HRSPAT
 
         BRK_TELEMON(XDRAWA)
 
@@ -344,7 +340,6 @@ BAR:
 TEXTSTYLE:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; OUTTEXT: Output text at X/Y = ptr1/ptr2 using the current color and the
 ; current text style. The text to output is given as a zero terminated
@@ -355,24 +350,23 @@ TEXTSTYLE:
 
 OUTTEXT:
         ; put hires cursor in X & Y
-        lda   #$00
-        jsr   SETPIXELSETMODE
-
+        lda     #$00
+        jsr     SETPIXELSETMODE
 
         ; count the length of the string
-        ldy   #$00
+        ldy     #$00
 loop:
-        lda   (ptr3),y
-        beq   out
+        lda     (ptr3), y
+        beq     out
         iny
-        bne   loop
+        bne     loop
 out:
         ; XSCHAR routine from telemon needs to have the length of the string in X register
         ; copy Y register to X register. It could be optimized in 65C02 with TYX
         tya
         tax
 
-        lda   ptr3     ; XSCHAR needs in A and Y the address of the string
-        ldy   ptr3+1
+        lda     ptr3    ; XSCHAR needs in A and Y the address of the string
+        ldy     ptr3+1
         BRK_TELEMON(XSCHAR)
         rts

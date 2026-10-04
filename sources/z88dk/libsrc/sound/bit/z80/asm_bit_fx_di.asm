@@ -18,10 +18,10 @@ EXTERN asm_bit_fx, asm_cpu_push_di, asm0_cpu_pop_ei
 
 asm_bit_fx_di:
 
-   ; enter : hl = void *effect
-   ;
-   ; uses  : af, bc, de, hl, ix, (bc' if port_16)
+        ; enter : hl = void *effect
+        ;
+        ; uses  : af, bc, de, hl, ix, (bc' if port_16)
 
-   call asm_cpu_push_di
-   call asm_bit_fx
-   jp asm0_cpu_pop_ei
+        call    asm_cpu_push_di
+        call    asm_bit_fx
+        jp      asm0_cpu_pop_ei

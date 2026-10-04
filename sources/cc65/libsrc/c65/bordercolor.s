@@ -4,14 +4,12 @@
 ; unsigned char __fastcall__ bordercolor (unsigned char color);
 ;
 
+        .export _bordercolor
 
-        .export         _bordercolor
-
-        .include        "c65.inc"
+        .include "c65.inc"
 
 _bordercolor:
         ldx     VIC_BORDERCOLOR ; get old value
         sta     VIC_BORDERCOLOR ; set new value
         txa
         rts
-

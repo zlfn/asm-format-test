@@ -16,13 +16,13 @@ EXTERN _ferror_fastcall
 
 _ferror:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _ferror_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _ferror_fastcall
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

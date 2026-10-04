@@ -8,10 +8,10 @@ equated_number equ 3
 equated_number equ 4
 
 ; CHECK: :[[# @LINE + 1]]:1: error: cannot redefine a built-in symbol
-@Line equ 5
+@Line   equ     5
 
 ; CHECK: :[[# @LINE + 1]]:1: error: cannot redefine a built-in symbol
-@Version equ 6
+@Version equ    6
 
 .code
 

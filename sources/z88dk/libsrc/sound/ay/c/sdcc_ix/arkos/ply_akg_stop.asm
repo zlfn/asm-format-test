@@ -14,7 +14,7 @@ EXTERN asm_smc_PLY_AKG_STOP
 ;; void ply_akg_stop( void );
 ;;
 _ply_akg_stop:
-        push ix         ; preserve IX for sdcc_ix
-        call asm_smc_PLY_AKG_STOP
-        pop ix
+        push    ix      ; preserve IX for sdcc_ix
+        call    asm_smc_PLY_AKG_STOP
+        pop     ix
         ret

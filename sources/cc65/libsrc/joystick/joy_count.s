@@ -5,6 +5,6 @@
 ; /* Return the number of joysticks supported by the driver */
 ;
 
-        .include        "joy-kernel.inc"
+        .include "joy-kernel.inc"
 
-        _joy_count      = joy_count             ; Use driver entry
+        _joy_count = joy_count  ; Use driver entry

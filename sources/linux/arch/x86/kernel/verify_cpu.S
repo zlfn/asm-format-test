@@ -36,109 +36,109 @@
 	(REQUIRED_MASK0 & ((1<<(X86_FEATURE_XMM & 31)) | (1<<(X86_FEATURE_XMM2 & 31))))
 
 SYM_FUNC_START_LOCAL(verify_cpu)
-	pushf				# Save caller passed flags
-	push	$0			# Kill any dangerous flags
-	popf
+        pushf           # Save caller passed flags
+        push    $0      # Kill any dangerous flags
+        popf
 
 #ifndef __x86_64__
-	pushfl				# standard way to check for cpuid
-	popl	%eax
-	movl	%eax,%ebx
-	xorl	$0x200000,%eax
-	pushl	%eax
-	popfl
-	pushfl
-	popl	%eax
-	cmpl	%eax,%ebx
-	jz	.Lverify_cpu_no_longmode	# cpu has no cpuid
+        pushfl                                  # standard way to check for cpuid
+        popl    %eax
+        movl    %eax, %ebx
+        xorl    $0x200000, %eax
+        pushl   %eax
+        popfl
+        pushfl
+        popl    %eax
+        cmpl    %eax, %ebx
+        jz      .Lverify_cpu_no_longmode        # cpu has no cpuid
 #endif
 
-	movl	$0x0,%eax		# See if cpuid 1 is implemented
-	cpuid
-	cmpl	$0x1,%eax
-	jb	.Lverify_cpu_no_longmode	# no cpuid 1
+        movl    $0x0, %eax                      # See if cpuid 1 is implemented
+        cpuid
+        cmpl    $0x1, %eax
+        jb      .Lverify_cpu_no_longmode        # no cpuid 1
 
-	xor	%di,%di
-	cmpl	$0x68747541,%ebx	# AuthenticAMD
-	jnz	.Lverify_cpu_noamd
-	cmpl	$0x69746e65,%edx
-	jnz	.Lverify_cpu_noamd
-	cmpl	$0x444d4163,%ecx
-	jnz	.Lverify_cpu_noamd
-	mov	$1,%di			# cpu is from AMD
-	jmp	.Lverify_cpu_check
+        xor     %di, %di
+        cmpl    $0x68747541, %ebx       # AuthenticAMD
+        jnz     .Lverify_cpu_noamd
+        cmpl    $0x69746e65, %edx
+        jnz     .Lverify_cpu_noamd
+        cmpl    $0x444d4163, %ecx
+        jnz     .Lverify_cpu_noamd
+        mov     $1, %di                 # cpu is from AMD
+        jmp     .Lverify_cpu_check
 
 .Lverify_cpu_noamd:
-	cmpl	$0x756e6547,%ebx        # GenuineIntel?
-	jnz	.Lverify_cpu_check
-	cmpl	$0x49656e69,%edx
-	jnz	.Lverify_cpu_check
-	cmpl	$0x6c65746e,%ecx
-	jnz	.Lverify_cpu_check
+        cmpl    $0x756e6547, %ebx       # GenuineIntel?
+        jnz     .Lverify_cpu_check
+        cmpl    $0x49656e69, %edx
+        jnz     .Lverify_cpu_check
+        cmpl    $0x6c65746e, %ecx
+        jnz     .Lverify_cpu_check
 
-	# only call IA32_MISC_ENABLE when:
-	# family > 6 || (family == 6 && model >= 0xd)
-	movl	$0x1, %eax		# check CPU family and model
-	cpuid
-	movl	%eax, %ecx
+        # only call IA32_MISC_ENABLE when:
+        # family > 6 || (family == 6 && model >= 0xd)
+        movl    $0x1, %eax      # check CPU family and model
+        cpuid
+        movl    %eax, %ecx
 
-	andl	$0x0ff00f00, %eax	# mask family and extended family
-	shrl	$8, %eax
-	cmpl	$6, %eax
-	ja	.Lverify_cpu_clear_xd	# family > 6, ok
-	jb	.Lverify_cpu_check	# family < 6, skip
+        andl    $0x0ff00f00, %eax       # mask family and extended family
+        shrl    $8, %eax
+        cmpl    $6, %eax
+        ja      .Lverify_cpu_clear_xd   # family > 6, ok
+        jb      .Lverify_cpu_check      # family < 6, skip
 
-	andl	$0x000f00f0, %ecx	# mask model and extended model
-	shrl	$4, %ecx
-	cmpl	$0xd, %ecx
-	jb	.Lverify_cpu_check	# family == 6, model < 0xd, skip
+        andl    $0x000f00f0, %ecx       # mask model and extended model
+        shrl    $4,   %ecx
+        cmpl    $0xd, %ecx
+        jb      .Lverify_cpu_check      # family == 6, model < 0xd, skip
 
 .Lverify_cpu_clear_xd:
-	movl	$MSR_IA32_MISC_ENABLE, %ecx
-	rdmsr
-	btrl	$2, %edx		# clear MSR_IA32_MISC_ENABLE_XD_DISABLE
-	jnc	.Lverify_cpu_check	# only write MSR if bit was changed
-	wrmsr
+        movl    $MSR_IA32_MISC_ENABLE, %ecx
+        rdmsr
+        btrl    $2, %edx                # clear MSR_IA32_MISC_ENABLE_XD_DISABLE
+        jnc     .Lverify_cpu_check      # only write MSR if bit was changed
+        wrmsr
 
 .Lverify_cpu_check:
-	movl    $0x1,%eax		# Does the cpu have what it takes
-	cpuid
-	andl	$REQUIRED_MASK0,%edx
-	xorl	$REQUIRED_MASK0,%edx
-	jnz	.Lverify_cpu_no_longmode
+        movl    $0x1, %eax      # Does the cpu have what it takes
+        cpuid
+        andl    $REQUIRED_MASK0, %edx
+        xorl    $REQUIRED_MASK0, %edx
+        jnz     .Lverify_cpu_no_longmode
 
-	movl    $0x80000000,%eax	# See if extended cpuid is implemented
-	cpuid
-	cmpl    $0x80000001,%eax
-	jb      .Lverify_cpu_no_longmode	# no extended cpuid
+        movl    $0x80000000, %eax               # See if extended cpuid is implemented
+        cpuid
+        cmpl    $0x80000001, %eax
+        jb      .Lverify_cpu_no_longmode        # no extended cpuid
 
-	movl    $0x80000001,%eax	# Does the cpu have what it takes
-	cpuid
-	andl    $REQUIRED_MASK1,%edx
-	xorl    $REQUIRED_MASK1,%edx
-	jnz     .Lverify_cpu_no_longmode
+        movl    $0x80000001, %eax       # Does the cpu have what it takes
+        cpuid
+        andl    $REQUIRED_MASK1, %edx
+        xorl    $REQUIRED_MASK1, %edx
+        jnz     .Lverify_cpu_no_longmode
 
 .Lverify_cpu_sse_test:
-	movl	$1,%eax
-	cpuid
-	andl	$SSE_MASK,%edx
-	cmpl	$SSE_MASK,%edx
-	je	.Lverify_cpu_sse_ok
-	test	%di,%di
-	jz	.Lverify_cpu_no_longmode	# only try to force SSE on AMD
-	movl	$MSR_K7_HWCR,%ecx
-	rdmsr
-	btr	$15,%eax		# enable SSE
-	wrmsr
-	xor	%di,%di			# don't loop
-	jmp	.Lverify_cpu_sse_test	# try again
+        movl    $1, %eax
+        cpuid
+        andl    $SSE_MASK, %edx
+        cmpl    $SSE_MASK, %edx
+        je      .Lverify_cpu_sse_ok
+        test    %di, %di
+        jz      .Lverify_cpu_no_longmode        # only try to force SSE on AMD
+        movl    $MSR_K7_HWCR, %ecx
+        rdmsr
+        btr     $15, %eax                       # enable SSE
+        wrmsr
+        xor     %di, %di                        # don't loop
+        jmp     .Lverify_cpu_sse_test           # try again
 
 .Lverify_cpu_no_longmode:
-	popf				# Restore caller passed flags
-	movl $1,%eax
-	RET
+        popf    # Restore caller passed flags
+        movl    $1, %eax
+        RET
 .Lverify_cpu_sse_ok:
-	popf				# Restore caller passed flags
-	xorl %eax, %eax
-	RET
+        popf    # Restore caller passed flags
+        xorl    %eax, %eax
+        RET
 SYM_FUNC_END(verify_cpu)

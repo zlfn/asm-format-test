@@ -9,41 +9,39 @@
 ;	$Id: w_clga.asm $
 ;
 
-
 ;Usage: clga(struct *pixels)
 
-
-	INCLUDE	"classic/gfx/grafix.inc"
-        SECTION   code_clib
-	PUBLIC    clga
-	PUBLIC    _clga
-	EXTERN	w_pixeladdress
-	EXTERN  __gfx_vram_page_in
+        INCLUDE "classic/gfx/grafix.inc"
+        SECTION code_clib
+        PUBLIC  clga
+        PUBLIC  _clga
+        EXTERN  w_pixeladdress
+        EXTERN  __gfx_vram_page_in
         EXTERN  __gfx_vram_page_out
 
 clga:
 _clga:
-        push    ix                      ;save callers
+        push    ix              ;save callers
         ld      ix, 2
         add     ix, sp
-        ld      h, (ix+9)               ; x
-        ld      a, 1                    ; 512... range checking needs to be fixed to 320
+        ld      h,  (ix+9)      ; x
+        ld      a,  1           ; 512... range checking needs to be fixed to 320
         cp      h
         jr      c, clga_exit
-        ld      e, (ix+6)               ; y
+        ld      e, (ix+6)       ; y
         ld      a, _GFX_MAXY
         cp      e
         jr      c, clga_exit
 
         call    __gfx_vram_page_in
-        ld      a, (ix+2)               ; height
-        ld      c, (ix+4)               ; width
-        ld      b, (ix+5)               ; width
-        ld      d, 0                    ;
-        ld      l, (ix+8)               ; x
+        ld      a, (ix+2)       ; height
+        ld      c, (ix+4)       ; width
+        ld      b, (ix+5)       ; width
+        ld      d, 0            ;
+        ld      l, (ix+8)       ; x
 
-        ld      ixl, a                  ; ix forgotten
-        ld      d, 0
+        ld      ixl, a  ; ix forgotten
+        ld      d,   0
 
         push    bc
         call    w_pixeladdress
@@ -58,8 +56,8 @@ next:
         ld      l, a
         pop     bc
 outer_loop:
-        push    bc                      ; 1
-        push    de                      ; 2
+        push    bc      ; 1
+        push    de      ; 2
         ld      a, l
         ld      h, l
         cp      127
@@ -71,7 +69,7 @@ inner_loop0:
         dec     bc
         rrc     h
         jr      nc, fill
-        ld      a, b
+        ld      a,  b
         or      c
         jr      nz, inner_loop0
 fill:
@@ -79,7 +77,7 @@ fill:
         jr      c, wypad
 fill1:
         push    bc
-        srl     b                       ; >> 3
+        srl     b       ; >> 3
         rr      c
         srl     c
         srl     c
@@ -96,7 +94,7 @@ inner_loop1:
         djnz    inner_loop1
 
 last:
-        pop     bc                      ; 3
+        pop     bc      ; 3
         ld      a, c
         and     7
         jr      z, wypad
@@ -110,23 +108,22 @@ inner_loop2:
         djnz    inner_loop2
 
 wypad:
-        pop     de                      ; 2
-        pop     bc                      ; 1
+        pop     de      ; 2
+        pop     bc      ; 1
         dec     ixl
         jr      z, clga_exit
         call    incy
         jr      nc, outer_loop
 clga_exit:
-        pop     ix                      ;restore callers
+        pop     ix      ;restore callers
         ret
-
 
 ; (hl) mask
 ; de - screen address
 INC_X:
-        bit     5, d
+        bit     5,  d
         jr      nz, first
-        set     5, d
+        set     5,  d
         or      a
         ret
 first:

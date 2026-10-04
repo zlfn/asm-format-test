@@ -2,13 +2,13 @@
 
 .code
 
-proc1 PROC
-  ret
-proc1 ENDP
+proc1   PROC
+        ret
+proc1   ENDP
 
-proc2 PROC
-  ret
-proc2 ENDP
+proc2   PROC
+        ret
+proc2   ENDP
 
 alias <t1> = <proc1>
 ; CHECK:      Symbol {
@@ -56,9 +56,9 @@ alias <t3> = <foo>
 ; CHECK-NEXT: }
 
 alias <t4> = <bar>
-bar PROC
-  ret
-bar ENDP
+bar     PROC
+        ret
+bar     ENDP
 
 ; CHECK:      Symbol {
 ; CHECK:        Name: t4

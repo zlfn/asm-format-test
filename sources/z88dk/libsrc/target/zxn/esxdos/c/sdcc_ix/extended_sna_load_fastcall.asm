@@ -8,9 +8,9 @@ EXTERN asm_extended_sna_load
 
 _extended_sna_load_fastcall:
 
-   push ix
-   
-   call asm_extended_sna_load
+        push    ix
 
-   pop ix
-   ret
+        call    asm_extended_sna_load
+
+        pop     ix
+        ret

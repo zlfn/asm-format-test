@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ;  VOID *
@@ -28,37 +28,36 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMemSetMem64)
 ASM_PFX(InternalMemSetMem64):
-    mov     rax, rcx                    ; rax <- Buffer
-    xchg    rcx, rdx                    ; rcx <- Count & rdx <- Buffer
-    test    dl, 8
-    movq    xmm0, r8
-    jz      .0
-    mov     [rdx], r8
-    add     rdx, 8
-    dec     rcx
+        mov     rax,  rcx       ; rax <- Buffer
+        xchg    rcx,  rdx       ; rcx <- Count & rdx <- Buffer
+        test    dl,   8
+        movq    xmm0, r8
+        jz      .0
+        mov     [rdx], r8
+        add     rdx,   8
+        dec     rcx
 .0:
-    push    rbx
-    mov     rbx, rcx
-    and     rbx, 7
-    shr     rcx, 3
-    jz      @SetQwords
-    movlhps xmm0, xmm0
+        push    rbx
+        mov     rbx, rcx
+        and     rbx, 7
+        shr     rcx, 3
+        jz      @SetQwords
+        movlhps xmm0, xmm0
 .1:
-    movntdq [rdx], xmm0
-    movntdq [rdx + 16], xmm0
-    movntdq [rdx + 32], xmm0
-    movntdq [rdx + 48], xmm0
-    lea     rdx, [rdx + 64]
-    loop    .1
-    mfence
+        movntdq [rdx], xmm0
+        movntdq [rdx + 16], xmm0
+        movntdq [rdx + 32], xmm0
+        movntdq [rdx + 48], xmm0
+        lea     rdx, [rdx + 64]
+        loop    .1
+        mfence
 @SetQwords:
-    push    rdi
-    mov     rcx, rbx
-    mov     rax, r8
-    mov     rdi, rdx
-    rep     stosq
-    pop     rdi
+        push    rdi
+        mov     rcx, rbx
+        mov     rax, r8
+        mov     rdi, rdx
+        rep     stosq
+        pop     rdi
 .2:
-    pop rbx
-    ret
-
+        pop     rbx
+        ret

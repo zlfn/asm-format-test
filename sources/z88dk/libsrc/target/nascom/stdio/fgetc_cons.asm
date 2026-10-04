@@ -8,43 +8,42 @@
 ;	$Id: fgetc_cons.asm,v 1.4 2016-04-03 13:10:24 dom Exp $
 ;
 
-
-    SECTION code_clib
-    PUBLIC  fgetc_cons
-    EXTERN  montest
+        SECTION code_clib
+        PUBLIC  fgetc_cons
+        EXTERN  montest
 
 fgetc_cons:
 
-    call    montest
-    jr      nz, nassys
+        call    montest
+        jr      nz, nassys
 
 ; NASBUG 'T' monitor
 tin:
-    call    0c4dh
-    jr      nc, tin
+        call    0c4dh
+        jr      nc, tin
 
-    cp      1dh
-    jr      nz, notbs
-    ld      a, 8
+        cp      1dh
+        jr      nz, notbs
+        ld      a,  8
 notbs:
-    cp      1fh
-    jr      nz, notcr
-    ld      a, 13
+        cp      1fh
+        jr      nz, notcr
+        ld      a,  13
 notcr:
-    jr      fgetcc_exit
+        jr      fgetcc_exit
 
 ; NASSYS monitor
 nassys:
-    rst     8
+        rst     8
 
 fgetcc_exit:
-  IF    STANDARDESCAPECHARS
-    cp      13
-    jr      nz, not_return
-    ld      a, 10
+        IF      STANDARDESCAPECHARS
+                cp      13
+                jr      nz, not_return
+                ld      a,  10
 not_return:
-  ENDIF
+        ENDIF
 
-    ld      l, a
-    ld      h, 0
-    ret
+        ld      l, a
+        ld      h, 0
+        ret

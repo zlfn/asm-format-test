@@ -10,35 +10,35 @@ EXTERN cm48_sdccixp_d2m48, am48_modf, cm48_sdccixp_dstore, cm48_sdccixp_m482d
 
 cm48_sdccix_modf_callee:
 
-   pop af
-   
-   pop de
-   pop hl                      ; hlde = float value
+        pop     af
 
-   pop bc
-   push af
-   push bc
-   
-   ;  hlde = float value
-   ; stack = float *iptr
+        pop     de
+        pop     hl      ; hlde = float value
+
+        pop     bc
+        push    af
+        push    bc
+
+        ;  hlde = float value
+        ; stack = float *iptr
 
 l0_cm48_sdccix_modf_callee:
 
-   call cm48_sdccixp_d2m48     ; AC' = double value
-   
-   call am48_modf
+        call    cm48_sdccixp_d2m48      ; AC' = double value
 
-   ; AC'= fraction
-   ; AC = integer
-   ; stack = iptr
+        call    am48_modf
 
-   exx
-   
-   ex (sp),hl                  ; hl = iptr
-   call cm48_sdccixp_dstore    ; *iptr = integer   
+        ; AC'= fraction
+        ; AC = integer
+        ; stack = iptr
 
-   pop hl
-   
-   ; AC = fraction
-   
-   jp cm48_sdccixp_m482d + 1
+        exx
+
+        ex      (sp), hl                ; hl = iptr
+        call    cm48_sdccixp_dstore     ; *iptr = integer
+
+        pop     hl
+
+        ; AC = fraction
+
+        jp      cm48_sdccixp_m482d + 1

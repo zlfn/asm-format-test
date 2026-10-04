@@ -5,10 +5,10 @@
 ; char cpeekc (void);
 ;
 
-        .include        "c65.inc"
+        .include "c65.inc"
 
-        .export         _cpeekc
-        .importzp       ptr1
+        .export _cpeekc
+        .importzp ptr1
 
 _cpeekc:
         lda     SCREEN_PTR + 1
@@ -19,7 +19,7 @@ _cpeekc:
         sta     ptr1
 
         ldy     CURS_X
-        lda     (ptr1),y  ; get screen code
+        lda     (ptr1), y       ; get screen code
         ldx     #>$0000
         and     #<~$80          ; remove reverse bit
 
@@ -30,16 +30,16 @@ _cpeekc:
 ; $60 - $7F: +$40
 
         cmp     #$20
-        bcs     @sk1            ;(bge)
+        bcs     @sk1    ;(bge)
         ora     #$40
         rts
 
 @sk1:   cmp     #$40
-        bcc     @end            ;(blt)
+        bcc     @end    ;(blt)
         cmp     #$60
-        bcc     @sk2            ;(blt)
+        bcc     @sk2    ;(blt)
         ;sec
         adc     #$20 - $01
-@sk2:   ;clc                    ; both above cmp and adc clear carry flag
+@sk2:           ;clc                    ; both above cmp and adc clear carry flag
         adc     #$20
 @end:   rts

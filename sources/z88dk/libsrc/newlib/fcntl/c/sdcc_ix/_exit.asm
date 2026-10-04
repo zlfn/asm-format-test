@@ -10,7 +10,7 @@ EXTERN __exit_fastcall
 
 __exit:
 
-   pop hl
-   pop hl
-   
-   jp __exit_fastcall
+        pop     hl
+        pop     hl
+
+        jp      __exit_fastcall

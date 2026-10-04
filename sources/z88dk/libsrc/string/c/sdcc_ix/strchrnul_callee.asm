@@ -10,9 +10,9 @@ EXTERN asm_strchrnul
 
 _strchrnul_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_strchrnul
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_strchrnul

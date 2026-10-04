@@ -16,12 +16,12 @@ EXTERN asm_fprintf
 
 _fprintf:
 
-   push ix
-   
-   call asm_fprintf
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_fprintf
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

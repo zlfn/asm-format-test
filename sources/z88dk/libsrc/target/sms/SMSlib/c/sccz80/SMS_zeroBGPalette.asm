@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_zeroBGPalette
 defc _SMS_zeroBGPalette = SMS_zeroBGPalette
 ENDIF
-

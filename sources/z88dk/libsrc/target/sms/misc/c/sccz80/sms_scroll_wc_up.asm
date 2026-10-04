@@ -9,21 +9,20 @@ EXTERN asm_sms_scroll_wc_up
 
 sms_scroll_wc_up:
 
-   pop af
-   pop hl
-   pop de
-   pop ix
-   
-   push hl
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     ix
 
-   jp asm_sms_scroll_wc_up
+        push    hl
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_sms_scroll_wc_up
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sms_scroll_wc_up
 defc _sms_scroll_wc_up = sms_scroll_wc_up
 ENDIF
-

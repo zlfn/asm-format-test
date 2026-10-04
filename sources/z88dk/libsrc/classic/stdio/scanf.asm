@@ -1,13 +1,10 @@
-    MODULE  scanf
-    SECTION code_clib
+        MODULE  scanf
+        SECTION code_clib
 
-    PUBLIC  scanf
+        PUBLIC  scanf
 
-    EXTERN  asm_scanf
-    EXTERN  __sgoioblk
-
-
-
+        EXTERN  asm_scanf
+        EXTERN  __sgoioblk
 
 ; sccz80 version
 ;void scanf(char *fmt,...)
@@ -15,34 +12,32 @@
 ;        asm_scanf(fp, ungetc, getc, sccz80_delta, *ct,ct-1);
 ;}
 scanf:
-    ld      l,a
-    ld      h,0
-    add     hl,hl
-    add     hl,sp   ;&fmt
+        ld      l,  a
+        ld      h,  0
+        add     hl, hl
+        add     hl, sp  ;&fmt
 IF !__CPU_INTEL__ && !__CPU_GBZ80__
-    push    ix      ;save callers
+        push    ix      ;save callers
 ENDIF
 
-    ld      bc,__sgoioblk    ;stdin
-    push    bc      ;fp
-    ld      bc,1    ;sccz80
-    push    bc
-    ld      c,(hl)  ;fmt
-    inc     hl
-    ld      b,(hl)
-    push    bc
-    dec     hl
-    dec     hl
-    dec     hl
-    push    hl      ;&ap
-    call    asm_scanf
-    pop     bc
-    pop     bc
-    pop     bc
-    pop     bc
+        ld      bc, __sgoioblk  ;stdin
+        push    bc              ;fp
+        ld      bc, 1           ;sccz80
+        push    bc
+        ld      c, (hl)         ;fmt
+        inc     hl
+        ld      b, (hl)
+        push    bc
+        dec     hl
+        dec     hl
+        dec     hl
+        push    hl              ;&ap
+        call    asm_scanf
+        pop     bc
+        pop     bc
+        pop     bc
+        pop     bc
 IF !__CPU_INTEL__ && !__CPU_GBZ80__
-    pop     ix
+        pop     ix
 ENDIF
-    ret
-
-
+        ret

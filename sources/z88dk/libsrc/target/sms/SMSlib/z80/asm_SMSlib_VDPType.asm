@@ -14,11 +14,11 @@ EXTERN __SMSlib_VDPType
 
 asm_SMSlib_VDPType:
 
-	; unsigned char SMS_VDPType (void)
-	;
-	; exit : l = vdp type
-	;
-	; uses : hl
-	
-	ld hl,(__SMSlib_VDPType)
-	ret
+        ; unsigned char SMS_VDPType (void)
+        ;
+        ; exit : l = vdp type
+        ;
+        ; uses : hl
+
+        ld      hl, (__SMSlib_VDPType)
+        ret

@@ -10,17 +10,17 @@ EXTERN asm_heap_info_unlocked
 
 _heap_info_unlocked_callee:
 
-   pop af
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        push    af
 
 l0_heap_info_unlocked_callee:
 
-   push bc
-   ex (sp),ix
-   
-   call asm_heap_info_unlocked
-   
-   pop ix
-   ret
+        push    bc
+        ex      (sp), ix
+
+        call    asm_heap_info_unlocked
+
+        pop     ix
+        ret

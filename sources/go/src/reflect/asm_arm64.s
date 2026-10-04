@@ -27,53 +27,53 @@
 // for more details.
 // No arg size here, runtime pulls arg map out of the func value.
 TEXT ·makeFuncStub(SB),(NOSPLIT|WRAPPER),$432
-	NO_LOCAL_POINTERS
-	// NO_LOCAL_POINTERS is a lie. The stack map for the two locals in this
-	// frame is specially handled in the runtime. See the comment above LOCAL_RETVALID.
-	ADD	$LOCAL_REGARGS, RSP, R20
-	CALL	runtime·spillArgs(SB)
-	MOVD	R26, 32(RSP) // outside of moveMakeFuncArgPtrs's arg area
-	MOVD	R26, R0
-	MOVD	R20, R1
-	CALL	·moveMakeFuncArgPtrs<ABIInternal>(SB)
-	MOVD	32(RSP), R26
-	MOVD	R26, 8(RSP)
-	MOVD	$argframe+0(FP), R3
-	MOVD	R3, 16(RSP)
-	MOVB	$0, LOCAL_RETVALID(RSP)
-	ADD	$LOCAL_RETVALID, RSP, R3
-	MOVD	R3, 24(RSP)
-	ADD	$LOCAL_REGARGS, RSP, R3
-	MOVD	R3, 32(RSP)
-	CALL	·callReflect(SB)
-	ADD	$LOCAL_REGARGS, RSP, R20
-	CALL	runtime·unspillArgs(SB)
-	RET
+        NO_LOCAL_POINTERS
+        // NO_LOCAL_POINTERS is a lie. The stack map for the two locals in this
+        // frame is specially handled in the runtime. See the comment above LOCAL_RETVALID.
+        ADD     $LOCAL_REGARGS, RSP, R20
+        CALL    runtime·spillArgs(SB)
+        MOVD    R26, 32(RSP)    // outside of moveMakeFuncArgPtrs's arg area
+        MOVD    R26, R0
+        MOVD    R20, R1
+        CALL    ·moveMakeFuncArgPtrs<ABIInternal>(SB)
+        MOVD    32(RSP), R26
+        MOVD    R26,     8(RSP)
+        MOVD    $argframe+0(FP), R3
+        MOVD    R3, 16(RSP)
+        MOVB    $0, LOCAL_RETVALID(RSP)
+        ADD     $LOCAL_RETVALID, RSP, R3
+        MOVD    R3, 24(RSP)
+        ADD     $LOCAL_REGARGS, RSP, R3
+        MOVD    R3, 32(RSP)
+        CALL    ·callReflect(SB)
+        ADD     $LOCAL_REGARGS, RSP, R20
+        CALL    runtime·unspillArgs(SB)
+        RET
 
 // methodValueCall is the code half of the function returned by makeMethodValue.
 // See the comment on the declaration of methodValueCall in makefunc.go
 // for more details.
 // No arg size here; runtime pulls arg map out of the func value.
 TEXT ·methodValueCall(SB),(NOSPLIT|WRAPPER),$432
-	NO_LOCAL_POINTERS
-	// NO_LOCAL_POINTERS is a lie. The stack map for the two locals in this
-	// frame is specially handled in the runtime. See the comment above LOCAL_RETVALID.
-	ADD	$LOCAL_REGARGS, RSP, R20
-	CALL	runtime·spillArgs(SB)
-	MOVD	R26, 32(RSP) // outside of moveMakeFuncArgPtrs's arg area
-	MOVD	R26, R0
-	MOVD	R20, R1
-	CALL	·moveMakeFuncArgPtrs<ABIInternal>(SB)
-	MOVD	32(RSP), R26
-	MOVD	R26, 8(RSP)
-	MOVD	$argframe+0(FP), R3
-	MOVD	R3, 16(RSP)
-	MOVB	$0, LOCAL_RETVALID(RSP)
-	ADD	$LOCAL_RETVALID, RSP, R3
-	MOVD	R3, 24(RSP)
-	ADD	$LOCAL_REGARGS, RSP, R3
-	MOVD	R3, 32(RSP)
-	CALL	·callMethod(SB)
-	ADD	$LOCAL_REGARGS, RSP, R20
-	CALL	runtime·unspillArgs(SB)
-	RET
+        NO_LOCAL_POINTERS
+        // NO_LOCAL_POINTERS is a lie. The stack map for the two locals in this
+        // frame is specially handled in the runtime. See the comment above LOCAL_RETVALID.
+        ADD     $LOCAL_REGARGS, RSP, R20
+        CALL    runtime·spillArgs(SB)
+        MOVD    R26, 32(RSP)    // outside of moveMakeFuncArgPtrs's arg area
+        MOVD    R26, R0
+        MOVD    R20, R1
+        CALL    ·moveMakeFuncArgPtrs<ABIInternal>(SB)
+        MOVD    32(RSP), R26
+        MOVD    R26,     8(RSP)
+        MOVD    $argframe+0(FP), R3
+        MOVD    R3, 16(RSP)
+        MOVB    $0, LOCAL_RETVALID(RSP)
+        ADD     $LOCAL_RETVALID, RSP, R3
+        MOVD    R3, 24(RSP)
+        ADD     $LOCAL_REGARGS, RSP, R3
+        MOVD    R3, 32(RSP)
+        CALL    ·callMethod(SB)
+        ADD     $LOCAL_REGARGS, RSP, R20
+        CALL    runtime·unspillArgs(SB)
+        RET

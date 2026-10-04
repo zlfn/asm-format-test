@@ -6,14 +6,14 @@ PUBLIC l_incu_hl
 
 l_incu_hl:
 
-   ; uses : hl
-   ; z set on overflow
+        ; uses : hl
+        ; z set on overflow
 
-   inc l
-   ret nz
-   
-   inc h
-   ret nz
-   
-   dec hl
-   ret
+        inc     l
+        ret     nz
+
+        inc     h
+        ret     nz
+
+        dec     hl
+        ret

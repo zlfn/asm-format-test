@@ -5,18 +5,17 @@
 ; int read (int fd, void* buf, unsigned count);
 ;
 
-        .export         _read
-        .constructor    initstdin
+        .export _read
+        .constructor initstdin
 
-        .import         rwcommon
-        .import         popax
-        .importzp       ptr1, ptr2, ptr3, tmp1, tmp2, tmp3
+        .import rwcommon
+        .import popax
+        .importzp ptr1, ptr2, ptr3, tmp1, tmp2, tmp3
 
-        .include        "cbm.inc"
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "filedes.inc"
-
+        .include "cbm.inc"
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "filedes.inc"
 
 ;--------------------------------------------------------------------------
 ; initstdin: Open the stdin file descriptors for the keyboard
@@ -29,7 +28,7 @@
         ldx     #CBMDEV_KBD
         ldy     #$FF
         jsr     SETLFS
-        jmp     OPEN            ; Will always succeed
+        jmp     OPEN    ; Will always succeed
 
 .endproc
 
@@ -45,21 +44,21 @@
 
 ; Check if the LFN is valid and the file is open for writing
 
-        adc     #LFN_OFFS       ; Carry is already clear
+        adc     #LFN_OFFS               ; Carry is already clear
         tax
-        lda     fdtab-LFN_OFFS,x; Get flags for this handle
+        lda     fdtab-LFN_OFFS, x       ; Get flags for this handle
         tay
-        and     #LFN_READ       ; File open for writing?
+        and     #LFN_READ               ; File open for writing?
         beq     invalidfd
 
 ; Check the EOF flag. If it is set, don't read anything
 
-        tya                     ; Get flags again
+        tya     ; Get flags again
         bmi     eof
 
 ; Remember the device number.
 
-        ldy     unittab-LFN_OFFS,x
+        ldy     unittab-LFN_OFFS, x
         sty     unit
 
 ; Valid lfn. Make it the input file
@@ -71,12 +70,12 @@
 ; Read the next byte
 
 @L0:    jsr     BASIN
-        sta     tmp1            ; Save the input byte
+        sta     tmp1    ; Save the input byte
         ldx     unit
-        bne     @L0_1           ; Not keyboard/screen-editor
-        cmp     #$0D            ; Is it a Carriage Return?
+        bne     @L0_1   ; Not keyboard/screen-editor
+        cmp     #$0D    ; Is it a Carriage Return?
         bne     @L0_1
-        jsr     BSOUT           ; Yes, echo it (because editor didn't)
+        jsr     BSOUT   ; Yes, echo it (because editor didn't)
 
 @L0_1:  jsr     READST          ; Read the IEEE status
         sta     tmp3            ; Save it
@@ -87,10 +86,10 @@
 
         ldy     #0
         lda     tmp1
-        sta     (ptr1),y
+        sta     (ptr1), y
         inc     ptr1
         bne     @L1
-        inc     ptr1+1          ; *buf++ = A;
+        inc     ptr1+1  ; *buf++ = A;
 
 ; Increment the byte count
 
@@ -110,14 +109,14 @@
         bne     @L0
         dec     ptr2+1
         bne     @L0
-        beq     done            ; Branch always
+        beq     done    ; Branch always
 
 ; Set the EOI flag and bail out
 
-@L4:    ldx     tmp2            ; Get the handle
+@L4:    ldx     tmp2    ; Get the handle
         lda     #LFN_EOF
-        ora     fdtab,x
-        sta     fdtab,x
+        ora     fdtab, x
+        sta     fdtab, x
 
 ; Read done, close the input channel
 
@@ -135,7 +134,7 @@ eof:    lda     #0
 
 devnotpresent:
         lda     #ENODEV
-        .byte   $2C             ; Skip next opcode via BIT <abs>
+        .byte   $2C     ; Skip next opcode via BIT <abs>
 
 ; Error entry: The given file descriptor is not valid or not open
 
@@ -144,7 +143,6 @@ invalidfd:
         jmp     ___directerrno  ; Sets _errno, clears __oserror, returns -1
 
 .endproc
-
 
 ;--------------------------------------------------------------------------
 

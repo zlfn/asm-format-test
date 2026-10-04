@@ -10,40 +10,39 @@ EXTERN __esxdos_error_mc
 
 asm_esx_f_read:
 
-   ; enter :  a = handle
-   ;         bc = nbytes
-   ;         hl = dst
-   ;
-   ; exit  : hl = number of bytes actually read
-   ;
-   ;         success
-   ;
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl, ix
-   
+        ; enter :  a = handle
+        ;         bc = nbytes
+        ;         hl = dst
+        ;
+        ; exit  : hl = number of bytes actually read
+        ;
+        ;         success
+        ;
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl, ix
+
 IF __SDCC_IY
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 ELSE
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 ENDIF
 
-   rst __ESX_RST_SYS
-   defb __ESX_F_READ
+        rst     __ESX_RST_SYS
+        defb    __ESX_F_READ
 
-   call c, __esxdos_error_mc
-   
-   ld l,c
-   ld h,b
-   
-   ret
+        call    c, __esxdos_error_mc
 
+        ld      l, c
+        ld      h, b
+
+        ret
 
 ; ***************************************************************************
 ; * F_READ ($9d) *

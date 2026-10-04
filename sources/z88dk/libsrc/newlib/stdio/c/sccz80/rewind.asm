@@ -16,10 +16,10 @@ EXTERN asm_rewind
 
 rewind:
 
-   push hl
-   pop ix
-   
-   jp asm_rewind
+        push    hl
+        pop     ix
+
+        jp      asm_rewind
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

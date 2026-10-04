@@ -7,13 +7,13 @@
 ;   $Id: hdos_read.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  hdos_read
-    PUBLIC  _hdos_read
+        SECTION code_clib
+        PUBLIC  hdos_read
+        PUBLIC  _hdos_read
 
-    EXTERN    asm_hdos_read
+        EXTERN  asm_hdos_read
 
-    INCLUDE "target/hdos/def/hdos.def"
+        INCLUDE "target/hdos/def/hdos.def"
 
 hdos_read:
 _hdos_read:

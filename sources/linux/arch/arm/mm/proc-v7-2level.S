@@ -42,23 +42,23 @@
  */
 SYM_TYPED_FUNC_START(cpu_v7_switch_mm)
 #ifdef CONFIG_MMU
-	mmid	r1, r1				@ get mm->context.id
-	ALT_SMP(orr	r0, r0, #TTB_FLAGS_SMP)
-	ALT_UP(orr	r0, r0, #TTB_FLAGS_UP)
+        mmid    r1, r1  @ get mm->context.id
+        ALT_SMP(orr r0, r0, #TTB_FLAGS_SMP)
+        ALT_UP(orr r0, r0, #TTB_FLAGS_UP)
 #ifdef CONFIG_PID_IN_CONTEXTIDR
-	mrc	p15, 0, r2, c13, c0, 1		@ read current context ID
-	lsr	r2, r2, #8			@ extract the PID
-	bfi	r1, r2, #8, #24			@ insert into new context ID
+        mrc     p15, 0,  r2, c13, c0, 1 @ read current context ID
+        lsr     r2,  r2, #8             @ extract the PID
+        bfi     r1,  r2, #8, #24        @ insert into new context ID
 #endif
 #ifdef CONFIG_ARM_ERRATA_754322
-	dsb
+        dsb
 #endif
-	mcr	p15, 0, r1, c13, c0, 1		@ set context ID
-	isb
-	mcr	p15, 0, r0, c2, c0, 0		@ set TTB 0
-	isb
+        mcr     p15, 0, r1, c13, c0, 1  @ set context ID
+        isb
+        mcr     p15, 0, r0, c2, c0, 0   @ set TTB 0
+        isb
 #endif
-	bx	lr
+        bx      lr
 SYM_FUNC_END(cpu_v7_switch_mm)
 
 /*
@@ -73,39 +73,39 @@ SYM_FUNC_END(cpu_v7_switch_mm)
  */
 SYM_TYPED_FUNC_START(cpu_v7_set_pte_ext)
 #ifdef CONFIG_MMU
-	str	r1, [r0]			@ linux version
+        str     r1, [r0]        @ linux version
 
-	bic	r3, r1, #0x000003f0
-	bic	r3, r3, #PTE_TYPE_MASK
-	orr	r3, r3, r2
-	orr	r3, r3, #PTE_EXT_AP0 | 2
+        bic     r3, r1, #0x000003f0
+        bic     r3, r3, #PTE_TYPE_MASK
+        orr     r3, r3, r2
+        orr     r3, r3, #PTE_EXT_AP0 | 2
 
-	tst	r1, #1 << 4
-	orrne	r3, r3, #PTE_EXT_TEX(1)
+        tst     r1, #1 << 4
+        orrne   r3, r3, #PTE_EXT_TEX(1)
 
-	eor	r1, r1, #L_PTE_DIRTY
-	tst	r1, #L_PTE_RDONLY | L_PTE_DIRTY
-	orrne	r3, r3, #PTE_EXT_APX
+        eor     r1, r1, #L_PTE_DIRTY
+        tst     r1, #L_PTE_RDONLY | L_PTE_DIRTY
+        orrne   r3, r3, #PTE_EXT_APX
 
-	tst	r1, #L_PTE_USER
-	orrne	r3, r3, #PTE_EXT_AP1
+        tst     r1, #L_PTE_USER
+        orrne   r3, r3, #PTE_EXT_AP1
 
-	tst	r1, #L_PTE_XN
-	orrne	r3, r3, #PTE_EXT_XN
+        tst     r1, #L_PTE_XN
+        orrne   r3, r3, #PTE_EXT_XN
 
-	tst	r1, #L_PTE_YOUNG
-	tstne	r1, #L_PTE_VALID
-	eorne	r1, r1, #L_PTE_NONE
-	tstne	r1, #L_PTE_NONE
-	moveq	r3, #0
+        tst     r1, #L_PTE_YOUNG
+        tstne   r1, #L_PTE_VALID
+        eorne   r1, r1, #L_PTE_NONE
+        tstne   r1, #L_PTE_NONE
+        moveq   r3, #0
 
- ARM(	str	r3, [r0, #2048]! )
- THUMB(	add	r0, r0, #2048 )
- THUMB(	str	r3, [r0] )
-	ALT_SMP(W(nop))
-	ALT_UP (mcr	p15, 0, r0, c7, c10, 1)		@ flush_pte
+        ARM(    str	r3, [r0, #2048]! )
+        THUMB(  add	r0, r0, #2048 )
+        THUMB(  str	r3, [r0] )
+        ALT_SMP(W(nop))
+        ALT_UP  (mcr	p15, 0, r0, c7, c10, 1) @ flush_pte
 #endif
-	bx	lr
+        bx      lr
 SYM_FUNC_END(cpu_v7_set_pte_ext)
 
 	/*
@@ -143,14 +143,14 @@ SYM_FUNC_END(cpu_v7_set_pte_ext)
 	 * Macro for setting up the TTBRx and TTBCR registers.
 	 * - \ttb0 and \ttb1 updated with the corresponding flags.
 	 */
-	.macro	v7_ttb_setup, zero, ttbr0l, ttbr0h, ttbr1, tmp
-	mcr	p15, 0, \zero, c2, c0, 2	@ TTB control register
-	ALT_SMP(orr	\ttbr0l, \ttbr0l, #TTB_FLAGS_SMP)
-	ALT_UP(orr	\ttbr0l, \ttbr0l, #TTB_FLAGS_UP)
-	ALT_SMP(orr	\ttbr1, \ttbr1, #TTB_FLAGS_SMP)
-	ALT_UP(orr	\ttbr1, \ttbr1, #TTB_FLAGS_UP)
-	mcr	p15, 0, \ttbr1, c2, c0, 1	@ load TTB1
-	.endm
+        .macro  v7_ttb_setup, zero, ttbr0l, ttbr0h, ttbr1, tmp
+                mcr     p15, 0, \zero, c2, c0, 2        @ TTB control register
+                ALT_SMP(orr \ttbr0l, \ttbr0l, #TTB_FLAGS_SMP)
+                ALT_UP(orr \ttbr0l, \ttbr0l, #TTB_FLAGS_UP)
+                ALT_SMP(orr \ttbr1, \ttbr1, #TTB_FLAGS_SMP)
+                ALT_UP(orr \ttbr1, \ttbr1, #TTB_FLAGS_UP)
+                mcr     p15, 0, \ttbr1, c2, c0, 1       @ load TTB1
+        .endm
 
 	/*   AT
 	 *  TFR   EV X F   I D LR    S
@@ -158,7 +158,7 @@ SYM_FUNC_END(cpu_v7_set_pte_ext)
 	 * rxxx rrxx xxx0 0101 xxxx xxxx x111 xxxx < forced
 	 *   01    0 110       0011 1100 .111 1101 < we want
 	 */
-	.align	2
-	.type	v7_crval, #object
+        .align  2
+        .type   v7_crval, #object
 v7_crval:
-	crval	clear=0x2120c302, mmuset=0x10c03c7d, ucset=0x00c01c7c
+        crval   clear=0x2120c302, mmuset=0x10c03c7d, ucset=0x00c01c7c

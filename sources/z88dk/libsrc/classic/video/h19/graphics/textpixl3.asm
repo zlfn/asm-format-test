@@ -11,17 +11,15 @@
 ;
 ;
 
-
-    PUBLIC  textpixl
-
+        PUBLIC  textpixl
 
 textpixl:
-    defb  32
+        defb    32
 
-    defb  156, 131, 146
-    ;defb  156, 131, 157+64
+        defb    156, 131, 146
+        ;defb  156, 131, 157+64
 
-    defb  157, 131+64, 146+64
-    ;defb  157, 131+64, 156+64
+        defb    157, 131+64, 146+64
+        ;defb  157, 131+64, 156+64
 
-    defb  32+64
+        defb    32+64

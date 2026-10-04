@@ -4,15 +4,13 @@
 ; READST replacement function
 ;
 
-        .export         READST
+        .export READST
 
-        .include        "plus4.inc"
+        .include "plus4.inc"
 
 ; Read the status byte from the zero page instead of banking in the ROM
 
 .proc   READST
-        lda     STATUS                  ; Load status
-        rts                             ; Return to caller
+        lda     STATUS  ; Load status
+        rts             ; Return to caller
 .endproc
-
-

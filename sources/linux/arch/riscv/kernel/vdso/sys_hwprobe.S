@@ -7,13 +7,13 @@
 
 .text
 SYM_FUNC_START(riscv_hwprobe)
-	.cfi_startproc
-	vdso_lpad
-	li a7, __NR_riscv_hwprobe
-	ecall
-	ret
+        .cfi_startproc
+        vdso_lpad
+        li      a7, __NR_riscv_hwprobe
+        ecall
+        ret
 
-	.cfi_endproc
+        .cfi_endproc
 SYM_FUNC_END(riscv_hwprobe)
 
 emit_riscv_feature_1_and

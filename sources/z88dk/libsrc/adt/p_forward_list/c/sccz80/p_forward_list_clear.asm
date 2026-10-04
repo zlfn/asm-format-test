@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _p_forward_list_clear
 defc _p_forward_list_clear = p_forward_list_clear
 ENDIF
-

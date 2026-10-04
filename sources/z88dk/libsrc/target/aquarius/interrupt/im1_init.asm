@@ -9,8 +9,8 @@
         defc    Z80_OPCODE_JP=$c3
         defc    EXISTING_INT_SIZE=3
 
-	    #include "target/aquarius/def/plus.inc"
-	    #include "target/aquarius/def/sbasic.inc"
+        #include "target/aquarius/def/plus.inc"
+        #include "target/aquarius/def/sbasic.inc"
 
 im1_init:
 _im1_init:
@@ -27,7 +27,7 @@ _im1_init:
         out     (IO_IRQMASK), a
         out     (IO_IRQSTAT), a
 
-	    im	1
+        im      1
 
         ei
         ret
@@ -59,11 +59,10 @@ asm_im1_handler:
         ld      bc, EXISTING_INT_SIZE
         ldir
 
-
         SECTION code_crt_exit
         di
-	; Back to IM0 for return to basic
-	im	0
+        ; Back to IM0 for return to basic
+        im      0
         ; Mask the VBLANK IRQ
         in      a, (IO_IRQMASK)
         and     ~IRQ_VBLANK

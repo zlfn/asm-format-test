@@ -9,28 +9,28 @@ EXTERN ASMDISP_SP1_INITCHARSTRUCT_CALLEE
 
 .sp1_InitCharStruct
 
-   ld hl,2
-   add hl,sp
-   ld a,(hl)
-   ld ixl,a
-   inc hl
-   inc hl
-   ld c,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld a,(hl)
-   ld ixh,a
-   inc hl
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a
-   ld a,ixh
+        ld      hl,  2
+        add     hl,  sp
+        ld      a,   (hl)
+        ld      ixl, a
+        inc     hl
+        inc     hl
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      a,   (hl)
+        ld      ixh, a
+        inc     hl
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
+        ld      a, ixh
 
-   jp sp1_InitCharStruct_callee + ASMDISP_SP1_INITCHARSTRUCT_CALLEE
+        jp      sp1_InitCharStruct_callee + ASMDISP_SP1_INITCHARSTRUCT_CALLEE

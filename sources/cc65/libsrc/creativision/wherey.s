@@ -4,8 +4,8 @@
 ; unsigned char wherey (void);
 ;
 
-        .export         _wherey
-        .include        "creativision.inc"
+        .export _wherey
+        .include "creativision.inc"
 
 .proc   _wherey
 

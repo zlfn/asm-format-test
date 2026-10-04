@@ -9,15 +9,15 @@
 ;-----------------------------------------------------------------------------------------
 ;
 
-    SECTION code_clib
-    PUBLIC  mmc_getpage
-    PUBLIC  _mmc_getpage
+        SECTION code_clib
+        PUBLIC  mmc_getpage
+        PUBLIC  _mmc_getpage
 
-    INCLUDE "target/zx/def/zxmmc.def"
+        INCLUDE "target/zx/def/zxmmc.def"
 
 mmc_getpage:
 _mmc_getpage:
-    in      a, (FASTPAGE)
-    ld      h, 0
-    ld      l, a
-    ret
+        in      a, (FASTPAGE)
+        ld      h, 0
+        ld      l, a
+        ret

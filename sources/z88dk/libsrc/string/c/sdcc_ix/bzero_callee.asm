@@ -11,9 +11,9 @@ EXTERN asm_bzero
 
 _bzero_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_bzero
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_bzero

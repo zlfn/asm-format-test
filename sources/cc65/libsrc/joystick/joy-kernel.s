@@ -4,38 +4,34 @@
 ; Common functions of the joystick API.
 ;
 
-        .import         joy_libref
-        .importzp       ptr1
+        .import joy_libref
+        .importzp ptr1
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
 
 ;----------------------------------------------------------------------------
 ; Variables
 
-
 .bss
-_joy_drv:       .res    2               ; Pointer to driver
+_joy_drv: .res  2       ; Pointer to driver
 
 ; Jump table for the driver functions.
 .data
 joy_vectors:
-joy_install:    jmp     $0000
-joy_uninstall:  jmp     $0000
-joy_count:      jmp     $0000
-joy_read:       jmp     $0000
+joy_install:   jmp $0000
+joy_uninstall: jmp $0000
+joy_count:     jmp $0000
+joy_read:      jmp $0000
 
 ; Driver header signature
 .rodata
-joy_sig:        .byte   $6A, $6F, $79, JOY_API_VERSION  ; "joy", version
-
+joy_sig: .byte  $6A, $6F, $79, JOY_API_VERSION  ; "joy", version
 
 .code
 ;----------------------------------------------------------------------------
 ; unsigned char __fastcall__ joy_install (const void* driver);
 ; /* Install the driver once it is loaded */
-
 
 _joy_install:
         sta     _joy_drv
@@ -46,8 +42,8 @@ _joy_install:
 ; Check the driver signature
 
         ldy     #.sizeof(joy_sig)-1
-@L0:    lda     (ptr1),y
-        cmp     joy_sig,y
+@L0:    lda     (ptr1),  y
+        cmp     joy_sig, y
         bne     inv_drv
         dey
         bpl     @L0
@@ -56,22 +52,22 @@ _joy_install:
 
         ldy     #JOY_HDR::LIBREF
         lda     #<joy_libref
-        sta     (ptr1),y
+        sta     (ptr1), y
         iny
         lda     #>joy_libref
-        sta     (ptr1),y
+        sta     (ptr1), y
 
 ; Copy the jump vectors
 
         ldy     #JOY_HDR::JUMPTAB
         ldx     #0
-@L1:    inx                             ; Skip the JMP opcode
-        jsr     copy                    ; Copy one byte
-        jsr     copy                    ; Copy one byte
+@L1:    inx             ; Skip the JMP opcode
+        jsr     copy    ; Copy one byte
+        jsr     copy    ; Copy one byte
         cpy     #(JOY_HDR::JUMPTAB + .sizeof(JOY_HDR::JUMPTAB))
         bne     @L1
 
-        jmp     joy_install             ; Call driver install routine
+        jmp     joy_install     ; Call driver install routine
 
 ; Driver signature invalid
 
@@ -82,9 +78,9 @@ inv_drv:
 
 ; Copy one byte from the jump vectors
 
-copy:   lda     (ptr1),y
+copy:   lda     (ptr1), y
         iny
-        sta     joy_vectors,x
+        sta     joy_vectors, x
         inx
         rts
 
@@ -95,12 +91,12 @@ copy:   lda     (ptr1),y
 ; */
 
 _joy_uninstall:
-        jsr     joy_uninstall           ; Call the driver routine
+        jsr     joy_uninstall   ; Call the driver routine
 
-_joy_clear_ptr:                         ; External entry point
+_joy_clear_ptr:                 ; External entry point
         lda     #0
         sta     _joy_drv
-        sta     _joy_drv+1              ; Clear the driver pointer
+        sta     _joy_drv+1      ; Clear the driver pointer
 
-        tax                             ; Return zero
+        tax     ; Return zero
         rts

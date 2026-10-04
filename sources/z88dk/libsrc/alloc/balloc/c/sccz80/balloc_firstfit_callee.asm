@@ -10,16 +10,15 @@ EXTERN asm_balloc_firstfit
 
 balloc_firstfit_callee:
 
-   pop hl
-	pop de
-	ex (sp),hl
-	
-	ld h,e
-   jp asm_balloc_firstfit
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        ld      h, e
+        jp      asm_balloc_firstfit
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _balloc_firstfit_callee
 defc _balloc_firstfit_callee = balloc_firstfit_callee
 ENDIF
-

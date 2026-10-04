@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; void *obstack_finish(struct obstack *ob)
 ;
 ; Return the address of the currently growing object and close
@@ -29,4 +29,3 @@ IF __CLASSIC
 PUBLIC _obstack_finish
 defc _obstack_finish = obstack_finish
 ENDIF
-

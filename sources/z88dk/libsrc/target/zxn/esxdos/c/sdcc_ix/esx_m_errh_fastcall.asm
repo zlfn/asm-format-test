@@ -8,9 +8,9 @@ EXTERN asm_esx_m_errh
 
 _esx_m_errh_fastcall:
 
-   push ix
-   
-   call asm_esx_m_errh
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_m_errh
+
+        pop     ix
+        ret

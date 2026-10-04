@@ -20,36 +20,35 @@ SECTION code_fp_math32
 
 PUBLIC l_f32_swap
 
-
 .l_f32_swap
-    pop bc                          ; BC = return
-    ; DEHL = right; SP: left (4)
-    push de
-    push hl                         ; SP: right(4), left(4)
-    push bc                         ; free BC; SP: ret, right, left
-    ; Swap two words with ld hl,(de) / ld (de),hl
-    ld de,sp+2
-    ld hl,(de)                      ; right LSW
-    ld bc,hl
-    ld de,sp+6
-    ld hl,(de)                      ; left LSW
-    ld de,sp+2
-    ld (de),hl
-    ld hl,bc
-    ld de,sp+6
-    ld (de),hl
-    ld de,sp+4
-    ld hl,(de)                      ; right MSW
-    ld bc,hl
-    ld de,sp+8
-    ld hl,(de)                      ; left MSW
-    ld de,sp+4
-    ld (de),hl
-    ld hl,bc
-    ld de,sp+8
-    ld (de),hl
-    pop bc                          ; BC = ret
-    pop hl                          ; left LSW
-    pop de                          ; left MSW → DEHL = left
-    push bc                         ; ret
-    ret
+        pop     bc      ; BC = return
+        ; DEHL = right; SP: left (4)
+        push    de
+        push    hl      ; SP: right(4), left(4)
+        push    bc      ; free BC; SP: ret, right, left
+        ; Swap two words with ld hl,(de) / ld (de),hl
+        ld      de,   sp+2
+        ld      hl,   (de)      ; right LSW
+        ld      bc,   hl
+        ld      de,   sp+6
+        ld      hl,   (de)      ; left LSW
+        ld      de,   sp+2
+        ld      (de), hl
+        ld      hl,   bc
+        ld      de,   sp+6
+        ld      (de), hl
+        ld      de,   sp+4
+        ld      hl,   (de)      ; right MSW
+        ld      bc,   hl
+        ld      de,   sp+8
+        ld      hl,   (de)      ; left MSW
+        ld      de,   sp+4
+        ld      (de), hl
+        ld      hl,   bc
+        ld      de,   sp+8
+        ld      (de), hl
+        pop     bc              ; BC = ret
+        pop     hl              ; left LSW
+        pop     de              ; left MSW → DEHL = left
+        push    bc              ; ret
+        ret

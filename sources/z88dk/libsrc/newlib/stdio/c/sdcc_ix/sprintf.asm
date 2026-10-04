@@ -10,9 +10,9 @@ EXTERN asm_sprintf
 
 _sprintf:
 
-   push ix
-   
-   call asm_sprintf
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_sprintf
+
+        pop     ix
+        ret

@@ -8,4 +8,3 @@ PUBLIC asm_i2c1_need
 EXTERN __i2c1ControlEcho
 
 DEFC asm_i2c1_need = __i2c1ControlEcho
-

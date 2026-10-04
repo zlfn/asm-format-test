@@ -4,7 +4,7 @@
 ; unsigned char tgi_getcolorcount (void);
 ; /* Get the number of available colors */
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
 .proc   _tgi_getcolorcount
 

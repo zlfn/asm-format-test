@@ -27,33 +27,31 @@ EXTERN asm_am9511_spec_sqrt
 
 PUBLIC asm_am9511_sqrt, asm_am9511_sqrt_fastcall
 
-
 ; stack = x, ret  (x not consumed)
 .asm_am9511_sqrt
-    pop bc
-    pop hl
-    pop de                      ; DEHL = x
-    push de
-    push hl
-    push bc                     ; x and ret restored
-    call asm_am9511_spec_sqrt
-    ret C
+        pop     bc
+        pop     hl
+        pop     de      ; DEHL = x
+        push    de
+        push    hl
+        push    bc      ; x and ret restored
+        call    asm_am9511_spec_sqrt
+        ret     C
 
-    call asm_am9511_pushf       ; x from stack
+        call    asm_am9511_pushf        ; x from stack
 
-    ld a,__IO_APU_OP_SQRT
-    AM9511_OUT_APU_CONTROL
+        ld      a, __IO_APU_OP_SQRT
+        AM9511_OUT_APU_CONTROL
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf
 
 .asm_am9511_sqrt_fastcall
-    call asm_am9511_spec_sqrt
-    ret C
+        call    asm_am9511_spec_sqrt
+        ret     C
 
-    call asm_am9511_pushf_fastcall
+        call    asm_am9511_pushf_fastcall
 
-    ld a,__IO_APU_OP_SQRT
-    AM9511_OUT_APU_CONTROL
+        ld      a, __IO_APU_OP_SQRT
+        AM9511_OUT_APU_CONTROL
 
-    jp asm_am9511_popf
+        jp      asm_am9511_popf

@@ -9,15 +9,15 @@ PUBLIC l_gintspchar
 
 l_gintspchar:
 
-   add hl,sp
-   inc hl
-   inc hl
-   ld a,(hl+)
-   ld h,(hl)
-   ld l,a
-   ld a,(hl)
-   ld l,a
-   rlca
-   sbc   a,a
-   ld h,a
-   ret
+        add     hl, sp
+        inc     hl
+        inc     hl
+        ld      a, (hl+)
+        ld      h, (hl)
+        ld      l, a
+        ld      a, (hl)
+        ld      l, a
+        rlca
+        sbc     a, a
+        ld      h, a
+        ret

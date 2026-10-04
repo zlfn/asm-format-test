@@ -4,8 +4,8 @@
 ; void __fastcall__ cbm_k_tksa (unsigned char addr)
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_k_tksa
+        .export _cbm_k_tksa
 
 _cbm_k_tksa = TKSA

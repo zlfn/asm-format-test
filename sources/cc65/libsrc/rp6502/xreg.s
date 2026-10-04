@@ -14,24 +14,24 @@
 
 .proc _xreg
 
-    ; save variadic size in X
-    tya
-    tax
+        ; save variadic size in X
+        tya
+        tax
 
-@copy: ; copy stack
-    dey
-    lda (c_sp),y
-    sta RIA_XSTACK
-    tya
-    bne @copy
+@copy:          ; copy stack
+        dey
+        lda     (c_sp), y
+        sta     RIA_XSTACK
+        tya
+        bne     @copy
 
-    ; recover variadic size and move c_sp
-    txa
-    tay
-    jsr addysp
+        ; recover variadic size and move c_sp
+        txa
+        tay
+        jsr     addysp
 
-    ; run RIA operation
-    lda #RIA_OP_XREG
-    jmp _ria_call_int
+        ; run RIA operation
+        lda     #RIA_OP_XREG
+        jmp     _ria_call_int
 
 .endproc

@@ -10,16 +10,16 @@ EXTERN asm_fseek_unlocked
 
 fseek_unlocked:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   pop ix
-   
-   push hl
-   push de
-   push hl
-   push bc
-   push af
-   
-   jp asm_fseek_unlocked
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        pop     ix
+
+        push    hl
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_fseek_unlocked

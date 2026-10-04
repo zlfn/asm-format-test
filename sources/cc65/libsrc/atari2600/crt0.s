@@ -2,15 +2,14 @@
 ;
 ; Florent Flament (contact@florentflament.com), 2017
 
-        .export         _exit
-        .export         __STARTUP__ : absolute = 1
+        .export _exit
+        .export __STARTUP__ : absolute = 1
 
-        .import         __RAM_START__, __RAM_SIZE__
-        .import         copydata
-        .import         _main
+        .import __RAM_START__, __RAM_SIZE__
+        .import copydata
+        .import _main
 
-        .include        "zeropage.inc"
-
+        .include "zeropage.inc"
 
 .segment "STARTUP"
 start:
@@ -41,7 +40,6 @@ clearLoop:
 ; Call main
         jsr     _main
 _exit:  jmp     _exit
-
 
 .segment "VECTORS"
 .word   start                   ; NMI

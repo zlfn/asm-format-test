@@ -10,7 +10,7 @@
 ;-------------------------------------------------------------------------
 ;  asm_am9511_pushl - am9511 APU push long
 ;-------------------------------------------------------------------------
-; 
+;
 ;  Load long into Am9511 APU stack
 ;
 ;-------------------------------------------------------------------------
@@ -23,68 +23,65 @@ INCLUDE "../../newlib/target/am9511/config_am9511_private.inc"
 PUBLIC asm_am9511_pushl
 PUBLIC asm_am9511_pushl_fastcall
 
-
 .asm_am9511_pushl
 
-    ; float primitive
-    ; push a long into Am9511 stack.
-    ;
-    ; enter : stack = long, ret1, ret0
-    ;
-    ; exit  : stack = long, ret1
-    ; 
-    ; uses  : af, bc
+        ; float primitive
+        ; push a long into Am9511 stack.
+        ;
+        ; enter : stack = long, ret1, ret0
+        ;
+        ; exit  : stack = long, ret1
+        ;
+        ; uses  : af, bc
 
 ;   AM9511_IN_APU_STATUS      ; read the APU status register
 ;   rlca                        ; busy? __IO_APU_STATUS_BUSY
 ;   jp C,asm_am9511_pushl_hl
 
-    ld bc,de                    ; preserve dehl
+        ld      bc, de  ; preserve dehl
 
-    ld de,sp+4
+        ld      de, sp+4
 
-    ld a,(de)                   ; load LSW into APU
-    AM9511_OUT_APU_DATA
-    inc de
-    ld a,(de)
-    AM9511_OUT_APU_DATA
+        ld      a, (de) ; load LSW into APU
+        AM9511_OUT_APU_DATA
+        inc     de
+        ld      a, (de)
+        AM9511_OUT_APU_DATA
 
-    inc de
-    ld a,(de)                   ; load MSW into APU
-    AM9511_OUT_APU_DATA
-    inc de
-    ld a,(de)
-    AM9511_OUT_APU_DATA
+        inc     de
+        ld      a, (de) ; load MSW into APU
+        AM9511_OUT_APU_DATA
+        inc     de
+        ld      a, (de)
+        AM9511_OUT_APU_DATA
 
-    ld de,bc                    ; recover dehl
-    ret
-
+        ld      de, bc  ; recover dehl
+        ret
 
 .asm_am9511_pushl_fastcall
 
-    ; float primitive
-    ; push a long into Am9511 stack.
-    ;
-    ; enter : stack = ret1, ret0
-    ;       :  dehl = long
-    ;
-    ; exit  : stack = ret1
-    ; 
-    ; uses  : af, de, hl
+        ; float primitive
+        ; push a long into Am9511 stack.
+        ;
+        ; enter : stack = ret1, ret0
+        ;       :  dehl = long
+        ;
+        ; exit  : stack = ret1
+        ;
+        ; uses  : af, de, hl
 
 ;   AM9511_IN_APU_STATUS      ; read the APU status register
 ;   rlca                        ; busy? __IO_APU_STATUS_BUSY
 ;   jp C,asm_am9511_pushl_fastcall
 
-    ld a,l                      ; load LSW into APU
-    AM9511_OUT_APU_DATA
-    ld a,h
-    AM9511_OUT_APU_DATA
+        ld      a, l    ; load LSW into APU
+        AM9511_OUT_APU_DATA
+        ld      a, h
+        AM9511_OUT_APU_DATA
 
-    ld a,e                      ; load MSW into APU
-    AM9511_OUT_APU_DATA
-    ld a,d
-    AM9511_OUT_APU_DATA
+        ld      a, e    ; load MSW into APU
+        AM9511_OUT_APU_DATA
+        ld      a, d
+        AM9511_OUT_APU_DATA
 
-    ret
-
+        ret

@@ -10,8 +10,8 @@ EXTERN asm_im2_prepend_generic_callback
 
 im2_prepend_generic_callback_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_im2_prepend_generic_callback
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_im2_prepend_generic_callback

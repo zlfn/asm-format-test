@@ -124,7 +124,7 @@
 ;
 ; * ITERM_MSG_READLINE_BEGIN
 ;
-;   Notification:  The input terminal is starting 
+;   Notification:  The input terminal is starting
 ;   a new edit line.
 ;
 ;   can use: af, bc, de, hl, ix
@@ -206,31 +206,31 @@ EXTERN error_zc, error_znc, error_enotsup_zc
 
 console_01_input_terminal:
 
-   cp STDIO_MSG_GETC
-   jp z, console_01_input_stdio_msg_getc
+        cp      STDIO_MSG_GETC
+        jp      z, console_01_input_stdio_msg_getc
 
-   cp ITERM_MSG_REJECT
-   jp z, error_zc              ; typed characters are always accepted
+        cp      ITERM_MSG_REJECT
+        jp      z, error_zc     ; typed characters are always accepted
 
-   cp ITERM_MSG_INTERRUPT
-   jp z, error_zc              ; line editing is not interrupted
-   
-   cp STDIO_MSG_EATC
-   jp z, console_01_input_stdio_msg_eatc
-   
-   cp STDIO_MSG_READ
-   jp z, console_01_input_stdio_msg_read
-   
-   cp STDIO_MSG_SEEK
-   jp z, console_01_input_stdio_msg_seek
-   
-   cp STDIO_MSG_FLSH
-   jp z, console_01_input_stdio_msg_flsh
-   
-   cp STDIO_MSG_ICTL
-   jp z, console_01_input_stdio_msg_ictl
-   
-   cp STDIO_MSG_CLOS
-   jp z, error_znc             ; do nothing and report no error
-   
-   jp error_enotsup_zc         ; hl = 0 puts FILE stream in error state
+        cp      ITERM_MSG_INTERRUPT
+        jp      z, error_zc     ; line editing is not interrupted
+
+        cp      STDIO_MSG_EATC
+        jp      z, console_01_input_stdio_msg_eatc
+
+        cp      STDIO_MSG_READ
+        jp      z, console_01_input_stdio_msg_read
+
+        cp      STDIO_MSG_SEEK
+        jp      z, console_01_input_stdio_msg_seek
+
+        cp      STDIO_MSG_FLSH
+        jp      z, console_01_input_stdio_msg_flsh
+
+        cp      STDIO_MSG_ICTL
+        jp      z, console_01_input_stdio_msg_ictl
+
+        cp      STDIO_MSG_CLOS
+        jp      z, error_znc    ; do nothing and report no error
+
+        jp      error_enotsup_zc        ; hl = 0 puts FILE stream in error state

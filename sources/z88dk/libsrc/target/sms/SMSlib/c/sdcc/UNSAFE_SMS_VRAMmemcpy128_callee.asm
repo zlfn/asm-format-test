@@ -9,9 +9,9 @@ EXTERN asm_SMSlib_UNSAFE_VRAMmemcpy128
 
 _UNSAFE_SMS_VRAMmemcpy128_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
-   jp asm_SMSlib_UNSAFE_VRAMmemcpy128
+        jp      asm_SMSlib_UNSAFE_VRAMmemcpy128

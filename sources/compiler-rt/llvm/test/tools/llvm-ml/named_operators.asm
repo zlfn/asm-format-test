@@ -16,8 +16,8 @@ t3 BYTE 6 AND 10
 ; CHECK-NEXT: .byte 2
 
 t4 BYTE 5 EQ 6
-   BYTE 6 EQ 6
-   BYTE 7 EQ 6
+        BYTE    6 EQ 6
+        BYTE    7 EQ 6
 ; CHECK-LABEL: t4:
 ; CHECK-NEXT: .byte 0
 ; CHECK: .byte -1
@@ -25,8 +25,8 @@ t4 BYTE 5 EQ 6
 ; CHECK-NOT: .byte
 
 t5 BYTE 5 NE 6
-   BYTE 6 NE 6
-   BYTE 7 NE 6
+        BYTE    6 NE 6
+        BYTE    7 NE 6
 ; CHECK-LABEL: t5:
 ; CHECK-NEXT: .byte -1
 ; CHECK: .byte 0
@@ -34,8 +34,8 @@ t5 BYTE 5 NE 6
 ; CHECK-NOT: .byte
 
 t6 BYTE 5 LT 6
-   BYTE 6 LT 6
-   BYTE 7 LT 6
+        BYTE    6 LT 6
+        BYTE    7 LT 6
 ; CHECK-LABEL: t6:
 ; CHECK-NEXT: .byte -1
 ; CHECK: .byte 0
@@ -43,8 +43,8 @@ t6 BYTE 5 LT 6
 ; CHECK-NOT: .byte
 
 t7 BYTE 5 LE 6
-   BYTE 6 LE 6
-   BYTE 7 LE 6
+        BYTE    6 LE 6
+        BYTE    7 LE 6
 ; CHECK-LABEL: t7:
 ; CHECK-NEXT: .byte -1
 ; CHECK: .byte -1
@@ -52,8 +52,8 @@ t7 BYTE 5 LE 6
 ; CHECK-NOT: .byte
 
 t8 BYTE 5 GT 6
-   BYTE 6 GT 6
-   BYTE 7 GT 6
+        BYTE    6 GT 6
+        BYTE    7 GT 6
 ; CHECK-LABEL: t8:
 ; CHECK-NEXT: .byte 0
 ; CHECK: .byte 0
@@ -61,8 +61,8 @@ t8 BYTE 5 GT 6
 ; CHECK-NOT: .byte
 
 t9 BYTE 5 GE 6
-   BYTE 6 GE 6
-   BYTE 7 GE 6
+        BYTE    6 GE 6
+        BYTE    7 GE 6
 ; CHECK-LABEL: t9:
 ; CHECK-NEXT: .byte 0
 ; CHECK: .byte -1
@@ -74,8 +74,8 @@ t10 BYTE 6 XOR 10
 ; CHECK-NEXT: .byte 12
 
 t11 BYTE 1 SHL 2
-    BYTE 2 SHL 3
-    BYTE 3 SHL 1
+        BYTE    2 SHL 3
+        BYTE    3 SHL 1
 ; CHECK-LABEL: t11:
 ; CHECK-NEXT: .byte 4
 ; CHECK: .byte 16
@@ -83,8 +83,8 @@ t11 BYTE 1 SHL 2
 ; CHECK-NOT: .byte
 
 t12 BYTE 6 SHR 2
-    BYTE 16 SHR 3
-    BYTE 7 SHR 1
+        BYTE    16 SHR 3
+        BYTE    7 SHR 1
 ; CHECK-LABEL: t12:
 ; CHECK-NEXT: .byte 1
 ; CHECK: .byte 2

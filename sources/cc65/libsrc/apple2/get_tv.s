@@ -3,16 +3,16 @@
 ;
 ; unsigned char __fastcall__ get_tv(void)
 ;
-        .export         _get_tv
+        .export _get_tv
 
-        .import         _set_iigs_speed, _get_iigs_speed
-        .import         ostype
+        .import _set_iigs_speed, _get_iigs_speed
+        .import ostype
 
-        .constructor    calibrate_tv, 8 ; After ostype
+        .constructor calibrate_tv, 8    ; After ostype
 
-        .include    "accelerator.inc"
-        .include    "apple2.inc"
-        .include    "get_tv.inc"
+        .include "accelerator.inc"
+        .include "apple2.inc"
+        .include "get_tv.inc"
 
         .segment "ONCE"
 
@@ -37,9 +37,8 @@ waste_12:
 iic:    jmp     calibrate_iic
 iigs:   jmp     calibrate_iigs
 iie:    jmp     calibrate_iie
-iip:    rts                   ; Keep TV::OTHER.
+iip:    rts     ; Keep TV::OTHER.
 .endproc
-
 
 ; Magic numbers
 WASTE_LOOP_CYCLES = 92                      ; The wait loop total cycles
@@ -51,9 +50,9 @@ STOP_PTRIG        = 16500/WASTE_LOOP_CYCLES ; Stop PTRIG at 16.5ms
 ; Carry clear at enter: wait for VBL -
 ; Increments X every 92 cycles.
 .proc count_until_vbl_bit
-        lda     #$10          ; BPL
+        lda     #$10    ; BPL
         bcc     :+
-        lda     #$30          ; BMI
+        lda     #$30    ; BMI
 :       sta     sign
 
         ; Wait for VBLsign change with 92 cycles loops.
@@ -64,20 +63,20 @@ STOP_PTRIG        = 16500/WASTE_LOOP_CYCLES ; Stop PTRIG at 16.5ms
         ; models, and close enough to 20.2ms for PAL models that accelerators
         ; will stay slow until there. (5ms usually).
 
-:       cpx     #STOP_PTRIG   ; 2     - see if we spent 16.5ms already
-        bcs     notrig        ; 4 / 5 - if so, stop hitting PTRIG
-        sta     PTRIG         ; 8     - otherwise hit it
-        bcc     count         ; 11
+:       cpx     #STOP_PTRIG     ; 2     - see if we spent 16.5ms already
+        bcs     notrig          ; 4 / 5 - if so, stop hitting PTRIG
+        sta     PTRIG           ; 8     - otherwise hit it
+        bcc     count           ; 11
 notrig:
-        nop                   ;     7 - keep cycle count constant when not
-        nop                   ;     9 - hitting PTRIG
-        nop                   ;     11
+        nop                     ;     7 - keep cycle count constant when not
+        nop                     ;     9 - hitting PTRIG
+        nop                     ;     11
 count:
-        inx                   ; 13
-        jsr     waste_72      ; 85
-        bit     RDVBLBAR      ; 89    - Wait for VBL change
+        inx                     ; 13
+        jsr     waste_72        ; 85
+        bit     RDVBLBAR        ; 89    - Wait for VBL change
 sign:
-        bpl     :-            ; 92    - patched with bpl/bmi
+        bpl     :-              ; 92    - patched with bpl/bmi
         rts
 .endproc
 
@@ -87,32 +86,32 @@ sign:
 
         sta     IOUDISOFF
         lda     RDVBLMSK
-        pha                   ; Back up for cleanup
+        pha     ; Back up for cleanup
 
         bit     ENVBL
-        bit     PTRIG         ; Reset VBL interrupt flag
-:       bit     RDVBLBAR      ; Wait for one VBL
+        bit     PTRIG           ; Reset VBL interrupt flag
+:       bit     RDVBLBAR        ; Wait for one VBL
         bpl     :-
 
-        bit     PTRIG         ; Reset VBL interrupt flag again
+        bit     PTRIG   ; Reset VBL interrupt flag again
         ldx     #$00
         clc
         jsr     count_until_vbl_bit
 
-        pla                   ; Cleanup
+        pla                     ; Cleanup
         asl
-        bcs     :+            ; VBL interrupts were already enabled
+        bcs     :+              ; VBL interrupts were already enabled
         bit     DISVBL
-:       sta     IOUDISON      ; IIc Tech Ref Man: The firmware normally leaves IOUDIS on.
+:       sta     IOUDISON        ; IIc Tech Ref Man: The firmware normally leaves IOUDIS on.
 
         plp
         jmp     calibrate_done
 .endproc
 
 .proc calibrate_iie
-:       bit     RDVBLBAR      ; Wait for bit 7 to be off (VBL start)
+:       bit     RDVBLBAR        ; Wait for bit 7 to be off (VBL start)
         bmi     :-
-:       bit     RDVBLBAR      ; Wait for bit 7 to be on (VBL end)
+:       bit     RDVBLBAR        ; Wait for bit 7 to be on (VBL end)
         bpl     :-
 
         ; Wait and count during a full cycle
@@ -133,9 +132,9 @@ sign:
         jsr     _set_iigs_speed
 
         ; The same as IIe, but reverted, because... something?
-:       bit     RDVBLBAR      ; Wait for bit 7 to be on (VBL start)
+:       bit     RDVBLBAR        ; Wait for bit 7 to be on (VBL start)
         bpl     :-
-:       bit     RDVBLBAR      ; Wait for bit 7 to be off (VBL end)
+:       bit     RDVBLBAR        ; Wait for bit 7 to be off (VBL end)
         bmi     :-
 
         ; Wait and count during a full cycle

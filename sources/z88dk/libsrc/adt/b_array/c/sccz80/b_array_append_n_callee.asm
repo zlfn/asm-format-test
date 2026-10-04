@@ -10,16 +10,15 @@ EXTERN asm_b_array_append_n
 
 b_array_append_n_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   
-   jp asm_b_array_append_n
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_b_array_append_n
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _b_array_append_n_callee
 defc _b_array_append_n_callee = b_array_append_n_callee
 ENDIF
-

@@ -26,12 +26,12 @@
  * startup
  */
 ENTRY(armada_xp_secondary_startup)
- ARM_BE8(setend	be )			@ go BE8 if entered LE
+        ARM_BE8(setend be )     @ go BE8 if entered LE
 
-	bl	ll_add_cpu_to_smp_group
+        bl      ll_add_cpu_to_smp_group
 
-	bl	ll_enable_coherency
+        bl      ll_enable_coherency
 
-	b	secondary_startup
+        b       secondary_startup
 
 ENDPROC(armada_xp_secondary_startup)

@@ -10,12 +10,12 @@ EXTERN asm__lldivu
 
 __lldivu_:
 
-   push ix
-   
-   ld ix,6
-   add ix,sp
-   
-   call asm__lldivu
-   
-   pop ix
-   ret
+        push    ix
+
+        ld      ix, 6
+        add     ix, sp
+
+        call    asm__lldivu
+
+        pop     ix
+        ret

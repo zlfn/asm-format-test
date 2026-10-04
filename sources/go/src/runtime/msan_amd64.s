@@ -27,68 +27,68 @@
 // func runtime·domsanread(addr unsafe.Pointer, sz uintptr)
 // Called from msanread.
 TEXT	runtime·domsanread(SB), NOSPLIT, $0-16
-	MOVQ	addr+0(FP), RARG0
-	MOVQ	sz+8(FP), RARG1
-	// void __msan_read_go(void *addr, uintptr_t sz);
-	MOVQ	$__msan_read_go(SB), AX
-	JMP	msancall<>(SB)
+        MOVQ    addr+0(FP), RARG0
+        MOVQ    sz+8(FP),   RARG1
+        // void __msan_read_go(void *addr, uintptr_t sz);
+        MOVQ    $__msan_read_go(SB), AX
+        JMP     msancall<>(SB)
 
 // func runtime·msanwrite(addr unsafe.Pointer, sz uintptr)
 // Called from instrumented code.
 TEXT	runtime·msanwrite(SB), NOSPLIT, $0-16
-	MOVQ	addr+0(FP), RARG0
-	MOVQ	sz+8(FP), RARG1
-	// void __msan_write_go(void *addr, uintptr_t sz);
-	MOVQ	$__msan_write_go(SB), AX
-	JMP	msancall<>(SB)
+        MOVQ    addr+0(FP), RARG0
+        MOVQ    sz+8(FP),   RARG1
+        // void __msan_write_go(void *addr, uintptr_t sz);
+        MOVQ    $__msan_write_go(SB), AX
+        JMP     msancall<>(SB)
 
 // func runtime·msanmalloc(addr unsafe.Pointer, sz uintptr)
 TEXT	runtime·msanmalloc(SB), NOSPLIT, $0-16
-	MOVQ	addr+0(FP), RARG0
-	MOVQ	sz+8(FP), RARG1
-	// void __msan_malloc_go(void *addr, uintptr_t sz);
-	MOVQ	$__msan_malloc_go(SB), AX
-	JMP	msancall<>(SB)
+        MOVQ    addr+0(FP), RARG0
+        MOVQ    sz+8(FP),   RARG1
+        // void __msan_malloc_go(void *addr, uintptr_t sz);
+        MOVQ    $__msan_malloc_go(SB), AX
+        JMP     msancall<>(SB)
 
 // func runtime·msanfree(addr unsafe.Pointer, sz uintptr)
 TEXT	runtime·msanfree(SB), NOSPLIT, $0-16
-	MOVQ	addr+0(FP), RARG0
-	MOVQ	sz+8(FP), RARG1
-	// void __msan_free_go(void *addr, uintptr_t sz);
-	MOVQ	$__msan_free_go(SB), AX
-	JMP	msancall<>(SB)
+        MOVQ    addr+0(FP), RARG0
+        MOVQ    sz+8(FP),   RARG1
+        // void __msan_free_go(void *addr, uintptr_t sz);
+        MOVQ    $__msan_free_go(SB), AX
+        JMP     msancall<>(SB)
 
 // func runtime·msanmove(dst, src unsafe.Pointer, sz uintptr)
 TEXT	runtime·msanmove(SB), NOSPLIT, $0-24
-	MOVQ	dst+0(FP), RARG0
-	MOVQ	src+8(FP), RARG1
-	MOVQ	sz+16(FP), RARG2
-	// void __msan_memmove_go(void *dst, void *src, uintptr_t sz);
-	MOVQ	$__msan_memmove_go(SB), AX
-	JMP	msancall<>(SB)
+        MOVQ    dst+0(FP), RARG0
+        MOVQ    src+8(FP), RARG1
+        MOVQ    sz+16(FP), RARG2
+        // void __msan_memmove_go(void *dst, void *src, uintptr_t sz);
+        MOVQ    $__msan_memmove_go(SB), AX
+        JMP     msancall<>(SB)
 
 // Switches SP to g0 stack and calls (AX). Arguments already set.
 TEXT	msancall<>(SB), NOSPLIT, $0-0
-	get_tls(R12)
-	MOVQ	g(R12), R14
-	MOVQ	SP, R12		// callee-saved, preserved across the CALL
-	CMPQ	R14, $0
-	JE	call	// no g; still on a system stack
+        get_tls(R12)
+        MOVQ    g(R12), R14
+        MOVQ    SP,     R12     // callee-saved, preserved across the CALL
+        CMPQ    R14,    $0
+        JE      call            // no g; still on a system stack
 
-	MOVQ	g_m(R14), R13
+        MOVQ    g_m(R14), R13
 
-	// Switch to g0 stack if we aren't already on g0 or gsignal.
-	MOVQ	m_gsignal(R13), R10
-	CMPQ	R10, R14
-	JE	call	// already on gsignal
+        // Switch to g0 stack if we aren't already on g0 or gsignal.
+        MOVQ    m_gsignal(R13), R10
+        CMPQ    R10, R14
+        JE      call    // already on gsignal
 
-	MOVQ	m_g0(R13), R10
-	CMPQ	R10, R14
-	JE	call	// already on g0
+        MOVQ    m_g0(R13), R10
+        CMPQ    R10, R14
+        JE      call    // already on g0
 
-	MOVQ	(g_sched+gobuf_sp)(R10), SP
+        MOVQ    (g_sched+gobuf_sp)(R10), SP
 call:
-	ANDQ	$~15, SP	// alignment for gcc ABI
-	CALL	AX
-	MOVQ	R12, SP
-	RET
+        ANDQ    $~15, SP        // alignment for gcc ABI
+        CALL    AX
+        MOVQ    R12, SP
+        RET

@@ -11,15 +11,15 @@ EXTERN asm_esxdos_f_open
 
 esxdos_f_open_p3_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
 
-   ld a,__ESXDOS_DRIVE_CURRENT
+        ld      a, __ESXDOS_DRIVE_CURRENT
 
-   ld b,c
-   jp asm_esxdos_f_open
+        ld      b, c
+        jp      asm_esxdos_f_open
 
 ; SDCC bridge for Classic
 IF __CLASSIC

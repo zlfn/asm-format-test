@@ -10,18 +10,18 @@ EXTERN l0_vsnprintf_callee
 
 _vsnprintf:
 
-   pop af
-   exx
-   pop de
-   pop bc
-   exx
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push bc
-   push de
-   push af
+        pop     af
+        exx
+        pop     de
+        pop     bc
+        exx
+        pop     de
+        pop     bc
 
-   jp l0_vsnprintf_callee
+        push    bc
+        push    de
+        push    bc
+        push    de
+        push    af
+
+        jp      l0_vsnprintf_callee

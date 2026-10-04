@@ -30,42 +30,41 @@ SECTION code_fp_math32
 PUBLIC m32_fsfrexp_callee
 PUBLIC _m32_frexpf
 
-
 ; float frexpf (float x, int *pw2);
 ._m32_frexpf
 .m32_fsfrexp_callee
-    ; evaluation of fraction and exponent
-    ;
-    ; enter : stack = float *pw2, float x, ret
-    ;
-    ; exit  : dehl  = 32-bit result
-    ;         carry reset
-    ;
-    ; uses  : af, bc, de, hl
+        ; evaluation of fraction and exponent
+        ;
+        ; enter : stack = float *pw2, float x, ret
+        ;
+        ; exit  : dehl  = 32-bit result
+        ;         carry reset
+        ;
+        ; uses  : af, bc, de, hl
 
-    pop af                      ; return
-    pop hl                      ; (float)x in dehl
-    pop de
-    pop bc                      ; (int8_t*)pw2
-    push af                     ; return on stack
+        pop     af      ; return
+        pop     hl      ; (float)x in dehl
+        pop     de
+        pop     bc      ; (int8_t*)pw2
+        push    af      ; return on stack
 
-    rl de                       ; get the exponent
-    rr e                        ; save the sign in e[7]
+        rl      de      ; get the exponent
+        rr      e       ; save the sign in e[7]
 
-    ld a,d
-    ld d,0
-    and a
-    jr Z,zero
-    ld d,$7e                    ; remove exponent excess (bias-1)
-    sub d                       ; mantissa between 0.5 and 1
+        ld      a, d
+        ld      d, 0
+        and     a
+        jr      Z, zero
+        ld      d, $7e  ; remove exponent excess (bias-1)
+        sub     d       ; mantissa between 0.5 and 1
 
 .zero
-    ld (bc),a                   ; and store in pw2
-    inc bc
-    rlca
-    sbc  a
-    ld  (bc),a
+        ld      (bc), a ; and store in pw2
+        inc     bc
+        rlca
+        sbc     a
+        ld      (bc), a
 
-    rl e                        ; get sign back
-    rr de
-    ret                         ; return IEEE DEHL fraction
+        rl      e       ; get sign back
+        rr      de
+        ret             ; return IEEE DEHL fraction

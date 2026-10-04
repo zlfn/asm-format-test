@@ -12,14 +12,13 @@ EXTERN asm_sp1_RemoveUpdateStruct
 
 sp1_RemoveUpdateStruct:
 
-   push ix
-   call asm_sp1_RemoveUpdateStruct
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_RemoveUpdateStruct
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_RemoveUpdateStruct
 defc _sp1_RemoveUpdateStruct = sp1_RemoveUpdateStruct
 ENDIF
-

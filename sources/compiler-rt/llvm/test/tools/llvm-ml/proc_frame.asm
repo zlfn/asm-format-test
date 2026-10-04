@@ -2,16 +2,16 @@
 
 .code
 
-t1 PROC FRAME
-  push rbp
-  .pushreg rbp
-  mov rbp, rsp
-  .setframe rbp, 0
-  pushfq
-  .allocstack 8
-  .endprolog
-  ret
-t1 ENDP
+t1      PROC    FRAME
+        push    rbp
+        .pushreg rbp
+        mov     rbp, rsp
+        .setframe rbp, 0
+        pushfq
+        .allocstack 8
+        .endprolog
+        ret
+t1      ENDP
 
 ; CHECK: .seh_proc t1
 

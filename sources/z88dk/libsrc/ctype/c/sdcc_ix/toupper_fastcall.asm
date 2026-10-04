@@ -10,12 +10,12 @@ EXTERN asm_toupper
 
 _toupper_fastcall:
 
-   inc h
-   dec h
-   ret nz
+        inc     h
+        dec     h
+        ret     nz
 
-   ld a,l
-   call asm_toupper
-   
-   ld l,a
-   ret
+        ld      a, l
+        call    asm_toupper
+
+        ld      l, a
+        ret

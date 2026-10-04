@@ -12,7 +12,7 @@
    doesn't work. Remember to change this when changing the
    kernel's name. */
 ELFNOTE_START(Linux, 0, "a")
-	.long LINUX_VERSION_CODE
+        .long   LINUX_VERSION_CODE
 ELFNOTE_END
 
 BUILD_SALT

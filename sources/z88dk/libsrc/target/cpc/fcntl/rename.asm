@@ -11,15 +11,15 @@
 ;       $Id: rename.asm,v 1.5 2016-06-19 21:03:22 dom Exp $
 ;
 
-        SECTION   code_clib
-        PUBLIC    rename
-        PUBLIC    _rename
-        PUBLIC    ___rename
-        EXTERN	strlen
-        EXTERN	cpc_rsx
-        EXTERN	bios_msg
+        SECTION code_clib
+        PUBLIC  rename
+        PUBLIC  _rename
+        PUBLIC  ___rename
+        EXTERN  strlen
+        EXTERN  cpc_rsx
+        EXTERN  bios_msg
 
-        INCLUDE "target/cpc/def/cpcfirm.def"              
+        INCLUDE "target/cpc/def/cpcfirm.def"
 
 .rename
 ._rename
@@ -32,45 +32,45 @@
         push    de
         push    bc
 
-        push	de
-        ld	(sdb_new_filename+1),hl
-        call	strlen
-        ld	a,l
-        ld	(sdb_new_filename),a
-        
-        pop	hl
-        ld	(sdb_old_filename+1),hl
-        call	strlen
-        ld	a,l
-        ld	(sdb_old_filename),a
+        push    de
+        ld      (sdb_new_filename+1), hl
+        call    strlen
+        ld      a, l
+        ld      (sdb_new_filename), a
 
-	;ld	hl,255	; msg disable
-	;push	hl
-	;call	bios_msg
-	;pop	hl
-	
+        pop     hl
+        ld      (sdb_old_filename+1), hl
+        call    strlen
+        ld      a, l
+        ld      (sdb_old_filename), a
+
+        ;ld	hl,255	; msg disable
+        ;push	hl
+        ;call	bios_msg
+        ;pop	hl
+
 ; |REN,"<new filename>,"<old filename>"
 
-	ld	hl,ren_cmd
-	push	hl
-	ld	hl,sdb_old_filename
-	push	hl
-	ld	hl,sdb_new_filename
-	push	hl
-	ld	a,3	; number of parameters
-	call	cpc_rsx
-	pop	bc
-	pop	bc
-	pop	bc
+        ld      hl, ren_cmd
+        push    hl
+        ld      hl, sdb_old_filename
+        push    hl
+        ld      hl, sdb_new_filename
+        push    hl
+        ld      a, 3    ; number of parameters
+        call    cpc_rsx
+        pop     bc
+        pop     bc
+        pop     bc
 
-	;ld	hl,0	; msg enable
-	;push	hl
-	;call	bios_msg
-	;pop	hl
+        ;ld	hl,0	; msg enable
+        ;push	hl
+        ;call	bios_msg
+        ;pop	hl
 
-	ret
+        ret
 
-.ren_cmd	defm	"ren",0
+.ren_cmd defm   "ren", 0
 
 ;;-------------------------------------------------------------
 ;; the string descriptor blocks for the parameters
@@ -86,4 +86,3 @@ defb 0      ;; length of string
 defw 0      ;; address of string
 
 ;;-------------------------------------------------------------
-

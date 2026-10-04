@@ -10,10 +10,10 @@ EXTERN asm_memcmp
 
 _memcmp_callee:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_memcmp
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_memcmp

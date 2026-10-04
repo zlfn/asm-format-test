@@ -9,13 +9,13 @@
 ;       $Id: cpc_set_palette.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_set_palette
-        PUBLIC    _cpc_set_palette
-        EXTERN     cpc_set_palette_callee
-        EXTERN     cpc_SetInk
-        EXTERN     _cpc_SetInk
-        EXTERN    asm_cpc_set_palette
+        SECTION code_clib
+        PUBLIC  cpc_set_palette
+        PUBLIC  _cpc_set_palette
+        EXTERN  cpc_set_palette_callee
+        EXTERN  cpc_SetInk
+        EXTERN  _cpc_SetInk
+        EXTERN  asm_cpc_set_palette
 
 .cpc_SetInk
 ._cpc_SetInk
@@ -27,4 +27,4 @@
         push    bc
         push    hl
         push    de
-        jp asm_cpc_set_palette
+        jp      asm_cpc_set_palette

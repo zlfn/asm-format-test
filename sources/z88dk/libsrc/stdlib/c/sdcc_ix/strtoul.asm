@@ -10,14 +10,14 @@ EXTERN l0_strtoul_callee
 
 _strtoul:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
 
-   jp l0_strtoul_callee
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_strtoul_callee

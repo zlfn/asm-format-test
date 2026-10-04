@@ -19,11 +19,11 @@ EXTERN asm_bit_beep_raw, asm_cpu_push_di, asm0_cpu_pop_ei
 
 asm_bit_beep_raw_di:
 
-   ; enter : hl = (tone_period - 236) / 8, tone_period in z80 T states
-   ;         de = duration in number of cycles of tone = time (sec) * freq (Hz)
-   ;
-   ; uses  : af, bc, de, hl, ix
-   
-   call asm_cpu_push_di
-   call asm_bit_beep_raw
-   jp asm0_cpu_pop_ei
+        ; enter : hl = (tone_period - 236) / 8, tone_period in z80 T states
+        ;         de = duration in number of cycles of tone = time (sec) * freq (Hz)
+        ;
+        ; uses  : af, bc, de, hl, ix
+
+        call    asm_cpu_push_di
+        call    asm_bit_beep_raw
+        jp      asm0_cpu_pop_ei

@@ -9,12 +9,12 @@ EXTERN l0_sp1_PutTiles_callee
 
 _sp1_PutTiles:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
 
-   jp l0_sp1_PutTiles_callee
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_sp1_PutTiles_callee

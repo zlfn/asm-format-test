@@ -12,11 +12,11 @@ EXTERN asm_adt_ListAdd
 .adt_ListAdd
 ._adt_ListAdd
 
-   pop hl
-   pop bc
-   pop de
-   push de
-   push bc
-   push hl
-   
-   jp asm_adt_ListAdd
+        pop     hl
+        pop     bc
+        pop     de
+        push    de
+        push    bc
+        push    hl
+
+        jp      asm_adt_ListAdd

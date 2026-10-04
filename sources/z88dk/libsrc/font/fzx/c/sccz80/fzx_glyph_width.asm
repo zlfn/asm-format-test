@@ -10,12 +10,12 @@ EXTERN fzx0_glyph_width_callee
 
 fzx_glyph_width:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp fzx0_glyph_width_callee
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      fzx0_glyph_width_callee

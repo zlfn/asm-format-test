@@ -7,17 +7,17 @@
 ; unsigned char __fastcall__ dio_write (dhandle_t handle, unsigned sect_num, const void *buffer);
 ;
 
-            .export _dio_write
-            .import dio_params, setoserror
+        .export _dio_write
+        .import dio_params, setoserror
 
-            .include "geossym.inc"
-            .include "jumptab.inc"
+        .include "geossym.inc"
+        .include "jumptab.inc"
 
 _dio_write:
-        jsr dio_params
+        jsr     dio_params
         tay
-        bne err
-        jsr WriteBlock
-        jmp setoserror
+        bne     err
+        jsr     WriteBlock
+        jmp     setoserror
 
 err:    rts

@@ -12,9 +12,9 @@
 ; * 0x01  : C128 in C64 mode present
 ; */
 
-        .export         _detect_c128
+        .export _detect_c128
 
-        .include        "accelerator.inc"
+        .include "accelerator.inc"
 
 _detect_c128:
         ldx     #>$0001
@@ -28,6 +28,6 @@ _detect_c128:
         ldy     C128_VICIIE_CLK
         cpy     #$FF
         bne     detect_end
-        txa             ; return zero when not VIC-IIe
+        txa     ; return zero when not VIC-IIe
 detect_end:
         rts

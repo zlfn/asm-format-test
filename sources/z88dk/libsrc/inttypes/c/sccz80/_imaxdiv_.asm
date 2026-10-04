@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC __imaxdiv_
 defc __imaxdiv_ = _imaxdiv_
 ENDIF
-

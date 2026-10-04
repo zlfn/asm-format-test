@@ -10,15 +10,14 @@ EXTERN asm_p_forward_list_insert_after
 
 p_forward_list_insert_after_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_p_forward_list_insert_after
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_p_forward_list_insert_after
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _p_forward_list_insert_after_callee
 defc _p_forward_list_insert_after_callee = p_forward_list_insert_after_callee
 ENDIF
-

@@ -1,4 +1,4 @@
-;       Z88 Small C+ Run Time Library 
+;       Z88 Small C+ Run Time Library
 ;       Long support functions
 ;
 ;       djm 25/2/99
@@ -16,16 +16,16 @@ EXTERN l_lsl_dehl
 
 l_long_asl:
 
-   ; Shift primary left by secondary
-   ;
-   ; Primary is on the stack, and is 32 bits long therefore we need only
-   ; concern ourselves with l (secondary) as our counter
+        ; Shift primary left by secondary
+        ;
+        ; Primary is on the stack, and is 32 bits long therefore we need only
+        ; concern ourselves with l (secondary) as our counter
 
-   ld a,l                      ; a = shift amount
-   
-   pop hl                      ; hl = return address
-   pop de                      ; de = primary.LSW
-   ex (sp),hl                  ; hl = primary.MSW
-   
-   ex de,hl                    ; dehl = primary
-   jp l_lsl_dehl
+        ld      a, l    ; a = shift amount
+
+        pop     hl              ; hl = return address
+        pop     de              ; de = primary.LSW
+        ex      (sp), hl        ; hl = primary.MSW
+
+        ex      de, hl  ; dehl = primary
+        jp      l_lsl_dehl

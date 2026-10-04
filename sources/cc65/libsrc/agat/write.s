@@ -4,11 +4,11 @@
 ; int __fastcall__ write (int fd, const void* buf, unsigned count);
 ;
 
-        .export         _write
-        .import         popax, popptr1
-        .import         COUT
+        .export _write
+        .import popax, popptr1
+        .import COUT
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
 _write:
         sta     ptr2
@@ -22,7 +22,7 @@ _write:
 
         ; Get char from buf
 next:   ldy     #$00
-        lda     (ptr1),y
+        lda     (ptr1), y
 
         ; Replace '\n' with '\r'
         cmp     #$0A
@@ -31,7 +31,7 @@ next:   ldy     #$00
 
         ; Set hi bit and write to device
 output:
-        jsr     COUT            ; Preserves X and Y
+        jsr     COUT    ; Preserves X and Y
 
         ; Increment pointer
         inc     ptr1
@@ -47,4 +47,3 @@ output:
         ; Return success
 done:   lda     #$00
         rts
-

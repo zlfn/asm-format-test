@@ -10,9 +10,9 @@ EXTERN asm_mtx_init
 
 _mtx_init_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_mtx_init
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_mtx_init

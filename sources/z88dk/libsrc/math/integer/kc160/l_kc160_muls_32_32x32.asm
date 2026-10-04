@@ -7,61 +7,61 @@ PUBLIC l_kc160_muls_32_32x32
 EXTERN l_kc160_mulu_32_32x32
 EXTERN l_neg_dehl
 
-   ; multiplication of two 32-bit numbers into a 64-bit product
-   ;
-   ; enter : dehl = 32-bit multiplicand (more zeros = better performance)
-   ;         dehl'= 32-bit multiplicand
-   ;
-   ; exit  : dehl = 64-bit product
-   ;         carry reset
-   ;
-   ; uses  : af, bc, de, hl, bc', de', hl'
+        ; multiplication of two 32-bit numbers into a 64-bit product
+        ;
+        ; enter : dehl = 32-bit multiplicand (more zeros = better performance)
+        ;         dehl'= 32-bit multiplicand
+        ;
+        ; exit  : dehl = 64-bit product
+        ;         carry reset
+        ;
+        ; uses  : af, bc, de, hl, bc', de', hl'
 
 l_kc160_muls_32_32x32:
-   ; signed multiplication of two 32-bit signed numbers
-   ;
-   ; error reported on overflow
-   ;
-   ; enter : dehl = signed 32-bit number
-   ;         dehl'= signed 32-bit number
-   ;
-   ; exit  : success
-   ;
-   ;            dehl = signed 32-bit product
-   ;            carry reset
-   ;
-   ;         signed overflow (LIA-1 enabled only)
-   ;
-   ;            dehl = LONG_MAX or LONG_MIN
-   ;            carry set, errno = ERANGE
-   ;
-   ; uses  : af, bc. de, hl, bc', de', hl'
+        ; signed multiplication of two 32-bit signed numbers
+        ;
+        ; error reported on overflow
+        ;
+        ; enter : dehl = signed 32-bit number
+        ;         dehl'= signed 32-bit number
+        ;
+        ; exit  : success
+        ;
+        ;            dehl = signed 32-bit product
+        ;            carry reset
+        ;
+        ;         signed overflow (LIA-1 enabled only)
+        ;
+        ;            dehl = LONG_MAX or LONG_MIN
+        ;            carry set, errno = ERANGE
+        ;
+        ; uses  : af, bc. de, hl, bc', de', hl'
 
-   ; determine sign of result
-   
-   ld a,d
-   exx
-   xor d
+        ; determine sign of result
 
-   push af
+        ld      a, d
+        exx
+        xor     d
 
-   ; make multiplicands positive
+        push    af
 
-   bit 7,d
-   call NZ,l_neg_dehl
+        ; make multiplicands positive
 
-   exx
+        bit     7,  d
+        call    NZ, l_neg_dehl
 
-   bit 7,d
-   call NZ,l_neg_dehl
+        exx
 
-   ; multiply & check for overflow
+        bit     7,  d
+        call    NZ, l_neg_dehl
 
-   call l_kc160_mulu_32_32x32
+        ; multiply & check for overflow
 
-   pop af
-   ret P
+        call    l_kc160_mulu_32_32x32
 
-   ; correct sign of result
+        pop     af
+        ret     P
 
-   jp l_neg_dehl
+        ; correct sign of result
+
+        jp      l_neg_dehl

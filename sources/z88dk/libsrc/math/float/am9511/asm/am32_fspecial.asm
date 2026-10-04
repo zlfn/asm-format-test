@@ -37,374 +37,369 @@ PUBLIC asm_am9511_spec_mul
 PUBLIC asm_am9511_spec_add
 PUBLIC asm_am9511_spec_sqrt
 
-
 ; A = IEEE exponent of DEHL (sign discarded).  DEHL unchanged.
 .ieee_exp
-    ld a,e
-    add a,a
-    ld a,d
-    adc a,a
-    ret
+        ld      a, e
+        add     a, a
+        ld      a, d
+        adc     a, a
+        ret
 
 ; HL = offset from SP after CALL into this helper.
 ; Preserve BC: callers stash operand sign in C across this load.
 .load_xo
-    add hl,sp
-    ld e,(hl)
-    inc hl
-    ld d,(hl)                   ; DE = x low
-    inc hl
-    push de
-    ld e,(hl)
-    inc hl
-    ld d,(hl)                   ; DE = x high
-    pop hl                      ; HL = x low
-    ret
+        add     hl, sp
+        ld      e,  (hl)
+        inc     hl
+        ld      d, (hl) ; DE = x low
+        inc     hl
+        push    de
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl) ; DE = x high
+        pop     hl      ; HL = x low
+        ret
 
 .load_x10
-    ld hl,10
-    jr load_xo
+        ld      hl, 10
+        jr      load_xo
 
 .ret_pnan
-    ld de,07fffh
-    ld h,e
-    ld l,e
-    scf
-    ret
+        ld      de, 07fffh
+        ld      h,  e
+        ld      l,  e
+        scf
+        ret
 
 .ret_szero
-    ld de,0
-    ld h,d
-    ld l,e
-    scf
-    ret
+        ld      de, 0
+        ld      h,  d
+        ld      l,  e
+        scf
+        ret
 
 ; B.7 = result sign → ±Inf
 .ret_sinf_b
-    ld hl,0
-    ld e,080h
-    ld a,b
-    and 080h
-    or 07fh
-    ld d,a
-    scf
-    ret
+        ld      hl, 0
+        ld      e,  080h
+        ld      a,  b
+        and     080h
+        or      07fh
+        ld      d, a
+        scf
+        ret
 
 ; Z if mantissa is zero (Inf), NZ if NaN.  DEHL = IEEE value.
 .mant_nz
-    ld a,e
-    and 07fh
-    or h
-    or l
-    ret
-
+        ld      a, e
+        and     07fh
+        or      h
+        or      l
+        ret
 
 ;=========================================================================
 ; DIV  — y = DEHL (divisor), x on stack (dividend)
 ;=========================================================================
 .asm_am9511_spec_div
-    call ieee_exp
-    or a
-    jp Z,div_y_zero
-    inc a
-    jp Z,div_y_max
+        call    ieee_exp
+        or      a
+        jp      Z, div_y_zero
+        inc     a
+        jp      Z, div_y_max
 
-    ; y finite nonzero: only x Inf/NaN needs software
-    push de
-    push hl
-    call load_x10
-    call ieee_exp
-    or a
-    jr Z,div_apu                ; x finite or 0 → APU
-    inc a
-    jr NZ,div_apu
-    call mant_nz
-    jr NZ,div_x_nan
-    ld a,d
-    and 080h
-    ld b,a                      ; sx
-    pop hl
-    pop de
-    ld a,d
-    and 080h
-    xor b
-    ld b,a
-    jp ret_sinf_b               ; Inf / finite → ±Inf
+        ; y finite nonzero: only x Inf/NaN needs software
+        push    de
+        push    hl
+        call    load_x10
+        call    ieee_exp
+        or      a
+        jr      Z, div_apu      ; x finite or 0 → APU
+        inc     a
+        jr      NZ, div_apu
+        call    mant_nz
+        jr      NZ, div_x_nan
+        ld      a,  d
+        and     080h
+        ld      b, a            ; sx
+        pop     hl
+        pop     de
+        ld      a, d
+        and     080h
+        xor     b
+        ld      b, a
+        jp      ret_sinf_b      ; Inf / finite → ±Inf
 
 .div_x_nan
-    pop hl
-    pop de
-    jp ret_pnan
+        pop     hl
+        pop     de
+        jp      ret_pnan
 
 .div_apu
-    pop hl
-    pop de
-    or a                        ; CF=0 → APU
-    ret
+        pop     hl
+        pop     de
+        or      a       ; CF=0 → APU
+        ret
 
 ; y == 0
 .div_y_zero
-    ld a,d
-    and 080h
-    ld c,a                      ; sy
-    push de
-    push hl
-    call load_x10
-    ld a,d
-    and 080h
-    xor c
-    ld b,a                      ; result sign
-    call ieee_exp
-    pop hl
-    pop de
-    or a
-    jp Z,ret_pnan               ; 0/0
-    jp ret_sinf_b               ; finite|Inf / 0 → ±Inf
+        ld      a, d
+        and     080h
+        ld      c, a            ; sy
+        push    de
+        push    hl
+        call    load_x10
+        ld      a, d
+        and     080h
+        xor     c
+        ld      b, a            ; result sign
+        call    ieee_exp
+        pop     hl
+        pop     de
+        or      a
+        jp      Z, ret_pnan     ; 0/0
+        jp      ret_sinf_b      ; finite|Inf / 0 → ±Inf
 
 ; y.exp == 255
 .div_y_max
-    call mant_nz
-    jp NZ,ret_pnan              ; y NaN
-    ld a,d
-    and 080h
-    ld c,a                      ; sy
-    push de
-    push hl
-    call load_x10
-    call ieee_exp
-    or a
-    jr Z,div_zero_over_inf
-    inc a
-    jr NZ,div_fin_over_inf
-    call mant_nz
-    pop hl
-    pop de
-    jp ret_pnan                 ; Inf/Inf or NaN/Inf
+        call    mant_nz
+        jp      NZ, ret_pnan    ; y NaN
+        ld      a,  d
+        and     080h
+        ld      c, a            ; sy
+        push    de
+        push    hl
+        call    load_x10
+        call    ieee_exp
+        or      a
+        jr      Z, div_zero_over_inf
+        inc     a
+        jr      NZ, div_fin_over_inf
+        call    mant_nz
+        pop     hl
+        pop     de
+        jp      ret_pnan        ; Inf/Inf or NaN/Inf
 
 .div_zero_over_inf
-    pop hl
-    pop de
-    jp ret_szero                ; 0 / Inf → 0
+        pop     hl
+        pop     de
+        jp      ret_szero       ; 0 / Inf → 0
 
 .div_fin_over_inf
-    pop hl
-    pop de
-    jp ret_szero                ; finite / Inf → 0
-
+        pop     hl
+        pop     de
+        jp      ret_szero       ; finite / Inf → 0
 
 ;=========================================================================
 ; MUL  — y = DEHL, x on stack
 ;=========================================================================
 .asm_am9511_spec_mul
-    call ieee_exp
-    or a
-    jp Z,mul_y_zero
-    inc a
-    jp Z,mul_y_max
+        call    ieee_exp
+        or      a
+        jp      Z, mul_y_zero
+        inc     a
+        jp      Z, mul_y_max
 
-    ; y finite nonzero: only x Inf/NaN needs software
-    push de
-    push hl
-    call load_x10
-    call ieee_exp
-    or a
-    jr Z,mul_apu
-    inc a
-    jr NZ,mul_apu
-    call mant_nz
-    jr NZ,mul_x_nan
-    ld a,d
-    and 080h
-    ld b,a
-    pop hl
-    pop de
-    ld a,d
-    and 080h
-    xor b
-    ld b,a
-    jp ret_sinf_b               ; Inf × finite → ±Inf
+        ; y finite nonzero: only x Inf/NaN needs software
+        push    de
+        push    hl
+        call    load_x10
+        call    ieee_exp
+        or      a
+        jr      Z, mul_apu
+        inc     a
+        jr      NZ, mul_apu
+        call    mant_nz
+        jr      NZ, mul_x_nan
+        ld      a,  d
+        and     080h
+        ld      b, a
+        pop     hl
+        pop     de
+        ld      a, d
+        and     080h
+        xor     b
+        ld      b, a
+        jp      ret_sinf_b      ; Inf × finite → ±Inf
 
 .mul_x_nan
-    pop hl
-    pop de
-    jp ret_pnan
+        pop     hl
+        pop     de
+        jp      ret_pnan
 
 .mul_apu
-    pop hl
-    pop de
-    or a
-    ret
+        pop     hl
+        pop     de
+        or      a
+        ret
 
 ; y == 0
 .mul_y_zero
-    push de
-    push hl
-    call load_x10
-    call ieee_exp
-    or a
-    jr Z,mul_zero_out
-    inc a
-    jr NZ,mul_zero_out
-    pop hl
-    pop de
-    jp ret_pnan                 ; Inf|NaN × 0 → NaN
+        push    de
+        push    hl
+        call    load_x10
+        call    ieee_exp
+        or      a
+        jr      Z, mul_zero_out
+        inc     a
+        jr      NZ, mul_zero_out
+        pop     hl
+        pop     de
+        jp      ret_pnan        ; Inf|NaN × 0 → NaN
 
 .mul_zero_out
-    pop hl
-    pop de
-    jp ret_szero                ; 0 × finite or 0 × 0
+        pop     hl
+        pop     de
+        jp      ret_szero       ; 0 × finite or 0 × 0
 
 ; y.exp == 255
 .mul_y_max
-    call mant_nz
-    jp NZ,ret_pnan              ; y NaN
-    ld a,d
-    and 080h
-    ld c,a                      ; sy
-    push de
-    push hl
-    call load_x10
-    ld a,d
-    and 080h
-    xor c
-    ld b,a                      ; result sign
-    call ieee_exp
-    or a
-    jr Z,mul_inf_times_zero
-    inc a
-    jr Z,mul_inf_times_max
-    pop hl
-    pop de
-    jp ret_sinf_b               ; Inf × finite
+        call    mant_nz
+        jp      NZ, ret_pnan    ; y NaN
+        ld      a,  d
+        and     080h
+        ld      c, a            ; sy
+        push    de
+        push    hl
+        call    load_x10
+        ld      a, d
+        and     080h
+        xor     c
+        ld      b, a            ; result sign
+        call    ieee_exp
+        or      a
+        jr      Z, mul_inf_times_zero
+        inc     a
+        jr      Z, mul_inf_times_max
+        pop     hl
+        pop     de
+        jp      ret_sinf_b      ; Inf × finite
 
 .mul_inf_times_zero
-    pop hl
-    pop de
-    jp ret_pnan                 ; Inf × 0
+        pop     hl
+        pop     de
+        jp      ret_pnan        ; Inf × 0
 
 .mul_inf_times_max
-    call mant_nz
-    pop hl
-    pop de
-    jp NZ,ret_pnan              ; Inf × NaN
-    jp ret_sinf_b               ; Inf × Inf
-
+        call    mant_nz
+        pop     hl
+        pop     de
+        jp      NZ, ret_pnan    ; Inf × NaN
+        jp      ret_sinf_b      ; Inf × Inf
 
 ;=========================================================================
 ; ADD  — y = DEHL, x on stack
 ;=========================================================================
 .asm_am9511_spec_add
-    call ieee_exp
-    or a
-    jp Z,add_y_zero
-    inc a
-    jp Z,add_y_max
+        call    ieee_exp
+        or      a
+        jp      Z, add_y_zero
+        inc     a
+        jp      Z, add_y_max
 
-    ; y finite nonzero: only x Inf/NaN needs software
-    push de
-    push hl
-    call load_x10
-    call ieee_exp
-    or a
-    jr Z,add_apu
-    inc a
-    jr NZ,add_apu
-    call mant_nz
-    jr NZ,add_x_nan
-    pop bc
-    pop bc
-    scf                         ; DEHL = x Inf (return Inf)
-    ret
+        ; y finite nonzero: only x Inf/NaN needs software
+        push    de
+        push    hl
+        call    load_x10
+        call    ieee_exp
+        or      a
+        jr      Z, add_apu
+        inc     a
+        jr      NZ, add_apu
+        call    mant_nz
+        jr      NZ, add_x_nan
+        pop     bc
+        pop     bc
+        scf     ; DEHL = x Inf (return Inf)
+        ret
 
 .add_x_nan
-    pop hl
-    pop de
-    jp ret_pnan
+        pop     hl
+        pop     de
+        jp      ret_pnan
 
 .add_apu
-    pop hl
-    pop de
-    or a
-    ret
+        pop     hl
+        pop     de
+        or      a
+        ret
 
 ; y == 0 → result is x
 .add_y_zero
-    push de
-    push hl
-    call load_x10
-    pop bc
-    pop bc
-    scf
-    ret
+        push    de
+        push    hl
+        call    load_x10
+        pop     bc
+        pop     bc
+        scf
+        ret
 
 ; y.exp == 255
 .add_y_max
-    call mant_nz
-    jp NZ,ret_pnan              ; y NaN
-    ld a,d
-    and 080h
-    ld c,a                      ; sy
-    push de
-    push hl
-    call load_x10
-    ld a,d
-    and 080h
-    ld b,a                      ; sx
-    call ieee_exp
-    or a
-    jr Z,add_inf_plus_zero
-    inc a
-    jr Z,add_inf_plus_max
-    ; finite + Inf → y Inf
-    pop hl
-    pop de
-    ld b,c
-    jp ret_sinf_b
+        call    mant_nz
+        jp      NZ, ret_pnan    ; y NaN
+        ld      a,  d
+        and     080h
+        ld      c, a            ; sy
+        push    de
+        push    hl
+        call    load_x10
+        ld      a, d
+        and     080h
+        ld      b, a            ; sx
+        call    ieee_exp
+        or      a
+        jr      Z, add_inf_plus_zero
+        inc     a
+        jr      Z, add_inf_plus_max
+        ; finite + Inf → y Inf
+        pop     hl
+        pop     de
+        ld      b, c
+        jp      ret_sinf_b
 
 .add_inf_plus_zero
-    pop hl
-    pop de
-    ld b,c
-    jp ret_sinf_b               ; Inf + 0 → Inf
+        pop     hl
+        pop     de
+        ld      b, c
+        jp      ret_sinf_b      ; Inf + 0 → Inf
 
 .add_inf_plus_max
-    call mant_nz
-    jr NZ,add_inf_nan
-    ld a,b
-    xor c
-    and 080h
-    jr NZ,add_inf_nan           ; Inf − Inf
-    pop hl
-    pop de
-    ld b,c
-    jp ret_sinf_b               ; Inf + Inf same sign
+        call    mant_nz
+        jr      NZ, add_inf_nan
+        ld      a,  b
+        xor     c
+        and     080h
+        jr      NZ, add_inf_nan ; Inf − Inf
+        pop     hl
+        pop     de
+        ld      b, c
+        jp      ret_sinf_b      ; Inf + Inf same sign
 
 .add_inf_nan
-    pop hl
-    pop de
-    jp ret_pnan
-
+        pop     hl
+        pop     de
+        jp      ret_pnan
 
 ;=========================================================================
 ; SQRT  — x = DEHL
 ;=========================================================================
 .asm_am9511_spec_sqrt
-    call ieee_exp
-    or a
-    jp Z,ret_szero              ; sqrt(±0) → +0
-    inc a
-    jr NZ,sqrt_finite
-    call mant_nz
-    jp NZ,ret_pnan              ; sqrt(NaN)
-    ld a,d
-    rla
-    jp C,ret_pnan               ; sqrt(−Inf)
-    ld b,0
-    jp ret_sinf_b               ; sqrt(+Inf) → +Inf
+        call    ieee_exp
+        or      a
+        jp      Z, ret_szero    ; sqrt(±0) → +0
+        inc     a
+        jr      NZ, sqrt_finite
+        call    mant_nz
+        jp      NZ, ret_pnan    ; sqrt(NaN)
+        ld      a,  d
+        rla
+        jp      C, ret_pnan     ; sqrt(−Inf)
+        ld      b, 0
+        jp      ret_sinf_b      ; sqrt(+Inf) → +Inf
 
 .sqrt_finite
-    ld a,d
-    rla
-    jp C,ret_pnan               ; sqrt(negative)
-    or a                        ; CF=0 → APU
-    ret
+        ld      a, d
+        rla
+        jp      C, ret_pnan     ; sqrt(negative)
+        or      a               ; CF=0 → APU
+        ret

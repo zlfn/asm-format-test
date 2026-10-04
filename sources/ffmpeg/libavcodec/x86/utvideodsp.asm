@@ -37,39 +37,39 @@ SECTION .text
 ;-------------------------------------------------------------------------------------------
 %macro RESTORE_RGB_PLANES 0
 cglobal restore_rgb_planes, 7 + ARCH_X86_64, 7 + ARCH_X86_64 * 2, 4, src_r, src_g, src_b, linesize_r, linesize_g, linesize_b, w, h, x
-    movsxdifnidn wq, wd
-    add      src_rq, wq
-    add      src_gq, wq
-    add      src_bq, wq
-    neg          wq
+        movsxdifnidn wq, wd
+        add     src_rq, wq
+        add     src_gq, wq
+        add     src_bq, wq
+        neg     wq
 %if ARCH_X86_64 == 0
-    mov          wm, wq
+        mov     wm, wq
 DEFINE_ARGS src_r, src_g, src_b, linesize_r, linesize_g, linesize_b, x
 %define wq r6m
 %define hd r7mp
 %endif
-    mova         m3, [pb_80]
+        mova    m3, [pb_80]
 .nextrow:
-    mov          xq, wq
+        mov     xq, wq
 
-    .loop:
-        mova           m0, [src_rq + xq]
-        mova           m1, [src_gq + xq]
-        mova           m2, [src_bq + xq]
-        psubb          m1, m3
-        paddb          m0, m1
-        paddb          m2, m1
-        mova  [src_rq+xq], m0
-        mova  [src_bq+xq], m2
-        add            xq, mmsize
-    jl .loop
+.loop:
+        mova    m0, [src_rq + xq]
+        mova    m1, [src_gq + xq]
+        mova    m2, [src_bq + xq]
+        psubb   m1, m3
+        paddb   m0, m1
+        paddb   m2, m1
+        mova    [src_rq+xq], m0
+        mova    [src_bq+xq], m2
+        add     xq, mmsize
+        jl      .loop
 
-    add        src_rq, linesize_rq
-    add        src_gq, linesize_gq
-    add        src_bq, linesize_bq
-    sub        hd, 1
-    jg .nextrow
-    RET
+        add     src_rq, linesize_rq
+        add     src_gq, linesize_gq
+        add     src_bq, linesize_bq
+        sub     hd,     1
+        jg      .nextrow
+        RET
 %endmacro
 
 INIT_XMM sse2
@@ -87,45 +87,45 @@ RESTORE_RGB_PLANES
 ;-------------------------------------------------------------------------------------------
 %macro RESTORE_RGB_PLANES10 0
 cglobal restore_rgb_planes10, 7 + ARCH_X86_64, 7 + ARCH_X86_64 * 2, 5, src_r, src_g, src_b, linesize_r, linesize_g, linesize_b, w, h, x
-    shl          wd, 1
-    shl linesize_rq, 1
-    shl linesize_gq, 1
-    shl linesize_bq, 1
-    add      src_rq, wq
-    add      src_gq, wq
-    add      src_bq, wq
-    mova         m3, [pw_512]
-    mova         m4, [pw_1023]
-    neg          wq
+        shl     wd, 1
+        shl     linesize_rq, 1
+        shl     linesize_gq, 1
+        shl     linesize_bq, 1
+        add     src_rq, wq
+        add     src_gq, wq
+        add     src_bq, wq
+        mova    m3,     [pw_512]
+        mova    m4,     [pw_1023]
+        neg     wq
 %if ARCH_X86_64 == 0
-    mov          wm, wq
+        mov     wm, wq
 DEFINE_ARGS src_r, src_g, src_b, linesize_r, linesize_g, linesize_b, x
 %define wq r6m
 %define hd r7mp
 %endif
 .nextrow:
-    mov          xq, wq
+        mov     xq, wq
 
-    .loop:
-        mova           m0, [src_rq + xq]
-        mova           m1, [src_gq + xq]
-        mova           m2, [src_bq + xq]
-        psubw          m1, m3
-        paddw          m0, m1
-        paddw          m2, m1
-        pand           m0, m4
-        pand           m2, m4
-        mova  [src_rq+xq], m0
-        mova  [src_bq+xq], m2
-        add            xq, mmsize
-    jl .loop
+.loop:
+        mova    m0, [src_rq + xq]
+        mova    m1, [src_gq + xq]
+        mova    m2, [src_bq + xq]
+        psubw   m1, m3
+        paddw   m0, m1
+        paddw   m2, m1
+        pand    m0, m4
+        pand    m2, m4
+        mova    [src_rq+xq], m0
+        mova    [src_bq+xq], m2
+        add     xq, mmsize
+        jl      .loop
 
-    add        src_rq, linesize_rq
-    add        src_gq, linesize_gq
-    add        src_bq, linesize_bq
-    sub        hd, 1
-    jg .nextrow
-    RET
+        add     src_rq, linesize_rq
+        add     src_gq, linesize_gq
+        add     src_bq, linesize_bq
+        sub     hd,     1
+        jg      .nextrow
+        RET
 %endmacro
 
 INIT_XMM sse2

@@ -14,24 +14,24 @@ EXTERN __SMSlib_SpriteNextFree, __SMSlib_SpriteTableY
 
 asm_SMSlib_finalizeSprites:
 
-   ; void SMS_finalizeSprites (void)
-   ;
-   ; uses : af, hl
-   
-   ld a,(__SMSlib_SpriteNextFree)
-   
+        ; void SMS_finalizeSprites (void)
+        ;
+        ; uses : af, hl
+
+        ld      a, (__SMSlib_SpriteNextFree)
+
 IF MAXSPRITES = 64
-   
-   cp MAXSPRITES
-   ret nc
-   
+
+        cp      MAXSPRITES
+        ret     nc
+
 ENDIF
 
-   add a,__SMSlib_SpriteTableY&0xff
-   ld l,a
-   ld a,0
-   adc a,__SMSlib_SpriteTableY/256
-   ld h,a
-   
-   ld (hl),0xd0
-   ret
+        add     a, __SMSlib_SpriteTableY&0xff
+        ld      l, a
+        ld      a, 0
+        adc     a, __SMSlib_SpriteTableY/256
+        ld      h, a
+
+        ld      (hl), 0xd0
+        ret

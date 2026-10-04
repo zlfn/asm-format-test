@@ -8,11 +8,11 @@ PUBLIC ASMDISP_SP1_PUTSPRCLR_CALLEE
 
 .sp1_PutSprClr_callee
 
-   pop hl
-   pop bc
-   ld b,c
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        ld      b, c
+        pop     de
+        ex      (sp), hl
 
 .asmentry
 
@@ -28,22 +28,22 @@ PUBLIC ASMDISP_SP1_PUTSPRCLR_CALLEE
 
 .SP1PutSprClr
 
-   ld c,$ff
+        ld      c, $ff
 
 .loop
 
-   push de
-   ld e,(hl)
-   inc hl
-   ld d,(hl)              ; de = & sp1_cs.attr_mask
-   inc hl
-   ex (sp),hl             ; hl = struct sp1_ap[]
-   ldi                    ; copy mask and attribute into struct sp1_cs
-   ldi
-   pop de                 ; de = array of sprite colour addresses advanced one entry
-   ex de,hl
-   djnz loop
+        push    de
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)         ; de = & sp1_cs.attr_mask
+        inc     hl
+        ex      (sp), hl        ; hl = struct sp1_ap[]
+        ldi                     ; copy mask and attribute into struct sp1_cs
+        ldi
+        pop     de              ; de = array of sprite colour addresses advanced one entry
+        ex      de, hl
+        djnz    loop
 
-   ret
+        ret
 
 DEFC ASMDISP_SP1_PUTSPRCLR_CALLEE = asmentry - sp1_PutSprClr_callee

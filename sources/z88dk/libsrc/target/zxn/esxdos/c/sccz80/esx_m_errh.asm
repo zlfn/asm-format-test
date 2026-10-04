@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_m_errh
 defc _esx_m_errh = esx_m_errh
 ENDIF
-

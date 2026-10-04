@@ -15,43 +15,42 @@
 
 IF  !__CPU_INTEL__&!__CPU_GBZ80__
 
-    SECTION code_graphics
-    PUBLIC  stencil_add_liner
-    PUBLIC  _stencil_add_liner
+        SECTION code_graphics
+        PUBLIC  stencil_add_liner
+        PUBLIC  _stencil_add_liner
 
-    EXTERN  line_r
-    EXTERN  stencil_add_pixel
+        EXTERN  line_r
+        EXTERN  stencil_add_pixel
 
-    ;EXTERN    __gfx_vram_page_in
-    ;EXTERN    __gfx_vram_page_out
-    ;EXTERN     __graphics_end
+        ;EXTERN    __gfx_vram_page_in
+        ;EXTERN    __gfx_vram_page_out
+        ;EXTERN     __graphics_end
 
-    EXTERN  stencil_ptr
-    INCLUDE "classic/gfx/grafix.inc"
-
+        EXTERN  stencil_ptr
+        INCLUDE "classic/gfx/grafix.inc"
 
 stencil_add_liner:
 _stencil_add_liner:
-    push    ix
-    ld      ix, 2
-    add     ix, sp
+        push    ix
+        ld      ix, 2
+        add     ix, sp
 
-    ld      l, (ix+2)                   ;pointer to stencil
-    ld      h, (ix+3)
-    ld      (stencil_ptr), hl
+        ld      l, (ix+2)       ;pointer to stencil
+        ld      h, (ix+3)
+        ld      (stencil_ptr), hl
 
-    ld      d, (ix+5)
-    ld      e, (ix+4)                   ;y0
-    ld      h, (ix+7)
-    ld      l, (ix+6)                   ;x0
+        ld      d, (ix+5)
+        ld      e, (ix+4)       ;y0
+        ld      h, (ix+7)
+        ld      l, (ix+6)       ;x0
 
-    ;call    __gfx_vram_page_in
+        ;call    __gfx_vram_page_in
 
-    ld      ix, stencil_add_pixel
-    call    line_r
+        ld      ix, stencil_add_pixel
+        call    line_r
 
-     ;jp     __graphics_end
-    pop     ix
-    ret
+        ;jp     __graphics_end
+        pop     ix
+        ret
 
 ENDIF

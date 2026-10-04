@@ -10,17 +10,17 @@ EXTERN l0_lseek_callee
 
 lseek:
 
-   pop bc
-   exx
-   pop bc
-   ld a,c
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push bc
-   
-   jp l0_lseek_callee
+        pop     bc
+        exx
+        pop     bc
+        ld      a, c
+        pop     hl
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+        push    bc
+
+        jp      l0_lseek_callee

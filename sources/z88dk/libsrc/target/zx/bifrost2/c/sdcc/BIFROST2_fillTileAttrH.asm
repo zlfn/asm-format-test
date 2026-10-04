@@ -15,12 +15,12 @@ EXTERN asm_BIFROST2_fillTileAttrH
 
 _BIFROST2_fillTileAttrH:
 
-   	ld hl,2
-   	add hl,sp
-   	ld d,(hl)       ; D=lin
-   	inc hl
-   	ld e,(hl)       ; E=col
-   	inc hl
-   	ld c,(hl)       ; C=attrib
+        ld      hl, 2
+        add     hl, sp
+        ld      d,  (hl)        ; D=lin
+        inc     hl
+        ld      e, (hl)         ; E=col
+        inc     hl
+        ld      c, (hl)         ; C=attrib
 
-   	jp asm_BIFROST2_fillTileAttrH        ; execute 'fill_tile_attr'
+        jp      asm_BIFROST2_fillTileAttrH      ; execute 'fill_tile_attr'

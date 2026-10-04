@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _b_array_clear
 defc _b_array_clear = b_array_clear
 ENDIF
-

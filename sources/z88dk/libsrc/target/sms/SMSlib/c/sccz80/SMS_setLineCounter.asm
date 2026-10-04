@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_setLineCounter
 defc _SMS_setLineCounter = SMS_setLineCounter
 ENDIF
-

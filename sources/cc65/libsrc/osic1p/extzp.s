@@ -7,14 +7,14 @@
 
 ; ------------------------------------------------------------------------
 
-        .include        "extzp.inc"
+        .include "extzp.inc"
 
 .segment        "EXTZP" : zeropage
 
-CURS_X:         .res    1
-CURS_Y:         .res    1
-SCREEN_PTR:     .res    2
-CHARBUF:        .res    1
+CURS_X: .res    1
+CURS_Y: .res    1
+SCREEN_PTR: .res 2
+CHARBUF:    .res 1
 
 ; size 5
 ; Adjust size of the ZP segment in osic1p.cfg if the size changes

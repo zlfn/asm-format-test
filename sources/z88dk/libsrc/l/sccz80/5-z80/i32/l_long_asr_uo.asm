@@ -1,5 +1,5 @@
 ;
-;       Z88 Small C+ Run Time Library 
+;       Z88 Small C+ Run Time Library
 ;       Long support functions
 ;
 ;       djm 25/2/99
@@ -20,8 +20,8 @@ EXTERN l_lsr_dehl
 
 l_long_asr_uo:
 
-   ; dehl = long
-   ;    c = shift amount
-   
-   ld a,c
-   jp l_lsr_dehl
+        ; dehl = long
+        ;    c = shift amount
+
+        ld      a, c
+        jp      l_lsr_dehl

@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Oct 2014
 ; ===============================================================
-; 
+;
 ; int fileno(FILE *stream)
 ;
 ; Return file descriptor associated with stream.
@@ -25,25 +25,25 @@ EXTERN __stdio_verify_valid_lock, __stdio_lock_release
 
 asm_fileno:
 
-   ; enter : ix = FILE *
-   ;
-   ; exit  : success
-   ;
-   ;            hl = fd
-   ;            carry reset
-   ;
-   ;         fail if FILE invalid, no fd
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : ix = FILE *
+        ;
+        ; exit  : success
+        ;
+        ;            hl = fd
+        ;            carry reset
+        ;
+        ;         fail if FILE invalid, no fd
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl
 
-   call __stdio_verify_valid_lock
-   ret c
-   
-   call asm0_fileno_unlocked
-   jp __stdio_lock_release
+        call    __stdio_verify_valid_lock
+        ret     c
+
+        call    asm0_fileno_unlocked
+        jp      __stdio_lock_release
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

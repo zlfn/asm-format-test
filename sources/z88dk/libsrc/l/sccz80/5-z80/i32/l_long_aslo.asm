@@ -1,4 +1,4 @@
-;       Z88 Small C+ Run Time Library 
+;       Z88 Small C+ Run Time Library
 ;       Long support functions
 ;
 ;       djm 25/2/99

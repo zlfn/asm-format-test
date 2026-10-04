@@ -10,10 +10,10 @@ EXTERN asm_w_array_capacity
 
 _w_array_capacity:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_w_array_capacity
+        push    hl
+        push    af
+
+        jp      asm_w_array_capacity

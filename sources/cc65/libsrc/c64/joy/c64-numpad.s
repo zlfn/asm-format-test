@@ -6,25 +6,24 @@
 ; Based on Ullrich von Bassewitz, 2002-12-20
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "c64.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "c64.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c64_numpad_joy
+        module_header _c64_numpad_joy
 
 ; Driver signature
 
-        .byte   $6A, $6F, $79           ; "joy"
-        .byte   JOY_API_VERSION         ; Driver API version number
+        .byte   $6A, $6F, $79   ; "joy"
+        .byte   JOY_API_VERSION ; Driver API version number
 
 ; Library reference
 
@@ -42,7 +41,6 @@
 
 JOY_COUNT       = 1             ; Number of joysticks we support
 
-
 ; ------------------------------------------------------------------------
 ; Data.
 
@@ -57,38 +55,38 @@ JOY_COUNT       = 1             ; Number of joysticks we support
 masktable:
         ; Input:  LDRBU
         ; Output: BRLDU
-        .byte %00000000         ; $00
-        .byte %00000001         ; $01
-        .byte %00010000         ; $02
-        .byte %00010001         ; $03
-        .byte %00001000         ; $04
-        .byte %00001001         ; $05
-        .byte %00011000         ; $06
-        .byte %00011001         ; $07
-        .byte %00000010         ; $08
-        .byte %00000011         ; $09
-        .byte %00010010         ; $0A
-        .byte %00010011         ; $0B
-        .byte %00001010         ; $0C
-        .byte %00001011         ; $0D
-        .byte %00011010         ; $0E
-        .byte %00011011         ; $0F
-        .byte %00000100         ; $10
-        .byte %00000101         ; $11
-        .byte %00010100         ; $12
-        .byte %00010101         ; $13
-        .byte %00001100         ; $14
-        .byte %00001101         ; $15
-        .byte %00011100         ; $16
-        .byte %00011101         ; $17
-        .byte %00000110         ; $18
-        .byte %00000111         ; $19
-        .byte %00010110         ; $1A
-        .byte %00010111         ; $1B
-        .byte %00001110         ; $1C
-        .byte %00001111         ; $1D
-        .byte %00011110         ; $1E
-        .byte %00011111         ; $1F
+        .byte   %00000000       ; $00
+        .byte   %00000001       ; $01
+        .byte   %00010000       ; $02
+        .byte   %00010001       ; $03
+        .byte   %00001000       ; $04
+        .byte   %00001001       ; $05
+        .byte   %00011000       ; $06
+        .byte   %00011001       ; $07
+        .byte   %00000010       ; $08
+        .byte   %00000011       ; $09
+        .byte   %00010010       ; $0A
+        .byte   %00010011       ; $0B
+        .byte   %00001010       ; $0C
+        .byte   %00001011       ; $0D
+        .byte   %00011010       ; $0E
+        .byte   %00011011       ; $0F
+        .byte   %00000100       ; $10
+        .byte   %00000101       ; $11
+        .byte   %00010100       ; $12
+        .byte   %00010101       ; $13
+        .byte   %00001100       ; $14
+        .byte   %00001101       ; $15
+        .byte   %00011100       ; $16
+        .byte   %00011101       ; $17
+        .byte   %00000110       ; $18
+        .byte   %00000111       ; $19
+        .byte   %00010110       ; $1A
+        .byte   %00010111       ; $1B
+        .byte   %00001110       ; $1C
+        .byte   %00001111       ; $1D
+        .byte   %00011110       ; $1E
+        .byte   %00011111       ; $1F
 
 .code
 
@@ -118,7 +116,6 @@ INSTALL:
 
 UNINSTALL:
         rts
-
 
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.
@@ -151,5 +148,5 @@ READ:   tax                     ; Clear high byte
         eor     #%00111110
         lsr
         tay
-        lda     masktable,y     ; Convert LDRBU to BRLDU
+        lda     masktable, y    ; Convert LDRBU to BRLDU
         rts

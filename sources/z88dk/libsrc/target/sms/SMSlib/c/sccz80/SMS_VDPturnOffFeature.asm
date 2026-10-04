@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_VDPturnOffFeature
 defc _SMS_VDPturnOffFeature = SMS_VDPturnOffFeature
 ENDIF
-

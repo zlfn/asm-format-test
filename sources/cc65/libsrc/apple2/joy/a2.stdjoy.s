@@ -7,13 +7,13 @@
 ; Using the readjoy code from Stefan Haubenthal
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "apple2.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "apple2.inc"
 
-        .macpack        module
+        .macpack module
 
 ; ------------------------------------------------------------------------
 
@@ -27,9 +27,9 @@ UPPER_THRESHOLD =   85
 ; Header. Includes jump table.
 
         .ifdef  __APPLE2ENH__
-        module_header   _a2e_stdjoy_joy
+                module_header _a2e_stdjoy_joy
         .else
-        module_header   _a2_stdjoy_joy
+                module_header _a2_stdjoy_joy
         .endif
 
 ; Driver signature
@@ -69,7 +69,7 @@ INSTALL:
         ldx     libref+1
         sta     gettype+1
         stx     gettype+2
-gettype:jsr     $0000
+gettype: jsr    $0000
         sta     ostype
         lda     #JOY_ERR_OK
         .assert JOY_ERR_OK = 0, error
@@ -89,15 +89,15 @@ UNINSTALL:
 COUNT:
         ldx     #$02
         bit     ostype
-        bvc     noiic           ; Not $4x
-        dex                     ; Only one joystick for the //c
-noiic:  txa                     ; Number of joysticks we support
+        bvc     noiic   ; Not $4x
+        dex             ; Only one joystick for the //c
+noiic:  txa             ; Number of joysticks we support
         ldx     #>$0000
         rts
 
 ; READ routine. Read a particular joystick passed in A.
 READ:
-        asl                     ; Joystick number -> paddle number
+        asl     ; Joystick number -> paddle number
         tax
         ldy     #$00
         sty     value0
@@ -105,7 +105,7 @@ READ:
 
         ; If IIgs -> set speed to normal
         bit     ostype
-        bpl     nogs1           ; Not $8x
+        bpl     nogs1   ; Not $8x
         lda     CYAREG
         pha
         and     #%01111111
@@ -114,14 +114,14 @@ READ:
         ; Read both paddles simultaneously according to:
         ; Apple IIe Technote #6, The Apple II Paddle Circuits
 nogs1:  lda     PTRIG           ; Trigger paddles
-loop:   lda     PADDL0,x        ; Read paddle (0 or 2)
+loop:   lda     PADDL0, x       ; Read paddle (0 or 2)
         bmi     set0            ; Cycles:   2   3
         nop                     ; Cycles:   2
         bpl     nop0            ; Cycles:   3
 set0:   sty     value0          ; Cycles:       4
 nop0:                           ;           -   -
                                 ; Cycles:   7   7
-        lda     PADDL1,x        ; Read paddle (1 or 3)
+        lda     PADDL1, x       ; Read paddle (1 or 3)
         bmi     set1            ; Cycles:   2   3
         nop                     ; Cycles:   2
         bpl     nop1            ; Cycles:   3
@@ -134,26 +134,26 @@ nop1:                           ;           -   -
 
         ; If IIgs -> restore speed
         bit     ostype
-        bpl     nogs2           ; Not $8x
+        bpl     nogs2   ; Not $8x
         pla
         sta     CYAREG
 
         ; Transform paddle readings to directions
-nogs2:  lda     #$00            ; 0 0 0 0 0 0 0 0
+nogs2:  lda     #$00    ; 0 0 0 0 0 0 0 0
         ldy     value0
         cpy     #LOWER_THRESHOLD
-        ror                     ; !LEFT 0 0 0 0 0 0 0
+        ror             ; !LEFT 0 0 0 0 0 0 0
         cpy     #UPPER_THRESHOLD
-        ror                     ; RIGHT !LEFT 0 0 0 0 0 0
+        ror             ; RIGHT !LEFT 0 0 0 0 0 0
         ldy     value1
         cpy     #LOWER_THRESHOLD
-        ror                     ; !UP RIGHT !LEFT 0 0 0 0 0
+        ror             ; !UP RIGHT !LEFT 0 0 0 0 0
         cpy     #UPPER_THRESHOLD
-        ror                     ; DOWN !UP RIGHT !LEFT 0 0 0 0
+        ror             ; DOWN !UP RIGHT !LEFT 0 0 0 0
 
         ; Read primary button
         tay
-        lda     BUTN0,x         ; Check button (0 or 2)
+        lda     BUTN0, x        ; Check button (0 or 2)
         asl
         tya
         ror                     ; BTN_1 DOWN !UP RIGHT !LEFT 0 0 0
@@ -163,7 +163,7 @@ nogs2:  lda     #$00            ; 0 0 0 0 0 0 0 0
         txa
         eor     #$02            ; IIgs has fourth button at TAPEIN
         tax
-        lda     TAPEIN,x        ; Check button (1 or 3)
+        lda     TAPEIN, x       ; Check button (1 or 3)
         asl
         tya
         ror                     ; BTN_2 BTN_1 DOWN !UP RIGHT !LEFT 0 0

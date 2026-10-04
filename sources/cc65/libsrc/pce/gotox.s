@@ -2,13 +2,13 @@
 ; void __fastcall__ gotox (unsigned char x);
 ;
 
-        .export         _gotox
+        .export _gotox
 
-        .import         plot
+        .import plot
 
-        .include        "pce.inc"
-        .include        "extzp.inc"
+        .include "pce.inc"
+        .include "extzp.inc"
 
 _gotox:
-        sta     CURS_X          ; Set X
-        jmp     plot            ; Set the cursor position
+        sta     CURS_X  ; Set X
+        jmp     plot    ; Set the cursor position

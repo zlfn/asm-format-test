@@ -10,10 +10,10 @@ EXTERN asm_obstack_finish
 
 _obstack_finish:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_obstack_finish
+        push    hl
+        push    af
+
+        jp      asm_obstack_finish

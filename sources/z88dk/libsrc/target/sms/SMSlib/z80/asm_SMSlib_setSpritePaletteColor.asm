@@ -12,19 +12,19 @@ PUBLIC asm_SMSlib_setSpritePaletteColor
 
 asm_SMSlib_setSpritePaletteColor:
 
-   ; void SMS_setSpritePaletteColor (unsigned char entry, unsigned char color)
-   ;
-   ; enter :  l = unsigned char entry
-   ;          a = unsigned char color
-   ;
-   ; uses  : af, bc, hl
-   
-   ld h,0
-   ld bc,0xc010
-   add hl,bc
-   
-   INCLUDE "SMS_CRT0_RST08.inc"
+        ; void SMS_setSpritePaletteColor (unsigned char entry, unsigned char color)
+        ;
+        ; enter :  l = unsigned char entry
+        ;          a = unsigned char color
+        ;
+        ; uses  : af, bc, hl
 
-   nop
-   out (VDPDataPort),a
-   ret
+        ld      h,  0
+        ld      bc, 0xc010
+        add     hl, bc
+
+        INCLUDE "SMS_CRT0_RST08.inc"
+
+        nop
+        out     (VDPDataPort), a
+        ret

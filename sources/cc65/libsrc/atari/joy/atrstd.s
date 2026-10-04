@@ -6,29 +6,28 @@
 ; Using the readjoy code from Christian Groessler
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "atari.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "atari.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
 .ifdef __ATARIXL__
-        module_header   _atrxstd_joy
+        module_header _atrxstd_joy
 .else
-        module_header   _atrstd_joy
+        module_header _atrstd_joy
 .endif
 
 ; Driver signature
 
-        .byte   $6A, $6F, $79           ; "joy"
-        .byte   JOY_API_VERSION         ; Driver API version number
+        .byte   $6A, $6F, $79   ; "joy"
+        .byte   JOY_API_VERSION ; Driver API version number
 
 ; Library reference
 
@@ -46,10 +45,8 @@
 
 JOY_COUNT       = 4             ; Number of joysticks we support
 
-
 ; ------------------------------------------------------------------------
 ; Data.
-
 
 .code
 
@@ -74,7 +71,6 @@ INSTALL:
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.
 ;
@@ -84,7 +80,7 @@ COUNT:
         ldx     $fcd8
         cpx     #$a2
         beq     _400800
-        lsr     a               ; XL and newer machines only have 2 ports
+        lsr     a       ; XL and newer machines only have 2 ports
 _400800:
         ldx     #0
         rts
@@ -99,16 +95,16 @@ READJOY:
 
 ; Read joystick
 
-        lda     STRIG0,x        ; get button
+        lda     STRIG0, x       ; get button
         asl     a
         asl     a
         asl     a
         asl     a
-        ora     STICK0,x        ; add position information
+        ora     STICK0, x       ; add position information
         eor     #$1F
-        cmp     oldval,x
+        cmp     oldval, x
         beq     :+
-        sta     oldval,x
+        sta     oldval, x
         ldx     #0
         stx     ATRACT          ; we have interaction, disable "attract mode"
 :       ldx     #0              ; fix X

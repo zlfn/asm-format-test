@@ -10,10 +10,10 @@ EXTERN asm_b_array_init
 
 _b_array_init_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
-   
-   jp asm_b_array_init
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
+
+        jp      asm_b_array_init

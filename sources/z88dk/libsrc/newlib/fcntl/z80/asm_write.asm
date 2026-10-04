@@ -2,7 +2,7 @@
 ; ===============================================================
 ; October 2014
 ; ===============================================================
-; 
+;
 ; ssize_t write(int fd, const void *buf, size_t nbyte)
 ;
 ; Write nbyte bytes to the stream.
@@ -21,74 +21,74 @@ EXTERN error_znc, error_mc, error_eacces_mc
 
 asm_write:
 
-   ; enter : hl = int fd
-   ;         de = void *buf
-   ;         bc = size_t nbyte
-   ;
-   ; exit  : success
-   ;
-   ;            hl = number of bytes written
-   ;            hl'= void *buf + num bytes written
-   ;            carry reset
-   ;
-   ;         fail on stream error
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ; 
-   ; uses  : af, bc, de, hl, exx, ix
-   
-   ld a,b
-   or c
-   jp z, error_znc             ; if nbyte == 0 indicate no bytes written
+        ; enter : hl = int fd
+        ;         de = void *buf
+        ;         bc = size_t nbyte
+        ;
+        ; exit  : success
+        ;
+        ;            hl = number of bytes written
+        ;            hl'= void *buf + num bytes written
+        ;            carry reset
+        ;
+        ;         fail on stream error
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl, exx, ix
 
-   push bc                     ; save nbyte
-   push hl                     ; save fd
-   
-   ex de,hl                    ; hl = void *buf
-   
-   exx
-   
-   pop hl                      ; hl = fd
-   
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-IF __CLIB_OPT_MULTITHREAD & $08
+        ld      a, b
+        or      c
+        jp      z, error_znc    ; if nbyte == 0 indicate no bytes written
 
-   EXTERN __fcntl_lock_fdtbl
-   call __fcntl_lock_fdtbl
+        push    bc      ; save nbyte
+        push    hl      ; save fd
 
-ENDIF
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        ex      de, hl  ; hl = void *buf
 
-   call __fcntl_fdstruct_from_fd_2
+        exx
+
+        pop     hl      ; hl = fd
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF __CLIB_OPT_MULTITHREAD & $08
 
-   EXTERN __fcntl_unlock_fdtbl
-   call __fcntl_unlock_fdtbl
+        EXTERN  __fcntl_lock_fdtbl
+        call    __fcntl_lock_fdtbl
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-   pop hl                      ; hl = nbyte
-   jp c, error_mc              ; if fd is invalid
-   
-   ; ix = FDSTRUCT *
-   ; hl = nbyte > 0
-   ; hl'= void *buf
-   ; bc'= nbyte > 0
-   
-   bit 1,(ix+8)
-   jp z, error_eacces_mc       ; if write not allowed
-   
-   ld a,STDIO_MSG_WRIT
-   call l_jpix                 ; deliver message to driver
-   
-   ret nc                      ; if successful, hl = num bytes written
+        call    __fcntl_fdstruct_from_fd_2
 
-   ld a,h
-   or l
-   ret nz                      ; if num bytes written > 0, indicate success
-   
-   jp error_mc                 ; indicate failure
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+IF __CLIB_OPT_MULTITHREAD & $08
+
+        EXTERN  __fcntl_unlock_fdtbl
+        call    __fcntl_unlock_fdtbl
+
+ENDIF
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+        pop     hl              ; hl = nbyte
+        jp      c, error_mc     ; if fd is invalid
+
+        ; ix = FDSTRUCT *
+        ; hl = nbyte > 0
+        ; hl'= void *buf
+        ; bc'= nbyte > 0
+
+        bit     1, (ix+8)
+        jp      z, error_eacces_mc      ; if write not allowed
+
+        ld      a, STDIO_MSG_WRIT
+        call    l_jpix  ; deliver message to driver
+
+        ret     nc      ; if successful, hl = num bytes written
+
+        ld      a, h
+        or      l
+        ret     nz      ; if num bytes written > 0, indicate success
+
+        jp      error_mc        ; indicate failure

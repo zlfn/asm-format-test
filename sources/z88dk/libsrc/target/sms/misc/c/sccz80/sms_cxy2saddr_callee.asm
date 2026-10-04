@@ -9,16 +9,15 @@ EXTERN asm_sms_cxy2saddr
 
 sms_cxy2saddr_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   ld h,c
-   jp asm_sms_cxy2saddr
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        ld      h, c
+        jp      asm_sms_cxy2saddr
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sms_cxy2saddr_callee
 defc _sms_cxy2saddr_callee = sms_cxy2saddr_callee
 ENDIF
-

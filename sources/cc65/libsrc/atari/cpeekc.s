@@ -5,14 +5,13 @@
 ; char cpeekc (void);
 ;
 
-        .export         _cpeekc
+        .export _cpeekc
 
-        .include        "atari.inc"
-
+        .include "atari.inc"
 
 _cpeekc:
-        lda     OLDCHR          ; get char under cursor
-        and     #<~$80          ; remove reverse bit
+        lda     OLDCHR  ; get char under cursor
+        and     #<~$80  ; remove reverse bit
 
         ;; convert internal screen code to AtSCII
 
@@ -24,7 +23,7 @@ _cpeekc:
         rol     a
         tax
         tya
-        eor     intats,x
+        eor     intats, x
         ldx     #>$0000
         rts
 

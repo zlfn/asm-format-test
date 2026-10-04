@@ -5,7 +5,6 @@ IF __CPU_INTEL__
 SECTION bss_clib
 
 PUBLIC iotmp
-.iotmp   defs  3
+.iotmp  defs    3
 
 ENDIF
-

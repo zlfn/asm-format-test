@@ -16,12 +16,12 @@ EXTERN asm_putchar
 
 _putchar_fastcall:
 
-   push ix
-   
-   call asm_putchar
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_putchar
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

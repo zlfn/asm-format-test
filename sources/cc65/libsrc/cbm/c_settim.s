@@ -4,11 +4,10 @@
 ; void __fastcall__ cbm_k_settim (unsigned long timer);
 ;
 
-        .export         _cbm_k_settim
-        .importzp       sreg
+        .export _cbm_k_settim
+        .importzp sreg
 
-        .include        "cbm.inc"
-
+        .include "cbm.inc"
 
 .proc   _cbm_k_settim
         ldy     sreg

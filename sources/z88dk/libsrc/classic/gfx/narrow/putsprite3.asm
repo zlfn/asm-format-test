@@ -14,20 +14,19 @@
 ; $Id: putsprite3.asm $
 ;
 
+        SECTION smc_clib
 
-    SECTION smc_clib
+        PUBLIC  putsprite
+        PUBLIC  _putsprite
+        PUBLIC  ___putsprite
 
-    PUBLIC  putsprite
-    PUBLIC  _putsprite
-    PUBLIC  ___putsprite
+        EXTERN  __gfx_vram_page_in
+        EXTERN  __graphics_end
 
-    EXTERN  __gfx_vram_page_in
-    EXTERN  __graphics_end
-
-    EXTERN  plotpixel
-    EXTERN  respixel
-    EXTERN  xorpixel
-    INCLUDE "classic/gfx/grafix.inc"
+        EXTERN  plotpixel
+        EXTERN  respixel
+        EXTERN  xorpixel
+        INCLUDE "classic/gfx/grafix.inc"
 
 ; __gfx_coords: h,l (vert-horz)
 ; sprite: (__spr_bitmap+1)
@@ -35,149 +34,148 @@
 putsprite:
 _putsprite:
 ___putsprite:
-  IFDEF _GFX_PAGE_VRAM
-    call    __gfx_vram_page_in
-  ENDIF
-    ld      hl, 2
-    add     hl, sp
-    ld      e, (hl)
-    inc     hl
-    ld      d, (hl)                     ;sprite address
+        IFDEF   _GFX_PAGE_VRAM
+                call    __gfx_vram_page_in
+        ENDIF
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)
+        inc     hl
+        ld      d, (hl) ;sprite address
 
-    push    de
+        push    de
 
-    inc     hl
-    ld      e, (hl)
-    inc     hl
-    inc     hl
-    ld      d, (hl)                     ; x and y __gfx_coords
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        inc     hl
+        ld      d, (hl) ; x and y __gfx_coords
 
-    inc     hl
+        inc     hl
 
-    inc     hl
+        inc     hl
 
-    ld      a, (hl)                     ; and/or/xor mode
+        ld      a, (hl) ; and/or/xor mode
 
-    cp      166                         ; and(hl) opcode
-    jr      nz, nodoand
-    ld      hl, respixel
-    jr      doxor
+        cp      166     ; and(hl) opcode
+        jr      nz, nodoand
+        ld      hl, respixel
+        jr      doxor
 nodoand:
 
-    cp      182                         ; or(hl) opcode
-    jr      nz, nodoor
-    ld      hl, plotpixel
-    jr      doxor
+        cp      182     ; or(hl) opcode
+        jr      nz, nodoor
+        ld      hl, plotpixel
+        jr      doxor
 
-    ; 182 - or
-    ; 174 - xor
+        ; 182 - or
+        ; 174 - xor
 
 nodoor:
-    ld      hl, xorpixel
+        ld      hl, xorpixel
 
 doxor:
-    ld      (called+1), hl
+        ld      (called+1), hl
 
-    pop     hl
-    ld      a,(hl)                      ; Width
-    push    af                          ; Width
-    inc     hl
-    ld      a,(hl)                      ; Height
-    ld      b,a
-    inc     hl
-    ld      (__spr_bitmap+1),hl
+        pop     hl
+        ld      a, (hl) ; Width
+        push    af      ; Width
+        inc     hl
+        ld      a, (hl) ; Height
+        ld      b, a
+        inc     hl
+        ld      (__spr_bitmap+1), hl
 
-    ld      h, d
-    ld      l, e
+        ld      h, d
+        ld      l, e
 
 oloopx:
-    push    bc                          ;Save # of rows
-    push    af
+        push    bc      ;Save # of rows
+        push    af
 
-    push    hl
-    ld      hl,(__spr_bitmap+1)
-    ld      a,(hl)
-    pop     hl
-    ld      c,a
+        push    hl
+        ld      hl, (__spr_bitmap+1)
+        ld      a,  (hl)
+        pop     hl
+        ld      c, a
 
-    ;ld    b,a    ;Load width
-    ld      b, 0                        ; Better, start from zero !!
+        ;ld    b,a    ;Load width
+        ld      b, 0    ; Better, start from zero !!
 
 iloopx:
 IF  !__CPU_INTEL__&!__CPU_GBZ80__
-    sla     c                           ;Test leftmost pixel
+        sla     c       ;Test leftmost pixel
 ELSE
-    ld      a,c
-    rla
-    ld      c,a
+        ld      a, c
+        rla
+        ld      c, a
 ENDIF
-    jr      nc, noplotx                 ;See if a plot is needed
+        jr      nc, noplotx     ;See if a plot is needed
 
-    push    hl
-    ;push    bc    ; this should be done by the called routine
-    push    de
-    ld      a, h
-    add     a, b
-    ld      h, a
+        push    hl
+        ;push    bc    ; this should be done by the called routine
+        push    de
+        ld      a, h
+        add     a, b
+        ld      h, a
 called:
-    call    xorpixel
-    pop     de
-    ;pop    bc
-    pop     hl
+        call    xorpixel
+        pop     de
+        ;pop    bc
+        pop     hl
 
 noplotx:
 
-    inc     b                           ; witdh counter
+        inc     b       ; witdh counter
 
-    pop     af
-    push    af
+        pop     af
+        push    af
 
-    cp      b                           ; end of row ?
+        cp      b       ; end of row ?
 
-    jr      nz, noblkx
+        jr      nz, noblkx
 
-    push    hl
+        push    hl
 .__spr_bitmap
-    ld      hl,0
-    inc     hl
-    ld      (__spr_bitmap+1),hl
-    ld      a,(hl)
-    pop     hl
-    ld      c,a
+        ld      hl, 0
+        inc     hl
+        ld      (__spr_bitmap+1), hl
+        ld      a, (hl)
+        pop     hl
+        ld      c, a
 
-    jr      noblockx
+        jr      noblockx
 
 noblkx:
 
-    ld      a, b                        ; next byte in row ?
-    ;dec    a
-    and     a
-    jr      z, iloopx
-    and     7
+        ld      a, b    ; next byte in row ?
+        ;dec    a
+        and     a
+        jr      z, iloopx
+        and     7
 
-    jr      nz, iloopx
+        jr      nz, iloopx
 
 blockx:
-    push    hl
-    ld      hl,(__spr_bitmap+1)
-    inc     hl
-    ld      (__spr_bitmap+1),hl
-    ld      a,(hl)
-    pop     hl
-    ld      c,a
+        push    hl
+        ld      hl, (__spr_bitmap+1)
+        inc     hl
+        ld      (__spr_bitmap+1), hl
+        ld      a, (hl)
+        pop     hl
+        ld      c, a
 
-    jr      iloopx
+        jr      iloopx
 
 noblockx:
 
-    inc     l
+        inc     l
 
-    pop     af
-    pop     bc                          ;Restore data
-    djnz    oloopx
-  IF    _GFX_PAGE_VRAM
-    jp      __graphics_end
-  ELSE
-    ret
-  ENDIF
-
+        pop     af
+        pop     bc      ;Restore data
+        djnz    oloopx
+        IF      _GFX_PAGE_VRAM
+                jp      __graphics_end
+        ELSE
+                ret
+        ENDIF

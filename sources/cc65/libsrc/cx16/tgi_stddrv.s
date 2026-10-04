@@ -11,4 +11,4 @@
 ; A FAT32 8+3 file-name (for SD cards)
 
 .rodata
-_tgi_stddrv:    .asciiz "cx320p1.tgi"
+_tgi_stddrv: .asciiz "cx320p1.tgi"

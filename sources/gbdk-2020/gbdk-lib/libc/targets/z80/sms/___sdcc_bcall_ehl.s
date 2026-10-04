@@ -2,7 +2,7 @@
 
         .area   _CODE
 
-        .globl ___sdcc_bcall_ehl
+        .globl  ___sdcc_bcall_ehl
 
 ;
 ; default trampoline to call banked functions

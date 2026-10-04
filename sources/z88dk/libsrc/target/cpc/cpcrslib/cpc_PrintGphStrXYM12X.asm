@@ -11,30 +11,28 @@
 ;       $Id: cpc_PrintGphStrXYM12X.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_PrintGphStrXYM12X
-        PUBLIC    _cpc_PrintGphStrXYM12X
-		
-        EXTERN    cpc_PrintGphStr0M1
-		EXTERN    cpc_GetScrAddress0
+        SECTION code_clib
+        PUBLIC  cpc_PrintGphStrXYM12X
+        PUBLIC  _cpc_PrintGphStrXYM12X
 
+        EXTERN  cpc_PrintGphStr0M1
+        EXTERN  cpc_GetScrAddress0
 
 .cpc_PrintGphStrXYM12X
 ._cpc_PrintGphStrXYM12X
 
-	ld ix,2
-	add ix,sp
-	
+        ld      ix, 2
+        add     ix, sp
 
- 	ld L,(ix+0)	;Y
-	ld A,(ix+2)	;X
-	
-	call cpc_GetScrAddress0   ; hl= screen address
+        ld      L, (ix+0)       ;Y
+        ld      A, (ix+2)       ;X
 
-	;destino
-	
-   	ld e,(ix+4)
-	ld d,(ix+5)	;texto origen
-	ld	a,1
+        call    cpc_GetScrAddress0      ; hl= screen address
 
- JP cpc_PrintGphStr0M1
+        ;destino
+
+        ld      e, (ix+4)
+        ld      d, (ix+5)       ;texto origen
+        ld      a, 1
+
+        JP      cpc_PrintGphStr0M1

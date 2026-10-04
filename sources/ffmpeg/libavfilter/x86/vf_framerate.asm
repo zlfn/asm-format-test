@@ -26,104 +26,97 @@
 
 SECTION .text
 
-
 %macro XSPLAT 3
 %if cpuflag(avx2)
-    vpbroadcast%3  %1, %2
+        vpbroadcast%3 %1, %2
 %else
-    movd           %1, %2
+        movd    %1, %2
 %ifidn %3, d
-    SPLATD         %1
+        SPLATD  %1
 %else
-    SPLATW         %1, %1
+        SPLATW  %1, %1
 %endif
 %endif
 %endmacro
 
-
 %macro BLEND_INIT 0-1
 %if ARCH_X86_64
 cglobal blend_frames%1, 6, 9, 5, src1, src1_linesize, src2, src2_linesize, dst, dst_linesize, width, end, x
-    mov    widthd, dword widthm
+        mov     widthd, dword widthm
 %else
 cglobal blend_frames%1, 5, 7, 5, src1, src1_linesize, src2, src2_linesize, dst, end, x
 %define dst_linesizeq r5mp
 %define widthq r6mp
 %endif
-    mov      endd, dword r7m
-    add     src1q, widthq
-    add     src2q, widthq
-    add      dstq, widthq
-    neg    widthq
+        mov     endd,  dword r7m
+        add     src1q, widthq
+        add     src2q, widthq
+        add     dstq,  widthq
+        neg     widthq
 %endmacro
-
 
 %macro BLEND_LOOP 4
 .nextrow:
-    mov        xq, widthq
+        mov     xq, widthq
 
-    .loop:
-        movu            m0, [src1q + xq]
-        movu            m1, [src2q + xq]
-        SBUTTERFLY    %1%2, 0, 1, 4         ; aAbBcCdD
-                                            ; eEfFgGhH
-        pmadd%3         m0, m2
-        pmadd%3         m1, m2
+.loop:
+        movu    m0, [src1q + xq]
+        movu    m1, [src2q + xq]
+        SBUTTERFLY %1%2, 0, 1, 4        ; aAbBcCdD
+                                        ; eEfFgGhH
+        pmadd%3 m0, m2
+        pmadd%3 m1, m2
 
-        padd%2          m0, m3
-        padd%2          m1, m3
-        psrl%2          m0, %4              ; 0A0B0C0D
-        psrl%2          m1, %4              ; 0E0F0G0H
+        padd%2  m0, m3
+        padd%2  m1, m3
+        psrl%2  m0, %4  ; 0A0B0C0D
+        psrl%2  m1, %4  ; 0E0F0G0H
 
-        packus%2%1      m0, m1              ; ABCDEFGH
-        movu   [dstq + xq], m0
-        add             xq, mmsize
-    jl .loop
-    add     src1q, src1_linesizeq
-    add     src2q, src2_linesizeq
-    add      dstq, dst_linesizeq
-    sub      endd, 1
-    jg .nextrow
+        packus%2%1 m0, m1       ; ABCDEFGH
+        movu    [dstq + xq], m0
+        add     xq, mmsize
+        jl      .loop
+        add     src1q, src1_linesizeq
+        add     src2q, src2_linesizeq
+        add     dstq,  dst_linesizeq
+        sub     endd,  1
+        jg      .nextrow
 RET
 %endmacro
 
-
 %macro BLEND_FRAMES 0
-    BLEND_INIT
+        BLEND_INIT
 
-    XSPLAT     m2, r8m, w                   ; factor1
-    XSPLAT     m3, r9m, w                   ; factor2
+        XSPLAT  m2, r8m, w      ; factor1
+        XSPLAT  m3, r9m, w      ; factor2
 
-    psllw      m3, 8
-    por        m2, m3                       ; interleaved factors
+        psllw   m3, 8
+        por     m2, m3  ; interleaved factors
 
-    XSPLAT     m3, r10m, w                  ; half
+        XSPLAT  m3, r10m, w     ; half
 
-    BLEND_LOOP  b, w, ubsw, 7
+        BLEND_LOOP b, w, ubsw, 7
 %endmacro
-
 
 %macro BLEND_FRAMES16 0
-    BLEND_INIT 16
+        BLEND_INIT 16
 
-    XSPLAT     m2, r8m, d                   ; factor1
-    XSPLAT     m3, r9m, d                   ; factor2
+        XSPLAT  m2, r8m, d      ; factor1
+        XSPLAT  m3, r9m, d      ; factor2
 
-    pslld      m3, 16
-    por        m2, m3                       ; interleaved factors
+        pslld   m3, 16
+        por     m2, m3  ; interleaved factors
 
-    XSPLAT     m3, r10m, d                  ; half
+        XSPLAT  m3, r10m, d     ; half
 
-    BLEND_LOOP  w, d, wd, 15
+        BLEND_LOOP w, d, wd, 15
 %endmacro
-
 
 INIT_XMM ssse3
 BLEND_FRAMES
 
 INIT_XMM sse4
 BLEND_FRAMES16
-
 
 %if HAVE_AVX2_EXTERNAL
 

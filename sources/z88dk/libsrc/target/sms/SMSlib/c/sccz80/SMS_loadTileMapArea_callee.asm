@@ -9,22 +9,21 @@ EXTERN asm_SMSlib_loadTileMapArea
 
 SMS_loadTileMapArea_callee:
 
-   pop af
-   pop bc
-   pop de
-   ld b,e
-   pop de
-   pop hl
-   pop ix
-   push af
-   
-   ld a,ixl
-   ld h,a
-   jp asm_SMSlib_loadTileMapArea
+        pop     af
+        pop     bc
+        pop     de
+        ld      b, e
+        pop     de
+        pop     hl
+        pop     ix
+        push    af
+
+        ld      a, ixl
+        ld      h, a
+        jp      asm_SMSlib_loadTileMapArea
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _SMS_loadTileMapArea_callee
 defc _SMS_loadTileMapArea_callee = SMS_loadTileMapArea_callee
 ENDIF
-

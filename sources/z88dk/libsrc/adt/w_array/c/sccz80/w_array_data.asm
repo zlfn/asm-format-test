@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _w_array_data
 defc _w_array_data = w_array_data
 ENDIF
-

@@ -21,17 +21,17 @@
 #define CCCR_N_MASK     0x00000380
 #define CCCR_M_MASK     0x00000060
 #define CCCR_L_MASK     0x0000001f
-		.text
+        .text
 
 #ifdef CONFIG_PXA3xx
 /*
  * pxa3xx_finish_suspend() - forces CPU into sleep state (S2D3C4)
  */
 ENTRY(pxa3xx_finish_suspend)
-	mov	r0, #0x06		@ S2D3C4 mode
-	mcr	p14, 0, r0, c7, c0, 0	@ enter sleep
+        mov     r0,  #0x06              @ S2D3C4 mode
+        mcr     p14, 0, r0, c7, c0, 0   @ enter sleep
 
-20:	b	20b			@ waiting for sleep
+20:     b       20b     @ waiting for sleep
 #endif /* CONFIG_PXA3xx */
 
 #ifdef CONFIG_PXA27x
@@ -43,38 +43,38 @@ ENTRY(pxa3xx_finish_suspend)
  * r0 = value for PWRMODE M field for desired sleep state
  */
 ENTRY(pxa27x_finish_suspend)
-	@ Put the processor to sleep
-	@ (also workaround for sighting 28071)
+        @ Put the processor to sleep
+        @ (also workaround for sighting 28071)
 
-	@ prepare value for sleep mode
-	mov	r1, r0				@ sleep mode
+        @ prepare value for sleep mode
+        mov     r1, r0  @ sleep mode
 
-	@ prepare pointer to physical address 0 (virtual mapping in generic.c)
-	mov	r2, #UNCACHED_PHYS_0
+        @ prepare pointer to physical address 0 (virtual mapping in generic.c)
+        mov     r2, #UNCACHED_PHYS_0
 
-	@ prepare SDRAM refresh settings
-	ldr	r4, =MDREFR
-	ldr	r5, [r4]
+        @ prepare SDRAM refresh settings
+        ldr     r4, =MDREFR
+        ldr     r5, [r4]
 
-	@ enable SDRAM self-refresh mode
-	orr	r5, r5, #MDREFR_SLFRSH
+        @ enable SDRAM self-refresh mode
+        orr     r5, r5, #MDREFR_SLFRSH
 
-	@ set SDCLKx divide-by-2 bits (this is part of a workaround for Errata 50)
-	ldr	r6, =MDREFR_KDIV
-	orr	r5, r5, r6
+        @ set SDCLKx divide-by-2 bits (this is part of a workaround for Errata 50)
+        ldr     r6, =MDREFR_KDIV
+        orr     r5, r5, r6
 
-	@ Intel PXA270 Specification Update notes problems sleeping
-	@ with core operating above 91 MHz
-	@ (see Errata 50, ...processor does not exit from sleep...)
+        @ Intel PXA270 Specification Update notes problems sleeping
+        @ with core operating above 91 MHz
+        @ (see Errata 50, ...processor does not exit from sleep...)
 
-	ldr	r6, =CCCR
-	ldr	r8, [r6]		@ keep original value for resume
+        ldr     r6, =CCCR
+        ldr     r8, [r6]        @ keep original value for resume
 
-	ldr	r7, =CCCR_SLEEP		@ prepare CCCR sleep value
-	mov	r0, #0x2		@ prepare value for CLKCFG
+        ldr     r7, =CCCR_SLEEP @ prepare CCCR sleep value
+        mov     r0, #0x2        @ prepare value for CLKCFG
 
-	@ align execution to a cache line
-	b	pxa_cpu_do_suspend
+        @ align execution to a cache line
+        b       pxa_cpu_do_suspend
 #endif
 
 #ifdef CONFIG_PXA25x
@@ -87,86 +87,86 @@ ENTRY(pxa27x_finish_suspend)
  */
 
 ENTRY(pxa25x_finish_suspend)
-	@ prepare value for sleep mode
-	mov	r1, r0				@ sleep mode
+        @ prepare value for sleep mode
+        mov     r1, r0  @ sleep mode
 
-	@ prepare pointer to physical address 0 (virtual mapping in generic.c)
-	mov	r2, #UNCACHED_PHYS_0
+        @ prepare pointer to physical address 0 (virtual mapping in generic.c)
+        mov     r2, #UNCACHED_PHYS_0
 
-	@ prepare SDRAM refresh settings
-	ldr	r4, =MDREFR
-	ldr	r5, [r4]
+        @ prepare SDRAM refresh settings
+        ldr     r4, =MDREFR
+        ldr     r5, [r4]
 
-	@ enable SDRAM self-refresh mode
-	orr	r5, r5, #MDREFR_SLFRSH
+        @ enable SDRAM self-refresh mode
+        orr     r5, r5, #MDREFR_SLFRSH
 
-	@ Intel PXA255 Specification Update notes problems
-	@ about suspending with PXBus operating above 133MHz
-	@ (see Errata 31, GPIO output signals, ... unpredictable in sleep
-	@
-	@ We keep the change-down close to the actual suspend on SDRAM
-	@ as possible to eliminate messing about with the refresh clock
-	@ as the system will restore with the original speed settings
-	@
-	@ Ben Dooks, 13-Sep-2004
+        @ Intel PXA255 Specification Update notes problems
+        @ about suspending with PXBus operating above 133MHz
+        @ (see Errata 31, GPIO output signals, ... unpredictable in sleep
+        @
+        @ We keep the change-down close to the actual suspend on SDRAM
+        @ as possible to eliminate messing about with the refresh clock
+        @ as the system will restore with the original speed settings
+        @
+        @ Ben Dooks, 13-Sep-2004
 
-	ldr	r6, =CCCR
-	ldr	r8, [r6]		@ keep original value for resume
+        ldr     r6, =CCCR
+        ldr     r8, [r6]        @ keep original value for resume
 
-	@ ensure x1 for run and turbo mode with memory clock
-	bic	r7, r8, #CCCR_M_MASK | CCCR_N_MASK
-	orr	r7, r7, #(1<<5) | (2<<7)
+        @ ensure x1 for run and turbo mode with memory clock
+        bic     r7, r8, #CCCR_M_MASK | CCCR_N_MASK
+        orr     r7, r7, #(1<<5) | (2<<7)
 
-	@ check that the memory frequency is within limits
-	and	r14, r7, #CCCR_L_MASK
-	teq	r14, #1
-	bicne	r7, r7, #CCCR_L_MASK
-	orrne	r7, r7, #1			@@ 99.53MHz
+        @ check that the memory frequency is within limits
+        and     r14, r7, #CCCR_L_MASK
+        teq     r14, #1
+        bicne   r7,  r7, #CCCR_L_MASK
+        orrne   r7,  r7, #1     @@ 99.53MHz
 
-	@ get ready for the change
+        @ get ready for the change
 
-	@ note, turbo is not preserved over sleep so there is no
-	@ point in preserving it here. we save it on the stack with the
-	@ other CP registers instead.
-	mov	r0, #0
-	mcr	p14, 0, r0, c6, c0, 0
-	orr	r0, r0, #2			@ initiate change bit
-	b	pxa_cpu_do_suspend
+        @ note, turbo is not preserved over sleep so there is no
+        @ point in preserving it here. we save it on the stack with the
+        @ other CP registers instead.
+        mov     r0,  #0
+        mcr     p14, 0,  r0, c6, c0, 0
+        orr     r0,  r0, #2     @ initiate change bit
+        b       pxa_cpu_do_suspend
 #endif
 
-	.ltorg
-	.align	5
+        .ltorg
+        .align  5
 pxa_cpu_do_suspend:
 
-	@ All needed values are now in registers.
-	@ These last instructions should be in cache
+        @ All needed values are now in registers.
+        @ These last instructions should be in cache
 
-	@ initiate the frequency change...
-	str	r7, [r6]
-	mcr	p14, 0, r0, c6, c0, 0
+        @ initiate the frequency change...
+        str     r7,  [r6]
+        mcr     p14, 0, r0, c6, c0, 0
 
-	@ restore the original cpu speed value for resume
-	str	r8, [r6]
+        @ restore the original cpu speed value for resume
+        str     r8, [r6]
 
-	@ need 6 13-MHz cycles before changing PWRMODE
-	@ just set frequency to 91-MHz... 6*91/13 = 42
+        @ need 6 13-MHz cycles before changing PWRMODE
+        @ just set frequency to 91-MHz... 6*91/13 = 42
 
-	mov	r0, #42
-10:	subs	r0, r0, #1
-	bne	10b
+        mov     r0, #42
+10:     subs    r0, r0, #1
+        bne     10b
 
-	@ Do not reorder...
-	@ Intel PXA270 Specification Update notes problems performing
-	@ external accesses after SDRAM is put in self-refresh mode
-	@ (see Errata 38 ...hangs when entering self-refresh mode)
+        @ Do not reorder...
+        @ Intel PXA270 Specification Update notes problems performing
+        @ external accesses after SDRAM is put in self-refresh mode
+        @ (see Errata 38 ...hangs when entering self-refresh mode)
 
-	@ force address lines low by reading at physical address 0
-	ldr	r3, [r2]
+        @ force address lines low by reading at physical address 0
+        ldr     r3, [r2]
 
-	@ put SDRAM into self-refresh
-	str	r5, [r4]
+        @ put SDRAM into self-refresh
+        str     r5, [r4]
 
-	@ enter sleep mode
-	mcr	p14, 0, r1, c7, c0, 0		@ PWRMODE
+        @ enter sleep mode
+        mcr     p14, 0, r1, c7, c0, 0   @ PWRMODE
 
-20:	b	20b				@ loop waiting for sleep
+20:     b       20b     @ loop waiting for sleep

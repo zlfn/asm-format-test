@@ -9,13 +9,13 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 asin:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_asinf
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_asinf
 
 ; SDCC bridge for Classic
 PUBLIC _asin

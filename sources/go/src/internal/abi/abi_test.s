@@ -21,7 +21,7 @@
 #endif
 
 TEXT	internal∕abi·FuncPCTestFn(SB),NOSPLIT,$0-0
-	RET
+        RET
 
 GLOBL	internal∕abi·FuncPCTestFnAddr(SB), NOPTR, $PTRSIZE
 DATA	internal∕abi·FuncPCTestFnAddr(SB)/PTRSIZE, $internal∕abi·FuncPCTestFn(SB)

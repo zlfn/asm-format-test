@@ -13,7 +13,7 @@ EXTERN _BIFROSTH_ISR_HOOK
 
 asm_BIFROSTH_stop:
 
-   ld hl,_BIFROSTH_ISR_HOOK
-   ld ($fdfe),hl
-   
-   ret
+        ld      hl, _BIFROSTH_ISR_HOOK
+        ld      ($fdfe), hl
+
+        ret

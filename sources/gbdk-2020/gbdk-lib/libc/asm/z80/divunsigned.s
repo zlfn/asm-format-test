@@ -13,7 +13,7 @@
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ;  GNU General Public License for more details.
 ;
-;  You should have received a copy of the GNU General Public License 
+;  You should have received a copy of the GNU General Public License
 ;  along with this library; see the file COPYING. If not, write to the
 ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
 ;   MA 02110-1301, USA.
@@ -33,15 +33,14 @@
 .globl	__divuint
 .globl	__divuchar
 
-
 __divuchar:
-	ld	e, l
-	ld	l, a
+        ld      e, l
+        ld      l, a
 
         ;; Fall through
 __divu8::
-        ld      h,#0x00
-        ld      d,h
+        ld      h, #0x00
+        ld      d, h
         ; Fall through to __divu16
 
         ;; unsigned 16-bit division
@@ -61,17 +60,17 @@ __divuint:
 __divu16::
         ;; Two algorithms: one assumes divisor <2^7, the second
         ;; assumes divisor >=2^7; choose the applicable one.
-        ld      a,e
-        and     a,#0x80
-        or      a,d
-        jr      NZ,.morethan7bits
+        ld      a,  e
+        and     a,  #0x80
+        or      a,  d
+        jr      NZ, .morethan7bits
         ;; Both algorithms "rotate" 24 bits (H,L,A) but roles change.
 
         ;; unsigned 16/7-bit division
 .atmost7bits:
-        ld      b,#16           ; bits in dividend and possible quotient
+        ld      b, #16  ; bits in dividend and possible quotient
         ;; Carry cleared by AND/OR, this "0" bit will pass trough HL.[*]
-        adc     hl,hl
+        adc     hl, hl
 .dvloop7:
         ;; HL holds both dividend and quotient. While we shift a bit from
         ;;  MSB of dividend, we shift next bit of quotient in from carry.
@@ -80,52 +79,51 @@ __divu16::
 
         ;; If remainder is >= divisor, next bit of quotient is 1.  We try
         ;;  to compute the difference.
-        sub     a,e
-        jr      NC,.nodrop7     ; Jump if remainder is >= dividend
-        add     a,e             ; Otherwise, restore remainder
+        sub     a,  e
+        jr      NC, .nodrop7    ; Jump if remainder is >= dividend
+        add     a,  e           ; Otherwise, restore remainder
         ;; The add above sets the carry, because sbc a,e did set it.
 .nodrop7:
-        ccf                     ; Complement borrow so 1 indicates a
-                                ;  successful substraction (this is the
-                                ;  next bit of quotient)
-        adc     hl,hl
+        ccf     ; Complement borrow so 1 indicates a
+                ;  successful substraction (this is the
+                ;  next bit of quotient)
+        adc     hl, hl
         djnz    .dvloop7
         ;; Carry now contains the same value it contained before
         ;; entering .dvloop7[*]: "0" = valid result.
-        ld      e,a             ; DE = remainder, HL = quotient
-        ex	de, hl
+        ld      e,  a   ; DE = remainder, HL = quotient
+        ex      de, hl
         ret
 
 .morethan7bits:
-        ld      b,#9            ; at most 9 bits in quotient.
-        ld      a,l             ; precompute the first 7 shifts, by
-        ld      l,h             ;  doing 8
-        ld      h,#0
-        rr      l               ;  undoing 1
+        ld      b, #9   ; at most 9 bits in quotient.
+        ld      a, l    ; precompute the first 7 shifts, by
+        ld      l, h    ;  doing 8
+        ld      h, #0
+        rr      l       ;  undoing 1
 .dvloop:
         ;; Shift next bit of quotient into bit 0 of dividend
         ;; Shift next MSB of dividend into LSB of remainder
         ;; A holds both dividend and quotient. While we shift a bit from
         ;;  MSB of dividend, we shift next bit of quotient in from carry
         ;; HL holds remainder
-        adc     hl,hl           ; HL < 2^(7+9), no carry, ever.
+        adc     hl, hl  ; HL < 2^(7+9), no carry, ever.
 
         ;; If remainder is >= divisor, next bit of quotient is 1. We try
         ;;  to compute the difference.
-        sbc     hl,de
-        jr      NC,.nodrop      ; Jump if remainder is >= dividend
-        add     hl,de           ; Otherwise, restore remainder
-	;; The add above sets the carry, because sbc hl,de did set it.
+        sbc     hl, de
+        jr      NC, .nodrop     ; Jump if remainder is >= dividend
+        add     hl, de          ; Otherwise, restore remainder
+        ;; The add above sets the carry, because sbc hl,de did set it.
 .nodrop:
-        ccf                     ; Complement borrow so 1 indicates a
-                                ;  successful substraction (this is the
-                                ;  next bit of quotient)
+        ccf     ; Complement borrow so 1 indicates a
+                ;  successful substraction (this is the
+                ;  next bit of quotient)
         rla
         djnz    .dvloop
         ;; Take care of the ninth quotient bit! after the loop B=0.
-        rl      b               ; BA = quotient
+        rl      b       ; BA = quotient
         ;; Carry now contains "0" = valid result.
-        ld      d,b
-        ld      e,a             ; DE = quotient, HL = remainder
+        ld      d, b
+        ld      e, a    ; DE = quotient, HL = remainder
         ret
-

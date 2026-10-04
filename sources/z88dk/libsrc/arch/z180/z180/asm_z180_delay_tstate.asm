@@ -21,18 +21,18 @@ PUBLIC asm_cpu_delay_tstate
 asm_z180_delay_tstate:
 asm_cpu_delay_tstate:
 
-   ; enter : hl = tstates
-   ;
-   ; uses  : af, bc, hl
+        ; enter : hl = tstates
+        ;
+        ; uses  : af, bc, hl
 
-   ld bc,-70
-   add hl,bc
-   
-   ld bc,-19
+        ld      bc, -70
+        add     hl, bc
+
+        ld      bc, -19
 
 loop:
 
-   add hl,bc
-   jr c, loop
+        add     hl, bc
+        jr      c,  loop
 
-   ret
+        ret

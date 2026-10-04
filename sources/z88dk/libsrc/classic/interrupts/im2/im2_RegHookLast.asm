@@ -9,11 +9,11 @@ EXTERN asm_im2_RegHookLast
 .im2_RegHookLast
 ._im2_RegHookLast
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
 
-   jp asm_im2_RegHookLast
+        jp      asm_im2_RegHookLast

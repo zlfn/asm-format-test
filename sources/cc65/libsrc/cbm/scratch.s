@@ -4,11 +4,11 @@
 ; Scratch a file on disk
 ;
 
-        .export         scratch
-        .import         opencmdchannel, closecmdchannel, writefndiskcmd
-        .import         fnunit, fncmd
+        .export scratch
+        .import opencmdchannel, closecmdchannel, writefndiskcmd
+        .import fnunit, fncmd
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
 ;--------------------------------------------------------------------------
 ; scratch: Scratch a file on disk. Expects the name of the file to be already
@@ -22,7 +22,7 @@
         jsr     opencmdchannel
         bne     done
 
-        lda     #'s'            ; Scratch command
+        lda     #'s'    ; Scratch command
         sta     fncmd
         jsr     writefndiskcmd
 
@@ -34,5 +34,3 @@
 done:   rts
 
 .endproc
-
-

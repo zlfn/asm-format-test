@@ -9,8 +9,8 @@ EXTERN asm_esxdos_m_getsetdrv
 
 esxdos_m_getdrv:
 
-   ld l,0
-   jp asm_esxdos_m_getsetdrv
+        ld      l, 0
+        jp      asm_esxdos_m_getsetdrv
 
 ; SDCC bridge for Classic
 IF __CLASSIC

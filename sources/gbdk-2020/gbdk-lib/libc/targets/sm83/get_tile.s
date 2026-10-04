@@ -4,26 +4,26 @@
 
 _get_vram_byte::
         WAIT_STAT
-        ld      a,(de)
+        ld      a, (de)
         ret
 
 _get_win_tile_xy::
-        ldh     a,(rLCDC)
+        ldh     a, (rLCDC)
         and     #LCDCF_WIN9C00
-        jr      z,.is98
+        jr      z, .is98
         jr      .is9c
 _get_bkg_tile_xy::
-        ldh     a,(rLCDC)
+        ldh     a, (rLCDC)
         and     #LCDCF_BG9C00
-        jr      nz,.is9c
+        jr      nz, .is9c
 .is98:
-        ld      d,#0x98         ; DE = origin
+        ld      d, #0x98        ; DE = origin
         jr      .get_tile_xy
 .is9c:
-        ld      d,#0x9C         ; DE = origin
+        ld      d, #0x9C        ; DE = origin
 
 .get_tile_xy:
-        ldhl    sp,#3
+        ldhl    sp, #3
 
         ld      a, (hl-)
         ld      l, (hl)
@@ -39,7 +39,7 @@ _get_bkg_tile_xy::
         and     h
         add     l
         ld      l, a
-        ld      h, d            ; dest DE = BASE + 0x20 * Y + X
+        ld      h, d    ; dest DE = BASE + 0x20 * Y + X
 
         WAIT_STAT
         ld      e, (hl)

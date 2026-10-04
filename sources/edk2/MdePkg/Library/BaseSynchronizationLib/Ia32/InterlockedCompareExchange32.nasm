@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT32
@@ -28,9 +28,8 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalSyncCompareExchange32)
 ASM_PFX(InternalSyncCompareExchange32):
-    mov     ecx, [esp + 4]
-    mov     eax, [esp + 8]
-    mov     edx, [esp + 12]
-    lock    cmpxchg [ecx], edx
-    ret
-
+        mov     ecx, [esp + 4]
+        mov     eax, [esp + 8]
+        mov     edx, [esp + 12]
+        lock    cmpxchg [ecx], edx
+        ret

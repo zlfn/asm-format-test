@@ -27,28 +27,28 @@ EXTERN asm_disk_write
 ;           LBA byte 1, LBA byte 2, LBA byte 3 (MSB), buff (2 bytes), pdrv (1 byte, padded to 2)
 
 disk_write:
-    ld hl,2     ; get count into A
-    add hl,sp
-    ld a,(hl)
+        ld      hl, 2   ; get count into A
+        add     hl, sp
+        ld      a,  (hl)
 
-    inc hl      ; get LBA low onto stack
-    inc hl
-    ld e,(hl)
-    inc hl
-    ld d,(hl)
-    push de
+        inc     hl      ; get LBA low onto stack
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        push    de
 
-    inc hl      ; get LBA high into BC
-    ld c,(hl)
-    inc hl
-    ld b,(hl)
+        inc     hl      ; get LBA high into BC
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl)
 
-    inc hl      ; get buffer * onto HL
-    ld e,(hl)
-    inc hl
-    ld d,(hl)
-    ex de,hl
+        inc     hl      ; get buffer * onto HL
+        ld      e, (hl)
+        inc     hl
+        ld      d,  (hl)
+        ex      de, hl
 
-    pop de      ; get LBA low from stack
+        pop     de      ; get LBA low from stack
 
-    jp asm_disk_write
+        jp      asm_disk_write

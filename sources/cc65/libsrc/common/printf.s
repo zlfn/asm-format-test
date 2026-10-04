@@ -4,27 +4,26 @@
 ; Ullrich von Bassewitz, 1.12.2000
 ;
 
-        .export         _printf
-        .import         _stdout, pushax, addysp, _vfprintf
-        .importzp       c_sp, ptr1
+        .export _printf
+        .import _stdout, pushax, addysp, _vfprintf
+        .importzp c_sp, ptr1
 
-        .macpack        generic
+        .macpack generic
 
 ; ----------------------------------------------------------------------------
 ; Data
 
 .bss
 
-ParamSize:      .res    1               ; Number of parameter bytes
+ParamSize: .res 1       ; Number of parameter bytes
 
 ; ----------------------------------------------------------------------------
 ; Code
 
 .code
 
-
 _printf:
-        sty     ParamSize               ; Number of param bytes passed in Y
+        sty     ParamSize       ; Number of param bytes passed in Y
 
 ; We are using a (hopefully) clever trick here to reduce code size. On entry,
 ; the stack pointer points to the last pushed parameter of the variable
@@ -54,10 +53,10 @@ _printf:
 ; Push Format
 
         ldy     #1
-        lda     (ptr1),y
+        lda     (ptr1), y
         tax
         dey
-        lda     (ptr1),y
+        lda     (ptr1), y
         jsr     pushax
 
 ; Load va_list (last and __fastcall__ parameter to vfprintf)
@@ -73,4 +72,3 @@ _printf:
 
         ldy     ParamSize
         jmp     addysp
-

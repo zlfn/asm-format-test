@@ -11,4 +11,3 @@
 mono_charsperline    = 40
 charsperline    = 20
 screenrows      = 28
-

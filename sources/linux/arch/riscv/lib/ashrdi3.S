@@ -23,7 +23,7 @@ SYM_FUNC_START(__ashrdi3)
         bgtz    t1, 1f
         mv      a0, a1
         srai    a1, a1, 31
-1:      /* Perform shift by modulo-32 bits, if applicable */
+1:              /* Perform shift by modulo-32 bits, if applicable */
         andi    a2, a2, 0x1f
         beqz    a2, 2f
         sll     t2, a1, t1

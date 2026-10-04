@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _zxn_mangle_bank_state
 defc _zxn_mangle_bank_state = zxn_mangle_bank_state
 ENDIF
-

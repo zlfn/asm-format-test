@@ -16,6 +16,6 @@ PUBLIC _ftog
 EXTERN ftoa
 
 ftog:
-   jp ftoa
+        jp      ftoa
 
 defc _ftog = ftog

@@ -10,10 +10,10 @@ EXTERN asm_sp1_RemoveCharStruct
 
 _sp1_RemoveCharStruct:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_sp1_RemoveCharStruct
+        push    hl
+        push    af
+
+        jp      asm_sp1_RemoveCharStruct

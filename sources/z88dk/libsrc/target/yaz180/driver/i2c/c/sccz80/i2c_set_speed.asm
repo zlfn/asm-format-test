@@ -14,13 +14,12 @@ PUBLIC i2c_set_speed
 ;   extern void __LIB__ i2c_set_speed(uint8_t device,enum i2c_speed_mode) __smallc;
 
 .i2c_set_speed
-    pop bc                              ;ret
-    pop hl                              ;speed_mode
-    dec sp
-    pop af                              ;device address
-    push af
-    inc sp
-    push hl
-    push bc                             ;ret
-    jp asm_i2c_set_speed
-
+        pop     bc      ;ret
+        pop     hl      ;speed_mode
+        dec     sp
+        pop     af      ;device address
+        push    af
+        inc     sp
+        push    hl
+        push    bc      ;ret
+        jp      asm_i2c_set_speed

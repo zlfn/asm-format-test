@@ -28,7 +28,7 @@
 
         .module far_ptr
 
-        .include        "global.s"
+        .include "global.s"
 
         .area   _HOME
 
@@ -54,6 +54,6 @@ _to_far_ptr::
 
 ___call_banked_ptr::
 ___call_banked_addr::
-        .ds     0x02            ; far pointer offset
+        .ds     0x02    ; far pointer offset
 ___call_banked_bank::
-        .ds     0x02            ; far pointer segment
+        .ds     0x02    ; far pointer segment

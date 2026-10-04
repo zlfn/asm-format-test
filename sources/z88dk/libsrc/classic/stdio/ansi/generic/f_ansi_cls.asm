@@ -3,7 +3,7 @@
 ;	Non optimized (but generic) code
 ;
 ; 	CLS - Clear the screen
-;	
+;
 ;
 ;	Stefano Bodrato - 2014
 ;
@@ -12,22 +12,22 @@
 ;
 
         SECTION code_clib
-	PUBLIC	ansi_cls
+        PUBLIC  ansi_cls
 
-	EXTERN		ansi_del_line
+        EXTERN  ansi_del_line
 
-	EXTERN	__console_h
+        EXTERN  __console_h
 
 .ansi_cls
-	ld a,(__console_h)
-	ld b,a
+        ld      a, (__console_h)
+        ld      b, a
 
 .clsloop
-	push bc
-	ld	a,b
-	dec a
-	call	ansi_del_line
-	pop bc
-	djnz clsloop
+        push    bc
+        ld      a, b
+        dec     a
+        call    ansi_del_line
+        pop     bc
+        djnz    clsloop
 
-	ret
+        ret

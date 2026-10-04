@@ -9,13 +9,13 @@
 //
 
 TEXT ·syscall6(SB),NOSPLIT,$0
-	JMP	runtime·syscall_syscall6(SB)
+        JMP     runtime·syscall_syscall6(SB)
 
 TEXT ·rawSyscall6(SB),NOSPLIT,$0
-	JMP	runtime·syscall_rawSyscall6(SB)
+        JMP     runtime·syscall_rawSyscall6(SB)
 
 TEXT ·RawSyscall(SB),NOSPLIT,$0
-	JMP	runtime·syscall_RawSyscall(SB)
+        JMP     runtime·syscall_RawSyscall(SB)
 
 TEXT ·Syscall(SB),NOSPLIT,$0
-	JMP	runtime·syscall_Syscall(SB)
+        JMP     runtime·syscall_Syscall(SB)

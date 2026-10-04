@@ -18,36 +18,36 @@
 
 #include "../assembly.h"
 
-  .syntax unified
-  .text
-  .p2align 2
+        .syntax unified
+        .text
+        .p2align 2
 
 op0 .req r0
 op1 .req r1
 .macro SetReturnRegister
-  mov r0, #0
-  movhi r0, #1
-  movlo r0, #-1
+        mov     r0, #0
+        movhi   r0, #1
+        movlo   r0, #-1
 .endm
 
 #if __ARM_PCS_VFP
 DEFINE_COMPILERRT_FUNCTION(__gesf2)
-  push {r4, lr}
-  vmov r0, s0
-  vmov r1, s1
-  bl __compiler_rt_softfp_gesf2
-  pop {r4, pc}
+        push    {r4, lr}
+        vmov    r0, s0
+        vmov    r1, s1
+        bl      __compiler_rt_softfp_gesf2
+        pop     {r4, pc}
 #else
 DEFINE_COMPILERRT_FUNCTION_ALIAS(__gesf2, __compiler_rt_softfp_gesf2)
 #endif
 DEFINE_COMPILERRT_FUNCTION_ALIAS(__gtsf2, __gesf2)
 
 DEFINE_COMPILERRT_FUNCTION(__compiler_rt_softfp_gesf2)
-  #include "fcmp.h"
+        #include "fcmp.h"
 
 LOCAL_LABEL(NaN):
-  mov r0, #-1
-  bx lr
+        mov     r0, #-1
+        bx      lr
 
 END_COMPILERRT_FUNCTION(__compiler_rt_softfp_gesf2)
 

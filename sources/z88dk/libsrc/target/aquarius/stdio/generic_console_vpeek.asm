@@ -1,6 +1,4 @@
 
-
-
 SECTION code_clib
 
 PUBLIC  generic_console_vpeek
@@ -16,11 +14,9 @@ EXTERN  __aquarius_mode
 ;        a = character,
 ;        c = failure
 generic_console_vpeek:
-    ld      hl,__aquarius_mode
-    bit     0,(hl)
-    jp      nz,vpeek_TEXT
-    bit     2,(hl)
-    jp      nz,vpeek_BITMAP
-    ret
-
-
+        ld      hl, __aquarius_mode
+        bit     0,  (hl)
+        jp      nz, vpeek_TEXT
+        bit     2,  (hl)
+        jp      nz, vpeek_BITMAP
+        ret

@@ -1,8 +1,7 @@
 
+        SECTION rodata_font_ansi
 
-	SECTION	rodata_font_ansi
-
-	PUBLIC	ansifont_f3
+        PUBLIC  ansifont_f3
 
 ansifont_f3:
-	BINARY	"classic/stdio/ansi/F3.BIN"
+        BINARY  "classic/stdio/ansi/F3.BIN"

@@ -6,16 +6,16 @@ PUBLIC mm48__sleft, mm48__left
 
 mm48__sleft:
 
-   ;rotate AC left
+        ;rotate AC left
 
-   or a
+        or      a
 
 mm48__left:
 
-   rl h
-   rl e
-   rl d
-   rl c
-   rl b
-   
-   ret
+        rl      h
+        rl      e
+        rl      d
+        rl      c
+        rl      b
+
+        ret

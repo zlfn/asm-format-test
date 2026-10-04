@@ -31,40 +31,40 @@ PUBLIC asm_shadow_copy_end
 ;             carry reset
 
 .asm_shadow_copy
-    rla                     ; get source bank number into A
-    out (__IO_RAM_TOGGLE),a ; now in initial bank
-    rra                     ; move current bank number into carry
+        rla                             ; get source bank number into A
+        out     (__IO_RAM_TOGGLE), a    ; now in initial bank
+        rra                             ; move current bank number into carry
 
-    ld a,c                  ; swap BC to use cheap djnz for LSB loop
-    dec bc
-    inc b
-    ld c,b
-    ld b,a
+        ld      a, c    ; swap BC to use cheap djnz for LSB loop
+        dec     bc
+        inc     b
+        ld      c, b
+        ld      b, a
 
 .copyloop
-    ld a,(hl)               ; get the byte
-    inc hl
+        ld      a, (hl) ; get the byte
+        inc     hl
 
-    ccf                     ; toggle bank number
-    rla                     ; bank number in carry into bit 0
-    out (__IO_RAM_TOGGLE),a ; now in other bank
-    rra                     ; recover byte and save bank number in carry
+        ccf                             ; toggle bank number
+        rla                             ; bank number in carry into bit 0
+        out     (__IO_RAM_TOGGLE), a    ; now in other bank
+        rra                             ; recover byte and save bank number in carry
 
-    ld (de),a               ; store the byte
-    inc de
+        ld      (de), a ; store the byte
+        inc     de
 
-    ccf                     ; toggle bank number
-    rla                     ; bank number in carry to bit 0
-    out (__IO_RAM_TOGGLE),a ; now in other bank
-    rra                     ; save bank number in carry
+        ccf                             ; toggle bank number
+        rla                             ; bank number in carry to bit 0
+        out     (__IO_RAM_TOGGLE), a    ; now in other bank
+        rra                             ; save bank number in carry
 
-    djnz copyloop           ; decrement LSB
+        djnz    copyloop        ; decrement LSB
 
-    dec c                   ; decrement MSB
-    jr NZ,copyloop
+        dec     c       ; decrement MSB
+        jr      NZ, copyloop
 
-    xor a                   ; get front bank
-    out (__IO_RAM_TOGGLE),a ; now in front bank
-    ret
+        xor     a                       ; get front bank
+        out     (__IO_RAM_TOGGLE), a    ; now in front bank
+        ret
 
 .asm_shadow_copy_end

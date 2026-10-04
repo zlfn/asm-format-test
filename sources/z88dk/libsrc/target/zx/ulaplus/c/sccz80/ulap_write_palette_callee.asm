@@ -9,10 +9,10 @@ EXTERN asm_ulap_write_palette
 
 _ulap_write_palette_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   
-   ld d,c
-   jp asm_ulap_write_palette
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+
+        ld      d, c
+        jp      asm_ulap_write_palette

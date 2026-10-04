@@ -10,11 +10,11 @@ EXTERN asm_adt_StackPush
 .adt_StackPush
 ._adt_StackPush
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
-   
-   jp asm_adt_StackPush
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
+
+        jp      asm_adt_StackPush

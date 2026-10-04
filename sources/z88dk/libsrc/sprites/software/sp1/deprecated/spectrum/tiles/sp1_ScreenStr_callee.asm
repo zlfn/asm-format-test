@@ -11,10 +11,10 @@ EXTERN ASMDISP_SP1_GETUPDATESTRUCT_CALLEE
 
 .sp1_ScreenStr_callee
 
-   pop hl
-   pop de
-   ex (sp),hl
-   ld d,l
+        pop     hl
+        pop     de
+        ex      (sp), hl
+        ld      d,    l
 
 .asmentry
 
@@ -27,15 +27,15 @@ EXTERN ASMDISP_SP1_GETUPDATESTRUCT_CALLEE
 
 .SP1ScreenStr
 
-   call sp1_GetUpdateStruct_callee + ASMDISP_SP1_GETUPDATESTRUCT_CALLEE
+        call    sp1_GetUpdateStruct_callee + ASMDISP_SP1_GETUPDATESTRUCT_CALLEE
 
-   inc hl
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   ex de,hl
+        inc     hl
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d,  (hl)
+        ex      de, hl
 
-   ret
+        ret
 
 DEFC ASMDISP_SP1_SCREENSTR_CALLEE = asmentry - sp1_ScreenStr_callee

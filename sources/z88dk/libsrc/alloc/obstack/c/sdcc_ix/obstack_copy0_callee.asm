@@ -10,10 +10,10 @@ EXTERN asm_obstack_copy0
 
 _obstack_copy0_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
-   jp asm_obstack_copy0
+        jp      asm_obstack_copy0

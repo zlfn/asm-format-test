@@ -2,13 +2,13 @@
 ; struct tm* __fastcall__ gmtime (const time_t* timep);
 ;
 
-        .export         _gmtime
+        .export _gmtime
 
-        .import         __rp6502_tm_call
-        .import         ldeaxi
-        .import         _ria_push_long
+        .import __rp6502_tm_call
+        .import ldeaxi
+        .import _ria_push_long
 
-        .include        "rp6502.inc"
+        .include "rp6502.inc"
 
 _gmtime:
         cpx     #$00

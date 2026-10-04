@@ -2,10 +2,10 @@
 ; IRQ handling (CreatiVision version)
 ;
 
-        .export         initirq, doneirq
-        .import         callirq, irq2
+        .export initirq, doneirq
+        .import callirq, irq2
 
-        .include        "creativision.inc"
+        .include "creativision.inc"
 
 ; ------------------------------------------------------------------------
 
@@ -34,7 +34,6 @@ setvec: sei
 .segment        "CODE"
 
 IRQStub:
-        cld                             ; Just to be sure
-        jsr     callirq                 ; Call the functions
-        jmp     BIOS_IRQ2_ADDR          ; Jump to the BIOS IRQ vector
-
+        cld                     ; Just to be sure
+        jsr     callirq         ; Call the functions
+        jmp     BIOS_IRQ2_ADDR  ; Jump to the BIOS IRQ vector

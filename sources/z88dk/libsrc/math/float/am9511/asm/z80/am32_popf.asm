@@ -30,90 +30,88 @@ ENDIF
 
 PUBLIC asm_am9511_popf
 
-
 .am9511_popf_wait
-    ex (sp),hl
-    ex (sp),hl
+        ex      (sp), hl
+        ex      (sp), hl
 
 .asm_am9511_popf
 
-    ; float primitive
-    ; pop a IEEE-754 floating point from the Am9511 stack.
-    ;
-    ; Convert from am9511_float to IEEE_float.
-    ;
-    ; enter : stack = ret0
-    ;
-    ; exit  : dehl = IEEE_float
-    ; 
-    ; uses  : af, bc, de, hl
+        ; float primitive
+        ; pop a IEEE-754 floating point from the Am9511 stack.
+        ;
+        ; Convert from am9511_float to IEEE_float.
+        ;
+        ; enter : stack = ret0
+        ;
+        ; exit  : dehl = IEEE_float
+        ;
+        ; uses  : af, bc, de, hl
 
-    AM9511_IN_APU_STATUS      ; read the APU status register
-    rlca                        ; busy? and __IO_APU_STATUS_BUSY
-    jr C,am9511_popf_wait
+        AM9511_IN_APU_STATUS    ; read the APU status register
+        rlca                    ; busy? and __IO_APU_STATUS_BUSY
+        jr      C, am9511_popf_wait
 
 IFNDEF __AM9511_HELPER_FUNC
-    ld bc,__IO_APU_DATA         ; the address of the APU data port in bc
+        ld      bc, __IO_APU_DATA       ; the address of the APU data port in bc
 ENDIF
-    AM9511_INI d                ; load MSW from APU
-    AM9511_INI e
-    AM9511_INI h                ; load LSW from APU
-    AM9511_INI l
+        AM9511_INI d    ; load MSW from APU
+        AM9511_INI e
+        AM9511_INI h    ; load LSW from APU
+        AM9511_INI l
 
-    ; Re-read status (A was busy-rotated).  Mask ZERO|DIV0|NEGRT|UNDFL|OVRFL.
-    ; ZERO must be trapped: APU zero is not valid for the bias convert path.
-    AM9511_IN_APU_STATUS
-    and 03eh
-    jr NZ,errors
+        ; Re-read status (A was busy-rotated).  Mask ZERO|DIV0|NEGRT|UNDFL|OVRFL.
+        ; ZERO must be trapped: APU zero is not valid for the bias convert path.
+        AM9511_IN_APU_STATUS
+        and     03eh
+        jr      NZ, errors
 
-    sla e                       ; remove leading 1 from mantissa
+        sla     e       ; remove leading 1 from mantissa
 
-    ld a,d                      ; capture exponent
-    rla                         ; adjust twos complement exponent
-    sra a                       ; with sign extention
-    add 127-1                   ; bias including shift binary point
+        ld      a, d    ; capture exponent
+        rla             ; adjust twos complement exponent
+        sra     a       ; with sign extention
+        add     127-1   ; bias including shift binary point
 
-    rl d                        ; get sign
-    rra                         ; position sign and exponent
-    rr e                        ; resposition exponent and mantissa
-    ld d,a                      ; restore exponent
-    ret
+        rl      d       ; get sign
+        rra             ; position sign and exponent
+        rr      e       ; resposition exponent and mantissa
+        ld      d, a    ; restore exponent
+        ret
 
-    ; A = status & 0x3E.  APU range is smaller than IEEE; map codes:
-    ;   OVRFL → ±Inf, UNDFL → 0, NEGRT → NaN, DIV0 → ±Inf, ZERO → 0
-    ; DIV0 as ±Inf matches IEEE x/0 (0/0 is IEEE-gated before the APU).
+        ; A = status & 0x3E.  APU range is smaller than IEEE; map codes:
+        ;   OVRFL → ±Inf, UNDFL → 0, NEGRT → NaN, DIV0 → ±Inf, ZERO → 0
+        ; DIV0 as ±Inf matches IEEE x/0 (0/0 is IEEE-gated before the APU).
 .errors
-    rrca                        ; OVRFL
-    jr C,infinity
-    rrca                        ; UNDFL
-    jr C,zero
-    rrca                        ; NEGRT
-    jr C,nan
-    rrca                        ; DIV0
-    jr C,infinity
-    ; ZERO
+        rrca    ; OVRFL
+        jr      C, infinity
+        rrca    ; UNDFL
+        jr      C, zero
+        rrca    ; NEGRT
+        jr      C, nan
+        rrca    ; DIV0
+        jr      C, infinity
+        ; ZERO
 .zero
-    ld de,0
-    ld h,d
-    ld l,e
-    ret
+        ld      de, 0
+        ld      h,  d
+        ld      l,  e
+        ret
 
 .nan
-    ld a,d
-    and 080h
-    or 07fh
-    ld d,a
-    ld e,0ffh
-    ld h,e
-    ld l,e
-    ret
+        ld      a, d
+        and     080h
+        or      07fh
+        ld      d, a
+        ld      e, 0ffh
+        ld      h, e
+        ld      l, e
+        ret
 
 .infinity
-    ld a,d
-    and 080h
-    or 07fh
-    ld d,a
-    ld e,080h
-    ld hl,0
-    ret
-
+        ld      a, d
+        and     080h
+        or      07fh
+        ld      d,  a
+        ld      e,  080h
+        ld      hl, 0
+        ret

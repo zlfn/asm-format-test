@@ -7,15 +7,15 @@
 ; void cvline (unsigned char length);
 ;
 
-        .export         _cvlinexy, _cvline
-        .import         gotoxy, putchardirect, newline
+        .export _cvlinexy, _cvline
+        .import gotoxy,    putchardirect, newline
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
 _cvlinexy:
-        pha                     ; Save the length
-        jsr     gotoxy          ; Call this one, will pop params
-        pla                     ; Restore the length and run into _cvline
+        pha             ; Save the length
+        jsr     gotoxy  ; Call this one, will pop params
+        pla             ; Restore the length and run into _cvline
 
 _cvline:
         cmp     #$00            ; Is the length zero?

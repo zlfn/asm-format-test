@@ -12,75 +12,75 @@
 ;   $Id: zx_getstr_callee.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  zx_getstr_callee
-    PUBLIC  _zx_getstr_callee
-    PUBLIC  asm_zx_getstr
-    EXTERN  call_rom3
+        SECTION code_clib
+        PUBLIC  zx_getstr_callee
+        PUBLIC  _zx_getstr_callee
+        PUBLIC  asm_zx_getstr
+        EXTERN  call_rom3
 
 zx_getstr_callee:
 _zx_getstr_callee:
 
-    pop     bc
-    pop     hl
-    pop     de
-    push    bc
+        pop     bc
+        pop     hl
+        pop     de
+        push    bc
 
 ; enter : hl = char *value
 ;          e = char variable
 
 asm_zx_getstr:
-    push    ix                          ;save callers ix (iy on zx81) - rom may corrupt it
+        push    ix      ;save callers ix (iy on zx81) - rom may corrupt it
 
-    ld      a, e
-    and     95
+        ld      a, e
+        and     95
 
-    ld      d, a
-    push    hl                          ; save destination
+        ld      d, a
+        push    hl      ; save destination
 
-    ld      hl, ($5c4b)                 ; VARS
+        ld      hl, ($5c4b)     ; VARS
 
 loop:
-    ld      a, (hl)
-    cp      128
-    jr      z, notfound                 ;  n.b. z => nc
+        ld      a, (hl)
+        cp      128
+        jr      z, notfound     ;  n.b. z => nc
 
-    cp      d
-    jr      z, found
+        cp      d
+        jr      z, found
 
-    push    de
-    call    call_rom3
-  IF    FORts2068
-    defw    $1720                       ; NEXT-ONE (find next variable)
-  ELSE
-    defw    $19b8                       ; find next variable
-  ENDIF
-    ex      de, hl
-    pop     de
-    jr      loop
+        push    de
+        call    call_rom3
+        IF      FORts2068
+                defw    $1720   ; NEXT-ONE (find next variable)
+        ELSE
+                defw    $19b8   ; find next variable
+        ENDIF
+        ex      de, hl
+        pop     de
+        jr      loop
 
 found:
-    inc     hl
-    ld      c, (hl)
-    ld      a, c
-    inc     hl
-    ld      b, (hl)
-    or      b
-    inc     hl
+        inc     hl
+        ld      c, (hl)
+        ld      a, c
+        inc     hl
+        ld      b, (hl)
+        or      b
+        inc     hl
 
-    pop     de
-    jr      z, zerolen
-    ldir
+        pop     de
+        jr      z, zerolen
+        ldir
 zerolen:
-    pop     ix
-    xor     a
-    ld      (de), a
-    ld      h, a
-    ld      l, a
-    ret
+        pop     ix
+        xor     a
+        ld      (de), a
+        ld      h,    a
+        ld      l,    a
+        ret
 
 notfound:
-    pop     hl
-    pop     ix
-    ld      hl, -1
-    ret
+        pop     hl
+        pop     ix
+        ld      hl, -1
+        ret

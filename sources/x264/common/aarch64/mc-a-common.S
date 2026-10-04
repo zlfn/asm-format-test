@@ -34,31 +34,31 @@
 
 // 0 < weight < 64
 .macro load_weights_add_add
-    mov         w6,  w6
+        mov     w6, w6
 .endm
 
 // weight > 64
 .macro load_weights_add_sub
-    neg         w7,  w7
+        neg     w7, w7
 .endm
 
 // weight < 0
 .macro load_weights_sub_add
-    neg         w6,  w6
+        neg     w6, w6
 .endm
 
 function pixel_avg_w4_neon
-1:  subs        w9,  w9,  #2
-    ld1         {v0.s}[0], [x2], x3
-    ld1         {v2.s}[0], [x4], x5
-    urhadd      v0.8b,  v0.8b,  v2.8b
-    ld1         {v1.s}[0], [x2], x3
-    ld1         {v3.s}[0], [x4], x5
-    urhadd      v1.8b,  v1.8b,  v3.8b
-    st1         {v0.s}[0], [x0], x1
-    st1         {v1.s}[0], [x0], x1
-    b.gt        1b
-    ret
+1:      subs    w9, w9, #2
+        ld1     {v0.s}[0], [x2],  x3
+        ld1     {v2.s}[0], [x4],  x5
+        urhadd  v0.8b,     v0.8b, v2.8b
+        ld1     {v1.s}[0], [x2],  x3
+        ld1     {v3.s}[0], [x4],  x5
+        urhadd  v1.8b,     v1.8b, v3.8b
+        st1     {v0.s}[0], [x0],  x1
+        st1     {v1.s}[0], [x0],  x1
+        b.gt    1b
+        ret
 endfunc
 
 #else // BIT_DEPTH == 10

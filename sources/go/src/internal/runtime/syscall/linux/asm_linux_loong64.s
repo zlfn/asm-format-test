@@ -22,21 +22,21 @@
 // r2  | R5          | R5
 // err | R6          | part of R4
 TEXT ·Syscall6<ABIInternal>(SB),NOSPLIT,$0-80
-	MOVV	R4, R11  // syscall entry
-	MOVV	R5, R4
-	MOVV	R6, R5
-	MOVV	R7, R6
-	MOVV	R8, R7
-	MOVV	R9, R8
-	MOVV	R10, R9
-	SYSCALL
-	MOVV	R0, R5      // r2 is not used. Always set to 0.
-	MOVW	$-4096, R12
-	BGEU	R12, R4, ok
-	SUBVU	R4, R0, R6  // errno
-	MOVV	$-1, R4     // r1
-	RET
+        MOVV    R4,  R11        // syscall entry
+        MOVV    R5,  R4
+        MOVV    R6,  R5
+        MOVV    R7,  R6
+        MOVV    R8,  R7
+        MOVV    R9,  R8
+        MOVV    R10, R9
+        SYSCALL
+        MOVV    R0,     R5      // r2 is not used. Always set to 0.
+        MOVW    $-4096, R12
+        BGEU    R12,    R4, ok
+        SUBVU   R4,     R0, R6  // errno
+        MOVV    $-1,    R4      // r1
+        RET
 ok:
-	// r1 already in R4
-	MOVV	R0, R6     // errno
-	RET
+        // r1 already in R4
+        MOVV    R0, R6  // errno
+        RET

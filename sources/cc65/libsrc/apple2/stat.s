@@ -4,16 +4,16 @@
 ; int __fastcall__ stat(const char *pathname, struct stat *statbuf);
 ;
 
-        .export         _stat
-        .import         __errno, _open,_close
-        .import         mli_file_info
-        .import         popax, pushax, pusha0, incsp2
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "filedes.inc"
-        .include        "mli.inc"
-        .include        "stat.inc"
+        .export _stat
+        .import __errno, _open, _close
+        .import mli_file_info
+        .import popax, pushax, pusha0, incsp2
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "filedes.inc"
+        .include "mli.inc"
+        .include "stat.inc"
 
 _stat:
         ; Store statbuf pointer
@@ -25,7 +25,7 @@ _stat:
         ; Clear statbuf
         lda     #$00
         ldy     #.sizeof(stat)-1
-:       sta     (ptr4),y
+:       sta     (ptr4), y
         dey
         bpl     :-
 
@@ -34,23 +34,23 @@ _stat:
 
         ; Store pathname
         jsr     popax
-        jsr     pushax          ; Push it back for mli_file_info
-        jsr     pushax          ; and for open
+        jsr     pushax  ; Push it back for mli_file_info
+        jsr     pushax  ; and for open
 
         jsr     mli_file_info
 
         bcc     got_info
-        jmp     incsp2          ; Drop filename copy for open
+        jmp     incsp2  ; Drop filename copy for open
 
 got_info:
         ; st_dev
         lda     DEVNUM
-        lsr                     ; Shift right to cc65 representation
+        lsr     ; Shift right to cc65 representation
         lsr
         lsr
         lsr
         ldy     #stat::st_dev
-        sta     (ptr4),y
+        sta     (ptr4), y
 
         ; st_mode (S_IFDIR/S_IFREG only)
         lda     mliparam + MLI::INFO::FILE_TYPE
@@ -63,13 +63,13 @@ got_info:
 is_reg: lda     #S_IFREG
 
 set_st_mode:
-        sta     (ptr4),y
+        sta     (ptr4), y
 
         ; st_access through st_create_time
         ldx     #MLI::INFO::ACCESS
         ldy     #stat::st_access
-:       lda     mliparam,x
-        sta     (ptr4),y
+:       lda     mliparam, x
+        sta     (ptr4),   y
         inx
         iny
         cpy     #stat::st_create_time + .sizeof(stat::st_create_time)
@@ -82,7 +82,7 @@ set_st_mode:
         jsr     _open
         cmp     #$FF
         beq     done
-        pha                     ; Save file descriptor for closing
+        pha     ; Save file descriptor for closing
 
         ; Get ProDOS's REF_NUM from file descriptor
         jsr     getfd
@@ -102,13 +102,13 @@ set_st_mode:
         ; Store size
         ldy     #stat::st_size
         lda     mliparam + MLI::EOF::EOF
-        sta     (ptr4),y
+        sta     (ptr4), y
         lda     mliparam + MLI::EOF::EOF+1
         iny
-        sta     (ptr4),y
+        sta     (ptr4), y
         lda     mliparam + MLI::EOF::EOF+2
         iny
-        sta     (ptr4),y
+        sta     (ptr4), y
 
         ; Close file
 eoferr:
@@ -121,9 +121,9 @@ eoferr:
         beq     done
         lda     #$FF
 done:
-        tax                     ; Promote char return value
+        tax     ; Promote char return value
         rts
 
         .bss
 
-stbuf:  .res 2
+stbuf:  .res    2

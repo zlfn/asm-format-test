@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ;  UINT32
@@ -31,31 +31,30 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmCpuidEx)
 ASM_PFX(AsmCpuidEx):
-    push    ebx
-    push    ebp
-    mov     ebp, esp
-    mov     eax, [ebp + 12]
-    mov     ecx, [ebp + 16]
-    cpuid
-    push    ecx
-    mov     ecx, [ebp + 20]
-    jecxz   .0
-    mov     [ecx], eax
+        push    ebx
+        push    ebp
+        mov     ebp, esp
+        mov     eax, [ebp + 12]
+        mov     ecx, [ebp + 16]
+        cpuid
+        push    ecx
+        mov     ecx, [ebp + 20]
+        jecxz   .0
+        mov     [ecx], eax
 .0:
-    mov     ecx, [ebp + 24]
-    jecxz   .1
-    mov     [ecx], ebx
+        mov     ecx, [ebp + 24]
+        jecxz   .1
+        mov     [ecx], ebx
 .1:
-    mov     ecx, [ebp + 32]
-    jecxz   .2
-    mov     [ecx], edx
+        mov     ecx, [ebp + 32]
+        jecxz   .2
+        mov     [ecx], edx
 .2:
-    mov     ecx, [ebp + 28]
-    jecxz   .3
-    pop     DWORD [ecx]
+        mov     ecx, [ebp + 28]
+        jecxz   .3
+        pop     DWORD [ecx]
 .3:
-    mov     eax, [ebp + 12]
-    leave
-    pop     ebx
-    ret
-
+        mov     eax, [ebp + 12]
+        leave
+        pop     ebx
+        ret

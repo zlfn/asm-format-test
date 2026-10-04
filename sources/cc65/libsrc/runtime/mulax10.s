@@ -5,8 +5,8 @@
 ; CC65 runtime: Multiply the primary register by 10
 ;
 
-        .export         mulax10
-        .importzp       ptr1
+        .export mulax10
+        .importzp ptr1
 
 .proc   mulax10
 
@@ -28,5 +28,3 @@
         rts
 
 .endproc
-
-

@@ -11,19 +11,18 @@ EXTERN asm_sp1_PrintString
 
 sp1_PrintString_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 ;   jp asm_sp1_PrintString
-   push ix
-   call asm_sp1_PrintString
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_PrintString
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_PrintString_callee
 defc _sp1_PrintString_callee = sp1_PrintString_callee
 ENDIF
-

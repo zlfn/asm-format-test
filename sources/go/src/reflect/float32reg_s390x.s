@@ -13,18 +13,17 @@
 
 // Convert float32->uint64
 TEXT ·archFloat32ToReg(SB),NOSPLIT,$0-16
-       FMOVS   val+0(FP), F1
-       FMOVD   F1, ret+8(FP)
-       RET
+        FMOVS   val+0(FP), F1
+        FMOVD   F1, ret+8(FP)
+        RET
 
 // Convert uint64->float32
 TEXT ·archFloat32FromReg(SB),NOSPLIT,$0-12
-       FMOVD   reg+0(FP), F1
-       // Normally a float64->float32 conversion
-       // would need rounding, but that is not needed
-       // here since the uint64 was originally converted
-       // from float32, and should be avoided to
-       // preserve SNaN values.
-       FMOVS   F1, ret+8(FP)
-       RET
-
+        FMOVD   reg+0(FP), F1
+        // Normally a float64->float32 conversion
+        // would need rounding, but that is not needed
+        // here since the uint64 was originally converted
+        // from float32, and should be avoided to
+        // preserve SNaN values.
+        FMOVS   F1, ret+8(FP)
+        RET

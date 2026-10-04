@@ -10,7 +10,7 @@ PUBLIC _im2_Init
 
 ; enter : hl = address of im2 vector table
 
-   ld a,h
-   ld i,a
-   im 2
-   ret
+        ld      a, h
+        ld      i, a
+        im      2
+        ret

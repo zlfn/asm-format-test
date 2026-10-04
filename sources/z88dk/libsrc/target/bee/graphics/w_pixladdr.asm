@@ -7,13 +7,13 @@
 ;       $Id: w_pixladdr.asm,v 1.1 2016-11-21 11:18:38 stefano Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  w_pixeladdress
+        SECTION code_clib
+        PUBLIC  w_pixeladdress
 
-    EXTERN  div5
-    EXTERN  div11
+        EXTERN  div5
+        EXTERN  div11
 
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 ;
 ;
 ; ******************************************************************
@@ -30,66 +30,64 @@
 
 w_pixeladdress:
 
-    ld      a, l
-    and     7
-    xor     7
-    push    af
-    push    bc
+        ld      a, l
+        and     7
+        xor     7
+        push    af
+        push    bc
 
-    srl     h
-    rr      l
-    srl     h
-    rr      l
-    srl     h
-    rr      l                           ; HL = text column ptr
+        srl     h
+        rr      l
+        srl     h
+        rr      l
+        srl     h
+        rr      l       ; HL = text column ptr
 
-    ld      c, l                        ; X position/8 -> "text" column
+        ld      c, l    ; X position/8 -> "text" column
 
-    push    de                          ; save y position
-    ex      de, hl
+        push    de      ; save y position
+        ex      de, hl
 
-    ld      hl, div5
-    add     hl, de
-    ld      a, (hl)
-    out     ($1c), a                    ; current bank (changes every 5 columns)
+        ld      hl,    div5
+        add     hl,    de
+        ld      a,     (hl)
+        out     ($1c), a        ; current bank (changes every 5 columns)
 
-    and     127
-    ld      b, a
-    add     a                           ; *2
-    add     a                           ; *4
-    add     b                           ; *5
+        and     127
+        ld      b, a
+        add     a       ; *2
+        add     a       ; *4
+        add     b       ; *5
 
-    ld      b, a
-    ld      a, c                        ; X position/8..
-    sub     b                           ; ..MOD 5
+        ld      b, a
+        ld      a, c    ; X position/8..
+        sub     b       ; ..MOD 5
 
-
-    ld      hl, $f800
-    jp      z, first_column
-    ld      de, 400
+        ld      hl, $f800
+        jp      z,  first_column
+        ld      de, 400
 offset_loop:
-    add     hl, de
-    dec     a
-    jp      nz, offset_loop
+        add     hl, de
+        dec     a
+        jp      nz, offset_loop
 first_column:
 
-    pop     de                          ; y position
-    push    hl                          ; PCG address + offset for X
-    ld      hl, div11
-    add     hl, de
-    add     hl, de                      ; WORD ptr to "division" result (row table)
-    ld      a, (hl)
-    inc     hl
-    ld      h, (hl)
-    ld      l, a                        ; y offset
+        pop     de      ; y position
+        push    hl      ; PCG address + offset for X
+        ld      hl, div11
+        add     hl, de
+        add     hl, de  ; WORD ptr to "division" result (row table)
+        ld      a,  (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a    ; y offset
 
-    pop     de                          ; PCG addr + offset for X
-    add     hl, de                      ; .. + offset for Y
-    ld      d, h
-    ld      e, l
-			;ex	de,hl
+        pop     de      ; PCG addr + offset for X
+        add     hl, de  ; .. + offset for Y
+        ld      d,  h
+        ld      e,  l
+        ;ex	de,hl
 
-    pop     bc
-    pop     af
-    ret
-
+        pop     bc
+        pop     af
+        ret

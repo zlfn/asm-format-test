@@ -16,19 +16,19 @@ EXTERN asm_disk_ioctl
 ;
 ; exit
 ; l = DRESULT, set carry flag
-    
+
 ; control the ide drive
 
 disk_ioctl_callee:
 
-    pop de                      ; pop return
+        pop     de      ; pop return
 
-    pop hl                      ; pop buffer
-    pop bc                      ; pop cmd
-    ld a,c
-    pop bc                      ; pop pdrv
-    ld b,a
+        pop     hl      ; pop buffer
+        pop     bc      ; pop cmd
+        ld      a, c
+        pop     bc      ; pop pdrv
+        ld      b, a
 
-    push de                     ; push return
+        push    de      ; push return
 
-    jp asm_disk_ioctl
+        jp      asm_disk_ioctl

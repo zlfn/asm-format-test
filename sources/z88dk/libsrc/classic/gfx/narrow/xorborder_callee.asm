@@ -1,15 +1,14 @@
 
-    SECTION code_graphics
+        SECTION code_graphics
 
-    PUBLIC  xorborder_callee
-    PUBLIC  _xorborder_callee
+        PUBLIC  xorborder_callee
+        PUBLIC  _xorborder_callee
 
-    PUBLIC  asm_xorborder
+        PUBLIC  asm_xorborder
 
-    EXTERN  xorpixel
-    EXTERN  __gfx_vram_page_in
-    EXTERN  __gfx_vram_page_out
-
+        EXTERN  xorpixel
+        EXTERN  __gfx_vram_page_in
+        EXTERN  __gfx_vram_page_out
 
 ;
 ;    $Id: xorborder_callee.asm $
@@ -27,79 +26,78 @@
 ;    BC    = (width,heigth)
 ;
 
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
 xorborder_callee:
 _xorborder_callee:
 
-    pop     af
-    pop     bc                          ; height
-    pop     de
-    ld      b, e                        ; width
-    pop     hl                          ; x
-    pop     de
-    ld      h, e                        ; y
-    push    af
+        pop     af
+        pop     bc      ; height
+        pop     de
+        ld      b, e    ; width
+        pop     hl      ; x
+        pop     de
+        ld      h, e    ; y
+        push    af
 
 asm_xorborder:
 
-
-  IFDEF _GFX_PAGE_VRAM
-    call    __gfx_vram_page_in
-  ENDIF
-    push    bc
-    push    hl
+        IFDEF   _GFX_PAGE_VRAM
+                call    __gfx_vram_page_in
+        ENDIF
+        push    bc
+        push    hl
 
 ; -- Vertical lines --
-    push    hl
-    ld      a, h
-    add     a, b
-    ;ret    c    ; overflow ?
-    dec     a
-    ld      h, a
-    pop     de
+        push    hl
+        ld      a, h
+        add     a, b
+        ;ret    c    ; overflow ?
+        dec     a
+        ld      h, a
+        pop     de
 rowloop:
-    push    bc
+        push    bc
 
-    inc     l
-    ex      de, hl
-    push    hl
-    push    de
-    call    xorpixel
-    pop     de
-    pop     hl
-    inc     l
-    pop     bc
-    dec     c
-    jr      nz, rowloop
+        inc     l
+        ex      de, hl
+        push    hl
+        push    de
+        call    xorpixel
+        pop     de
+        pop     hl
+        inc     l
+        pop     bc
+        dec     c
+        jr      nz, rowloop
 
-    pop     hl
-    pop     bc
+        pop     hl
+        pop     bc
 
 ; -- Horizontal lines --
-    push    hl
-    ld      a, l
-    add     a, c
-    ;ret    c    ; overflow ?
-    dec     a
-    ld      l, a
-    pop     de
+        push    hl
+        ld      a, l
+        add     a, c
+        ;ret    c    ; overflow ?
+        dec     a
+        ld      l, a
+        pop     de
 
 vrowloop:
-    push    bc
+        push    bc
 
-    push    hl
-    push    de
-    call    xorpixel
-    pop     de
-    pop     hl
-    inc     h
-    ex      de, hl
-    inc     h
-    pop     bc
-    djnz    vrowloop
-  IFDEF _GFX_PAGE_VRAM
-    jp      __gfx_vram_page_out
-  ELSE
-    ret
-  ENDIF
+        push    hl
+        push    de
+        call    xorpixel
+        pop     de
+        pop     hl
+        inc     h
+        ex      de, hl
+        inc     h
+        pop     bc
+        djnz    vrowloop
+        IFDEF   _GFX_PAGE_VRAM
+                jp      __gfx_vram_page_out
+        ELSE
+                ret
+        ENDIF

@@ -8,32 +8,31 @@ EXTERN __esx_m_tapeout_call_default_drive
 
 asm_esx_m_tapeout_trunc:
 
-   ; enter : hl = char *filename
-   ;
-   ; exit  : success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl, ix
+        ; enter : hl = char *filename
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl, ix
 
-   ld b,3
+        ld      b, 3
 
 IF __SDCC_IY
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 ELSE
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 ENDIF
 
-   jp __esx_m_tapeout_call_default_drive
-
+        jp      __esx_m_tapeout_call_default_drive
 
 ; ***************************************************************************
 ; * M_TAPEOUT ($8c) *

@@ -4,7 +4,7 @@
 ; CX16 Kernal functions
 ;
 
-        .include        "cbm_kernal.inc"
+        .include "cbm_kernal.inc"
 
         .export KBDBUF_PEEK
         .export KBDBUF_GET_MODIFIERS

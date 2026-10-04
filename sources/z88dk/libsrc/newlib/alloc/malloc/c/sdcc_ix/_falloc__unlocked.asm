@@ -10,12 +10,12 @@ EXTERN asm__falloc_unlocked
 
 __falloc__unlocked:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp asm__falloc_unlocked
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm__falloc_unlocked

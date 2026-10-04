@@ -10,12 +10,12 @@ EXTERN asm_w_vector_reserve
 
 _w_vector_reserve:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   
-   jp asm_w_vector_reserve
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_w_vector_reserve

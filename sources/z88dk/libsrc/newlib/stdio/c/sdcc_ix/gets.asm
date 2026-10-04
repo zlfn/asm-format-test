@@ -16,13 +16,13 @@ EXTERN _gets_fastcall
 
 _gets:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _gets_fastcall
+        push    hl
+        push    af
+
+        jp      _gets_fastcall
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

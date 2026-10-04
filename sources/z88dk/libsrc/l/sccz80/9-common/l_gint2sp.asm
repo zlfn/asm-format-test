@@ -8,10 +8,10 @@ SECTION code_l_sccz80
 PUBLIC l_gint2sp
 
 l_gint2sp:
-   ld hl,4
-   add hl,sp
-   ld a,(hl+)
-   ld h,(hl)
-   ld l,a
+        ld      hl, 4
+        add     hl, sp
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a
 
-   ret
+        ret

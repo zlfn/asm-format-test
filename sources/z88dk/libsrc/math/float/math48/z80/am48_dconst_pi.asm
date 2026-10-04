@@ -6,8 +6,8 @@ PUBLIC am48_dconst_pi
 
 EXTERN mm48__acpi
 
-   ; set AC = pi
-   ;
-   ; uses : bc, de, hl
-   
+        ; set AC = pi
+        ;
+        ; uses : bc, de, hl
+
 defc am48_dconst_pi = mm48__acpi

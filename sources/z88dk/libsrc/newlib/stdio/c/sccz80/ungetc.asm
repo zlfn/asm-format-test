@@ -16,15 +16,15 @@ EXTERN asm_ungetc
 
 ungetc:
 
-   pop af
-   pop ix
-   pop hl
-   
-   push hl
-   push hl
-   push af
-   
-   jp asm_ungetc
+        pop     af
+        pop     ix
+        pop     hl
+
+        push    hl
+        push    hl
+        push    af
+
+        jp      asm_ungetc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

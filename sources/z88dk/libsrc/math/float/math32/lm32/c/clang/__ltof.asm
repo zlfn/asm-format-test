@@ -6,9 +6,8 @@ EXTERN m32_float32
 
 ; dehl = float(iybc)
 __ltof:
-    push iy
-    push bc
-    pop hl
-    pop de
-    jp m32_float32
-
+        push    iy
+        push    bc
+        pop     hl
+        pop     de
+        jp      m32_float32

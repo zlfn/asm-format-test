@@ -12,13 +12,12 @@
 ; unsigned char __fastcall__ dio_close (dhandle_t handle);
 ;
 
-        .export         _dio_open, _dio_close
-        .export         sectsizetab
-        .import         ___oserror, __sio_call, _dio_read
-        .import         pushax, addysp, subysp
-        .importzp       ptr2, c_sp
-        .include        "atari.inc"
-
+        .export _dio_open, _dio_close
+        .export sectsizetab
+        .import ___oserror, __sio_call, _dio_read
+        .import pushax,     addysp,     subysp
+        .importzp ptr2, c_sp
+        .include "atari.inc"
 
 .bss
 
@@ -30,28 +29,28 @@ sectsizetab:
 ; code for _dio_open
 
 _inv_drive:
-        lda     #NONDEV         ; non-existent device
+        lda     #NONDEV ; non-existent device
         sta     ___oserror
         lda     #0
         tax
-        rts                     ; return NULL
+        rts             ; return NULL
 
 _dio_open:
 
-        cmp     #NUMDRVS        ; valid drive id?
+        cmp     #NUMDRVS                        ; valid drive id?
         bcs     _inv_drive
-        tay                     ; drive #
-        asl     a               ; make index from drive id
+        tay                                     ; drive #
+        asl     a                               ; make index from drive id
         asl     a
         tax
         lda     #128                            ; preset sectsize
-        sta     sectsizetab+sst_sectsize,x
-        sta     sectsizetab+sst_flag,x          ; set flag that drive is "open"
+        sta     sectsizetab+sst_sectsize, x
+        sta     sectsizetab+sst_flag,     x     ; set flag that drive is "open"
         lda     #0
-        sta     sectsizetab+sst_sectsize+1,x
+        sta     sectsizetab+sst_sectsize+1, x
         sta     ___oserror                      ; success
         tya
-        sta     sectsizetab+sst_driveno,x
+        sta     sectsizetab+sst_driveno, x
         stx     ptr2
         lda     #<sectsizetab
         clc
@@ -60,7 +59,7 @@ _dio_open:
         lda     #>sectsizetab
         adc     #0
         tax
-        stx     ptr2+1          ; ptr2: pointer to sectsizetab entry
+        stx     ptr2+1                          ; ptr2: pointer to sectsizetab entry
 
 ; query drive for current sector size
 ; procedure:
@@ -76,48 +75,48 @@ _dio_open:
 ;
 
         ldy     #128
-        jsr     subysp          ; allocate buffer on the stack
+        jsr     subysp  ; allocate buffer on the stack
 
         lda     c_sp
         pha
         lda     c_sp+1
-        pha                     ; save c_sp (buffer address) on processor stack
+        pha     ; save c_sp (buffer address) on processor stack
 
         lda     ptr2
         ldx     ptr2+1
-        jsr     pushax          ; handle
+        jsr     pushax  ; handle
 
         ldx     #0
         lda     #4
-        jsr     pushax          ; sect_num
+        jsr     pushax  ; sect_num
 
         pla
         tax
-        pla                     ; AX - buffer address
+        pla     ; AX - buffer address
 
-                                ; sst_sectsize currently 128
+        ; sst_sectsize currently 128
         jsr     _dio_read       ; read sector to update status
 
         ldy     #128
-        jsr     addysp          ; discard stack buffer
+        jsr     addysp  ; discard stack buffer
 
         lda     ptr2
         ldx     ptr2+1
-        jsr     pushax          ; handle
+        jsr     pushax  ; handle
 
         ldx     #0
         lda     #4
-        jsr     pushax          ; dummy sector #, ignored by this SIO command,
-                                ; but set to circumvent the special 1-3 sector
-                                ; handling in __sio_call
+        jsr     pushax  ; dummy sector #, ignored by this SIO command,
+                        ; but set to circumvent the special 1-3 sector
+                        ; handling in __sio_call
 
         ldx     #>DVSTAT
         lda     #<DVSTAT
-        jsr     pushax          ; buffer address
+        jsr     pushax  ; buffer address
 
         ldy     #sst_sectsize
         lda     #4
-        sta     (ptr2),y        ; 4 bytes transfer
+        sta     (ptr2), y       ; 4 bytes transfer
 
         ldx     #%01000000      ; direction value
         lda     #SIO_STAT       ; get status
@@ -133,11 +132,11 @@ _dio_open:
 
 ;s256
         lda     #0
-        sta     (ptr2),y
+        sta     (ptr2), y
         iny
         lda     #1
 
-finish: sta     (ptr2),y        ; set default sector size
+finish: sta     (ptr2), y       ; set default sector size
 fini2:  lda     ptr2
         ldx     ptr2+1
         rts
@@ -148,14 +147,13 @@ s128:   lda     #128
 
 ; end of _dio_open
 
-
 .proc   _dio_close
 
         sta     ptr2
         stx     ptr2+1
         lda     #0
         ldy     #sst_flag
-        sta     (ptr2),y
+        sta     (ptr2), y
         sta     ___oserror      ; success
         tax
         rts                     ; return no error

@@ -10,118 +10,116 @@
 ; 1. This License does not apply to any file with a separate License header.
 ; 2. Permission is granted, free of charge, to use, modify, and/or distribute any part of this software for any purpose.
 ;
-; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-; WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
-; COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+; WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+; COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ; ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ;
 ; Written by Zeda Thomas zedae.z80@gmail.com, Aug 2019
 
-
-    SECTION code_math
-    PUBLIC  asm_fix16_atan
+        SECTION code_math
+        PUBLIC  asm_fix16_atan
 
 asm_fix16_atan:
-    ex      de,hl
-    call    arctan_88
-    ex      de,hl
-    ret
+        ex      de, hl
+        call    arctan_88
+        ex      de, hl
+        ret
 
 arctan_88:
 ;Input:
 ;   D.E
 ;Output: atan(D.E)->D.E
-   push de
-   ld a,d
-   or a
-   jp p,$+5
-   neg
-   ld d,a
-   dec a
-   jr nz,checkneedinv
-   inc e
-   dec e
-   jr nz,checkneedinv
-   pop af
-   rla
-   ld de,201
-   ret nc
-   ld de,-201
-   ret
+        push    de
+        ld      a, d
+        or      a
+        jp      p, $+5
+        neg
+        ld      d, a
+        dec     a
+        jr      nz, checkneedinv
+        inc     e
+        dec     e
+        jr      nz, checkneedinv
+        pop     af
+        rla
+        ld      de, 201
+        ret     nc
+        ld      de, -201
+        ret
 checkneedinv:
-   inc a
-   call nz,DEgt1_Inv
+        inc     a
+        call    nz, DEgt1_Inv
 ;0.E is the value to atan
-   ld hl,adjustatan
-   push hl
-   ld a,e
-   cp 46
-   ret c
-   dec a
-   cp 42h
-   ret c
-   dec a
-   cp 4Eh
-   ret c
-   dec a
-   cp 57h
-   ret c
-   dec a
-   cp 5Eh
-   ret c
-   dec a
-   cp 64h
-   ret c
-   dec a
-   cp 6Ah
-   ret c
-   dec a
-   cp 6Fh
-   ret c
-   sub 6Fh
-   ld e,a
-   ld hl,atanlut
-   add hl,de
-   ld a,(hl)
-   ret
+        ld      hl, adjustatan
+        push    hl
+        ld      a, e
+        cp      46
+        ret     c
+        dec     a
+        cp      42h
+        ret     c
+        dec     a
+        cp      4Eh
+        ret     c
+        dec     a
+        cp      57h
+        ret     c
+        dec     a
+        cp      5Eh
+        ret     c
+        dec     a
+        cp      64h
+        ret     c
+        dec     a
+        cp      6Ah
+        ret     c
+        dec     a
+        cp      6Fh
+        ret     c
+        sub     6Fh
+        ld      e,  a
+        ld      hl, atanlut
+        add     hl, de
+        ld      a,  (hl)
+        ret
 adjustatan:
-   ld e,a
-   pop bc
-   ld a,b
-   or a
-   jp p,$+5
-   neg
-   jr z,$+9
-   ld hl,402
-   or a
-   sbc hl,de
-   ex de,hl
-   rl b
-   ret nc
-   xor a
-   sub e
-   ld e,a
-   sbc a,a
-   sub d
-   ld d,a
-   ret
-
+        ld      e, a
+        pop     bc
+        ld      a, b
+        or      a
+        jp      p, $+5
+        neg
+        jr      z,  $+9
+        ld      hl, 402
+        or      a
+        sbc     hl, de
+        ex      de, hl
+        rl      b
+        ret     nc
+        xor     a
+        sub     e
+        ld      e, a
+        sbc     a, a
+        sub     d
+        ld      d, a
+        ret
 
 DEgt1_Inv:
 ;Works if DE>1
-   ld hl,256
-   ld b,8
+        ld      hl, 256
+        ld      b,  8
 InvLoop:
-   add hl,hl
-   sbc hl,de
-   jr nc,$+3
-   add hl,de
-   adc a,a
-   djnz InvLoop
-    cpl
-   ld e,a
-    ld d,b
-    ret
+        add     hl, hl
+        sbc     hl, de
+        jr      nc, $+3
+        add     hl, de
+        adc     a,  a
+        djnz    InvLoop
+        cpl
+        ld      e, a
+        ld      d, b
+        ret
 atanlut:
 defb $6F
 defb $6F

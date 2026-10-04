@@ -16,18 +16,17 @@ EXTERN asm_NIRVANAM_fillC
 
 NIRVANAM_fillC_callee:
 
-        pop hl          ; RET address
-        pop de          ; col
-        pop bc
-        ld d,c          ; lin
-        pop bc          ; attr
-        push hl
+        pop     hl      ; RET address
+        pop     de      ; col
+        pop     bc
+        ld      d, c    ; lin
+        pop     bc      ; attr
+        push    hl
 
-	jp asm_NIRVANAM_fillC
+        jp      asm_NIRVANAM_fillC
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _NIRVANAM_fillC_callee
 defc _NIRVANAM_fillC_callee = NIRVANAM_fillC_callee
 ENDIF
-

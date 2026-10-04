@@ -4,8 +4,7 @@
 ; unsigned char tgi_getcolor (void);
 ; /* Return the current drawing color (palette index) */
 
-
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
 .proc   _tgi_getcolor
 

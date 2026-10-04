@@ -4,12 +4,11 @@
 ; int __fastcall__ creat (const char* name, unsigned mode);
 ;
 
-        .export         _creat
-        .import         _open
-        .import         pushax
+        .export _creat
+        .import _open
+        .import pushax
 
-        .include        "fcntl.inc"
-
+        .include "fcntl.inc"
 
 ; The call
 ;
@@ -20,12 +19,11 @@
 ;       open (name, O_CREAT | O_WRONLY | O_TRUNC, mode);
 ;
 
-
 .proc   _creat
 
         pha
         txa
-        pha                             ; Save mode
+        pha     ; Save mode
 
         lda     #<(O_CREAT | O_WRONLY | O_TRUNC)
         ldx     #>(O_CREAT | O_WRONLY | O_TRUNC)
@@ -34,12 +32,9 @@
         pla
         tax
         pla
-        jsr     pushax                  ; Push mode on argument stack
+        jsr     pushax  ; Push mode on argument stack
 
-        ldy     #6                      ; Number of argument bytes
+        ldy     #6      ; Number of argument bytes
         jmp     _open
 
 .endproc
-
-
-

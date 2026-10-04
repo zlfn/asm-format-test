@@ -10,10 +10,10 @@ EXTERN asm_b_array_data
 
 _b_array_data:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_b_array_data
+        push    hl
+        push    af
+
+        jp      asm_b_array_data

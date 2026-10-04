@@ -6,12 +6,12 @@
 ; void SwapRAM (char REUBank, int length, char *reuaddy, char *cpuaddy);
 ;       note that in all REU procs last two pointers are identified like here
 
-            .import REURegs
-            .export _SwapRAM
+        .import REURegs
+        .export _SwapRAM
 
-            .include "jumptab.inc"
-            .include "geossym.inc"
+        .include "jumptab.inc"
+        .include "geossym.inc"
 
 _SwapRAM:
-        jsr REURegs
-        jmp SwapRAM
+        jsr     REURegs
+        jmp     SwapRAM

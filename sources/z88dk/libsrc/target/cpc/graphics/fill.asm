@@ -26,50 +26,48 @@
 ;	$Id: fill.asm $
 ;
 
-
 ;Usage: fill(struct *pixel)
 
-        SECTION   code_clib
-        PUBLIC    fill
-        PUBLIC    _fill
+        SECTION code_clib
+        PUBLIC  fill
+        PUBLIC  _fill
 
         INCLUDE "target/cpc/def/cpcfirm.def"
-        
-        INCLUDE	"classic/gfx/grafix.inc"
 
+        INCLUDE "classic/gfx/grafix.inc"
 
 .fill
 ._fill
-		push	ix
-		ld      ix,2
-		add     ix,sp
-		
-		ld      e,(ix+2)
-		ld      d,(ix+3)
+        push    ix
+        ld      ix, 2
+        add     ix, sp
 
-		ld      hl,maxy-1
-		sbc     hl,de
+        ld      e, (ix+2)
+        ld      d, (ix+3)
 
-		ld      e,(ix+4)
-		ld      d,(ix+5)
+        ld      hl, maxy-1
+        sbc     hl, de
+
+        ld      e, (ix+4)
+        ld      d, (ix+5)
 
         call    firmware
         defw    gra_move_absolute
 
-        ld      a,1		; fore color
+        ld      a, 1    ; fore color
 
-		ld      hl,-3192	; create the buffer on stack
-		add     hl,sp
-		ld      sp,hl
-		ld      d,h
-		ld      e,l
+        ld      hl, -3192       ; create the buffer on stack
+        add     hl, sp
+        ld      sp, hl
+        ld      d,  h
+        ld      e,  l
 
         call    firmware
         defw    gra_fill        ; 664/6128 only
 
-		ld      hl,3192		; restore the stack pointer
-		add     hl,sp
-		ld      sp,hl
-		
-		pop	ix
-		ret
+        ld      hl, 3192        ; restore the stack pointer
+        add     hl, sp
+        ld      sp, hl
+
+        pop     ix
+        ret

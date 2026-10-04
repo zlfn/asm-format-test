@@ -7,10 +7,10 @@
 #include <linux/init.h>
 
 ENTRY(rockchip_secondary_trampoline)
-	ldr	pc, 1f
+        ldr     pc, 1f
 ENDPROC(rockchip_secondary_trampoline)
-	.globl	rockchip_boot_fn
+        .globl  rockchip_boot_fn
 rockchip_boot_fn:
-1:	.space	4
+1:      .space  4
 
 ENTRY(rockchip_secondary_trampoline_end)

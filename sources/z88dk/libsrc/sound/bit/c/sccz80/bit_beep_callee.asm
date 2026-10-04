@@ -10,9 +10,9 @@ EXTERN asm_bit_beep
 
 bit_beep_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_bit_beep
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_bit_beep

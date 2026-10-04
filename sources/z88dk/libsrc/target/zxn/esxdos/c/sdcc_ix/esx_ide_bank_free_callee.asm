@@ -9,17 +9,17 @@ EXTERN asm_esx_ide_bank_free
 
 _esx_ide_bank_free_callee:
 
-   pop hl
-   ex (sp),hl
-   
+        pop     hl
+        ex      (sp), hl
+
 l0_esx_ide_bank_free_callee:
 
-   push ix
-   push iy
-   
-   call asm_esx_ide_bank_free
+        push    ix
+        push    iy
 
-   pop iy
-   pop ix
+        call    asm_esx_ide_bank_free
 
-   ret
+        pop     iy
+        pop     ix
+
+        ret

@@ -10,17 +10,17 @@ PUBLIC    l_ne
 ; set carry if true
 
 .l_ne
-    ld a,l
-    sub e
-    ld l,a
-    ld a,h
-    sbc a,d
-    ld h,a
-    or l
-    ld hl,1
-    scf
-    ret nz
+        ld      a, l
+        sub     e
+        ld      l, a
+        ld      a, h
+        sbc     a, d
+        ld      h, a
+        or      l
+        ld      hl, 1
+        scf
+        ret     nz
 
-    xor a
-    dec l
-    ret
+        xor     a
+        dec     l
+        ret

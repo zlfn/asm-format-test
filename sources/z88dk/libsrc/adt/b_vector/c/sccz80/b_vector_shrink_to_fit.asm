@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _b_vector_shrink_to_fit
 defc _b_vector_shrink_to_fit = b_vector_shrink_to_fit
 ENDIF
-

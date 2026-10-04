@@ -6,10 +6,9 @@
 ; otherwise require __sysrmdir/__mappederrno that the RP6502 does not provide.
 ;
 
-        .export         _rmdir
+        .export _rmdir
 
-        .import         __sysremove
-
+        .import __sysremove
 
 ;--------------------------------------------------------------------------
 

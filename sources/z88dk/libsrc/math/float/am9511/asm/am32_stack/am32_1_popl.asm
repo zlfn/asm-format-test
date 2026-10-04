@@ -10,7 +10,7 @@
 ;-------------------------------------------------------------------------
 ;  asm_am9511_1_popl - am9511 APU pop long
 ;-------------------------------------------------------------------------
-; 
+;
 ;  Load long from Am9511 APU stack
 ;
 ;-------------------------------------------------------------------------
@@ -27,61 +27,60 @@ PUBLIC asm_am9511_1_popl_hl
 PUBLIC asm_am9511_1_popl
 
 .am9511_1_popl_hl_wait
-    ex (sp),hl
-    ex (sp),hl
-    
+        ex      (sp), hl
+        ex      (sp), hl
+
 .asm_am9511_1_popl_hl
 
-    ; float primitive
-    ; pop a long from the Am9511 stack.
-    ;
-    ; enter : stack = ret1, ret0
-    ;       :    hl = pointer to long
-    ;
-    ; exit  : stack = long, ret1
-    ; 
-    ; uses  : af, bc, hl
+        ; float primitive
+        ; pop a long from the Am9511 stack.
+        ;
+        ; enter : stack = ret1, ret0
+        ;       :    hl = pointer to long
+        ;
+        ; exit  : stack = long, ret1
+        ;
+        ; uses  : af, bc, hl
 
-    in a,(__IO_APU1_STATUS)     ; read the APU status register
-    rlca                        ; busy? __IO_APU_STATUS_BUSY
-    jr C,am9511_1_popl_hl_wait
+        in      a, (__IO_APU1_STATUS)   ; read the APU status register
+        rlca                            ; busy? __IO_APU_STATUS_BUSY
+        jr      C, am9511_1_popl_hl_wait
 
-    ld bc,__IO_APU1_DATA        ; the address of the APU data port in bc
-    inc hl
-    inc hl
-    inc hl
-    ind                         ; load MSW into APU
-    inc b
-    ind
-    inc b
-    ind                         ; load LSW into APU
-    inc b
-    ind
-    ret
+        ld      bc, __IO_APU1_DATA      ; the address of the APU data port in bc
+        inc     hl
+        inc     hl
+        inc     hl
+        ind                             ; load MSW into APU
+        inc     b
+        ind
+        inc     b
+        ind                             ; load LSW into APU
+        inc     b
+        ind
+        ret
 
 .am9511_1_popl_wait
-    ex (sp),hl
-    ex (sp),hl
+        ex      (sp), hl
+        ex      (sp), hl
 
 .asm_am9511_1_popl
 
-    ; float primitive
-    ; pop a long from the Am9511 stack.
-    ;
-    ; enter : stack = ret0
-    ;
-    ; exit  :  dehl = long
-    ; 
-    ; uses  : af, bc, de, hl
+        ; float primitive
+        ; pop a long from the Am9511 stack.
+        ;
+        ; enter : stack = ret0
+        ;
+        ; exit  :  dehl = long
+        ;
+        ; uses  : af, bc, de, hl
 
-    in a,(__IO_APU1_STATUS)     ; read the APU status register
-    rlca                        ; busy? and __IO_APU_STATUS_BUSY
-    jr C,am9511_1_popl_wait
+        in      a, (__IO_APU1_STATUS)   ; read the APU status register
+        rlca                            ; busy? and __IO_APU_STATUS_BUSY
+        jr      C, am9511_1_popl_wait
 
-    ld bc,__IO_APU1_DATA        ; the address of the APU data port in bc
-    in d,(c)                    ; load MSW from APU
-    in e,(c)
-    in h,(c)                    ; load LSW from APU
-    in l,(c)
-    ret
-
+        ld      bc, __IO_APU1_DATA      ; the address of the APU data port in bc
+        in      d,  (c)                 ; load MSW from APU
+        in      e,  (c)
+        in      h,  (c)                 ; load LSW from APU
+        in      l,  (c)
+        ret

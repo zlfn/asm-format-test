@@ -8,8 +8,8 @@
 
 .area _ZP (PAG)
 ___rand_seed::
-.randlo: .ds 1
-.randhi: .ds 1
+.randlo: .ds    1
+.randhi: .ds    1
 
 .area _HOME
 
@@ -21,36 +21,36 @@ ___rand_seed::
 _arand::
 _rand::
 _randw::
-    ; rand += 17 * rand
-    lda *.randhi
-    sta *.tmp
-    lda *.randlo
-    asl
-    rol *.tmp
-    asl
-    rol *.tmp
-    asl
-    rol *.tmp
-    asl
-    rol *.tmp
-    ;
-    clc
-    adc *.randlo
-    sta *.randlo
-    lda *.tmp
-    adc *.randhi
-    sta *.randhi
-    ; rand += 0x5C93
-    lda *.randlo
-    clc
-    adc #<0x5C93
-    sta *.randlo
-    tax
-    lda *.randhi
-    adc #>0x5C93
-    sta *.randhi
-    ; Return high byte of random number for 8-bit. Swapped low/high for 16-bit
-    rts
+        ; rand += 17 * rand
+        lda     *.randhi
+        sta     *.tmp
+        lda     *.randlo
+        asl
+        rol     *.tmp
+        asl
+        rol     *.tmp
+        asl
+        rol     *.tmp
+        asl
+        rol     *.tmp
+        ;
+        clc
+        adc     *.randlo
+        sta     *.randlo
+        lda     *.tmp
+        adc     *.randhi
+        sta     *.randhi
+        ; rand += 0x5C93
+        lda     *.randlo
+        clc
+        adc     #<0x5C93
+        sta     *.randlo
+        tax
+        lda     *.randhi
+        adc     #>0x5C93
+        sta     *.randhi
+        ; Return high byte of random number for 8-bit. Swapped low/high for 16-bit
+        rts
 
 ;
 ; Sets the seed value.
@@ -58,6 +58,6 @@ _randw::
 _initarand::
 _initrand::
 .initrand::
-    sta *.randlo
-    stx *.randhi
-    rts
+        sta     *.randlo
+        stx     *.randhi
+        rts

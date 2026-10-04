@@ -10,10 +10,10 @@ EXTERN _tolower_fastcall
 
 _tolower:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _tolower_fastcall
+        push    hl
+        push    af
+
+        jp      _tolower_fastcall

@@ -16,16 +16,16 @@ EXTERN l0_fputs_callee
 
 _fputs:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     bc
 
-   jp l0_fputs_callee
-   
+        push    bc
+        push    hl
+        push    af
+
+        jp      l0_fputs_callee
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -35,7 +35,7 @@ PUBLIC _fputs
 EXTERN _fputs_unlocked
 
 defc _fputs = _fputs_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -6,7 +6,7 @@
 ; void _rest_vecs(void);
 ;
 
-        .export __save_vecs,__rest_vecs
+        .export __save_vecs, __rest_vecs
 .include        "atari.inc"
 
         .bss
@@ -55,8 +55,8 @@ old_rmargin: .res 1     ; lmargin saved in startup code
 
         ldy     #7
 SETUP1:
-        lda     PCOLR0,y
-        sta     old_cols,y
+        lda     PCOLR0,   y
+        sta     old_cols, y
         dey
         bpl     SETUP1
         rts
@@ -95,11 +95,10 @@ SETUP1:
         sta     CH
         ldy     #7
 SETUP2:
-        lda     old_cols,Y
-        sta     PCOLR0,Y
+        lda     old_cols, Y
+        sta     PCOLR0,   Y
         dey
         bpl     SETUP2
         rts
 
 .endproc
-

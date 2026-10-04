@@ -12,18 +12,17 @@
 ;  #define LCD_GETFONT(c, buf) subcpu_function( 8, buf, 2, "\033" c)
 ;
 
+        SECTION code_clib
 
-    SECTION code_clib
+        PUBLIC  subcpu_function
+        PUBLIC  _subcpu_function
 
-    PUBLIC  subcpu_function
-    PUBLIC  _subcpu_function
-
-    EXTERN  subcpu_call
+        EXTERN  subcpu_call
 
 subcpu_function:
 _subcpu_function:
 
 asmentry:
-    ld      hl, 2
-    add     hl, sp
-    jp      subcpu_call
+        ld      hl, 2
+        add     hl, sp
+        jp      subcpu_call

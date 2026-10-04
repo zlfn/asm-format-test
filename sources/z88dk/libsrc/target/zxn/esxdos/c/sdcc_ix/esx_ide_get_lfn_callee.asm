@@ -9,19 +9,19 @@ EXTERN asm_esx_ide_get_lfn
 
 _esx_ide_get_lfn_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
 l_esx_ide_get_lfn_callee:
 
-   push ix
-   push iy
-   
-   call asm_esx_ide_get_lfn
-   
-   pop iy
-   pop ix
-   
-   ret
+        push    ix
+        push    iy
+
+        call    asm_esx_ide_get_lfn
+
+        pop     iy
+        pop     ix
+
+        ret

@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Mar 2014
 ; ===============================================================
-; 
+;
 ; void wa_priority_queue_destroy(wa_priority_queue_t *q)
 ;
 ; Zero the queue structure.
@@ -18,6 +18,6 @@ EXTERN asm_ba_priority_queue_destroy
 
 defc asm_wa_priority_queue_destroy = asm_ba_priority_queue_destroy
 
-   ; enter : hl = priority_queue *
-   ;
-   ; uses  : af, hl
+        ; enter : hl = priority_queue *
+        ;
+        ; uses  : af, hl

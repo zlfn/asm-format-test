@@ -10,10 +10,10 @@ EXTERN asm_flockfile
 
 _flockfile_fastcall:
 
-   push hl
-   ex (sp),ix
-   
-   call asm_flockfile
-   
-   pop ix
-   ret
+        push    hl
+        ex      (sp), ix
+
+        call    asm_flockfile
+
+        pop     ix
+        ret

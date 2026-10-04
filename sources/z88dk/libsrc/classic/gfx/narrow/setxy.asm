@@ -1,8 +1,8 @@
-    INCLUDE "classic/gfx/grafix.inc"
-    SECTION code_graphics
-    PUBLIC  setxy
+        INCLUDE "classic/gfx/grafix.inc"
+        SECTION code_graphics
+        PUBLIC  setxy
 
-    EXTERN  __gfx_coords
+        EXTERN  __gfx_coords
 
 ;
 ;    $Id: setxy.asm,v 1.7 2016-07-02 09:01:35 dom Exp $
@@ -25,14 +25,14 @@
 ;
 setxy:
 IF  _GFX_MAXX<>256
-    ld      a, h
-    cp      _GFX_MAXX
-    ret     nc
+        ld      a, h
+        cp      _GFX_MAXX
+        ret     nc
 ENDIF
 IF  _GFX_MAXY<>256
-    ld      a, l
-    cp      _GFX_MAXY
-    ret     nc                          ; out of range...
+        ld      a, l
+        cp      _GFX_MAXY
+        ret     nc      ; out of range...
 ENDIF
-    ld      (__gfx_coords), hl
-    ret
+        ld      (__gfx_coords), hl
+        ret

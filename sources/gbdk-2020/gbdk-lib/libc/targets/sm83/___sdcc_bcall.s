@@ -1,6 +1,6 @@
-        .include        "global.s"
+        .include "global.s"
 
-        .area _HOME
+        .area   _HOME
 
 ;; !!! ONLY WORKS WITH __sdcccall(0) calling convention
 

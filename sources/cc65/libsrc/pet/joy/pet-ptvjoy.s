@@ -14,11 +14,10 @@
 
         .macpack module
 
-
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _pet_ptvjoy_joy
+        module_header _pet_ptvjoy_joy
 
 ; Driver signature
 
@@ -64,7 +63,6 @@ INSTALL:
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.
 ;
@@ -81,27 +79,27 @@ COUNT:
 READ:   lda     #%10000000      ; via port A Data-Direction
         sta     VIA_DDRA        ; bit 7: out    bit 6-0: in
 
-        tax                     ; Joystick number into X
+        tax     ; Joystick number into X
         bne     joy2
 
 ; Read joystick 1
 
-joy1:   lda     #$80            ; via port A read/write
-        sta     VIA_PA1         ; (output one at PA7)
+joy1:   lda     #$80    ; via port A read/write
+        sta     VIA_PA1 ; (output one at PA7)
 
-        lda     VIA_PA1         ; via port A read/write
-        and     #$1f            ; get bit 4-0 (PA4-PA0)
+        lda     VIA_PA1 ; via port A read/write
+        and     #$1f    ; get bit 4-0 (PA4-PA0)
         eor     #$1f
         rts
 
 ; Read joystick 2
 
-joy2:   lda     #$00            ; via port A read/write
-        sta     VIA_PA1         ; (output zero at PA7)
+joy2:   lda     #$00    ; via port A read/write
+        sta     VIA_PA1 ; (output zero at PA7)
 
-        lda     VIA_PA1         ; via port A read/write
-        and     #$0f            ; get bit 3-0 (PA3-PA0)
-        sta     tmp1            ; joy 4 directions
+        lda     VIA_PA1 ; via port A read/write
+        and     #$0f    ; get bit 3-0 (PA3-PA0)
+        sta     tmp1    ; joy 4 directions
 
         lda     VIA_PA1         ; via port A read/write
         and     #%00100000      ; get bit 5 (PA5)

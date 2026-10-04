@@ -10,4 +10,4 @@
 
 .rodata
 
-_ser_stddrv:    .asciiz "atmos-acia.ser"
+_ser_stddrv: .asciiz "atmos-acia.ser"

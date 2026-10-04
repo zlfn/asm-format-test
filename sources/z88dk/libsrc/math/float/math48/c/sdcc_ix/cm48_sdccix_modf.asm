@@ -10,20 +10,20 @@ EXTERN l0_cm48_sdccix_modf_callee
 
 cm48_sdccix_modf:
 
-   pop af
-   
-   pop de
-   pop hl                      ; hlde = float value
+        pop     af
 
-   pop bc
-   
-   push bc
-   
-   push hl
-   push de
-   
-   push af
-   
-   push bc
+        pop     de
+        pop     hl      ; hlde = float value
 
-   jp l0_cm48_sdccix_modf_callee
+        pop     bc
+
+        push    bc
+
+        push    hl
+        push    de
+
+        push    af
+
+        push    bc
+
+        jp      l0_cm48_sdccix_modf_callee

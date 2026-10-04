@@ -9,10 +9,10 @@ EXTERN _esxdos_f_chdir_fastcall
 
 _esxdos_f_chdir:
 
-   pop af
-   pop hl
+        pop     af
+        pop     hl
 
-   push hl
-   push af
+        push    hl
+        push    af
 
-   jp _esxdos_f_chdir_fastcall
+        jp      _esxdos_f_chdir_fastcall

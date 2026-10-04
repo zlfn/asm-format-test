@@ -6,31 +6,31 @@
 ;
 
         SECTION code_clib
-        PUBLIC    joystick
-        PUBLIC    _joystick
+        PUBLIC  joystick
+        PUBLIC  _joystick
 
         INCLUDE "target/enterprise/def/enterprise.def"
 
 .joystick
 ._joystick
-	;__FASTCALL__ : joystick no. in HL
+        ;__FASTCALL__ : joystick no. in HL
 
-	; L = 0: internal joystick
-	; L = 1: external 1
-	; L = 2: external 2
+        ; L = 0: internal joystick
+        ; L = 1: external 1
+        ; L = 2: external 2
 
-	ld    a,69h     ; keyboard channel
-	ld    c,l       ; joystick number
-	ld    b,FN_JOY  ; sub-function: read joystick directly
-	rst   30h       ; EXOS
-	defb  11        ; special function
+        ld      a, 69h          ; keyboard channel
+        ld      c, l            ; joystick number
+        ld      b, FN_JOY       ; sub-function: read joystick directly
+        rst     30h             ; EXOS
+        defb    11              ; special function
 
-	; b0: right
-	; b1: left
-	; b2: down
-	; b3: up
-	; b4: fire
+        ; b0: right
+        ; b1: left
+        ; b2: down
+        ; b3: up
+        ; b4: fire
 
-	ld	h,0
-	ld	l,c
-	ret
+        ld      h, 0
+        ld      l, c
+        ret

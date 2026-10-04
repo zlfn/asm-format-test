@@ -25,36 +25,34 @@
 ; ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ; POSSIBILITY OF SUCH DAMAGE.
 
-    INCLUDE "config_private.inc"
+        INCLUDE "config_private.inc"
 
-    SECTION code_driver
-    
-    PUBLIC	asm_clock_getres
+        SECTION code_driver
 
-    ; HL contains address of struct timespec
-    ;   struct  timespec { time_t      tv_sec;     /* seconds */
-    ;                   nseconds_t  tv_nsec;}   /* and nanoseconds */
-    ;
-    ; ROMWBW always has 50 ticks per second
+        PUBLIC  asm_clock_getres
+
+        ; HL contains address of struct timespec
+        ;   struct  timespec { time_t      tv_sec;     /* seconds */
+        ;                   nseconds_t  tv_nsec;}   /* and nanoseconds */
+        ;
+        ; ROMWBW always has 50 ticks per second
 
 .asm_clock_getres
-    xor a                           ; scz180 has 50 ticks per second
-    ld (hl),a                       ; tv_sec 0x 00 00 00 00
-    inc hl
-    ld (hl),a
-    inc hl
-    ld (hl),a
-    inc hl
-    ld (hl),a
-    inc hl
-    ld (hl),a                       ; tv_nsec 0x 01 31 2D 00
-    inc hl
-    ld (hl),$2d
-    inc hl
-    ld (hl),$31
-    inc hl
-    ld (hl),$01
-    ld hl,0                         ; return null
-    ret
-
-
+        xor     a       ; scz180 has 50 ticks per second
+        ld      (hl), a ; tv_sec 0x 00 00 00 00
+        inc     hl
+        ld      (hl), a
+        inc     hl
+        ld      (hl), a
+        inc     hl
+        ld      (hl), a
+        inc     hl
+        ld      (hl), a ; tv_nsec 0x 01 31 2D 00
+        inc     hl
+        ld      (hl), $2d
+        inc     hl
+        ld      (hl), $31
+        inc     hl
+        ld      (hl), $01
+        ld      hl,   0 ; return null
+        ret

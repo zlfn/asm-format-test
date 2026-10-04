@@ -9,12 +9,12 @@ EXTERN asm_ulap_read_palette
 
 _ulap_read_palette:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
 
-   jp asm_ulap_read_palette
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_ulap_read_palette

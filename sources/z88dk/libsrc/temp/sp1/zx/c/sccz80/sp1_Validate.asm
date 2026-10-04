@@ -11,19 +11,19 @@ EXTERN asm_sp1_Validate
 
 sp1_Validate:
 
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
+        ld      d, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
 
 ;   jp asm_sp1_Validate
-   push ix
-   call asm_sp1_Validate
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_Validate
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -32,4 +32,3 @@ PUBLIC _sp1_Validate_fastcall
 defc _sp1_Validate = sp1_Validate
 defc _sp1_Validate_fastcall = sp1_Validate
 ENDIF
-

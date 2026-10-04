@@ -19,24 +19,24 @@
 // This ISA conversion limitation requires we skip all invalid or out of range FP
 // before any normal rounding operations.
 
-#define ROUNDFN(NAME, MODE) 	\
-TEXT NAME(SB),NOSPLIT,$0; 	\
-	MOVD	x+0(FP), F10; 	\
-	FMVXD	F10, X10;	\
-	/* Drop all fraction bits */;\
-	SRL	$52, X10, X12;	\
-	/* Remove sign bit */;	\
-	AND	$0x7FF, X12, X12;\
-	/* Return either input is +-Inf, NaN(0x7FF) or out of precision limitation */;\
-	/* 1023: bias of exponent, [-2^53, 2^53]: exactly integer represent range */;\
-	MOV	$1023+53, X11;	\
-	BLTU	X11, X12, 4(PC);\
-	FCVTLD.MODE F10, X11;	\
-	FCVTDL	X11, F11;	\
-	/* RISC-V rounds negative values to +0, restore original sign */;\
-	FSGNJD	F10, F11, F10;	\
-	MOVD	F10, ret+8(FP); \
-	RET
+#define ROUNDFN(NAME, MODE)     \
+TEXT NAME(SB),NOSPLIT,$0;       \
+        MOVD	x+0(FP), F10;   \
+        FMVXD	F10, X10;       \
+        /* Drop all fraction bits */;\
+        SRL	$52, X10, X12;  \
+        /* Remove sign bit */;  \
+        AND	$0x7FF, X12, X12;\
+        /* Return either input is +-Inf, NaN(0x7FF) or out of precision limitation */;\
+        /* 1023: bias of exponent, [-2^53, 2^53]: exactly integer represent range */;\
+        MOV	$1023+53, X11;  \
+        BLTU	X11, X12, 4(PC);\
+        FCVTLD.MODE F10, X11;   \
+        FCVTDL	X11, F11;       \
+        /* RISC-V rounds negative values to +0, restore original sign */;\
+        FSGNJD	F10, F11, F10;  \
+        MOVD	F10, ret+8(FP); \
+        RET
 
 // func archFloor(x float64) float64
 ROUNDFN(·archFloor, RDN)

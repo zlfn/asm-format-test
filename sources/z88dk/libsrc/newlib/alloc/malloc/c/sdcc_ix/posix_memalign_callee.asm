@@ -16,12 +16,12 @@ EXTERN asm_posix_memalign
 
 _posix_memalign:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   jp asm_posix_memalign
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_posix_memalign
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -4,12 +4,12 @@
 ; Oliver Schmidt, 03.09.2005
 ;
 
-        .include        "zeropage.inc"
-        .include        "mouse-kernel.inc"
-        .include        "apple2.inc"
-        .include        "get_tv.inc"
+        .include "zeropage.inc"
+        .include "mouse-kernel.inc"
+        .include "apple2.inc"
+        .include "get_tv.inc"
 
-        .macpack        module
+        .macpack module
 
 ; ------------------------------------------------------------------------
 
@@ -21,7 +21,7 @@ POSMOUSE        = $16   ; Sets mouse position to a user-defined pos
 CLAMPMOUSE      = $17   ; Sets mouse bounds in a window
 HOMEMOUSE       = $18   ; Sets mouse to upper-left corner of clamp win
 INITMOUSE       = $19   ; Resets mouse clamps to default values and
-                        ; sets mouse position to 0,0
+        ; sets mouse position to 0,0
 TIMEDATA        = $1C   ; Set mousecard's interrupt rate
 
 pos1_lo         := $0478
@@ -33,9 +33,9 @@ status          := $0778
 ; ------------------------------------------------------------------------
 
         .ifdef  __APPLE2ENH__
-        module_header   _a2e_stdmou_mou
+                module_header _a2e_stdmou_mou
         .else
-        module_header   _a2_stdmou_mou
+                module_header _a2_stdmou_mou
         .endif
 
         ; Driver signature
@@ -64,12 +64,12 @@ libref:
         .byte   MOUSE_FLAG_EARLY_IRQ
 
         ; Callback table, set by the kernel before INSTALL is called
-CHIDE:  jmp     $0000                   ; Hide the cursor
-CSHOW:  jmp     $0000                   ; Show the cursor
-CPREP:  jmp     $0000                   ; Prepare to move the cursor
-CDRAW:  jmp     $0000                   ; Draw the cursor
-CMOVEX: jmp     $0000                   ; Move the cursor to X coord
-CMOVEY: jmp     $0000                   ; Move the cursor to Y coord
+CHIDE:  jmp     $0000   ; Hide the cursor
+CSHOW:  jmp     $0000   ; Show the cursor
+CPREP:  jmp     $0000   ; Prepare to move the cursor
+CDRAW:  jmp     $0000   ; Draw the cursor
+CMOVEX: jmp     $0000   ; Move the cursor to X coord
+CMOVEY: jmp     $0000   ; Move the cursor to Y coord
 
 ; ------------------------------------------------------------------------
 
@@ -83,22 +83,22 @@ slot:   .res    1
 
         .rodata
 
-offsets:.byte   $05             ; Pascal 1.0 ID byte
-        .byte   $07             ; Pascal 1.0 ID byte
-        .byte   $0B             ; Pascal 1.1 generic signature byte
-        .byte   $0C             ; Device signature byte
+offsets: .byte  $05     ; Pascal 1.0 ID byte
+        .byte   $07     ; Pascal 1.0 ID byte
+        .byte   $0B     ; Pascal 1.1 generic signature byte
+        .byte   $0C     ; Device signature byte
 
-values: .byte   $38             ; Fixed
-        .byte   $18             ; Fixed
-        .byte   $01             ; Fixed
-        .byte   $20             ; X-Y pointing device type 0
+values: .byte   $38     ; Fixed
+        .byte   $18     ; Fixed
+        .byte   $01     ; Fixed
+        .byte   $20     ; X-Y pointing device type 0
 
 size    = * - values
 
-inibox: .word     0             ; MinX
-        .word     0             ; MinY
-        .word   279             ; MaxX
-        .word   191             ; MaxY
+inibox: .word   0       ; MinX
+        .word   0       ; MinY
+        .word   279     ; MaxX
+        .word   191     ; MaxY
 
 ; ------------------------------------------------------------------------
 
@@ -106,16 +106,16 @@ inibox: .word     0             ; MinX
 
 firmware:
         ; Lookup and patch firmware address lobyte
-lookup: ldy     $FF00,x         ; Patched at runtime
+lookup: ldy     $FF00, x        ; Patched at runtime
         sty     jump+1          ; Modify code below
 
         ; Apple II Mouse TechNote #1, Interrupt Environment with the Mouse:
         ; "Enter all mouse routines (...) with the X register set to $Cn
         ;  and Y register set to $n0, where n = the slot number."
-xparam: ldx     #$FF            ; Patched at runtime
-yparam: ldy     #$FF            ; Patched at runtime
+xparam: ldx     #$FF    ; Patched at runtime
+yparam: ldy     #$FF    ; Patched at runtime
 
-jump:   jmp     $FFFF           ; Patched at runtime
+jump:   jmp     $FFFF   ; Patched at runtime
 
 ; ------------------------------------------------------------------------
 
@@ -137,14 +137,14 @@ next:   inc     ptr1+1
 
         ; Mouse firmware not found
         lda     #MOUSE_ERR_NO_DEVICE
-        ldx     #0 ; return value is char
+        ldx     #0      ; return value is char
         rts
 
         ; Check Pascal 1.1 Firmware Protocol ID bytes
 :       ldx     #size - 1
-:       ldy     offsets,x
-        lda     values,x
-        cmp     (ptr1),y
+:       ldy     offsets, x
+        lda     values,  x
+        cmp     (ptr1),  y
         bne     next
         dex
         bpl     :-
@@ -178,11 +178,11 @@ next:   inc     ptr1+1
         sta     ptr1
         stx     ptr1+1
 
-        .ifdef __APPLE2ENH__
-        lda     (ptr1)
+        .ifdef  __APPLE2ENH__
+                lda     (ptr1)
         .else
-        ldy     #$00
-        lda     (ptr1),y
+                ldy     #$00
+                lda     (ptr1), y
         .endif
 
         cmp     #TV::OTHER
@@ -191,13 +191,13 @@ next:   inc     ptr1+1
         ; The TV values are aligned with the values the mousecard
         ; expect: 0 for 60Hz, 1 for 50Hz.
         .assert TV::NTSC = 0, error
-        .assert TV::PAL = 1, error
+        .assert TV::PAL = 1,  error
 
         ldx     #TIMEDATA
         jsr     firmware
 
-:       ; The AppleMouse II Card needs the ROM switched in
-        ; to be able to detect an Apple //e and use RDVBL
+:               ; The AppleMouse II Card needs the ROM switched in
+                ; to be able to detect an Apple //e and use RDVBL
         bit     $C082
 
         ; Reset mouse hardware
@@ -220,13 +220,13 @@ next:   inc     ptr1+1
         ; Set initial mouse position
         ldx     slot
         lda     #<(279 / 2)
-        sta     pos1_lo,x
+        sta     pos1_lo, x
         lda     #>(279 / 2)
-        sta     pos1_hi,x
+        sta     pos1_hi, x
         lda     #<(191 / 2)
-        sta     pos2_lo,x
+        sta     pos2_lo, x
         lda     #>(191 / 2)
-        sta     pos2_hi,x
+        sta     pos2_hi, x
         ldx     #POSMOUSE
         jsr     firmware
 
@@ -255,7 +255,7 @@ UNINSTALL:
         ; Turn mouse off
         lda     #%00000000
         ldx     #SETMOUSE
-        bne     common          ; Branch always
+        bne     common  ; Branch always
 
 ; SETBOX: Set the mouse bounding box. The parameters are passed as they come
 ; from the C program, that is, a pointer to a mouse_box struct in A/X.
@@ -282,12 +282,12 @@ SETBOX:
         sei
 
         ; Set low clamp
-        lda     (ptr1),y
-        sta     box,y
+        lda     (ptr1), y
+        sta     box,    y
         sta     pos1_lo
         iny
-        lda     (ptr1),y
-        sta     box,y
+        lda     (ptr1), y
+        sta     box,    y
         sta     pos1_hi
 
         ; Skip one word
@@ -296,17 +296,17 @@ SETBOX:
 
         ; Set high clamp
         iny
-        lda     (ptr1),y
-        sta     box,y
+        lda     (ptr1), y
+        sta     box,    y
         sta     pos2_lo
         iny
-        lda     (ptr1),y
-        sta     box,y
+        lda     (ptr1), y
+        sta     box,    y
         sta     pos2_hi
 
         txa
         ldx     #CLAMPMOUSE
-        bne     common          ; Branch always
+        bne     common  ; Branch always
 
 ; GETBOX: Return the mouse bounding box. The parameters are passed as they
 ; come from the C program, that is, a pointer to a mouse_box struct in A/X.
@@ -315,8 +315,8 @@ GETBOX:
         stx     ptr1+1
 
         ldy     #.sizeof(MOUSE_BOX)-1
-:       lda     box,y
-        sta     (ptr1),y
+:       lda     box,    y
+        sta     (ptr1), y
         dey
         bpl     :-
         rts
@@ -332,26 +332,26 @@ MOVE:
         sei
 
         ; Set y
-        sta     pos2_lo,y
+        sta     pos2_lo, y
         txa
-        sta     pos2_hi,y
+        sta     pos2_hi, y
 
         tya
         tax
-        ldy     #$00            ; Start at top of stack
+        ldy     #$00    ; Start at top of stack
 
         ; Set x
-        lda     (c_sp),y
+        lda     (c_sp), y
         iny
-        sta     pos1_lo,x
-        lda     (c_sp),y
-        sta     pos1_hi,x
+        sta     pos1_lo, x
+        lda     (c_sp),  y
+        sta     pos1_hi, x
 
         ; Update cursor
         jsr     update
 
         ldx     #POSMOUSE
-        bne     common          ; Branch always
+        bne     common  ; Branch always
 
 ; HIDE: Is called to hide the mouse cursor. The mouse kernel manages a
 ; counter for calls to show/hide, and the driver entry point is only called
@@ -387,7 +387,7 @@ BUTTONS:
 ; No return code required.
 POS:
         ldy     #.sizeof(MOUSE_POS)-1
-        bne     copy            ; Branch always
+        bne     copy    ; Branch always
 
 ; INFO: Returns mouse position and current button mask in the MOUSE_INFO
 ; struct pointed to by ptr1. No return code required.
@@ -395,8 +395,8 @@ INFO:
         ldy     #.sizeof(MOUSE_INFO)-1
 copy:   php
         sei
-:       lda     info,y
-        sta     (ptr1),y
+:       lda     info,   y
+        sta     (ptr1), y
         dey
         bpl     :-
         plp
@@ -423,7 +423,7 @@ IRQ:
         ldx     #SERVEMOUSE
         jsr     firmware
         bcc     :+
-        clc                     ; Interrupt not handled
+        clc     ; Interrupt not handled
 done:   rts
 
 :       ldx     #READMOUSE
@@ -431,8 +431,8 @@ done:   rts
 
         ; Get status
         ldy     slot
-        lda     status,y
-        tax                     ; Save status
+        lda     status, y
+        tax     ; Save status
 
         ; Extract button down values
         asl                     ;  C = Button 0 is currently down
@@ -455,21 +455,21 @@ update: jsr     CPREP
 
         ; Get and set the new X position
         ldy     slot
-        lda     pos1_lo,y
-        ldx     pos1_hi,y
+        lda     pos1_lo, y
+        ldx     pos1_hi, y
         sta     info + MOUSE_POS::XCOORD
         stx     info + MOUSE_POS::XCOORD+1
         jsr     CMOVEX
 
         ; Get and set the new Y position
         ldy     slot
-        lda     pos2_lo,y
-        ldx     pos2_hi,y
+        lda     pos2_lo, y
+        ldx     pos2_hi, y
         sta     info + MOUSE_POS::YCOORD
         stx     info + MOUSE_POS::YCOORD+1
         jsr     CMOVEY
 
         ; Draw the cursor at the new position
 :       jsr     CDRAW
-        sec                     ; Interrupt handled
+        sec     ; Interrupt handled
         rts

@@ -9,11 +9,11 @@ EXTERN asm_im2_InstallISR
 .im2_InstallISR
 ._im2_InstallISR
 
-   pop af
-   pop de
-   pop hl
-   push hl
-   push de
-   push af
-   
-   jp asm_im2_InstallISR
+        pop     af
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_im2_InstallISR

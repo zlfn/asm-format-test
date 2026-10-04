@@ -27,81 +27,81 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _divuint
+        .module _divuint
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __divuint_PARM_2
-	.globl __divsint_PARM_2
-	.globl __moduint_PARM_2
-	.globl __modsint_PARM_2
-	.globl _div_PARM_2
-	.globl __divuint
-	.globl ___udivmod16
+        .globl  __divuint_PARM_2
+        .globl  __divsint_PARM_2
+        .globl  __moduint_PARM_2
+        .globl  __modsint_PARM_2
+        .globl  _div_PARM_2
+        .globl  __divuint
+        .globl  ___udivmod16
 
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 __divuint_PARM_2:
 __divsint_PARM_2:
 __moduint_PARM_2:
 __modsint_PARM_2:
 _div_PARM_2:
-	.ds 2
+        .ds     2
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define res "___SDCC_m6502_ret0"
-	.define den "__divuint_PARM_2"
-	.define rem "___SDCC_m6502_ret2"
-	.define s1  "___SDCC_m6502_ret4"
-	.define s2  "___SDCC_m6502_ret5"
+        .define res "___SDCC_m6502_ret0"
+        .define den "__divuint_PARM_2"
+        .define rem "___SDCC_m6502_ret2"
+        .define s1  "___SDCC_m6502_ret4"
+        .define s2  "___SDCC_m6502_ret5"
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 __divuint:
-	jsr	___udivmod16
-	lda	*res+0
-	ldx	*res+1
-	rts
+        jsr     ___udivmod16
+        lda     *res+0
+        ldx     *res+1
+        rts
 
 ___udivmod16:
-	sta	*res+0
-	stx	*res+1
+        sta     *res+0
+        stx     *res+1
 
-	lda	#0
-	sta	*rem+1
-	ldy	#16
+        lda     #0
+        sta     *rem+1
+        ldy     #16
 ;	ldx	__divuint_PARM_2+1
 ;	beq	div16x8
 next_bit:
-	asl	*res+0
-	rol	*res+1
-	rol	a
-	rol	*rem+1
+        asl     *res+0
+        rol     *res+1
+        rol     a
+        rol     *rem+1
 
-	tax
-	cmp	*den+0
-	lda	*rem+1
-	sbc	*den+1
-	bcc	L1
-	sta	*rem+1
-	txa
-	sbc	*den+0
-	tax
-	inc	*res+0
+        tax
+        cmp     *den+0
+        lda     *rem+1
+        sbc     *den+1
+        bcc     L1
+        sta     *rem+1
+        txa
+        sbc     *den+0
+        tax
+        inc     *res+0
 L1:
-	txa
-	dey
-	bne	next_bit
-	sta	*rem+0
-	rts
+        txa
+        dey
+        bne     next_bit
+        sta     *rem+0
+        rts
 
 ;div16x8:
 ;LL0:
@@ -122,4 +122,3 @@ L1:
 ;	lda	*___SDCC_m6502_ret0+0
 ;	ldx	*___SDCC_m6502_ret0+1
 ;	rts
-

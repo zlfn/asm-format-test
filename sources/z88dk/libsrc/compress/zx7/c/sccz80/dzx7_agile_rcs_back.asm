@@ -10,12 +10,12 @@ EXTERN asm_dzx7_agile_rcs_back
 
 dzx7_agile_rcs_back:
 
-   pop af
-   pop de
-   pop hl
+        pop     af
+        pop     de
+        pop     hl
 
-   push hl
-   push de
-   push af
+        push    hl
+        push    de
+        push    af
 
-   jp asm_dzx7_agile_rcs_back
+        jp      asm_dzx7_agile_rcs_back

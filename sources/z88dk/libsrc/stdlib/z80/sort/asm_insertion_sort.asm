@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Jan 2014
 ; ===============================================================
-; 
+;
 ; void insertion_sort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *))
 ;
 ; Insertion sort the array using the comparison function supplied.
@@ -19,118 +19,118 @@ EXTERN error_znc
 EXTERN __sort_parameters, asm0_memswap
 
 IF __CLASSIC
-   EXTERN l_jpix               ; classic: comparator reached via ix closure (see asm_quicksort.asm)
+        EXTERN  l_jpix  ; classic: comparator reached via ix closure (see asm_quicksort.asm)
 ELSE
-   EXTERN l_compare_de_hl
+        EXTERN  l_compare_de_hl
 ENDIF
 
 asm_insertion_sort:
 
-   ; enter : ix = int (*compar)(de=const void *, hl=const void *)
-   ;         bc = void *base
-   ;         hl = size_t nmemb
-   ;         de = size_t size
-   ;
-   ; exit  : none
-   ;
-   ;         if an error below occurs, no sorting is done.
-   ;
-   ;         einval if size == 0
-   ;         einval if array size > 64k
-   ;         erange if array wraps 64k boundary
-   ;
-   ; uses  : af, bc, de, hl, compare function
+        ; enter : ix = int (*compar)(de=const void *, hl=const void *)
+        ;         bc = void *base
+        ;         hl = size_t nmemb
+        ;         de = size_t size
+        ;
+        ; exit  : none
+        ;
+        ;         if an error below occurs, no sorting is done.
+        ;
+        ;         einval if size == 0
+        ;         einval if array size > 64k
+        ;         erange if array wraps 64k boundary
+        ;
+        ; uses  : af, bc, de, hl, compare function
 
-   call __sort_parameters
-   ret c                       ; if error
+        call    __sort_parameters
+        ret     c       ; if error
 
 asm0_insertion_sort:
 
-   ; de = array_lo
-   ; hl = array_hi
-   ; bc = size
-   ; ix = compare
+        ; de = array_lo
+        ; hl = array_hi
+        ; bc = size
+        ; ix = compare
 
-   add hl,bc
-   push hl                     ; save array_hi + 1
-   
-   ex de,hl
-   
-   add hl,bc
-   ld e,l
-   ld d,h                      ; hl = array_lo + 1, de = array_lo + 1 = i
+        add     hl, bc
+        push    hl      ; save array_hi + 1
+
+        ex      de, hl
+
+        add     hl, bc
+        ld      e,  l
+        ld      d,  h   ; hl = array_lo + 1, de = array_lo + 1 = i
 
 array_loop:
 
-   ; de = i
-   ; hl = array_lo + 1
-   ; bc = size
-   ; ix = compare
-   ; stack = array_hi + 1
-   
-   ex (sp),hl                  ; hl = array_hi + 1
+        ; de = i
+        ; hl = array_lo + 1
+        ; bc = size
+        ; ix = compare
+        ; stack = array_hi + 1
 
-   ld a,l
-   cp e
-   jr nz, begin_loop           ; if i != array_hi + 1
-   
-   ld a,h
-   cp d
-   jp z, error_znc - 1         ; finished if i == array_hi + 1
+        ex      (sp), hl        ; hl = array_hi + 1
+
+        ld      a, l
+        cp      e
+        jr      nz, begin_loop  ; if i != array_hi + 1
+
+        ld      a, h
+        cp      d
+        jp      z, error_znc - 1        ; finished if i == array_hi + 1
 
 begin_loop:
 
-   ex (sp),hl                  ; hl = array_lo + 1
-   
-   push de
-   push hl   
-   or a                        ; carry=0 for insert_loop
+        ex      (sp), hl        ; hl = array_lo + 1
+
+        push    de
+        push    hl
+        or      a       ; carry=0 for insert_loop
 
 insert_loop:
 
-   ; de = j
-   ; bc = size
-   ; ix = compare
-   ; stack = array_hi + 1, i, array_lo + 1
+        ; de = j
+        ; bc = size
+        ; ix = compare
+        ; stack = array_hi + 1, i, array_lo + 1
 
-   ld l,e
-   ld h,d
-   
-   sbc hl,bc                   ; hl = j-1
+        ld      l, e
+        ld      h, d
 
-   IF __CLASSIC
-   call l_jpix                 ; via closure thunk
-   ELSE
-   call l_compare_de_hl
-   ENDIF
-   jp p, insert_exit           ; if array[j] >= array[j-1]
+        sbc     hl, bc  ; hl = j-1
 
-   push bc
-   call asm0_memswap           ; swap(j, j-1, size)
-   pop bc
-   
-   ex de,hl                    ; de = j-1
-   
-   pop hl                      ; hl = array_lo + 1
-   push hl
+        IF      __CLASSIC
+                call    l_jpix  ; via closure thunk
+        ELSE
+                call    l_compare_de_hl
+        ENDIF
+        jp      p, insert_exit  ; if array[j] >= array[j-1]
 
-   ld a,e
-   sub l
-   ld a,d
-   sbc a,h
+        push    bc
+        call    asm0_memswap    ; swap(j, j-1, size)
+        pop     bc
 
-   jp nc, insert_loop          ; if more elements in array (j-1 >= array_lo + 1)
+        ex      de, hl  ; de = j-1
+
+        pop     hl      ; hl = array_lo + 1
+        push    hl
+
+        ld      a, e
+        sub     l
+        ld      a, d
+        sbc     a, h
+
+        jp      nc, insert_loop ; if more elements in array (j-1 >= array_lo + 1)
 
 insert_exit:
 
-   ; bc = size
-   ; ix = compare
-   ; stack = array_hi + 1, i, array_lo + 1
+        ; bc = size
+        ; ix = compare
+        ; stack = array_hi + 1, i, array_lo + 1
 
-   pop de                      ; de = array_lo + 1
-   pop hl                      ; hl = i
-   
-   add hl,bc
-   ex de,hl
-   
-   jr array_loop
+        pop     de      ; de = array_lo + 1
+        pop     hl      ; hl = i
+
+        add     hl, bc
+        ex      de, hl
+
+        jr      array_loop

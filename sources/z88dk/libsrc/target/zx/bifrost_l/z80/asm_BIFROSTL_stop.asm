@@ -13,7 +13,7 @@ EXTERN _BIFROSTL_ISR_HOOK
 
 asm_BIFROSTL_stop:
 
-   ld hl,_BIFROSTL_ISR_HOOK
-   ld ($fdfe),hl
-   
-   ret
+        ld      hl, _BIFROSTL_ISR_HOOK
+        ld      ($fdfe), hl
+
+        ret

@@ -4,9 +4,9 @@
 ; void waitvsync (void);
 ;
 
-        .export         _waitvsync
+        .export _waitvsync
 
-        .include        "plus4.inc"
+        .include "plus4.inc"
 
 _waitvsync:
 @l1:

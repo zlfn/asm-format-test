@@ -18,50 +18,50 @@ asm_sp1_IterateSprChar:
 ;         ix = user function
 ; uses  : af, bc, hl + whatever user function uses
 
-   ld bc,15
-   add hl,bc              ; hl = & struct sp1_ss.first
+        ld      bc, 15
+        add     hl, bc  ; hl = & struct sp1_ss.first
 
-   ld c,b                 ; bc = sprite char counter = 0
+        ld      c, b    ; bc = sprite char counter = 0
 
 iterloop:
 
-   ld a,(hl)
-   or a
-   ret z
+        ld      a, (hl)
+        or      a
+        ret     z
 
-   inc hl
-   ld l,(hl)
-   ld h,a                 ; hl = & next struct sp1_cs
+        inc     hl
+        ld      l, (hl)
+        ld      h, a    ; hl = & next struct sp1_cs
 
-   push ix
-   
-IFDEF __SDCC
-
-   push hl
-   push bc
-
-ELSE
-
-   push bc
-   push hl
-
-ENDIF
-
-   call l_jpix            ; call userfunc(uint count, struct sp1_cs *c)
+        push    ix
 
 IFDEF __SDCC
 
-   pop bc
-   pop hl
+        push    hl
+        push    bc
 
 ELSE
 
-   pop hl
-   pop bc
+        push    bc
+        push    hl
 
 ENDIF
 
-   pop ix
+        call    l_jpix  ; call userfunc(uint count, struct sp1_cs *c)
 
-   inc bc
-   jp iterloop
+IFDEF __SDCC
+
+        pop     bc
+        pop     hl
+
+ELSE
+
+        pop     hl
+        pop     bc
+
+ENDIF
+
+        pop     ix
+
+        inc     bc
+        jp      iterloop

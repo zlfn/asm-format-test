@@ -10,14 +10,14 @@ EXTERN asm_fzx_buffer_extent
 
 _fzx_buffer_extent:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
-   
-   jp asm_fzx_buffer_extent
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_fzx_buffer_extent

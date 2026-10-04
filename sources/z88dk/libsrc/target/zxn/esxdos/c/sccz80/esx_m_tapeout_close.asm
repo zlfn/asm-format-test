@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_m_tapeout_close
 defc _esx_m_tapeout_close = esx_m_tapeout_close
 ENDIF
-

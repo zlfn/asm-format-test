@@ -16,8 +16,8 @@ EXTERN asm_BIFROST2_findAttrH
 
 _BIFROST2_findAttrH_callee:
 
-   pop hl
-	ex (sp),hl      ; L = lin
-	ld c,h          ; C = col
+        pop     hl
+        ex      (sp), hl        ; L = lin
+        ld      c,    h         ; C = col
 
-   jp asm_BIFROST2_findAttrH
+        jp      asm_BIFROST2_findAttrH

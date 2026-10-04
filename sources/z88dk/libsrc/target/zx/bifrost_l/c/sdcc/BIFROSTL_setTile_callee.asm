@@ -16,12 +16,12 @@ EXTERN asm_BIFROSTL_setTile
 
 _BIFROSTL_setTile_callee:
 
-   pop af
-	pop hl          ; L = px
-	ld c,h          ; C = py
-	dec sp
-	pop de
-	ld e,d          ; E = tile
-	push af
-	
-	jp asm_BIFROSTL_setTile
+        pop     af
+        pop     hl      ; L = px
+        ld      c, h    ; C = py
+        dec     sp
+        pop     de
+        ld      e, d    ; E = tile
+        push    af
+
+        jp      asm_BIFROSTL_setTile

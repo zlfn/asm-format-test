@@ -10,30 +10,29 @@ EXTERN asm_ulltoa
 
 ulltoa_callee:
 
-   pop af	;ret
-   pop bc	;radix
-   exx
-   pop bc	;buf
-   exx
-   pop hl	;num
-   pop de	;num
-   exx
-   pop hl	;num
-   pop de	;num
-   exx
+        pop     af      ;ret
+        pop     bc      ;radix
+        exx
+        pop     bc      ;buf
+        exx
+        pop     hl      ;num
+        pop     de      ;num
+        exx
+        pop     hl      ;num
+        pop     de      ;num
+        exx
 
-   push af
-   
-   exx
-   push bc
-   exx
-   ex (sp),ix
-   
-   call asm_ulltoa
-   
-   pop ix
-   ret
+        push    af
 
+        exx
+        push    bc
+        exx
+        ex      (sp), ix
+
+        call    asm_ulltoa
+
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC

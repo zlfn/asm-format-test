@@ -11,26 +11,26 @@ EXTERN l_divs_32_32x32
 
 __sdiv32:
 __divslong:
-   push ix
-   ld ix,0
-   add ix,sp
+        push    ix
+        ld      ix, 0
+        add     ix, sp
 
-   ex de,hl
-   exx
+        ex      de, hl
+        exx
 
-   ld l,(ix+4)
-   ld h,(ix+5)
-   ld e,(ix+6)
-   ld d,(ix+7)
+        ld      l, (ix+4)
+        ld      h, (ix+5)
+        ld      e, (ix+6)
+        ld      d, (ix+7)
 
-   call l_divs_32_32x32
+        call    l_divs_32_32x32
 
-   ex de,hl
-   push hl
-   push de
-   exx
-   pop de
-   pop hl
+        ex      de, hl
+        push    hl
+        push    de
+        exx
+        pop     de
+        pop     hl
 
-   pop ix
-   ret
+        pop     ix
+        ret

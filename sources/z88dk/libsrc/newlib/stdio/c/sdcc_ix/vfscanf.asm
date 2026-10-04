@@ -16,18 +16,18 @@ EXTERN l0_vfscanf_callee
 
 _vfscanf:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
 
-   jp l0_vfscanf_callee
-   
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_vfscanf_callee
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -37,7 +37,7 @@ PUBLIC _vfscanf
 EXTERN _vfscanf_unlocked
 
 defc _vfscanf = _vfscanf_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

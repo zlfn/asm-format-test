@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Apr 2014
 ; ===============================================================
-; 
+;
 ; void rewind(FILE *stream)
 ;
 ; Clear any stream error and execute fseek(stream, 0L, SEEK_SET)
@@ -23,42 +23,42 @@ EXTERN asm0_rewind_unlocked, __stdio_lock_release
 
 asm_rewind:
 
-   ; enter :   ix = FILE *
-   ;
-   ; exit  :   ix = FILE *
-   ;
-   ;         success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : all except ix
+        ; enter :   ix = FILE *
+        ;
+        ; exit  :   ix = FILE *
+        ;
+        ;         success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : all except ix
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF __CLIB_OPT_STDIO & $01
 
-   EXTERN __stdio_verify_valid_lock
+        EXTERN  __stdio_verify_valid_lock
 
-   call __stdio_verify_valid_lock
-   ret c
+        call    __stdio_verify_valid_lock
+        ret     c
 
 ELSE
 
-   EXTERN __stdio_lock_acquire, error_enolck_mc
-   
-   call __stdio_lock_acquire
-   jp c, error_enolck_mc
+        EXTERN  __stdio_lock_acquire, error_enolck_mc
+
+        call    __stdio_lock_acquire
+        jp      c, error_enolck_mc
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   
-   call asm0_rewind_unlocked
-   jp __stdio_lock_release
+
+        call    asm0_rewind_unlocked
+        jp      __stdio_lock_release
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

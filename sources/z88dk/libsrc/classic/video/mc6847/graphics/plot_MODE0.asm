@@ -1,33 +1,33 @@
 
-    SECTION code_driver
+        SECTION code_driver
 
-    PUBLIC  plot_MODE0
+        PUBLIC  plot_MODE0
 
-    INCLUDE "classic/video/mc6847/mc6847.inc"
+        INCLUDE "classic/video/mc6847/mc6847.inc"
 
 plot_MODE0:
-    ld      a, l
+        ld      a, l
 IF MODE0_3x2
-    cp      48
+        cp      48
 ELIF MODE0_1x1
-    cp      16
+        cp      16
 ELSE
-    cp      32
+        cp      32
 ENDIF
-    ret     nc
-    ld      a, h
+        ret     nc
+        ld      a, h
 IF MODE0_1x1
-    cp      MC6847_CONSOLE_COLUMNS
+        cp      MC6847_CONSOLE_COLUMNS
 ELSE
-    cp      MC6847_CONSOLE_COLUMNS * 2
+        cp      MC6847_CONSOLE_COLUMNS * 2
 ENDIF
-    ret     nc
+        ret     nc
 
-    defc    NEEDplot=1
+        defc    NEEDplot=1
 IF MODE0_3x2
-    INCLUDE "classic/gfx/gencon/pixel6.inc"
+        INCLUDE "classic/gfx/gencon/pixel6.inc"
 ELIF MODE0_1x1
-    INCLUDE "classic/gfx/gencon/pixel1.inc"
+        INCLUDE "classic/gfx/gencon/pixel1.inc"
 ELSE
-    INCLUDE "classic/gfx/gencon/pixel.inc"
+        INCLUDE "classic/gfx/gencon/pixel.inc"
 ENDIF

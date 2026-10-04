@@ -10,10 +10,10 @@ EXTERN _isxdigit_fastcall
 
 _isxdigit:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _isxdigit_fastcall
+        push    hl
+        push    af
+
+        jp      _isxdigit_fastcall

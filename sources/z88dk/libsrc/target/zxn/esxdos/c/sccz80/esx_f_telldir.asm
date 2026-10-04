@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_f_telldir
 defc _esx_f_telldir = esx_f_telldir
 ENDIF
-

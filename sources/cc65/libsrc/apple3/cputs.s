@@ -9,16 +9,16 @@
 ; Output in one SOS call to improve console speed
 ;
 
-        .export         _cputsxy, _cputs
-        .import         gotoxy, wrconss
-        .importzp       ptr1
+        .export _cputsxy, _cputs
+        .import gotoxy,   wrconss
+        .importzp ptr1
 
-        .include        "sos.inc"
+        .include "sos.inc"
 
 _cputsxy:
-        sta     ptr1            ; Save s for later
+        sta     ptr1    ; Save s for later
         stx     ptr1+1
-        jsr     gotoxy          ; Set cursor, pop x and y
+        jsr     gotoxy  ; Set cursor, pop x and y
         lda     ptr1
         ldx     ptr1+1
 
@@ -30,7 +30,7 @@ _cputs: sta     ptr1
         ; find length of s
         ldy     #0
         sty     sosparam + SOS::RW::REQUEST_COUNT+1
-:       lda     (ptr1),y
+:       lda     (ptr1), y
         beq     :+
         iny
         bne     :-
@@ -41,4 +41,3 @@ _cputs: sta     ptr1
 
         ; write it out
         jmp     wrconss
-

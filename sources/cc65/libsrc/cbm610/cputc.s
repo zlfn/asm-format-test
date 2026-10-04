@@ -7,34 +7,33 @@
 ; Important note: The implementation of cputs() relies on the cputc() function
 ; not clobbering ptr1. Beware when rewriting or changing this function!
 
-        .export         _cputcxy, _cputc, cputdirect, putchar
-        .export         newline, plot
-        .destructor     setsyscursor
+        .export _cputcxy, _cputc, cputdirect, putchar
+        .export newline,  plot
+        .destructor setsyscursor
 
-        .import         gotoxy
-        .import         PLOT
+        .import gotoxy
+        .import PLOT
 
-        .import         ktmp: zp, crtc: zp, CURS_X: zp, CURS_Y: zp, RVS: zp
-        .import         CharPtr: zp
+        .import ktmp: zp, crtc: zp, CURS_X: zp, CURS_Y: zp, RVS: zp
+        .import CharPtr: zp
 
-        .include        "cbm610.inc"
-
+        .include "cbm610.inc"
 
 _cputcxy:
-        pha                     ; Save C
-        jsr     gotoxy          ; Set cursor, drop x and y
-        pla                     ; Restore C
+        pha             ; Save C
+        jsr     gotoxy  ; Set cursor, drop x and y
+        pla             ; Restore C
 
 ; Plot a character - also used as internal function
 
-_cputc: cmp     #$0A            ; CR?
+_cputc: cmp     #$0A    ; CR?
         bne     L1
         lda     #0
         sta     CURS_X
-        beq     plot            ; Recalculate pointers
+        beq     plot    ; Recalculate pointers
 
-L1:     cmp     #$0D            ; LF?
-        beq     newline         ; Recalculate pointers
+L1:     cmp     #$0D    ; LF?
+        beq     newline ; Recalculate pointers
 
 ; Printable char of some sort
 
@@ -49,7 +48,7 @@ L1:     cmp     #$0D            ; LF?
 L2:     and     #$3F
 
 cputdirect:
-        jsr     putchar         ; Write the character to the screen
+        jsr     putchar ; Write the character to the screen
 
 ; Advance cursor position
 
@@ -57,8 +56,8 @@ advance:
         iny
         cpy     #XSIZE
         bne     L3
-        jsr     newline         ; new line
-        ldy     #0              ; + cr
+        jsr     newline ; new line
+        ldy     #0      ; + cr
 L3:     sty     CURS_X
         rts
 
@@ -90,16 +89,16 @@ putchar:
         sty     IndReg
         ora     RVS             ; Set revers bit
         ldy     CURS_X
-        sta     (CharPtr),y     ; Set char
+        sta     (CharPtr), y    ; Set char
         stx     IndReg
         rts
 
 ; Set cursor position, calculate RAM pointers
 
 plot:   ldx     CURS_Y
-        lda     LineLSBTab,x
+        lda     LineLSBTab, x
         sta     CharPtr
-        lda     LineMSBTab,x
+        lda     LineMSBTab, x
         sta     CharPtr+1
 
         lda     IndReg
@@ -110,23 +109,23 @@ plot:   ldx     CURS_Y
         ldy     #$00
         clc
         sei
-        sta     (crtc),y
+        sta     (crtc), y
         lda     CharPtr
         adc     CURS_X
         iny
-        sta     (crtc),y
+        sta     (crtc), y
         dey
         lda     #$0E
-        sta     (crtc),y
+        sta     (crtc), y
         iny
-        lda     (crtc),y
+        lda     (crtc), y
         and     #$F8
         sta     ktmp
         lda     CharPtr+1
         adc     #$00
         and     #$07
         ora     ktmp
-        sta     (crtc),y
+        sta     (crtc), y
         cli
 
         pla
@@ -142,7 +141,7 @@ setsyscursor:
         ldy     CURS_X
         ldx     CURS_Y
         clc
-        jmp     PLOT            ; Set the new cursor
+        jmp     PLOT    ; Set the new cursor
 
 ; -------------------------------------------------------------------------
 ; Low bytes of the start address of the screen lines
@@ -150,16 +149,15 @@ setsyscursor:
 .rodata
 
 LineLSBTab:
-        .byte   $00,$50,$A0,$F0,$40,$90,$E0,$30
-        .byte   $80,$D0,$20,$70,$C0,$10,$60,$B0
-        .byte   $00,$50,$A0,$F0,$40,$90,$E0,$30
+        .byte   $00, $50, $A0, $F0, $40, $90, $E0, $30
+        .byte   $80, $D0, $20, $70, $C0, $10, $60, $B0
+        .byte   $00, $50, $A0, $F0, $40, $90, $E0, $30
         .byte   $80
 ; -------------------------------------------------------------------------
 ; High bytes of the start address of the screen lines
 
 LineMSBTab:
-        .byte   $D0,$D0,$D0,$D0,$D1,$D1,$D1,$D2
-        .byte   $D2,$D2,$D3,$D3,$D3,$D4,$D4,$D4
-        .byte   $D5,$D5,$D5,$D5,$D6,$D6,$D6,$D7
+        .byte   $D0, $D0, $D0, $D0, $D1, $D1, $D1, $D2
+        .byte   $D2, $D2, $D3, $D3, $D3, $D4, $D4, $D4
+        .byte   $D5, $D5, $D5, $D5, $D6, $D6, $D6, $D7
         .byte   $D7
-

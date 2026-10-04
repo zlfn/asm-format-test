@@ -2,10 +2,10 @@
 
 .data
 
-FOO STRUCT 2
-  x BYTE ?
-  y WORD 5 DUP (?)
-FOO ENDS
+FOO     STRUCT  2
+        x       BYTE ?
+        y       WORD 5 DUP (?)
+FOO     ENDS
 
 .code
 
@@ -56,9 +56,8 @@ mov eax, type(FOO)
 ; CHECK: mov eax, 12
 ; CHECK: mov eax, 12
 
-
 t2_full BYTE "ab"
-t2_short DB ?
+t2_short DB     ?
 t2_signed SBYTE 3 DUP (?)
 
 t2:
@@ -85,9 +84,8 @@ mov eax, type(t2_signed)
 ; CHECK: mov eax, 3
 ; CHECK: mov eax, 1
 
-
 t3_full WORD 2 DUP (?)
-t3_short DW ?
+t3_short DW     ?
 t3_signed SWORD 3 DUP (?)
 
 t3:
@@ -114,9 +112,8 @@ mov eax, type(t3_signed)
 ; CHECK: mov eax, 3
 ; CHECK: mov eax, 2
 
-
 t4_full DWORD 2 DUP (?)
-t4_short DD ?
+t4_short DD     ?
 t4_signed SDWORD 3 DUP (?)
 
 t4:
@@ -143,9 +140,8 @@ mov eax, type(t4_signed)
 ; CHECK: mov eax, 3
 ; CHECK: mov eax, 4
 
-
 t5_full FWORD 2 DUP (?)
-t5_short DF ?
+t5_short DF     ?
 
 t5:
 ; CHECK-LABEL: t5:
@@ -164,9 +160,8 @@ mov eax, type(t5_short)
 ; CHECK: mov eax, 1
 ; CHECK: mov eax, 6
 
-
 t6_full QWORD 2 DUP (?)
-t6_short DQ ?
+t6_short DQ     ?
 t6_signed SQWORD 3 DUP (?)
 
 t6:
@@ -192,7 +187,6 @@ mov eax, type(t6_signed)
 ; CHECK: mov eax, 24
 ; CHECK: mov eax, 3
 ; CHECK: mov eax, 8
-
 
 t7_single REAL4 2 DUP (?)
 t7_double REAL8 ?
@@ -221,7 +215,6 @@ mov eax, type(t7_extended)
 ; CHECK: mov eax, 30
 ; CHECK: mov eax, 3
 ; CHECK: mov eax, 10
-
 
 t8_var FOO <>, <>
 

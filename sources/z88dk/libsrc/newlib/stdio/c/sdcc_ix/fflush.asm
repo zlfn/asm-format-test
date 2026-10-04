@@ -16,13 +16,13 @@ EXTERN _fflush_fastcall
 
 _fflush:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _fflush_fastcall
+        push    hl
+        push    af
+
+        jp      _fflush_fastcall
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

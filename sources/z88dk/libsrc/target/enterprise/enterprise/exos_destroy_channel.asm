@@ -9,16 +9,16 @@
 ;
 
         SECTION code_clib
-	PUBLIC	exos_destroy_channel
-	PUBLIC	_exos_destroy_channel
+        PUBLIC  exos_destroy_channel
+        PUBLIC  _exos_destroy_channel
 
 exos_destroy_channel:
 _exos_destroy_channel:
 
-	ld	a,l
-	rst   30h
-	defb  4
-	ld	h,0
-	ld	l,a
+        ld      a, l
+        rst     30h
+        defb    4
+        ld      h, 0
+        ld      l, a
 
-	ret
+        ret

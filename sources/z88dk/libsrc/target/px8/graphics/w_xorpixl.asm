@@ -1,10 +1,9 @@
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
-    SECTION code_clib
-    PUBLIC  w_xorpixel
+        SECTION code_clib
+        PUBLIC  w_xorpixel
 
-    EXTERN  w_pixel
-
+        EXTERN  w_pixel
 
 ; ******************************************************************
 ;
@@ -20,5 +19,5 @@
 ;
 
 w_xorpixel:
-    ld      a, 3
-    jp      w_pixel
+        ld      a, 3
+        jp      w_pixel

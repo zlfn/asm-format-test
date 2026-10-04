@@ -11,14 +11,14 @@ PUBLIC ___memcpy_stdc
 EXTERN asm_memcpy
 
 ___memcpy_stdc:
-   pop af
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push af
-   jp asm_memcpy
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    de
+        push    af
+        jp      asm_memcpy
 ENDIF

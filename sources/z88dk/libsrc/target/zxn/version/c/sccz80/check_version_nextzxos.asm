@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _check_version_nextzxos
 defc _check_version_nextzxos = check_version_nextzxos
 ENDIF
-

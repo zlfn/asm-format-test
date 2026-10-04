@@ -16,13 +16,13 @@ EXTERN asm_fclose
 
 _fclose_fastcall:
 
-   push hl
-   ex (sp),ix
-   
-   call asm_fclose
-   
-   pop ix
-   ret
+        push    hl
+        ex      (sp), ix
+
+        call    asm_fclose
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

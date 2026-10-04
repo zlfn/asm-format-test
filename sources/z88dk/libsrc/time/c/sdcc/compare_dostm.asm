@@ -8,12 +8,12 @@ EXTERN asm_compare_dostm
 
 _compare_dostm:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   
-   jp asm_compare_dostm
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_compare_dostm

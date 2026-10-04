@@ -15,30 +15,30 @@
  * This controls what userland symbols we export from the vDSO.
  */
 VERSION {
-	LINUX_2.6 {
-	global:
-		clock_gettime;
-		__vdso_clock_gettime;
-		gettimeofday;
-		__vdso_gettimeofday;
-		getcpu;
-		__vdso_getcpu;
-		time;
-		__vdso_time;
-		clock_getres;
-		__vdso_clock_getres;
+        LINUX_2.6 {
+global:
+        clock_gettime;
+        __vdso_clock_gettime;
+        gettimeofday;
+        __vdso_gettimeofday;
+        getcpu;
+        __vdso_getcpu;
+        time;
+        __vdso_time;
+        clock_getres;
+        __vdso_clock_getres;
 #ifdef CONFIG_X86_SGX
-		__vdso_sgx_enter_enclave;
+        __vdso_sgx_enter_enclave;
 #endif
-		getrandom;
-		__vdso_getrandom;
+        getrandom;
+        __vdso_getrandom;
 
 #ifdef CONFIG_FUTEX_ROBUST_UNLOCK
-		__vdso_futex_robust_list64_try_unlock;
+        __vdso_futex_robust_list64_try_unlock;
 #ifdef CONFIG_COMPAT
-		__vdso_futex_robust_list32_try_unlock;
+        __vdso_futex_robust_list32_try_unlock;
 #endif
 #endif
-	local: *;
-	};
+local:  *;
+        };
 }

@@ -10,9 +10,9 @@ EXTERN asm_obstack_int_grow_fast
 
 _obstack_int_grow_fast_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_obstack_int_grow_fast
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_obstack_int_grow_fast

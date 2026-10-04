@@ -4,12 +4,11 @@
 ; clock_t clock (void);
 ;
 
-        .export         _clock
-        .import         negax
-        .importzp       sreg
+        .export _clock
+        .import negax
+        .importzp sreg
 
-        .include        "atmos.inc"
-
+        .include "atmos.inc"
 
 .proc   _clock
 
@@ -21,16 +20,13 @@
 
 ; Read the timer
 
-        sei                     ; Disable interrupts
+        sei     ; Disable interrupts
         lda     TIMER3
         ldx     TIMER3+1
-        cli                     ; Reenable interrupts
-
+        cli     ; Reenable interrupts
 
 ; Since the timer is counting downwards, return the negated value
 
         jmp     negax
 
 .endproc
-
-

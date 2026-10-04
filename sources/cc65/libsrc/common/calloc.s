@@ -7,9 +7,8 @@
 ;
 
         .export _calloc
-        .import _malloc, ___bzero
+        .import _malloc,   ___bzero
         .import tosumulax, pushax
-
 
 ; -------------------------------------------------------------------------
 
@@ -45,9 +44,9 @@
 ; block which is exactly what we want.
 
 ClearBlock:
-        jsr     pushax                  ; ptr
+        jsr     pushax  ; ptr
         lda     Size
-        ldx     Size+1                  ; Size
+        ldx     Size+1  ; Size
         jmp     ___bzero
 
 .endproc
@@ -58,6 +57,3 @@ ClearBlock:
 .bss
 
 Size:   .res    2
-
-
-

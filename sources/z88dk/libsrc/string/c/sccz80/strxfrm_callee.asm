@@ -10,13 +10,13 @@ EXTERN asm_strxfrm
 
 strxfrm_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   ex de,hl
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+        ex      de,   hl
 
-   jp asm_strxfrm
+        jp      asm_strxfrm
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -24,10 +24,8 @@ PUBLIC _strxfrm_callee
 defc _strxfrm_callee = strxfrm_callee
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___strxfrm_callee
 defc ___strxfrm_callee = strxfrm_callee
 ENDIF
-

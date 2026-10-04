@@ -10,10 +10,10 @@ EXTERN _isprint_fastcall
 
 _isprint:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _isprint_fastcall
+        push    hl
+        push    af
+
+        jp      _isprint_fastcall

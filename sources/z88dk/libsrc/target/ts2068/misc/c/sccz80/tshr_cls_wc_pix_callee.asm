@@ -9,16 +9,15 @@ EXTERN asm_tshr_cls_wc_pix
 
 tshr_cls_wc_pix_callee:
 
-   pop af
-   pop hl
-   pop ix
-   push af
+        pop     af
+        pop     hl
+        pop     ix
+        push    af
 
-   jp asm_tshr_cls_wc_pix
+        jp      asm_tshr_cls_wc_pix
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _tshr_cls_wc_pix_callee
 defc _tshr_cls_wc_pix_callee = tshr_cls_wc_pix_callee
 ENDIF
-

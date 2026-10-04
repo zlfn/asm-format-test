@@ -31,66 +31,66 @@ asm_cpu_pop_ei:
 
 IF  __CPU_RABBIT__
 
-   defc asm0_z80_pop_ei = asm_cpu_pop_ei
-   defc asm0_cpu_pop_ei = asm_cpu_pop_ei
-   defc asm_z80_pop_ei_jp = asm_cpu_pop_ei
-   defc asm_cpu_pop_ei_jp = asm_cpu_pop_ei
+        defc    asm0_z80_pop_ei = asm_cpu_pop_ei
+        defc    asm0_cpu_pop_ei = asm_cpu_pop_ei
+        defc    asm_z80_pop_ei_jp = asm_cpu_pop_ei
+        defc    asm_cpu_pop_ei_jp = asm_cpu_pop_ei
 
-   ipres
+        ipres
 
 ELSE
 
-   ; enter  : stack = ei_di_status, ret
-   ;
-   ; uses  : af
+        ; enter  : stack = ei_di_status, ret
+        ;
+        ; uses  : af
 
-   ex (sp),hl
-   pop af                      ; af = old hl
-   
-   ex (sp),hl                  ; hl = ei_di_status
-   push af
-   
-   ex (sp),hl                  ; hl restored
+        ex      (sp), hl
+        pop     af      ; af = old hl
+
+        ex      (sp), hl        ; hl = ei_di_status
+        push    af
+
+        ex      (sp), hl        ; hl restored
 
 asm0_z80_pop_ei:
 asm0_cpu_pop_ei:
 asm_z80_pop_ei_jp:
 asm_cpu_pop_ei_jp:
 
-   ; enter : stack = ret, ei_di_status
-   ;
-   ; uses  : af
+        ; enter : stack = ret, ei_di_status
+        ;
+        ; uses  : af
 
-   pop af                      ; af = ei_di_status
+        pop     af      ; af = ei_di_status
 
 IF __CPU_8085__
 
-   and $08                     ; isolate IE bit
-   jp Z,di_state               ; or fall through to ei_state
+        and     $08             ; isolate IE bit
+        jp      Z, di_state     ; or fall through to ei_state
 
 ELSE
 
-   IF __Z80 & __Z80_NMOS
-   
-      jr NC, di_state
-   
-   ELSE
-   
-      jp PO, di_state
+        IF      __Z80 & __Z80_NMOS
 
-   ENDIF
+                jr      NC, di_state
+
+        ELSE
+
+                jp      PO, di_state
+
+        ENDIF
 
 ENDIF
 
 ei_state:
 
-   ei
-   ret
+        ei
+        ret
 
 di_state:
 
-   di
+        di
 
 ENDIF
 
-   ret
+        ret

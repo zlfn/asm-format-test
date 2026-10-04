@@ -24,8 +24,8 @@
 
 SECTION_RODATA 32
 
-swizzle: dd 0, 4, 1, 5, 2, 6, 3, 7
-four: times 8 dd 4
+swizzle: dd     0, 4, 1, 5, 2, 6, 3, 7
+four:   times   8 dd 4
 
 SECTION .text
 
@@ -45,104 +45,104 @@ SECTION .text
 
 %macro SCALE_FUNC 1
 cglobal hscale8to15_%1, 7, 9, 16, pos0, dst, w, srcmem, filter, fltpos, fltsize, count, inner
-    pxor m0, m0
-    mova m15, [swizzle]
-    xor countq, countq
-    movsxd wq, wd
+        pxor    m0,     m0
+        mova    m15,    [swizzle]
+        xor     countq, countq
+        movsxd  wq,     wd
 %ifidn %1, X4
-    mova m14, [four]
-    shr fltsized, 2
+        mova    m14, [four]
+        shr     fltsized, 2
 %endif
-    cmp wq, 0x10
-    jl .tail_loop
-    sub wq, 0x10
+        cmp     wq, 0x10
+        jl      .tail_loop
+        sub     wq, 0x10
 .loop:
-    movu m1, [fltposq]
-    movu m2, [fltposq+32]
+        movu    m1, [fltposq]
+        movu    m2, [fltposq+32]
 %ifidn %1, X4
-    pxor m9, m9
-    pxor m10, m10
-    pxor m11, m11
-    pxor m12, m12
-    xor innerq, innerq
+        pxor    m9,     m9
+        pxor    m10,    m10
+        pxor    m11,    m11
+        pxor    m12,    m12
+        xor     innerq, innerq
 .innerloop:
 %endif
-    vpcmpeqd  m13, m13
-    vpgatherdd m3,[srcmemq + m1], m13
-    vpcmpeqd  m13, m13
-    vpgatherdd m4,[srcmemq + m2], m13
-    vpunpcklbw m5, m3, m0
-    vpunpckhbw m6, m3, m0
-    vpunpcklbw m7, m4, m0
-    vpunpckhbw m8, m4, m0
-    vpmaddwd m5, m5, [filterq]
-    vpmaddwd m6, m6, [filterq + 32]
-    vpmaddwd m7, m7, [filterq + 64]
-    vpmaddwd m8, m8, [filterq + 96]
-    add filterq, 0x80
+        vpcmpeqd m13, m13
+        vpgatherdd m3, [srcmemq + m1], m13
+        vpcmpeqd m13, m13
+        vpgatherdd m4, [srcmemq + m2], m13
+        vpunpcklbw m5, m3,             m0
+        vpunpckhbw m6, m3,             m0
+        vpunpcklbw m7, m4,             m0
+        vpunpckhbw m8, m4,             m0
+        vpmaddwd m5, m5, [filterq]
+        vpmaddwd m6, m6, [filterq + 32]
+        vpmaddwd m7, m7, [filterq + 64]
+        vpmaddwd m8, m8, [filterq + 96]
+        add     filterq, 0x80
 %ifidn %1, X4
-    paddd m9, m5
-    paddd m10, m6
-    paddd m11, m7
-    paddd m12, m8
-    paddd m1, m14
-    paddd m2, m14
-    add innerq, 1
-    cmp innerq, fltsizeq
-    jl .innerloop
-    vphaddd m5, m9, m10
-    vphaddd m6, m11, m12
+        paddd   m9,     m5
+        paddd   m10,    m6
+        paddd   m11,    m7
+        paddd   m12,    m8
+        paddd   m1,     m14
+        paddd   m2,     m14
+        add     innerq, 1
+        cmp     innerq, fltsizeq
+        jl      .innerloop
+        vphaddd m5, m9,  m10
+        vphaddd m6, m11, m12
 %else
-    vphaddd m5, m5, m6
-    vphaddd m6, m7, m8
+        vphaddd m5, m5, m6
+        vphaddd m6, m7, m8
 %endif
-    vpsrad  m5, 7
-    vpsrad  m6, 7
-    vpackssdw m5, m5, m6
-    vpermd m5, m15, m5
-    vmovdqu [dstq + countq * 2], m5
-    add fltposq, 0x40
-    add countq, 0x10
-    cmp countq, wq
-    jle .loop
+        vpsrad  m5, 7
+        vpsrad  m6, 7
+        vpackssdw m5, m5, m6
+        vpermd  m5, m15, m5
+        vmovdqu [dstq + countq * 2], m5
+        add     fltposq, 0x40
+        add     countq,  0x10
+        cmp     countq,  wq
+        jle     .loop
 
-    add wq, 0x10
-    cmp countq, wq
-    jge .end
+        add     wq,     0x10
+        cmp     countq, wq
+        jge     .end
 
 .tail_loop:
-    movu xm1, [fltposq]
+        movu    xm1, [fltposq]
 %ifidn %1, X4
-    pxor xm9, xm9
-    pxor xm10, xm10
-    xor innerq, innerq
+        pxor    xm9,    xm9
+        pxor    xm10,   xm10
+        xor     innerq, innerq
 .tail_innerloop:
 %endif
-    vpcmpeqd  xm13, xm13
-    vpgatherdd xm3,[srcmemq + xm1], xm13
-    vpunpcklbw xm5, xm3, xm0
-    vpunpckhbw xm6, xm3, xm0
-    vpmaddwd xm5, xm5, [filterq]
-    vpmaddwd xm6, xm6, [filterq + 0x10]
-    add filterq, 0x20
+        vpcmpeqd xm13, xm13
+        vpgatherdd xm3, [srcmemq + xm1], xm13
+        vpunpcklbw xm5, xm3,             xm0
+        vpunpckhbw xm6, xm3,             xm0
+        vpmaddwd xm5, xm5, [filterq]
+        vpmaddwd xm6, xm6, [filterq + 0x10]
+        add     filterq, 0x20
 %ifidn %1, X4
-    paddd xm9, xm5
-    paddd xm10, xm6
-    paddd xm1, xm14
-    add innerq, 1
-    cmp innerq, fltsizeq
-    jl .tail_innerloop
-    vphaddd xm5, xm9, xm10
+        paddd   xm9,    xm5
+        paddd   xm10,   xm6
+        paddd   xm1,    xm14
+        add     innerq, 1
+        cmp     innerq, fltsizeq
+        jl      .tail_innerloop
+        vphaddd xm5, xm9, xm10
 %else
-    vphaddd xm5, xm5, xm6
+        vphaddd xm5, xm5, xm6
 %endif
-    vpsrad  xm5, 7
-    vpackssdw xm5, xm5, xm5
-    vmovq [dstq + countq * 2], xm5
-    add fltposq, 0x10
-    add countq, 0x4
-    cmp countq, wq
-    jl .tail_loop
+        vpsrad  xm5, 7
+        vpackssdw xm5, xm5, xm5
+        vmovq   [dstq + countq * 2], xm5
+        add     fltposq, 0x10
+        add     countq,  0x4
+        cmp     countq,  wq
+        jl      .tail_loop
 .end:
 RET
 %endmacro

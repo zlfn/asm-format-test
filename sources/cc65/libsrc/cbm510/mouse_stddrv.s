@@ -11,6 +11,4 @@
 
 .rodata
 
-_mouse_stddrv:  .asciiz "cbm510-joy.mou"
-
-
+_mouse_stddrv: .asciiz "cbm510-joy.mou"

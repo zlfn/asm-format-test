@@ -7,7 +7,7 @@
 
         ; The following symbol is used by a linker config. to force
         ; this module to get included into the output files.
-        .export         __BANKRAMADDR__: abs = 1
+        .export __BANKRAMADDR__: abs = 1
 
 .if 0 ; bank 0 is used by Kernal
 .segment        "BRAM00ADDR"

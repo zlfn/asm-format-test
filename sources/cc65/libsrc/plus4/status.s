@@ -2,9 +2,9 @@
 ; Stefan Haubenthal, 2023-01-16
 ;
 
-        .export         initst
+        .export initst
 
-        .include        "plus4.inc"
+        .include "plus4.inc"
 
 .proc   initst
 

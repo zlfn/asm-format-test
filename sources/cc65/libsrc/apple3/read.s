@@ -5,32 +5,31 @@
 ; int __fastcall__ read (int fd, void* buf, unsigned count);
 ;
 
-        .export         _read
-        .import         rwprolog, rwcommon
-        .import         getchar, putcdirect
-        .import         setstdioscr, consscrflg
+        .export _read
+        .import rwprolog,    rwcommon
+        .import getchar,     putcdirect
+        .import setstdioscr, consscrflg
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "sos.inc"
-        .include        "filedes.inc"
-        .include        "apple3.inc"
-
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "sos.inc"
+        .include "filedes.inc"
+        .include "apple3.inc"
 
 _read:
         ; Get parameters
         jsr     rwprolog
         bcs     errno
-        tax                     ; Save fd
+        tax     ; Save fd
 
         ; Check for read access
-        lda     fdtab + FD::FLAGS,y
+        lda     fdtab + FD::FLAGS, y
         and     #O_RDONLY
         beq     einval
 
         ; Check for device
-        txa                     ; Restore fd
+        txa     ; Restore fd
         cmp     #$80
         beq     device
 
@@ -38,7 +37,7 @@ _read:
         ldy     #READ_CALL
         jmp     rwcommon
 
-       ; Device succeeds always
+        ; Device succeeds always
 device: lda     #$00
         sta     ___oserror
 
@@ -59,7 +58,7 @@ device: lda     #$00
 next:   jsr     getchar
 
         ; Check scroll mode
-        bit     consscrflg    ; check if scroll is on
+        bit     consscrflg      ; check if scroll is on
         bne     :+
         pha
         jsr     setstdioscr
@@ -71,7 +70,7 @@ next:   jsr     getchar
         ; Check for '\r'
         cmp     #$0D
         bne     :+
-        jsr     putcdirect   ; echo \r
+        jsr     putcdirect      ; echo \r
 
         ldy     #$00
         ; Replace with '\n' and set count to zero
@@ -80,9 +79,9 @@ next:   jsr     getchar
         sty     ptr2+1
 
         ; Put char into buf
-:       sta     (ptr1),y
+:       sta     (ptr1), y
 
-        pha                 ; echo here after cr->lf conversion
+        pha     ; echo here after cr->lf conversion
         jsr     putcdirect
         pla
 

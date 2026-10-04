@@ -27,46 +27,46 @@ SECTION .text
 %macro detect_range_fn 1 ; suffix
 cglobal detect_range%1, 4, 7, 5, data, stride, width, height, mpeg_min, mpeg_max, x
 %if UNIX64 && notcpuflag(avx512)
-    movd xm0, mpeg_mind
-    movd xm1, mpeg_maxd
-    vpbroadcast%1 m0, xm0
-    vpbroadcast%1 m1, xm1
+        movd    xm0, mpeg_mind
+        movd    xm1, mpeg_maxd
+        vpbroadcast%1 m0, xm0
+        vpbroadcast%1 m1, xm1
 %else
-    vpbroadcast%1 m0, mpeg_minm
-    vpbroadcast%1 m1, mpeg_maxm
+        vpbroadcast%1 m0, mpeg_minm
+        vpbroadcast%1 m1, mpeg_maxm
 %endif
-    add dataq, widthq
-    neg widthq
+        add     dataq, widthq
+        neg     widthq
 .lineloop:
-    mova m2, m0
-    mova m3, m1
-    mov xq, widthq
-    .loop:
-        movu m4, [dataq + xq]
+        mova    m2, m0
+        mova    m3, m1
+        mov     xq, widthq
+.loop:
+        movu    m4, [dataq + xq]
         pminu%1 m2, m4
         pmaxu%1 m3, m4
-        add xq, mmsize
-        jl .loop
+        add     xq, mmsize
+        jl      .loop
 
-    ; test if the data is out of range
-    pxor m2, m0
+        ; test if the data is out of range
+        pxor    m2, m0
 %if cpuflag(avx512)
-    vpternlogq m2, m3, m1, 0xF6 ; m2 |= m3 ^ m1
-    vptestmq k1, m2, m2
-    kortestb k1, k1
+        vpternlogq m2, m3, m1, 0xF6     ; m2 |= m3 ^ m1
+        vptestmq k1, m2, m2
+        kortestb k1, k1
 %else
-    pxor m3, m1
-    por m2, m3
-    ptest m2, m2
+        pxor    m3, m1
+        por     m2, m3
+        ptest   m2, m2
 %endif
-    jnz .end
-    add dataq, strideq
-    dec heightq
-    jg .lineloop
+        jnz     .end
+        add     dataq, strideq
+        dec     heightq
+        jg      .lineloop
 .end:
-    setnz al
-    movzx eax, al
-    RET
+        setnz   al
+        movzx   eax, al
+        RET
 %endmacro
 
 %define FF_ALPHA_STRAIGHT 0x3
@@ -78,95 +78,95 @@ cglobal detect_alpha%1_%3, 6, 8, 7, color, color_stride, alpha, alpha_stride, wi
 cglobal detect_alpha%1_%3, 1, 6, 7, color, ret, alpha, x, width, height
 %define color_strideq r1m
 %define alpha_strideq r3m
-    mov alphad,  r2m
-    mov widthd,  r4m
-    mov heightd, r5m
+        mov     alphad,  r2m
+        mov     widthd,  r4m
+        mov     heightd, r5m
 %endif
-    pxor m0, m0
-    add colorq, widthq
-    add alphaq, widthq
-    neg widthq
+        pxor    m0,     m0
+        add     colorq, widthq
+        add     alphaq, widthq
+        neg     widthq
 %ifidn %3, limited
-    vpbroadcast%2 m3, r6m ; alpha_max
-    vpbroadcast%2 m4, r7m ; mpeg_range
-    vpbroadcast%2 m5, r8m ; offset
+        vpbroadcast%2 m3, r6m   ; alpha_max
+        vpbroadcast%2 m4, r7m   ; mpeg_range
+        vpbroadcast%2 m5, r8m   ; offset
 %else
-    vpbroadcast%1 m3, r6m ; alpha_max
-    %ifidn %3, full_off
-        vpbroadcast%1 m4, r8m ; offset
-    %endif
+        vpbroadcast%1 m3, r6m           ; alpha_max
+        %ifidn  %3, full_off
+                vpbroadcast%1 m4, r8m   ; offset
+        %endif
 %endif
-    mova m6, m3
-    xor retd, retd
+        mova    m6,   m3
+        xor     retd, retd
 .lineloop:
-    mov xq, widthq
-    .loop:
-    %ifidn %3, limited
-        pmovzx%1%2 m1, [colorq + xq]
-        pmovzx%1%2 m2, [alphaq + xq]
-        pand m6, m2
-        pmull%2 m1, m3
-        pmull%2 m2, m4
-        %ifidn %1, b
-            psubusw m1, m5
+        mov     xq, widthq
+.loop:
+        %ifidn  %3, limited
+                pmovzx%1%2 m1, [colorq + xq]
+                pmovzx%1%2 m2, [alphaq + xq]
+                pand    m6, m2
+                pmull%2 m1, m3
+                pmull%2 m2, m4
+                %ifidn  %1, b
+                        psubusw m1, m5
+                %else
+                        pmaxud  m1, m5
+                        psubd   m1, m5
+                %endif
+                pmaxu%2 m1, m2
         %else
-            pmaxud m1, m5
-            psubd m1, m5
+                movu    m1, [colorq + xq]
+                movu    m2, [alphaq + xq]
+                pand    m6, m2
+                %ifidn  %3, full_off
+                        psubus%1 m1, m4
+                %endif
+                pmaxu%1 m1, m2
         %endif
-        pmaxu%2 m1, m2
-    %else
-        movu m1, [colorq + xq]
-        movu m2, [alphaq + xq]
-        pand m6, m2
-        %ifidn %3, full_off
-            psubus%1 m1, m4
+        %if     cpuflag(avx512)
+                vpternlogq m0, m1, m2, 0xF6     ; m0 |= m1 ^ m2
+        %else
+                pxor    m1, m2
+                por     m0, m1
         %endif
-        pmaxu%1 m1, m2
-    %endif
-    %if cpuflag(avx512)
-        vpternlogq m0, m1, m2, 0xF6 ; m0 |= m1 ^ m2
-    %else
-        pxor m1, m2
-        por m0, m1
-    %endif
-    %ifidn %3, limited
-        add xq, mmsize >> 1
-    %else
-        add xq, mmsize
-    %endif
-        jl .loop
+        %ifidn  %3, limited
+                add     xq, mmsize >> 1
+        %else
+                add     xq, mmsize
+        %endif
+        jl      .loop
 
 %if cpuflag(avx512)
-    vptestmq k1, m0, m0
-    kortestb k1, k1
+        vptestmq k1, m0, m0
+        kortestb k1, k1
 %else
-    ptest m0, m0
+        ptest   m0, m0
 %endif
-    jnz .found
+        jnz     .found
 
 %if cpuflag(avx512)
-    vpandnq m1, m6, m3 ; m1 = ~m6 & m3
-    vptestmq k1, m1, m1
-    kortestb k1, k1
-    setnz xb
+        vpandnq m1, m6, m3      ; m1 = ~m6 & m3
+        vptestmq k1, m1, m1
+        kortestb k1, k1
+        setnz   xb
 %else
-    ptest m6, m3
-    setnc xb ; CF = !(~m6 & m3)
+        ptest   m6, m3
+        setnc   xb      ; CF = !(~m6 & m3)
 %endif
-    or retb, xb
+        or      retb, xb
 
-    add colorq, color_strideq
-    add alphaq, alpha_strideq
-    dec heightq
-    jg .lineloop
+        add     colorq, color_strideq
+        add     alphaq, alpha_strideq
+        dec     heightq
+        jg      .lineloop
 %ifnidn retd, eax
-    mov eax, retd
+        mov     eax, retd
 %endif
-    RET
+        RET
 
 .found:
-    mov eax, FF_ALPHA_STRAIGHT
-    RET
+        mov     eax, FF_ALPHA_STRAIGHT
+        RET
 %endmacro
 
 %if HAVE_AVX2_EXTERNAL

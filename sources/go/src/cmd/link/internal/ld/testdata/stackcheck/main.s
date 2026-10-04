@@ -6,36 +6,36 @@
 #define NOFRAME 512
 
 TEXT ·asmMain(SB),0,$0-0
-	CALL ·startSelf(SB)
-	CALL ·startChain(SB)
-	CALL ·startRec(SB)
-	RET
+        CALL    ·startSelf(SB)
+        CALL    ·startChain(SB)
+        CALL    ·startRec(SB)
+        RET
 
 // Test reporting of basic over-the-limit
 TEXT ·startSelf(SB),NOSPLIT,$1000-0
-	RET
+        RET
 
 // Test reporting of multiple over-the-limit chains
 TEXT ·startChain(SB),NOSPLIT,$16-0
-	CALL ·chain0(SB)
-	CALL ·chain1(SB)
-	CALL ·chain2(SB)
-	RET
+        CALL    ·chain0(SB)
+        CALL    ·chain1(SB)
+        CALL    ·chain2(SB)
+        RET
 TEXT ·chain0(SB),NOSPLIT,$32-0
-	CALL ·chainEnd(SB)
-	RET
+        CALL    ·chainEnd(SB)
+        RET
 TEXT ·chain1(SB),NOSPLIT,$48-0 // Doesn't go over
-	RET
+        RET
 TEXT ·chain2(SB),NOSPLIT,$64-0
-	CALL ·chainEnd(SB)
-	RET
+        CALL    ·chainEnd(SB)
+        RET
 TEXT ·chainEnd(SB),NOSPLIT,$1000-0 // Should be reported twice
-	RET
+        RET
 
 // Test reporting of rootless recursion
 TEXT ·startRec(SB),NOSPLIT|NOFRAME,$0-0
-	CALL ·startRec0(SB)
-	RET
+        CALL    ·startRec0(SB)
+        RET
 TEXT ·startRec0(SB),NOSPLIT|NOFRAME,$0-0
-	CALL ·startRec(SB)
-	RET
+        CALL    ·startRec(SB)
+        RET

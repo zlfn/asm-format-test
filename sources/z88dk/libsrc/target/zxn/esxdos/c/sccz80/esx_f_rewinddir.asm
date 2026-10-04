@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_f_rewinddir
 defc _esx_f_rewinddir = esx_f_rewinddir
 ENDIF
-

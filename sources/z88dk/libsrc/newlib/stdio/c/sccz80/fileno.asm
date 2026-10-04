@@ -16,10 +16,10 @@ EXTERN asm_fileno
 
 fileno:
 
-   push hl
-   pop ix
-   
-   jp asm_fileno
+        push    hl
+        pop     ix
+
+        jp      asm_fileno
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

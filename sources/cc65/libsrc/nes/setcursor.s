@@ -4,9 +4,9 @@
 ;
 ; Set the cursor position
 
-        .export         setcursor
+        .export setcursor
 
-        .include        "nes.inc"
+        .include "nes.inc"
 
 ;-----------------------------------------------------------------------------
 
@@ -14,10 +14,10 @@
 
         tya
         clc
-        adc     addrlo,x
+        adc     addrlo, x
         sta     SCREEN_PTR
 
-        lda     addrhi,x
+        lda     addrhi, x
         adc     #0
         sta     SCREEN_PTR+1
         rts
@@ -27,11 +27,10 @@
 ;-----------------------------------------------------------------------------
 ; Tables with screen addresses
 
-addrlo: .repeat screenrows,line
-        .byte <($2000+((1*32))+(line*charsperline))
+addrlo: .repeat screenrows, line
+        .byte   <($2000+((1*32))+(line*charsperline))
         .endrepeat
 
-addrhi: .repeat screenrows,line
-        .byte >($2000+((1*32))+(line*charsperline))
+addrhi: .repeat screenrows, line
+        .byte   >($2000+((1*32))+(line*charsperline))
         .endrepeat
-

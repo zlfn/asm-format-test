@@ -1,9 +1,9 @@
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
-    SECTION code_clib
-    PUBLIC  w_plotpixel
+        SECTION code_clib
+        PUBLIC  w_plotpixel
 
-    EXTERN  __mbc_pixel
+        EXTERN  __mbc_pixel
 
 ;
 ;       $Id: w_plotpixl.asm $
@@ -28,6 +28,5 @@
 
 w_plotpixel:
 
-    ld      c, 'S'
-    jp      __mbc_pixel
-
+        ld      c, 'S'
+        jp      __mbc_pixel

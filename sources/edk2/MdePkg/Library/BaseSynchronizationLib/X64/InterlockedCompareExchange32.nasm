@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT32
@@ -29,7 +29,6 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalSyncCompareExchange32)
 ASM_PFX(InternalSyncCompareExchange32):
-    mov     eax, edx
-    lock    cmpxchg [rcx], r8d
-    ret
-
+        mov     eax, edx
+        lock    cmpxchg [rcx], r8d
+        ret

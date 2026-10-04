@@ -55,170 +55,170 @@ DATA ·constants<>+0x1c(SB)/4, $0x6b206574
 #define NUM_ROUNDS 20
 
 #define ROUND4(a0, a1, a2, a3, b0, b1, b2, b3, c0, c1, c2, c3, d0, d1, d2, d3) \
-	VAF    a1, a0, a0  \
-	VAF    b1, b0, b0  \
-	VAF    c1, c0, c0  \
-	VAF    d1, d0, d0  \
-	VX     a0, a2, a2  \
-	VX     b0, b2, b2  \
-	VX     c0, c2, c2  \
-	VX     d0, d2, d2  \
-	VERLLF $16, a2, a2 \
-	VERLLF $16, b2, b2 \
-	VERLLF $16, c2, c2 \
-	VERLLF $16, d2, d2 \
-	VAF    a2, a3, a3  \
-	VAF    b2, b3, b3  \
-	VAF    c2, c3, c3  \
-	VAF    d2, d3, d3  \
-	VX     a3, a1, a1  \
-	VX     b3, b1, b1  \
-	VX     c3, c1, c1  \
-	VX     d3, d1, d1  \
-	VERLLF $12, a1, a1 \
-	VERLLF $12, b1, b1 \
-	VERLLF $12, c1, c1 \
-	VERLLF $12, d1, d1 \
-	VAF    a1, a0, a0  \
-	VAF    b1, b0, b0  \
-	VAF    c1, c0, c0  \
-	VAF    d1, d0, d0  \
-	VX     a0, a2, a2  \
-	VX     b0, b2, b2  \
-	VX     c0, c2, c2  \
-	VX     d0, d2, d2  \
-	VERLLF $8, a2, a2  \
-	VERLLF $8, b2, b2  \
-	VERLLF $8, c2, c2  \
-	VERLLF $8, d2, d2  \
-	VAF    a2, a3, a3  \
-	VAF    b2, b3, b3  \
-	VAF    c2, c3, c3  \
-	VAF    d2, d3, d3  \
-	VX     a3, a1, a1  \
-	VX     b3, b1, b1  \
-	VX     c3, c1, c1  \
-	VX     d3, d1, d1  \
-	VERLLF $7, a1, a1  \
-	VERLLF $7, b1, b1  \
-	VERLLF $7, c1, c1  \
-	VERLLF $7, d1, d1
+        VAF    a1, a0, a0                                                      \
+        VAF    b1, b0, b0                                                      \
+        VAF    c1, c0, c0                                                      \
+        VAF    d1, d0, d0                                                      \
+        VX     a0, a2, a2                                                      \
+        VX     b0, b2, b2                                                      \
+        VX     c0, c2, c2                                                      \
+        VX     d0, d2, d2                                                      \
+        VERLLF $16, a2, a2                                                     \
+        VERLLF $16, b2, b2                                                     \
+        VERLLF $16, c2, c2                                                     \
+        VERLLF $16, d2, d2                                                     \
+        VAF    a2, a3, a3                                                      \
+        VAF    b2, b3, b3                                                      \
+        VAF    c2, c3, c3                                                      \
+        VAF    d2, d3, d3                                                      \
+        VX     a3, a1, a1                                                      \
+        VX     b3, b1, b1                                                      \
+        VX     c3, c1, c1                                                      \
+        VX     d3, d1, d1                                                      \
+        VERLLF $12, a1, a1                                                     \
+        VERLLF $12, b1, b1                                                     \
+        VERLLF $12, c1, c1                                                     \
+        VERLLF $12, d1, d1                                                     \
+        VAF    a1, a0, a0                                                      \
+        VAF    b1, b0, b0                                                      \
+        VAF    c1, c0, c0                                                      \
+        VAF    d1, d0, d0                                                      \
+        VX     a0, a2, a2                                                      \
+        VX     b0, b2, b2                                                      \
+        VX     c0, c2, c2                                                      \
+        VX     d0, d2, d2                                                      \
+        VERLLF $8, a2, a2                                                      \
+        VERLLF $8, b2, b2                                                      \
+        VERLLF $8, c2, c2                                                      \
+        VERLLF $8, d2, d2                                                      \
+        VAF    a2, a3, a3                                                      \
+        VAF    b2, b3, b3                                                      \
+        VAF    c2, c3, c3                                                      \
+        VAF    d2, d3, d3                                                      \
+        VX     a3, a1, a1                                                      \
+        VX     b3, b1, b1                                                      \
+        VX     c3, c1, c1                                                      \
+        VX     d3, d1, d1                                                      \
+        VERLLF $7, a1, a1                                                      \
+        VERLLF $7, b1, b1                                                      \
+        VERLLF $7, c1, c1                                                      \
+        VERLLF $7, d1, d1
 
 #define PERMUTE(mask, v0, v1, v2, v3) \
-	VPERM v0, v0, mask, v0 \
-	VPERM v1, v1, mask, v1 \
-	VPERM v2, v2, mask, v2 \
-	VPERM v3, v3, mask, v3
+        VPERM v0, v0, mask, v0        \
+        VPERM v1, v1, mask, v1        \
+        VPERM v2, v2, mask, v2        \
+        VPERM v3, v3, mask, v3
 
 #define ADDV(x, v0, v1, v2, v3) \
-	VAF x, v0, v0 \
-	VAF x, v1, v1 \
-	VAF x, v2, v2 \
-	VAF x, v3, v3
+        VAF x, v0, v0           \
+        VAF x, v1, v1           \
+        VAF x, v2, v2           \
+        VAF x, v3, v3
 
 #define XORV(off, dst, src, v0, v1, v2, v3) \
-	VLM  off(src), M0, M3          \
-	PERMUTE(BSWAP, v0, v1, v2, v3) \
-	VX   v0, M0, M0                \
-	VX   v1, M1, M1                \
-	VX   v2, M2, M2                \
-	VX   v3, M3, M3                \
-	VSTM M0, M3, off(dst)
+        VLM  off(src), M0, M3               \
+        PERMUTE(BSWAP, v0, v1, v2, v3)      \
+        VX   v0, M0, M0                     \
+        VX   v1, M1, M1                     \
+        VX   v2, M2, M2                     \
+        VX   v3, M3, M3                     \
+        VSTM M0, M3, off(dst)
 
 #define SHUFFLE(a, b, c, d, t, u, v, w) \
-	VMRHF a, c, t \ // t = {a[0], c[0], a[1], c[1]}
-	VMRHF b, d, u \ // u = {b[0], d[0], b[1], d[1]}
-	VMRLF a, c, v \ // v = {a[2], c[2], a[3], c[3]}
-	VMRLF b, d, w \ // w = {b[2], d[2], b[3], d[3]}
-	VMRHF t, u, a \ // a = {a[0], b[0], c[0], d[0]}
-	VMRLF t, u, b \ // b = {a[1], b[1], c[1], d[1]}
-	VMRHF v, w, c \ // c = {a[2], b[2], c[2], d[2]}
-	VMRLF v, w, d // d = {a[3], b[3], c[3], d[3]}
+        VMRHF a, c, t                   \ // t = {a[0], c[0], a[1], c[1]}
+        VMRHF b, d, u                   \ // u = {b[0], d[0], b[1], d[1]}
+        VMRLF a, c, v                   \ // v = {a[2], c[2], a[3], c[3]}
+        VMRLF b, d, w                   \ // w = {b[2], d[2], b[3], d[3]}
+        VMRHF t, u, a                   \ // a = {a[0], b[0], c[0], d[0]}
+        VMRLF t, u, b                   \ // b = {a[1], b[1], c[1], d[1]}
+        VMRHF v, w, c                   \ // c = {a[2], b[2], c[2], d[2]}
+        VMRLF v, w, d // d = {a[3], b[3], c[3], d[3]}
 
 // func xorKeyStreamVX(dst, src []byte, key *[8]uint32, nonce *[3]uint32, counter *uint32)
 TEXT ·xorKeyStreamVX(SB), NOSPLIT, $0
-	MOVD $·constants<>(SB), R1
-	MOVD dst+0(FP), R2         // R2=&dst[0]
-	LMG  src+24(FP), R3, R4    // R3=&src[0] R4=len(src)
-	MOVD key+48(FP), R5        // R5=key
-	MOVD nonce+56(FP), R6      // R6=nonce
-	MOVD counter+64(FP), R7    // R7=counter
+        MOVD    $·constants<>(SB), R1
+        MOVD    dst+0(FP),    R2        // R2=&dst[0]
+        LMG     src+24(FP),   R3, R4    // R3=&src[0] R4=len(src)
+        MOVD    key+48(FP),   R5        // R5=key
+        MOVD    nonce+56(FP), R6        // R6=nonce
+        MOVD    counter+64(FP), R7      // R7=counter
 
-	// load BSWAP and J0
-	VLM (R1), BSWAP, J0
+        // load BSWAP and J0
+        VLM     (R1), BSWAP, J0
 
-	// setup
-	MOVD  $95, R0
-	VLM   (R5), KEY0, KEY1
-	VLL   R0, (R6), NONCE
-	VZERO M0
-	VLEIB $7, $32, M0
-	VSRLB M0, NONCE, NONCE
+        // setup
+        MOVD    $95,  R0
+        VLM     (R5), KEY0, KEY1
+        VLL     R0,   (R6), NONCE
+        VZERO   M0
+        VLEIB   $7, $32,   M0
+        VSRLB   M0, NONCE, NONCE
 
-	// initialize counter values
-	VLREPF (R7), CTR
-	VZERO  INC
-	VLEIF  $1, $1, INC
-	VLEIF  $2, $2, INC
-	VLEIF  $3, $3, INC
-	VAF    INC, CTR, CTR
-	VREPIF $4, INC
+        // initialize counter values
+        VLREPF  (R7), CTR
+        VZERO   INC
+        VLEIF   $1,  $1,  INC
+        VLEIF   $2,  $2,  INC
+        VLEIF   $3,  $3,  INC
+        VAF     INC, CTR, CTR
+        VREPIF  $4,  INC
 
 chacha:
-	VREPF $0, J0, X0
-	VREPF $1, J0, X1
-	VREPF $2, J0, X2
-	VREPF $3, J0, X3
-	VREPF $0, KEY0, X4
-	VREPF $1, KEY0, X5
-	VREPF $2, KEY0, X6
-	VREPF $3, KEY0, X7
-	VREPF $0, KEY1, X8
-	VREPF $1, KEY1, X9
-	VREPF $2, KEY1, X10
-	VREPF $3, KEY1, X11
-	VLR   CTR, X12
-	VREPF $1, NONCE, X13
-	VREPF $2, NONCE, X14
-	VREPF $3, NONCE, X15
+        VREPF   $0,  J0,    X0
+        VREPF   $1,  J0,    X1
+        VREPF   $2,  J0,    X2
+        VREPF   $3,  J0,    X3
+        VREPF   $0,  KEY0,  X4
+        VREPF   $1,  KEY0,  X5
+        VREPF   $2,  KEY0,  X6
+        VREPF   $3,  KEY0,  X7
+        VREPF   $0,  KEY1,  X8
+        VREPF   $1,  KEY1,  X9
+        VREPF   $2,  KEY1,  X10
+        VREPF   $3,  KEY1,  X11
+        VLR     CTR, X12
+        VREPF   $1,  NONCE, X13
+        VREPF   $2,  NONCE, X14
+        VREPF   $3,  NONCE, X15
 
-	MOVD $(NUM_ROUNDS/2), R1
+        MOVD    $(NUM_ROUNDS/2), R1
 
 loop:
-	ROUND4(X0, X4, X12,  X8, X1, X5, X13,  X9, X2, X6, X14, X10, X3, X7, X15, X11)
-	ROUND4(X0, X5, X15, X10, X1, X6, X12, X11, X2, X7, X13, X8,  X3, X4, X14, X9)
+        ROUND4(X0, X4, X12,  X8, X1, X5, X13,  X9, X2, X6, X14, X10, X3, X7, X15, X11)
+        ROUND4(X0, X5, X15, X10, X1, X6, X12, X11, X2, X7, X13, X8,  X3, X4, X14, X9)
 
-	ADD $-1, R1
-	BNE loop
+        ADD     $-1, R1
+        BNE     loop
 
-	// decrement length
-	ADD $-256, R4
+        // decrement length
+        ADD     $-256, R4
 
-	// rearrange vectors
-	SHUFFLE(X0, X1, X2, X3, M0, M1, M2, M3)
-	ADDV(J0, X0, X1, X2, X3)
-	SHUFFLE(X4, X5, X6, X7, M0, M1, M2, M3)
-	ADDV(KEY0, X4, X5, X6, X7)
-	SHUFFLE(X8, X9, X10, X11, M0, M1, M2, M3)
-	ADDV(KEY1, X8, X9, X10, X11)
-	VAF CTR, X12, X12
-	SHUFFLE(X12, X13, X14, X15, M0, M1, M2, M3)
-	ADDV(NONCE, X12, X13, X14, X15)
+        // rearrange vectors
+        SHUFFLE(X0, X1, X2, X3, M0, M1, M2, M3)
+        ADDV(J0, X0, X1, X2, X3)
+        SHUFFLE(X4, X5, X6, X7, M0, M1, M2, M3)
+        ADDV(KEY0, X4, X5, X6, X7)
+        SHUFFLE(X8, X9, X10, X11, M0, M1, M2, M3)
+        ADDV(KEY1, X8, X9, X10, X11)
+        VAF     CTR, X12, X12
+        SHUFFLE(X12, X13, X14, X15, M0, M1, M2, M3)
+        ADDV(NONCE, X12, X13, X14, X15)
 
-	// increment counters
-	VAF INC, CTR, CTR
+        // increment counters
+        VAF     INC, CTR, CTR
 
-	// xor keystream with plaintext
-	XORV(0*64, R2, R3, X0, X4,  X8, X12)
-	XORV(1*64, R2, R3, X1, X5,  X9, X13)
-	XORV(2*64, R2, R3, X2, X6, X10, X14)
-	XORV(3*64, R2, R3, X3, X7, X11, X15)
+        // xor keystream with plaintext
+        XORV(0*64, R2, R3, X0, X4,  X8, X12)
+        XORV(1*64, R2, R3, X1, X5,  X9, X13)
+        XORV(2*64, R2, R3, X2, X6, X10, X14)
+        XORV(3*64, R2, R3, X3, X7, X11, X15)
 
-	// increment pointers
-	MOVD $256(R2), R2
-	MOVD $256(R3), R3
+        // increment pointers
+        MOVD    $256(R2), R2
+        MOVD    $256(R3), R3
 
-	CMPBNE  R4, $0, chacha
+        CMPBNE  R4, $0, chacha
 
-	VSTEF $0, CTR, (R7)
-	RET
+        VSTEF   $0, CTR, (R7)
+        RET

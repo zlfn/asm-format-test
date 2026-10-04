@@ -12,6 +12,6 @@ EXTERN adt_QueueFront
 .adt_QueueBack
 ._adt_QueueBack
 
-   inc hl
-   inc hl
-   jp adt_QueueFront
+        inc     hl
+        inc     hl
+        jp      adt_QueueFront

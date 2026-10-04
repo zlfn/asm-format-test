@@ -1,13 +1,10 @@
 
+        MODULE  display_variables
 
-	MODULE	display_variables
+        SECTION bss_driver
 
-
-	SECTION	bss_driver
-
-	PUBLIC	__fgcolour
-	PUBLIC	__bgcolour
-
+        PUBLIC  __fgcolour
+        PUBLIC  __bgcolour
 
         ;; Foreground drawing colour
 __fgcolour:

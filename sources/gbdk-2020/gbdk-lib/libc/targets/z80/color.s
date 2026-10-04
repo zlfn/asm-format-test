@@ -1,4 +1,4 @@
-        .include        "global.s"
+        .include "global.s"
 
         .title  "Colors"
         .module colors

@@ -10,14 +10,14 @@ EXTERN asm_vioctl
 
 vioctl:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push af
-   
-   jp asm_vioctl
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        jp      asm_vioctl

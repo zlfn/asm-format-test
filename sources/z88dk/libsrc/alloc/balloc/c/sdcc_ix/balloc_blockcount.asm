@@ -10,10 +10,10 @@ EXTERN asm_balloc_blockcount
 
 _balloc_blockcount:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_balloc_blockcount
+        push    hl
+        push    af
+
+        jp      asm_balloc_blockcount

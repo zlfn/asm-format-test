@@ -10,10 +10,10 @@ EXTERN asm_vopen
 
 vopen_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   push af
-   
-   jp asm_vopen
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_vopen

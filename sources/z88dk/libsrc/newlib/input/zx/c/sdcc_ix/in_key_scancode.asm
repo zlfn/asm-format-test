@@ -10,10 +10,10 @@ EXTERN asm_in_key_scancode
 
 _in_key_scancode:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_in_key_scancode
+        push    hl
+        push    af
+
+        jp      asm_in_key_scancode

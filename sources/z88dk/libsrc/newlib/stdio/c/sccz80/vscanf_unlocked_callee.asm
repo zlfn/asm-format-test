@@ -10,9 +10,9 @@ EXTERN asm_vscanf_unlocked
 
 vscanf_unlocked_callee:
 
-   pop af
-   pop bc
-   pop de
-   push af
-   
-   jp asm_vscanf_unlocked
+        pop     af
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_vscanf_unlocked

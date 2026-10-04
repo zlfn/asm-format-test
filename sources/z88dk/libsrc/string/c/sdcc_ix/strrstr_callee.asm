@@ -9,9 +9,9 @@ EXTERN asm_strrstr
 
 _strrstr_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_strrstr
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_strrstr

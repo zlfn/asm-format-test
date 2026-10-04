@@ -3,15 +3,13 @@
 ;
 ;	by Stefano Bodrato  - 2016
 
+        INCLUDE "classic/gfx/grafix.inc"
 
-    INCLUDE "classic/gfx/grafix.inc"
+        SECTION code_clib
+        PUBLIC  w_pointxy
+        EXTERN  l_cmp
 
-    SECTION code_clib
-    PUBLIC  w_pointxy
-    EXTERN  l_cmp
-
-
-    EXTERN  w_pixeladdress
+        EXTERN  w_pixeladdress
 
 ;
 ;	$Id: w_pointxy.asm,v 1.1 2016-11-17 09:39:03 stefano Exp $
@@ -35,26 +33,26 @@
 ;  af....../.... different
 ;
 w_pointxy:
-    push    hl
-    ld      hl, _GFX_MAXY
-    call    l_cmp
-    pop     hl
-    ret     nc                          ; Return if Y overflows
+        push    hl
+        ld      hl, _GFX_MAXY
+        call    l_cmp
+        pop     hl
+        ret     nc      ; Return if Y overflows
 
-    push    de
-    ld      de, _GFX_MAXX
-    call    l_cmp
-    pop     de
-    ret     c                           ; Return if X overflows
+        push    de
+        ld      de, _GFX_MAXX
+        call    l_cmp
+        pop     de
+        ret     c       ; Return if X overflows
 
-    call    w_pixeladdress
-    ld      c, a                        ;;;
-                        ;ld      b,a
-    ld      a, 1
-    jr      z, test_pixel               ; pixel is at bit 0...
+        call    w_pixeladdress
+        ld      c, a    ;;;
+        ;ld      b,a
+        ld      a, 1
+        jr      z, test_pixel   ; pixel is at bit 0...
 pix_position:
-    rlca
-    djnz    pix_position
+        rlca
+        djnz    pix_position
 test_pixel:
-    and     c
-    ret
+        and     c
+        ret

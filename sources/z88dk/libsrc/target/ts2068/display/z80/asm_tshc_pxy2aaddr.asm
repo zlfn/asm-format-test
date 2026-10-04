@@ -19,6 +19,6 @@ EXTERN asm0_zx_pxy2saddr
 
 asm_tshc_pxy2aaddr:
 
-   scf
+        scf
 
-   jp asm0_zx_pxy2saddr
+        jp      asm0_zx_pxy2saddr

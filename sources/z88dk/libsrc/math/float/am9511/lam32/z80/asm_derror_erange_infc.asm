@@ -9,4 +9,3 @@ EXTERN asm_am9511_derror_erange_infc, asm_am9511_derror_erange_pinfc, asm_am9511
 defc derror_erange_infc  = asm_am9511_derror_erange_infc
 defc derror_erange_pinfc = asm_am9511_derror_erange_pinfc
 defc derror_erange_minfc = asm_am9511_derror_erange_ninfc
-

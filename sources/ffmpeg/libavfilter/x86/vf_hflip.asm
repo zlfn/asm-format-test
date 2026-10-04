@@ -24,32 +24,32 @@
 
 SECTION_RODATA
 
-pb_flip_byte:  db 15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0
-pb_flip_short: db 14,15,12,13,10,11,8,9,6,7,4,5,2,3,0,1
+pb_flip_byte:  db 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
+pb_flip_short: db 14, 15, 12, 13, 10, 11, 8, 9, 6, 7, 4, 5, 2, 3, 0, 1
 
 SECTION .text
 
 ;%1 byte or short, %2 b or w, %3 size in byte (1 for byte, 2 for short)
 %macro HFLIP 3
 cglobal hflip_%1, 3, 5, 3, src, dst, w, r, x
-    VBROADCASTI128    m0, [pb_flip_%1]
-    xor               xq, xq
+        VBROADCASTI128 m0, [pb_flip_%1]
+        xor     xq, xq
 %if %3 == 1
-    movsxdifnidn wq, wd
+        movsxdifnidn wq, wd
 %else ; short
-    add     wd, wd
+        add     wd, wd
 %endif
-    mov     rq, wq
-    and     rq, 2 * mmsize - 1
-    cmp     wq, 2 * mmsize
-    jl .loop1
-    sub     wq, rq
+        mov     rq, wq
+        and     rq, 2 * mmsize - 1
+        cmp     wq, 2 * mmsize
+        jl      .loop1
+        sub     wq, rq
 
-    .loop0:
+.loop0:
         neg     xq
 %if mmsize == 32
-        vpermq  m1, [srcq + xq -     mmsize + %3], 0x4e; flip each lane at load
-        vpermq  m2, [srcq + xq - 2 * mmsize + %3], 0x4e; flip each lane at load
+        vpermq  m1, [srcq + xq -     mmsize + %3], 0x4e ; flip each lane at load
+        vpermq  m2, [srcq + xq - 2 * mmsize + %3], 0x4e ; flip each lane at load
 %else
         movu    m1, [srcq + xq -     mmsize + %3]
         movu    m2, [srcq + xq - 2 * mmsize + %3]
@@ -61,21 +61,21 @@ cglobal hflip_%1, 3, 5, 3, src, dst, w, r, x
         movu    [dstq + xq + mmsize], m2
         add     xq, mmsize * 2
         cmp     xq, wq
-        jl .loop0
+        jl      .loop0
 
-    cmp    rq, 0
-    je .end
-    add    wq, rq
+        cmp     rq, 0
+        je      .end
+        add     wq, rq
 
-    .loop1:
-        neg    xq
-        mov    r%2, [srcq + xq]
-        neg    xq
-        mov    [dstq + xq], r%2
-        add    xq, %3
-        cmp    xq, wq
-        jl .loop1
-    .end:
+.loop1:
+        neg     xq
+        mov     r%2, [srcq + xq]
+        neg     xq
+        mov     [dstq + xq], r%2
+        add     xq, %3
+        cmp     xq, wq
+        jl      .loop1
+.end:
         RET
 %endmacro
 

@@ -4,7 +4,7 @@
 ; Screen size variables
 ;
 
-        .export         screensize
+        .export screensize
 
 ; We will return the values directly instead of banking in the ROM and calling
 ; SCREEN which is a lot more overhead in code size and CPU cycles.
@@ -16,6 +16,3 @@
         rts
 
 .endproc
-
-
-

@@ -9,20 +9,20 @@ EXTERN asm_SMSlib_loadTileMapArea
 
 _SMS_loadTileMapArea:
 
-   pop af
-   pop de
-   ld h,e
-   ld l,d
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
-   
-   ld a,b
-   ld b,c
-   ld c,a
+        pop     af
+        pop     de
+        ld      h, e
+        ld      l, d
+        pop     de
+        pop     bc
 
-   jp asm_SMSlib_loadTileMapArea
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        ld      a, b
+        ld      b, c
+        ld      c, a
+
+        jp      asm_SMSlib_loadTileMapArea

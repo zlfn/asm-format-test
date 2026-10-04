@@ -10,10 +10,10 @@ EXTERN asm_b_array_clear
 
 _b_array_clear:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_b_array_clear
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_b_array_clear

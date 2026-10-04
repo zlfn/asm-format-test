@@ -46,7 +46,6 @@ GLOBL ·log1pc1<> + 0(SB), RODATA, $8
 DATA ·log1pc0<> + 0(SB)/8, $0.181818181818181826E+00
 GLOBL ·log1pc0<> + 0(SB), RODATA, $8
 
-
 // Table of log10 correction terms
 DATA ·log1ptab<> + 0(SB)/8, $0.585235384085551248E-01
 DATA ·log1ptab<> + 8(SB)/8, $0.412206153771168640E-01
@@ -79,102 +78,100 @@ GLOBL ·log1ptab<> + 0(SB), RODATA, $128
 // with coefficients determined with a Remez exchange algorithm.
 
 TEXT	·log1pAsm(SB), NOSPLIT, $0-16
-	FMOVD	x+0(FP), F0
-	MOVD	$·log1pxmone<>+0(SB), R1
-	MOVD	·log1pxout<>+0(SB), R2
-	FMOVD	0(R1), F3
-	MOVD	$·log1pxa<>+0(SB), R1
-	MOVWZ	·log1pxlim<>+0(SB), R0
-	FMOVD	0(R1), F1
-	MOVD	$·log1pc8<>+0(SB), R1
-	FMOVD	0(R1), F5
-	MOVD	$·log1pc7<>+0(SB), R1
-	VLEG	$0, 0(R1), V20
-	MOVD	$·log1pc6<>+0(SB), R1
-	WFSDB	V0, V3, V4
-	VLEG	$0, 0(R1), V18
-	MOVD	$·log1pc5<>+0(SB), R1
-	VLEG	$0, 0(R1), V16
-	MOVD	R2, R5
-	LGDR	F4, R3
-	WORD	$0xC0190006	//iilf	%r1,425983
-	BYTE	$0x7F
-	BYTE	$0xFF
-	SRAD	$32, R3, R3
-	SUBW	R3, R1
-	SRW	$16, R1, R1
-	BYTE	$0x18	//lr	%r4,%r1
-	BYTE	$0x41
-	RISBGN	$0, $15, $48, R4, R2
-	RISBGN	$16, $31, $32, R4, R5
-	MOVW	R0, R6
-	MOVW	R3, R7
-	CMPBGT	R6, R7, L8
-	WFCEDBS	V4, V4, V6
-	MOVD	$·log1pxzero<>+0(SB), R1
-	FMOVD	0(R1), F2
-	BVS	LEXITTAGlog1p
-	LCDBR	F4, F4
-	WFCEDBS	V2, V4, V6
-	BEQ	L9
-	WFCHDBS	V4, V2, V2
-	BEQ	LEXITTAGlog1p
-	MOVD	$·log1pxnan<>+0(SB), R1
-	FMOVD	0(R1), F0
-	FMOVD	F0, ret+8(FP)
-	RET
+        FMOVD   x+0(FP), F0
+        MOVD    $·log1pxmone<>+0(SB), R1
+        MOVD    ·log1pxout<>+0(SB),   R2
+        FMOVD   0(R1), F3
+        MOVD    $·log1pxa<>+0(SB),  R1
+        MOVWZ   ·log1pxlim<>+0(SB), R0
+        FMOVD   0(R1), F1
+        MOVD    $·log1pc8<>+0(SB), R1
+        FMOVD   0(R1), F5
+        MOVD    $·log1pc7<>+0(SB), R1
+        VLEG    $0, 0(R1), V20
+        MOVD    $·log1pc6<>+0(SB), R1
+        WFSDB   V0, V3,    V4
+        VLEG    $0, 0(R1), V18
+        MOVD    $·log1pc5<>+0(SB), R1
+        VLEG    $0, 0(R1), V16
+        MOVD    R2, R5
+        LGDR    F4, R3
+        WORD    $0xC0190006     //iilf	%r1,425983
+        BYTE    $0x7F
+        BYTE    $0xFF
+        SRAD    $32, R3, R3
+        SUBW    R3,  R1
+        SRW     $16, R1, R1
+        BYTE    $0x18           //lr	%r4,%r1
+        BYTE    $0x41
+        RISBGN  $0,  $15, $48, R4, R2
+        RISBGN  $16, $31, $32, R4, R5
+        MOVW    R0,  R6
+        MOVW    R3,  R7
+        CMPBGT  R6,  R7,  L8
+        WFCEDBS V4,  V4,  V6
+        MOVD    $·log1pxzero<>+0(SB), R1
+        FMOVD   0(R1), F2
+        BVS     LEXITTAGlog1p
+        LCDBR   F4, F4
+        WFCEDBS V2, V4, V6
+        BEQ     L9
+        WFCHDBS V4, V2, V2
+        BEQ     LEXITTAGlog1p
+        MOVD    $·log1pxnan<>+0(SB), R1
+        FMOVD   0(R1), F0
+        FMOVD   F0,    ret+8(FP)
+        RET
 
 L8:
-	LDGR	R2, F2
-	FSUB	F4, F3
-	FMADD	F2, F4, F1
-	MOVD	$·log1pc4<>+0(SB), R2
-	LCDBR	F1, F4
-	FMOVD	0(R2), F7
-	FSUB	F3, F0
-	MOVD	$·log1pc3<>+0(SB), R2
-	FMOVD	0(R2), F3
-	MOVD	$·log1pc2<>+0(SB), R2
-	WFMDB	V1, V1, V6
-	FMADD	F7, F4, F3
-	WFMSDB	V0, V2, V1, V0
-	FMOVD	0(R2), F7
-	WFMADB	V4, V5, V20, V5
-	MOVD	$·log1pc1<>+0(SB), R2
-	FMOVD	0(R2), F2
-	FMADD	F7, F4, F2
-	WFMADB	V4, V18, V16, V4
-	FMADD	F3, F6, F2
-	WFMADB	V5, V6, V4, V5
-	FMUL	F6, F6
-	MOVD	$·log1pc0<>+0(SB), R2
-	WFMADB	V6, V5, V2, V6
-	FMOVD	0(R2), F4
-	WFMADB	V0, V6, V4, V6
-	RISBGZ	$57, $60, $3, R1, R1
-	MOVD	$·log1ptab<>+0(SB), R2
-	MOVD	$·log1pxl1<>+0(SB), R3
-	WORD	$0x68112000	//ld	%f1,0(%r1,%r2)
-	FMOVD	0(R3), F2
-	WFMADB	V0, V6, V1, V0
-	MOVD	$·log1pyout<>+0(SB), R1
-	LDGR	R5, F6
-	FMOVD	0(R1), F4
-	WFMSDB	V2, V6, V4, V2
-	MOVD	$·log1pxl2<>+0(SB), R1
-	FMOVD	0(R1), F4
-	FMADD	F4, F2, F0
-	FMOVD	F0, ret+8(FP)
-	RET
+        LDGR    R2, F2
+        FSUB    F4, F3
+        FMADD   F2, F4, F1
+        MOVD    $·log1pc4<>+0(SB), R2
+        LCDBR   F1,    F4
+        FMOVD   0(R2), F7
+        FSUB    F3,    F0
+        MOVD    $·log1pc3<>+0(SB), R2
+        FMOVD   0(R2), F3
+        MOVD    $·log1pc2<>+0(SB), R2
+        WFMDB   V1,    V1, V6
+        FMADD   F7,    F4, F3
+        WFMSDB  V0,    V2, V1,  V0
+        FMOVD   0(R2), F7
+        WFMADB  V4,    V5, V20, V5
+        MOVD    $·log1pc1<>+0(SB), R2
+        FMOVD   0(R2), F2
+        FMADD   F7,    F4,  F2
+        WFMADB  V4,    V18, V16, V4
+        FMADD   F3,    F6,  F2
+        WFMADB  V5,    V6,  V4,  V5
+        FMUL    F6,    F6
+        MOVD    $·log1pc0<>+0(SB), R2
+        WFMADB  V6,    V5,  V2, V6
+        FMOVD   0(R2), F4
+        WFMADB  V0,    V6,  V4, V6
+        RISBGZ  $57,   $60, $3, R1, R1
+        MOVD    $·log1ptab<>+0(SB), R2
+        MOVD    $·log1pxl1<>+0(SB), R3
+        WORD    $0x68112000     //ld	%f1,0(%r1,%r2)
+        FMOVD   0(R3), F2
+        WFMADB  V0,    V6, V1, V0
+        MOVD    $·log1pyout<>+0(SB), R1
+        LDGR    R5,    F6
+        FMOVD   0(R1), F4
+        WFMSDB  V2,    V6, V4, V2
+        MOVD    $·log1pxl2<>+0(SB), R1
+        FMOVD   0(R1), F4
+        FMADD   F4,    F2, F0
+        FMOVD   F0,    ret+8(FP)
+        RET
 
 L9:
-	MOVD	$·log1pxminf<>+0(SB), R1
-	FMOVD	0(R1), F0
-	FMOVD	F0, ret+8(FP)
-	RET
-
+        MOVD    $·log1pxminf<>+0(SB), R1
+        FMOVD   0(R1), F0
+        FMOVD   F0,    ret+8(FP)
+        RET
 
 LEXITTAGlog1p:
-	FMOVD	F0, ret+8(FP)
-	RET
-
+        FMOVD   F0, ret+8(FP)
+        RET

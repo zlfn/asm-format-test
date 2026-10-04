@@ -10,10 +10,10 @@ EXTERN asm_strnset
 
 _strnset_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
-   
-   jp asm_strnset
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
+
+        jp      asm_strnset

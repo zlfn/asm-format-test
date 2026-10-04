@@ -7,18 +7,17 @@
 ; be called from an interrupt handler
 ;
 
-        .include        "atari.inc"
-        .importzp       c_sp
-        .export         _mouse_pm_callbacks
-        .constructor    pm_init, 27
-        .destructor     pm_down
+        .include "atari.inc"
+        .importzp c_sp
+        .export _mouse_pm_callbacks
+        .constructor pm_init, 27
+        .destructor pm_down
 
 ; get mouse shape data
-        .import   mouse_pm_bits
+        .import mouse_pm_bits
         .importzp mouse_pm_height
         .importzp mouse_pm_hotspot_x
         .importzp mouse_pm_hotspot_y
-
 
 ; P/M definitions. The MOUSE_PM_NUM value can be changed to adjust the
 ; number of the P/M used for the mouse. All others depend on this value.
@@ -26,15 +25,15 @@
 ; as a player.
 .ifdef USE_PAGE6
 MOUSE_PM_NUM    = 2                             ; P/M used for the mouse
-                                                ; This cannot be changed since only player #2 uses the memory at $600.
+        ; This cannot be changed since only player #2 uses the memory at $600.
 .else
 MOUSE_PM_NUM    = 4                             ; P/M used for the mouse
-                                                ; Using player #4 (missiles) wastes the least amount of memory on the
-                                                ; atari target, since top of memory is typically at $xC20, and the
-                                                ; missiles use the space at $xB00-$xBFF.
-                                                ; On the atarixl target this configuration (not using page 6) is not
-                                                ; really satisfying since the top of memory typically lies beneath
-                                                ; the ROM and there is flickering visible while the ROM is banked in.
+        ; Using player #4 (missiles) wastes the least amount of memory on the
+        ; atari target, since top of memory is typically at $xC20, and the
+        ; missiles use the space at $xB00-$xBFF.
+        ; On the atarixl target this configuration (not using page 6) is not
+        ; really satisfying since the top of memory typically lies beneath
+        ; the ROM and there is flickering visible while the ROM is banked in.
 .endif
 MOUSE_PM_BASE   = pm_base                       ; ZP location pointing to the hw area used by the selected P/M
 
@@ -74,14 +73,14 @@ _mouse_pm_callbacks:
 
         .bss
 
-omy:    .res    1                       ; old Mouse Y position
-colhlp: .res    1                       ; helper variable to set P/M color
+omy:    .res    1       ; old Mouse Y position
+colhlp: .res    1       ; helper variable to set P/M color
 
 ; ------------------------------------------------------------------------
 
         .segment "EXTZP" : zeropage
 
-pm_base:.res    2
+pm_base: .res   2
 
 ; ------------------------------------------------------------------------
 
@@ -121,7 +120,7 @@ movey:  clc
         sbc     #(mouse_pm_hotspot_y - 1) & $FF
         pha
         lda     omy
-        jsr     clr_pm                  ; remove player at old position
+        jsr     clr_pm  ; remove player at old position
         jsr     update_colors
         pla
         sta     omy
@@ -131,33 +130,31 @@ movey:  clc
 ; Set P/M data from 'mouse_pm_bits'
 set_pm: tay
         ldx     #0
-set_l:  lda     mouse_pm_bits,x
-        sta     (MOUSE_PM_BASE),y
+set_l:  lda     mouse_pm_bits,   x
+        sta     (MOUSE_PM_BASE), y
         inx
         iny
         beq     set_end
         cpx     #mouse_pm_height
         bcc     set_l
-set_end:rts
+set_end: rts
 
 ; Clear (zero) P/M data
 clr_pm: ldx     #mouse_pm_height
         tay
         lda     #0
-clr_l:  sta     (MOUSE_PM_BASE),y
+clr_l:  sta     (MOUSE_PM_BASE), y
         iny
         beq     clr_end
         dex
         bne     clr_l
-clr_end:rts
-
+clr_end: rts
 
 pm_down = hide
 
-
 ; this assumes a GRAPHICS 0 screen
 update_colors:
-        lda     COLOR2                  ; get background color
+        lda     COLOR2  ; get background color
         and     #$F0
         sta     colhlp
         lda     COLOR1
@@ -188,7 +185,7 @@ pm_init:
 .ifdef USE_PAGE6
 
         sta     MOUSE_PM_BASE
-        ldx     #6                      ; page 6
+        ldx     #6      ; page 6
         stx     MOUSE_PM_BASE+1
 
 .else
@@ -210,15 +207,15 @@ pm_init:
 
 @decr:  lda     c_sp+1
         and     #$F8
-        sbc     #8 - 1                  ; CF is clear, subtracts 8
-        bcs     @set                    ; jump always
+        sbc     #8 - 1  ; CF is clear, subtracts 8
+        bcs     @set    ; jump always
 
 @cont:  lda     #0
 
 .endif
 
         tay
-@iniloo:sta     (MOUSE_PM_BASE),y
+@iniloo: sta    (MOUSE_PM_BASE), y
         iny
         bne     @iniloo
 

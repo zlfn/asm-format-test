@@ -10,9 +10,9 @@
 
 .proc           _getkey
 
-        jsr     KEYIN           ; Open up keyboard channel
-        jsr     GETKEY          ; Get key code
-        ldx     #0              ; MSB of return value is zero
+        jsr     KEYIN   ; Open up keyboard channel
+        jsr     GETKEY  ; Get key code
+        ldx     #0      ; MSB of return value is zero
         rts
 
 .endproc

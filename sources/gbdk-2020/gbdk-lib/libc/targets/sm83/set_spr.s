@@ -1,16 +1,16 @@
-	.include	"global.s"
+        .include "global.s"
 
-	.area	_HOME
+        .area   _HOME
 
-	;; Set sprite number C to tile D
+        ;; Set sprite number C to tile D
 .set_sprite_tile::
-	LD	HL,#_shadow_OAM+2	; Calculate origin of sprite info
+        LD      HL, #_shadow_OAM+2      ; Calculate origin of sprite info
 
-	SLA	C		; Multiply C by 4
-	SLA	C
-	LD	B,#0x00
-	ADD	HL,BC
+        SLA     C       ; Multiply C by 4
+        SLA     C
+        LD      B,  #0x00
+        ADD     HL, BC
 
-	LD	A,D		; Set sprite number
-	LD	(HL),A
-	RET
+        LD      A,    D ; Set sprite number
+        LD      (HL), A
+        RET

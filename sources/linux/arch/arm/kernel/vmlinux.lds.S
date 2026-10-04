@@ -35,128 +35,128 @@ SECTIONS
 	 * unwind exit sections must be discarded before the rest of the
 	 * unwind sections get included.
 	 */
-	/DISCARD/ : {
-		ARM_DISCARD
+        /DISCARD/ : {
+        ARM_DISCARD
 #ifndef CONFIG_SMP_ON_UP
-		*(.alt.smp.init)
+        *(.alt.smp.init)
 #endif
 #ifndef CONFIG_ARM_UNWIND
-		*(.ARM.exidx) *(.ARM.exidx.*)
-		*(.ARM.extab) *(.ARM.extab.*)
+        *(.ARM.exidx) *(.ARM.exidx.*)
+        *(.ARM.extab) *(.ARM.extab.*)
 #endif
-	}
+        }
 
-	. = KERNEL_OFFSET + TEXT_OFFSET;
-	.head.text : {
-		_text = .;
-		HEAD_TEXT
-	}
+        .       = KERNEL_OFFSET + TEXT_OFFSET;
+        .head.text : {
+        _text   = .;
+        HEAD_TEXT
+        }
 
 #ifdef CONFIG_STRICT_KERNEL_RWX
-	. = ALIGN(1<<SECTION_SHIFT);
+        .       = ALIGN(1<<SECTION_SHIFT);
 #endif
 
 #ifdef CONFIG_ARM_MPU
-	. = ALIGN(PMSAv8_MINALIGN);
+        .       = ALIGN(PMSAv8_MINALIGN);
 #endif
-	.text : {			/* Real text segment		*/
-		_stext = .;		/* Text and read-only data	*/
-		ARM_TEXT
-	}
+        .text   : {     /* Real text segment		*/
+        _stext  = .;		/* Text and read-only data	*/
+        ARM_TEXT
+        }
 
 #ifdef CONFIG_DEBUG_ALIGN_RODATA
-	. = ALIGN(1<<SECTION_SHIFT);
+        .       = ALIGN(1<<SECTION_SHIFT);
 #endif
-	_etext = .;			/* End of text section */
+        _etext  = .;			/* End of text section */
 
-	RO_DATA(PAGE_SIZE)
+        RO_DATA(PAGE_SIZE)
 
-	. = ALIGN(4);
-	__ex_table : AT(ADDR(__ex_table) - LOAD_OFFSET) {
-		__start___ex_table = .;
-		ARM_MMU_KEEP(*(__ex_table))
-		__stop___ex_table = .;
-	}
+        .       = ALIGN(4);
+        __ex_table : AT(ADDR(__ex_table) - LOAD_OFFSET) {
+        __start___ex_table = .;
+        ARM_MMU_KEEP(*(__ex_table))
+        __stop___ex_table = .;
+        }
 
 #ifdef CONFIG_ARM_UNWIND
-	ARM_UNWIND_SECTIONS
+        ARM_UNWIND_SECTIONS
 #endif
 
 #ifdef CONFIG_STRICT_KERNEL_RWX
-	. = ALIGN(1<<SECTION_SHIFT);
+        .       = ALIGN(1<<SECTION_SHIFT);
 #else
-	. = ALIGN(PAGE_SIZE);
+        .       = ALIGN(PAGE_SIZE);
 #endif
-	__init_begin = .;
+        __init_begin = .;
 
-	ARM_VECTORS
-	INIT_TEXT_SECTION(8)
-	.exit.text : {
-		ARM_EXIT_KEEP(EXIT_TEXT)
-	}
-	.init.proc.info : {
-		ARM_CPU_DISCARD(PROC_INFO)
-	}
-	.init.arch.info : {
-		__arch_info_begin = .;
-		KEEP(*(.arch.info.init))
-		__arch_info_end = .;
-	}
-	.init.tagtable : {
-		__tagtable_begin = .;
-		*(.taglist.init)
-		__tagtable_end = .;
-	}
+        ARM_VECTORS
+        INIT_TEXT_SECTION(8)
+        .exit.text : {
+        ARM_EXIT_KEEP(EXIT_TEXT)
+        }
+        .init.proc.info : {
+        ARM_CPU_DISCARD(PROC_INFO)
+        }
+        .init.arch.info : {
+        __arch_info_begin = .;
+        KEEP(*(.arch.info.init))
+        __arch_info_end = .;
+        }
+        .init.tagtable : {
+        __tagtable_begin = .;
+        *(.taglist.init)
+        __tagtable_end = .;
+        }
 #ifdef CONFIG_SMP_ON_UP
-	.init.smpalt : {
-		__smpalt_begin = .;
-		*(.alt.smp.init)
-		__smpalt_end = .;
-	}
+        .init.smpalt : {
+        __smpalt_begin = .;
+        *(.alt.smp.init)
+        __smpalt_end = .;
+        }
 #endif
-	.init.pv_table : {
-		__pv_table_begin = .;
-		KEEP(*(.pv_table))
-		__pv_table_end = .;
-	}
+        .init.pv_table : {
+        __pv_table_begin = .;
+        KEEP(*(.pv_table))
+        __pv_table_end = .;
+        }
 
-	INIT_DATA_SECTION(16)
+        INIT_DATA_SECTION(16)
 
-	.exit.data : {
-		ARM_EXIT_KEEP(EXIT_DATA)
-	}
+        .exit.data : {
+        ARM_EXIT_KEEP(EXIT_DATA)
+        }
 
 #ifdef CONFIG_SMP
-	PERCPU_SECTION(L1_CACHE_BYTES)
+        PERCPU_SECTION(L1_CACHE_BYTES)
 #endif
 
 #ifdef CONFIG_HAVE_TCM
-	ARM_TCM
+        ARM_TCM
 #endif
 
 #ifdef CONFIG_STRICT_KERNEL_RWX
-	. = ALIGN(1<<SECTION_SHIFT);
+        .       = ALIGN(1<<SECTION_SHIFT);
 #else
-	. = ALIGN(THREAD_ALIGN);
+        .       = ALIGN(THREAD_ALIGN);
 #endif
-	__init_end = .;
+        __init_end = .;
 
-	_sdata = .;
-	RW_DATA(L1_CACHE_BYTES, PAGE_SIZE, THREAD_ALIGN)
-	_edata = .;
+        _sdata  = .;
+        RW_DATA(L1_CACHE_BYTES, PAGE_SIZE, THREAD_ALIGN)
+        _edata  = .;
 
-	BSS_SECTION(0, 0, 0)
+        BSS_SECTION(0, 0, 0)
 #ifdef CONFIG_ARM_MPU
-	. = ALIGN(PMSAv8_MINALIGN);
+        .       = ALIGN(PMSAv8_MINALIGN);
 #endif
-	_end = .;
+        _end    = .;
 
-	STABS_DEBUG
-	DWARF_DEBUG
-	MODINFO
-	ARM_DETAILS
+        STABS_DEBUG
+        DWARF_DEBUG
+        MODINFO
+        ARM_DETAILS
 
-	ARM_ASSERTS
+        ARM_ASSERTS
 }
 
 #ifdef CONFIG_STRICT_KERNEL_RWX

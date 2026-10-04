@@ -10,24 +10,24 @@ EXTERN asm_memmem
 
 _memmem_callee:
 
-   pop af
-   exx
-   pop bc
-   exx
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        exx
+        pop     bc
+        exx
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
 l0_memmem_callee:
 
-   exx
-   push bc
-   exx
-   
-   ex (sp),ix
-   
-   call asm_memmem
-   
-   pop ix
-   ret
+        exx
+        push    bc
+        exx
+
+        ex      (sp), ix
+
+        call    asm_memmem
+
+        pop     ix
+        ret

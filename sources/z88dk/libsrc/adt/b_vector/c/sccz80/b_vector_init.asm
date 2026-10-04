@@ -10,21 +10,20 @@ EXTERN asm_b_vector_init
 
 b_vector_init:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push hl
-   push af
-   
-   jp asm_b_vector_init
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_b_vector_init
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _b_vector_init
 defc _b_vector_init = b_vector_init
 ENDIF
-

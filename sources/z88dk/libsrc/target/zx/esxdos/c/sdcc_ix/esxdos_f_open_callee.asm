@@ -12,22 +12,22 @@ EXTERN asm_esxdos_f_open
 
 _esxdos_f_open_callee:
 
-   pop af
-   pop hl
-   dec sp
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        dec     sp
+        pop     bc
+        push    af
 
 l0_esxdos_f_open_callee:
 
-   ld a,__ESXDOS_DRIVE_CURRENT
-   ld de,0
+        ld      a,  __ESXDOS_DRIVE_CURRENT
+        ld      de, 0
 
-   push ix
-   push iy
-   
-   call asm_esxdos_f_open
+        push    ix
+        push    iy
 
-   pop iy
-   pop ix
-   ret
+        call    asm_esxdos_f_open
+
+        pop     iy
+        pop     ix
+        ret

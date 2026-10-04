@@ -9,6 +9,6 @@
 #include <asm/assembler.h>
 
 ENTRY(shmobile_boot_apmu)
-	bl	secure_cntvoff_init
-	b	secondary_startup
+        bl      secure_cntvoff_init
+        b       secondary_startup
 ENDPROC(shmobile_boot_apmu)

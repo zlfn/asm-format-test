@@ -10,8 +10,8 @@ EXTERN asm_strcpy
 
 _strcpy_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_strcpy
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_strcpy

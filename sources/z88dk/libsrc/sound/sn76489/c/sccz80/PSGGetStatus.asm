@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _PSGGetStatus
 defc _PSGGetStatus = PSGGetStatus
 ENDIF
-

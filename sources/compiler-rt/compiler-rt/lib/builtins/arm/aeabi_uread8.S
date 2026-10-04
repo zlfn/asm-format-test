@@ -59,39 +59,39 @@ DEFINE_COMPILERRT_FUNCTION(__aeabi_uread8)
         adds    r1, r0, r1
 #endif
         mov     r0, r2
-        bx lr
+        bx      lr
 #else
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
         ldrb    r12, [r0]
-        ldrb    r2, [r0, #1]
-        ldrb    r3, [r0, #2]
-        ldrb    r1, [r0, #3]
-        orr     r1, r3, r1, lsl #8
-        orr     r2, r12, r2, lsl #8
-        orr     r2, r2, r1, lsl #16
-        ldrb    r1, [r0, #5]
-        ldrb    r3, [r0, #4]!
-        orr     r1, r3, r1, lsl #8
-        ldrb    r3, [r0, #2]
-        ldrb    r0, [r0, #3]
-        orr     r0, r3, r0, lsl #8
-        orr     r1, r1, r0, lsl #16
+        ldrb    r2,  [r0, #1]
+        ldrb    r3,  [r0, #2]
+        ldrb    r1,  [r0, #3]
+        orr     r1,  r3,  r1, lsl #8
+        orr     r2,  r12, r2, lsl #8
+        orr     r2,  r2,  r1, lsl #16
+        ldrb    r1,  [r0, #5]
+        ldrb    r3,  [r0, #4]!
+        orr     r1,  r3,  r1, lsl #8
+        ldrb    r3,  [r0, #2]
+        ldrb    r0,  [r0, #3]
+        orr     r0,  r3,  r0, lsl #8
+        orr     r1,  r1,  r0, lsl #16
 #else
         ldrb    r12, [r0]
-        ldrb    r2, [r0, #1]
-        ldrb    r3, [r0, #2]
-        ldrb    r1, [r0, #3]
-        orr     r2, r2, r12, lsl #8
-        orr     r1, r1, r3, lsl #8
-        orr     r2, r1, r2, lsl #16
-        mov     r1, r0
-        ldrb    r0, [r0, #5]
-        ldrb    r3, [r1, #4]!
-        orr     r0, r0, r3, lsl #8
-        ldrb    r3, [r1, #2]
-        ldrb    r1, [r1, #3]
-        orr     r1, r1, r3, lsl #8
-        orr     r1, r1, r0, lsl #16
+        ldrb    r2,  [r0, #1]
+        ldrb    r3,  [r0, #2]
+        ldrb    r1,  [r0, #3]
+        orr     r2,  r2, r12, lsl #8
+        orr     r1,  r1, r3,  lsl #8
+        orr     r2,  r1, r2,  lsl #16
+        mov     r1,  r0
+        ldrb    r0,  [r0, #5]
+        ldrb    r3,  [r1, #4]!
+        orr     r0,  r0, r3,  lsl #8
+        ldrb    r3,  [r1, #2]
+        ldrb    r1,  [r1, #3]
+        orr     r1,  r1, r3,  lsl #8
+        orr     r1,  r1, r0,  lsl #16
 #endif
         mov     r0, r2
         bx      lr

@@ -8,22 +8,22 @@
 ;	$Id: exos_read_block.asm $
 ;
 
-	SECTION code_clib
-	PUBLIC	exos_read_block
-	PUBLIC	_exos_read_block
+        SECTION code_clib
+        PUBLIC  exos_read_block
+        PUBLIC  _exos_read_block
 
-	EXTERN     asm_exos_read_block
+        EXTERN  asm_exos_read_block
 
 exos_read_block:
 _exos_read_block:
-	
-	pop	af
-	pop de
-	pop bc
-	pop hl
-	push hl
-	push bc
-	push de
-	push af
 
-   jp asm_exos_read_block
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        jp      asm_exos_read_block

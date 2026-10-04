@@ -10,10 +10,10 @@
 //go:build !amd64
 
 TEXT ·BoringCrypto(SB),$0
-	RET
+        RET
 
 TEXT ·FIPSOnly(SB),$0
-	RET
+        RET
 
 TEXT ·StandardCrypto(SB),$0
-	RET
+        RET

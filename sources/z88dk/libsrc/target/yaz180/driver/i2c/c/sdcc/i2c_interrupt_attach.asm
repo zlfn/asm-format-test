@@ -14,14 +14,13 @@ PUBLIC _i2c_interrupt_attach
 ;   void i2c_interrupt_attach( uint8_t device, uint8_t *isr )
 
 ._i2c_interrupt_attach
-    pop af                              ;ret
-    dec sp
-    pop bc                              ;device address
-    pop hl                              ;*isr
-    push hl
-    push bc
-    inc sp
-    push af
-    ld a,b
-    jp asm_i2c_interrupt_attach
-
+        pop     af      ;ret
+        dec     sp
+        pop     bc      ;device address
+        pop     hl      ;*isr
+        push    hl
+        push    bc
+        inc     sp
+        push    af
+        ld      a, b
+        jp      asm_i2c_interrupt_attach

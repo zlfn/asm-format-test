@@ -9,16 +9,16 @@
 ;
 
         SECTION code_clib
-	PUBLIC	exos_system_status
-	PUBLIC	_exos_system_status
+        PUBLIC  exos_system_status
+        PUBLIC  _exos_system_status
 
 exos_system_status:
 _exos_system_status:
 
-	ex    de,hl
-	rst   30h
-	defb  20
-	ld    h,0
-	ld    l,b
+        ex      de, hl
+        rst     30h
+        defb    20
+        ld      h, 0
+        ld      l, b
 
-	ret
+        ret

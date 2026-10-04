@@ -63,128 +63,128 @@ several floating point instructions.  */
 
 #include <asm/asm-offsets.h>
 
-	.globl	nwfpe_enter
+        .globl  nwfpe_enter
 nwfpe_enter:
-	mov	r4, lr			@ save the failure-return addresses
-	mov	sl, sp			@ we access the registers via 'sl'
+        mov     r4, lr  @ save the failure-return addresses
+        mov     sl, sp  @ we access the registers via 'sl'
 
-	ldr	r5, [sp, #S_PC]		@ get contents of PC;
-	mov	r6, r0			@ save the opcode
+        ldr     r5, [sp, #S_PC]                 @ get contents of PC;
+        mov     r6, r0                          @ save the opcode
 emulate:
-	ldr	r1, [sp, #S_PSR]	@ fetch the PSR
-	bl	arm_check_condition	@ check the condition
-	cmp	r0, #ARM_OPCODE_CONDTEST_PASS	@ condition passed?
+        ldr     r1, [sp, #S_PSR]                @ fetch the PSR
+        bl      arm_check_condition             @ check the condition
+        cmp     r0, #ARM_OPCODE_CONDTEST_PASS   @ condition passed?
 
-	@ if condition code failed to match, next insn
-	bne	next			@ get the next instruction;
+        @ if condition code failed to match, next insn
+        bne     next    @ get the next instruction;
 
-	mov	r0, r6			@ prepare for EmulateAll()
-	bl	EmulateAll		@ emulate the instruction
-	cmp	r0, #0			@ was emulation successful
-	reteq	r4			@ no, return failure
+        mov     r0, r6          @ prepare for EmulateAll()
+        bl      EmulateAll      @ emulate the instruction
+        cmp     r0, #0          @ was emulation successful
+        reteq   r4              @ no, return failure
 
 next:
-	uaccess_enable r3
-.Lx1:	ldrt	r6, [r5], #4		@ get the next instruction and
-					@ increment PC
-	uaccess_disable r3
-	and	r2, r6, #0x0F000000	@ test for FP insns
-	teq	r2, #0x0C000000
-	teqne	r2, #0x0D000000
-	teqne	r2, #0x0E000000
-	retne	r9			@ return ok if not a fp insn
+        uaccess_enable r3
+.Lx1:   ldrt    r6, [r5], #4            @ get the next instruction and
+                                        @ increment PC
+        uaccess_disable r3
+        and     r2, r6, #0x0F000000     @ test for FP insns
+        teq     r2, #0x0C000000
+        teqne   r2, #0x0D000000
+        teqne   r2, #0x0E000000
+        retne   r9                      @ return ok if not a fp insn
 
-	str	r5, [sp, #S_PC]		@ update PC copy in regs
+        str     r5, [sp, #S_PC] @ update PC copy in regs
 
-	mov	r0, r6			@ save a copy
-	b	emulate			@ check condition and emulate
+        mov     r0, r6  @ save a copy
+        b       emulate @ check condition and emulate
 
-	@ We need to be prepared for the instructions at .Lx1 and .Lx2 
-	@ to fault.  Emit the appropriate exception gunk to fix things up.
-	@ ??? For some reason, faults can happen at .Lx2 even with a
-	@ plain LDR instruction.  Weird, but it seems harmless.
-	.pushsection .text.fixup,"ax"
-	.align	2
-.Lrep:	str     r4, [sp, #S_PC]		@ retry current instruction
-.Lfix:	ret	r9			@ let the user eat segfaults
-	.popsection
+        @ We need to be prepared for the instructions at .Lx1 and .Lx2
+        @ to fault.  Emit the appropriate exception gunk to fix things up.
+        @ ??? For some reason, faults can happen at .Lx2 even with a
+        @ plain LDR instruction.  Weird, but it seems harmless.
+        .pushsection .text.fixup, "ax"
+        .align  2
+.Lrep:  str     r4, [sp, #S_PC] @ retry current instruction
+.Lfix:  ret     r9              @ let the user eat segfaults
+        .popsection
 
-	.pushsection __ex_table,"a"
-	.align	3
-	.long	.Lx1, .Lfix
-	.popsection
+        .pushsection __ex_table, "a"
+        .align  3
+        .long   .Lx1, .Lfix
+        .popsection
 
-	@
-	@ Check whether the instruction is a co-processor instruction.
-	@ If yes, we need to call the relevant co-processor handler.
-	@ Only FPE instructions are dispatched here, everything else
-	@ is handled by undef hooks.
-	@
-	@ Emulators may wish to make use of the following registers:
-	@  r4  = PC value to resume execution after successful emulation
-	@  r9  = normal "successful" return address
-	@  lr  = unrecognised instruction return address
-	@ IRQs enabled, FIQs enabled.
-	@
+        @
+        @ Check whether the instruction is a co-processor instruction.
+        @ If yes, we need to call the relevant co-processor handler.
+        @ Only FPE instructions are dispatched here, everything else
+        @ is handled by undef hooks.
+        @
+        @ Emulators may wish to make use of the following registers:
+        @  r4  = PC value to resume execution after successful emulation
+        @  r9  = normal "successful" return address
+        @  lr  = unrecognised instruction return address
+        @ IRQs enabled, FIQs enabled.
+        @
 ENTRY(call_fpe)
-	mov	r2, r4
-	sub	r4, r4, #4			@ ARM instruction at user PC - 4
+        mov     r2, r4
+        sub     r4, r4, #4      @ ARM instruction at user PC - 4
 USERL(	.Lrep,	ldrt r0, [r4])			@ load opcode from user space
 ARM_BE8(rev	r0, r0)				@ little endian instruction
 
-	uaccess_disable ip
+        uaccess_disable ip
 
-	get_thread_info r10			@ get current thread
-	tst	r0, #0x08000000			@ only CDP/CPRT/LDC/STC have bit 27
-	reteq	lr
-	and	r8, r0, #0x00000f00		@ mask out CP number
+        get_thread_info r10             @ get current thread
+        tst     r0, #0x08000000         @ only CDP/CPRT/LDC/STC have bit 27
+        reteq   lr
+        and     r8, r0, #0x00000f00     @ mask out CP number
 #ifdef CONFIG_IWMMXT
-	@ Test if we need to give access to iWMMXt coprocessors
-	ldr	r5, [r10, #TI_FLAGS]
-	rsbs	r7, r8, #(1 << 8)		@ CP 0 or 1 only
-	movscs	r7, r5, lsr #(TIF_USING_IWMMXT + 1)
-	movcs	r0, sp				@ pass struct pt_regs
-	bcs	iwmmxt_task_enable
+        @ Test if we need to give access to iWMMXt coprocessors
+        ldr     r5, [r10, #TI_FLAGS]
+        rsbs    r7, r8, #(1 << 8)       @ CP 0 or 1 only
+        movscs  r7, r5, lsr #(TIF_USING_IWMMXT + 1)
+        movcs   r0, sp                  @ pass struct pt_regs
+        bcs     iwmmxt_task_enable
 #endif
-	add	pc, pc, r8, lsr #6
-	nop
+        add     pc, pc, r8, lsr #6
+        nop
 
-	ret	lr				@ CP#0
-	b	do_fpe				@ CP#1 (FPE)
-	b	do_fpe				@ CP#2 (FPE)
-	ret	lr				@ CP#3
-	ret	lr				@ CP#4
-	ret	lr				@ CP#5
-	ret	lr				@ CP#6
-	ret	lr				@ CP#7
-	ret	lr				@ CP#8
-	ret	lr				@ CP#9
-	ret	lr				@ CP#10 (VFP)
-	ret	lr				@ CP#11 (VFP)
-	ret	lr				@ CP#12
-	ret	lr				@ CP#13
-	ret	lr				@ CP#14 (Debug)
-	ret	lr				@ CP#15 (Control)
+        ret     lr      @ CP#0
+        b       do_fpe  @ CP#1 (FPE)
+        b       do_fpe  @ CP#2 (FPE)
+        ret     lr      @ CP#3
+        ret     lr      @ CP#4
+        ret     lr      @ CP#5
+        ret     lr      @ CP#6
+        ret     lr      @ CP#7
+        ret     lr      @ CP#8
+        ret     lr      @ CP#9
+        ret     lr      @ CP#10 (VFP)
+        ret     lr      @ CP#11 (VFP)
+        ret     lr      @ CP#12
+        ret     lr      @ CP#13
+        ret     lr      @ CP#14 (Debug)
+        ret     lr      @ CP#15 (Control)
 
 do_fpe:
-	add	r10, r10, #TI_FPSTATE		@ r10 = workspace
-	ldr_va	pc, fp_enter, tmp=r4		@ Call FP module USR entry point
+        add     r10, r10,      #TI_FPSTATE      @ r10 = workspace
+        ldr_va  pc,  fp_enter, tmp=r4           @ Call FP module USR entry point
 
-	@
-	@ The FP module is called with these registers set:
-	@  r0  = instruction
-	@  r2  = PC+4
-	@  r9  = normal "successful" return address
-	@  r10 = FP workspace
-	@  lr  = unrecognised FP instruction return address
-	@
+        @
+        @ The FP module is called with these registers set:
+        @  r0  = instruction
+        @  r2  = PC+4
+        @  r9  = normal "successful" return address
+        @  r10 = FP workspace
+        @  lr  = unrecognised FP instruction return address
+        @
 
-	.pushsection .data
-	.align	2
+        .pushsection .data
+        .align  2
 ENTRY(fp_enter)
-	.word	no_fp
-	.popsection
+        .word   no_fp
+        .popsection
 
 no_fp:
-	ret	lr
+        ret     lr
 ENDPROC(no_fp)

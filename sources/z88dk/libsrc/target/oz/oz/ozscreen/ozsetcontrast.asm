@@ -11,36 +11,34 @@
 ; $Id: ozsetcontrast.asm,v 1.3 2016-06-28 14:48:17 dom Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  ozsetcontrast
-    PUBLIC  _ozsetcontrast
+        SECTION code_clib
+        PUBLIC  ozsetcontrast
+        PUBLIC  _ozsetcontrast
 
-    EXTERN  ozsetlcdstate
+        EXTERN  ozsetlcdstate
 
-    EXTERN  ozcontrast
-    EXTERN  s_ozlcdstatus
-
+        EXTERN  ozcontrast
+        EXTERN  s_ozlcdstatus
 
 ozsetcontrast:
 _ozsetcontrast:
-    pop     hl
-    pop     bc
-    push    bc
-    push    hl
-    ld      a, c
-    cp      40h
-    jr      c, LeaveAlone
-    ld      a, 3fh
+        pop     hl
+        pop     bc
+        push    bc
+        push    hl
+        ld      a, c
+        cp      40h
+        jr      c, LeaveAlone
+        ld      a, 3fh
 LeaveAlone:
-    ld      (ozcontrast), a
-    ld      e, a
-    ld      bc, (s_ozlcdstatus)
-    ld      a, c
-    and     0ffh-3fh
-    or      e
-    ld      c, a
-    push    bc
-    call    ozsetlcdstate
-    pop     bc
-    ret
-
+        ld      (ozcontrast), a
+        ld      e,  a
+        ld      bc, (s_ozlcdstatus)
+        ld      a,  c
+        and     0ffh-3fh
+        or      e
+        ld      c, a
+        push    bc
+        call    ozsetlcdstate
+        pop     bc
+        ret

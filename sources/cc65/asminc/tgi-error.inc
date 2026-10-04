@@ -31,8 +31,6 @@
 ;*                                                                           */
 ;*****************************************************************************/
 
-
-
 ; Error constants
 .enum
         TGI_ERR_OK              ; No error
@@ -47,6 +45,5 @@
         TGI_ERR_UNKNOWN         ; Unknown error
         TGI_ERR_INSTALLED       ; A driver is already installed
 
-        TGI_ERR_COUNT           ; Special: Number of error messages
+        TGI_ERR_COUNT   ; Special: Number of error messages
 .endenum
-

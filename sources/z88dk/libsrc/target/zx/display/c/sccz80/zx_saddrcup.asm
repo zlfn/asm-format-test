@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _zx_saddrcup
 defc _zx_saddrcup = zx_saddrcup
 ENDIF
-

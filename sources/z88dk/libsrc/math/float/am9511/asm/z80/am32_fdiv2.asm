@@ -10,7 +10,7 @@
 ;-------------------------------------------------------------------------
 ; asm_am9511_fdiv2 - am9511 floating point divide by 2
 ;-------------------------------------------------------------------------
-; 
+;
 ; Division by 2 is decrementing the exponent. An easy optimisation.
 ;
 ;-------------------------------------------------------------------------
@@ -20,37 +20,37 @@ SECTION code_fp_am9511
 PUBLIC asm_am9511_fdiv2_fastcall
 
 .asm_am9511_fdiv2_fastcall
-    sla e                       ; get exponent in d
-    rl d                        ; put sign in C
-    jr Z,zero_legal             ; return IEEE zero
+        sla     e               ; get exponent in d
+        rl      d               ; put sign in C
+        jr      Z, zero_legal   ; return IEEE zero
 
-    ld a,d
-    inc a
-    jr Z,exp_max                ; Inf/NaN: unchanged
+        ld      a, d
+        inc     a
+        jr      Z, exp_max      ; Inf/NaN: unchanged
 
-    dec d                       ; divide by 2
-    jr Z,zero_underflow         ; capture underflow zero
+        dec     d                       ; divide by 2
+        jr      Z, zero_underflow       ; capture underflow zero
 
-    rr d                        ; return sign and exponent
-    rr e
-    ret                         ; return IEEE DEHL
+        rr      d       ; return sign and exponent
+        rr      e
+        ret             ; return IEEE DEHL
 
 .exp_max
-    rr d
-    rr e
-    ret
+        rr      d
+        rr      e
+        ret
 
 .zero_legal
-    ld e,d                      ; use 0
-    ld h,d
-    ld l,d        
-    rr d                        ; restore the sign
-    ret                         ; return IEEE signed ZERO in DEHL
+        ld      e, d    ; use 0
+        ld      h, d
+        ld      l, d
+        rr      d       ; restore the sign
+        ret             ; return IEEE signed ZERO in DEHL
 
 .zero_underflow
-    ld e,d                      ; use 0
-    ld h,d
-    ld l,d
-    rr d                        ; restore the sign
-    scf
-    ret                         ; return IEEE signed ZERO in DEHL
+        ld      e, d    ; use 0
+        ld      h, d
+        ld      l, d
+        rr      d       ; restore the sign
+        scf
+        ret             ; return IEEE signed ZERO in DEHL

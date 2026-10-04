@@ -5,28 +5,27 @@
 ; void cclear (unsigned char length);
 ;
 
-        .export         _cclearxy, _cclear
-        .import         update_adscr, display_conio
+        .export _cclearxy,    _cclear
+        .import update_adscr, display_conio
 
-        .importzp       tmp1
-        .import         popax
-        .include        "telestrat.inc"
-
+        .importzp tmp1
+        .import popax
+        .include "telestrat.inc"
 
 _cclearxy:
-        pha                     ; Save the length
-        jsr     popax           ; Get X and Y
-        sta     SCRY            ; Store Y
-        stx     SCRX            ; Store X
+        pha             ; Save the length
+        jsr     popax   ; Get X and Y
+        sta     SCRY    ; Store Y
+        stx     SCRX    ; Store X
         jsr     update_adscr
-        pla                     ; Restore the length and run into _cclear
+        pla             ; Restore the length and run into _cclear
 
 _cclear:
-        tax                     ; Is the length equal to zero?
-        beq     @L2             ; Yes we skip
+        tax             ; Is the length equal to zero?
+        beq     @L2     ; Yes we skip
 @L1:
-        stx     tmp1            ; Save X
-        lda     #' '            ; Erase current char
+        stx     tmp1    ; Save X
+        lda     #' '    ; Erase current char
         jsr     display_conio
         ldx     tmp1
         dex

@@ -12,6 +12,6 @@
 
 .proc _beep:    near
 
-        jmp     BEEP             ;  Beep
+        jmp     BEEP    ;  Beep
 
 .endproc

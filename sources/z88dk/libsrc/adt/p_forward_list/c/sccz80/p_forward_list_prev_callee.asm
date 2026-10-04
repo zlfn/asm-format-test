@@ -10,15 +10,14 @@ EXTERN asm_p_forward_list_prev
 
 p_forward_list_prev_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        ex      (sp), hl
 
-   jp asm_p_forward_list_prev
+        jp      asm_p_forward_list_prev
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _p_forward_list_prev_callee
 defc _p_forward_list_prev_callee = p_forward_list_prev_callee
 ENDIF
-

@@ -13,5 +13,5 @@
 fgetc_cons:
 _fgetc_cons:
         call    getk            ;poll until rcvd char
-        jp      z,fgetc_cons    ;z flag set by getk
+        jp      z, fgetc_cons   ;z flag set by getk
         ret

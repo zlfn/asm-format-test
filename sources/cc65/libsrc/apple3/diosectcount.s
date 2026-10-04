@@ -5,12 +5,12 @@
 ; unsigned __fastcall__ dio_query_sectcount (dhandle_t handle);
 ;
 
-        .export         _dio_query_sectcount
-        .import         _dio_query_sectsize, _malloc, _free
+        .export _dio_query_sectcount
+        .import _dio_query_sectsize, _malloc, _free
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "sos.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "sos.inc"
 
 _dio_query_sectcount:
 
@@ -36,7 +36,7 @@ _dio_query_sectcount:
         lda     #D_INFO_CALL
         ldx     #D_INFO_COUNT
         jsr     callsos
-        bne     oserr         ; error, not valid
+        bne     oserr   ; error, not valid
 
         ; Cleanup buffer
         lda     sosparam + SOS::DINFO::DEV_NAME
@@ -49,8 +49,7 @@ _dio_query_sectcount:
 
         rts
 
-
-nomem:  lda     #$FF            ; Error code for sure not used by MLI
+nomem:  lda     #$FF    ; Error code for sure not used by MLI
 oserr:  sta     ___oserror
 
         ; Cleanup buffer

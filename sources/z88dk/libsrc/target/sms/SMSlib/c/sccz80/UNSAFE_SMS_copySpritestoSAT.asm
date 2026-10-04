@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _UNSAFE_SMS_copySpritestoSAT
 defc _UNSAFE_SMS_copySpritestoSAT = UNSAFE_SMS_copySpritestoSAT
 ENDIF
-

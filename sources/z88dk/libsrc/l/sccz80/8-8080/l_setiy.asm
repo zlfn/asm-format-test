@@ -6,5 +6,5 @@ PUBLIC l_setiy
 EXTERN l_iy_addr
 
 l_setiy:
-    ld (l_iy_addr),hl
-    ret
+        ld      (l_iy_addr), hl
+        ret

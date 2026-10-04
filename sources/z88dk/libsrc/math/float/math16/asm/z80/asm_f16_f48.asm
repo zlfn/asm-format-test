@@ -31,22 +31,21 @@ PUBLIC asm_f32_f48
 PUBLIC asm_f48_f32
 
 .asm_f32_f48
-   exx
+        exx
 
-   ld a,l
-   sub 2
-   jp C,error_lznc
+        ld      a, l
+        sub     2
+        jp      C, error_lznc
 
-   sla b
-   rra
-   rr b
+        sla     b
+        rra
+        rr      b
 
-   ld e,b
-   ld h,c
-   ld l,d
-   ld d,a
-   ret
-
+        ld      e, b
+        ld      h, c
+        ld      l, d
+        ld      d, a
+        ret
 
 ;-------------------------------------------------------------------------
 ;  asm_f48_f32 - z80, z180, z80n unpacked format conversion code
@@ -64,27 +63,26 @@ PUBLIC asm_f48_f32
 ;-------------------------------------------------------------------------
 
 .asm_f48_f32
-   ex de,hl
-   ld a,d
-   or e
-   or h
-   or l
-   jr Z, zero48
+        ex      de, hl
+        ld      a,  d
+        or      e
+        or      h
+        or      l
+        jr      Z, zero48
 
-   add hl,hl
-   rr l
-   inc h
-   inc h
+        add     hl, hl
+        rr      l
+        inc     h
+        inc     h
 
 .zero48
-   ld c,d
-   ld d,e
-   ld b,l
-   ld l,h
-   
-   ld e,0
-   ld h,e
-   exx
+        ld      c, d
+        ld      d, e
+        ld      b, l
+        ld      l, h
 
-   ret
+        ld      e, 0
+        ld      h, e
+        exx
 
+        ret

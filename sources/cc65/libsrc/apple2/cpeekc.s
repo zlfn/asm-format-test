@@ -5,38 +5,38 @@
 ;
 
         .ifndef __APPLE2ENH__
-        .import         machinetype
+                .import machinetype
         .endif
 
-        .export         _cpeekc
+        .export _cpeekc
 
-        .include        "apple2.inc"
+        .include "apple2.inc"
 
 _cpeekc:
         ldy     CH
 
-        sec                     ; Assume main memory
+        sec     ; Assume main memory
 
         .ifndef __APPLE2ENH__
-        bit     machinetype
-        bpl     peek
+                bit     machinetype
+                bpl     peek
         .endif
 
-        bit     RD80VID         ; In 80 column mode?
-        bpl     peek            ; No, just go ahead
+        bit     RD80VID ; In 80 column mode?
+        bpl     peek    ; No, just go ahead
         lda     OURCH
-        lsr                     ; Div by 2
+        lsr             ; Div by 2
         tay
-        bcs     peek            ; Odd cols are in main memory
+        bcs     peek    ; Odd cols are in main memory
         php
-        sei                     ; No valid MSLOT et al. in aux memory
-        bit     HISCR           ; Assume SET80COL
+        sei             ; No valid MSLOT et al. in aux memory
+        bit     HISCR   ; Assume SET80COL
 
-peek:   lda     (BASL),Y        ; Get character
+peek:   lda     (BASL), Y       ; Get character
         bcs     :+              ; In main memory
         bit     LOWSCR
         plp
 
-:       eor     #$80            ; Invert high bit
+:       eor     #$80    ; Invert high bit
         ldx     #>$0000
         rts

@@ -9,15 +9,15 @@ EXTERN asm_SMSlib_VRAMmemcpy_brief
 
 _SMS_VRAMmemcpy_brief:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
 
-   ld b,c
-   jp asm_SMSlib_VRAMmemcpy_brief
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        ld      b, c
+        jp      asm_SMSlib_VRAMmemcpy_brief

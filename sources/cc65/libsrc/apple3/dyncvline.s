@@ -8,18 +8,18 @@
 ;
 ;
 
-        .export         _dyn_cvlinexy, _dyn_cvline
-        .import         gotoxy, _cputc, _gotoy, _gotox, popa
-        .import         getpos, cursory, cursorx, wrconss
+        .export _dyn_cvlinexy, _dyn_cvline
+        .import gotoxy, _cputc,  _gotoy,  _gotox, popa
+        .import getpos, cursory, cursorx, wrconss
 
-        .include        "zeropage.inc"
-        .include        "apple3.inc"
-        .include        "sos.inc"
+        .include "zeropage.inc"
+        .include "apple3.inc"
+        .include "sos.inc"
 
 _dyn_cvlinexy:
-        pha                     ; Save the length
-        jsr     gotoxy          ; Call this one, will pop params
-        pla                     ; Restore the length and run into _cvline
+        pha             ; Save the length
+        jsr     gotoxy  ; Call this one, will pop params
+        pla             ; Restore the length and run into _cvline
 
 _dyn_cvline:
         pha
@@ -30,9 +30,9 @@ _dyn_cvline:
         beq     done            ; Jump if done
 
         jsr     getpos
-        lda     cursory         ; Set Y pos
+        lda     cursory ; Set Y pos
         sta     cvlinbuf+2
-        lda     cursorx         ; Set X pos
+        lda     cursorx ; Set X pos
         sta     cvlinbuf+4
 
         lda     #5
@@ -51,7 +51,6 @@ _dyn_cvline:
         bne     :-
 
 done:   rts
-
 
         .data
 

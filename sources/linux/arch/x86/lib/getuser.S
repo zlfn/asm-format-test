@@ -41,132 +41,130 @@
 
 .macro check_range size:req
 .if IS_ENABLED(CONFIG_X86_64)
-	RUNTIME_CONST_PTR USER_PTR_MAX, rdx
-	cmp %rdx, %rax
-	cmova %rdx, %rax
+        RUNTIME_CONST_PTR USER_PTR_MAX, rdx
+        cmp     %rdx, %rax
+        cmova   %rdx, %rax
 .else
-	cmp $TASK_SIZE_MAX-\size+1, %eax
-	jae .Lbad_get_user
-	sbb %edx, %edx		/* array_index_mask_nospec() */
-	and %edx, %eax
+        cmp     $TASK_SIZE_MAX-\size+1, %eax
+        jae     .Lbad_get_user
+        sbb     %edx, %edx      /* array_index_mask_nospec() */
+        and     %edx, %eax
 .endif
 .endm
 
 .macro UACCESS op src dst
-1:	\op \src,\dst
-	_ASM_EXTABLE_UA(1b, __get_user_handle_exception)
+1:      \op     \src, \dst
+        _ASM_EXTABLE_UA(1b, __get_user_handle_exception)
 .endm
 
-
-	.text
+        .text
 SYM_FUNC_START(__get_user_1)
-	ANNOTATE_NOENDBR
-	check_range size=1
-	ASM_STAC
-	UACCESS movzbl (%_ASM_AX),%edx
-	xor %eax,%eax
-	ASM_CLAC
-	RET
+        ANNOTATE_NOENDBR
+        check_range size=1
+        ASM_STAC
+        UACCESS movzbl (%_ASM_AX), %edx
+        xor     %eax, %eax
+        ASM_CLAC
+        RET
 SYM_FUNC_END(__get_user_1)
 EXPORT_SYMBOL(__get_user_1)
 
 SYM_FUNC_START(__get_user_2)
-	ANNOTATE_NOENDBR
-	check_range size=2
-	ASM_STAC
-	UACCESS movzwl (%_ASM_AX),%edx
-	xor %eax,%eax
-	ASM_CLAC
-	RET
+        ANNOTATE_NOENDBR
+        check_range size=2
+        ASM_STAC
+        UACCESS movzwl (%_ASM_AX), %edx
+        xor     %eax, %eax
+        ASM_CLAC
+        RET
 SYM_FUNC_END(__get_user_2)
 EXPORT_SYMBOL(__get_user_2)
 
 SYM_FUNC_START(__get_user_4)
-	ANNOTATE_NOENDBR
-	check_range size=4
-	ASM_STAC
-	UACCESS movl (%_ASM_AX),%edx
-	xor %eax,%eax
-	ASM_CLAC
-	RET
+        ANNOTATE_NOENDBR
+        check_range size=4
+        ASM_STAC
+        UACCESS movl (%_ASM_AX), %edx
+        xor     %eax, %eax
+        ASM_CLAC
+        RET
 SYM_FUNC_END(__get_user_4)
 EXPORT_SYMBOL(__get_user_4)
 
 SYM_FUNC_START(__get_user_8)
-	ANNOTATE_NOENDBR
+        ANNOTATE_NOENDBR
 #ifndef CONFIG_X86_64
-	xor %ecx,%ecx
+        xor     %ecx, %ecx
 #endif
-	check_range size=8
-	ASM_STAC
+        check_range size=8
+        ASM_STAC
 #ifdef CONFIG_X86_64
-	UACCESS movq (%_ASM_AX),%rdx
+        UACCESS movq (%_ASM_AX), %rdx
 #else
-	UACCESS movl (%_ASM_AX),%edx
-	UACCESS movl 4(%_ASM_AX),%ecx
+        UACCESS movl (%_ASM_AX),  %edx
+        UACCESS movl 4(%_ASM_AX), %ecx
 #endif
-	xor %eax,%eax
-	ASM_CLAC
-	RET
+        xor     %eax, %eax
+        ASM_CLAC
+        RET
 SYM_FUNC_END(__get_user_8)
 EXPORT_SYMBOL(__get_user_8)
 
 /* .. and the same for __get_user, just without the range checks */
 SYM_FUNC_START(__get_user_nocheck_1)
-	ANNOTATE_NOENDBR
-	ASM_STAC
-	ASM_BARRIER_NOSPEC
-	UACCESS movzbl (%_ASM_AX),%edx
-	xor %eax,%eax
-	ASM_CLAC
-	RET
+        ANNOTATE_NOENDBR
+        ASM_STAC
+        ASM_BARRIER_NOSPEC
+        UACCESS movzbl (%_ASM_AX), %edx
+        xor     %eax, %eax
+        ASM_CLAC
+        RET
 SYM_FUNC_END(__get_user_nocheck_1)
 EXPORT_SYMBOL(__get_user_nocheck_1)
 
 SYM_FUNC_START(__get_user_nocheck_2)
-	ANNOTATE_NOENDBR
-	ASM_STAC
-	ASM_BARRIER_NOSPEC
-	UACCESS movzwl (%_ASM_AX),%edx
-	xor %eax,%eax
-	ASM_CLAC
-	RET
+        ANNOTATE_NOENDBR
+        ASM_STAC
+        ASM_BARRIER_NOSPEC
+        UACCESS movzwl (%_ASM_AX), %edx
+        xor     %eax, %eax
+        ASM_CLAC
+        RET
 SYM_FUNC_END(__get_user_nocheck_2)
 EXPORT_SYMBOL(__get_user_nocheck_2)
 
 SYM_FUNC_START(__get_user_nocheck_4)
-	ANNOTATE_NOENDBR
-	ASM_STAC
-	ASM_BARRIER_NOSPEC
-	UACCESS movl (%_ASM_AX),%edx
-	xor %eax,%eax
-	ASM_CLAC
-	RET
+        ANNOTATE_NOENDBR
+        ASM_STAC
+        ASM_BARRIER_NOSPEC
+        UACCESS movl (%_ASM_AX), %edx
+        xor     %eax, %eax
+        ASM_CLAC
+        RET
 SYM_FUNC_END(__get_user_nocheck_4)
 EXPORT_SYMBOL(__get_user_nocheck_4)
 
 SYM_FUNC_START(__get_user_nocheck_8)
-	ANNOTATE_NOENDBR
-	ASM_STAC
-	ASM_BARRIER_NOSPEC
+        ANNOTATE_NOENDBR
+        ASM_STAC
+        ASM_BARRIER_NOSPEC
 #ifdef CONFIG_X86_64
-	UACCESS movq (%_ASM_AX),%rdx
+        UACCESS movq (%_ASM_AX), %rdx
 #else
-	xor %ecx,%ecx
-	UACCESS movl (%_ASM_AX),%edx
-	UACCESS movl 4(%_ASM_AX),%ecx
+        xor     %ecx, %ecx
+        UACCESS movl (%_ASM_AX),  %edx
+        UACCESS movl 4(%_ASM_AX), %ecx
 #endif
-	xor %eax,%eax
-	ASM_CLAC
-	RET
+        xor     %eax, %eax
+        ASM_CLAC
+        RET
 SYM_FUNC_END(__get_user_nocheck_8)
 EXPORT_SYMBOL(__get_user_nocheck_8)
 
-
 SYM_CODE_START_LOCAL(__get_user_handle_exception)
-	ASM_CLAC
+        ASM_CLAC
 .Lbad_get_user:
-	xor %edx,%edx
-	mov $(-EFAULT),%_ASM_AX
-	RET
+        xor     %edx, %edx
+        mov     $(-EFAULT), %_ASM_AX
+        RET
 SYM_CODE_END(__get_user_handle_exception)

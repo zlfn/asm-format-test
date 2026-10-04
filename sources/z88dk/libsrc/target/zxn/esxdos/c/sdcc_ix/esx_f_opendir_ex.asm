@@ -8,14 +8,14 @@ EXTERN l0_esx_f_opendir_ex_callee
 
 _esx_f_opendir_ex:
 
-   pop af
-   pop hl
-   dec sp
-   pop bc
-   
-   push bc
-   inc sp
-   push hl
-   push af
-   
-   jp l0_esx_f_opendir_ex_callee
+        pop     af
+        pop     hl
+        dec     sp
+        pop     bc
+
+        push    bc
+        inc     sp
+        push    hl
+        push    af
+
+        jp      l0_esx_f_opendir_ex_callee

@@ -1,4 +1,4 @@
-        .include        "global.s"
+        .include "global.s"
 
         .title  "VRAM utilities"
         .module VRAMUtils
@@ -11,37 +11,37 @@ _set_data::
 _vmemcpy::
         DISABLE_VBLANK_COPY
 
-        pop de          ; pop ret address
-        pop hl          ; dst
-        
-        VDP_WRITE_CMD h, l
-        
-        pop hl          ; src
-        pop bc          ; size
-        
-        ld a, b         ; HI(size)
-        ld b, c         ; LO(size)
-        
-        ld c, #.VDP_DATA
+        pop     de      ; pop ret address
+        pop     hl      ; dst
 
-        rlc b
-        rrc b           ; check b is zero
-        jr  z, 2$ 
+        VDP_WRITE_CMD h, l
+
+        pop     hl      ; src
+        pop     bc      ; size
+
+        ld      a, b    ; HI(size)
+        ld      b, c    ; LO(size)
+
+        ld      c, #.VDP_DATA
+
+        rlc     b
+        rrc     b       ; check b is zero
+        jr      z, 2$
 1$:
         outi
-        jp  nz, 1$      ; 10 = 26 (VRAM safe)
+        jp      nz, 1$  ; 10 = 26 (VRAM safe)
 2$:
-        inc a
-        jp  4$          
+        inc     a
+        jp      4$
 3$:
         outi
-        jp  nz, 3$      ; 10 = 26 (VRAM safe)
+        jp      nz, 3$  ; 10 = 26 (VRAM safe)
 4$:
-        dec a
-        jp  nz, 3$
+        dec     a
+        jp      nz, 3$
 
         ENABLE_VBLANK_COPY
 
-        ld h, d
-        ld l, e
-        jp (hl)
+        ld      h, d
+        ld      l, e
+        jp      (hl)

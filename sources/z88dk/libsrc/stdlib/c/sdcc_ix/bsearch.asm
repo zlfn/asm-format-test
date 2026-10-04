@@ -12,21 +12,21 @@ EXTERN l0_bsearch_callee
 
 _bsearch:
 
-   pop af
-   exx
-   pop bc
-   exx
-   pop bc
-   pop hl
-   pop de
-   exx
-   pop de
-   
-   push de
-   push de
-   push hl
-   push bc
-   push bc
-   push af
+        pop     af
+        exx
+        pop     bc
+        exx
+        pop     bc
+        pop     hl
+        pop     de
+        exx
+        pop     de
 
-   jp l0_bsearch_callee
+        push    de
+        push    de
+        push    hl
+        push    bc
+        push    bc
+        push    af
+
+        jp      l0_bsearch_callee

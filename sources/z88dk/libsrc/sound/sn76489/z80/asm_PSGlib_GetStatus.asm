@@ -14,12 +14,12 @@ EXTERN __PSGlib_MusicStatus
 
 asm_PSGlib_GetStatus:
 
-   ; unsigned char PSGGetStatus (void)
-   ; returns the current status of music
-   ;
-   ; exit  :  l = music status
-   ;
-   ; uses  : hl
+        ; unsigned char PSGGetStatus (void)
+        ; returns the current status of music
+        ;
+        ; exit  :  l = music status
+        ;
+        ; uses  : hl
 
-   ld hl,(__PSGlib_MusicStatus)
-   ret
+        ld      hl, (__PSGlib_MusicStatus)
+        ret

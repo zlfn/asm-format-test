@@ -10,10 +10,10 @@ EXTERN _funlockfile_fastcall
 
 _funlockfile:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _funlockfile_fastcall
+        push    hl
+        push    af
+
+        jp      _funlockfile_fastcall

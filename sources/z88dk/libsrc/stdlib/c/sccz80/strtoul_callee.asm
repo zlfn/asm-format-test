@@ -9,17 +9,17 @@ PUBLIC strtoul_callee
 EXTERN asm_strtoul
 
 strtoul_callee:
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
 IF !__CPU_INTEL__ && !__CPU_GBZ80__
-   push ix 
-   call asm_strtoul
-   pop ix
-   ret
+        push    ix
+        call    asm_strtoul
+        pop     ix
+        ret
 ELSE
-    jp asm_strtoul
+        jp      asm_strtoul
 ENDIF
 
 ; SDCC bridge for Classic
@@ -27,4 +27,3 @@ IF __CLASSIC
 PUBLIC _strtoul_callee
 defc _strtoul_callee = strtoul_callee
 ENDIF
-

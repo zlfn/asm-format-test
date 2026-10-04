@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Jan 2014
 ; ===============================================================
-; 
+;
 ; int putchar(int c)
 ;
 ; Write char to stdout.
@@ -25,44 +25,44 @@ EXTERN asm0_putchar_unlocked, __stdio_lock_release
 
 asm_putchar:
 
-   ; enter :  l = char c
-   ;
-   ; exit  : ix = FILE *stdout
-   ;
-   ;         success
-   ;
-   ;            hl = char c
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : all
+        ; enter :  l = char c
+        ;
+        ; exit  : ix = FILE *stdout
+        ;
+        ;         success
+        ;
+        ;            hl = char c
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : all
 
-   ld ix,(_stdout)
+        ld      ix, (_stdout)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF __CLIB_OPT_STDIO & $01
 
-   EXTERN __stdio_verify_valid_lock
+        EXTERN  __stdio_verify_valid_lock
 
-   call __stdio_verify_valid_lock
-   ret c
+        call    __stdio_verify_valid_lock
+        ret     c
 
 ELSE
 
-   EXTERN __stdio_lock_acquire, error_enolck_mc
-   
-   call __stdio_lock_acquire
-   jp c, error_enolck_mc
+        EXTERN  __stdio_lock_acquire, error_enolck_mc
+
+        call    __stdio_lock_acquire
+        jp      c, error_enolck_mc
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   
-   call asm0_putchar_unlocked
-   jp __stdio_lock_release
+
+        call    asm0_putchar_unlocked
+        jp      __stdio_lock_release
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

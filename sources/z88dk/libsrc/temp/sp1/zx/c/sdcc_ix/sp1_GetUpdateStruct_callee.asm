@@ -9,10 +9,10 @@ EXTERN asm_sp1_GetUpdateStruct
 
 _sp1_GetUpdateStruct_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   ld d,l
-   jp asm_sp1_GetUpdateStruct
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        ld      d, l
+        jp      asm_sp1_GetUpdateStruct

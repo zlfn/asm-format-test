@@ -15,13 +15,13 @@ EXTERN asm_smc_PLY_AKG_INIT
 ;;   SDCC: (params pushed on the stack right to left, all 16-bit)
 ;;
 _ply_akg_init:
-        pop bc          ; BC = retaddr
-        pop hl          ; HL = song address
-        pop de          ; E = subsong number
-        ld a,e          ; A = subsong number
-        push bc         ; restore retaddr
+        pop     bc      ; BC = retaddr
+        pop     hl      ; HL = song address
+        pop     de      ; E = subsong number
+        ld      a, e    ; A = subsong number
+        push    bc      ; restore retaddr
 
-        push ix         ; preserve IX for sdcc_ix
-        call asm_smc_PLY_AKG_INIT
-        pop ix
+        push    ix      ; preserve IX for sdcc_ix
+        call    asm_smc_PLY_AKG_INIT
+        pop     ix
         ret

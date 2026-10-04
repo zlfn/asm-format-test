@@ -9,9 +9,9 @@ EXTERN asm0_tshr_scroll_up_pix
 
 _tshr_scroll_up_pix_callee:
 
-   pop hl
-   ex (sp),hl
-   
-   ld e,l
-   ld l,h
-   jp asm0_tshr_scroll_up_pix
+        pop     hl
+        ex      (sp), hl
+
+        ld      e, l
+        ld      l, h
+        jp      asm0_tshr_scroll_up_pix

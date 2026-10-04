@@ -7,10 +7,10 @@
 ; Stefano Bodrato - 3/12/2007
 ;
 
-    SECTION code_clib
-    PUBLIC  bit_open
-    PUBLIC  _bit_open
-    EXTERN  __snd_tick
+        SECTION code_clib
+        PUBLIC  bit_open
+        PUBLIC  _bit_open
+        EXTERN  __snd_tick
 
 ;Port 0AAh, PPI Port C - Keyboard Row,LED,Cassette (Read/Write)
 ;  Bit  Name   Expl.
@@ -20,9 +20,8 @@
 ;  6    CAPS   CAPS-LOCK lamp              (0=On, 1=Off)
 ;  7    SOUND  Keyboard klick bit          (Pulse)
 
-
 bit_open:
 _bit_open:
-    ld      a, @11110000
-    ld      (__snd_tick), a
-    ret
+        ld      a, @11110000
+        ld      (__snd_tick), a
+        ret

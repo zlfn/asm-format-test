@@ -9,18 +9,18 @@ EXTERN asm_esxdos_f_read
 
 esxdos_f_read:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push bc
-   push af
-   
-   ld a,e
-   jp asm_esxdos_f_read
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        ld      a, e
+        jp      asm_esxdos_f_read
 
 ; SDCC bridge for Classic
 IF __CLASSIC

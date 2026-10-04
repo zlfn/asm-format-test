@@ -6,9 +6,9 @@
 ; unsigned char __fastcall__ getnextdevice (unsigned char device);
 ;
 
-        .include        "atari.inc"
-        .export         _getfirstdevice
-        .export         _getnextdevice
+        .include "atari.inc"
+        .export _getfirstdevice
+        .export _getnextdevice
 
 MAX_DIO_DEVICES =       8
 
@@ -35,8 +35,8 @@ done:   txa
         ldx     #$00
         rts
 
-none:   ldx     #255            ; INVALID_DEVICE (see include/device.h)
-        bne     done            ; jump always
+none:   ldx     #255    ; INVALID_DEVICE (see include/device.h)
+        bne     done    ; jump always
 
 ;------------------------------------------------------------------------------
 ; check_device - checks if a disk device is present
@@ -68,7 +68,7 @@ check_device:
         inx
         stx     DUNIT           ; unit number (1-based)
 
-        jsr     SIOV            ; execute SIO command
+        jsr     SIOV    ; execute SIO command
 
         pla
         tax

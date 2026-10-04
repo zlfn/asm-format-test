@@ -10,8 +10,8 @@ EXTERN asm_fputs_unlocked
 
 fputs_unlocked_callee:
 
-   pop hl
-   pop ix
-   ex (sp),hl
-   
-   jp asm_fputs_unlocked
+        pop     hl
+        pop     ix
+        ex      (sp), hl
+
+        jp      asm_fputs_unlocked

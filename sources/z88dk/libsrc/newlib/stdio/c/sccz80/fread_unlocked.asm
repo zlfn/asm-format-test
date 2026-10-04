@@ -10,16 +10,16 @@ EXTERN asm_fread_unlocked
 
 fread_unlocked:
 
-   pop af
-   pop ix
-   pop hl
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push hl
-   push hl
-   push af
-   
-   jp asm_fread_unlocked
+        pop     af
+        pop     ix
+        pop     hl
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    hl
+        push    hl
+        push    af
+
+        jp      asm_fread_unlocked

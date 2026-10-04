@@ -12,36 +12,35 @@
 ;-----------------------------------------------------------------------------------------
 ;
 
-    SECTION code_clib
-    PUBLIC  mmc_command
-    PUBLIC  _mmc_command
+        SECTION code_clib
+        PUBLIC  mmc_command
+        PUBLIC  _mmc_command
 
-    EXTERN  mmc_send_command
-    EXTERN  __mmc_card_select
+        EXTERN  mmc_send_command
+        EXTERN  __mmc_card_select
 
-
-    INCLUDE "target/zx/def/zxmmc.def"
+        INCLUDE "target/zx/def/zxmmc.def"
 
 mmc_command:
 _mmc_command:
-    ld      ix, 2
-    add     ix, sp
-    ld      l, (ix+6)
-    ld      h, (ix+7)
-    inc     hl                          ; ptr to MMC mask to be used to select port
-    ld      a, (hl)
-    ld      (__mmc_card_select), a
+        ld      ix, 2
+        add     ix, sp
+        ld      l,  (ix+6)
+        ld      h,  (ix+7)
+        inc     hl      ; ptr to MMC mask to be used to select port
+        ld      a, (hl)
+        ld      (__mmc_card_select), a
 
 ;        arg1 = addr_H.BYTE1 (H)
 ;        arg2 = addr_H.BYTE0 (L)
 ;        arg3 = addr_L.BYTE1 (D)
 ;        arg4 = addr_L.BYTE0 (E)
 
-    ld      e, (ix+0)                   ; LSB
-    ld      d, (ix+1)                   ; .
-    ld      l, (ix+2)                   ; .
-    ld      h, (ix+3)                   ; MSB
+        ld      e, (ix+0)       ; LSB
+        ld      d, (ix+1)       ; .
+        ld      l, (ix+2)       ; .
+        ld      h, (ix+3)       ; MSB
 
-    ld      a, (ix+4)
+        ld      a, (ix+4)
 
-    jp      mmc_send_command
+        jp      mmc_send_command

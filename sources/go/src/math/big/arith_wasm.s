@@ -7,20 +7,19 @@
 #include "textflag.h"
 
 TEXT ·addVV(SB),NOSPLIT,$0
-	JMP ·addVV_g(SB)
+        JMP     ·addVV_g(SB)
 
 TEXT ·subVV(SB),NOSPLIT,$0
-	JMP ·subVV_g(SB)
+        JMP     ·subVV_g(SB)
 
 TEXT ·lshVU(SB),NOSPLIT,$0
-	JMP ·lshVU_g(SB)
+        JMP     ·lshVU_g(SB)
 
 TEXT ·rshVU(SB),NOSPLIT,$0
-	JMP ·rshVU_g(SB)
+        JMP     ·rshVU_g(SB)
 
 TEXT ·mulAddVWW(SB),NOSPLIT,$0
-	JMP ·mulAddVWW_g(SB)
+        JMP     ·mulAddVWW_g(SB)
 
 TEXT ·addMulVVWW(SB),NOSPLIT,$0
-	JMP ·addMulVVWW_g(SB)
-
+        JMP     ·addMulVVWW_g(SB)

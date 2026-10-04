@@ -2,18 +2,17 @@
 ; Startup code for cc65 (Plus/4 version)
 ;
 
-        .export         _exit
-        .export         brk_jmp
-        .export         __STARTUP__ : absolute = 1      ; Mark as startup
+        .export _exit
+        .export brk_jmp
+        .export __STARTUP__ : absolute = 1      ; Mark as startup
 
-        .import         callirq_y, initlib, donelib
-        .import         callmain, zerobss
-        .import         __INTERRUPTOR_COUNT__
-        .import         __HIMEM__                       ; Linker generated
+        .import callirq_y, initlib, donelib
+        .import callmain,  zerobss
+        .import __INTERRUPTOR_COUNT__
+        .import __HIMEM__       ; Linker generated
 
-        .include        "zeropage.inc"
-        .include        "plus4.inc"
-
+        .include "zeropage.inc"
+        .include "plus4.inc"
 
 ; ------------------------------------------------------------------------
 ; Constants
@@ -29,11 +28,11 @@ Start:
 
 ; Save the zero-page locations that we need.
 
-        sei                     ; No interrupts since we're banking out the ROM
+        sei     ; No interrupts since we're banking out the ROM
         sta     ENABLE_RAM
         ldx     #zpspace-1
-L1:     lda     c_sp,x
-        sta     zpsave,x
+L1:     lda     c_sp,   x
+        sta     zpsave, x
         dex
         bpl     L1
         sta     ENABLE_ROM
@@ -42,13 +41,13 @@ L1:     lda     c_sp,x
 ; Switch to the second charset.
 
         lda     #14
-        jsr     $FFD2           ; BSOUT
+        jsr     $FFD2   ; BSOUT
 
 ; Save some system stuff; and, set up the stack. The stack starts at the top
 ; of the usable RAM.
 
         tsx
-        stx     spsave          ; Save system stk ptr
+        stx     spsave  ; Save system stk ptr
 
         lda     #<__HIMEM__
         ldx     #>__HIMEM__
@@ -59,9 +58,9 @@ L1:     lda     c_sp,x
 
         lda     #<IRQ
         ldx     #>IRQ
-        sei                     ; No ints, handler not yet in place
+        sei             ; No ints, handler not yet in place
         sta     ENABLE_RAM
-        sta     $FFFE           ; Install interrupt handler
+        sta     $FFFE   ; Install interrupt handler
         stx     $FFFF
         lda     IRQVec
         ldx     IRQVec+1
@@ -72,7 +71,7 @@ L1:     lda     c_sp,x
         sta     IRQVec
         stx     IRQVec+1
 
-        cli                     ; Allow interrupts
+        cli     ; Allow interrupts
 
 ; Clear the BSS data.
 
@@ -94,8 +93,8 @@ L1:     lda     c_sp,x
 
 ; Back from main() [this is also the exit() entry]. Run the module destructors.
 
-_exit:  pha                     ; Save the return code
-        jsr     donelib         ; Run module destructors
+_exit:  pha             ; Save the return code
+        jsr     donelib ; Run module destructors
 
 ; Disable the chained IRQ handlers.
 
@@ -112,8 +111,8 @@ _exit:  pha                     ; Save the return code
 ; Copy back the zero-page stuff.
 
         ldx     #zpspace-1
-L2:     lda     zpsave,x
-        sta     c_sp,x
+L2:     lda     zpsave, x
+        sta     c_sp,   x
         dex
         bpl     L2
 
@@ -153,7 +152,7 @@ IRQ:    cld                     ; Just to be sure
         tya
         pha
         tsx                     ; Get the stack pointer
-        lda     $0104,x         ; Get the saved status register
+        lda     $0104, x        ; Get the saved status register
         and     #$10            ; Test for BRK bit
         bne     dobreak
 
@@ -192,7 +191,6 @@ nohandler:
         sta     ENABLE_ROM
         jmp     (BRKVec)        ; Jump indirect to the break vector
 
-
 ; IRQ stub installed at $314, called by our handler above if RAM is banked in,
 ; or the Kernal IRQ handler if ROM is banked in.
 
@@ -214,12 +212,12 @@ IRQStub:
 .data
 
 ; BRK handling
-brk_jmp:        jmp     $0000
+brk_jmp: jmp    $0000
 
-spsave:         .res    1
+spsave: .res    1
 
-irqcount:       .byte   0
+irqcount: .byte 0
 
 .segment        "INIT"
 
-zpsave:         .res    zpspace
+zpsave: .res    zpspace

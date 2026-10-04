@@ -4,11 +4,11 @@
 ; char cgetc (void);
 ;
 
-        .export         _cgetc
-        .import         cursor
+        .export _cgetc
+        .import cursor
 
-        .include        "cbm_kernal.inc"
-        .include        "plus4.inc"
+        .include "cbm_kernal.inc"
+        .include "plus4.inc"
 
 ; --------------------------------------------------------------------------
 
@@ -23,34 +23,34 @@ _cgetc: lda     KEY_COUNT       ; Get number of characters
 ; effectively a no-op.
 
         ldy     CURS_X
-        lda     (CRAM_PTR),y    ; Get current char
+        lda     (CRAM_PTR), y   ; Get current char
         pha                     ; And save it
 
         lda     #%00100000
         bit     $FF06
-        bne     L1              ; No cursor in bitmap mode
+        bne     L1      ; No cursor in bitmap mode
 
 ; Switch on the cursor if needed
 
         lda     CHARCOLOR
-        sta     (CRAM_PTR),y
+        sta     (CRAM_PTR), y
 
         lda     cursor
-        beq     L1              ; Jump if no cursor
+        beq     L1      ; Jump if no cursor
         tya
         clc
         adc     SCREEN_PTR
         sta     TED_CURSLO
         lda     SCREEN_PTR+1
         adc     #$00
-        sbc     #$0B            ; + carry = $C00 (screen address)
+        sbc     #$0B    ; + carry = $C00 (screen address)
         sta     TED_CURSHI
 
 L1:     lda     KEY_COUNT
         ora     FKEY_COUNT
         beq     L1
         pla
-        sta     (CRAM_PTR),y
+        sta     (CRAM_PTR), y
         lda     #$ff
         sta     TED_CURSLO      ; Cursor off
         sta     TED_CURSHI
@@ -66,18 +66,18 @@ L2:     sta     ENABLE_ROM      ; Bank in the ROM
 ; strings so the program will see and may handle them.
 ; Undo this change when the program ends
 
-        .constructor    initkbd
-        .destructor     donekbd
+        .constructor initkbd
+        .destructor donekbd
 
 .segment        "ONCE"          ; Special init code segment may get overwritten
 
 .proc   initkbd
 
         ldy     #7
-@L1:    lda     fnkeys,y
-        sta     FKEY_SPACE+8,y
-        lda     #$01            ; Lower 8 places are all $01
-        sta     FKEY_SPACE,y
+@L1:    lda     fnkeys, y
+        sta     FKEY_SPACE+8, y
+        lda     #$01    ; Lower 8 places are all $01
+        sta     FKEY_SPACE, y
         dey
         bpl     @L1
         rts
@@ -86,15 +86,14 @@ L2:     sta     ENABLE_ROM      ; Bank in the ROM
 
 fnkeys: .byte   133, 137, 134, 138, 135, 139, 136, 140
 
-
 .segment        "LOWCODE"       ; Accesses the ROM - must go into low mem
 
 .proc   donekbd
 
         ldx     #$39            ; Copy the original function keys
         sta     ENABLE_ROM      ; Bank in the ROM
-@L1:    lda     FKEY_ORIG,x
-        sta     FKEY_SPACE,x
+@L1:    lda     FKEY_ORIG,  x
+        sta     FKEY_SPACE, x
         dex
         bpl     @L1
         sta     ENABLE_RAM      ; Bank out the ROM

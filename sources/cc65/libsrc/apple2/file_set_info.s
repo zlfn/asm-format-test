@@ -5,12 +5,12 @@
 ; int __fastcall__ file_set_auxtype(const char *pathname, unsigned int auxtype);
 ;
 
-        .export         _file_set_type, _file_set_auxtype
-        .import         pushname_tos, popname, mli_file_info_direct
-        .import         popa, popax
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "mli.inc"
+        .export _file_set_type, _file_set_auxtype
+        .import pushname_tos,   popname, mli_file_info_direct
+        .import popa, popax
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "mli.inc"
 
 new_value      = ptr2     ; ptr1 is used by pushname_tos
 mod_flag       = tmp1
@@ -50,7 +50,7 @@ mli_update:
         sta     mliparam + MLI::INFO::FILE_TYPE
         jmp     set_info
 
-:       ; Otherwise update auxtype
+:               ; Otherwise update auxtype
         lda     new_value
         sta     mliparam + MLI::INFO::AUX_TYPE
         lda     new_value+1
@@ -63,9 +63,9 @@ set_info:
         jsr     callmli
 
 cleanup:
-        php                     ; Save return status
+        php     ; Save return status
 
-        jsr     popname         ; Preserves A
+        jsr     popname ; Preserves A
 
         plp
         bcs     oserr

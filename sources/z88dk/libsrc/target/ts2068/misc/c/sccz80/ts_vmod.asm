@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _ts_vmod
 defc _ts_vmod = ts_vmod
 ENDIF
-

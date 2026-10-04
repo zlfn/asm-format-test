@@ -4,10 +4,10 @@
 ; void gotox (unsigned char x);
 ;
 
-        .export         _gotox
-        .import         setcursor
+        .export _gotox
+        .import setcursor
 
-        .include        "creativision.inc"
+        .include "creativision.inc"
 
 .proc   _gotox
 

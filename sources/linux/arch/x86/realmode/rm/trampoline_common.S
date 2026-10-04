@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-2.0 */
-	.section ".rodata","a"
-	.balign	16
+        .section ".rodata", "a"
+        .balign 16
 
 /*
  * When a bootloader hands off to the kernel in 32-bit mode an
@@ -9,6 +9,6 @@
  * extends to 8-bytes. Reserve enough space for either scenario.
  */
 SYM_DATA_START_LOCAL(tr_idt)
-	.short  0
-	.quad   0
+        .short  0
+        .quad   0
 SYM_DATA_END(tr_idt)

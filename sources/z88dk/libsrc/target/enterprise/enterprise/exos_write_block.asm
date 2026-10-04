@@ -8,22 +8,22 @@
 ;	$Id: exos_write_block.asm $
 ;
 
-	SECTION code_clib
-	PUBLIC	exos_write_block
-	PUBLIC	_exos_write_block
+        SECTION code_clib
+        PUBLIC  exos_write_block
+        PUBLIC  _exos_write_block
 
-	EXTERN     asm_exos_write_block
+        EXTERN  asm_exos_write_block
 
 exos_write_block:
 _exos_write_block:
-	
-	pop	af
-	pop de
-	pop bc
-	pop hl
-	push hl
-	push bc
-	push de
-	push af
 
-   jp asm_exos_write_block
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        jp      asm_exos_write_block

@@ -18,23 +18,22 @@
 @ Returns: byte read
 
 ENTRY(ecard_loader_read)
-		stmfd	sp!, {r4 - r12, lr}
-		mov	r11, r1
-		mov	r1, r0
-		CPSR2SPSR(r0)
-		mov	lr, pc
-		mov	pc, r2
-		ldmfd	sp!, {r4 - r12, pc}
+        stmfd   sp!, {r4 - r12, lr}
+        mov     r11, r1
+        mov     r1,  r0
+        CPSR2SPSR(r0)
+        mov     lr,  pc
+        mov     pc,  r2
+        ldmfd   sp!, {r4 - r12, pc}
 
 @ Purpose: call an expansion card loader to reset the card
 @ Proto  : void read_loader(int card_base, char *loader);
 @ Returns: byte read
 
 ENTRY(ecard_loader_reset)
-		stmfd	sp!, {r4 - r12, lr}
-		mov	r11, r0
-		CPSR2SPSR(r0)
-		mov	lr, pc
-		add	pc, r1, #8
-		ldmfd	sp!, {r4 - r12, pc}
-
+        stmfd   sp!, {r4 - r12, lr}
+        mov     r11, r0
+        CPSR2SPSR(r0)
+        mov     lr,  pc
+        add     pc,  r1, #8
+        ldmfd   sp!, {r4 - r12, pc}

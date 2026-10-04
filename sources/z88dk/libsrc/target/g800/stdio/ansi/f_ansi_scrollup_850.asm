@@ -9,13 +9,12 @@
 ;
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_SCROLLUP
+        SECTION code_clib
+        PUBLIC  ansi_SCROLLUP
 
-    EXTERN  scroll_up
-
+        EXTERN  scroll_up
 
 ansi_SCROLLUP:
-    call    $Be53
-    jr      nc, ansi_SCROLLUP
-    JP      scroll_up
+        call    $Be53
+        jr      nc, ansi_SCROLLUP
+        JP      scroll_up

@@ -5,8 +5,7 @@
 ; void __fastcall__ tgi_setcolor (unsigned char color_index);
 ; /* Set the current drawing color (palette index) */
 
-
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
 .proc   _tgi_setcolor
 

@@ -9,11 +9,11 @@ EXTERN asm_sp1_PutSprClr
 
 _sp1_PutSprClr_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
-   
-   ld b,c
-   jp asm_sp1_PutSprClr
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
+
+        ld      b, c
+        jp      asm_sp1_PutSprClr

@@ -1,27 +1,25 @@
 
-    SECTION code_graphics
+        SECTION code_graphics
 
-    PUBLIC  pointxy
+        PUBLIC  pointxy
 
-    EXTERN  sety
-    EXTERN  setx
-    EXTERN  getpat
+        EXTERN  sety
+        EXTERN  setx
+        EXTERN  getpat
 
 pointxy:
 ; in:  hl=x,y
 ; out: fZ
-    push    bc
+        push    bc
 
-    call    sety
-    call    getpat
+        call    sety
+        call    getpat
 
-    call    setx
-    in      a, (c)                   ;dummy read
-    in      a, (c)                   ;read data
+        call    setx
+        in      a, (c)  ;dummy read
+        in      a, (c)  ;read data
 
-    and     d
-    pop     bc
+        and     d
+        pop     bc
 
-    ret
-
-
+        ret

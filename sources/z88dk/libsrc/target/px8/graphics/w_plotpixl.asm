@@ -1,16 +1,15 @@
 
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  w_plotpixel
-    PUBLIC  w_pixel
+        PUBLIC  w_plotpixel
+        PUBLIC  w_pixel
 
-    EXTERN  l_graphics_cmp
+        EXTERN  l_graphics_cmp
 
-    EXTERN  __gfx_coords
-    EXTERN  subcpu_call
-
+        EXTERN  __gfx_coords
+        EXTERN  subcpu_call
 
 ; ******************************************************************
 ;
@@ -26,55 +25,52 @@
 ;
 
 w_plotpixel:
-    ld      a, 2
+        ld      a, 2
 w_pixel:
-    ld      (mode), a
+        ld      (mode), a
 
-    push    hl
-    ld      hl, _GFX_MAXY
-    call    l_graphics_cmp
-    pop     hl
-    ret     nc                          ; Return if Y overflows
+        push    hl
+        ld      hl, _GFX_MAXY
+        call    l_graphics_cmp
+        pop     hl
+        ret     nc      ; Return if Y overflows
 
-    push    de
-    ld      de, _GFX_MAXX
-    call    l_graphics_cmp
-    pop     de
-    ret     c                           ; Return if X overflows
+        push    de
+        ld      de, _GFX_MAXX
+        call    l_graphics_cmp
+        pop     de
+        ret     c       ; Return if X overflows
 
-    ld      (__gfx_coords), hl          ; store X
-    ld      (__gfx_coords+2), de        ; store Y: COORDS must be 2 bytes wider
+        ld      (__gfx_coords),   hl    ; store X
+        ld      (__gfx_coords+2), de    ; store Y: COORDS must be 2 bytes wider
 
-    ld      bc, xcoord
-    ld      a, h
-    ld      (bc), a                     ; X (MSB)
-    inc     bc
-    ld      a, l
-    ld      (bc), a                     ; X (LSB)
-    inc     bc
-    ld      a, e
-    ld      (bc), a                     ; Y
+        ld      bc,   xcoord
+        ld      a,    h
+        ld      (bc), a ; X (MSB)
+        inc     bc
+        ld      a,    l
+        ld      (bc), a ; X (LSB)
+        inc     bc
+        ld      a,    e
+        ld      (bc), a ; Y
 
-    ld      hl, packet
-    jp      subcpu_call
+        ld      hl, packet
+        jp      subcpu_call
 
-
-    SECTION data_clib
+        SECTION data_clib
 
 packet:
-    defw    sndpkt
-    defw    5                           ; packet sz
-    defw    xcoord                      ; packet addr expected back from the slave CPU (useless)
-    defw    1                           ; size of the expected packet being received ('bytes'+1)
-
+        defw    sndpkt
+        defw    5       ; packet sz
+        defw    xcoord  ; packet addr expected back from the slave CPU (useless)
+        defw    1       ; size of the expected packet being received ('bytes'+1)
 
 sndpkt:
-    defb    $27                         ; slave CPU command to paint a pixel
+        defb    $27     ; slave CPU command to paint a pixel
 xcoord:
-    defb    0                           ; MSB
-    defb    0                           ; LSB
+        defb    0       ; MSB
+        defb    0       ; LSB
 ycoord:
-    defb    0
+        defb    0
 mode:
-    defb    2                           ; 0:res, 2:plot, 3:xor
-
+        defb    2       ; 0:res, 2:plot, 3:xor

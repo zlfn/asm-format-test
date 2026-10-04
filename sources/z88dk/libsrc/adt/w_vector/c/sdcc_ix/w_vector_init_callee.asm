@@ -10,9 +10,9 @@ EXTERN asm_w_vector_init
 
 _w_vector_init_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   jp asm_w_vector_init
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_w_vector_init

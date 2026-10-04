@@ -16,8 +16,8 @@ EXTERN asm_BIFROST2_getTile
 
 _BIFROST2_getTile_callee:
 
-   pop hl
-	ex (sp),hl      ; L = px
-	ld c,h          ; C = py
-	
-	jp asm_BIFROST2_getTile
+        pop     hl
+        ex      (sp), hl        ; L = px
+        ld      c,    h         ; C = py
+
+        jp      asm_BIFROST2_getTile

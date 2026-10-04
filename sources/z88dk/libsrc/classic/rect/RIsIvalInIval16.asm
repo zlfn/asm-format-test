@@ -20,31 +20,31 @@ PUBLIC RIsIvalInIval16
 
 .RIsIvalInIval16
 
-   push hl
-   push bc
-   
-   or a
-   sbc hl,bc
-   or a
-   sbc hl,de
-   jr c, cleanup
-   
-   exx
-   
-   pop hl
-   pop bc
-   
-   or a
-   sbc hl,bc
-   or a
-   sbc hl,de
-   
-   exx
-   
-   ret
+        push    hl
+        push    bc
+
+        or      a
+        sbc     hl, bc
+        or      a
+        sbc     hl, de
+        jr      c,  cleanup
+
+        exx
+
+        pop     hl
+        pop     bc
+
+        or      a
+        sbc     hl, bc
+        or      a
+        sbc     hl, de
+
+        exx
+
+        ret
 
 .cleanup
 
-   pop bc
-   pop hl
-   ret
+        pop     bc
+        pop     hl
+        ret

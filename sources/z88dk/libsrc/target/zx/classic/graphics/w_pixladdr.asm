@@ -1,12 +1,10 @@
 
-    SECTION code_clib
-    PUBLIC  w_pixeladdress
+        SECTION code_clib
+        PUBLIC  w_pixeladdress
 
-    EXTERN  w_pixeladdress_MODE0
-    EXTERN  pixeladdress_MODE6
-    EXTERN  __zx_gfxmode
-
-
+        EXTERN  w_pixeladdress_MODE0
+        EXTERN  pixeladdress_MODE6
+        EXTERN  __zx_gfxmode
 
 ; Entry  hl = x
 ;        de = y
@@ -15,8 +13,7 @@
 ; Uses: a, bc, de, hl
 
 w_pixeladdress:
-    ld      a, (__zx_gfxmode)
-    cp      3
-    jp      c, w_pixeladdress_MODE0
-    jp      pixeladdress_MODE6
-
+        ld      a, (__zx_gfxmode)
+        cp      3
+        jp      c, w_pixeladdress_MODE0
+        jp      pixeladdress_MODE6

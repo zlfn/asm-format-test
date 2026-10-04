@@ -10,18 +10,18 @@ EXTERN asm_fzx_at
 
 _fzx_at_callee:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
 
 l0_fzx_at_callee:
 
-   push de
-   ex (sp),ix
-   
-   call asm_fzx_at
-   
-   pop ix
-   ret
+        push    de
+        ex      (sp), ix
+
+        call    asm_fzx_at
+
+        pop     ix
+        ret

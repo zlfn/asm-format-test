@@ -10,31 +10,31 @@ EXTERN __esxdos_error_mc
 
 asm_esx_m_setcaps:
 
-   ; enter : l = new capabilities
-   ;
-   ; exit  : success
-   ;
-   ;            hl = old capabilities
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : l = new capabilities
+        ;
+        ; exit  : success
+        ;
+        ;            hl = old capabilities
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl
 
-   ld a,l
-   
-   rst  __ESX_RST_SYS
-   defb __ESX_M_SETCAPS
-   
-   jp c, __esxdos_error_mc
-   
-   ld l,e
-   ld h,0
-   
-   ret
+        ld      a, l
+
+        rst     __ESX_RST_SYS
+        defb    __ESX_M_SETCAPS
+
+        jp      c, __esxdos_error_mc
+
+        ld      l, e
+        ld      h, 0
+
+        ret
 
 ; ***************************************************************************
 ; * M_SETCAPS ($91) *

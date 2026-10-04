@@ -9,10 +9,10 @@ EXTERN asm_SMSlib_setLineCounter
 
 _SMS_setLineCounter:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_SMSlib_setLineCounter
+        push    hl
+        push    af
+
+        jp      asm_SMSlib_setLineCounter

@@ -8,15 +8,15 @@
 ; void  BlockProcess    (char number);
 ; void  UnblockProcess  (char number);
 
-            .export _BlockProcess
-            .export _UnblockProcess
+        .export _BlockProcess
+        .export _UnblockProcess
 
-            .include "jumptab.inc"
+        .include "jumptab.inc"
 
 _BlockProcess:
         tax
-        jmp BlockProcess
+        jmp     BlockProcess
 
 _UnblockProcess:
         tax
-        jmp UnblockProcess
+        jmp     UnblockProcess

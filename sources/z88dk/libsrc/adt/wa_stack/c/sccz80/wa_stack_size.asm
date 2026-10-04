@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _wa_stack_size
 defc _wa_stack_size = wa_stack_size
 ENDIF
-

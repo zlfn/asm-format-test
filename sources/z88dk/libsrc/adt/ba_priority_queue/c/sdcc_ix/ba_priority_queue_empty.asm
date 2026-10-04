@@ -10,10 +10,10 @@ EXTERN asm_ba_priority_queue_empty
 
 _ba_priority_queue_empty:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_ba_priority_queue_empty
+        push    hl
+        push    af
+
+        jp      asm_ba_priority_queue_empty

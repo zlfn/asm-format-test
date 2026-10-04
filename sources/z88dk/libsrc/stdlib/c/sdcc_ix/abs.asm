@@ -10,10 +10,10 @@ EXTERN asm_abs
 
 _abs:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_abs
+        push    hl
+        push    af
+
+        jp      asm_abs

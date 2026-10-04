@@ -5,13 +5,12 @@
 ; unsigned char cbm_k_chrin (void);
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_k_basin, _cbm_k_chrin
-
+        .export _cbm_k_basin, _cbm_k_chrin
 
 _cbm_k_basin:
 _cbm_k_chrin:
         jsr     BASIN
-        ldx     #0              ; Clear high byte
+        ldx     #0      ; Clear high byte
         rts

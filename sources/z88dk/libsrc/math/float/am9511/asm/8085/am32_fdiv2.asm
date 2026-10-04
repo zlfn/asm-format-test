@@ -10,7 +10,7 @@
 ;-------------------------------------------------------------------------
 ; asm_am9511_fdiv2 - 8085 floating point divide by 2
 ;-------------------------------------------------------------------------
-; 
+;
 ; Division by 2 is decrementing the exponent. An easy optimisation.
 ;
 ;-------------------------------------------------------------------------
@@ -22,55 +22,55 @@ PUBLIC asm_am9511_fdiv2_fastcall
 
 .asm_am9511_fdiv2_fastcall
 
-    rl de                       ; get exponent in d
+        rl      de      ; get exponent in d
 
-    inc d
-    dec d
-    jp Z,zero_legal             ; return IEEE zero
+        inc     d
+        dec     d
+        jp      Z, zero_legal   ; return IEEE zero
 
-    ld a,d
-    inc a
-    jr Z,exp_max                ; Inf/NaN: unchanged
+        ld      a, d
+        inc     a
+        jr      Z, exp_max      ; Inf/NaN: unchanged
 
-    dec d                       ; divide by 2
-    jr Z,zero_underflow         ; capture underflow zero
+        dec     d                       ; divide by 2
+        jr      Z, zero_underflow       ; capture underflow zero
 
-    ld a,d
-    rra                         ; return sign and exponent
-    ld d,a
+        ld      a, d
+        rra     ; return sign and exponent
+        ld      d, a
 
-    ld a,e
-    rra                         ; return exponent and mantissa
-    ld e,a
+        ld      a, e
+        rra     ; return exponent and mantissa
+        ld      e, a
 
-    ret                         ; return IEEE DEHL
+        ret     ; return IEEE DEHL
 
 .exp_max
-    ld a,d
-    rra
-    ld d,a
-    ld a,e
-    rra
-    ld e,a
-    ret
+        ld      a, d
+        rra
+        ld      d, a
+        ld      a, e
+        rra
+        ld      e, a
+        ret
 
 .zero_legal
-    ld e,d                      ; use 0
-    ld hl,de
+        ld      e,  d   ; use 0
+        ld      hl, de
 
-    ld a,d
-    rra                         ; restore the sign and exponent
-    ld d,a
+        ld      a, d
+        rra     ; restore the sign and exponent
+        ld      d, a
 
-    ret                         ; return IEEE signed ZERO in DEHL
+        ret     ; return IEEE signed ZERO in DEHL
 
 .zero_underflow
-    ld e,d                      ; use 0
-    ld hl,de
+        ld      e,  d   ; use 0
+        ld      hl, de
 
-    ld a,d
-    rra                         ; restore the sign and exponent
-    ld d,a
+        ld      a, d
+        rra     ; restore the sign and exponent
+        ld      d, a
 
-    scf
-    ret                         ; return IEEE signed ZERO in DEHL
+        scf
+        ret     ; return IEEE signed ZERO in DEHL

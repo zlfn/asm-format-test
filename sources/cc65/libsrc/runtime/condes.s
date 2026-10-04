@@ -12,11 +12,10 @@
 ; destructor tables, they must be called from the platform specific startup
 ; code.
 
-
         .export initlib, donelib, condes
 
         .import __CONSTRUCTOR_TABLE__, __CONSTRUCTOR_COUNT__
-        .import __DESTRUCTOR_TABLE__, __DESTRUCTOR_COUNT__
+        .import __DESTRUCTOR_TABLE__,  __DESTRUCTOR_COUNT__
 
 ; --------------------------------------------------------------------------
 ; Initialize library modules
@@ -34,7 +33,6 @@ exit:   rts
 
 .endproc
 
-
 ; --------------------------------------------------------------------------
 ; Cleanup library modules
 
@@ -51,7 +49,6 @@ exit:   rts
 
 .endproc
 
-
 ; --------------------------------------------------------------------------
 ; Generic table call handler. The code uses self modifying code and goes
 ; into the data segment for this reason.
@@ -66,17 +63,15 @@ exit:   rts
         sta     fetch2+1
         stx     fetch2+2
 loop:   dey
-fetch1: lda     $FFFF,y                 ; Patched at runtime
+fetch1: lda     $FFFF, y        ; Patched at runtime
         sta     jmpvec+2
         dey
-fetch2: lda     $FFFF,y                 ; Patched at runtime
+fetch2: lda     $FFFF, y        ; Patched at runtime
         sta     jmpvec+1
         sty     index+1
-jmpvec: jsr     $FFFF                   ; Patched at runtime
-index:  ldy     #$FF                    ; Patched at runtime
+jmpvec: jsr     $FFFF           ; Patched at runtime
+index:  ldy     #$FF            ; Patched at runtime
         bne     loop
         rts
 
 .endproc
-
-

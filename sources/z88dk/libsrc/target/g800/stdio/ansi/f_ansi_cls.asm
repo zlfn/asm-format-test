@@ -8,11 +8,11 @@
 ;	$Id: f_ansi_cls$
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_cls
+        SECTION code_clib
+        PUBLIC  ansi_cls
 
 ansi_cls:
-    ld      a, ' '
-    ld      b, 24*6
-    ld      de, 0
-    jp      $bfee
+        ld      a,  ' '
+        ld      b,  24*6
+        ld      de, 0
+        jp      $bfee

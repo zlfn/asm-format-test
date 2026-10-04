@@ -10,10 +10,10 @@ EXTERN _gets_unlocked_fastcall
 
 _gets_unlocked:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _gets_unlocked_fastcall
+        push    hl
+        push    af
+
+        jp      _gets_unlocked_fastcall

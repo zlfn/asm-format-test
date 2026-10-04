@@ -10,18 +10,18 @@ EXTERN asm_vfscanf_unlocked
 
 _vfscanf_unlocked_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
 l0_vfscanf_unlocked_callee:
 
-   push hl
-   ex (sp),ix
-   
-   call asm_vfscanf_unlocked
-   
-   pop ix
-   ret
+        push    hl
+        ex      (sp), ix
+
+        call    asm_vfscanf_unlocked
+
+        pop     ix
+        ret

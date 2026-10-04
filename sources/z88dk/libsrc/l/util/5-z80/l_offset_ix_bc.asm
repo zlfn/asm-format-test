@@ -6,13 +6,13 @@ PUBLIC l_offset_ix_bc
 
 l_offset_ix_bc:
 
-   ; enter : hl = offset
-   ;
-   ; exit  : bc = ix
-   ;         hl = ix + offset
+        ; enter : hl = offset
+        ;
+        ; exit  : bc = ix
+        ;         hl = ix + offset
 
-   push ix
-   pop bc
-   
-   add hl,bc
-   ret
+        push    ix
+        pop     bc
+
+        add     hl, bc
+        ret

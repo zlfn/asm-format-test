@@ -4,8 +4,8 @@
 ; CC65 runtime: Increment the stackpointer by 8
 ;
 
-        .export         incsp8
-        .import         addysp
+        .export incsp8
+        .import addysp
 
 .proc   incsp8
 
@@ -13,5 +13,3 @@
         jmp     addysp
 
 .endproc
-
-

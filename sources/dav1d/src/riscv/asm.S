@@ -52,81 +52,81 @@
 #endif
 
 .macro arch ext:req, more:vararg
-    .option arch, +\ext
-    .ifnb \more
-        arch \more
-    .endif
+        .option arch, +\ext
+        .ifnb   \more
+                arch    \more
+        .endif
 .endm
 
 .macro function name, export=0, ext=
-    .macro endfunc
+        .macro  endfunc
 #ifdef __ELF__
-        .size   \name, . - \name
+                .size   \name, . - \name
 #endif
-        .option pop
-        .purgem endfunc
-    .endm
+                .option pop
+                .purgem endfunc
+        .endm
         .text
         .option push
-    .ifnb \ext
-        arch \ext
-    .endif
-    .if \export
-        .global EXTERN\name
+        .ifnb   \ext
+                arch    \ext
+        .endif
+        .if     \export
+                .global EXTERN\name
 #ifdef __ELF__
-        .type   EXTERN\name, %function
-        .hidden EXTERN\name
+                .type   EXTERN\name, %function
+                .hidden EXTERN\name
 #elif defined(__MACH__)
-        .private_extern EXTERN\name
+                .private_extern EXTERN\name
 #endif
 EXTERN\name:
-    .else
+        .else
 #ifdef __ELF__
-        .type \name, %function
+                .type   \name, %function
 #endif
-    .endif
+        .endif
 \name:
 .endm
 
 .macro  const   name, export=0, align=2
-    .macro endconst
+        .macro  endconst
 #ifdef __ELF__
-        .size   \name, . - \name
+                .size   \name, . - \name
 #endif
-        .purgem endconst
-    .endm
+                .purgem endconst
+        .endm
 #if defined(_WIN32)
-        .section        .rdata
+        .section .rdata
 #elif !defined(__MACH__)
-        .section        .rodata
+        .section .rodata
 #else
         .const_data
 #endif
-        .align          \align
-    .if \export
-        .global EXTERN\name
+        .align  \align
+        .if     \export
+                .global EXTERN\name
 #ifdef __ELF__
-        .hidden EXTERN\name
+                .hidden EXTERN\name
 #elif defined(__MACH__)
-        .private_extern EXTERN\name
+                .private_extern EXTERN\name
 #endif
 EXTERN\name:
-    .endif
+        .endif
 \name:
 .endm
 
 .macro thread_local name, align=3, quads=1
-    .macro end_thread_local
-        .size  \name, . - \name
-        .purgem end_thread_local
-    .endm
+        .macro  end_thread_local
+                .size   \name, . - \name
+                .purgem end_thread_local
+        .endm
         .section .tbss, "waT"
-        .align \align
+        .align  \align
         .hidden \name
 \name:
-    .rept \quads
-        .quad 0
-    .endr
+        .rept   \quads
+                .quad   0
+        .endr
         end_thread_local
 .endm
 

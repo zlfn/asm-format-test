@@ -11,11 +11,11 @@
 ;
 
 IF  !__CPU_INTEL__&!__CPU_RABBIT__&!__CPU_GBZ80__
-    SECTION code_clib
-    PUBLIC  psg_channels
-    PUBLIC  _psg_channels
-    PUBLIC  ___psg_channels
-    EXTERN  asm_psg_channels
+        SECTION code_clib
+        PUBLIC  psg_channels
+        PUBLIC  _psg_channels
+        PUBLIC  ___psg_channels
+        EXTERN  asm_psg_channels
 
 psg_channels:
 _psg_channels:

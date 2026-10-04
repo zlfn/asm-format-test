@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Mar 2014
 ; ===============================================================
-; 
+;
 ; void b_array_destroy(b_array_t *a)
 ;
 ; Zero the array structure.
@@ -19,9 +19,9 @@ EXTERN l_setmem_hl
 
 asm_b_array_destroy:
 
-   ; enter : hl = array *
-   ;
-   ; uses  : af, hl
+        ; enter : hl = array *
+        ;
+        ; uses  : af, hl
 
-   xor a
-   jp l_setmem_hl - 12
+        xor     a
+        jp      l_setmem_hl - 12

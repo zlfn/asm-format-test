@@ -9,10 +9,10 @@ EXTERN asm_tshc_cls
 
 _tshc_cls:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_tshc_cls
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_tshc_cls

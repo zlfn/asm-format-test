@@ -11,11 +11,11 @@ EXTERN IM2CreateCommon
 .im2_CreateGenericISR_callee
 ._im2_CreateGenericISR_callee
 
-   pop hl
-   pop de
-   pop bc
-   push hl
-   ld a,c
+        pop     hl
+        pop     de
+        pop     bc
+        push    hl
+        ld      a, c
 
 .asm_im2_CreateGenericISR
 
@@ -26,70 +26,70 @@ EXTERN IM2CreateCommon
 
 .IM2CreateGenericISR
 
-   ld hl,GenericISR
-   jp IM2CreateCommon
+        ld      hl, GenericISR
+        jp      IM2CreateCommon
 
 .GenericISR
 
-   call pushreg
-   
+        call    pushreg
+
 .position
 
-   ld bc,runhooks-position
-   add hl,bc
-   call runhooks
-   jp popreg
+        ld      bc, runhooks-position
+        add     hl, bc
+        call    runhooks
+        jp      popreg
 
 .runhooks
 
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   ld a,d
-   or e
-   ret z
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      a, d
+        or      e
+        ret     z
 
-   push hl
-   ex de,hl
-   call JPHL
-   pop hl
-   ret c
-   jp runhooks
+        push    hl
+        ex      de, hl
+        call    JPHL
+        pop     hl
+        ret     c
+        jp      runhooks
 
 .popreg
 
-   pop iy
-   pop ix
-   pop hl
-   pop de
-   pop bc
-   pop af
-   exx
-   ex af,af'
-   pop de
-   pop bc
-   pop af
-   pop hl
-   ei
-   reti
+        pop     iy
+        pop     ix
+        pop     hl
+        pop     de
+        pop     bc
+        pop     af
+        exx
+        ex      af, af'
+        pop     de
+        pop     bc
+        pop     af
+        pop     hl
+        ei
+        reti
 
 .pushreg
 
-   ex (sp),hl
-   push af
-   push bc
-   push de
-   exx
-   ex af,af'
-   push af
-   push bc
-   push de
-   push hl
-   push ix
-   push iy
-   exx
+        ex      (sp), hl
+        push    af
+        push    bc
+        push    de
+        exx
+        ex      af, af'
+        push    af
+        push    bc
+        push    de
+        push    hl
+        push    ix
+        push    iy
+        exx
 
 .JPHL
 
-   jp (hl)
+        jp      (hl)

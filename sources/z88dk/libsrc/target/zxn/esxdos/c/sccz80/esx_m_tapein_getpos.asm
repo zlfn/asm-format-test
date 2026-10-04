@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_m_tapein_getpos
 defc _esx_m_tapein_getpos = esx_m_tapein_getpos
 ENDIF
-

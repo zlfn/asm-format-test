@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_m_dosversion
 defc _esx_m_dosversion = esx_m_dosversion
 ENDIF
-

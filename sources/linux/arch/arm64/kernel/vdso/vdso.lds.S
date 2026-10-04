@@ -20,65 +20,65 @@ OUTPUT_ARCH(aarch64)
 
 SECTIONS
 {
-	VDSO_VVAR_SYMS
+        VDSO_VVAR_SYMS
 
-	. = SIZEOF_HEADERS;
+        .       = SIZEOF_HEADERS;
 
-	.hash		: { *(.hash) }			:text
-	.gnu.hash	: { *(.gnu.hash) }
-	.dynsym		: { *(.dynsym) }
-	.dynstr		: { *(.dynstr) }
-	.gnu.version	: { *(.gnu.version) }
-	.gnu.version_d	: { *(.gnu.version_d) }
-	.gnu.version_r	: { *(.gnu.version_r) }
+        .hash   : { *(.hash) }			:text
+        .gnu.hash : { *(.gnu.hash) }
+        .dynsym : { *(.dynsym) }
+        .dynstr : { *(.dynstr) }
+        .gnu.version : { *(.gnu.version) }
+        .gnu.version_d : { *(.gnu.version_d) }
+        .gnu.version_r : { *(.gnu.version_r) }
 
 	/*
 	 * Discard .note.gnu.property sections which are unused and have
 	 * different alignment requirement from vDSO note sections.
 	 */
-	/DISCARD/	: {
-		*(.note.GNU-stack .note.gnu.property)
-		*(.ARM.attributes)
-	}
-	.note		: { *(.note.*) }		:text	:note
+        /DISCARD/ : {
+        *(.note.GNU-stack .note.gnu.property)
+        *(.ARM.attributes)
+        }
+        .note   : { *(.note.*) }		:text	:note
 
-	. = ALIGN(16);
+        .       = ALIGN(16);
 
-	.text		: { *(.text*) }			:text	=0xd503201f
-	PROVIDE (__etext = .);
-	PROVIDE (_etext = .);
-	PROVIDE (etext = .);
+        .text   : { *(.text*) }			:text	=0xd503201f
+        PROVIDE (__etext = .);
+        PROVIDE (_etext = .);
+        PROVIDE (etext = .);
 
-	. = ALIGN(4);
-	.altinstructions : {
-		*(.altinstructions)
-	}
+        .       = ALIGN(4);
+        .altinstructions : {
+        *(.altinstructions)
+        }
 
-	.dynamic	: { *(.dynamic) }		:text	:dynamic
+        .dynamic : { *(.dynamic) }		:text	:dynamic
 
-	.rela.dyn	: ALIGN(8) { *(.rela .rela*) }
+        .rela.dyn : ALIGN(8) { *(.rela .rela*) }
 
-	.rodata		: {
-		*(.rodata*)
-		*(.got)
-		*(.got.plt)
-		*(.plt)
-		*(.plt.*)
-		*(.iplt)
-		*(.igot .igot.plt)
-	}						:text
+        .rodata : {
+        *(.rodata*)
+        *(.got)
+        *(.got.plt)
+        *(.plt)
+        *(.plt.*)
+        *(.iplt)
+        *(.igot .igot.plt)
+        }       :text
 
-	_end = .;
-	PROVIDE(end = .);
+        _end    = .;
+        PROVIDE(end = .);
 
-	DWARF_DEBUG
-	ELF_DETAILS
+        DWARF_DEBUG
+        ELF_DETAILS
 
-	/DISCARD/	: {
-		*(.data .data.* .gnu.linkonce.d.* .sdata*)
-		*(.bss .sbss .dynbss .dynsbss)
-		*(.eh_frame .eh_frame_hdr)
-	}
+        /DISCARD/ : {
+        *(.data .data.* .gnu.linkonce.d.* .sdata*)
+        *(.bss  .sbss .dynbss .dynsbss)
+        *(.eh_frame .eh_frame_hdr)
+        }
 }
 
 /*
@@ -87,9 +87,9 @@ SECTIONS
  */
 PHDRS
 {
-	text		PT_LOAD		FLAGS(5) FILEHDR PHDRS; /* PF_R|PF_X */
-	dynamic		PT_DYNAMIC	FLAGS(4);		/* PF_R */
-	note		PT_NOTE		FLAGS(4);		/* PF_R */
+        text    PT_LOAD		FLAGS(5) FILEHDR PHDRS; /* PF_R|PF_X */
+        dynamic PT_DYNAMIC	FLAGS(4);		/* PF_R */
+        note    PT_NOTE		FLAGS(4);		/* PF_R */
 }
 
 /*
@@ -97,15 +97,15 @@ PHDRS
  */
 VERSION
 {
-	LINUX_2.6.39 {
-	global:
-		__kernel_rt_sigreturn;
-		__kernel_gettimeofday;
-		__kernel_clock_gettime;
-		__kernel_clock_getres;
-		__kernel_getrandom;
-	local: *;
-	};
+        LINUX_2.6.39 {
+global:
+        __kernel_rt_sigreturn;
+        __kernel_gettimeofday;
+        __kernel_clock_gettime;
+        __kernel_clock_getres;
+        __kernel_getrandom;
+local:  *;
+        };
 }
 
 /*

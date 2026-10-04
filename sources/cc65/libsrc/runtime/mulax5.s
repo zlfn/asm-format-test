@@ -5,8 +5,8 @@
 ;
 ; Don't touch the Y-register here, the optimizer relies on it!
 
-        .export         mulax5
-        .importzp       ptr1
+        .export mulax5
+        .importzp ptr1
 
 .proc   mulax5
 
@@ -26,5 +26,3 @@
         rts
 
 .endproc
-
-

@@ -20,53 +20,52 @@ SECTION code_fp_math32
 
 PUBLIC l_f32_ldexp
 
-
 .l_f32_ldexp
-    ld b,a                          ; B = delta
-    ld a,e
-    add a,a
-    ld e,a                          ; sla e
-    ld a,d
-    rla
-    ld d,a                          ; D = exp, C = sign
-    inc d
-    dec d                           ; Z iff exp==0; keep C (sign)
-    jp Z,zero_legal
+        ld      b, a    ; B = delta
+        ld      a, e
+        add     a, a
+        ld      e, a    ; sla e
+        ld      a, d
+        rla
+        ld      d, a    ; D = exp, C = sign
+        inc     d
+        dec     d       ; Z iff exp==0; keep C (sign)
+        jp      Z, zero_legal
 
-    ld a,e
-    rra
-    ld e,a                          ; put sign in E[7]
+        ld      a, e
+        rra
+        ld      e, a    ; put sign in E[7]
 
-    ld a,d
-    add a,b                         ; exp + delta
-    ld d,a
-    or a
-    jp Z,underflow
+        ld      a, d
+        add     a, b    ; exp + delta
+        ld      d, a
+        or      a
+        jp      Z, underflow
 
-    ; pack: sign from E[7]
-    ld a,e
-    add a,a                         ; sign → C
-    ld e,a
-    ld a,d
-    rra
-    ld d,a
-    ld a,e
-    rra
-    ld e,a
-    or a
-    ret
+        ; pack: sign from E[7]
+        ld      a, e
+        add     a, a    ; sign → C
+        ld      e, a
+        ld      a, d
+        rra
+        ld      d, a
+        ld      a, e
+        rra
+        ld      e, a
+        or      a
+        ret
 
 .underflow
-    ld de,0
-    ld hl,0
-    scf
-    ret
+        ld      de, 0
+        ld      hl, 0
+        scf
+        ret
 
 .zero_legal
-    ; D=0 after unpack; C = sign
-    ld hl,0
-    ld e,0
-    ld a,0
-    rra                             ; sign into D (must keep CF; not xor a)
-    ld d,a
-    ret
+        ; D=0 after unpack; C = sign
+        ld      hl, 0
+        ld      e,  0
+        ld      a,  0
+        rra     ; sign into D (must keep CF; not xor a)
+        ld      d, a
+        ret

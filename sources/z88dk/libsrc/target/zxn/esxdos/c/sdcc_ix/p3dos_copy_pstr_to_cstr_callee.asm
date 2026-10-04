@@ -8,8 +8,8 @@ EXTERN asm_p3dos_copy_pstr_to_cstr
 
 _p3dos_copy_pstr_to_cstr_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_p3dos_copy_pstr_to_cstr
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_p3dos_copy_pstr_to_cstr

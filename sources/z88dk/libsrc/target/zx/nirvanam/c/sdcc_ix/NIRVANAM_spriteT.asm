@@ -15,16 +15,16 @@ EXTERN asm_NIRVANAM_spriteT
 
 _NIRVANAM_spriteT:
 
-	ld hl,2
-	add hl,sp
-	ld c,(hl)       ; sprite
-	inc hl
-	ld a,(hl)       ; tile
-	inc hl
-	ld d,(hl)       ; lin
-	inc hl
-	ld e,(hl)       ; col
-	ld l,c
-	ld h,0
+        ld      hl, 2
+        add     hl, sp
+        ld      c,  (hl)        ; sprite
+        inc     hl
+        ld      a, (hl)         ; tile
+        inc     hl
+        ld      d, (hl)         ; lin
+        inc     hl
+        ld      e, (hl)         ; col
+        ld      l, c
+        ld      h, 0
 
-   jp asm_NIRVANAM_spriteT
+        jp      asm_NIRVANAM_spriteT

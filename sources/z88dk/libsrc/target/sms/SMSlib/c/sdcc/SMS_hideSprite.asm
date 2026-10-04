@@ -9,10 +9,10 @@ EXTERN asm_SMSlib_hideSprite
 
 _SMS_hideSprite:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_SMSlib_hideSprite
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_SMSlib_hideSprite

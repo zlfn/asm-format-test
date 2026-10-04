@@ -7,8 +7,6 @@
 ; ** SER_ERR_OVERFLOW if there is no space left in the transmit buffer.
 ; */
 
+        .include "ser-kernel.inc"
 
-        .include        "ser-kernel.inc"
-
-        _ser_put        = ser_put
-
+        _ser_put = ser_put

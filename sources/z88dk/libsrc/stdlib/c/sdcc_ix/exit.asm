@@ -10,7 +10,7 @@ EXTERN asm_exit
 
 _exit:
 
-   pop af
-   pop hl
-   
-   jp asm_exit
+        pop     af
+        pop     hl
+
+        jp      asm_exit

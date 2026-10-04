@@ -15,10 +15,10 @@ EXTERN asm_BIFROSTL_findAttrH
 
 _BIFROSTL_findAttrH:
 
-   ld hl,2
-	add hl,sp
-	ld e,(hl)       ; E = lin
-	inc hl
-	ld c,(hl)       ; C = col
-	
-	jp asm_BIFROSTL_findAttrH
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)        ; E = lin
+        inc     hl
+        ld      c, (hl)         ; C = col
+
+        jp      asm_BIFROSTL_findAttrH

@@ -4,6 +4,6 @@
 ; void __fastcall__ cbm_k_listen (unsigned char dev);
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_k_listen := LISTEN
+        .export _cbm_k_listen := LISTEN

@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _strtoimax
 defc _strtoimax = strtoimax
 ENDIF
-

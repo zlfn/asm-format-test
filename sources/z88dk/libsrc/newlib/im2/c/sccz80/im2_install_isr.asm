@@ -10,12 +10,12 @@ EXTERN asm_im2_install_isr
 
 im2_install_isr:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp asm_im2_install_isr
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_im2_install_isr

@@ -5,11 +5,11 @@
 ; unsigned char __fastcall__ getnextdevice (unsigned char device);
 ;
 
-        .export         _getfirstdevice
-        .export         _getnextdevice
-        .import         __dos_type, isdevice
+        .export _getfirstdevice
+        .export _getnextdevice
+        .import __dos_type, isdevice
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
 _getfirstdevice:
         lda     #$FF
@@ -18,7 +18,7 @@ _getfirstdevice:
 _getnextdevice:
         tax
 next:   inx
-        cpx     #$FF            ; INVALID_DEVICE
+        cpx     #$FF    ; INVALID_DEVICE
         beq     done
 
         ; Check for ProDOS 8

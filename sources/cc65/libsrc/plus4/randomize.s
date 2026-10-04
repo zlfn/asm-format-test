@@ -6,13 +6,12 @@
 ; /* Initialize the random number generator */
 ;
 
-        .export         ___randomize
-        .import         _srand
+        .export ___randomize
+        .import _srand
 
-        .include        "plus4.inc"
+        .include "plus4.inc"
 
 ___randomize:
         ldx     TED_VLINELO     ; Use TED rasterline as high byte
         lda     TIME+2          ; Use 60HZ clock as low byte
         jmp     _srand          ; Initialize generator
-

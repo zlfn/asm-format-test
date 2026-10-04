@@ -24,14 +24,14 @@ EXTERN l_mulu_32_32x32
 
 l_long_mult_u:
 
-   ; dehl = arg1
-   ; stack = arg2, ret
+        ; dehl = arg1
+        ; stack = arg2, ret
 
-   exx
-   pop bc
-   
-   pop hl
-   pop de
-   
-   push bc
-   jp l_mulu_32_32x32
+        exx
+        pop     bc
+
+        pop     hl
+        pop     de
+
+        push    bc
+        jp      l_mulu_32_32x32

@@ -16,20 +16,19 @@ PUBLIC 	asm_exos_write_character
 exos_write_character_callee:
 _exos_write_character_callee:
 
-	pop hl
-	pop de
-	ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 ; enter : e = unsigned char chr
 ;         l = unsigned char chan
 
 .asm_exos_write_character
 
-	ld	a,l		; Variable
-	ld	b,e		; Value
-	rst   30h
-	defb  7
-	ld	h,0
-	ld	l,a
-	ret
- 
+        ld      a, l    ; Variable
+        ld      b, e    ; Value
+        rst     30h
+        defb    7
+        ld      h, 0
+        ld      l, a
+        ret

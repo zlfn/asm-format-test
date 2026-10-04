@@ -5,14 +5,14 @@
 ; 2015-07-17, Greg King
 ;
 
-        .export         _vsnprintf, vsnprintf
-        .import         ldaxysp, popax, incsp2, incsp6
-        .import         _memcpy, __printf
-        .importzp       c_sp, ptr1
+        .export _vsnprintf, vsnprintf
+        .import ldaxysp,    popax, incsp2, incsp6
+        .import _memcpy,    __printf
+        .importzp c_sp, ptr1
 
-        .include        "errno.inc"
+        .include "errno.inc"
 
-        .macpack        generic
+        .macpack generic
 
 .data
 
@@ -21,11 +21,11 @@
 ; Static data for the _vsnprintf routine
 ;
 
-outdesc:                        ; Static outdesc structure
-ccount: .word   0               ; ccount
-func:   .word   out             ; Output function pointer
-bufptr: .word   0               ; ptr
-bufsize:.word   0               ; Buffer size
+outdesc:                ; Static outdesc structure
+ccount: .word   0       ; ccount
+func:   .word   out     ; Output function pointer
+bufptr: .word   0       ; ptr
+bufsize: .word  0       ; Buffer size
 
 .code
 
@@ -36,7 +36,7 @@ bufsize:.word   0               ; Buffer size
 ;
 
 _vsnprintf:
-        pha                     ; Save ap
+        pha     ; Save ap
         txa
         pha
 
@@ -55,19 +55,19 @@ vsnprintf:
 ; be formatted and counted.
 
         ldy     #2
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     ptr1
 
         lda     #<outdesc
-        sta     (c_sp),y
+        sta     (c_sp), y
 
         iny
-        lda     (c_sp),y
-        bmi     L9              ; More than $7FFF
+        lda     (c_sp), y
+        bmi     L9      ; More than $7FFF
         sta     ptr1+1
 
         lda     #>outdesc
-        sta     (c_sp),y
+        sta     (c_sp), y
 
 ; Write size-1 to outdesc.uns.  It will be -1 if there is no buffer.
 
@@ -91,7 +91,7 @@ L1:     dex
         bit     bufsize+1
         bmi     L5
         ora     bufptr+1
-        bze     L0              ; The pointer shouldn't be NULL
+        bze     L0      ; The pointer shouldn't be NULL
 
 ; Restore ap and call _printf
 
@@ -104,7 +104,7 @@ L5:     pla
 ; bufptr+bufsize or bufptr+ccount, whichever is smaller.
 
         ldx     bufsize+1
-        bmi     L4              ; -1 -- No buffer
+        bmi     L4      ; -1 -- No buffer
         lda     bufsize+0
         cpx     ccount+1
         bne     L2
@@ -121,7 +121,7 @@ L3:     adc     bufptr+0
 
         lda     #0
         tay
-        sta     (ptr1),y
+        sta     (ptr1), y
 
 ; Return the number of bytes written and drop buf
 
@@ -132,7 +132,7 @@ L4:     lda     ccount+0
 ; Bail out if size is too high.
 
 L9:     ldy     #ERANGE
-        .byte   $2C             ;(bit $xxxx)
+        .byte   $2C     ;(bit $xxxx)
 
 ; NULL buffer pointers usually are invalid.
 
@@ -142,7 +142,6 @@ L0:     ldy     #EINVAL
         tya
         jsr     ___directerrno  ; Return -1
         jmp     incsp6          ; Drop parameters
-
 
 ; ----------------------------------------------------------------------------
 ; Callback routine used for the actual output.
@@ -158,18 +157,18 @@ out:
 ; Calculate the space left in the buffer. If no space is left, don't copy
 ; any characters
 
-        lda     bufsize+0               ; Low byte of buffer size
+        lda     bufsize+0       ; Low byte of buffer size
         sec
-        sbc     ccount+0                ; Low byte of bytes already written
+        sbc     ccount+0        ; Low byte of bytes already written
         sta     ptr1
         lda     bufsize+1
-        bmi     @L9                     ; -1 -- No buffer
+        bmi     @L9             ; -1 -- No buffer
         sbc     ccount+1
         sta     ptr1+1
-        bcs     @L0                     ; Branch if space left
+        bcs     @L0             ; Branch if space left
 @L9:    lda     #$0000
         sta     ptr1
-        sta     ptr1+1                  ; No space left
+        sta     ptr1+1          ; No space left
 
 ; Replace the pointer to d by a pointer to the write position in the buffer
 ; for the call to memcpy that follows.
@@ -178,12 +177,12 @@ out:
         clc
         adc     ccount+0
         ldy     #4
-        sta     (c_sp),y
+        sta     (c_sp), y
 
         lda     bufptr+1
         adc     ccount+1
         iny
-        sta     (c_sp),y
+        sta     (c_sp), y
 
 ; Get Count from stack
 
@@ -212,6 +211,3 @@ out:
 ; Jump to memcpy, which will cleanup the stack and return to the caller
 
 @L2:    jmp     _memcpy
-
-
-

@@ -14,7 +14,7 @@
 ; The hypotenuse is the longest side of a right-angled triangle.
 ; The hypotf() function is used to find hypotenuse when
 ; other two sides are provided.
-; 
+;
 ; float hypotf(float x, float y)
 ; {
 ;   return sqrtf( sqrf(x) + sqrf(y);
@@ -39,77 +39,77 @@ PUBLIC asm_am9511_hypot, asm_am9511_hypot_callee
 
 .asm_am9511_hypot
 
-    ; evaluation of a hypotenuse function
-    ;
-    ; enter : stack = float x, ret
-    ;         dehl  = float y
-    ;
-    ; exit  : stack = float x, ret
-    ;         dehl  = 32-bit product
-    ;         carry reset
-    ;
-    ; uses  : af, bc, de, hl
+        ; evaluation of a hypotenuse function
+        ;
+        ; enter : stack = float x, ret
+        ;         dehl  = float y
+        ;
+        ; exit  : stack = float x, ret
+        ;         dehl  = 32-bit product
+        ;         carry reset
+        ;
+        ; uses  : af, bc, de, hl
 
-    call asm_am9511_pushf_fastcall  ; y
+        call    asm_am9511_pushf_fastcall       ; y
 
-    ld a,__IO_APU_OP_PTOF
-    AM9511_OUT_APU_CONTROL        ; y
+        ld      a, __IO_APU_OP_PTOF
+        AM9511_OUT_APU_CONTROL  ; y
 
-    ld a,__IO_APU_OP_FMUL
-    AM9511_OUT_APU_CONTROL        ; y * y
+        ld      a, __IO_APU_OP_FMUL
+        AM9511_OUT_APU_CONTROL  ; y * y
 
-    call asm_am9511_pushf           ; x
+        call    asm_am9511_pushf        ; x
 
-    ld a,__IO_APU_OP_PTOF
-    AM9511_OUT_APU_CONTROL        ; x
+        ld      a, __IO_APU_OP_PTOF
+        AM9511_OUT_APU_CONTROL  ; x
 
-    ld a,__IO_APU_OP_FMUL
-    AM9511_OUT_APU_CONTROL        ; x * x
+        ld      a, __IO_APU_OP_FMUL
+        AM9511_OUT_APU_CONTROL  ; x * x
 
-    ld a,__IO_APU_OP_FADD
-    AM9511_OUT_APU_CONTROL        ; y^2 + x^2
+        ld      a, __IO_APU_OP_FADD
+        AM9511_OUT_APU_CONTROL  ; y^2 + x^2
 
-    ld a,__IO_APU_OP_SQRT
-    AM9511_OUT_APU_CONTROL        ; (y^2 + x^2)^0.5
+        ld      a, __IO_APU_OP_SQRT
+        AM9511_OUT_APU_CONTROL  ; (y^2 + x^2)^0.5
 
-    jp asm_am9511_popf
+        jp      asm_am9511_popf
 
 .asm_am9511_hypot_callee
 
-    ; evaluation of a hypotenuse function
-    ;
-    ; enter : stack = float x, ret
-    ;         dehl  = float y
-    ;
-    ; exit  : dehl  = 32-bit product
-    ;         carry reset
-    ;
-    ; uses  : af, bc, de, hl
+        ; evaluation of a hypotenuse function
+        ;
+        ; enter : stack = float x, ret
+        ;         dehl  = float y
+        ;
+        ; exit  : dehl  = 32-bit product
+        ;         carry reset
+        ;
+        ; uses  : af, bc, de, hl
 
-    call asm_am9511_pushf_fastcall  ; y
+        call    asm_am9511_pushf_fastcall       ; y
 
-    ld a,__IO_APU_OP_PTOF
-    AM9511_OUT_APU_CONTROL        ; y
+        ld      a, __IO_APU_OP_PTOF
+        AM9511_OUT_APU_CONTROL  ; y
 
-    ld a,__IO_APU_OP_FMUL
-    AM9511_OUT_APU_CONTROL        ; y * y
+        ld      a, __IO_APU_OP_FMUL
+        AM9511_OUT_APU_CONTROL  ; y * y
 
-    pop hl                          ; ret
-    pop de
-    ex (sp),hl                      ; ret back on stack
-    ex de,hl
-    call asm_am9511_pushf_fastcall  ; x
+        pop     hl                              ; ret
+        pop     de
+        ex      (sp), hl                        ; ret back on stack
+        ex      de,   hl
+        call    asm_am9511_pushf_fastcall       ; x
 
-    ld a,__IO_APU_OP_PTOF
-    AM9511_OUT_APU_CONTROL        ; x
+        ld      a, __IO_APU_OP_PTOF
+        AM9511_OUT_APU_CONTROL  ; x
 
-    ld a,__IO_APU_OP_FMUL
-    AM9511_OUT_APU_CONTROL        ; x * x
+        ld      a, __IO_APU_OP_FMUL
+        AM9511_OUT_APU_CONTROL  ; x * x
 
-    ld a,__IO_APU_OP_FADD
-    AM9511_OUT_APU_CONTROL        ; y^2 + x^2
+        ld      a, __IO_APU_OP_FADD
+        AM9511_OUT_APU_CONTROL  ; y^2 + x^2
 
-    ld a,__IO_APU_OP_SQRT
-    AM9511_OUT_APU_CONTROL        ; (y^2 + x^2)^0.5
+        ld      a, __IO_APU_OP_SQRT
+        AM9511_OUT_APU_CONTROL  ; (y^2 + x^2)^0.5
 
-    jp asm_am9511_popf
+        jp      asm_am9511_popf

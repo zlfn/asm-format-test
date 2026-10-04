@@ -10,9 +10,9 @@ EXTERN asm_open
 
 _open:
 
-   push ix
-   
-   call asm_open
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_open
+
+        pop     ix
+        ret

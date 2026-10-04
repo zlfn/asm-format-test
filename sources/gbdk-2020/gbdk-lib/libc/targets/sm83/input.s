@@ -1,4 +1,4 @@
-        .include        "global.s"
+        .include "global.s"
 
         ;; Note that while gets uses a pointer, the pointer had better
         ;; be in non-banked RAM else bad things will happen.
@@ -11,23 +11,23 @@
         .globl  .jpad
         .globl  .padup
 
-        .MINMSPOSX      = 0x02  ; In tiles
-        .MINMSPOSY      = 0x0A
-        .MAXMSPOSX      = 0x11
-        .MAXMSPOSY      = 0x0F
-        .INIMSPOSX      = .MINMSPOSX
-        .INIMSPOSY      = .MINMSPOSY
+        .MINMSPOSX = 0x02       ; In tiles
+        .MINMSPOSY = 0x0A
+        .MAXMSPOSX = 0x11
+        .MAXMSPOSY = 0x0F
+        .INIMSPOSX = .MINMSPOSX
+        .INIMSPOSY = .MINMSPOSY
 
-        .KBDWINPOSY     = 0x08  ; In tiles
-        .KBDSIZE        = 0x1006
+        .KBDWINPOSY = 0x08      ; In tiles
+        .KBDSIZE = 0x1006
 
-        .MSOFFSETX      = 0x0C  ; In pixels
-        .MSOFFSETY      = 0x14
+        .MSOFFSETX = 0x0C       ; In pixels
+        .MSOFFSETY = 0x14
 
-        .MINACCEL       = 0x0800
-        .MAXACCEL       = 0x0100
+        .MINACCEL = 0x0800
+        .MAXACCEL = 0x0100
 
-        .CR     = 0x0A          ; Unix
+        .CR     = 0x0A  ; Unix
 ;       .CR     = 0x0D          ; Dos
 
         .globl  .tmode_out      ; From 'output.s'
@@ -44,147 +44,147 @@
 
         .area   _DATA
 
-.msx:                           ; Mouse position
+.msx:           ; Mouse position
         .ds     0x01
 .msy:
         .ds     0x01
-.msacc:                         ; Mouse acceleration
+.msacc:         ; Mouse acceleration
         .ds     0x02
-.msstate:                       ; Mouse state
+.msstate:       ; Mouse state
         .ds     0x01
-.mschanged:                     ; Did the mouse move?
+.mschanged:     ; Did the mouse move?
         .ds     0x01
-.string_len:                    ; Used length of input buffer
+.string_len:    ; Used length of input buffer
         .ds     0x01
 
         .area   _HOME
 
         ;; Enter text mode with input
 .tmode_inout::
-        DI                      ; Disable interrupts
+        DI      ; Disable interrupts
 
         ;; Turn the screen off
-        LDH     A,(rLCDC)
+        LDH     A, (rLCDC)
         AND     #LCDCF_ON
-        JR      Z,1$
+        JR      Z, 1$
 
         ;; Turn the screen off
         CALL    .display_off
 1$:
 
-        LD      A,(.mode)
+        LD      A, (.mode)
         AND     #.T_MODE
-        CALL    Z,.tmode_out
+        CALL    Z, .tmode_out
 
-        LD      HL,#.tp1
-        LD      DE,#0x8000
-        LD      BC,#.endtp1-.tp1
+        LD      HL, #.tp1
+        LD      DE, #0x8000
+        LD      BC, #.endtp1-.tp1
         CALL    .copy_vram
 
-        LD      A,#<.MINACCEL   ; Acceleration
-        LD      (.msacc),A
-        LD      A,#>.MINACCEL
-        LD      (.msacc+1),A
+        LD      A, #<.MINACCEL  ; Acceleration
+        LD      (.msacc), A
+        LD      A, #>.MINACCEL
+        LD      (.msacc+1), A
 
         ;; Initialize window
-        LD      BC,#.frame_tiles
-        LD      DE,#0x140A              ; 0x140A
-        LD      HL,#0
+        LD      BC, #.frame_tiles
+        LD      DE, #0x140A     ; 0x140A
+        LD      HL, #0
         CALL    set_recoded_win_tiles
 
-        LD      BC,#.kbdtable
-        LD      DE,#.KBDSIZE
-        LD      HL,#(0x20 * 2 + 2)      ; X=2, Y=2
+        LD      BC, #.kbdtable
+        LD      DE, #.KBDSIZE
+        LD      HL, #(0x20 * 2 + 2)     ; X=2, Y=2
         CALL    set_recoded_win_tiles
 
-        LD      A,#.MINWNDPOSX
-        LDH     (.WX),A
-        LD      A,#.MAXWNDPOSY  ; Hide window
-        LDH     (.WY),A
+        LD      A,     #.MINWNDPOSX
+        LDH     (.WX), A
+        LD      A,     #.MAXWNDPOSY     ; Hide window
+        LDH     (.WY), A
 
         XOR     A
         ;; Initialize sprite
-        LD      C,A             ; Sprite 0x00
-        LD      D,A             ; Default sprite properties
+        LD      C, A    ; Sprite 0x00
+        LD      D, A    ; Default sprite properties
         CALL    .set_sprite_prop
         XOR     A
-        LD      C,A             ; Sprite 0x00
-        LD      D,A             ; Tile 0x00
+        LD      C, A    ; Sprite 0x00
+        LD      D, A    ; Tile 0x00
         CALL    .set_sprite_tile
-        LD      A,#0b00101100
-        LDH     (.OBP0),A
+        LD      A, #0b00101100
+        LDH     (.OBP0), A
 
         ;; Turn the screen on
-        LD      A,#(LCDCF_ON | LCDCF_WIN9C00 | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800 | LCDCF_OBJ8 | LCDCF_OBJOFF | LCDCF_BGON)
-        LDH     (rLCDC),A
+        LD      A, #(LCDCF_ON | LCDCF_WIN9C00 | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800 | LCDCF_OBJ8 | LCDCF_OBJOFF | LCDCF_BGON)
+        LDH     (rLCDC), A
 
-        LD      A,#.T_MODE_INOUT
-        LD      (.mode),A
+        LD      A, #.T_MODE_INOUT
+        LD      (.mode), A
 
-        EI                      ; Enable interrupts
+        EI      ; Enable interrupts
 
         RET
 
 set_recoded_win_tiles::
-        LDH     A,(rLCDC)
+        LDH     A, (rLCDC)
         AND     #LCDCF_WIN9C00
-        JR      Z,2$
-        LD      A,#0x9C
+        JR      Z, 2$
+        LD      A, #0x9C
         JR      3$
 2$:
-        LD      A,#0x98
+        LD      A, #0x98
 3$:
         ADD     H
-        LD      H,A
+        LD      H, A
         PUSH    DE
         PUSH    HL
 4$:
-        LD      A,(BC)
+        LD      A, (BC)
         INC     BC
         PUSH    BC
         PUSH    HL
 
-        LD      C,A
-        LD      HL,#(font_current+1)    ; font_current+sfont_handle_font
-        LD      A,(HL+)
-        LD      H,(HL)
-        LD      L,A
-        LD      A,(HL+)
+        LD      C,  A
+        LD      HL, #(font_current+1)   ; font_current+sfont_handle_font
+        LD      A,  (HL+)
+        LD      H,  (HL)
+        LD      L,  A
+        LD      A,  (HL+)
         AND     #3
         CP      #2                      ; FONT_NOENCODING
-        JR      Z,5$
+        JR      Z, 5$
         INC     HL
-        LD      B,#0
-        ADD     HL,BC
-        LD      C,(HL)
+        LD      B,  #0
+        ADD     HL, BC
+        LD      C,  (HL)
 5$:
         POP     HL
 
         WAIT_STAT
-        LD      A,C
-        LD      (HL+),A
+        LD      A,     C
+        LD      (HL+), A
 
         POP     BC
 
         DEC     D
-        JR      NZ,4$
+        JR      NZ, 4$
 
         POP     HL
         POP     DE
 
-        LD      A,L
+        LD      A, L
         ADD     #0x20
-        LD      L,A
+        LD      L, A
         ADC     H
         SUB     L
-        LD      H,A
+        LD      H, A
         DEC     E
 
         PUSH    DE
         PUSH    HL
-        JR      NZ,4$
+        JR      NZ, 4$
 
-        ADD     SP,#4
+        ADD     SP, #4
         RET
 
         ;; Prompt the user for a char and return it in A
@@ -198,33 +198,33 @@ set_recoded_win_tiles::
         CALL    .track_mouse
         CALL    .update_mouse
         CALL    .jpad
-        LD      D,A
-        AND     #.A             ; Is A pressed ?
-        JP      Z,1$
+        LD      D, A
+        AND     #.A     ; Is A pressed ?
+        JP      Z, 1$
 
-        LD      A,(.msy)        ; Look for char under the mouse
+        LD      A, (.msy)       ; Look for char under the mouse
         SUB     #.MINMSPOSY
-        JR      Z,12$
-        LD      E,A
+        JR      Z, 12$
+        LD      E, A
         XOR     A
 11$:
         ADD     #.MAXMSPOSX-.MINMSPOSX+1
         DEC     E
-        JR      NZ,11$
+        JR      NZ, 11$
 12$:
-        LD      E,A
-        LD      A,(.msx)
+        LD      E, A
+        LD      A, (.msx)
         SUB     #.MINMSPOSX
         ADD     E
-        LD      HL,#.kbdtable
-        LD      B,#0x00
-        LD      C,A
-        ADD     HL,BC
-        LD      B,(HL)
+        LD      HL, #.kbdtable
+        LD      B,  #0x00
+        LD      C,  A
+        ADD     HL, BC
+        LD      B,  (HL)
 
         CALL    .hide_mouse
         CALL    .hide_kbd
-        LD      A,B
+        LD      A, B
 
         POP     HL
         POP     DE
@@ -240,28 +240,28 @@ set_recoded_win_tiles::
         CALL    .show_bkg
         CALL    .show_mouse
         XOR     A
-        LD      (.string_len),A
+        LD      (.string_len), A
 1$:
         CALL    .track_mouse
         CALL    .update_mouse
         CALL    .jpad
-        LD      D,A
+        LD      D, A
         AND     #.A             ; Is A pressed ?
-        JP      NZ,10$
-        LD      A,D
+        JP      NZ, 10$
+        LD      A,  D
         AND     #.B             ; Is B pressed ?
-        JP      NZ,20$
-        LD      A,D
+        JP      NZ, 20$
+        LD      A,  D
         AND     #.SELECT        ; Is SELECT pressed ?
-        JP      NZ,30$
-        LD      A,D
+        JP      NZ, 30$
+        LD      A,  D
         AND     #.START         ; Is START pressed ?
-        JR      Z,1$
+        JR      Z, 1$
         CALL    .padup          ; Wait for button to be depressed
 
-        LD      A,#.CR
+        LD      A, #.CR
         CALL    .put_char
-        LD      (HL),#0x00
+        LD      (HL), #0x00
         CALL    .hide_mouse
         CALL    .hide_bkg
         CALL    .hide_kbd
@@ -272,57 +272,57 @@ set_recoded_win_tiles::
 
 10$:
         ;; Insert a character at cursor position
-        LD      A,(.string_len) ; Check buffer length
+        LD      A, (.string_len)        ; Check buffer length
 ;       CP      #.BUFLEN-1      ; Keep 1 char for EOS
 ;       JR      Z,13$
         INC     A
-        LD      (.string_len),A ; Update it
-        LD      A,(.msy)        ; Look for char under the mouse
+        LD      (.string_len), A        ; Update it
+        LD      A, (.msy)               ; Look for char under the mouse
         SUB     #.MINMSPOSY
-        JR      Z,12$
-        LD      E,A
+        JR      Z, 12$
+        LD      E, A
         XOR     A
 11$:
         ADD     #.MAXMSPOSX-.MINMSPOSX+1
         DEC     E
-        JR      NZ,11$
+        JR      NZ, 11$
 12$:
-        LD      E,A
-        LD      A,(.msx)
+        LD      E, A
+        LD      A, (.msx)
         SUB     #.MINMSPOSX
         ADD     E
         PUSH    HL
-        LD      HL,#.kbdtable
-        LD      B,#0x00
-        LD      C,A
-        ADD     HL,BC
-        LD      A,(HL)
+        LD      HL, #.kbdtable
+        LD      B,  #0x00
+        LD      C,  A
+        ADD     HL, BC
+        LD      A,  (HL)
         POP     HL
-        LD      (HL+),A         ; Add it into input buffer
-        CALL    .put_char       ; Print it
-        CALL    .show_bkg       ; Ensure the text is not hidden
+        LD      (HL+), A                ; Add it into input buffer
+        CALL    .put_char               ; Print it
+        CALL    .show_bkg               ; Ensure the text is not hidden
 13$:
-        CALL    .padup          ; Wait for button to be depressed
+        CALL    .padup                  ; Wait for button to be depressed
         JP      1$
 
 20$:
         ;; Delete a character at cursor position
-        LD      A,(.string_len) ; Is there any char in the buffer ?
+        LD      A, (.string_len)        ; Is there any char in the buffer ?
         OR      A
-        JR      Z,21$
-        DEC     A               ; Yes
-        LD      (.string_len),A ; Update buffer length
+        JR      Z, 21$
+        DEC     A                       ; Yes
+        LD      (.string_len), A        ; Update buffer length
         DEC     HL
         CALL    .del_char
 21$:
-        CALL    .padup          ; Wait for button to be depressed
+        CALL    .padup                  ; Wait for button to be depressed
         JP      1$
 
 30$:
         CALL    .hide_mouse
         CALL    .hide_bkg
         CALL    .hide_kbd
-        CALL    .padup          ; Wait for button to be depressed
+        CALL    .padup  ; Wait for button to be depressed
         CALL    .show_kbd
         CALL    .show_bkg
         CALL    .show_mouse
@@ -331,20 +331,20 @@ set_recoded_win_tiles::
 .show_kbd:
         PUSH    BC
         PUSH    DE
-        LDH     A,(rLCDC)
+        LDH     A, (rLCDC)
         OR      #LCDCF_WINON    ; Window = On
-        LDH     (rLCDC),A
-        LD      A,#.MAXWNDPOSY  ; Show window
+        LDH     (rLCDC), A
+        LD      A, #.MAXWNDPOSY ; Show window
 1$:
-        BIT     0,A             ; Wait for VBL every 2 pixels (slow down)
-        JR      NZ,2$
-        LD      B,A
+        BIT     0,  A           ; Wait for VBL every 2 pixels (slow down)
+        JR      NZ, 2$
+        LD      B,  A
         CALL    .wait_vbl_done
-        LD      A,B
+        LD      A, B
 2$:
-        LDH     (.WY),A
+        LDH     (.WY), A
         CP      #.KBDWINPOSY*0x08
-        JR      Z,99$
+        JR      Z, 99$
         DEC     A
         JR      1$
 99$:
@@ -355,23 +355,23 @@ set_recoded_win_tiles::
 .hide_kbd:
         PUSH    BC
         PUSH    DE
-        LD      A,#.KBDWINPOSY*0x08+1
+        LD      A, #.KBDWINPOSY*0x08+1
 1$:                             ; Hide window
-        BIT     0,A             ; Wait for VBL every 2 pixels (slow down)
-        JR      Z,2$
-        LD      B,A
+        BIT     0, A            ; Wait for VBL every 2 pixels (slow down)
+        JR      Z, 2$
+        LD      B, A
         CALL    .wait_vbl_done
-        LD      A,B
+        LD      A, B
 2$:
-        LDH     (.WY),A
+        LDH     (.WY), A
         CP      #.MAXWNDPOSY
-        JR      Z,3$
+        JR      Z, 3$
         INC     A
         JR      1$
 3$:
-        LDH     A,(rLCDC)
+        LDH     A, (rLCDC)
         AND     #~LCDCF_WINON   ; Window = Off
-        LDH     (rLCDC),A
+        LDH     (rLCDC), A
         POP     DE
         POP     BC
         RET
@@ -379,31 +379,31 @@ set_recoded_win_tiles::
 .show_bkg:
         PUSH    BC
         PUSH    DE
-        LDH     A,(rSCY)
-        LD      D,A
-        LD      A,(.cury)
+        LDH     A, (rSCY)
+        LD      D, A
+        LD      A, (.cury)
         SUB     #.KBDWINPOSY-1
-        JR      C,99$
-        JR      Z,99$
-        SLA     A               ; A = A * 8
+        JR      C, 99$
+        JR      Z, 99$
+        SLA     A       ; A = A * 8
         SLA     A
         SLA     A
         SUB     D
-        JR      C,99$
-        JR      Z,99$
-        LD      C,A
-        LDH     A,(rSCY)
+        JR      C, 99$
+        JR      Z, 99$
+        LD      C, A
+        LDH     A, (rSCY)
 1$:
-        BIT     0,A             ; Wait for VBL every 2 pixels (slow down)
-        JR      Z,2$
-        LD      B,A
+        BIT     0, A    ; Wait for VBL every 2 pixels (slow down)
+        JR      Z, 2$
+        LD      B, A
         CALL    .wait_vbl_done
-        LD      A,B
+        LD      A, B
 2$:
         INC     A
-        LDH     (rSCY),A
+        LDH     (rSCY), A
         DEC     C
-        JR      Z,99$
+        JR      Z, 99$
         JR      1$
 99$:
         POP     DE
@@ -411,21 +411,21 @@ set_recoded_win_tiles::
         RET
 
 .hide_bkg:
-        LDH     A,(rSCY)
+        LDH     A, (rSCY)
         OR      A
         RET     Z
         PUSH    BC
         PUSH    DE
 1$:
-        BIT     0,A             ; Wait for VBL every 2 pixels (slow down)
-        JR      Z,2$
-        LD      B,A
+        BIT     0, A    ; Wait for VBL every 2 pixels (slow down)
+        JR      Z, 2$
+        LD      B, A
         CALL    .wait_vbl_done
-        LD      A,B
+        LD      A, B
 2$:
         DEC     A
-        LDH     (rSCY),A
-        JR      Z,99$
+        LDH     (rSCY), A
+        JR      Z, 99$
         JR      1$
 99$:
         POP     DE
@@ -433,20 +433,20 @@ set_recoded_win_tiles::
         RET
 
 .show_mouse:
-        LD      A,#.INIMSPOSX
-        LD      (.msx),A
-        LD      A,#.INIMSPOSY
-        LD      (.msy),A
+        LD      A, #.INIMSPOSX
+        LD      (.msx), A
+        LD      A, #.INIMSPOSY
+        LD      (.msy), A
         CALL    .set_mouse
-        LDH     A,(rLCDC)
+        LDH     A, (rLCDC)
         OR      #LCDCF_OBJON    ; OBJ = On
-        LDH     (rLCDC),A
+        LDH     (rLCDC), A
         RET
 
 .hide_mouse:
-        LDH     A,(rLCDC)
+        LDH     A, (rLCDC)
         AND     #~LCDCF_OBJON   ; OBJ = Off
-        LDH     (rLCDC),A
+        LDH     (rLCDC), A
         RET
 
 .track_mouse:
@@ -454,96 +454,96 @@ set_recoded_win_tiles::
         PUSH    DE
         PUSH    HL
         XOR     A
-        LD      (.mschanged),A  ; Default to no change
+        LD      (.mschanged), A ; Default to no change
         CALL    .jpad
-        LD      D,A
+        LD      D, A
 
-        LD      HL,#.msstate
+        LD      HL, #.msstate
         AND     #.UP+.DOWN+.LEFT+.RIGHT
-        JR      NZ,1$
-        LD      (HL),#0x00      ; Reset state
+        JR      NZ,   1$
+        LD      (HL), #0x00     ; Reset state
         JP      99$
 1$:
-        LD      A,(HL)
-        LD      (HL),#0x01      ; Set state
+        LD      A,    (HL)
+        LD      (HL), #0x01     ; Set state
         OR      A               ; Was it 0 ?
-        LD      HL,#.msacc      ; Acceleration
-        JR      NZ,2$
-                                ; Yes
-        LD      (HL),#<.MINACCEL
+        LD      HL, #.msacc     ; Acceleration
+        JR      NZ, 2$
+        ; Yes
+        LD      (HL), #<.MINACCEL
         INC     HL
-        LD      (HL),#>.MINACCEL
-        JR      4$              ; Update position
+        LD      (HL), #>.MINACCEL
+        JR      4$      ; Update position
 2$:
-        LD      A,(HL+)
+        LD      A, (HL+)
         LD      C, A
-        LD      B,(HL)
+        LD      B, (HL)
         DEC     BC
-        LD      A,B
+        LD      A, B
         OR      C
-        JR      Z,3$
-        LD      (HL),B
+        JR      Z,    3$
+        LD      (HL), B
         DEC     HL
-        LD      (HL),C
+        LD      (HL), C
         JP      99$
-3$:                             ; Set new acceleration to maximum
-        LD      (HL),#>.MAXACCEL
+3$:                     ; Set new acceleration to maximum
+        LD      (HL), #>.MAXACCEL
         DEC     HL
-        LD      (HL),#<.MAXACCEL
-4$:                             ; Update position
-        LD      A,#0x01
-        LD      (.mschanged),A
-        LD      A,D
-        AND     #.UP            ; Is UP pressed ?
-        JR      Z,6$
-        LD      A,(.msy)
+        LD      (HL), #<.MAXACCEL
+4$:                     ; Update position
+        LD      A, #0x01
+        LD      (.mschanged), A
+        LD      A, D
+        AND     #.UP    ; Is UP pressed ?
+        JR      Z, 6$
+        LD      A, (.msy)
         CP      #.MINMSPOSY
-        JR      Z,5$
+        JR      Z, 5$
         DEC     A
-        LD      (.msy),A
+        LD      (.msy), A
         JR      6$
 5$:
-        LD      A,#.MAXMSPOSY
-        LD      (.msy),A
+        LD      A, #.MAXMSPOSY
+        LD      (.msy), A
 6$:
-        LD      A,D
-        AND     #.DOWN          ; Is DOWN pressed ?
-        JR      Z,8$
-        LD      A,(.msy)
+        LD      A, D
+        AND     #.DOWN  ; Is DOWN pressed ?
+        JR      Z, 8$
+        LD      A, (.msy)
         CP      #.MAXMSPOSY
-        JR      Z,7$
+        JR      Z, 7$
         INC     A
-        LD      (.msy),A
+        LD      (.msy), A
         JR      8$
 7$:
-        LD      A,#.MINMSPOSY
-        LD      (.msy),A
+        LD      A, #.MINMSPOSY
+        LD      (.msy), A
 8$:
-        LD      A,D
-        AND     #.LEFT          ; Is LEFT pressed ?
-        JR      Z,10$
-        LD      A,(.msx)
+        LD      A, D
+        AND     #.LEFT  ; Is LEFT pressed ?
+        JR      Z, 10$
+        LD      A, (.msx)
         CP      #.MINMSPOSX
-        JR      Z,9$
+        JR      Z, 9$
         DEC     A
-        LD      (.msx),A
+        LD      (.msx), A
         JR      10$
 9$:
-        LD      A,#.MAXMSPOSX
-        LD      (.msx),A
+        LD      A, #.MAXMSPOSX
+        LD      (.msx), A
 10$:
-        LD      A,D
-        AND     #.RIGHT         ; Is RIGHT pressed ?
-        JR      Z,99$
-        LD      A,(.msx)
+        LD      A, D
+        AND     #.RIGHT ; Is RIGHT pressed ?
+        JR      Z, 99$
+        LD      A, (.msx)
         CP      #.MAXMSPOSX
-        JR      Z,11$
+        JR      Z, 11$
         INC     A
-        LD      (.msx),A
+        LD      (.msx), A
         JR      99$
 11$:
-        LD      A,#.MINMSPOSX
-        LD      (.msx),A
+        LD      A, #.MINMSPOSX
+        LD      (.msx), A
 99$:
         POP     HL
         POP     DE
@@ -551,26 +551,26 @@ set_recoded_win_tiles::
         RET
 
 .update_mouse:
-        LD      A,(.mschanged)  ; Did it change ?
+        LD      A, (.mschanged) ; Did it change ?
         OR      A
         RET     Z               ; No
 .set_mouse:
         PUSH    BC
         PUSH    DE
         PUSH    HL
-        LD      C,#0x00         ; Sprite 0x00
-        LD      A,(.msx)
+        LD      C, #0x00        ; Sprite 0x00
+        LD      A, (.msx)
         SLA     A               ; A = A * 8
         SLA     A
         SLA     A
         ADD     #.MSOFFSETX
-        LD      D,A
-        LD      A,(.msy)
+        LD      D, A
+        LD      A, (.msy)
         SLA     A               ; A = A * 8
         SLA     A
         SLA     A
         ADD     #.MSOFFSETY
-        LD      E,A
+        LD      E, A
         CALL    .mv_sprite
         POP     HL
         POP     DE
@@ -578,29 +578,29 @@ set_recoded_win_tiles::
         RET
 
 _getchar::
-        LD      A,(.mode)
+        LD      A, (.mode)
         CP      #.T_MODE_INOUT
-        JR      Z,1$
+        JR      Z, 1$
         PUSH    BC
         CALL    .tmode_inout
         POP     BC
 1$:
         CALL    .get_char
-        LD      E,A
+        LD      E, A
         RET
 
 _gets::
-        LD      A,(.mode)
+        LD      A, (.mode)
         CP      #.T_MODE_INOUT
-        JR      Z,1$
+        JR      Z, 1$
         PUSH    BC
         CALL    .tmode_inout
         POP     BC
 1$:
-        LDA     HL,2(SP)        ; Skip return address
-        LD      A,(HL+)
-        LD      H,(HL)          ; HL = s
-        LD      L,A
+        LDA     HL, 2(SP)       ; Skip return address
+        LD      A,  (HL+)
+        LD      H,  (HL)        ; HL = s
+        LD      L,  A
         PUSH    HL
         CALL    .get_string
         POP     DE
@@ -611,25 +611,25 @@ _gets::
 .pointers:
 
         ; Tile 0x00
-        .byte   0xFF,0xFF,0xFE,0x82,0xFC,0x84,0xFC,0x84,0xFE,0x82,0xFF,0xB1,0xCF,0xC9,0x87,0x87
+        .byte   0xFF, 0xFF, 0xFE, 0x82, 0xFC, 0x84, 0xFC, 0x84, 0xFE, 0x82, 0xFF, 0xB1, 0xCF, 0xC9, 0x87, 0x87
 
 .endtp1:
 
 .frame_tiles:
-        .byte   0x1C,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x1D
-        .byte   0x0F,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x0F
-        .byte   0x0F,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x0F
-        .byte   0x0F,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x0F
-        .byte   0x0F,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x0F
-        .byte   0x0F,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x0F
-        .byte   0x0F,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x0F
-        .byte   0x0F,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x0F
-        .byte   0x0F,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x0F
-        .byte   0x1E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x1F
+        .byte   0x1C, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x1D
+        .byte   0x0F, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x0F
+        .byte   0x0F, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x0F
+        .byte   0x0F, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x0F
+        .byte   0x0F, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x0F
+        .byte   0x0F, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x0F
+        .byte   0x0F, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x0F
+        .byte   0x0F, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x0F
+        .byte   0x0F, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x0F
+        .byte   0x1E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x1F
 
 .kbdtable:
-        .db     0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27
-        .db     0x28,0x29,0x2A,0x2B,0x2C,0x2D,0x2E,0x2F
+        .db     0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27
+        .db     0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
         .ascii  "0123456789:"
         .db     0x3B
         .ascii  "<=>?"

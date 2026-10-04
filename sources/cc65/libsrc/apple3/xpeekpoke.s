@@ -5,12 +5,11 @@
 ; void __fastcall__ xpoke (unsigned char xbyte, unsigned int addr, unsigned char val);
 ;
 
+        .export _xpeek,  _xpoke
+        .import popptr1, popa
 
-        .export         _xpeek, _xpoke
-        .import         popptr1, popa
-
-        .include        "zeropage.inc"
-        .include        "apple3.inc"
+        .include "zeropage.inc"
+        .include "apple3.inc"
 
 _xpeek:
         sta     ptr1            ; set address
@@ -18,7 +17,7 @@ _xpeek:
         jsr     popa            ; get xbyte
         sta     ptr1+INTEXTPG   ; set interp ext page xbyte
         ldy     #0
-        lda     (ptr1),Y        ; read value using extended addressing
+        lda     (ptr1), Y       ; read value using extended addressing
         sty     ptr1+INTEXTPG   ; disable extended addressing
         ldx     #>$0000
         rts
@@ -30,6 +29,6 @@ _xpoke:
         sta     ptr1+INTEXTPG   ; set interp ext page xbyte
         ldy     #0
         pla
-        sta     (ptr1),Y
+        sta     (ptr1), Y
         sty     ptr1+INTEXTPG   ; disable extended addressing
         rts

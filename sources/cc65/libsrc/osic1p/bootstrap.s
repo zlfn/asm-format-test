@@ -7,9 +7,9 @@
 ; will import this symbol name; and, link this module at the front
 ; of your program file.
 
-        .export         __BOOT__ : abs = 1
+        .export __BOOT__ : abs = 1
 
-        .import         __MAIN_START__, __MAIN_SIZE__, __BSS_RUN__
+        .import __MAIN_START__, __MAIN_SIZE__, __BSS_RUN__
 
 ; ------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ load_addr       :=      __MAIN_START__
 load_size       =       __BSS_RUN__ - __MAIN_START__
 ram_top         :=      __MAIN_START__ + __MAIN_SIZE__
 
-        .segment        "BOOT"
+        .segment "BOOT"
 
 ; If you want to change how this bootstrap loader works, then:
 ; 1. edit this assembly source code,
@@ -34,7 +34,7 @@ ram_top         :=      __MAIN_START__ + __MAIN_SIZE__
 
 .ifdef ASM
 
-        .include        "screen-c1p-24x24.s"
+        .include "screen-c1p-24x24.s"
 
 load            :=      $08             ; private variables
 count           :=      $0A
@@ -53,14 +53,14 @@ LINEDIST        =       $20             ; Offset in video RAM between two lines
         ldx     #(<load_size) + 1
         stx     count
         ldx     #(>load_size) + 1
-        stx     count+1                 ; save size with each byte incremented separately
+        stx     count+1 ; save size with each byte incremented separately
 
 L1:     dec     count
         bne     L2
         dec     count+1
         beq     L3
-L2:     jsr     GETCHAR                 ; (doesn't change .Y)
-        sta     (load),y
+L2:     jsr     GETCHAR ; (doesn't change .Y)
+        sta     (load), y
 
 ; Show that the file is being loaded by rotating an arrow on the screen.
 ;
@@ -68,20 +68,20 @@ L2:     jsr     GETCHAR                 ; (doesn't change .Y)
         lsr     a
         lsr     a
         and     #8 - 1
-        ora     #$10                    ; eight arrow characters
+        ora     #$10    ; eight arrow characters
         sta     C1P_SCR_BASE + FIRSTVISC + 2 * LINEDIST + 11
 
         iny
         bne     L1
         inc     load+1
-        bne     L1                      ; branch always
+        bne     L1      ; branch always
 
 L3:     jmp     load_addr
 
 .else
 
 .mac    hex1    h
-        .lobytes        ((h) & $0F) + (((h) & $0F) > 9) * 7 + '0'
+        .lobytes ((h) & $0F) + (((h) & $0F) > 9) * 7 + '0'
 .endmac
 
 .mac    hex2    h
@@ -97,9 +97,9 @@ L3:     jmp     load_addr
 CR      =       $0D
 
         .byte   CR, CR
-        .byte   "."                     ; set an address
-        hex4    ram_top                 ; put loader where stack will sit
-        .byte   "/"                     ; write bytes into RAM
+        .byte   "."     ; set an address
+        hex4    ram_top ; put loader where stack will sit
+        .byte   "/"     ; write bytes into RAM
 
 ; ASCII-coded hexadecimal translation of the above assembly code.
 ; It was copied from the assembler listing.
@@ -109,20 +109,20 @@ CR      =       $0D
         hex2    <load_addr
         .byte   CR, "A2", CR
         hex2    >load_addr
-        .byte   CR, "85", CR, "08", CR
-        .byte   "86", CR, "09", CR
+        .byte   CR,   "85", CR,   "08", CR
+        .byte   "86", CR,   "09", CR
         .byte   "A2", CR
         hex2    (<load_size) + 1
-        .byte   CR, "86", CR, "0A", CR
+        .byte   CR,   "86", CR, "0A", CR
         .byte   "A2", CR
         hex2    (>load_size) + 1
-        .byte   CR, "86", CR, "0B", CR
-        .byte   "C6", CR, "0A", CR
-        .byte   "D0", CR, "04", CR
-        .byte   "C6", CR, "0B", CR
-        .byte   "F0", CR, "16", CR
-        .byte   "20", CR, "BF", CR, "FF", CR
-        .byte   "91", CR, "08", CR
+        .byte   CR,   "86", CR,   "0B", CR
+        .byte   "C6", CR,   "0A", CR
+        .byte   "D0", CR,   "04", CR
+        .byte   "C6", CR,   "0B", CR
+        .byte   "F0", CR,   "16", CR
+        .byte   "20", CR,   "BF", CR,   "FF", CR
+        .byte   "91", CR,   "08", CR
 
         .byte   "98", CR
         .byte   "4A", CR
@@ -143,6 +143,6 @@ CR      =       $0D
 
         .byte   CR, "."
         hex4    ram_top
-        .byte   "G"                     ; go to address
+        .byte   "G"     ; go to address
 
 .endif

@@ -10,10 +10,10 @@ EXTERN asm_wa_priority_queue_capacity
 
 _wa_priority_queue_capacity:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_wa_priority_queue_capacity
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_wa_priority_queue_capacity

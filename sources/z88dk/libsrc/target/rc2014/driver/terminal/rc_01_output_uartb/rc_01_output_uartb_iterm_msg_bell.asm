@@ -7,9 +7,9 @@ EXTERN rc_01_output_uartb_oterm_msg_bell_0
 
 rc_01_output_uartb_iterm_msg_bell:
 
-   ;   can use:  af, bc, de, hl
+        ;   can use:  af, bc, de, hl
 
-   bit 1,(ix+7)
-   ret z                       ; if signal bell is disabled
+        bit     1, (ix+7)
+        ret     z       ; if signal bell is disabled
 
-   jp rc_01_output_uartb_oterm_msg_bell_0
+        jp      rc_01_output_uartb_oterm_msg_bell_0

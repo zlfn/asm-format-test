@@ -16,12 +16,12 @@ EXTERN asm_aligned_alloc
 
 aligned_alloc_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_aligned_alloc
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_aligned_alloc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

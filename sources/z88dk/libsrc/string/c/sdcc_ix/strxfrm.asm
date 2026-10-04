@@ -10,14 +10,14 @@ EXTERN asm_strxfrm
 
 _strxfrm:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push af
-   
-   jp asm_strxfrm
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_strxfrm

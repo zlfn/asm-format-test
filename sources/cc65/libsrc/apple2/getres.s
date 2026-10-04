@@ -4,13 +4,13 @@
 ; int __fastcall__ clock_getres (clockid_t clk_id, struct timespec *res);
 ;
 
-        .import         __dos_type
-        .import         incsp1, return0
+        .import __dos_type
+        .import incsp1, return0
 
-        .include        "time.inc"
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "mli.inc"
+        .include "time.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "mli.inc"
 
 _clock_getres:
         sta     ptr1
@@ -40,8 +40,8 @@ _clock_getres:
 :       stx     ptr2
         sty     ptr2+1
         ldy     #.sizeof(timespec)-1
-:       lda     (ptr2),y
-        sta     (ptr1),y
+:       lda     (ptr2), y
+        sta     (ptr1), y
         dey
         bpl     :-
 
@@ -56,8 +56,8 @@ enosys: lda     #ENOSYS
 
         .rodata
 
-min_res:.dword  60
+min_res: .dword 60
         .dword  0
 
-day_res:.dword  60 * 60 * 24
+day_res: .dword 60 * 60 * 24
         .dword  0

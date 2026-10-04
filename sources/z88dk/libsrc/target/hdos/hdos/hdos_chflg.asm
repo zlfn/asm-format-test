@@ -7,13 +7,13 @@
 ;   $Id: hdos_chflg.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  hdos_chflg
-    PUBLIC  _hdos_chflg
+        SECTION code_clib
+        PUBLIC  hdos_chflg
+        PUBLIC  _hdos_chflg
 
-    EXTERN    asm_hdos_chflg
+        EXTERN  asm_hdos_chflg
 
-    INCLUDE "target/hdos/def/hdos.def"
+        INCLUDE "target/hdos/def/hdos.def"
 
 hdos_chflg:
 _hdos_chflg:

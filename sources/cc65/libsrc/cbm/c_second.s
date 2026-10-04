@@ -4,8 +4,8 @@
 ; void __fastcall__ cbm_k_second (unsigned char addr)
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_k_second
+        .export _cbm_k_second
 
 _cbm_k_second = SECOND

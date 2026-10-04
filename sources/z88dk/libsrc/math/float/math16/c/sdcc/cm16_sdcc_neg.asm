@@ -7,5 +7,5 @@ EXTERN cm16_sdcc_read1
 EXTERN asm_f16_neg
 
 .cm16_sdcc_neg
-    call cm16_sdcc_read1
-    jp asm_f16_neg
+        call    cm16_sdcc_read1
+        jp      asm_f16_neg

@@ -10,14 +10,14 @@ EXTERN asm_obstack_copy
 
 _obstack_copy:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
 
-   jp asm_obstack_copy
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_obstack_copy

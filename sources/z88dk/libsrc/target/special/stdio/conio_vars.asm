@@ -1,12 +1,10 @@
 
+        SECTION data_clib
 
-    SECTION data_clib
-
-    PUBLIC  __special_attr
-    PUBLIC  __specialmx_attr
-
+        PUBLIC  __special_attr
+        PUBLIC  __specialmx_attr
 
 __special_attr:
-    defb    0
+        defb    0
 __specialmx_attr:
-    defb    $f0
+        defb    $f0

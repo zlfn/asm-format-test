@@ -25,34 +25,34 @@
 ; ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ; POSSIBILITY OF SUCH DAMAGE.
 
-    INCLUDE "config_private.inc"
+        INCLUDE "config_private.inc"
 
-    SECTION code_driver
-    
-    PUBLIC    asm_clock_settime
-    
-    EXTERN  __system_time_fraction, __system_time
-    
-    ; HL contains address of struct timespec
-    ;   struct  timespec { time_t      tv_sec;     /* seconds */
-    ;                   nseconds_t  tv_nsec;}   /* and nanoseconds */
+        SECTION code_driver
+
+        PUBLIC  asm_clock_settime
+
+        EXTERN  __system_time_fraction, __system_time
+
+        ; HL contains address of struct timespec
+        ;   struct  timespec { time_t      tv_sec;     /* seconds */
+        ;                   nseconds_t  tv_nsec;}   /* and nanoseconds */
 
 .asm_clock_settime
-    ld de,__system_time
+        ld      de, __system_time
 
-    ld a,i
-    push af                         ; preserve interrupt status
-    di
+        ld      a, i
+        push    af      ; preserve interrupt status
+        di
 
-    ldi                             ; (__system_time) = timespec.tv_sec
-    ldi
-    ldi
-    ldi
-    ld hl,__system_time_fraction
-    ld (hl),0                       ; (__system_time_fraction) = 0
-    ld hl,0                         ; return null
+        ldi             ; (__system_time) = timespec.tv_sec
+        ldi
+        ldi
+        ldi
+        ld      hl,   __system_time_fraction
+        ld      (hl), 0 ; (__system_time_fraction) = 0
+        ld      hl,   0 ; return null
 
-    pop af                          ; restore interrupts
-    ret PO                          ; return if di
-    ei
-    ret
+        pop     af      ; restore interrupts
+        ret     PO      ; return if di
+        ei
+        ret

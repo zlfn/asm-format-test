@@ -4,17 +4,15 @@
 ; SETLFS replacement function for the PETs
 ;
 
-        .export         SETLFS
+        .export SETLFS
 
-        .include        "pet.inc"
-
+        .include "pet.inc"
 
 .proc   SETLFS
 
-        sta     LFN             ; LFN
-        stx     DEVNUM          ; Device address
-        sty     SECADR          ; Secondary address
+        sta     LFN     ; LFN
+        stx     DEVNUM  ; Device address
+        sty     SECADR  ; Secondary address
         rts
 
 .endproc
-

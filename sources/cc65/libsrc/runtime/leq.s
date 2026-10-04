@@ -4,12 +4,9 @@
 ; CC65 runtime: long equal
 ;
 
-        .export         toseqeax
-        .import         toslcmp, booleq
+        .export toseqeax
+        .import toslcmp, booleq
 
 toseqeax:
-        jsr     toslcmp         ; Set flags
-        jmp     booleq          ; Convert to boolean
-
-
-
+        jsr     toslcmp ; Set flags
+        jmp     booleq  ; Convert to boolean

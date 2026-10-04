@@ -13,7 +13,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT64
@@ -25,13 +25,12 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMathDivU64x32)
 ASM_PFX(InternalMathDivU64x32):
-    mov     eax, [esp + 8]
-    mov     ecx, [esp + 12]
-    xor     edx, edx
-    div     ecx
-    push    eax                     ; save quotient on stack
-    mov     eax, [esp + 8]
-    div     ecx
-    pop     edx                     ; restore high-order dword of the quotient
-    ret
-
+        mov     eax, [esp + 8]
+        mov     ecx, [esp + 12]
+        xor     edx, edx
+        div     ecx
+        push    eax     ; save quotient on stack
+        mov     eax, [esp + 8]
+        div     ecx
+        pop     edx     ; restore high-order dword of the quotient
+        ret

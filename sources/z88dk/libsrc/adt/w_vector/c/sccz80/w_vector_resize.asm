@@ -10,19 +10,18 @@ EXTERN asm_w_vector_resize
 
 w_vector_resize:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp asm_w_vector_resize
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_w_vector_resize
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _w_vector_resize
 defc _w_vector_resize = w_vector_resize
 ENDIF
-

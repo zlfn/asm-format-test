@@ -1,10 +1,10 @@
 ; uint in_LookupKey(uchar c)
 ; 06.2018 suborb
 
-    SECTION code_clib
-    PUBLIC  in_LookupKey
-    PUBLIC  _in_LookupKey
-    EXTERN  in_keytranstbl
+        SECTION code_clib
+        PUBLIC  in_LookupKey
+        PUBLIC  _in_LookupKey
+        EXTERN  in_keytranstbl
 
 ; Given the ascii code of a character, returns the scan row and mask
 ; corresponding to the key that needs to be pressed to generate the
@@ -27,51 +27,51 @@
 
 in_LookupKey:
 _in_LookupKey:
-    ld      a, l
-    ld      hl, in_keytranstbl
-    ld      bc, 96*3
-    cpir
-    jr      nz, notfound
+        ld      a,  l
+        ld      hl, in_keytranstbl
+        ld      bc, 96*3
+        cpir
+        jr      nz, notfound
 
-	; Try and find the position with the table here
-    ld      de, 0                       ; Out resulting flags
-    ld      hl, 96*3-1
-    and     a
-    sbc     hl, bc                      ; hl = position within table
-    ld      bc, 96
-    and     a
-    sbc     hl, bc
-    jr      c, got_table
-	; Now try shifted
-    set     7, e
-    and     a
-    sbc     hl, bc
-    jr      c, got_table
-	; It must be control
-    res     7, e
-    set     6, e
-    and     a
-    sbc     hl, de
+        ; Try and find the position with the table here
+        ld      de, 0   ; Out resulting flags
+        ld      hl, 96*3-1
+        and     a
+        sbc     hl, bc  ; hl = position within table
+        ld      bc, 96
+        and     a
+        sbc     hl, bc
+        jr      c,  got_table
+        ; Now try shifted
+        set     7, e
+        and     a
+        sbc     hl, bc
+        jr      c,  got_table
+        ; It must be control
+        res     7, e
+        set     6, e
+        and     a
+        sbc     hl, de
 got_table:
-    add     hl, bc                      ;Add the 96 back on
-    ld      a, l
-    ld      h, a
-    srl     a                           ;divide by 8
-    srl     a
-    srl     a
-    or      e
-    ld      l, a                        ; l = flags + row
-	; Now get the mask
-    ld      a, h
-    ld      h, 1
+        add     hl, bc  ;Add the 96 back on
+        ld      a,  l
+        ld      h,  a
+        srl     a       ;divide by 8
+        srl     a
+        srl     a
+        or      e
+        ld      l, a    ; l = flags + row
+        ; Now get the mask
+        ld      a, h
+        ld      h, 1
 shift_loop:
-    and     7
-    ret     z                           ; nc
-    rl      h
-    dec     a
-    jr      shift_loop
+        and     7
+        ret     z       ; nc
+        rl      h
+        dec     a
+        jr      shift_loop
 
 notfound:
-    ld      hl, 0
-    scf
-    ret
+        ld      hl, 0
+        scf
+        ret

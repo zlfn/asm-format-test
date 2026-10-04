@@ -1,37 +1,35 @@
 ; ----- void  unplot_callee(int x, int y)
 
-
 IF  !__CPU_INTEL__&&!__CPU_GBZ80__
-    SECTION code_graphics
+        SECTION code_graphics
 
-    PUBLIC  unplot_callee
-    PUBLIC  _unplot_callee
-    PUBLIC  asm_unplot
+        PUBLIC  unplot_callee
+        PUBLIC  _unplot_callee
+        PUBLIC  asm_unplot
 
-    EXTERN  __gfx_vram_page_in
-    EXTERN  __graphics_end
+        EXTERN  __gfx_vram_page_in
+        EXTERN  __graphics_end
 
-    EXTERN  w_respixel
-    INCLUDE "classic/gfx/grafix.inc"
-
+        EXTERN  w_respixel
+        INCLUDE "classic/gfx/grafix.inc"
 
 unplot_callee:
 _unplot_callee:
-    pop     bc
-    pop     de                          ; y
-    pop     hl                          ; x
-    push    bc
+        pop     bc
+        pop     de      ; y
+        pop     hl      ; x
+        push    bc
 
 asm_unplot:
-    push    ix
-  IFDEF _GFX_PAGE_VRAM
-    call    __gfx_vram_page_in
-  ENDIF
-    call    w_respixel
-  IF    _GFX_PAGE_VRAM
-    jp      __graphics_end
-  ELSE
-    pop     ix
-    ret
-  ENDIF
+        push    ix
+        IFDEF   _GFX_PAGE_VRAM
+                call    __gfx_vram_page_in
+        ENDIF
+        call    w_respixel
+        IF      _GFX_PAGE_VRAM
+                jp      __graphics_end
+        ELSE
+                pop     ix
+                ret
+        ENDIF
 ENDIF

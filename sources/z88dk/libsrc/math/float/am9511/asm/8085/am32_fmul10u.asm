@@ -17,116 +17,116 @@ SECTION code_fp_am9511
 PUBLIC asm_am9511_fmul10u_fastcall
 
 .asm_am9511_fmul10u_fastcall
-    rl de                       ; get exponent in d
+        rl      de      ; get exponent in d
 
-    inc d
-    dec d
-    jp Z,zero_legal             ; return IEEE zero
+        inc     d
+        dec     d
+        jp      Z, zero_legal   ; return IEEE zero
 
-    ld a,d
-    inc a
-    jr Z,exp_max                ; Inf/NaN: force non-negative, keep payload
+        ld      a, d
+        inc     a
+        jr      Z, exp_max      ; Inf/NaN: force non-negative, keep payload
 
-    scf                         ; set hidden bit
-    ld a,e                      ; return mantissa to ehl
-    rra
-    ld e,a
+        scf             ; set hidden bit
+        ld      a, e    ; return mantissa to ehl
+        rra
+        ld      e, a
 
-                                ; 10*a = 2*(4*a + a)     
-    push de                     ; dehl *= 10
-    push hl
+        ; 10*a = 2*(4*a + a)
+        push    de      ; dehl *= 10
+        push    hl
 
-    xor a
-    ld a,e
-    rra
-    ld e,a
-    ld a,h
-    rra
-    ld h,a
-    ld a,l
-    rra
-    ld l,a
+        xor     a
+        ld      a, e
+        rra
+        ld      e, a
+        ld      a, h
+        rra
+        ld      h, a
+        ld      a, l
+        rra
+        ld      l, a
 
-    xor a
-    ld a,e
-    rra
-    ld e,a
-    ld a,h
-    rra
-    ld h,a
-    ld a,l
-    rra
-    ld l,a
+        xor     a
+        ld      a, e
+        rra
+        ld      e, a
+        ld      a, h
+        rra
+        ld      h, a
+        ld      a, l
+        rra
+        ld      l, a
 
-    ex de,hl
-    ex (sp),hl
-    add hl,de
-    pop de
-    ex (sp),hl
-    ld a,l
-    adc a,e
-    ld e,a
-    pop hl
+        ex      de,   hl
+        ex      (sp), hl
+        add     hl,   de
+        pop     de
+        ex      (sp), hl
+        ld      a,    l
+        adc     a,    e
+        ld      e,    a
+        pop     hl
 
-    ld a,3                      ; exponent increase
-    jp NC,no_carry
+        ld      a,  3   ; exponent increase
+        jp      NC, no_carry
 
-    ld a,e                      ; shift if a carry
-    rra
-    ld e,a
-    ld a,h
-    rra
-    ld h,a
-    ld a,l
-    rra
-    ld l,a
+        ld      a, e    ; shift if a carry
+        rra
+        ld      e, a
+        ld      a, h
+        rra
+        ld      h, a
+        ld      a, l
+        rra
+        ld      l, a
 
-    ld a,4                      ; and increment exponent
+        ld      a, 4    ; and increment exponent
 
 .no_carry
-    add a,d                     ; resulting exponent
-    jp C,infinity
+        add     a, d    ; resulting exponent
+        jp      C, infinity
 
-    ld d,a
+        ld      d, a
 
-    ld a,e
-    rla
-    ld e,a
+        ld      a, e
+        rla
+        ld      e, a
 
-    xor a                       ; replace +sign and exponent
-    ld a,d
-    rra
-    ld d,a
-    ld a,e
-    rra
-    ld e,a
+        xor     a       ; replace +sign and exponent
+        ld      a, d
+        rra
+        ld      d, a
+        ld      a, e
+        rra
+        ld      e, a
 
-    ret                         ; return IEEE DEHL
+        ret     ; return IEEE DEHL
 
 .zero_legal
-    ld e,d                      ; use 0
-    ld hl,de
+        ld      e,  d   ; use 0
+        ld      hl, de
 
-    ld a,d
-    rra                         ; restore the sign and exponent
-    ld d,a
+        ld      a, d
+        rra     ; restore the sign and exponent
+        ld      d, a
 
-    ret                         ; return IEEE signed ZERO in DEHL
+        ret     ; return IEEE signed ZERO in DEHL
 
 .exp_max
-    ld a,d
-    rra
-    ld d,a
-    ld a,e
-    rra
-    ld e,a
-    ld a,d
-    and 07fh                    ; clear sign (no res)
-    ld d,a
-    ret
+        ld      a, d
+        rra
+        ld      d, a
+        ld      a, e
+        rra
+        ld      e, a
+        ld      a, d
+        and     07fh    ; clear sign (no res)
+        ld      d, a
+        ret
 
 .infinity
-    ld de,$7f80                 ; +Inf
-    ld hl,0
-    scf
-    ret                         ; return IEEE signed INFINITY in DEHL
+        ld      de, $7f80       ; +Inf
+        ld      hl, 0
+        scf
+        ret                     ; return IEEE signed INFINITY in DEHL

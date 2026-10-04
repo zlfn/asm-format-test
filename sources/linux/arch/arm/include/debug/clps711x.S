@@ -15,23 +15,23 @@
 #define SYSFLG_UBUSY	(1 << 11)
 #define UARTDR		(0x0480)
 
-	.macro	addruart, rp, rv, tmp
-	ldr	\rv, =CLPS711X_UART_VADDR
-	ldr	\rp, =CLPS711X_UART_PADDR
-	.endm
+        .macro  addruart, rp, rv, tmp
+                ldr     \rv, =CLPS711X_UART_VADDR
+                ldr     \rp, =CLPS711X_UART_PADDR
+        .endm
 
-	.macro	waituartcts,rd,rx
-	.endm
+        .macro  waituartcts, rd, rx
+        .endm
 
-	.macro	waituarttxrdy,rd,rx
-	.endm
+        .macro  waituarttxrdy, rd, rx
+        .endm
 
-	.macro	senduart,rd,rx
-	str	\rd, [\rx, #UARTDR]
-	.endm
+        .macro  senduart, rd, rx
+                str     \rd, [\rx, #UARTDR]
+        .endm
 
-	.macro	busyuart,rd,rx
-1001:	ldr	\rd, [\rx, #SYSFLG]
-	tst	\rd, #SYSFLG_UBUSY
-	bne	1001b
-	.endm
+        .macro  busyuart, rd, rx
+1001:           ldr     \rd, [\rx, #SYSFLG]
+                tst     \rd, #SYSFLG_UBUSY
+                bne     1001b
+        .endm

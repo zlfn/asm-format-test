@@ -11,44 +11,43 @@ SECTION code_l_sccz80
 
 PUBLIC  l_long_add
 
-
 ;result = primary + secondary
 ;enter with secondary in dehl, primary on stack
 ;exit with result in dehl
 
 .l_long_add
-    ld      bc,hl       ;get the lower 16 into bc
-    ld      hl,sp+2     ;points to i32 on stack
+        ld      bc, hl          ;get the lower 16 into bc
+        ld      hl, sp+2        ;points to i32 on stack
 
-    ld      a,(hl)
-    add     a,c
-    ld      c,a
+        ld      a, (hl)
+        add     a, c
+        ld      c, a
 
-    inc     hl
+        inc     hl
 
-    ld      a,(hl)
-    adc     a,b
-    ld      b,a
+        ld      a, (hl)
+        adc     a, b
+        ld      b, a
 
-    inc     hl
+        inc     hl
 
-    ld      a,(hl)
-    adc     a,e
-    ld      e,a
+        ld      a, (hl)
+        adc     a, e
+        ld      e, a
 
-    inc     hl
+        inc     hl
 
-    ld      a,(hl)
-    adc     a,d
-    ld      d,a
+        ld      a, (hl)
+        adc     a, d
+        ld      d, a
 
-    ld      hl,bc       ;get the lower 16 back into hl
+        ld      hl, bc  ;get the lower 16 back into hl
 
-    pop     bc          ;get return
-    inc     sp
-    inc     sp
-    inc     sp
-    inc     sp
-    push    bc          ;save return
+        pop     bc      ;get return
+        inc     sp
+        inc     sp
+        inc     sp
+        inc     sp
+        push    bc      ;save return
 
-    ret
+        ret

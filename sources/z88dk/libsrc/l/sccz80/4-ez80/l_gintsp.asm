@@ -9,12 +9,12 @@ PUBLIC l_gintsp, l_gintsp_gint
 
 l_gintsp:
 
-   add hl,sp
-   inc hl
-   inc hl
+        add     hl, sp
+        inc     hl
+        inc     hl
 
 l_gintsp_gint:
 
-   ld hl,(hl)
-   
-   ret
+        ld      hl, (hl)
+
+        ret

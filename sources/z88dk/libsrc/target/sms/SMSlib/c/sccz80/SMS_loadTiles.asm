@@ -9,21 +9,20 @@ EXTERN asm_SMSlib_loadTiles
 
 SMS_loadTiles:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push bc
-   push af
-   
-   jp asm_SMSlib_loadTiles
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_SMSlib_loadTiles
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _SMS_loadTiles
 defc _SMS_loadTiles = SMS_loadTiles
 ENDIF
-

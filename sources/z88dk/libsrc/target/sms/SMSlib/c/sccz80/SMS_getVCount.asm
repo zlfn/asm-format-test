@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_getVCount
 defc _SMS_getVCount = SMS_getVCount
 ENDIF
-

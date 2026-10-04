@@ -10,19 +10,19 @@ EXTERN asm__fmemopen
 
 __fmemopen__callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        push    af
 
 l0__fmemopen__callee:
 
-   ld a,$0c
-   
-   push ix
-   
-   call asm__fmemopen
-   
-   pop ix
-   ret
+        ld      a, $0c
+
+        push    ix
+
+        call    asm__fmemopen
+
+        pop     ix
+        ret

@@ -12,19 +12,19 @@ PUBLIC asm_SMSlib_setBGScrollX
 
 asm_SMSlib_setBGScrollX:
 
-   ; void SMS_setBGScrollX (unsigned char scrollX)
-   ;
-   ; enter :  l = unsigned char scrollX
-   ;
-   ; uses  : af
-   
-   di
-   
-   ld a,l
-   out (VDPControlPort),a
-   
-   ld a,0x88
-   out (VDPControlPort),a
-   
-   ei
-   ret
+        ; void SMS_setBGScrollX (unsigned char scrollX)
+        ;
+        ; enter :  l = unsigned char scrollX
+        ;
+        ; uses  : af
+
+        di
+
+        ld      a, l
+        out     (VDPControlPort), a
+
+        ld      a, 0x88
+        out     (VDPControlPort), a
+
+        ei
+        ret

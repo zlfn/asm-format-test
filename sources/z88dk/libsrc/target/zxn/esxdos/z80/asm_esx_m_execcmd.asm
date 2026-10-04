@@ -12,60 +12,60 @@ IF __ZXNEXT
 
 asm_esx_m_execcmd:
 
-   ; enter : hl = char *cmdline
-   ;
-   ; exit  : success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = error for "asm_esx_m_geterr"
-   ;            carry set
-   ;
-   ; uses   : af, bc, de, hl
-   
-   push ix
-   push iy
-   
+        ; enter : hl = char *cmdline
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = error for "asm_esx_m_geterr"
+        ;            carry set
+        ;
+        ; uses   : af, bc, de, hl
+
+        push    ix
+        push    iy
+
 IF __SDCC_IY
 
-   push hl
-   pop iy
-   
-   ld ix,__SYS_IY
+        push    hl
+        pop     iy
+
+        ld      ix, __SYS_IY
 
 ELSE
 
-   push hl
-   pop ix
-   
-   ld iy,__SYS_IY
+        push    hl
+        pop     ix
+
+        ld      iy, __SYS_IY
 
 ENDIF
 
-   exx
-   ld hl,__SYS_HLP
-   exx
+        exx
+        ld      hl, __SYS_HLP
+        exx
 
-   rst __ESX_RST_SYS
-   defb __ESX_M_EXECCMD
-   
-   pop iy
-   pop ix
-   
-   jp nc, error_znc
-   
-   or a
-   scf
-   
-   ret z
-   
-   ld l,a
-   ld h,0
-   
-   ret
+        rst     __ESX_RST_SYS
+        defb    __ESX_M_EXECCMD
+
+        pop     iy
+        pop     ix
+
+        jp      nc, error_znc
+
+        or      a
+        scf
+
+        ret     z
+
+        ld      l, a
+        ld      h, 0
+
+        ret
 
 ELSE
 
@@ -73,8 +73,8 @@ EXTERN __esxdos_error_mc
 
 asm_esx_m_execcmd:
 
-   ld a,__ESX_ENONSENSE
-   jp __esxdos_error_mc
+        ld      a, __ESX_ENONSENSE
+        jp      __esxdos_error_mc
 
 ENDIF
 

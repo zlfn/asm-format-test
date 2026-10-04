@@ -9,16 +9,16 @@ EXTERN ADTHeapify, ADThcompare
 .adt_Heapify
 ._adt_Heapify
 
-   pop de
-   pop iy
-   pop hl
-   pop bc
-   push bc
-   push hl
-   push hl
-   push de
-   push ix
-   ld ix,ADThcompare
-   call  ADTHeapify
-   pop ix
-   ret
+        pop     de
+        pop     iy
+        pop     hl
+        pop     bc
+        push    bc
+        push    hl
+        push    hl
+        push    de
+        push    ix
+        ld      ix, ADThcompare
+        call    ADTHeapify
+        pop     ix
+        ret

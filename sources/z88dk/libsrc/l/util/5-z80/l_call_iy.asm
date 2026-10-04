@@ -6,15 +6,15 @@ PUBLIC l_call_iy
 
 IF __SDCC_IY
 
-   EXTERN l_jpix
+        EXTERN  l_jpix
 
-   defc l_call_iy = l_jpix
+        defc    l_call_iy = l_jpix
 
 ELSE
 
-   EXTERN l_jpiy
+        EXTERN  l_jpiy
 
-   defc l_call_iy = l_jpiy
+        defc    l_call_iy = l_jpiy
 
 ENDIF
 

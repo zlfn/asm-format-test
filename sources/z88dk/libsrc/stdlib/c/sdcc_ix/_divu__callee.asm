@@ -10,10 +10,10 @@ EXTERN asm__divu
 
 __divu__callee:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   push af
-   
-   jp asm__divu
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm__divu

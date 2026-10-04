@@ -16,20 +16,19 @@ EXTERN asm_SMSlib_initSprites, asm_SMSlib_finalizeSprites, asm_SMSlib_copySprite
 
 asm_SMSlib_init:
 
-   xor a
-   ld l,a
+        xor     a
+        ld      l, a
 
-   call asm_SMSlib_setSpritePaletteColor
+        call    asm_SMSlib_setSpritePaletteColor
 
-   ; vdp register initialization moved to crt
-   
-   call asm_SMSlib_initSprites
-   call asm_SMSlib_finalizeSprites
-   call asm_SMSlib_copySpritestoSAT
-   call asm_SMSlib_resetPauseRequest
+        ; vdp register initialization moved to crt
 
-   jp asm_SMSlib_detect_VDP_type
+        call    asm_SMSlib_initSprites
+        call    asm_SMSlib_finalizeSprites
+        call    asm_SMSlib_copySpritestoSAT
+        call    asm_SMSlib_resetPauseRequest
 
+        jp      asm_SMSlib_detect_VDP_type
 
 ; add library initialization to crt
 

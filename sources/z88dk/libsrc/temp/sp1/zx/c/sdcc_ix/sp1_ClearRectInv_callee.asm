@@ -9,30 +9,30 @@ EXTERN asm_sp1_ClearRectInv
 
 _sp1_ClearRectInv_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   ld d,c
-   pop bc
-   push af
-   
-   ld a,c
-   push de
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
-   pop hl
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        ld      d, c
+        pop     bc
+        push    af
+
+        ld      a, c
+        push    de
+        ld      d, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
+        pop     hl
 
 l0_sp1_ClearRectInv_callee:
 
-   push ix
-   
-   call asm_sp1_ClearRectInv
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_sp1_ClearRectInv
+
+        pop     ix
+        ret

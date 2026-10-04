@@ -10,21 +10,21 @@ EXTERN asm_balloc_addmem
 
 _balloc_addmem:
 
-   exx
-   pop bc
-   exx
-   dec sp
-   pop af
-   pop bc
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push bc
-   dec sp
-   exx
-   push bc
-   exx
+        exx
+        pop     bc
+        exx
+        dec     sp
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
 
-   jp asm_balloc_addmem
+        push    de
+        push    hl
+        push    bc
+        dec     sp
+        exx
+        push    bc
+        exx
+
+        jp      asm_balloc_addmem

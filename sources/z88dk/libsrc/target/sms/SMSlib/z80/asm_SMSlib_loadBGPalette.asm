@@ -12,27 +12,27 @@ PUBLIC asm_SMSlib_loadBGPalette
 
 asm_SMSlib_loadBGPalette:
 
-   ; void SMS_loadBGPalette (void *palette)
-   ;
-   ; enter : hl = void *palette
-   ;
-   ; uses  : af, bc, hl
-   
-   di 
-   
-   ld a,SMS_CRAMAddress&0xff
-   out (VDPControlPort),a
-   
-   ld a,SMS_CRAMAddress/256
-   out (VDPControlPort),a
-   
-   ei
-   
-   ld bc,0x1000 + VDPDataPort
+        ; void SMS_loadBGPalette (void *palette)
+        ;
+        ; enter : hl = void *palette
+        ;
+        ; uses  : af, bc, hl
+
+        di
+
+        ld      a, SMS_CRAMAddress&0xff
+        out     (VDPControlPort), a
+
+        ld      a, SMS_CRAMAddress/256
+        out     (VDPControlPort), a
+
+        ei
+
+        ld      bc, 0x1000 + VDPDataPort
 
 loop:
 
-   outi
-   jp nz, loop
-   
-   ret
+        outi
+        jp      nz, loop
+
+        ret

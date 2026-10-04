@@ -1,8 +1,7 @@
 
+        SECTION bss_clib
 
-    SECTION bss_clib
-
-    PUBLIC  msxdos_error
+        PUBLIC  msxdos_error
 
 msxdos_error:
-    defb    0
+        defb    0

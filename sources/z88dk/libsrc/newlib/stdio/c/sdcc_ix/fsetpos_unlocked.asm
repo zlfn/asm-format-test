@@ -10,12 +10,12 @@ EXTERN l0_fsetpos_unlocked_callee
 
 _fsetpos_unlocked:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     hl
 
-   jp l0_fsetpos_unlocked_callee
+        push    hl
+        push    bc
+        push    af
+
+        jp      l0_fsetpos_unlocked_callee

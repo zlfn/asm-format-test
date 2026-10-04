@@ -16,20 +16,20 @@ EXTERN asm_fputc
 
 _fputc_callee:
 
-   pop af
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        push    af
 
 l0_fputc_callee:
 
-   push bc
-   ex (sp),ix
-   
-   call asm_fputc
-   
-   pop ix
-   ret
+        push    bc
+        ex      (sp), ix
+
+        call    asm_fputc
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

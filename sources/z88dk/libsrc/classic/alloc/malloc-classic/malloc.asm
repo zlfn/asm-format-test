@@ -14,16 +14,16 @@ EXTERN _heap
 .malloc
 ._malloc
 .___malloc
-   pop bc
-   pop hl
-   push hl
-   push bc
+        pop     bc
+        pop     hl
+        push    hl
+        push    bc
 
 .malloc_fastcall
 ._malloc_fastcall
 
-   ld c,l
-   ld b,h
-   ld hl,_heap
+        ld      c,  l
+        ld      b,  h
+        ld      hl, _heap
 
-   jp asm_HeapAlloc
+        jp      asm_HeapAlloc

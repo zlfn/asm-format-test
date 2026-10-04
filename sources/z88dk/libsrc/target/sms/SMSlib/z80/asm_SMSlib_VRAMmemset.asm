@@ -14,23 +14,23 @@ EXTERN asm_sms_set_vram
 
 asm_SMSlib_VRAMmemset:
 
-   ; void SMS_VRAMmemset (unsigned int dst, unsigned char value, unsigned int size)
-   ;
-   ; enter : hl = unsigned int dst
-   ;          e = unsigned char value
-   ;         bc = unsigned int size > 0
-   ;
-   ; uses  : af, bc, hl
-   
-   ld a,c
-   
-   set 6,h
-   INCLUDE "SMS_CRT0_RST08.inc"
+        ; void SMS_VRAMmemset (unsigned int dst, unsigned char value, unsigned int size)
+        ;
+        ; enter : hl = unsigned int dst
+        ;          e = unsigned char value
+        ;         bc = unsigned int size > 0
+        ;
+        ; uses  : af, bc, hl
 
-   ld c,a
+        ld      a, c
 
-   or b
-   ret z
+        set     6, h
+        INCLUDE "SMS_CRT0_RST08.inc"
 
-   ld a,e
-   jp asm_sms_set_vram
+        ld      c, a
+
+        or      b
+        ret     z
+
+        ld      a, e
+        jp      asm_sms_set_vram

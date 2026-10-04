@@ -10,10 +10,10 @@ EXTERN asm_p_forward_list_alt_insert_after
 
 _p_forward_list_alt_insert_after_callee:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        push    af
 
-   jp asm_p_forward_list_alt_insert_after
+        jp      asm_p_forward_list_alt_insert_after

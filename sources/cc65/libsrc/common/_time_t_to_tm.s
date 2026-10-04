@@ -10,11 +10,11 @@
 ; and returns a pointer to the struct to callers.
 ;
 
-        .export         __time_t_to_tm
-        .import         udiv32, _mktime
-        .importzp       sreg, tmp3, ptr1, ptr2, ptr3, ptr4
+        .export __time_t_to_tm
+        .import udiv32, _mktime
+        .importzp sreg, tmp3, ptr1, ptr2, ptr3, ptr4
 
-        .include        "time.inc"
+        .include "time.inc"
 
 __time_t_to_tm:
         ; Divide number of seconds since epoch, in ptr1:sreg,
@@ -37,7 +37,7 @@ __time_t_to_tm:
 
         ; Clear TM buf while we have zero in A
         ldx     #.sizeof(tm)-1
-:       sta     TM,x
+:       sta     TM, x
         dex
         bpl     :-
 
@@ -78,15 +78,15 @@ __time_t_to_tm:
 
         ; Zero the two high bytes of the divisor and the high byte
         ; of the dividend.
-        .if .cap(CPU_HAS_STZ)
-        stz     ptr4
-        stz     ptr4+1
-        stz     sreg+1
+        .if     .cap(CPU_HAS_STZ)
+                stz     ptr4
+                stz     ptr4+1
+                stz     sreg+1
         .else
-        lda     #$00
-        sta     ptr4
-        sta     ptr4+1
-        sta     sreg+1
+                lda     #$00
+                sta     ptr4
+                sta     ptr4+1
+                sta     sreg+1
         .endif
 
         ; Do the division
@@ -124,4 +124,4 @@ __time_t_to_tm:
 
         .bss
 
-TM: .tag tm
+TM:     .tag    tm

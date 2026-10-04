@@ -2,12 +2,11 @@
 ; Ullrich von Bassewitz, 2009-10-30
 ;
 
+        .include "zeropage.inc"
+        .include "tgi-kernel.inc"
 
-        .include        "zeropage.inc"
-        .include        "tgi-kernel.inc"
-
-        .import         umul8x16r24
-        .import         popa, popax
+        .import umul8x16r24
+        .import popa, popax
 
 ;-----------------------------------------------------------------------------
 ; void __fastcall__ tgi_settextstyle (unsigned width, unsigned height,
@@ -21,9 +20,9 @@
 
 .proc   _tgi_settextstyle
 
-        sta     _tgi_font               ; Remember the font to use
+        sta     _tgi_font       ; Remember the font to use
         jsr     popa
-        sta     _tgi_textdir            ; Remember the direction
+        sta     _tgi_textdir    ; Remember the direction
 
 ; Pop the height and run directly into tgi_textscale
 
@@ -41,17 +40,17 @@
 
 ; Setup the height
 
-        ldy     _tgi_fontheight         ; Get height of bitmap font in pixels
-        sty     ptr1                    ; Save for later
-        ldy     #6                      ; Address the height
-        jsr     process_onedim          ; Process height
+        ldy     _tgi_fontheight ; Get height of bitmap font in pixels
+        sty     ptr1            ; Save for later
+        ldy     #6              ; Address the height
+        jsr     process_onedim  ; Process height
 
 ; Setup the width
 
-        jsr     popax                   ; Get width scale into a/x
-        ldy     _tgi_fontwidth          ; Get width of bitmap font in pixels
-        sty     ptr1                    ; Save for later
-        ldy     #0                      ; Address the width
+        jsr     popax           ; Get width scale into a/x
+        ldy     _tgi_fontwidth  ; Get width of bitmap font in pixels
+        sty     ptr1            ; Save for later
+        ldy     #0              ; Address the width
 
 ; Process one character dimension. That means:
 ;
@@ -64,16 +63,16 @@
 
 process_onedim:
 
-        jsr     store                   ; Store vector font scale factor
-        bit     _tgi_flags              ; Fine grained scaling support avail?
-        bmi     @L2                     ; Jump if yes
+        jsr     store           ; Store vector font scale factor
+        bit     _tgi_flags      ; Fine grained scaling support avail?
+        bmi     @L2             ; Jump if yes
 
-        asl     a                       ; Round to nearest full integer
+        asl     a       ; Round to nearest full integer
         bcc     @L1
         inx
 @L1:    lda     #0
 
-@L2:    jsr     store                   ; Store bitmap font scale factor
+@L2:    jsr     store   ; Store bitmap font scale factor
 
 ; The size of the font in pixels in the selected dimension is already in ptr1
 ; So if we call umul8x16r24 we get the size in pixels in 16.8 fixed point.
@@ -81,24 +80,22 @@ process_onedim:
 ; and remember the low 16 bit as size in 8.8 format.
 
 .if .cap(CPU_HAS_PUSHXY)
-        phy                             ; Save Y
+        phy     ; Save Y
         jsr     umul8x16r24
-        ply                             ; Restore Y
+        ply     ; Restore Y
 .else
-        sty     tmp1                    ; Save Y
+        sty     tmp1    ; Save Y
         jsr     umul8x16r24
-        ldy     tmp1                    ; Restore Y
+        ldy     tmp1    ; Restore Y
 .endif
 
-store:  sta     _tgi_textscalew,y
+store:  sta     _tgi_textscalew, y
         iny
         pha
         txa
-        sta     _tgi_textscalew,y
+        sta     _tgi_textscalew, y
         iny
         pla
         rts
 
 .endproc
-
-

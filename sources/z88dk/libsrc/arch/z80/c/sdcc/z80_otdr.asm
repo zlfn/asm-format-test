@@ -10,12 +10,12 @@ EXTERN asm_z80_otdr
 
 _z80_otdr:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   otdr
-   ret
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+        otdr
+        ret

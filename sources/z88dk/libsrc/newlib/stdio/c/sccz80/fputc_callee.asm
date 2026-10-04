@@ -16,12 +16,12 @@ EXTERN asm_fputc
 
 fputc_callee:
 
-   pop af
-   pop ix
-   pop de
-   push af
-   
-   jp asm_fputc
+        pop     af
+        pop     ix
+        pop     de
+        push    af
+
+        jp      asm_fputc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -1,12 +1,10 @@
 
-
-
         MODULE  putchar
 
         PUBLIC  putchar
         PUBLIC  _putchar
 
-	EXTERN	asm_putchar
+        EXTERN  asm_putchar
 
         SECTION code_driver
 
@@ -15,8 +13,8 @@
 putchar:
 _putchar:                       ; Banked
         PUSH    BC
-        LD      HL,sp + 4  ; Skip return address
-        LD      A,(HL)          ; A = c
+        LD      HL, sp + 4      ; Skip return address
+        LD      A,  (HL)        ; A = c
         CALL    asm_putchar
         POP     BC
         RET

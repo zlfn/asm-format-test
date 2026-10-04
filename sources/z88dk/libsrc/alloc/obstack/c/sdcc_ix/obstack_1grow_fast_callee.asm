@@ -10,13 +10,13 @@ EXTERN asm_obstack_1grow_fast
 
 _obstack_1grow_fast_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
 l0_obstack_1grow_fast_callee:
 
-   ld a,e
+        ld      a, e
 
-   jp asm_obstack_1grow_fast
+        jp      asm_obstack_1grow_fast

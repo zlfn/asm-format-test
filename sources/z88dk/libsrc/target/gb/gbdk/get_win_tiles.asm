@@ -1,12 +1,10 @@
 
-
-
         MODULE  get_win_tiles
 
         PUBLIC  get_win_tiles
         PUBLIC  _get_win_tiles
 
-	GLOBAL	get_xy_btt
+        GLOBAL  get_xy_btt
 
         SECTION code_driver
 
@@ -17,19 +15,19 @@ get_win_tiles:
 _get_win_tiles:
         PUSH    BC
 
-        LD      HL,sp+12        ; Skip return address and registers
-        LD      D,(HL)          ; D = x
-	ld	hl,sp+10
-        LD      E,(HL)          ; E = y
-	ld	hl,sp+4
-        LD      C,(HL)          ; BC = tiles
+        LD      HL, sp+12       ; Skip return address and registers
+        LD      D,  (HL)        ; D = x
+        ld      hl, sp+10
+        LD      E,  (HL)        ; E = y
+        ld      hl, sp+4
+        LD      C,  (HL)        ; BC = tiles
         INC     HL
-        LD      B,(HL)
-	ld	hl,sp+6
-        LD      A,(HL)         ; A = h
-	ld	hl,sp+8
-        LD      H,(HL)          ; H = w
-        LD      L,A             ; L = h
+        LD      B,  (HL)
+        ld      hl, sp+6
+        LD      A,  (HL)        ; A = h
+        ld      hl, sp+8
+        LD      H,  (HL)        ; H = w
+        LD      L,  A           ; L = h
 
         CALL    get_xy_btt
 

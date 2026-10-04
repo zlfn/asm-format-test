@@ -17,24 +17,23 @@
 ;	$Id: force_load_callee.asm,v 1.4 2016-06-22 22:13:09 dom Exp $
 ;
 
-    INCLUDE "target/osca/def/flos.def"
+        INCLUDE "target/osca/def/flos.def"
 
-    SECTION code_clib
-    PUBLIC  force_load_callee
-    PUBLIC  _force_load_callee
-    EXTERN   flos_err
-    PUBLIC  asm_force_load
-	
+        SECTION code_clib
+        PUBLIC  force_load_callee
+        PUBLIC  _force_load_callee
+        EXTERN  flos_err
+        PUBLIC  asm_force_load
+
 force_load_callee:
 _force_load_callee:
-	pop de
-	pop bc	; bank
-	pop hl	; data position
-	push de
+        pop     de
+        pop     bc      ; bank
+        pop     hl      ; data position
+        push    de
 
 asm_force_load:
-	ld	b,c
+        ld      b, c
 
-	call	kjt_force_load
-	jp		flos_err
-
+        call    kjt_force_load
+        jp      flos_err

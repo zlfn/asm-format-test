@@ -16,7 +16,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT16
@@ -29,9 +29,8 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalSyncCompareExchange16)
 ASM_PFX(InternalSyncCompareExchange16):
-    mov     ecx, [esp + 4]
-    mov     ax, [esp + 8]
-    mov     dx, [esp + 12]
-    lock    cmpxchg [ecx], dx
-    ret
-
+        mov     ecx, [esp + 4]
+        mov     ax,  [esp + 8]
+        mov     dx,  [esp + 12]
+        lock    cmpxchg [ecx], dx
+        ret

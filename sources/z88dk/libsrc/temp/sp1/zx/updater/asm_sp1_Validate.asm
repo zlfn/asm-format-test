@@ -24,31 +24,31 @@ asm_sp1_Validate:
 ;         c = height
 ; uses  : f, bc, de, hl
 
-   call asm_sp1_GetUpdateStruct  ; hl = & struct sp1_update
-   ld de,10
+        call    asm_sp1_GetUpdateStruct ; hl = & struct sp1_update
+        ld      de, 10
 
 .rowloop
 
-   push bc                       ; save b = width
-   push hl                       ; save update position
+        push    bc      ; save b = width
+        push    hl      ; save update position
 
 .colloop
 
-   bit 6,(hl)                    ; has this update char been removed from the display?
-   jr nz, skipit                 ; if so we must not validate it
-   res 7,(hl)                    ; validate update char
+        bit     6,  (hl)        ; has this update char been removed from the display?
+        jr      nz, skipit      ; if so we must not validate it
+        res     7,  (hl)        ; validate update char
 
 .skipit
 
-   add hl,de
-   djnz colloop
+        add     hl, de
+        djnz    colloop
 
-   pop hl                        ; hl = & struct sp1_update same row leftmost column
-   ld bc,10*SP1V_DISPWIDTH
-   add hl,bc                     ; hl = & struct sp1_update next row leftmost column
-   pop bc
+        pop     hl      ; hl = & struct sp1_update same row leftmost column
+        ld      bc, 10*SP1V_DISPWIDTH
+        add     hl, bc  ; hl = & struct sp1_update next row leftmost column
+        pop     bc
 
-   dec c                         ; c = height
-   jp nz, rowloop
+        dec     c       ; c = height
+        jp      nz, rowloop
 
-   ret
+        ret

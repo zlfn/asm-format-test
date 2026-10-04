@@ -3,25 +3,23 @@
 ; Marco van den Heuvel, 2010-01-24
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "em-kernel.inc"
-        .include        "em-error.inc"
+        .include "em-kernel.inc"
+        .include "em-error.inc"
 
-
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c64_isepic_emd
+        module_header _c64_isepic_emd
 
 ; Driver signature
 
-        .byte   $65, $6d, $64           ; "emd"
-        .byte   EMD_API_VERSION         ; EM API version number
+        .byte   $65, $6d, $64   ; "emd"
+        .byte   EMD_API_VERSION ; EM API version number
 
 ; Library reference
 
@@ -77,7 +75,7 @@ INSTALL:
 
 @notpresent:
         lda     #EM_ERR_NO_DEVICE
-        ldx     #0 ; return value is char
+        ldx     #0      ; return value is char
         rts
 
 @setok:
@@ -118,7 +116,7 @@ USE     := MAP
 
 MAP:
         tax
-        sta     IP_CTRL_BASE,x
+        sta     IP_CTRL_BASE, x
         lda     #<IP_WINDOW
         ldx     #>IP_WINDOW
 
@@ -151,8 +149,8 @@ COPYFROM:
         jmp     @L5
 
 @L1:
-        lda     IP_WINDOW,x
-        sta     (ptr2),y
+        lda     IP_WINDOW, x
+        sta     (ptr2),    y
         iny
         bne     @L2
         inc     ptr2+1
@@ -172,11 +170,11 @@ COPYFROM:
 ; Bump page register
 
 @L4:
-        inc     tmp1            ; Bump low page register
+        inc     tmp1    ; Bump low page register
 @L5:
         stx     tmp2
         ldx     tmp1
-        sta     IP_CTRL_BASE,x
+        sta     IP_CTRL_BASE, x
         ldx     tmp2
         jmp     @L3
 
@@ -201,8 +199,8 @@ COPYTO:
         jmp     @L5
 
 @L1:
-        lda     (ptr2),y
-        sta     IP_WINDOW,x
+        lda     (ptr2),    y
+        sta     IP_WINDOW, x
         iny
         bne     @L2
         inc     ptr2+1
@@ -222,11 +220,11 @@ COPYTO:
 ; Bump page register
 
 @L4:
-        inc     tmp1            ; Bump page register
+        inc     tmp1    ; Bump page register
 @L5:
         stx     tmp2
         ldx     tmp1
-        sta     IP_CTRL_BASE,x
+        sta     IP_CTRL_BASE, x
         ldx     tmp2
         jmp     @L3
 
@@ -236,38 +234,38 @@ COPYTO:
 
 setup:
         sta     ptr1
-        stx     ptr1+1          ; Save passed pointer
+        stx     ptr1+1  ; Save passed pointer
 
 ; Get the page number from the struct and remember it.
 
         ldy     #EM_COPY::PAGE
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     tmp1
 
 ; Get the buffer pointer into ptr2
 
         ldy     #EM_COPY::BUF
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     ptr2
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     ptr2+1
 
 ; Get the count, calculate -(count-1) and store it into ptr3
 
         ldy     #EM_COPY::COUNT
-        lda     (ptr1),y
+        lda     (ptr1), y
         eor     #$FF
         sta     ptr3
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         eor     #$FF
         sta     ptr3+1
 
 ; Get the page offset into X and clear Y
 
         ldy     #EM_COPY::OFFS
-        lda     (ptr1),y
+        lda     (ptr1), y
         tax
         ldy     #0
 

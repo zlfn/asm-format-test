@@ -62,133 +62,133 @@ GLOBL ·expm1tab<> + 0(SB), RODATA, $128
 // polynomial coefficients determined with a Remez exchange algorithm.
 
 TEXT	·expm1Asm(SB), NOSPLIT, $0-16
-	FMOVD	x+0(FP), F0
-	MOVD	$·expm1rodataL22<>+0(SB), R5
-	LTDBR	F0, F0
-	BLTU	L20
-	FMOVD	F0, F2
+        FMOVD   x+0(FP), F0
+        MOVD    $·expm1rodataL22<>+0(SB), R5
+        LTDBR   F0, F0
+        BLTU    L20
+        FMOVD   F0, F2
 L2:
-	WORD	$0xED205060	//cdb	%f2,.L23-.L22(%r5)
-	BYTE	$0x00
-	BYTE	$0x19
-	BGE	L16
-	BVS	L16
-	WFCEDBS	V2, V2, V2
-	BVS	LEXITTAGexpm1
-	MOVD	$·expm1xaddexp<>+0(SB), R1
-	FMOVD	88(R5), F1
-	FMOVD	0(R1), F2
-	WFMSDB	V0, V1, V2, V1
-	FMOVD	80(R5), F6
-	WFADB	V1, V2, V4
-	FMOVD	72(R5), F2
-	FMADD	F6, F4, F0
-	FMOVD	64(R5), F3
-	FMOVD	56(R5), F6
-	FMOVD	48(R5), F5
-	FMADD	F2, F0, F6
-	WFMADB	V0, V5, V3, V5
-	WFMDB	V0, V0, V2
-	LGDR	F1, R1
-	WFMADB	V6, V2, V5, V6
-	FMOVD	40(R5), F3
-	FMOVD	32(R5), F5
-	WFMADB	V0, V3, V5, V3
-	FMOVD	24(R5), F5
-	WFMADB	V2, V6, V3, V2
-	FMADD	F5, F4, F0
-	FMOVD	16(R5), F6
-	WFMADB	V0, V2, V6, V2
-	RISBGZ	$57, $60, $3, R1, R3
-	LCDBR	F2, F2
-	MOVD	$·expm1tab<>+0(SB), R2
-	WORD	$0x68432000	//ld	%f4,0(%r3,%r2)
-	FMADD	F4, F0, F0
-	SLD	$48, R1, R2
-	WFMSDB	V2, V0, V4, V0
-	LDGR	R2, F4
-	LCDBR   F0, F0
-	FSUB	F4, F6
-	WFMSDB	V0, V4, V6, V0
-	FMOVD	F0, ret+8(FP)
-	RET
+        WORD    $0xED205060     //cdb	%f2,.L23-.L22(%r5)
+        BYTE    $0x00
+        BYTE    $0x19
+        BGE     L16
+        BVS     L16
+        WFCEDBS V2, V2, V2
+        BVS     LEXITTAGexpm1
+        MOVD    $·expm1xaddexp<>+0(SB), R1
+        FMOVD   88(R5), F1
+        FMOVD   0(R1),  F2
+        WFMSDB  V0,     V1,  V2, V1
+        FMOVD   80(R5), F6
+        WFADB   V1,     V2,  V4
+        FMOVD   72(R5), F2
+        FMADD   F6,     F4,  F0
+        FMOVD   64(R5), F3
+        FMOVD   56(R5), F6
+        FMOVD   48(R5), F5
+        FMADD   F2,     F0,  F6
+        WFMADB  V0,     V5,  V3, V5
+        WFMDB   V0,     V0,  V2
+        LGDR    F1,     R1
+        WFMADB  V6,     V2,  V5, V6
+        FMOVD   40(R5), F3
+        FMOVD   32(R5), F5
+        WFMADB  V0,     V3,  V5, V3
+        FMOVD   24(R5), F5
+        WFMADB  V2,     V6,  V3, V2
+        FMADD   F5,     F4,  F0
+        FMOVD   16(R5), F6
+        WFMADB  V0,     V2,  V6, V2
+        RISBGZ  $57,    $60, $3, R1, R3
+        LCDBR   F2,     F2
+        MOVD    $·expm1tab<>+0(SB), R2
+        WORD    $0x68432000     //ld	%f4,0(%r3,%r2)
+        FMADD   F4,  F0, F0
+        SLD     $48, R1, R2
+        WFMSDB  V2,  V0, V4, V0
+        LDGR    R2,  F4
+        LCDBR   F0,  F0
+        FSUB    F4,  F6
+        WFMSDB  V0,  V4, V6, V0
+        FMOVD   F0,  ret+8(FP)
+        RET
 L16:
-	WFCEDBS	V2, V2, V4
-	BVS	LEXITTAGexpm1
-	WORD	$0xED205008	//cdb	%f2,.L34-.L22(%r5)
-	BYTE	$0x00
-	BYTE	$0x19
-	BLT	L6
-	WFCEDBS	V2, V0, V0
-	BVS	L7
-	MOVD	$·expm1xinf<>+0(SB), R1
-	FMOVD	0(R1), F0
-	FMOVD	F0, ret+8(FP)
-	RET
+        WFCEDBS V2, V2, V4
+        BVS     LEXITTAGexpm1
+        WORD    $0xED205008     //cdb	%f2,.L34-.L22(%r5)
+        BYTE    $0x00
+        BYTE    $0x19
+        BLT     L6
+        WFCEDBS V2, V0, V0
+        BVS     L7
+        MOVD    $·expm1xinf<>+0(SB), R1
+        FMOVD   0(R1), F0
+        FMOVD   F0,    ret+8(FP)
+        RET
 L20:
-	LCDBR   F0, F2
-	BR	L2
+        LCDBR   F0, F2
+        BR      L2
 L6:
-	MOVD	$·expm1xaddexp<>+0(SB), R1
-	FMOVD	88(R5), F5
-	FMOVD	0(R1), F4
-	WFMSDB	V0, V5, V4, V5
-	FMOVD	80(R5), F3
-	WFADB	V5, V4, V1
-	VLEG	$0, 48(R5), V16
-	WFMADB	V1, V3, V0, V3
-	FMOVD	56(R5), F4
-	FMOVD	64(R5), F7
-	FMOVD	72(R5), F6
-	WFMADB	V3, V16, V7, V16
-	WFMADB	V3, V6, V4, V6
-	WFMDB	V3, V3, V4
-	MOVD	$·expm1tab<>+0(SB), R2
-	WFMADB	V6, V4, V16, V6
-	VLEG	$0, 32(R5), V16
-	FMOVD	40(R5), F7
-	WFMADB	V3, V7, V16, V7
-	VLEG	$0, 24(R5), V16
-	WFMADB	V4, V6, V7, V4
-	WFMADB	V1, V16, V3, V1
-	FMOVD	16(R5), F6
-	FMADD	F4, F1, F6
-	LGDR	F5, R1
-	LCDBR   F6, F6
-	RISBGZ	$57, $60, $3, R1, R3
-	WORD	$0x68432000	//ld	%f4,0(%r3,%r2)
-	FMADD	F4, F1, F1
-	MOVD	$0x4086000000000000, R2
-	FMSUB	F1, F6, F4
-	LCDBR   F4, F4
-	WFCHDBS	V2, V0, V0
-	BEQ	L21
-	ADDW	$0xF000, R1
-	RISBGN	$0, $15, $48, R1, R2
-	LDGR	R2, F0
-	FMADD	F0, F4, F0
-	MOVD	$·expm1x4ff<>+0(SB), R3
-	FMOVD	0(R5), F4
-	FMOVD	0(R3), F2
-	WFMADB	V2, V0, V4, V0
-	FMOVD	F0, ret+8(FP)
-	RET
+        MOVD    $·expm1xaddexp<>+0(SB), R1
+        FMOVD   88(R5), F5
+        FMOVD   0(R1),  F4
+        WFMSDB  V0,     V5,     V4, V5
+        FMOVD   80(R5), F3
+        WFADB   V5,     V4,     V1
+        VLEG    $0,     48(R5), V16
+        WFMADB  V1,     V3,     V0, V3
+        FMOVD   56(R5), F4
+        FMOVD   64(R5), F7
+        FMOVD   72(R5), F6
+        WFMADB  V3,     V16,    V7, V16
+        WFMADB  V3,     V6,     V4, V6
+        WFMDB   V3,     V3,     V4
+        MOVD    $·expm1tab<>+0(SB), R2
+        WFMADB  V6,     V4,     V16, V6
+        VLEG    $0,     32(R5), V16
+        FMOVD   40(R5), F7
+        WFMADB  V3,     V7,     V16, V7
+        VLEG    $0,     24(R5), V16
+        WFMADB  V4,     V6,     V7,  V4
+        WFMADB  V1,     V16,    V3,  V1
+        FMOVD   16(R5), F6
+        FMADD   F4,     F1,     F6
+        LGDR    F5,     R1
+        LCDBR   F6,     F6
+        RISBGZ  $57,    $60,    $3,  R1, R3
+        WORD    $0x68432000     //ld	%f4,0(%r3,%r2)
+        FMADD   F4, F1, F1
+        MOVD    $0x4086000000000000, R2
+        FMSUB   F1, F6, F4
+        LCDBR   F4, F4
+        WFCHDBS V2, V0, V0
+        BEQ     L21
+        ADDW    $0xF000, R1
+        RISBGN  $0, $15, $48, R1, R2
+        LDGR    R2, F0
+        FMADD   F0, F4,  F0
+        MOVD    $·expm1x4ff<>+0(SB), R3
+        FMOVD   0(R5), F4
+        FMOVD   0(R3), F2
+        WFMADB  V2,    V0, V4, V0
+        FMOVD   F0,    ret+8(FP)
+        RET
 L7:
-	MOVD	$·expm1xmone<>+0(SB), R1
-	FMOVD	0(R1), F0
-	FMOVD	F0, ret+8(FP)
-	RET
+        MOVD    $·expm1xmone<>+0(SB), R1
+        FMOVD   0(R1), F0
+        FMOVD   F0,    ret+8(FP)
+        RET
 L21:
-	ADDW	$0x1000, R1
-	RISBGN	$0, $15, $48, R1, R2
-	LDGR	R2, F0
-	FMADD	F0, F4, F0
-	MOVD	$·expm1x2ff<>+0(SB), R3
-	FMOVD	0(R5), F4
-	FMOVD	0(R3), F2
-	WFMADB	V2, V0, V4, V0
-	FMOVD	F0, ret+8(FP)
-	RET
+        ADDW    $0x1000, R1
+        RISBGN  $0, $15, $48, R1, R2
+        LDGR    R2, F0
+        FMADD   F0, F4,  F0
+        MOVD    $·expm1x2ff<>+0(SB), R3
+        FMOVD   0(R5), F4
+        FMOVD   0(R3), F2
+        WFMADB  V2,    V0, V4, V0
+        FMOVD   F0,    ret+8(FP)
+        RET
 LEXITTAGexpm1:
-	FMOVD	F0, ret+8(FP)
-	RET
+        FMOVD   F0, ret+8(FP)
+        RET

@@ -22,14 +22,14 @@ PUBLIC _m32_floorf
 
 ._m32_floorf
 .m32_floor_fastcall
-    call m32_discardfraction
-    ret NC
-    ld a,d
-    and 080h
-    ret Z                       ; positive: trunc is floor
-    push de
-    push hl
-    ld de,$3f80
-    ld hl,$0000
-    call m32_fssub_callee
-    ret
+        call    m32_discardfraction
+        ret     NC
+        ld      a, d
+        and     080h
+        ret     Z       ; positive: trunc is floor
+        push    de
+        push    hl
+        ld      de, $3f80
+        ld      hl, $0000
+        call    m32_fssub_callee
+        ret

@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_finalizeSprites
 defc _SMS_finalizeSprites = SMS_finalizeSprites
 ENDIF
-

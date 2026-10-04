@@ -9,16 +9,16 @@ EXTERN asm_esx_disk_filemap
 
 _esx_disk_filemap_callee:
 
-   pop hl
-   dec sp
-   pop af
-   ex (sp),hl
+        pop     hl
+        dec     sp
+        pop     af
+        ex      (sp), hl
 
 l0_esx_disk_filemap_callee:
 
-   push ix
+        push    ix
 
-   call asm_esx_disk_filemap
+        call    asm_esx_disk_filemap
 
-   pop ix
-   ret
+        pop     ix
+        ret

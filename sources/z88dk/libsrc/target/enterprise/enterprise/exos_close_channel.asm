@@ -9,16 +9,16 @@
 ;
 
         SECTION code_clib
-	PUBLIC	exos_close_channel
-	PUBLIC	_exos_close_channel
+        PUBLIC  exos_close_channel
+        PUBLIC  _exos_close_channel
 
 exos_close_channel:
 _exos_close_channel:
 
-	ld	a,l
-	rst   30h
-	defb  3
-	ld	h,0
-	ld	l,a
+        ld      a, l
+        rst     30h
+        defb    3
+        ld      h, 0
+        ld      l, a
 
-	ret
+        ret

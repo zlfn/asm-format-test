@@ -7,16 +7,16 @@
 
         ;; Unsigned
 __divuchar:
-        ld      hl,sp+3
+        ld      hl, sp+3
 
-        ld      e,(hl)
+        ld      e, (hl)
         dec     hl
-        ld      l,(hl)
+        ld      l, (hl)
 
-        ld      c,l
+        ld      c, l
         call    l_divu8
 
-        ld      e,c
-        ld      d,b
+        ld      e, c
+        ld      d, b
 
         ret

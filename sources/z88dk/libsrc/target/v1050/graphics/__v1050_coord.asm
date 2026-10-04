@@ -1,31 +1,30 @@
 
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  __v1050_coord
+        PUBLIC  __v1050_coord
 
-    EXTERN  v1050_sendchar
-    EXTERN  v1050_sendchar_fast
+        EXTERN  v1050_sendchar
+        EXTERN  v1050_sendchar_fast
 
 ;
 ;       $Id: __v1050_coord.asm $
 ;
 
-
 __v1050_coord:
 
 ;; Short way, binary spec, LSB/MSB
-    push    hl
-    ld      l, '='
-    call    v1050_sendchar
-    pop     hl
-    push    hl
-    call    v1050_sendchar_fast
-    pop     hl
-    ld      l, h
-    call    v1050_sendchar
-    ret
+        push    hl
+        ld      l, '='
+        call    v1050_sendchar
+        pop     hl
+        push    hl
+        call    v1050_sendchar_fast
+        pop     hl
+        ld      l, h
+        call    v1050_sendchar
+        ret
 
 ;; Alternative way, ASCII-decimal values
 ;;--------------------------------------------------

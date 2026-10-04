@@ -9,22 +9,22 @@
 ;
 
 IF  !__CPU_GBZ80__&&!__CPU_INTEL__
-    SECTION code_clib
-    PUBLIC  bit_open_di
-    PUBLIC  _bit_open_di
-    EXTERN  __snd_tick
-    EXTERN  __bit_irqstatus
+        SECTION code_clib
+        PUBLIC  bit_open_di
+        PUBLIC  _bit_open_di
+        EXTERN  __snd_tick
+        EXTERN  __bit_irqstatus
 
-    INCLUDE "classic/games/games.inc"
+        INCLUDE "classic/games/games.inc"
 
 bit_open_di:
 _bit_open_di:
-    ld      a, i                        ; get the current status of the irq line
-    di
-    push    af
-    ex      (sp), hl
-    ld      (__bit_irqstatus), hl
-    pop     hl
-    ld      a, (__snd_tick)
-    ret
+        ld      a, i    ; get the current status of the irq line
+        di
+        push    af
+        ex      (sp), hl
+        ld      (__bit_irqstatus), hl
+        pop     hl
+        ld      a, (__snd_tick)
+        ret
 ENDIF

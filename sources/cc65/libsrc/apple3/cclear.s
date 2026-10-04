@@ -6,14 +6,14 @@
 ; void __fastcall__ cclear (unsigned char length);
 ;
 
-        .export         _cclearxy, _cclear
-        .import         gotoxy, chlinedirect
+        .export _cclearxy, _cclear
+        .import gotoxy,    chlinedirect
 
 _cclearxy:
-        pha                     ; Save the length
-        jsr     gotoxy          ; Call this one, will pop params
-        pla                     ; Restore the length and run into _cclear
+        pha             ; Save the length
+        jsr     gotoxy  ; Call this one, will pop params
+        pla             ; Restore the length and run into _cclear
 
 _cclear:
-        ldx     #' '            ; Blank, screen code
+        ldx     #' '    ; Blank, screen code
         jmp     chlinedirect

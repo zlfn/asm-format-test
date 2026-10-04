@@ -14,50 +14,50 @@
 ; dhandle_t - 16bit (ptr)
 ;
 
-        .export         _dio_log_to_phys
-        .include        "atari.inc"
-        .importzp       ptr1,ptr2,ptr3
-        .import         popax,popptr1,___oserror
+        .export _dio_log_to_phys
+        .include "atari.inc"
+        .importzp ptr1, ptr2, ptr3
+        .import popax, popptr1, ___oserror
 
 .proc   _dio_log_to_phys
 
         sta     ptr2
-        stx     ptr2+1          ; pointer to output structure
+        stx     ptr2+1  ; pointer to output structure
 
-        jsr     popptr1         ; save pointer to input data
+        jsr     popptr1 ; save pointer to input data
 
         jsr     popax
         sta     ptr3
-        stx     ptr3+1          ; pointer to handle
+        stx     ptr3+1  ; pointer to handle
 
         ldy     #sst_flag
-        lda     (ptr3),y
+        lda     (ptr3), y
         and     #128
         beq     _inv_hand       ; handle not open or invalid
 
         lda     #0
         tay
         tax
-        sta     (ptr2),y        ; head
+        sta     (ptr2), y       ; head
         iny
-        sta     (ptr2),y        ; track (low)
+        sta     (ptr2), y       ; track (low)
         iny
-        sta     (ptr2),y        ; track (high)
+        sta     (ptr2), y       ; track (high)
         iny
 
         lda     (ptr1,x)
-        sta     (ptr2),y
+        sta     (ptr2), y
         iny
         inc     ptr1
         bne     _l1
         inc     ptr1+1
 _l1:    lda     (ptr1,x)
-        sta     (ptr2),y
+        sta     (ptr2), y
 
         txa
 ret:
         sta     ___oserror
-        rts                     ; return success
+        rts     ; return success
 
 ; invalid handle
 
@@ -67,4 +67,3 @@ _inv_hand:
         bne     ret
 
 .endproc
-

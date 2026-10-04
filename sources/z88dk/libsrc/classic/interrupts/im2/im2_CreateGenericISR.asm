@@ -9,12 +9,12 @@ EXTERN asm_im2_CreateGenericISR
 .im2_CreateGenericISR
 ._im2_CreateGenericISR
 
-   pop hl
-   pop de
-   pop bc
-   push bc
-   push de
-   push hl
-   ld a,c
-   
-   jp asm_im2_CreateGenericISR
+        pop     hl
+        pop     de
+        pop     bc
+        push    bc
+        push    de
+        push    hl
+        ld      a, c
+
+        jp      asm_im2_CreateGenericISR

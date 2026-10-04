@@ -5,14 +5,12 @@
 ; /* Initialize the random number generator */
 ;
 
-        .export         ___randomize
-        .import         _srand
+        .export ___randomize
+        .import _srand
 
-        .include        "nes.inc"
+        .include "nes.inc"
 
 ___randomize:
         ldx     tickcount       ; Use tick clock
         lda     tickcount+1
         jmp     _srand          ; Initialize generator
-
-

@@ -12,8 +12,7 @@
 
 _joy_stddrv:
         .ifdef  __APPLE2ENH__
-        .asciiz "A2E.STDJOY.JOY"
+                .asciiz "A2E.STDJOY.JOY"
         .else
-        .asciiz "A2.STDJOY.JOY"
+                .asciiz "A2.STDJOY.JOY"
         .endif
-

@@ -26,23 +26,22 @@
 ; */
 ;
 
-        .export         _videomode
+        .export _videomode
 
-        .import         SCREEN_MODE
-
+        .import SCREEN_MODE
 
 .proc   _videomode
-        sec                     ; Get old mode
+        sec     ; Get old mode
         pha
         jsr     SCREEN_MODE
         plx
-        pha                     ; Save old mode
+        pha     ; Save old mode
         txa
-        clc                     ; Set new mode
+        clc     ; Set new mode
         jsr     SCREEN_MODE
 
-        pla                     ; Get back old mode
-        ldx     #>$0000         ; Clear high byte
+        pla             ; Get back old mode
+        ldx     #>$0000 ; Clear high byte
         bcc     @L1
 
 ; The new mode is invalid.  Return -1.

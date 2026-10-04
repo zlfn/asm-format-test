@@ -13,7 +13,7 @@
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ;  GNU General Public License for more details.
 ;
-;  You should have received a copy of the GNU General Public License 
+;  You should have received a copy of the GNU General Public License
 ;  along with this library; see the file COPYING. If not, write to the
 ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
 ;   MA 02110-1301, USA.
@@ -35,7 +35,7 @@
 _uint2bcd::
         ld      iyh, d
         ld      iyl, e
-        
+
         ex      DE, HL
 
         ; clear value
@@ -46,23 +46,23 @@ _uint2bcd::
         ld      3(iy), A
 
         ld      B, #16
-1$:        
+1$:
         sla     E
         rl      D
-        
+
         ld      A, 0(iy)
         adc     A
         daa
         ld      0(iy), A
-        ld      A, 1(iy)
+        ld      A,     1(iy)
         adc     A
         daa
         ld      1(iy), A
-        ld      A, 2(iy)
+        ld      A,     2(iy)
         adc     A
         daa
         ld      2(iy), A
-        
+
         dec     B
         jr      NZ, 1$
 
@@ -70,67 +70,67 @@ _uint2bcd::
 
 ;void bcd_add(BCD * sour, BCD * value) __naked
 _bcd_add::
-        or      A               ; clear C, HC
+        or      A       ; clear C, HC
 
-        ld      A,(DE)
+        ld      A, (DE)
         add     (HL)
         daa
         ld      (HL), A
         inc     HL
         inc     DE
-        
-        ld      A,(DE)
+
+        ld      A, (DE)
         adc     (HL)
         daa
         ld      (HL), A
         inc     HL
         inc     DE
-        
-        ld      A,(DE)
+
+        ld      A, (DE)
         adc     (HL)
         daa
         ld      (HL), A
         inc     HL
         inc     DE
-        
-        ld      A,(DE)
+
+        ld      A, (DE)
         adc     (HL)
         daa
         ld      (HL), A
-        
+
         ret
 
 ; void bcd_sub(BCD * sour, BCD * value) __naked
 _bcd_sub::
         ex      DE, HL
-        or      A               ; clear C, HC
+        or      A       ; clear C, HC
 
-        ld      A,(DE)
+        ld      A, (DE)
         sub     (HL)
         daa
         ld      (DE), A
         inc     DE
         inc     HL
-        
-        ld      A,(DE)
+
+        ld      A, (DE)
         sbc     (HL)
         daa
         ld      (DE), A
         inc     DE
         inc     HL
-        
-        ld      A,(DE)
+
+        ld      A, (DE)
         sbc     (HL)
         daa
         ld      (DE), A
         inc     DE
         inc     HL
-        
-        ld      A,(DE)
+
+        ld      A, (DE)
         sbc     (HL)
         daa
         ld      (DE), A
-        
+
         ret
 
 ;uint8_t bcd2text(BCD * bcd, uint8_t tile_offset, uint8_t * buffer) __naked
@@ -139,7 +139,7 @@ _bcd2text::
         pop     IY
         dec     SP
         pop     BC
-        ld      C, B            ; C: digit offset
+        ld      C,    B         ; C: digit offset
         ex      (SP), IY        ; HL: buffer
 
         inc     DE
@@ -156,12 +156,12 @@ _bcd2text::
         and     B
         add     C
         ld      0(IY), A
-        ld      A, (DE)
+        ld      A,     (DE)
         and     B
         add     C
         ld      1(IY), A
         dec     DE
-        
+
         ld      A, (DE)
         rlca
         rlca
@@ -170,7 +170,7 @@ _bcd2text::
         and     B
         add     C
         ld      2(IY), A
-        ld      A, (DE)
+        ld      A,     (DE)
         and     B
         add     C
         ld      3(IY), A
@@ -184,12 +184,12 @@ _bcd2text::
         and     B
         add     C
         ld      4(IY), A
-        ld      A, (DE)
+        ld      A,     (DE)
         and     B
         add     C
         ld      5(IY), A
         dec     DE
-        
+
         ld      A, (DE)
         rlca
         rlca
@@ -198,15 +198,15 @@ _bcd2text::
         and     B
         add     C
         ld      6(IY), A
-        ld      A, (DE)
+        ld      A,     (DE)
         and     B
         add     C
         ld      7(IY), A
         dec     DE
-        
+
         xor     A
         ld      8(IY), A
-        
+
         ld      A, #0x08
-        
+
         ret

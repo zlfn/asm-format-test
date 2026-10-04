@@ -16,13 +16,13 @@ EXTERN _feof_fastcall
 
 _feof:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _feof_fastcall
+        push    hl
+        push    af
+
+        jp      _feof_fastcall
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

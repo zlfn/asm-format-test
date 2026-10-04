@@ -10,14 +10,14 @@ EXTERN asm_hbios_e
 
 ._hbios_e_de_hl
 
-    pop af
-    pop bc
-    pop de
-    pop hl
+        pop     af
+        pop     bc
+        pop     de
+        pop     hl
 
-    push hl
-    push de
-    push bc
-    push af
+        push    hl
+        push    de
+        push    bc
+        push    af
 
-    jp asm_hbios_e
+        jp      asm_hbios_e

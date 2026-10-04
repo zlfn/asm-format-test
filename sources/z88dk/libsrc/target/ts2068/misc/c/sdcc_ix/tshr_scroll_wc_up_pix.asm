@@ -9,13 +9,13 @@ EXTERN l0_tshr_scroll_wc_up_pix_callee
 
 _tshr_scroll_wc_up_pix:
 
-   pop af
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push af
-   
-   ld l,d
-   jp l0_tshr_scroll_wc_up_pix_callee
+        pop     af
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    af
+
+        ld      l, d
+        jp      l0_tshr_scroll_wc_up_pix_callee

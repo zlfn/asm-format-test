@@ -89,7 +89,7 @@
 ;
 ; * IOCTL_ITERM_CURS
 ;   enable / disable cursor in line mode
-; 
+;
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; BYTES RESERVED IN FDSTRUCT
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -117,16 +117,16 @@ EXTERN term_01_input_char_stdio_msg_flsh
 
 term_01_input_char:
 
-   cp ITERM_MSG_GETC
-   jp z, term_01_input_char_iterm_msg_getc
-   
-   cp ITERM_MSG_INTERRUPT
-   jp z, term_01_input_char_iterm_msg_interrupt
+        cp      ITERM_MSG_GETC
+        jp      z, term_01_input_char_iterm_msg_getc
 
-   cp ITERM_MSG_REJECT
-   jp z, term_01_input_char_iterm_msg_reject
-   
-   cp STDIO_MSG_FLSH
-   jp z, term_01_input_char_stdio_msg_flsh
-   
-   jp console_01_input_terminal    ; forward to library
+        cp      ITERM_MSG_INTERRUPT
+        jp      z, term_01_input_char_iterm_msg_interrupt
+
+        cp      ITERM_MSG_REJECT
+        jp      z, term_01_input_char_iterm_msg_reject
+
+        cp      STDIO_MSG_FLSH
+        jp      z, term_01_input_char_stdio_msg_flsh
+
+        jp      console_01_input_terminal       ; forward to library

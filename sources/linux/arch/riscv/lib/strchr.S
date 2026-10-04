@@ -20,15 +20,15 @@ SYM_FUNC_START(strchr)
 	 * Clobbers
 	 *   t0
 	 */
-	andi	a1, a1, 0xff
+        andi    a1, a1, 0xff
 1:
-	lbu	t0, 0(a0)
-	beq	t0, a1, 2f
-	addi	a0, a0, 1
-	bnez	t0, 1b
-	li	a0, 0
+        lbu     t0, 0(a0)
+        beq     t0, a1, 2f
+        addi    a0, a0, 1
+        bnez    t0, 1b
+        li      a0, 0
 2:
-	ret
+        ret
 SYM_FUNC_END(strchr)
 
 SYM_FUNC_ALIAS_WEAK(__pi_strchr, strchr)

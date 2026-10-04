@@ -10,7 +10,7 @@
 
         ; soft80mono_cgetc.s
         .import soft80mono_cgetc
-        .export _cgetc := soft80mono_cgetc              ; cgetc.s
+        .export _cgetc := soft80mono_cgetc      ; cgetc.s
 
         ; soft80mono_color.s
         .import soft80mono_textcolor
@@ -20,7 +20,7 @@
 
         ; soft80mono_cpeekc.s
         .import soft80_cpeekc
-        .export _cpeekc := soft80_cpeekc                ; cpeekc.s
+        .export _cpeekc := soft80_cpeekc        ; cpeekc.s
 
         ; soft80mono_cpeekcolor.s
         .import soft80mono_cpeekcolor
@@ -32,7 +32,7 @@
 
         ; soft80mono_cpeeks.s
         .import soft80_cpeeks
-        .export _cpeeks := soft80_cpeeks                ; cpeeks.s
+        .export _cpeeks := soft80_cpeeks        ; cpeeks.s
 
         ; soft80mono_cputc.s
         .import soft80mono_cputc
@@ -50,25 +50,25 @@
 
         ; soft80mono_kclrscr.s
         .import soft80mono_kclrscr
-        .export _clrscr := soft80mono_kclrscr           ; clrscr.s
+        .export _clrscr := soft80mono_kclrscr   ; clrscr.s
 
         ; soft80mono_kplot.s
         .import soft80mono_kplot
-        .export PLOT := soft80mono_kplot                ; kplot.s
+        .export PLOT := soft80mono_kplot        ; kplot.s
 
         ; soft80_kscreen.s
         .import soft80_screensize
-        .export screensize := soft80_screensize         ; _scrsize.s
+        .export screensize := soft80_screensize ; _scrsize.s
         ; FIXME: use _scrsize.s/remove soft80_scrsize.s
         ;.export SCREEN := soft80_screensize             ; kernal func (kernal.s)
 
         ; VIC sprite data for the mouse pointer
-        .export         mcb_spritememory  := soft80_spriteblock
-        .export         mcb_spritepointer := (soft80_vram + $03F8)
+        .export mcb_spritememory  := soft80_spriteblock
+        .export mcb_spritepointer := (soft80_vram + $03F8)
 
         ; Chars used by chline () and cvline ()
-        .exportzp       chlinechar = CH_HLINE
-        .exportzp       cvlinechar = CH_VLINE
+        .exportzp chlinechar = CH_HLINE
+        .exportzp cvlinechar = CH_VLINE
 
-        .import         return1
-        .export         _doesclrscrafterexit := return1
+        .import return1
+        .export _doesclrscrafterexit := return1

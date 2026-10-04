@@ -6,11 +6,11 @@
 ; CC65 runtime: negation on ints
 ;
 
-        .export         negax
-        .export         _abs
+        .export negax
+        .export _abs
 
-_abs:   cpx     #$00            ; Test hi byte
-        bpl     L1              ; Don't touch if positive
+_abs:   cpx     #$00    ; Test hi byte
+        bpl     L1      ; Don't touch if positive
 negax:  clc
         eor     #$FF
         adc     #1
@@ -20,7 +20,4 @@ negax:  clc
         adc     #0
         tax
         pla
- L1:    rts
-
-
-
+L1:     rts

@@ -10,12 +10,12 @@ EXTERN asm_dzx7_mega_back
 
 _dzx7_mega_back:
 
-   pop af
-   pop hl
-   pop de
+        pop     af
+        pop     hl
+        pop     de
 
-   push de
-   push hl
-   push af
+        push    de
+        push    hl
+        push    af
 
-   jp asm_dzx7_mega_back
+        jp      asm_dzx7_mega_back

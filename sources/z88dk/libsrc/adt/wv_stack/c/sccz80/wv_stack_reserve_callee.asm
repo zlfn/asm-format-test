@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _wv_stack_reserve_callee
 defc _wv_stack_reserve_callee = wv_stack_reserve_callee
 ENDIF
-

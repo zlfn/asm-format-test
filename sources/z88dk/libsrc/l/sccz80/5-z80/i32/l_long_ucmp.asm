@@ -1,5 +1,5 @@
 ;
-;       Z88 Small C+ Run Time Library 
+;       Z88 Small C+ Run Time Library
 ;       Long support functions
 ;
 ;       25/2/99 djm
@@ -23,71 +23,71 @@ PUBLIC l_long_ucmp
 
 l_long_ucmp:
 
-   ; computes (primary - secondary)
-   ;
-   ; dehl  = secondary
-   ; stack = primary, return address 1, return address 2
+        ; computes (primary - secondary)
+        ;
+        ; dehl  = secondary
+        ; stack = primary, return address 1, return address 2
 
-   pop bc                      ; bc = return address 2
+        pop     bc      ; bc = return address 2
 
-   exx
+        exx
 
-   pop bc                      ; bc = return address 1
+        pop     bc      ; bc = return address 1
 
-   pop hl
-   pop de                      ; dehl = primary
+        pop     hl
+        pop     de      ; dehl = primary
 
-   push bc                     ; save return address 1
-   ld a,l
+        push    bc      ; save return address 1
+        ld      a, l
 
-   exx
+        exx
 
-   push bc                     ; save return address 2
+        push    bc      ; save return address 2
 
-   sub l
-   ld l,a
+        sub     l
+        ld      l, a
 
-   exx
-   ld a,h
-   exx
+        exx
+        ld      a, h
+        exx
 
-   sbc a,h
-   ld h,a
+        sbc     a, h
+        ld      h, a
 
-   exx
-   ld a,e
-   exx
+        exx
+        ld      a, e
+        exx
 
-   sbc a,e
-   ld e,a
+        sbc     a, e
+        ld      e, a
 
-   exx
-   ld a,d
-   exx
+        exx
+        ld      a, d
+        exx
 
-   sbc a,d
+        sbc     a, d
 ;   ld d,a
 
-   ; dehl = result, a = d
+        ; dehl = result, a = d
 
-   jp C, negative
+        jp      C, negative
 
 positive:
 
 ;   ld a,d
-   or e
-   or h
-   or l
-   scf
-   ccf
-   ld hl,1
-   ret
+        or      e
+        or      h
+        or      l
+        scf
+        ccf
+        ld      hl, 1
+        ret
 
 negative:
 
-   or e
-   or h
-   or l
-   scf
-   ld hl,1
-   ret
+        or      e
+        or      h
+        or      l
+        scf
+        ld      hl, 1
+        ret

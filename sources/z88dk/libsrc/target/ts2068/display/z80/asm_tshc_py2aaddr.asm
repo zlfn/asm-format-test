@@ -19,13 +19,13 @@ EXTERN asm0_zx_py2saddr
 
 asm_tshc_py2aaddr:
 
-   ld a,l
-   and $07
+        ld      a, l
+        and     $07
 
 IF __USE_SPECTRUM_128_SECOND_DFILE
-   or $e0
+        or      $e0
 ELSE
-   or $60
+        or      $60
 ENDIF
 
-   jp asm0_zx_py2saddr
+        jp      asm0_zx_py2saddr

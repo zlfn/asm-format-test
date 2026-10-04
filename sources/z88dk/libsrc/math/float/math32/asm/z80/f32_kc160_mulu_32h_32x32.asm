@@ -31,9 +31,8 @@ PUBLIC m32_mulu_32h_32x32
 ;
 ; uses  : af, bc, de, hl, bc', de', hl'
 
-
 defc m32_mulu_32h_32x32 = l_mulu_64_32x32
 
-                                ; exit  : DEHL = 32-bit product
+        ; exit  : DEHL = 32-bit product
 
 ENDIF

@@ -12,27 +12,27 @@ PUBLIC asm_SMSlib_zeroBGPalette
 
 asm_SMSlib_zeroBGPalette:
 
-   ; void SMS_zeroBGPalette (void)
-   ;
-   ; uses : af, b
-   
-   di
-   
-   ld a,SMS_CRAMAddress&0xff
-   out (VDPControlPort),a
-   
-   ld a,SMS_CRAMAddress/256
-   out (VDPControlPort),a
-   
-   ei
-   
-   xor a
-   ld b,16
+        ; void SMS_zeroBGPalette (void)
+        ;
+        ; uses : af, b
+
+        di
+
+        ld      a, SMS_CRAMAddress&0xff
+        out     (VDPControlPort), a
+
+        ld      a, SMS_CRAMAddress/256
+        out     (VDPControlPort), a
+
+        ei
+
+        xor     a
+        ld      b, 16
 
 loop:
 
-   out (VDPDataPort),a
-   nop
+        out     (VDPDataPort), a
+        nop
 
-   djnz loop
-   ret
+        djnz    loop
+        ret

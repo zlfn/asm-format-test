@@ -5,12 +5,11 @@
 ;
 ; This routine only works with Orix
 
+        .export __sysmkdir
+        .import addysp, popax
 
-        .export         __sysmkdir
-        .import         addysp, popax
-
-        .include        "telestrat.inc"
-        .include        "zeropage.inc"
+        .include "telestrat.inc"
+        .include "zeropage.inc"
 
 __sysmkdir:
         ; Throw away all parameters except the name
@@ -24,7 +23,7 @@ __sysmkdir:
         stx     tmp1
         ldy     tmp1
 
-        ldx     #$00         ; X register is used to set if all folders must be created
+        ldx     #$00    ; X register is used to set if all folders must be created
 
         ; Call telemon primitive
 

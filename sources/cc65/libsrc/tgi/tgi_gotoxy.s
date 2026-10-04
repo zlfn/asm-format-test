@@ -5,18 +5,17 @@
 ; /* Set the current drawing pointer to the given position. */
 ;
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
-        .import         popax
+        .import popax
 
 .proc   _tgi_gotoxy
 
-        sta     _tgi_cury               ; Y
+        sta     _tgi_cury       ; Y
         stx     _tgi_cury+1
         jsr     popax
-        sta     _tgi_curx               ; X
+        sta     _tgi_curx       ; X
         stx     _tgi_curx+1
         rts
 
 .endproc
-

@@ -7,14 +7,14 @@
 ; Robert Justice, 2026
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "apple3.inc"
-        .include        "../sos.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "apple3.inc"
+        .include "../sos.inc"
 
-        .macpack        module
+        .macpack module
 
 ; ------------------------------------------------------------------------
 
@@ -27,7 +27,7 @@ UPPER_THRESHOLD =   128+50
 
 ; Header. Includes jump table.
 
-        module_header   _a3_stdjoy_joy
+        module_header _a3_stdjoy_joy
 
 ; Driver signature
 
@@ -44,7 +44,6 @@ libref: .addr   $0000
         .addr   UNINSTALL
         .addr   COUNT
         .addr   READ
-
 
 ; ------------------------------------------------------------------------
 
@@ -71,16 +70,16 @@ UNINSTALL:
 
 ; COUNT routine. Return the total number of available joysticks in a/x.
 COUNT:
-        lda     #$02            ; Number of joysticks we support
+        lda     #$02    ; Number of joysticks we support
         ldx     #>$0000
         rts
 
 ; READ routine. Read a particular joystick passed in A.
 READ:
         beq     :+
-        lda     #3              ; joystick B
+        lda     #3      ; joystick B
         bne     :++
-:       lda     #7              ; joystick A
+:       lda     #7      ; joystick A
 :       sta     mode
 
         brk
@@ -88,31 +87,31 @@ READ:
         .addr   joylist
 
         ; Transform paddle readings to directions
-        lda     #$00            ; 0 0 0 0 0 0 0 0
+        lda     #$00    ; 0 0 0 0 0 0 0 0
         ldy     status + 2
         cpy     #LOWER_THRESHOLD
-        ror                     ; !LEFT 0 0 0 0 0 0 0
+        ror             ; !LEFT 0 0 0 0 0 0 0
         cpy     #UPPER_THRESHOLD
-        ror                     ; RIGHT !LEFT 0 0 0 0 0 0
+        ror             ; RIGHT !LEFT 0 0 0 0 0 0
         ldy     status + 3
         cpy     #LOWER_THRESHOLD
-        ror                     ; !UP RIGHT !LEFT 0 0 0 0 0
+        ror             ; !UP RIGHT !LEFT 0 0 0 0 0
         cpy     #UPPER_THRESHOLD
-        ror                     ; DOWN !UP RIGHT !LEFT 0 0 0 0
+        ror             ; DOWN !UP RIGHT !LEFT 0 0 0 0
 
         ; Read primary button
         tay
         lda     status
         asl
         tya
-        ror                     ; BTN_1 DOWN !UP RIGHT !LEFT 0 0 0
+        ror     ; BTN_1 DOWN !UP RIGHT !LEFT 0 0 0
 
         ; Read secondary button
         tay
         lda     status + 1
         asl
         tya
-        ror                     ; BTN_2 BTN_1 DOWN !UP RIGHT !LEFT 0 0
+        ror     ; BTN_2 BTN_1 DOWN !UP RIGHT !LEFT 0 0
 
         ; Finalize
         eor     #%00010100      ; BTN_2 BTN_1 DOWN UP RIGHT LEFT 0 0

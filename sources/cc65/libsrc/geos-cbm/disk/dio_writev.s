@@ -7,17 +7,17 @@
 ; unsigned char __fastcall__ dio_write_verify (dhandle_t handle, unsigned sect_num, const void *buffer);
 ;
 
-            .export _dio_write_verify
-            .import dio_params, ___oserror
+        .export _dio_write_verify
+        .import dio_params, ___oserror
 
-            .include "geossym.inc"
-            .include "jumptab.inc"
+        .include "geossym.inc"
+        .include "jumptab.inc"
 
 _dio_write_verify:
-        jsr dio_params
+        jsr     dio_params
         tay
-        bne err
-        jsr VerWriteBlock
-        stx ___oserror
+        bne     err
+        jsr     VerWriteBlock
+        stx     ___oserror
         txa
 err:    rts

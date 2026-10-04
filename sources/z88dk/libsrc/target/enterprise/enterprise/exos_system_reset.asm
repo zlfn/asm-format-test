@@ -9,14 +9,14 @@
 ;
 
         SECTION code_clib
-	PUBLIC	exos_system_reset
-	PUBLIC	_exos_system_reset
+        PUBLIC  exos_system_reset
+        PUBLIC  _exos_system_reset
 
 exos_system_reset:
 _exos_system_reset:
 
-	ld    c,l
-	rst   30h
-	defb  0
+        ld      c, l
+        rst     30h
+        defb    0
 
-	ret
+        ret

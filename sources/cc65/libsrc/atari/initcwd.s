@@ -2,10 +2,10 @@
 ; Stefan Haubenthal, 2008-04-29
 ;
 
-        .export         initcwd
-        .import         findfreeiocb
-        .import         __cwd
-        .include        "atari.inc"
+        .export initcwd
+        .import findfreeiocb
+        .import __cwd
+        .include "atari.inc"
 
 .proc   initcwd
 
@@ -14,20 +14,20 @@
         jsr     findfreeiocb
         bne     oserr
         lda     #GETCWD
-        sta     ICCOM,x
+        sta     ICCOM, x
         lda     #<__cwd
-        sta     ICBLL,x
+        sta     ICBLL, x
         lda     #>__cwd
-        sta     ICBLH,x
+        sta     ICBLH, x
         jsr     CIOV
         bmi     oserr
-        ldx     #$FF            ; ATEOL -> \0
+        ldx     #$FF    ; ATEOL -> \0
 :       inx
-        lda     __cwd,x
+        lda     __cwd, x
         cmp     #ATEOL
         bne     :-
         lda     #0
-        sta     __cwd,x
+        sta     __cwd, x
 oserr:  rts
 
 .endproc

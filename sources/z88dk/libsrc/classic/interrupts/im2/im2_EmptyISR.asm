@@ -9,5 +9,5 @@ PUBLIC _im2_EmptyISR
 
 .im2_EmptyISR
 ._im2_EmptyISR
-   ei
-   reti
+        ei
+        reti

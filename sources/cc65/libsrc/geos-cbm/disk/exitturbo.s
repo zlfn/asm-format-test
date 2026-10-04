@@ -5,8 +5,8 @@
 
 ; void ExitTurbo (void);
 
-            .export _ExitTurbo
+        .export _ExitTurbo
 
-            .include "jumptab.inc"
+        .include "jumptab.inc"
 
 _ExitTurbo      = ExitTurbo

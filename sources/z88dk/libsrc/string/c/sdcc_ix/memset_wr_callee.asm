@@ -10,10 +10,10 @@ EXTERN asm_memset_wr
 
 _memset_wr_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
-   
-   jp asm_memset_wr
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
+
+        jp      asm_memset_wr

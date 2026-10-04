@@ -5,22 +5,22 @@
 ; Startup code for cc65 (Apple3 version)
 ;
 
-        .export         return, done
-        .export         __STARTUP__ : absolute = 1      ; Mark as startup
+        .export return, done
+        .export __STARTUP__ : absolute = 1      ; Mark as startup
 
-        .import         initlib, donelib
-        .import         zerobss, callmain
-        .import         __ONCE_LOAD__, __ONCE_SIZE__    ; Linker generated
+        .import initlib, donelib
+        .import zerobss, callmain
+        .import __ONCE_LOAD__, __ONCE_SIZE__    ; Linker generated
 
-        .include        "zeropage.inc"
-        .include        "apple3.inc"
+        .include "zeropage.inc"
+        .include "apple3.inc"
 
 ; ------------------------------------------------------------------------
 
-        .segment        "STARTUP"
+        .segment "STARTUP"
 
         ldx     #$FF
-        txs                     ; Init stack pointer
+        txs     ; Init stack pointer
 
         ; Save space by putting some of the start-up code in the ONCE segment,
         ; which can be re-used by the BSS segment, the heap and the C stack.
@@ -34,13 +34,13 @@
 
 ; ------------------------------------------------------------------------
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 init:
         ; zero interpreter extended addressing page to disable
         ldx     #0
         txa
-:       sta     $1600,x
+:       sta     $1600, x
         inx
         bne     :-
 
@@ -70,14 +70,13 @@ init:
 return: rts
 
         ; Quit to SOS
-quit:   brk                     ; SOS Terminate
-        .byte   $65             ; Quit
-        .word   quit            ; points to param count of zero
+quit:   brk             ; SOS Terminate
+        .byte   $65     ; Quit
+        .word   quit    ; points to param count of zero
 
 ; ------------------------------------------------------------------------
 
         .data
 
         ; Final jump when we're done
-done:   jmp     quit            ; Potentially patched at runtime
-
+done:   jmp     quit    ; Potentially patched at runtime

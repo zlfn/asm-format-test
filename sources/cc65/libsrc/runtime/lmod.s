@@ -7,9 +7,9 @@
 ; When negating values, we will ignore the possibility here, that one of the
 ; values if $8000, in which case the negate will fail.
 
-        .export         tosmod0ax, tosmodeax
-        .import         poplsargs, udiv32, negeax
-        .importzp       sreg, ptr1, ptr2, tmp1, tmp3, tmp4
+        .export tosmod0ax, tosmodeax
+        .import poplsargs, udiv32, negeax
+        .importzp sreg, ptr1, ptr2, tmp1, tmp3, tmp4
 
 tosmod0ax:
 .if .cap(CPU_HAS_STZ)
@@ -36,14 +36,13 @@ tosmodeax:
 
 ; Check the sign of the result. It is the sign of the left operand.
 
-        bit     tmp1            ; Check sign of left operand
-        bpl     Pos             ; Jump if result is positive
+        bit     tmp1    ; Check sign of left operand
+        bpl     Pos     ; Jump if result is positive
 
 ; Result is negative
 
-        jmp     negeax          ; Negate result
+        jmp     negeax  ; Negate result
 
 ; Result is positive
 
-Pos:    rts                     ; Done
-
+Pos:    rts     ; Done

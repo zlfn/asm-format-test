@@ -16,15 +16,15 @@ EXTERN l0_fsetpos_callee
 
 _fsetpos:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     hl
 
-   jp l0_fsetpos_callee
+        push    hl
+        push    bc
+        push    af
+
+        jp      l0_fsetpos_callee
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -35,7 +35,7 @@ PUBLIC _fsetpos
 EXTERN _fsetpos_unlocked
 
 defc _fsetpos = _fsetpos_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

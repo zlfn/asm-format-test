@@ -4,13 +4,13 @@
 
 t1:
 mov eax, \
-    ebx
+        ebx
 ; CHECK: t1:
 ; CHECK-NEXT: mov eax, ebx
 
 t2:
 mov eax, [ebx + \
-          1]
+        1]
 ; CHECK: t2:
 ; CHECK-NEXT: mov eax, dword ptr [ebx + 1]
 

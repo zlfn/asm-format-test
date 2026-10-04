@@ -10,9 +10,9 @@ EXTERN asm_obstack_alloc
 
 _obstack_alloc_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_obstack_alloc
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_obstack_alloc

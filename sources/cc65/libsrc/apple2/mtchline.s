@@ -8,16 +8,16 @@
 
 .ifdef  __APPLE2ENH__
 
-        .export         _mt_chlinexy, _mt_chline, chlinedirect
-        .import         gotoxy, cputdirect
+        .export _mt_chlinexy, _mt_chline, chlinedirect
+        .import gotoxy, cputdirect
 
-        .include        "zeropage.inc"
-        .include        "apple2.inc"
+        .include "zeropage.inc"
+        .include "apple2.inc"
 
 _mt_chlinexy:
-        pha                     ; Save the length
-        jsr     gotoxy          ; Call this one, will pop params
-        pla                     ; Restore the length and run into _chline
+        pha             ; Save the length
+        jsr     gotoxy  ; Call this one, will pop params
+        pla             ; Restore the length and run into _chline
 
 _mt_chline:
         ldx     #'_' | $80      ; Underscore, screen code

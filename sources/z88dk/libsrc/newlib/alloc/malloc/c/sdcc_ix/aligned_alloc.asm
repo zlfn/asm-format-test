@@ -16,15 +16,15 @@ EXTERN asm_aligned_alloc
 
 _aligned_alloc:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp asm_aligned_alloc
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_aligned_alloc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -35,7 +35,7 @@ PUBLIC _aligned_alloc
 EXTERN _aligned_alloc_unlocked
 
 defc _aligned_alloc = _aligned_alloc_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

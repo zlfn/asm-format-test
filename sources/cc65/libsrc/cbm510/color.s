@@ -2,12 +2,11 @@
 ; Ullrich von Bassewitz, 13.09.2001
 ;
 
-        .export         _textcolor, _bgcolor, _bordercolor
-        .import         sys_bank, restore_bank
-        .import         vic: zp, CHARCOLOR: zp
+        .export _textcolor, _bgcolor, _bordercolor
+        .import sys_bank,   restore_bank
+        .import vic: zp,    CHARCOLOR: zp
 
-        .include        "cbm510.inc"
-
+        .include "cbm510.inc"
 
 ; ------------------------------------------------------------------------
 ; unsigned char __fastcall__ textcolor (unsigned char color);
@@ -30,15 +29,15 @@
 
 .proc   _bgcolor
 
-        jsr     sys_bank                ; Switch to the system bank
-        pha                             ; Save new color
+        jsr     sys_bank        ; Switch to the system bank
+        pha                     ; Save new color
         ldy     #VIC_BG_COLOR0
-        lda     (vic),y                 ; Get current color...
-        tax                             ; ...into X
-        pla                             ; Get new color
-        sta     (vic),y                 ; Set new color
-        txa                             ; Get old color into X
-        jmp     restore_bank            ; Restore the old color
+        lda     (vic), y        ; Get current color...
+        tax                     ; ...into X
+        pla                     ; Get new color
+        sta     (vic), y        ; Set new color
+        txa                     ; Get old color into X
+        jmp     restore_bank    ; Restore the old color
 
 .endproc
 
@@ -48,17 +47,14 @@
 
 .proc   _bordercolor
 
-        jsr     sys_bank                ; Switch to the system bank
-        pha                             ; Save new color
+        jsr     sys_bank        ; Switch to the system bank
+        pha                     ; Save new color
         ldy     #VIC_BORDERCOLOR
-        lda     (vic),y                 ; Get current color...
-        tax                             ; ...into X
-        pla                             ; Get new color
-        sta     (vic),y                 ; Set new color
-        txa                             ; Get old color into X
-        jmp     restore_bank            ; Restore the old color
+        lda     (vic), y        ; Get current color...
+        tax                     ; ...into X
+        pla                     ; Get new color
+        sta     (vic), y        ; Set new color
+        txa                     ; Get old color into X
+        jmp     restore_bank    ; Restore the old color
 
 .endproc
-
-
-

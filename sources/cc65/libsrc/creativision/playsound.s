@@ -1,16 +1,13 @@
 ; void __fastcall__ bios_playsound (void *a, unsigned char b);
 
+        .export _bios_playsound
 
-        .export         _bios_playsound
+        .import popax
 
-        .import         popax
-
-        .include        "creativision.inc"
-
+        .include "creativision.inc"
 
 songptr :=      $00             ; Points to current tune data
 volptr  :=      $04             ; Points to current volume table
-
 
 ;* Creativision Sound Player
 ;* Based on BIOS song player.
@@ -22,15 +19,15 @@ volptr  :=      $04             ; Points to current volume table
 
 _bios_playsound:
         php
-        pha                     ; Save tune length
+        pha     ; Save tune length
         sei
 
-        lda     #<$FCD5         ; BIOS decreasing-volume table
+        lda     #<$FCD5 ; BIOS decreasing-volume table
         ldx     #>$FCD5
         sta     volptr
         stx     volptr+1
 
-        jsr     popax           ; Get tune array pointer
+        jsr     popax   ; Get tune array pointer
         sta     songptr
         stx     songptr+1
 

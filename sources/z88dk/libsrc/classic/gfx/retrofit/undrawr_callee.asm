@@ -12,7 +12,6 @@
 ; CALLER LINKAGE FOR FUNCTION POINTERS
 ; ----- void  undrawr(int x2, int y2)
 
-
         SECTION code_graphics
 
         PUBLIC  undrawr_callee
@@ -22,10 +21,10 @@
 
 undrawr_callee:
 _undrawr_callee:
-        pop     af                      ; ret addr
+        pop     af      ; ret addr
         pop     bc
         pop     de
-        push    af                      ; ret addr
+        push    af      ; ret addr
         push    de
         push    bc
 

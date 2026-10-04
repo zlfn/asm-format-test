@@ -10,8 +10,8 @@
 ;	$Id: f_ansi_cls.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_cls
-    EXTERN  generic_console_cls
+        SECTION code_clib
+        PUBLIC  ansi_cls
+        EXTERN  generic_console_cls
 
-    defc    ansi_cls=generic_console_cls
+        defc    ansi_cls=generic_console_cls

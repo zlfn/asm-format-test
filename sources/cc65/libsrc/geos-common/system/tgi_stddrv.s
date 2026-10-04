@@ -6,7 +6,7 @@
 ; const char tgi_stddrv[];
 ;
 
-            .export _tgi_stddrv
+        .export _tgi_stddrv
 
 .rodata
 

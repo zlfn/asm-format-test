@@ -4,8 +4,8 @@
 ; CC65 runtime: Scale the primary register by 16
 ;
 
-        .export         aslax4, shlax4
-        .importzp       tmp1
+        .export aslax4, shlax4
+        .importzp tmp1
 
 aslax4:
 shlax4: stx     tmp1
@@ -19,4 +19,3 @@ shlax4: stx     tmp1
         rol     tmp1
         ldx     tmp1
         rts
-

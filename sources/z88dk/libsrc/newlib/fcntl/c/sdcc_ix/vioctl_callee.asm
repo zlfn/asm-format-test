@@ -10,17 +10,17 @@ EXTERN asm_vioctl
 
 _vioctl_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        push    af
 
 l0_vioctl_callee:
 
-   push ix
-   
-   call asm_vioctl
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_vioctl
+
+        pop     ix
+        ret

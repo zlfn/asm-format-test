@@ -8,9 +8,9 @@ EXTERN asm_esx_disk_stream_start
 
 _esx_disk_stream_start_fastcall:
 
-   push ix
+        push    ix
 
-   call asm_esx_disk_stream_start
+        call    asm_esx_disk_stream_start
 
-   pop ix
-   ret
+        pop     ix
+        ret

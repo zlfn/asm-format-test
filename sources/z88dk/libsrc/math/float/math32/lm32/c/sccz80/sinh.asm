@@ -9,13 +9,13 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 sinh:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_sinhf
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_sinhf
 
 ; SDCC bridge for Classic
 PUBLIC _sinh

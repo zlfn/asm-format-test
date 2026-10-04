@@ -9,7 +9,7 @@
 ; compatible with our CBM file stuff, we have to clear the carry before
 ; calling the real OPEN.
 
-        .export         OPEN
+        .export OPEN
 
 .proc   OPEN
 
@@ -17,4 +17,3 @@
         jmp     $FFC0
 
 .endproc
-

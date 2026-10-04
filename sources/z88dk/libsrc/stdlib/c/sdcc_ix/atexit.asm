@@ -10,10 +10,10 @@ EXTERN asm_atexit
 
 _atexit:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_atexit
+        push    hl
+        push    af
+
+        jp      asm_atexit

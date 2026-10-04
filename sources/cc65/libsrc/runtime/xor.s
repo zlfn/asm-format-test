@@ -5,9 +5,9 @@
 ; CC65 runtime: xor on ints
 ;
 
-        .export         tosxora0, tosxorax
-        .import         addysp1
-        .importzp       c_sp, tmp1
+        .export tosxora0, tosxorax
+        .import addysp1
+        .importzp c_sp, tmp1
 
 tosxora0:
         ldx     #$00
@@ -17,13 +17,12 @@ tosxorax:
         ldy     #1
 .else
         ldy     #0
-        eor     (c_sp),y
+        eor     (c_sp), y
         iny
 .endif
         sta     tmp1
         txa
-        eor     (c_sp),y
+        eor     (c_sp), y
         tax
         lda     tmp1
-        jmp     addysp1         ; drop TOS, set condition codes
-
+        jmp     addysp1 ; drop TOS, set condition codes

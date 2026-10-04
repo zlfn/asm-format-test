@@ -10,25 +10,24 @@ EXTERN asm_b_array_read_block
 
 b_array_read_block:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   exx
-   pop de
-   
-   push de
-   exx
-   push de
-   push hl
-   push bc
-   push af
-   
-   jp asm_b_array_read_block
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        exx
+        pop     de
+
+        push    de
+        exx
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_b_array_read_block
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _b_array_read_block
 defc _b_array_read_block = b_array_read_block
 ENDIF
-

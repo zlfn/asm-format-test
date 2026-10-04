@@ -6,8 +6,6 @@
 ;
 ;
 
-        .include        "mouse-kernel.inc"
+        .include "mouse-kernel.inc"
 
         _mouse_getbox    := mouse_getbox        ; Call driver directly
-
-

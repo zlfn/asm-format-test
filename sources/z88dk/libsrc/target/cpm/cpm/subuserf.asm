@@ -8,21 +8,20 @@
 ;       $Id: subuserf.asm,v 1.4 2017-01-02 20:06:48 aralbrec Exp $
 ;
 
+        SECTION code_clib
 
-    SECTION code_clib
+        EXTERN  __cpm_base_address
 
-    EXTERN	__cpm_base_address
+        PUBLIC  subuserf
+        PUBLIC  _subuserf
 
-    PUBLIC    subuserf
-    PUBLIC    _subuserf
-
-subuserf:             ;FIND USERF AND CALL IT.
+subuserf:       ;FIND USERF AND CALL IT.
 _subuserf:
-	push hl
-	push de
-	ld hl,(__cpm_base_address+1)
-	ld de,$0057
-	add hl,de
-	pop de
-	ex (sp),hl
-	ret
+        push    hl
+        push    de
+        ld      hl, (__cpm_base_address+1)
+        ld      de, $0057
+        add     hl, de
+        pop     de
+        ex      (sp), hl
+        ret

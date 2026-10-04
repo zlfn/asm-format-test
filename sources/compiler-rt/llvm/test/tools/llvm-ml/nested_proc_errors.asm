@@ -2,11 +2,11 @@
 
 .code
 
-t1 PROC
-  xor eax, eax
+t1      PROC
+        xor     eax, eax
 t1_nested PROC
-  ret
-t1 ENDP
+        ret
+t1      ENDP
 t1_nested ENDP
 ; CHECK: :[[# @LINE - 2]]:1: error: endp does not match current procedure 't1_nested'
 

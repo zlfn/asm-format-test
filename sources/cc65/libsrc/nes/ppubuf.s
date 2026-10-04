@@ -3,12 +3,11 @@
 ; Cleanup by Ullrich von Bassewitz <uz@cc65.org>
 ;
 
-
-        .export         ppubuf_waitempty
-        .export         ppubuf_wait
-        .export         ppubuf_put
-        .export         ppubuf_flush
-        .include        "nes.inc"
+        .export ppubuf_waitempty
+        .export ppubuf_wait
+        .export ppubuf_put
+        .export ppubuf_flush
+        .include "nes.inc"
 
 .code
 
@@ -18,13 +17,11 @@
 
 .proc   ppubuf_waitempty
 
-
 @wait:  lda     ringcount
         bne     @wait
         rts
 
 .endproc
-
 
 ; ------------------------------------------------------------------------
 ; ppubuf_wait
@@ -51,15 +48,15 @@
         sty     ppuhi
         stx     ppulo
 
-        jsr     ppubuf_wait             ; wait if buffer is full
+        jsr     ppubuf_wait     ; wait if buffer is full
 
         ldy     ringwrite
         lda     ppuhi
-        sta     ringbuff,y
+        sta     ringbuff, y
         lda     ppulo
-        sta     ringbuff+$0100,y
+        sta     ringbuff+$0100, y
         lda     ppuval
-        sta     ringbuff+$0200,y
+        sta     ringbuff+$0200, y
 
         iny
         sty     ringwrite
@@ -85,11 +82,11 @@
 
 @loop:
 .repeat 5
-        lda     ringbuff,x
+        lda     ringbuff, x
         sta     $2006
-        lda     ringbuff+$0100,x
+        lda     ringbuff+$0100, x
         sta     $2006
-        lda     ringbuff+$0200,x
+        lda     ringbuff+$0200, x
         sta     $2007
         inx
 
@@ -113,5 +110,3 @@
 .bss
 
 temp:   .res    1
-
-

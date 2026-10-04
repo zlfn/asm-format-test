@@ -10,10 +10,10 @@ EXTERN asm_b_array_size
 
 _b_array_size:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_b_array_size
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_b_array_size

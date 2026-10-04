@@ -7,15 +7,14 @@
 ; 2020-07-06, Greg King
 ;
 
-        .include        "zeropage.inc"
-        .include        "vic20.inc"
+        .include "zeropage.inc"
+        .include "vic20.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-error.inc"
+        .include "tgi-kernel.inc"
+        .include "tgi-error.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Constants
@@ -30,22 +29,22 @@ TGI_IOCTL_VIC20_SET_PATTERN     =       $01
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table and constants.
 
-        module_header   _vic20_hi_tgi
+        module_header _vic20_hi_tgi
 
 ; First part of the header is a structure that has a magic and defines the
 ; capabilities of the driver
 
-        .byte   $74, $67, $69           ; ASCII "tgi"
-        .byte   TGI_API_VERSION         ; TGI API version number
-        .addr   $0000                   ; Library reference
-        .word   XRES                    ; X resolution
-        .word   YRES                    ; Y resolution
-        .byte   2                       ; Number of drawing colors
-        .byte   1                       ; Number of screens available
-        .byte   8                       ; System font X size
-        .byte   8                       ; System font Y size
-        .word   $0180                   ; Aspect ratio 2.5:3
-        .byte   0                       ; TGI driver flags
+        .byte   $74, $67, $69   ; ASCII "tgi"
+        .byte   TGI_API_VERSION ; TGI API version number
+        .addr   $0000           ; Library reference
+        .word   XRES            ; X resolution
+        .word   YRES            ; Y resolution
+        .byte   2               ; Number of drawing colors
+        .byte   1               ; Number of screens available
+        .byte   8               ; System font X size
+        .byte   8               ; System font Y size
+        .word   $0180           ; Aspect ratio 2.5:3
+        .byte   0               ; TGI driver flags
 
 ; Next comes the jump table. With the exception of IRQ, all entries must be
 ; valid and may point to an RTS for test versions (function not implemented).
@@ -90,23 +89,23 @@ DEST            := tmp3
 
 .bss
 
-ERROR:          .res    1       ; Error code
-PALETTE:        .res    2       ; The current palette
+ERROR:  .res    1       ; Error code
+PALETTE: .res   2       ; The current palette
 
-CURCOL:         .res    1       ; Current color.
-BITMASK:        .res    1       ; $00 = clear, $FF = set pixels
+CURCOL: .res    1       ; Current color.
+BITMASK: .res   1       ; $00 = clear, $FF = set pixels
 
 ; BAR variables
 
-XPOSR:          .res    1       ; Used by BAR.
-PATTERN:        .res    2       ; Address of pattern.
-USERPATTERN:    .res    2       ; User-defined pattern set via CONTROL.
-COUNTER:        .res    2
-TMP:            .res    1
-MASKS:          .res    1
-MASKD:          .res    1
-XCPOS:          .res    1
-HEIGHT:         .res    1
+XPOSR:  .res    1       ; Used by BAR.
+PATTERN:     .res 2     ; Address of pattern.
+USERPATTERN: .res 2     ; User-defined pattern set via CONTROL.
+COUNTER:     .res 2
+TMP:    .res    1
+MASKS:  .res    1
+MASKD:  .res    1
+XCPOS:  .res    1
+HEIGHT: .res    1
 
 ; Line variables
 
@@ -114,24 +113,24 @@ CHUNK           := X2           ; Used in the line routine
 OLDCHUNK        := X2+1         ; Ditto
 TEMP            := tmp4
 TEMP2           := sreg
-DX:             .res    2
-DY:             .res    2
+DX:     .res    2
+DY:     .res    2
 
 ; Text output stuff
 
-TEXTMAGX:       .res    1
-TEXTMAGY:       .res    1
-TEXTDIR:        .res    1
+TEXTMAGX: .res  1
+TEXTMAGY: .res  1
+TEXTDIR:  .res  1
 
 ; Constants and tables
 
 .rodata
 
-DEFPALETTE:     .byte   $00, $01        ; White on black
+DEFPALETTE: .byte $00, $01      ; White on black
 PALETTESIZE     =       * - DEFPALETTE
 
-BITTAB:         .byte   $80, $40, $20, $10, $08, $04, $02, $01
-BITCHUNK:       .byte   $FF, $7F, $3F, $1F, $0F, $07, $03, $01
+BITTAB: .byte   $80, $40, $20, $10, $08, $04, $02, $01
+BITCHUNK: .byte $FF, $7F, $3F, $1F, $0F, $07, $03, $01
 
 CHARROM         := $8000        ; Character ROM base address
 CBASE           := $9400        ; Color memory base address
@@ -153,55 +152,55 @@ VBASE           := $1100        ; Video memory base address
 
 XADDRS_L:
         .repeat COLS, n
-        .byte   <(VBASE + YRES * n)
+                .byte   <(VBASE + YRES * n)
         .endrep
 
 XADDRS_H:
         .repeat COLS, n
-        .byte   >(VBASE + YRES * n)
+                .byte   >(VBASE + YRES * n)
         .endrep
 
 MASKS_LEFT:
-        .byte %11111111
+        .byte   %11111111
 MASKD_RIGHT:
-        .byte %01111111
-        .byte %00111111
-        .byte %00011111
-        .byte %00001111
-        .byte %00000111
-        .byte %00000011
-        .byte %00000001
+        .byte   %01111111
+        .byte   %00111111
+        .byte   %00011111
+        .byte   %00001111
+        .byte   %00000111
+        .byte   %00000011
+        .byte   %00000001
 MASKD_LEFT:
-        .byte %00000000
+        .byte   %00000000
 MASKS_RIGHT:
-        .byte %10000000
-        .byte %11000000
-        .byte %11100000
-        .byte %11110000
-        .byte %11111000
-        .byte %11111100
-        .byte %11111110
-        .byte %11111111
+        .byte   %10000000
+        .byte   %11000000
+        .byte   %11100000
+        .byte   %11110000
+        .byte   %11111000
+        .byte   %11111100
+        .byte   %11111110
+        .byte   %11111111
 
 PATTERN_EMPTY:
-        .byte %00000000
-        .byte %00000000
-        .byte %00000000
-        .byte %00000000
-        .byte %00000000
-        .byte %00000000
-        .byte %00000000
-        .byte %00000000
+        .byte   %00000000
+        .byte   %00000000
+        .byte   %00000000
+        .byte   %00000000
+        .byte   %00000000
+        .byte   %00000000
+        .byte   %00000000
+        .byte   %00000000
 
 PATTERN_SOLID:
-        .byte %11111111
-        .byte %11111111
-        .byte %11111111
-        .byte %11111111
-        .byte %11111111
-        .byte %11111111
-        .byte %11111111
-        .byte %11111111
+        .byte   %11111111
+        .byte   %11111111
+        .byte   %11111111
+        .byte   %11111111
+        .byte   %11111111
+        .byte   %11111111
+        .byte   %11111111
+        .byte   %11111111
 
 .code
 
@@ -253,8 +252,8 @@ PATTERN_SOLID:
 
         ldy     #$FF
         sty     BITMASK
-        iny                     ; (ldy #$00)
-        sty     ERROR           ; Set to TGI_ERR_OK
+        iny             ; (ldy #$00)
+        sty     ERROR   ; Set to TGI_ERR_OK
 
 ; Make screen columns.
 
@@ -268,7 +267,7 @@ PATTERN_SOLID:
         txa
 
 @NEXT_COLUMN:
-        sta     (tmp2),y
+        sta     (tmp2), y
         iny
         adc     #ROWS
         bcc     @NEXT_COLUMN
@@ -283,9 +282,9 @@ PATTERN_SOLID:
 
         ldx     #.sizeof(VICREGS) - 1
 @L2:    clc
-        lda     $EDE4,x
-        adc     VICREGS,x
-        sta     VIC,x
+        lda     $EDE4,   x
+        adc     VICREGS, x
+        sta     VIC,     x
         dex
         bpl     @L2
 
@@ -301,7 +300,7 @@ PATTERN_SOLID:
 ;
 
 .proc DONE
-        jmp     $E518           ; Kernal console init.
+        jmp     $E518   ; Kernal console init.
 .endproc
 
 ; ------------------------------------------------------------------------
@@ -333,7 +332,7 @@ PATTERN_SOLID:
         sta     USERPATTERN+1
 
         lda     #TGI_ERR_OK
-        .byte   $2C             ;(bit $1234)
+        .byte   $2C     ;(bit $1234)
 
 ; Return with error code for invalid function index.
 
@@ -351,22 +350,22 @@ PATTERN_SOLID:
 
 .proc CLEAR
         lda     #%00000000
-        tay                     ; (ldy #$00)
-@L1:    sta     VBASE + $0000,y
-        sta     VBASE + $0100,y
-        sta     VBASE + $0200,y
-        sta     VBASE + $0300,y
-        sta     VBASE + $0400,y
-        sta     VBASE + $0500,y
-        sta     VBASE + $0600,y
-        sta     VBASE + $0700,y
-        sta     VBASE + $0800,y
-        sta     VBASE + $0900,y
-        sta     VBASE + $0A00,y
-        sta     VBASE + $0B00,y
-        sta     VBASE + $0C00,y
-        sta     VBASE + $0D00,y
-        sta     VBASE + $0E00,y
+        tay     ; (ldy #$00)
+@L1:    sta     VBASE + $0000, y
+        sta     VBASE + $0100, y
+        sta     VBASE + $0200, y
+        sta     VBASE + $0300, y
+        sta     VBASE + $0400, y
+        sta     VBASE + $0500, y
+        sta     VBASE + $0600, y
+        sta     VBASE + $0700, y
+        sta     VBASE + $0800, y
+        sta     VBASE + $0900, y
+        sta     VBASE + $0A00, y
+        sta     VBASE + $0B00, y
+        sta     VBASE + $0C00, y
+        sta     VBASE + $0D00, y
+        sta     VBASE + $0E00, y
         iny
         bne     @L1
         rts
@@ -420,9 +419,9 @@ PATTERN_SOLID:
 
 .proc SETPALETTE
         ldy     #PALETTESIZE - 1
-@L1:    lda     (ptr1),y        ; Copy the palette
+@L1:    lda     (ptr1), y       ; Copy the palette
         and     #$0F            ; Make a valid color
-        sta     PALETTE,y
+        sta     PALETTE, y
         dey
         bpl     @L1
 
@@ -430,13 +429,13 @@ PATTERN_SOLID:
 
         iny                     ; Set .Y to $00
         lda     PALETTE+1       ; Foreground color
-@L2:    sta     CBASE + $0000,y
-        sta     CBASE + $0100,y
+@L2:    sta     CBASE + $0000, y
+        sta     CBASE + $0100, y
         iny
         bne     @L2
 
-        lda     PALETTE         ; Background color
-        asl     a               ; Put it in high nybble
+        lda     PALETTE ; Background color
+        asl     a       ; Put it in high nybble
         asl     a
         asl     a
         asl     a
@@ -491,14 +490,14 @@ PATTERN_SOLID:
 ;
 
 .proc SETPIXEL
-        jsr     CALC            ; Calculate co-ordinates
+        jsr     CALC    ; Calculate co-ordinates
 
         ldy     #$00
-        lda     (POINT),Y
+        lda     (POINT), Y
         eor     BITMASK
-        and     BITTAB,X
-        eor     (POINT),Y
-        sta     (POINT),Y
+        and     BITTAB,  X
+        eor     (POINT), Y
+        sta     (POINT), Y
         rts
 .endproc
 
@@ -507,17 +506,16 @@ PATTERN_SOLID:
 ; co-ordinates passed to this function never are outside the visible screen
 ; area; so, there's no need for clipping inside this function.
 
-
 .proc GETPIXEL
-        jsr     CALC            ; Calculate co-ordinates
+        jsr     CALC    ; Calculate co-ordinates
 
         ldy     #$00
-        lda     (POINT),Y
-        and     BITTAB,X
+        lda     (POINT), Y
+        and     BITTAB,  X
         beq     @L1
         iny
-        tya                     ; Get color value into .A
-@L1:    ldx     #>$0000         ; Clear high byte
+        tya             ; Get color value into .A
+@L1:    ldx     #>$0000 ; Clear high byte
         rts
 .endproc
 
@@ -562,11 +560,11 @@ PATTERN_SOLID:
         lsr
         tay
 
-        lda     XADDRS_L,y
+        lda     XADDRS_L, y
         clc
         adc     Y1
         sta     POINT
-        lda     XADDRS_H,y
+        lda     XADDRS_H, y
         adc     #$00
         sta     POINT+1
 
@@ -589,14 +587,14 @@ PATTERN_SOLID:
 
 .proc LINE
 
-@CHECK: lda     X2              ; Make sure x1 < x2
+@CHECK: lda     X2      ; Make sure x1 < x2
         sec
         sbc     X1
         tax
         lda     X2+1
         sbc     X1+1
         bpl     @CONT
-        lda     Y2              ; If not, swap P1 and P2
+        lda     Y2      ; If not, swap P1 and P2
         ldy     Y1
         sta     Y1
         sty     Y2
@@ -617,21 +615,21 @@ PATTERN_SOLID:
 @CONT:  sta     DX+1
         stx     DX
 
-        ldx     #$C8            ; INY
-        lda     Y2              ; Calculate dy
+        ldx     #$C8    ; INY
+        lda     Y2      ; Calculate dy
         sec
         sbc     Y1
         tay
         lda     Y2+1
         sbc     Y1+1
-        bpl     @DYPOS          ; Is y2 >= y1?
-        lda     Y1              ; Otherwise, dy = y1 - y2
+        bpl     @DYPOS  ; Is y2 >= y1?
+        lda     Y1      ; Otherwise, dy = y1 - y2
         sec
         sbc     Y2
         tay
-        ldx     #$88            ; DEY
+        ldx     #$88    ; DEY
 
-@DYPOS: sty     DY              ; 8-bit DY -- FIX ME?
+@DYPOS: sty     DY      ; 8-bit DY -- FIX ME?
         stx     YINCDEC
         stx     XINCDEC
 
@@ -640,22 +638,22 @@ PATTERN_SOLID:
         lsr
         lsr
         tay
-        lda     XADDRS_L,y
+        lda     XADDRS_L, y
         sta     POINT
-        lda     XADDRS_H,y
+        lda     XADDRS_H, y
         sta     POINT+1
         ldy     Y1
 
         lda     X1
         and     #7
         tax
-        lda     BITCHUNK,X
+        lda     BITCHUNK, X
         sta     OLDCHUNK
         sta     CHUNK
 
         ldx     DY
-        cpx     DX              ; Who's bigger: dy or dx?
-        bcc     STEPINX         ; If dx, then...
+        cpx     DX      ; Who's bigger: dy or dx?
+        bcc     STEPINX ; If dx, then...
         lda     DX+1
         bne     STEPINX
 
@@ -681,11 +679,11 @@ STEPINY:
 ;
 YLOOP:  sta     TEMP
 
-        lda     (POINT),y       ; Plot
+        lda     (POINT), y      ; Plot
         eor     BITMASK
         and     CHUNK
-        eor     (POINT),y
-        sta     (POINT),y
+        eor     (POINT), y
+        sta     (POINT), y
 YINCDEC:
         iny                     ; Advance Y co-ordinate
         lda     TEMP            ; Restore A
@@ -694,18 +692,18 @@ YINCDEC:
         bcc     YFIXX
 YCONT:  dex                     ; X is counter
         bne     YLOOP
-YCONT2: lda     (POINT),y       ; Plot endpoint
+YCONT2: lda     (POINT), y      ; Plot endpoint
         eor     BITMASK
         and     CHUNK
-        eor     (POINT),y
-        sta     (POINT),y
+        eor     (POINT), y
+        sta     (POINT), y
         rts
 
-YFIXX:                          ; x=x+1
+YFIXX:                  ; x=x+1
         adc     DY
         lsr     CHUNK
-        bne     YCONT           ; If we pass a column boundary,
-        ror     CHUNK           ; then reset CHUNK to $80
+        bne     YCONT   ; If we pass a column boundary,
+        ror     CHUNK   ; then reset CHUNK to $80
         sta     TEMP2
         lda     POINT
         adc     #YRES
@@ -724,30 +722,30 @@ YFIXX:                          ; x=x+1
 
 .bss
 COUNTHI:
-        .byte   $00             ; Temporary counter,
-                                ; used only once
+        .byte   $00     ; Temporary counter,
+                        ; used only once
 .code
 STEPINX:
         ldx     DX
         lda     DX+1
         sta     COUNTHI
         cmp     #$80
-        ror                     ; Need bit for initialization
-        sta     Y1              ; High byte of counter
+        ror             ; Need bit for initialization
+        sta     Y1      ; High byte of counter
         txa
-        bne     @CONT           ; Could be $100
+        bne     @CONT   ; Could be $100
         dec     COUNTHI
 @CONT:  ror
 ;
 ; Main loop
 ;
 XLOOP:  lsr     CHUNK
-        beq     XFIXC           ; If we pass a column boundary...
+        beq     XFIXC   ; If we pass a column boundary...
 XCONT1: sbc     DY
-        bcc     XFIXY           ; Time to step in Y?
+        bcc     XFIXY   ; Time to step in Y?
 XCONT2: dex
         bne     XLOOP
-        dec     COUNTHI         ; High bits set?
+        dec     COUNTHI ; High bits set?
         bpl     XLOOP
 
         lsr     CHUNK           ; Advance to last point
@@ -773,12 +771,12 @@ XFIXC:  sta     TEMP
 ; Check to make sure there isn't a high bit; plot chunk;
 ; and update Y co-ordinate.
 ;
-XFIXY:  dec     Y1              ; Maybe high bit set
+XFIXY:  dec     Y1      ; Maybe high bit set
         bpl     XCONT2
         adc     DX
         sta     TEMP
         lda     DX+1
-        adc     #$FF            ; Hi byte
+        adc     #$FF    ; Hi byte
         sta     Y1
 
         jsr     LINEPLOT        ; Plot chunk
@@ -787,21 +785,21 @@ XFIXY:  dec     Y1              ; Maybe high bit set
 
         lda     TEMP
 XINCDEC:
-        iny                     ; Y co-ord
+        iny     ; Y co-ord
         jmp     XCONT2
 
 ;
 ; Subroutine to plot chunks/points (to save a little
 ; room, gray hair, etc.)
 ;
-LINEPLOT:                       ; Plot the line chunk
-        lda     (POINT),Y
+LINEPLOT:       ; Plot the line chunk
+        lda     (POINT), Y
         eor     BITMASK
         ora     CHUNK
         and     OLDCHUNK
         eor     CHUNK
-        eor     (POINT),Y
-        sta     (POINT),Y
+        eor     (POINT), Y
+        sta     (POINT), Y
         rts
 .endproc
 
@@ -854,7 +852,7 @@ LINEPLOT:                       ; Plot the line chunk
 
         jsr     CALC
         sty     XCPOS
-        lda     POINT           ; One off for VFILL/VCOPY.
+        lda     POINT   ; One off for VFILL/VCOPY.
         sec
         sbc     #1
         sta     POINT
@@ -891,9 +889,9 @@ LINEPLOT:                       ; Plot the line chunk
         lda     X1
         and     #7
         tax
-        lda     MASKD_LEFT,x
+        lda     MASKD_LEFT, x
         sta     MASKD
-        lda     MASKS_LEFT,x
+        lda     MASKS_LEFT, x
         sta     MASKS
         jsr     VFILL
         jsr     INCPOINTX
@@ -911,9 +909,9 @@ LINEPLOT:                       ; Plot the line chunk
 
 @DRAW_RIGHT_END:
         ldx     XPOSR
-        lda     MASKD_RIGHT,x
+        lda     MASKD_RIGHT, x
         sta     MASKD
-        lda     MASKS_RIGHT,x
+        lda     MASKS_RIGHT, x
         sta     MASKS
         jmp     VFILL
 
@@ -924,11 +922,11 @@ LINEPLOT:                       ; Plot the line chunk
         and     #7
         tax
         ldy     XPOSR
-        lda     MASKS_LEFT,x
-        and     MASKS_RIGHT,y
+        lda     MASKS_LEFT,  x
+        and     MASKS_RIGHT, y
         sta     MASKS
-        lda     MASKD_LEFT,x
-        ora     MASKD_RIGHT,y
+        lda     MASKD_LEFT,  x
+        ora     MASKD_RIGHT, y
         sta     MASKD
         jmp     VFILL
 .endproc
@@ -951,14 +949,14 @@ LINEPLOT:                       ; Plot the line chunk
         and     #7
         tax
 
-@L1:    lda     (POINT),y
+@L1:    lda     (POINT), y
         and     MASKD
         sta     TMP
 @MOD_PATTERN:
-        lda     $FFFF,x
+        lda     $FFFF, x
         and     MASKS
         ora     TMP
-        sta     (POINT),y
+        sta     (POINT), y
         inx
         txa
         and     #7
@@ -985,8 +983,8 @@ LINEPLOT:                       ; Plot the line chunk
         tax
 
 @MOD_PATTERN:
-@L1:    lda     $FFFF,x
-        sta     (POINT),y
+@L1:    lda     $FFFF,   x
+        sta     (POINT), y
         inx
         txa
         and     #7

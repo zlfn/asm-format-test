@@ -7,18 +7,17 @@
 ;       $Id: cpc_SetInkGphStrM1.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_SetInkGphStrM1
-        PUBLIC    _cpc_SetInkGphStrM1
-        EXTERN     asm_cpc_SetInkGphStrM1
+        SECTION code_clib
+        PUBLIC  cpc_SetInkGphStrM1
+        PUBLIC  _cpc_SetInkGphStrM1
+        EXTERN  asm_cpc_SetInkGphStrM1
 
 .cpc_SetInkGphStrM1
 ._cpc_SetInkGphStrM1
-		ld ix,2
-		add ix,sp
-		
+        ld      ix, 2
+        add     ix, sp
 
-		ld a,(ix+2) ;valor
-		ld c,(ix+0)	;color
+        ld      a, (ix+2)       ;valor
+        ld      c, (ix+0)       ;color
 
-        jp asm_cpc_SetInkGphStrM1
+        jp      asm_cpc_SetInkGphStrM1

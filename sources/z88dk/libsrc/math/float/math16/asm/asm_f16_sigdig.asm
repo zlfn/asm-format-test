@@ -14,10 +14,10 @@ SECTION code_fp_math16
 PUBLIC asm_f16_sigdig
 
 .asm_f16_sigdig
-   ; exit  : b = significant hex digits in half float representation
-   ;         c = significant decimal digits in half float representation
-   ;
-   ; uses  : bc
+        ; exit  : b = significant hex digits in half float representation
+        ;         c = significant decimal digits in half float representation
+        ;
+        ; uses  : bc
 
-   ld bc,$0304
-   ret
+        ld      bc, $0304
+        ret

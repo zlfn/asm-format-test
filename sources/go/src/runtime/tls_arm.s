@@ -30,30 +30,30 @@
 //       runtime.mcall assumes this function only clobbers R0 and R11.
 // Returns with g in R0.
 TEXT runtime·save_g(SB),NOSPLIT,$0
-	// If the host does not support MRC the linker will replace it with
-	// a call to runtime.read_tls_fallback which jumps to __kuser_get_tls.
-	// The replacement function saves LR in R11 over the call to read_tls_fallback.
-	// To make stack unwinding work, this function should NOT be marked as NOFRAME,
-	// as it may contain a call, which clobbers LR even just temporarily.
-	MRC	15, 0, R0, C13, C0, 3 // fetch TLS base pointer
-	BIC $3, R0 // Darwin/ARM might return unaligned pointer
-	MOVW	runtime·tls_g(SB), R11
-	ADD	R11, R0
-	MOVW	g, 0(R0)
-	MOVW	g, R0 // preserve R0 across call to setg<>
-	RET
+        // If the host does not support MRC the linker will replace it with
+        // a call to runtime.read_tls_fallback which jumps to __kuser_get_tls.
+        // The replacement function saves LR in R11 over the call to read_tls_fallback.
+        // To make stack unwinding work, this function should NOT be marked as NOFRAME,
+        // as it may contain a call, which clobbers LR even just temporarily.
+        MRC     15, 0, R0, C13, C0, 3   // fetch TLS base pointer
+        BIC     $3, R0                  // Darwin/ARM might return unaligned pointer
+        MOVW    runtime·tls_g(SB), R11
+        ADD     R11, R0
+        MOVW    g,   0(R0)
+        MOVW    g,   R0                 // preserve R0 across call to setg<>
+        RET
 
 // load_g loads the g register from pthread-provided
 // thread-local memory, for use after calling externally compiled
 // ARM code that overwrote those registers.
 TEXT runtime·load_g(SB),NOSPLIT,$0
-	// See save_g
-	MRC	15, 0, R0, C13, C0, 3 // fetch TLS base pointer
-	BIC $3, R0 // Darwin/ARM might return unaligned pointer
-	MOVW	runtime·tls_g(SB), R11
-	ADD	R11, R0
-	MOVW	0(R0), g
-	RET
+        // See save_g
+        MRC     15, 0, R0, C13, C0, 3   // fetch TLS base pointer
+        BIC     $3, R0                  // Darwin/ARM might return unaligned pointer
+        MOVW    runtime·tls_g(SB), R11
+        ADD     R11,   R0
+        MOVW    0(R0), g
+        RET
 
 // This is called from rt0_go, which runs on the system stack
 // using the initial stack allocated by the OS.
@@ -66,27 +66,27 @@ TEXT runtime·load_g(SB),NOSPLIT,$0
 // Declare a dummy word ($4, not $0) to make sure the
 // frame is 8 bytes and stays 8-byte-aligned.
 TEXT runtime·_initcgo(SB),NOSPLIT,$4
-	// if there is an _cgo_init, call it.
-	MOVW	_cgo_init(SB), R4
-	CMP	$0, R4
-	B.EQ	nocgo
-	MRC     15, 0, R0, C13, C0, 3 	// load TLS base pointer
-	MOVW 	R0, R3 			// arg 3: TLS base pointer
+        // if there is an _cgo_init, call it.
+        MOVW    _cgo_init(SB), R4
+        CMP     $0, R4
+        B.EQ    nocgo
+        MRC     15, 0, R0, C13, C0, 3   // load TLS base pointer
+        MOVW    R0, R3                  // arg 3: TLS base pointer
 #ifdef TLSG_IS_VARIABLE
-	MOVW 	$runtime·tls_g(SB), R2 	// arg 2: &tls_g
+        MOVW    $runtime·tls_g(SB), R2  // arg 2: &tls_g
 #else
-	MOVW	$0, R2			// arg 2: not used when using platform tls
+        MOVW    $0, R2  // arg 2: not used when using platform tls
 #endif
-	MOVW	$setg_gcc<>(SB), R1 	// arg 1: setg
-	MOVW	g, R0 			// arg 0: G
-	BL	(R4) // will clobber R0-R3
+        MOVW    $setg_gcc<>(SB), R1     // arg 1: setg
+        MOVW    g, R0                   // arg 0: G
+        BL      (R4)                    // will clobber R0-R3
 nocgo:
-	RET
+        RET
 
 // void setg_gcc(G*); set g called from gcc.
 TEXT setg_gcc<>(SB),NOSPLIT,$0
-	MOVW	R0, g
-	B		runtime·save_g(SB)
+        MOVW    R0, g
+        B       runtime·save_g(SB)
 
 #ifdef TLSG_IS_VARIABLE
 #ifdef GOOS_android

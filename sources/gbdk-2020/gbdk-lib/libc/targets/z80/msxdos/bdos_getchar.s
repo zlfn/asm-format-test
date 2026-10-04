@@ -1,4 +1,4 @@
-        .include        "global.s"
+        .include "global.s"
 
         .title  "getchar"
         .module getchar
@@ -7,4 +7,3 @@
 
 _getchar::
         JP_BDOS #_INNOE
-	

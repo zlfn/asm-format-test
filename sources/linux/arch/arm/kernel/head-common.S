@@ -27,7 +27,7 @@
  * and hope for the best (useful if bootloader fails to pass a proper
  * machine ID for example).
  */
-	__HEAD
+        __HEAD
 
 /* Determine validity of the r2 atags pointer.  The heuristic requires
  * that the pointer be aligned, in the first 16k of physical RAM and
@@ -41,27 +41,27 @@
  *  r5, r6 corrupted
  */
 __vet_atags:
-	tst	r2, #0x3			@ aligned?
-	bne	1f
+        tst     r2, #0x3        @ aligned?
+        bne     1f
 
-	ldr	r5, [r2, #0]
+        ldr     r5, [r2, #0]
 #ifdef CONFIG_OF_FLATTREE
-	ldr	r6, =OF_DT_MAGIC		@ is it a DTB?
-	cmp	r5, r6
-	beq	2f
+        ldr     r6, =OF_DT_MAGIC        @ is it a DTB?
+        cmp     r5, r6
+        beq     2f
 #endif
-	cmp	r5, #ATAG_CORE_SIZE		@ is first tag ATAG_CORE?
-	cmpne	r5, #ATAG_CORE_SIZE_EMPTY
-	bne	1f
-	ldr	r5, [r2, #4]
-	ldr	r6, =ATAG_CORE
-	cmp	r5, r6
-	bne	1f
+        cmp     r5, #ATAG_CORE_SIZE     @ is first tag ATAG_CORE?
+        cmpne   r5, #ATAG_CORE_SIZE_EMPTY
+        bne     1f
+        ldr     r5, [r2, #4]
+        ldr     r6, =ATAG_CORE
+        cmp     r5, r6
+        bne     1f
 
-2:	ret	lr				@ atag/dtb pointer is ok
+2:      ret     lr      @ atag/dtb pointer is ok
 
-1:	mov	r2, #0
-	ret	lr
+1:      mov     r2, #0
+        ret     lr
 ENDPROC(__vet_atags)
 
 /*
@@ -73,93 +73,93 @@ ENDPROC(__vet_atags)
  *  r2  = atags/dtb pointer
  *  r9  = processor ID
  */
-	__INIT
+        __INIT
 __mmap_switched:
 
-	mov	r7, r1
-	mov	r8, r2
-	mov	r10, r0
+        mov     r7,  r1
+        mov     r8,  r2
+        mov     r10, r0
 
-	adr	r4, __mmap_switched_data
-	mov	fp, #0
+        adr     r4, __mmap_switched_data
+        mov     fp, #0
 
 #if defined(CONFIG_XIP_DEFLATED_DATA)
-   ARM(	ldr	sp, [r4], #4 )
- THUMB(	ldr	sp, [r4] )
- THUMB(	add	r4, #4 )
-	bl	__inflate_kernel_data		@ decompress .data to RAM
-	teq	r0, #0
-	bne	__error
+        ARM(    ldr	sp, [r4], #4 )
+        THUMB(  ldr	sp, [r4] )
+        THUMB(  add	r4, #4 )
+        bl      __inflate_kernel_data   @ decompress .data to RAM
+        teq     r0, #0
+        bne     __error
 #elif defined(CONFIG_XIP_KERNEL)
-   ARM(	ldmia	r4!, {r0, r1, r2, sp} )
- THUMB(	ldmia	r4!, {r0, r1, r2, r3} )
- THUMB(	mov	sp, r3 )
-	sub	r2, r2, r1
-	bl	__memcpy			@ copy .data to RAM
+        ARM(    ldmia	r4!, {r0, r1, r2, sp} )
+        THUMB(  ldmia	r4!, {r0, r1, r2, r3} )
+        THUMB(  mov	sp, r3 )
+        sub     r2, r2, r1
+        bl      __memcpy        @ copy .data to RAM
 #endif
 
-   ARM(	ldmia	r4!, {r0, r1, sp} )
- THUMB(	ldmia	r4!, {r0, r1, r3} )
- THUMB(	mov	sp, r3 )
-	sub	r2, r1, r0
-	mov	r1, #0
-	bl	__memset			@ clear .bss
+        ARM(    ldmia	r4!, {r0, r1, sp} )
+        THUMB(  ldmia	r4!, {r0, r1, r3} )
+        THUMB(  mov	sp, r3 )
+        sub     r2, r1, r0
+        mov     r1, #0
+        bl      __memset        @ clear .bss
 
-	adr_l	r0, init_task			@ get swapper task_struct
-	set_current r0, r1
+        adr_l   r0, init_task   @ get swapper task_struct
+        set_current r0, r1
 
-	ldmia	r4, {r0, r1, r2, r3}
-	str	r9, [r0]			@ Save processor ID
-	str	r7, [r1]			@ Save machine type
-	str	r8, [r2]			@ Save atags pointer
-	cmp	r3, #0
-	strne	r10, [r3]			@ Save control register values
+        ldmia   r4,  {r0, r1, r2, r3}
+        str     r9,  [r0]       @ Save processor ID
+        str     r7,  [r1]       @ Save machine type
+        str     r8,  [r2]       @ Save atags pointer
+        cmp     r3,  #0
+        strne   r10, [r3]       @ Save control register values
 #ifdef CONFIG_KASAN
-	bl	kasan_early_init
+        bl      kasan_early_init
 #endif
-	mov	lr, #0
-	b	start_kernel
+        mov     lr, #0
+        b       start_kernel
 ENDPROC(__mmap_switched)
 
-	.align	2
-	.type	__mmap_switched_data, %object
+        .align  2
+        .type   __mmap_switched_data, %object
 __mmap_switched_data:
 #ifdef CONFIG_XIP_KERNEL
 #ifndef CONFIG_XIP_DEFLATED_DATA
-	.long	_sdata				@ r0
-	.long	__data_loc			@ r1
-	.long	_edata_loc			@ r2
+        .long   _sdata          @ r0
+        .long   __data_loc      @ r1
+        .long   _edata_loc      @ r2
 #endif
-	.long	__bss_stop			@ sp (temporary stack in .bss)
+        .long   __bss_stop      @ sp (temporary stack in .bss)
 #endif
 
-	.long	__bss_start			@ r0
-	.long	__bss_stop			@ r1
-	.long	init_thread_union + THREAD_START_SP @ sp
+        .long   __bss_start                             @ r0
+        .long   __bss_stop                              @ r1
+        .long   init_thread_union + THREAD_START_SP     @ sp
 
-	.long	processor_id			@ r0
-	.long	__machine_arch_type		@ r1
-	.long	__atags_pointer			@ r2
+        .long   processor_id            @ r0
+        .long   __machine_arch_type     @ r1
+        .long   __atags_pointer         @ r2
 #ifdef CONFIG_CPU_CP15
-	.long	cr_alignment			@ r3
+        .long   cr_alignment    @ r3
 #else
 M_CLASS(.long	exc_ret)			@ r3
 AR_CLASS(.long	0)				@ r3
 #endif
-	.size	__mmap_switched_data, . - __mmap_switched_data
+        .size   __mmap_switched_data, . - __mmap_switched_data
 
-	__FINIT
-	.text
+        __FINIT
+        .text
 
 /*
  * This provides a C-API version of __lookup_processor_type
  */
 ENTRY(lookup_processor_type)
-	stmfd	sp!, {r4 - r6, r9, lr}
-	mov	r9, r0
-	bl	__lookup_processor_type
-	mov	r0, r5
-	ldmfd	sp!, {r4 - r6, r9, pc}
+        stmfd   sp!, {r4 - r6, r9, lr}
+        mov     r9,  r0
+        bl      __lookup_processor_type
+        mov     r0,  r5
+        ldmfd   sp!, {r4 - r6, r9, pc}
 ENDPROC(lookup_processor_type)
 
 /*
@@ -180,43 +180,43 @@ __lookup_processor_type:
 	 * Look in <asm/procinfo.h> for information about the __proc_info
 	 * structure.
 	 */
-	adr_l	r5, __proc_info_begin
-	adr_l	r6, __proc_info_end
-1:	ldmia	r5, {r3, r4}			@ value, mask
-	and	r4, r4, r9			@ mask wanted bits
-	teq	r3, r4
-	beq	2f
-	add	r5, r5, #PROC_INFO_SZ		@ sizeof(proc_info_list)
-	cmp	r5, r6
-	blo	1b
-	mov	r5, #0				@ unknown processor
-2:	ret	lr
+        adr_l   r5, __proc_info_begin
+        adr_l   r6, __proc_info_end
+1:      ldmia   r5, {r3, r4}            @ value, mask
+        and     r4, r4, r9              @ mask wanted bits
+        teq     r3, r4
+        beq     2f
+        add     r5, r5, #PROC_INFO_SZ   @ sizeof(proc_info_list)
+        cmp     r5, r6
+        blo     1b
+        mov     r5, #0                  @ unknown processor
+2:      ret     lr
 ENDPROC(__lookup_processor_type)
 
 __error_lpae:
 #ifdef CONFIG_DEBUG_LL
-	adr	r0, str_lpae
-	bl 	printascii
-	b	__error
+        adr     r0, str_lpae
+        bl      printascii
+        b       __error
 str_lpae: .asciz "\nError: Kernel with LPAE support, but CPU does not support LPAE.\n"
 #else
-	b	__error
+        b       __error
 #endif
-	.align
+        .align
 ENDPROC(__error_lpae)
 
 __error_p:
 #ifdef CONFIG_DEBUG_LL
-	adr	r0, str_p1
-	bl	printascii
-	mov	r0, r9
-	bl	printhex8
-	adr	r0, str_p2
-	bl	printascii
-	b	__error
-str_p1:	.asciz	"\nError: unrecognized/unsupported processor variant (0x"
-str_p2:	.asciz	").\n"
-	.align
+        adr     r0, str_p1
+        bl      printascii
+        mov     r0, r9
+        bl      printhex8
+        adr     r0, str_p2
+        bl      printascii
+        b       __error
+str_p1: .asciz  "\nError: unrecognized/unsupported processor variant (0x"
+str_p2: .asciz  ").\n"
+        .align
 #endif
 ENDPROC(__error_p)
 
@@ -225,15 +225,15 @@ __error:
 /*
  * Turn the screen red on a error - RiscPC only.
  */
-	mov	r0, #0x02000000
-	mov	r3, #0x11
-	orr	r3, r3, r3, lsl #8
-	orr	r3, r3, r3, lsl #16
-	str	r3, [r0], #4
-	str	r3, [r0], #4
-	str	r3, [r0], #4
-	str	r3, [r0], #4
+        mov     r0, #0x02000000
+        mov     r3, #0x11
+        orr     r3, r3,   r3, lsl #8
+        orr     r3, r3,   r3, lsl #16
+        str     r3, [r0], #4
+        str     r3, [r0], #4
+        str     r3, [r0], #4
+        str     r3, [r0], #4
 #endif
-1:	mov	r0, r0
-	b	1b
+1:      mov     r0, r0
+        b       1b
 ENDPROC(__error)

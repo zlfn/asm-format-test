@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_copySpritestoSAT
 defc _SMS_copySpritestoSAT = SMS_copySpritestoSAT
 ENDIF
-

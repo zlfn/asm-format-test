@@ -26,21 +26,18 @@ EXTERN asm_am9511_popf
 
 PUBLIC asm_am9511_tan, asm_am9511_tan_fastcall
 
-
 .asm_am9511_tan
-    call asm_am9511_pushf           ; x
+        call    asm_am9511_pushf        ; x
 
-    ld a,__IO_APU_OP_TAN
-    AM9511_OUT_APU_CONTROL        ; tan(x)
+        ld      a, __IO_APU_OP_TAN
+        AM9511_OUT_APU_CONTROL  ; tan(x)
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf
 
 .asm_am9511_tan_fastcall
-    call asm_am9511_pushf_fastcall  ; x
+        call    asm_am9511_pushf_fastcall       ; x
 
-    ld a,__IO_APU_OP_TAN
-    AM9511_OUT_APU_CONTROL        ; tan(x)
+        ld      a, __IO_APU_OP_TAN
+        AM9511_OUT_APU_CONTROL  ; tan(x)
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf

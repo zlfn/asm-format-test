@@ -13,13 +13,13 @@
  * the monitor API number.
  * Function signature : void highbank_smc1(u32 fn, u32 arg)
  */
-	.arch armv7-a
-	.arch_extension sec
+        .arch   armv7-a
+        .arch_extension sec
 ENTRY(highbank_smc1)
-	stmfd   sp!, {r4-r11, lr}
-	mov	r12, r0
-	mov 	r0, r1
-	dsb
-	smc	#0
-	ldmfd   sp!, {r4-r11, pc}
+        stmfd   sp!, {r4-r11, lr}
+        mov     r12, r0
+        mov     r0,  r1
+        dsb
+        smc     #0
+        ldmfd   sp!, {r4-r11, pc}
 ENDPROC(highbank_smc1)

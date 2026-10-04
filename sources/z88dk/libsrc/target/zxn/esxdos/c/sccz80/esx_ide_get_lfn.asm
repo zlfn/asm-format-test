@@ -8,12 +8,12 @@ EXTERN asm_esx_ide_get_lfn
 
 esx_ide_get_lfn:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp asm_esx_ide_get_lfn
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_esx_ide_get_lfn

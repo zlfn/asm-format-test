@@ -10,18 +10,17 @@
 ;   Stefano Bodrato - 2011
 ;
 
-    SECTION code_clib
-    PUBLIC  fgetc_cons
-    INCLUDE "target/tvc/def/tvc.def"
+        SECTION code_clib
+        PUBLIC  fgetc_cons
+        INCLUDE "target/tvc/def/tvc.def"
 
 ;
 ; Entry:        none
 ;
 fgetc_cons:
 _fgetc_cons:
-    rst     $30
-    defb    KBD_CHIN                    ; keyboard - character in
-    ld      l, c
-    ld      h, 0
-    ret
-
+        rst     $30
+        defb    KBD_CHIN        ; keyboard - character in
+        ld      l, c
+        ld      h, 0
+        ret

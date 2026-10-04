@@ -4,9 +4,9 @@
 ;	Get border colour
 ;
 
-    SECTION code_clib
-    PUBLIC  tvc_get_bordercolor
-    INCLUDE "target/tvc/def/tvc.def"
+        SECTION code_clib
+        PUBLIC  tvc_get_bordercolor
+        INCLUDE "target/tvc/def/tvc.def"
 
 ;
 ; Entry:        none
@@ -15,8 +15,7 @@
 tvc_get_bordercolor:
 _tvc_get_bordercolor:
 
-    ld      hl, (BORDER)                ;
-    ld      h, 0
+        ld      hl, (BORDER)    ;
+        ld      h,  0
 
-    ret
-
+        ret

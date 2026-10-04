@@ -8,9 +8,9 @@ EXTERN asm_compare_dostm
 
 _compare_dostm_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_compare_dostm
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_compare_dostm

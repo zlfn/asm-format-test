@@ -10,12 +10,10 @@
 ;
 ;	$Id: f_ansi_dsr6.asm,v 1.4 2016-04-04 18:31:22 dom Exp $
 ;
-	SECTION  code_clib
+        SECTION code_clib
 
-	PUBLIC	ansi_DSR6
+        PUBLIC  ansi_DSR6
 
 .ansi_DSR6
-	; No TalkBack, at the moment
-	ret
-
-
+        ; No TalkBack, at the moment
+        ret

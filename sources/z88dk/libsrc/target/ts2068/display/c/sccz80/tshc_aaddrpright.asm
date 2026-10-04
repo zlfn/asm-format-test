@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _tshc_aaddrpright
 defc _tshc_aaddrpright = tshc_aaddrpright
 ENDIF
-

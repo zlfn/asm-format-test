@@ -12,8 +12,8 @@ PUBLIC asm_BIFROSTH_resetAnim4Frames
 asm_BIFROSTH_resetAnim4Frames:
 
         halt
-        ld a,15
-        ld (58698),a
-        ld hl,64+(256*7)
-        ld (58700),hl
+        ld      a, 15
+        ld      (58698), a
+        ld      hl, 64+(256*7)
+        ld      (58700), hl
         ret

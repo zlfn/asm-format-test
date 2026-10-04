@@ -16,17 +16,17 @@ EXTERN asm_getline
 
 getline:
 
-   pop af
-   pop ix
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push hl
-   push af
-   
-   jp asm_getline
+        pop     af
+        pop     ix
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_getline
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

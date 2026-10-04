@@ -8,10 +8,10 @@ EXTERN SP1RETSPRDRAW, SP1V_PIXELBUFFER
 
 ; following data segment copied into struct sp1_cs
 
-   ld hl,0
-   nop
-   ld de,0
-   call SP1_DRAW_XOR1NR
+        ld      hl, 0
+        nop
+        ld      de, 0
+        call    SP1_DRAW_XOR1NR
 
 ; following draw code called by way of SP1UpdateNow
 ;
@@ -24,72 +24,72 @@ EXTERN SP1RETSPRDRAW, SP1V_PIXELBUFFER
 
 .SP1_DRAW_XOR1NR
 
-   add hl,bc
-   ld de,SP1V_PIXELBUFFER
+        add     hl, bc
+        ld      de, SP1V_PIXELBUFFER
 
-   ; hl = sprite def (graph only)
-   ; de = pixel buffer
+        ; hl = sprite def (graph only)
+        ; de = pixel buffer
 
-   ; 0
+        ; 0
 
-   ld a,(de)
-   xor (hl)
-   ld (de),a
-   inc de
-   inc hl
+        ld      a, (de)
+        xor     (hl)
+        ld      (de), a
+        inc     de
+        inc     hl
 
-   ; 1
+        ; 1
 
-   ld a,(de)
-   xor (hl)
-   ld (de),a
-   inc de
-   inc hl
+        ld      a, (de)
+        xor     (hl)
+        ld      (de), a
+        inc     de
+        inc     hl
 
-   ; 2
+        ; 2
 
-   ld a,(de)
-   xor (hl)
-   ld (de),a
-   inc de
-   inc hl
+        ld      a, (de)
+        xor     (hl)
+        ld      (de), a
+        inc     de
+        inc     hl
 
-   ; 3
+        ; 3
 
-   ld a,(de)
-   xor (hl)
-   ld (de),a
-   inc de
-   inc hl
+        ld      a, (de)
+        xor     (hl)
+        ld      (de), a
+        inc     de
+        inc     hl
 
-   ; 4
+        ; 4
 
-   ld a,(de)
-   xor (hl)
-   ld (de),a
-   inc de
-   inc hl
+        ld      a, (de)
+        xor     (hl)
+        ld      (de), a
+        inc     de
+        inc     hl
 
-   ; 5
+        ; 5
 
-   ld a,(de)
-   xor (hl)
-   ld (de),a
-   inc de
-   inc hl
+        ld      a, (de)
+        xor     (hl)
+        ld      (de), a
+        inc     de
+        inc     hl
 
-   ; 6
+        ; 6
 
-   ld a,(de)
-   xor (hl)
-   ld (de),a
-   inc de
-   inc hl
+        ld      a, (de)
+        xor     (hl)
+        ld      (de), a
+        inc     de
+        inc     hl
 
-   ; 7
+        ; 7
 
-   ld a,(de)
-   xor (hl)
-   ld (de),a
+        ld      a, (de)
+        xor     (hl)
+        ld      (de), a
 
-   jp SP1RETSPRDRAW
+        jp      SP1RETSPRDRAW

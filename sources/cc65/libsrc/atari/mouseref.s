@@ -2,7 +2,7 @@
 ; Christian Groessler, 2014-04-22
 ;
 
-        .export         mouse_libref
+        .export mouse_libref
 
 .ifdef __ATARIXL__
         .import set_VTIMR2_handler

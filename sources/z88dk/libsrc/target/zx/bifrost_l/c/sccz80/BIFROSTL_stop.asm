@@ -20,4 +20,3 @@ IF __CLASSIC
 PUBLIC _BIFROSTL_stop
 defc _BIFROSTL_stop = BIFROSTL_stop
 ENDIF
-

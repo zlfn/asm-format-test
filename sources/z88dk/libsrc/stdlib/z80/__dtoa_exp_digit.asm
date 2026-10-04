@@ -6,14 +6,14 @@ PUBLIC __dtoa_exp_digit
 
 __dtoa_exp_digit:
 
-   inc e
-   sub d
+        inc     e
+        sub     d
 
-   jr nc, __dtoa_exp_digit
-   
-   add a,d
-   
-   ld (hl),e
-   inc hl
-   
-   ret
+        jr      nc, __dtoa_exp_digit
+
+        add     a, d
+
+        ld      (hl), e
+        inc     hl
+
+        ret

@@ -6,7 +6,7 @@ _set_vram_byte::
         WAIT_STAT_HL
 
         ; Write tile
-        ld      (de),a
+        ld      (de), a
         ret
 
 _set_win_tile_xy::
@@ -25,9 +25,9 @@ _set_bkg_tile_xy::
         ld      b, #0x98
         jr      .set_tile_xy
 .is9c:
-        ld      b,#0x9C
+        ld      b, #0x9C
 
-.set_tile_xy:                   ; DE = XY; B = origin
+.set_tile_xy:   ; DE = XY; B = origin
         ld      l, #0x1f
         ld      a, d
         and     l
@@ -45,12 +45,12 @@ _set_bkg_tile_xy::
         ld      a, #0xE0
         and     e
         add     d
-        ld      c, a            ; dest BC = (BASE << 8) + 0x20 * Y + X
+        ld      c, a    ; dest BC = (BASE << 8) + 0x20 * Y + X
 
         ldhl    sp, #2
         WAIT_STAT
-        ld      a, (hl)
-        ld      (bc), a         ; return BC as result
+        ld      a,    (hl)
+        ld      (bc), a ; return BC as result
 
         pop     hl
         inc     sp

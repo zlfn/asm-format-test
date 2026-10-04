@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Jan 2015
 ; ===============================================================
-; 
+;
 ; _Noreturn void abort(void)
 ;
 ; Signals not supported so just jump to _Exit.
@@ -18,5 +18,5 @@ EXTERN __Exit
 
 asm_abort:
 
-   ld hl,-1
-   jp __Exit
+        ld      hl, -1
+        jp      __Exit

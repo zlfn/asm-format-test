@@ -10,17 +10,17 @@ EXTERN asm_strtoul
 
 _strtoul_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
 l0_strtoul_callee:
-   
-   push ix
-   
-   call asm_strtoul
-   
-   pop ix
-   ret
+
+        push    ix
+
+        call    asm_strtoul
+
+        pop     ix
+        ret

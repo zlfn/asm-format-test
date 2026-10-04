@@ -1,10 +1,10 @@
 ; libsrc/graphics/ts2068hr/w_pixladdr.asm
 ; posted by rdk77, 11/11/2010
 
-    SECTION code_graphics
-    PUBLIC  w_pixeladdress
+        SECTION code_graphics
+        PUBLIC  w_pixeladdress
 
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 ;
 ;       $Id: w_pixladdr.asm,v 1.3 2016-10-14 06:40:26 stefano Exp $
 ;
@@ -26,18 +26,17 @@
 ;  af..dehl/.... different
 
 w_pixeladdress:
-    ld      a, l
-    rr      h
-    rr      l
-    rr      h
-    rr      l
-    srl     e
-    rr      l
+        ld      a, l
+        rr      h
+        rr      l
+        rr      h
+        rr      l
+        srl     e
+        rr      l
 
-    ld      h, e
-    ld      d, e
-    ld      e, l
+        ld      h, e
+        ld      d, e
+        ld      e, l
 
-    and     @00000111
-    ret
-
+        and     @00000111
+        ret

@@ -14,17 +14,17 @@ EXTERN __SMSlib_VDPBlank
 
 asm_SMSlib_waitForVBlank:
 
-   ; void SMS_waitForVBlank (void)
-   ;
-   ; uses : af, hl
-   
-   ld hl,__SMSlib_VDPBlank
-   ld (hl),0
-   
+        ; void SMS_waitForVBlank (void)
+        ;
+        ; uses : af, hl
+
+        ld      hl,   __SMSlib_VDPBlank
+        ld      (hl), 0
+
 loop:
 
-   ld a,(hl)
-	or a
-   jr z, loop
-   
-   ret
+        ld      a, (hl)
+        or      a
+        jr      z, loop
+
+        ret

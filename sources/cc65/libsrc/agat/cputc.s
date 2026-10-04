@@ -8,55 +8,55 @@
 ; Important note: The implementation of cputs() relies on the cputc() function
 ; not clobbering ptr1. Beware when rewriting or changing this function!
 
-    .import     COUT
-    .export     _cputcxy, _cputc, newline, putchar,putchardirect
-    .import     gotoxy, VTABZ
-    .include    "agat.inc"
+        .import COUT
+        .export _cputcxy, _cputc, newline, putchar, putchardirect
+        .import gotoxy,   VTABZ
+        .include "agat.inc"
 
 _cputcxy:
-    pha
-    jsr    gotoxy
-    pla
+        pha
+        jsr     gotoxy
+        pla
 _cputc:
-    cmp    #$0D         ; Test for \r = carriage return
-    bne    notleft
-    ldy    #$00
-    sty    CH
-    rts
+        cmp     #$0D    ; Test for \r = carriage return
+        bne     notleft
+        ldy     #$00
+        sty     CH
+        rts
 notleft:
-    cmp    #$0A         ; Test for \n = line feed
-    beq    newline
+        cmp     #$0A    ; Test for \n = line feed
+        beq     newline
 
 putchar:
-    ldy    CH
-    sta    (BASL),Y
-    iny
-    lda    TATTR
-    bmi    wch          ; Skip if t64
-    sta    (BASL),Y
-    iny
+        ldy     CH
+        sta     (BASL), Y
+        iny
+        lda     TATTR
+        bmi     wch     ; Skip if t64
+        sta     (BASL), Y
+        iny
 wch:
-    sty    CH
-    cpy    WNDWDTH
-    bcc    noend
-    ldy    #$00
-    sty    CH
+        sty     CH
+        cpy     WNDWDTH
+        bcc     noend
+        ldy     #$00
+        sty     CH
 newline:
-    inc    CV
-    lda    CV
-    cmp    WNDBTM
-    bcc    :+
-    lda    WNDTOP
-    sta    CV
-:   jmp    VTABZ
+        inc     CV
+        lda     CV
+        cmp     WNDBTM
+        bcc     :+
+        lda     WNDTOP
+        sta     CV
+:       jmp     VTABZ
 noend:
-    rts
+        rts
 
 putchardirect:
-    ldy    CH
-    sta    (BASL),Y
-    lda    TATTR
-    bmi    :+
-    iny
-    sta    (BASL),Y
-:   rts
+        ldy     CH
+        sta     (BASL), Y
+        lda     TATTR
+        bmi     :+
+        iny
+        sta     (BASL), Y
+:       rts

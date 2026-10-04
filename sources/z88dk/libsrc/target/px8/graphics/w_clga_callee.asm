@@ -8,38 +8,36 @@
 ;	$Id: w_clga_callee.asm $
 ;
 
-
 ;Usage: clga(struct *pixels)
 
-    SECTION code_graphics
+        SECTION code_graphics
 
-    PUBLIC  clga_callee
-    PUBLIC  _clga_callee
+        PUBLIC  clga_callee
+        PUBLIC  _clga_callee
 
-    PUBLIC  asm_clga
+        PUBLIC  asm_clga
 
-    EXTERN  w_area
+        EXTERN  w_area
 
-    EXTERN  __gfx_vram_page_in
-    EXTERN  __graphics_end
-
+        EXTERN  __gfx_vram_page_in
+        EXTERN  __graphics_end
 
 clga_callee:
 _clga_callee:
 
-    pop     af
+        pop     af
 
-    pop     de
-    pop     hl
-    exx                                 ; w_plotpixel and __gfx_vram_page_in must not use the alternate registers, no problem with w_line_r
-    pop     de
-    pop     hl
+        pop     de
+        pop     hl
+        exx     ; w_plotpixel and __gfx_vram_page_in must not use the alternate registers, no problem with w_line_r
+        pop     de
+        pop     hl
 
-    push    af                          ; ret addr
+        push    af      ; ret addr
 
-    exx
+        exx
 
 asm_clga:
 
-    ld      a, 1
-    jp      w_area
+        ld      a, 1
+        jp      w_area

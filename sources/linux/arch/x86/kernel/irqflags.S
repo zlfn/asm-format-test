@@ -9,10 +9,10 @@
  */
 .pushsection .noinstr.text, "ax"
 SYM_FUNC_START(native_save_fl)
-	ENDBR
-	pushf
-	pop %_ASM_AX
-	RET
+        ENDBR
+        pushf
+        pop     %_ASM_AX
+        RET
 SYM_FUNC_END(native_save_fl)
 .popsection
 EXPORT_SYMBOL(native_save_fl)

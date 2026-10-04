@@ -5,10 +5,10 @@
 ; unsigned char cpeekcolor (void);
 ;
 
-        .include        "c65.inc"
+        .include "c65.inc"
 
-        .export         _cpeekcolor
-        .importzp       ptr1
+        .export _cpeekcolor
+        .importzp ptr1
 
 _cpeekcolor:
         lda     SCREEN_PTR + 1
@@ -24,7 +24,7 @@ _cpeekcolor:
         ora     #$01
         sta     $D030
         ldy     #0
-        lda     (ptr1),y
+        lda     (ptr1), y
         tay
         lda     $D030
         and     #$FE

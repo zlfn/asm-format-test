@@ -1,11 +1,11 @@
 INCLUDE "config_private.inc"
 
 IF (__CLIB_OPT_UNROLL & 0xc0)
-   SECTION smc_clib
-   SECTION smc_l
+        SECTION smc_clib
+        SECTION smc_l
 ELSE
-   SECTION code_clib
-   SECTION code_l
+        SECTION code_clib
+        SECTION code_l
 ENDIF
 
 PUBLIC l_ldi
@@ -29,23 +29,23 @@ defc l_ldi_1  = l_ldi_2  +  2
 
 l_ldi_256:
 
-   call l_ldi_128
+        call    l_ldi_128
 
 l_ldi_128:
 
-   call l_ldi_64
+        call    l_ldi_64
 
 IF (__CLIB_OPT_UNROLL & 0xc0)
 
-   jp l_ldi_64
+        jp      l_ldi_64
 
 sub_14:
 
-   or a
-   ret z
-   
-   ldir
-   ret
+        or      a
+        ret     z
+
+        ldir
+        ret
 
 PUBLIC l_ldi_loop_smc
 PUBLIC l_ldi_loop_smc_0
@@ -53,124 +53,124 @@ PUBLIC l_ldi_loop_smc_small
 
 l_ldi_loop_smc:
 
-   ld a,b
-   
-   or a
-   jp z, fine
+        ld      a, b
+
+        or      a
+        jp      z, fine
 
 l_ldi_loop_smc_0:
 coarse:
 
-   call l_ldi_256
-   
-   dec a
-   jp nz, coarse
+        call    l_ldi_256
+
+        dec     a
+        jp      nz, coarse
 
 l_ldi_loop_smc_small:
 fine:
 
-   ld a,c
-   
-   cp 14
-   jp c, sub_14
-   
-   add a,a
-   call c, l_ldi_128
-   
-   add a,a
-   call c, l_ldi_64
+        ld      a, c
 
-   ret z
+        cp      14
+        jp      c, sub_14
+
+        add     a, a
+        call    c, l_ldi_128
+
+        add     a, a
+        call    c, l_ldi_64
+
+        ret     z
 
 enter_loop:
 
-   xor a
-   sub c
-   and $3f
-   add a,a
-   
-   ld (active_jr + 1),a
+        xor     a
+        sub     c
+        and     $3f
+        add     a, a
+
+        ld      (active_jr + 1), a
 
 active_jr:
 
-   jr 0
+        jr      0
 
 ENDIF
 
 l_ldi_64:
 
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
 
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
 
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
 
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
 
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
 
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
 
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
 
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
 
 l_ldi:
 
-   ret
+        ret

@@ -10,4 +10,4 @@
 
 .rodata
 
-_tgi_stddrv:    .asciiz "ted-hi.tgi"
+_tgi_stddrv: .asciiz "ted-hi.tgi"

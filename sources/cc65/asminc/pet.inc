@@ -2,7 +2,6 @@
 ; PET generic definitions.
 ;
 
-
 ; ---------------------------------------------------------------------------
 ; Zero page, Commodore stuff
 

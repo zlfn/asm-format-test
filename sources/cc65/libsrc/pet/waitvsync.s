@@ -4,9 +4,9 @@
 ; void waitvsync (void);
 ;
 
-        .export         _waitvsync
+        .export _waitvsync
 
-        .include        "pet.inc"
+        .include "pet.inc"
 
 _waitvsync:
         lda     #%00100000

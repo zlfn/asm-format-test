@@ -25,69 +25,68 @@
 ; ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ; POSSIBILITY OF SUCH DAMAGE.
 
-    INCLUDE "config_private.inc"
+        INCLUDE "config_private.inc"
 
-    SECTION code_driver
-    
-    PUBLIC	asm_clock_gettime
-    
-    EXTERN  __system_time_fraction, __system_time
+        SECTION code_driver
 
-    ; HL contains address of struct timespec
-    ;   struct  timespec { time_t      tv_sec;     /* seconds */
-    ;                   nseconds_t  tv_nsec;}   /* and nanoseconds */
+        PUBLIC  asm_clock_gettime
+
+        EXTERN  __system_time_fraction, __system_time
+
+        ; HL contains address of struct timespec
+        ;   struct  timespec { time_t      tv_sec;     /* seconds */
+        ;                   nseconds_t  tv_nsec;}   /* and nanoseconds */
 
 .asm_clock_gettime
-    ex de,hl                        ; get the address of the timespec in DE
-    ld hl,__system_time
+        ex      de, hl  ; get the address of the timespec in DE
+        ld      hl, __system_time
 
-    ld a,i
-    push af                         ; preserve interrupt status
-    di
+        ld      a, i
+        push    af      ; preserve interrupt status
+        di
 
-    ldi                             ; timespec.tv_sec = (__system_time)
-    ldi
-    ldi
-    ldi
-    ld hl,__system_time_fraction
-    ld b,(hl)                       ; (__system_time_fraction)
+        ldi                     ; timespec.tv_sec = (__system_time)
+        ldi
+        ldi
+        ldi
+        ld      hl, __system_time_fraction
+        ld      b,  (hl)        ; (__system_time_fraction)
 
-    pop af                          ; restore interrupts
-    jp PO,noints                    ; jr PO,noints -> no interrupts if di 
-    ei
+        pop     af              ; restore interrupts
+        jp      PO, noints      ; jr PO,noints -> no interrupts if di
+        ei
 
 .noints
-    push de                         ; preserve timespec.tv_nsec
+        push    de      ; preserve timespec.tv_nsec
 
-    ld e,$ca                        ; scale result into ns
-    ld d,b
-    mlt de                          ; 00DE
-    ld l,$9a
-    ld h,b
-    mlt hl                          ; 0HL0
-    ld c,$3b
-    mlt bc                          ; BC00
+        ld      e, $ca  ; scale result into ns
+        ld      d, b
+        mlt     de      ; 00DE
+        ld      l, $9a
+        ld      h, b
+        mlt     hl      ; 0HL0
+        ld      c, $3b
+        mlt     bc      ; BC00
 
-    ld a,d                          ; add partials
-    add a,l
-    ld d,a
+        ld      a, d    ; add partials
+        add     a, l
+        ld      d, a
 
-    ld a,h
-    adc a,c
-    ld c,a
-    
-    jr NC,nocarry
-    inc b                           ; result in BCDE
+        ld      a, h
+        adc     a, c
+        ld      c, a
+
+        jr      NC, nocarry
+        inc     b       ; result in BCDE
 
 .nocarry
-    pop hl                          ; recover timespec.tv_nsec
-    ld (hl),e                       ; place scaled (__system_time_fraction)
-    inc hl
-    ld (hl),d
-    inc hl
-    ld (hl),c
-    inc hl
-    ld (hl),b
-    ld hl,0                         ; return null
-    ret
-
+        pop     hl      ; recover timespec.tv_nsec
+        ld      (hl), e ; place scaled (__system_time_fraction)
+        inc     hl
+        ld      (hl), d
+        inc     hl
+        ld      (hl), c
+        inc     hl
+        ld      (hl), b
+        ld      hl,   0 ; return null
+        ret

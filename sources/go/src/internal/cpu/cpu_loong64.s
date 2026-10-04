@@ -6,7 +6,7 @@
 
 // func get_cpucfg(reg uint32) uint32
 TEXT ·get_cpucfg(SB), NOSPLIT|NOFRAME, $0-12
-	MOVW	reg+0(FP), R5
-	CPUCFG	R5, R4
-	MOVW	R4, ret+8(FP)
-	RET
+        MOVW    reg+0(FP), R5
+        CPUCFG  R5, R4
+        MOVW    R4, ret+8(FP)
+        RET

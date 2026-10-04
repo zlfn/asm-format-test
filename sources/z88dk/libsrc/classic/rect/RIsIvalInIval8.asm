@@ -19,13 +19,12 @@ PUBLIC RIsIvalInIval8
 
 .RIsIvalInIval8
 
-   ld a,b
-   sub d
-   cp e
-   ret c
+        ld      a, b
+        sub     d
+        cp      e
+        ret     c
 
-   ld a,d
-   sub b
-   cp c
-   ret
-   
+        ld      a, d
+        sub     b
+        cp      c
+        ret

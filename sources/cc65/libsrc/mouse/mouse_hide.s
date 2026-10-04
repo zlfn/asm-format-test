@@ -8,14 +8,14 @@
 ; */
 ;
 
-        .include        "mouse-kernel.inc"
+        .include "mouse-kernel.inc"
 
 .proc   _mouse_hide
 
-        lda     _mouse_hidden           ; Get the flag
-        bne     @L1                     ; Jump if already invisible
-        jsr     mouse_hide              ; Call the driver
-@L1:    inc     _mouse_hidden           ; Set the flag to invisible
+        lda     _mouse_hidden   ; Get the flag
+        bne     @L1             ; Jump if already invisible
+        jsr     mouse_hide      ; Call the driver
+@L1:    inc     _mouse_hidden   ; Set the flag to invisible
         rts
 
 .endproc

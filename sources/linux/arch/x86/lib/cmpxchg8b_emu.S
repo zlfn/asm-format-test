@@ -21,30 +21,30 @@
  */
 SYM_FUNC_START(cmpxchg8b_emu)
 
-	pushfl
-	cli
+        pushfl
+        cli
 
-	cmpl	(%esi), %eax
-	jne	.Lnot_same
-	cmpl	4(%esi), %edx
-	jne	.Lnot_same
+        cmpl    (%esi), %eax
+        jne     .Lnot_same
+        cmpl    4(%esi), %edx
+        jne     .Lnot_same
 
-	movl	%ebx, (%esi)
-	movl	%ecx, 4(%esi)
+        movl    %ebx, (%esi)
+        movl    %ecx, 4(%esi)
 
-	orl	$X86_EFLAGS_ZF, (%esp)
+        orl     $X86_EFLAGS_ZF, (%esp)
 
-	popfl
-	RET
+        popfl
+        RET
 
 .Lnot_same:
-	movl	(%esi), %eax
-	movl	4(%esi), %edx
+        movl    (%esi),  %eax
+        movl    4(%esi), %edx
 
-	andl	$(~X86_EFLAGS_ZF), (%esp)
+        andl    $(~X86_EFLAGS_ZF), (%esp)
 
-	popfl
-	RET
+        popfl
+        RET
 
 SYM_FUNC_END(cmpxchg8b_emu)
 EXPORT_SYMBOL(cmpxchg8b_emu)
@@ -67,30 +67,30 @@ EXPORT_SYMBOL(cmpxchg8b_emu)
  */
 SYM_FUNC_START(this_cpu_cmpxchg8b_emu)
 
-	pushfl
-	cli
+        pushfl
+        cli
 
-	cmpl	__percpu (%esi), %eax
-	jne	.Lnot_same2
-	cmpl	__percpu 4(%esi), %edx
-	jne	.Lnot_same2
+        cmpl    __percpu (%esi), %eax
+        jne     .Lnot_same2
+        cmpl    __percpu 4(%esi), %edx
+        jne     .Lnot_same2
 
-	movl	%ebx, __percpu (%esi)
-	movl	%ecx, __percpu 4(%esi)
+        movl    %ebx, __percpu (%esi)
+        movl    %ecx, __percpu 4(%esi)
 
-	orl	$X86_EFLAGS_ZF, (%esp)
+        orl     $X86_EFLAGS_ZF, (%esp)
 
-	popfl
-	RET
+        popfl
+        RET
 
 .Lnot_same2:
-	movl	__percpu (%esi), %eax
-	movl	__percpu 4(%esi), %edx
+        movl    __percpu (%esi),  %eax
+        movl    __percpu 4(%esi), %edx
 
-	andl	$(~X86_EFLAGS_ZF), (%esp)
+        andl    $(~X86_EFLAGS_ZF), (%esp)
 
-	popfl
-	RET
+        popfl
+        RET
 
 SYM_FUNC_END(this_cpu_cmpxchg8b_emu)
 

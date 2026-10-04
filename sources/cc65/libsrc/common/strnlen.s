@@ -22,7 +22,6 @@
         sty     tmp1
         sty     tmp2
 
-
         ;;; Loop over string.
         ; Decrement maximum length.
 next:   dec     tmp3
@@ -31,7 +30,7 @@ next:   dec     tmp3
         beq     done
 l2:
 
-        lda     (ptr1),y
+        lda     (ptr1), y
         beq     done
 
         ; Step to next character.
@@ -45,8 +44,7 @@ l1:
         bne     next
         inc     tmp2
 
-        bne     next        ; (jmp)
-
+        bne     next    ; (jmp)
 
 done:   lda     tmp1
         ldx     tmp2

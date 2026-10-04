@@ -10,17 +10,17 @@ EXTERN asm_sms_tiles_put_area
 
 _sms_tiles_put_area_callee:
 
-   pop af
-   pop bc
-   pop de
-   push af
+        pop     af
+        pop     bc
+        pop     de
+        push    af
 
 _sms_tiles_put_area_callee_0:
 
-   push bc
-   ex (sp),ix
-   
-   call asm_sms_tiles_put_area
+        push    bc
+        ex      (sp), ix
 
-   pop ix
-   ret
+        call    asm_sms_tiles_put_area
+
+        pop     ix
+        ret

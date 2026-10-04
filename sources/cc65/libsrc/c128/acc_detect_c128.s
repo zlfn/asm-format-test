@@ -11,14 +11,14 @@
 ; * 0x01  : C128 8502 is the current CPU
 ; */
 
-        .export         _detect_c128
+        .export _detect_c128
 
-        .include        "accelerator.inc"
+        .include "accelerator.inc"
 
 _detect_c128:
         ldx     #$00
         lda     #$01
 
 ; Make sure the CPU is a 8502
-        .byte   $3A                   ; NOP on 8502, DEA on 65(S)C(E)02, 4510 and 65816
+        .byte   $3A     ; NOP on 8502, DEA on 65(S)C(E)02, 4510 and 65816
         rts

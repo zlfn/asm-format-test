@@ -31,8 +31,6 @@
 ;/*                                                                           */
 ;/*****************************************************************************/
 
-
-
 ;------------------------------------------------------------------------------
 ; The driver header
 
@@ -41,14 +39,14 @@
         VERSION .byte   1       ; Interface version
         LIBREF  .addr           ; Library reference
         JUMPTAB .struct
-            INSTALL     .addr   ; INSTALL routine
-            UNINSTALL   .addr   ; UNINSTALL routine
-            PAGECOUNT   .addr   ; PAGECOUNT routine
-            MAP         .addr   ; MAP routine
-            USE         .addr   ; USE routine
-            MAPCLEAN    .addr   ; MAPCLEAN routine
-            COPYFROM    .addr   ; COPYFROM routine
-            COPYTO      .addr   ; COPYTO routine
+        INSTALL .addr           ; INSTALL routine
+        UNINSTALL .addr         ; UNINSTALL routine
+        PAGECOUNT .addr         ; PAGECOUNT routine
+        MAP     .addr           ; MAP routine
+        USE     .addr           ; USE routine
+        MAPCLEAN .addr          ; MAPCLEAN routine
+        COPYFROM .addr          ; COPYFROM routine
+        COPYTO  .addr           ; COPYTO routine
         .endstruct
 .endstruct
 
@@ -61,17 +59,17 @@ EMD_API_VERSION         = $02
 ; The asm equivalent to the C em_copy structure
 
 .struct EM_COPY
-        BUF     .addr           ; Memory buffer to copy from or to
-        OFFS    .byte           ; Offset into page
-        PAGE    .word           ; Starting page to copy from or to
-        COUNT   .word           ; Number of bytes to copy
-        UNUSED  .byte           ; Make the size 8 bytes
+        BUF     .addr   ; Memory buffer to copy from or to
+        OFFS    .byte   ; Offset into page
+        PAGE    .word   ; Starting page to copy from or to
+        COUNT   .word   ; Number of bytes to copy
+        UNUSED  .byte   ; Make the size 8 bytes
 .endstruct
 
 ;------------------------------------------------------------------------------
 ; Variables
 
-        .global _em_drv                         ; Pointer to driver
+        .global _em_drv ; Pointer to driver
 
 ;------------------------------------------------------------------------------
 ; Driver entry points
@@ -103,4 +101,3 @@ EMD_API_VERSION         = $02
         .global _em_commit
         .global _em_copyfrom
         .global _em_copyto
-

@@ -31,5 +31,4 @@ o16 mov     es, cx
 o16 mov     fs, cx
 o16 mov     gs, cx
 o16 mov     ss, cx
-  ret
-
+        ret

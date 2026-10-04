@@ -7,15 +7,15 @@ PUBLIC error_llzc
 
 EXTERN error_lzc
 
-   pop hl
+        pop     hl
 
 error_llzc:
 
-   ; set dehl'dehl = 0
-   ; set carry flag
+        ; set dehl'dehl = 0
+        ; set carry flag
 
-   exx
-   call error_lzc
-   exx
-   jp error_lzc
+        exx
+        call    error_lzc
+        exx
+        jp      error_lzc
 ENDIF

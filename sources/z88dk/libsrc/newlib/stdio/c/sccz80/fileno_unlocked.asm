@@ -10,7 +10,7 @@ EXTERN asm_fileno_unlocked
 
 fileno_unlocked:
 
-   push hl
-   pop ix
-   
-   jp asm_fileno_unlocked
+        push    hl
+        pop     ix
+
+        jp      asm_fileno_unlocked

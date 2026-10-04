@@ -10,10 +10,10 @@ EXTERN asm_zx_py2aaddr
 
 _zx_py2aaddr:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_zx_py2aaddr
+        push    hl
+        push    af
+
+        jp      asm_zx_py2aaddr

@@ -45,97 +45,96 @@ PUBLIC m32_fssqr, m32_fssqr_fastcall
 PUBLIC _m32_sqrf
 
 .m32_fssqr
-    pop af                      ; ret
-    pop hl                      ; y off stack
-    pop de
-    push de
-    push hl
-    push af                     ; ret
+        pop     af      ; ret
+        pop     hl      ; y off stack
+        pop     de
+        push    de
+        push    hl
+        push    af      ; ret
 
 ._m32_sqrf
 .m32_fssqr_fastcall
-    ex de,hl                    ; DEHL -> HLDE
+        ex      de, hl  ; DEHL -> HLDE
 
-    add hl,hl                   ; shift exponent into H, ignore sign bit
-    scf                         ; set implicit bit
-    rr l                        ; shift msb into mantissa
+        add     hl, hl  ; shift exponent into H, ignore sign bit
+        scf             ; set implicit bit
+        rr      l       ; shift msb into mantissa
 
-    ld a,h                      ; calculate the exponent
-    sub a,07fh                  ; subtract out bias, so when exponents are added only one bias present
-    jr C,fschkuf
+        ld      a, h    ; calculate the exponent
+        sub     a, 07fh ; subtract out bias, so when exponents are added only one bias present
+        jr      C, fschkuf
 
-    add a,h
-    jp C,m32_fsconst_pinf
-    jr fsnouf
+        add     a, h
+        jp      C, m32_fsconst_pinf
+        jr      fsnouf
 
 .fschkuf
-    add a,h                     ; add the exponents
-    jp NC,m32_fsconst_pzero
+        add     a,  h   ; add the exponents
+        jp      NC, m32_fsconst_pzero
 
 .fsnouf
-    or a
-    jp Z,m32_fsconst_pzero
+        or      a
+        jp      Z, m32_fsconst_pzero
 
-    push af                     ; stack: sum of exponents a
+        push    af      ; stack: sum of exponents a
 
-                                ; square of two 24-bit numbers into a 32-bit product
-                                ;
-                                ; result is properly calculated into highest 32-bit result
-                                ; from a 48-bit calculation.
-                                ;
-                                ; Lower 8 bits intended to provide rounding information for
-                                ; IEEE floating point mantissa calculations.
-                                ;
-                                ; enter : abc = lde  = 24-bit multiplier  = x
-                                ;
+        ; square of two 24-bit numbers into a 32-bit product
+        ;
+        ; result is properly calculated into highest 32-bit result
+        ; from a 48-bit calculation.
+        ;
+        ; Lower 8 bits intended to provide rounding information for
+        ; IEEE floating point mantissa calculations.
+        ;
+        ; enter : abc = lde  = 24-bit multiplier  = x
+        ;
 
-    call m32_sqr_32h_24x24      ; exit  : HLDE  = 32-bit product
+        call    m32_sqr_32h_24x24       ; exit  : HLDE  = 32-bit product
 
-    pop bc                      ; retrieve exponent from stack
+        pop     bc      ; retrieve exponent from stack
 
-    bit 7,h                     ; need to shift result left if msb!=1
-    jr NZ,fs1
-    sla e
-    rl d
-    adc hl,hl
-    jr fs2
+        bit     7,  h   ; need to shift result left if msb!=1
+        jr      NZ, fs1
+        sla     e
+        rl      d
+        adc     hl, hl
+        jr      fs2
 
 .fs1
-    inc b
-    jp Z,m32_fsconst_pnan       ; capture overflow from NaN
-    inc b
-    jp Z,m32_fsconst_pinf       ; capture overflow into Inf
-    dec b
+        inc     b
+        jp      Z, m32_fsconst_pnan     ; capture overflow from NaN
+        inc     b
+        jp      Z, m32_fsconst_pinf     ; capture overflow into Inf
+        dec     b
 
 .fs2
-    ld a,e
-    ld e,h                      ; put 24 bit mantissa in place, HLD into EHL
-    ld h,l
-    ld l,d
+        ld      a, e
+        ld      e, h    ; put 24 bit mantissa in place, HLD into EHL
+        ld      h, l
+        ld      l, d
 
-    ; IEEE RNE: residual A → G=bit7, S=bits6..0 (via add a,a), B=L.0
-    add a,a
-    jr NC,fs3                   ; G=0
-    jr NZ,fs_up                 ; G=1 S≠0
-    bit 0,l
-    jr Z,fs3                    ; tie, already even
+        ; IEEE RNE: residual A → G=bit7, S=bits6..0 (via add a,a), B=L.0
+        add     a,  a
+        jr      NC, fs3         ; G=0
+        jr      NZ, fs_up       ; G=1 S≠0
+        bit     0,  l
+        jr      Z,  fs3         ; tie, already even
 .fs_up
-    inc l
-    jr NZ,fs3
-    inc h
-    jr NZ,fs3
-    inc e
-    jr NZ,fs3
-    ld hl,0                     ; mant overflow → 1.0, exp++ (E=0; sla e discards implicit 1)
-    ld e,l
-    inc b
-    jp Z,m32_fsconst_pinf
+        inc     l
+        jr      NZ, fs3
+        inc     h
+        jr      NZ, fs3
+        inc     e
+        jr      NZ, fs3
+        ld      hl, 0           ; mant overflow → 1.0, exp++ (E=0; sla e discards implicit 1)
+        ld      e,  l
+        inc     b
+        jp      Z, m32_fsconst_pinf
 
 .fs3
-    sla e                       ; adjust mantissa for exponent
-    xor a                       ; set sign in C positive
-    ld d,b                      ; put exponent in D
-    rr de                       ; put sign and 7 exp bits into place
-                                ; put last exp bit into place
-    ret                         ; return IEEE DEHL
-
+        sla     e       ; adjust mantissa for exponent
+        xor     a       ; set sign in C positive
+        ld      d, b    ; put exponent in D
+        rr      de      ; put sign and 7 exp bits into place
+                        ; put last exp bit into place
+        ret             ; return IEEE DEHL

@@ -9,19 +9,19 @@ EXTERN ASMDISP_SP1_INITCHARSTRUCT_CALLEE
 
 .sp1_InitCharStruct
 
-   pop ix
-   pop bc
-   ld a,c
-   ex af,af
-   pop bc
-   pop de
-   ld a,e
-   pop de
-   pop hl
-   push hl
-   push de
-   push de
-   push bc
-   push bc
-   push ix
-   jp sp1_InitCharStruct_callee + ASMDISP_SP1_INITCHARSTRUCT_CALLEE
+        pop     ix
+        pop     bc
+        ld      a,  c
+        ex      af, af
+        pop     bc
+        pop     de
+        ld      a, e
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    de
+        push    bc
+        push    bc
+        push    ix
+        jp      sp1_InitCharStruct_callee + ASMDISP_SP1_INITCHARSTRUCT_CALLEE

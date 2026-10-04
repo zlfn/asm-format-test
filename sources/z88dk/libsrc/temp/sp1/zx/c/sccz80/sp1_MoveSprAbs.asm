@@ -10,43 +10,42 @@ EXTERN asm_sp1_MoveSprAbs
 
 sp1_MoveSprAbs:
 
-   push ix	; save IX to BC'
-   exx
-   pop bc
-   exx
+        push    ix      ; save IX to BC'
+        exx
+        pop     bc
+        exx
 
-   pop af
-   pop de
-   pop bc
-   ld b,e
-   pop de
-   pop hl
-   ld d,l
-   pop hl
-   pop iy
-   pop ix
-   push hl
-   push hl
-   push hl
-   push hl
-   push de
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        ld      b, e
+        pop     de
+        pop     hl
+        ld      d, l
+        pop     hl
+        pop     iy
+        pop     ix
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    de
+        push    bc
+        push    de
+        push    af
 
 ;   jp asm_sp1_MoveSprAbs
-   exx
-   push bc	; save old IX
-   exx
+        exx
+        push    bc      ; save old IX
+        exx
 
-   call asm_sp1_MoveSprAbs
+        call    asm_sp1_MoveSprAbs
 
-   pop ix	; restore it
-   ret
+        pop     ix      ; restore it
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_MoveSprAbs
 defc _sp1_MoveSprAbs = sp1_MoveSprAbs
 ENDIF
-

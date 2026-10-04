@@ -3,22 +3,21 @@
 ; Standard joystick driver for the Gamate
 ;
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "gamate.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "gamate.inc"
 
-        .macpack        module
-
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _gamate_stdjoy_joy
+        module_header _gamate_stdjoy_joy
 
 ; Driver signature
 
-        .byte   $6A, $6F, $79           ; "joy"
-        .byte   JOY_API_VERSION         ; Driver API version number
+        .byte   $6A, $6F, $79   ; "joy"
+        .byte   JOY_API_VERSION ; Driver API version number
 
 ; Library reference
 
@@ -35,7 +34,6 @@
 ; Constants
 
 JOY_COUNT       = 1             ; Number of joysticks we support
-
 
 .code
 
@@ -61,7 +59,6 @@ INSTALL:
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.
 ;
@@ -82,4 +79,3 @@ READJOY:
         eor     #$FF
         ldx     #0
         rts
-

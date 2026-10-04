@@ -81,7 +81,6 @@
 #define RFS3  %r10
 #define RFS3d %r10d
 
-
 #define lookup_32bit(src, dst, op1, op2, op3, interleave_op, il_reg) \
 	movzbl		src ## bh,     RID1d;    \
 	leaq		s1(%rip),      RID2;     \
@@ -187,28 +186,28 @@
 .section	.rodata.cst16.bswap_mask, "aM", @progbits, 16
 .align 16
 .Lbswap_mask:
-	.byte 3, 2, 1, 0, 7, 6, 5, 4, 11, 10, 9, 8, 15, 14, 13, 12
+        .byte   3, 2, 1, 0, 7, 6, 5, 4, 11, 10, 9, 8, 15, 14, 13, 12
 .section	.rodata.cst16.bswap128_mask, "aM", @progbits, 16
 .align 16
 .Lbswap128_mask:
-	.byte 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
+        .byte   15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 .section	.rodata.cst16.bswap_iv_mask, "aM", @progbits, 16
 .align 16
 .Lbswap_iv_mask:
-	.byte 7, 6, 5, 4, 3, 2, 1, 0, 7, 6, 5, 4, 3, 2, 1, 0
+        .byte   7, 6, 5, 4, 3, 2, 1, 0, 7, 6, 5, 4, 3, 2, 1, 0
 
 .section	.rodata.cst4.16_mask, "aM", @progbits, 4
 .align 4
 .L16_mask:
-	.byte 16, 16, 16, 16
+        .byte   16, 16, 16, 16
 .section	.rodata.cst4.32_mask, "aM", @progbits, 4
 .align 4
 .L32_mask:
-	.byte 32, 0, 0, 0
+        .byte   32, 0, 0, 0
 .section	.rodata.cst4.first_mask, "aM", @progbits, 4
 .align 4
 .Lfirst_mask:
-	.byte 0x1f, 0, 0, 0
+        .byte   0x1f, 0, 0, 0
 
 .text
 
@@ -234,55 +233,55 @@ SYM_FUNC_START_LOCAL(__cast5_enc_blk16)
 	 *	RR4: encrypted blocks 15 and 16
 	 */
 
-	pushq %r15;
-	pushq %rbx;
+        pushq   %r15;
+        pushq   %rbx;
 
-	movq %rdi, CTX;
+        movq    %rdi, CTX;
 
-	vmovdqa .Lbswap_mask(%rip), RKM;
-	vmovd .Lfirst_mask(%rip), R1ST;
-	vmovd .L32_mask(%rip), R32;
-	enc_preload_rkr();
+        vmovdqa .Lbswap_mask(%rip), RKM;
+        vmovd   .Lfirst_mask(%rip), R1ST;
+        vmovd   .L32_mask(%rip),    R32;
+        enc_preload_rkr();
 
-	inpack_blocks(RL1, RR1, RTMP, RX, RKM);
-	inpack_blocks(RL2, RR2, RTMP, RX, RKM);
-	inpack_blocks(RL3, RR3, RTMP, RX, RKM);
-	inpack_blocks(RL4, RR4, RTMP, RX, RKM);
+        inpack_blocks(RL1, RR1, RTMP, RX, RKM);
+        inpack_blocks(RL2, RR2, RTMP, RX, RKM);
+        inpack_blocks(RL3, RR3, RTMP, RX, RKM);
+        inpack_blocks(RL4, RR4, RTMP, RX, RKM);
 
-	round(RL, RR, 0, 1);
-	round(RR, RL, 1, 2);
-	round(RL, RR, 2, 3);
-	round(RR, RL, 3, 1);
-	round(RL, RR, 4, 2);
-	round(RR, RL, 5, 3);
-	round(RL, RR, 6, 1);
-	round(RR, RL, 7, 2);
-	round(RL, RR, 8, 3);
-	round(RR, RL, 9, 1);
-	round(RL, RR, 10, 2);
-	round(RR, RL, 11, 3);
+        round(RL, RR, 0, 1);
+        round(RR, RL, 1, 2);
+        round(RL, RR, 2, 3);
+        round(RR, RL, 3, 1);
+        round(RL, RR, 4, 2);
+        round(RR, RL, 5, 3);
+        round(RL, RR, 6, 1);
+        round(RR, RL, 7, 2);
+        round(RL, RR, 8, 3);
+        round(RR, RL, 9, 1);
+        round(RL, RR, 10, 2);
+        round(RR, RL, 11, 3);
 
-	movzbl rr(CTX), %eax;
-	testl %eax, %eax;
-	jnz .L__skip_enc;
+        movzbl  rr(CTX), %eax;
+        testl   %eax,    %eax;
+        jnz     .L__skip_enc;
 
-	round(RL, RR, 12, 1);
-	round(RR, RL, 13, 2);
-	round(RL, RR, 14, 3);
-	round(RR, RL, 15, 1);
+        round(RL, RR, 12, 1);
+        round(RR, RL, 13, 2);
+        round(RL, RR, 14, 3);
+        round(RR, RL, 15, 1);
 
 .L__skip_enc:
-	popq %rbx;
-	popq %r15;
+        popq    %rbx;
+        popq    %r15;
 
-	vmovdqa .Lbswap_mask(%rip), RKM;
+        vmovdqa .Lbswap_mask(%rip), RKM;
 
-	outunpack_blocks(RR1, RL1, RTMP, RX, RKM);
-	outunpack_blocks(RR2, RL2, RTMP, RX, RKM);
-	outunpack_blocks(RR3, RL3, RTMP, RX, RKM);
-	outunpack_blocks(RR4, RL4, RTMP, RX, RKM);
+        outunpack_blocks(RR1, RL1, RTMP, RX, RKM);
+        outunpack_blocks(RR2, RL2, RTMP, RX, RKM);
+        outunpack_blocks(RR3, RL3, RTMP, RX, RKM);
+        outunpack_blocks(RR4, RL4, RTMP, RX, RKM);
 
-	RET;
+        RET;
 SYM_FUNC_END(__cast5_enc_blk16)
 
 SYM_FUNC_START_LOCAL(__cast5_dec_blk16)
@@ -307,58 +306,58 @@ SYM_FUNC_START_LOCAL(__cast5_dec_blk16)
 	 *	RR4: decrypted blocks 15 and 16
 	 */
 
-	pushq %r15;
-	pushq %rbx;
+        pushq   %r15;
+        pushq   %rbx;
 
-	movq %rdi, CTX;
+        movq    %rdi, CTX;
 
-	vmovdqa .Lbswap_mask(%rip), RKM;
-	vmovd .Lfirst_mask(%rip), R1ST;
-	vmovd .L32_mask(%rip), R32;
-	dec_preload_rkr();
+        vmovdqa .Lbswap_mask(%rip), RKM;
+        vmovd   .Lfirst_mask(%rip), R1ST;
+        vmovd   .L32_mask(%rip),    R32;
+        dec_preload_rkr();
 
-	inpack_blocks(RL1, RR1, RTMP, RX, RKM);
-	inpack_blocks(RL2, RR2, RTMP, RX, RKM);
-	inpack_blocks(RL3, RR3, RTMP, RX, RKM);
-	inpack_blocks(RL4, RR4, RTMP, RX, RKM);
+        inpack_blocks(RL1, RR1, RTMP, RX, RKM);
+        inpack_blocks(RL2, RR2, RTMP, RX, RKM);
+        inpack_blocks(RL3, RR3, RTMP, RX, RKM);
+        inpack_blocks(RL4, RR4, RTMP, RX, RKM);
 
-	movzbl rr(CTX), %eax;
-	testl %eax, %eax;
-	jnz .L__skip_dec;
+        movzbl  rr(CTX), %eax;
+        testl   %eax,    %eax;
+        jnz     .L__skip_dec;
 
-	round(RL, RR, 15, 1);
-	round(RR, RL, 14, 3);
-	round(RL, RR, 13, 2);
-	round(RR, RL, 12, 1);
+        round(RL, RR, 15, 1);
+        round(RR, RL, 14, 3);
+        round(RL, RR, 13, 2);
+        round(RR, RL, 12, 1);
 
 .L__dec_tail:
-	round(RL, RR, 11, 3);
-	round(RR, RL, 10, 2);
-	round(RL, RR, 9, 1);
-	round(RR, RL, 8, 3);
-	round(RL, RR, 7, 2);
-	round(RR, RL, 6, 1);
-	round(RL, RR, 5, 3);
-	round(RR, RL, 4, 2);
-	round(RL, RR, 3, 1);
-	round(RR, RL, 2, 3);
-	round(RL, RR, 1, 2);
-	round(RR, RL, 0, 1);
+        round(RL, RR, 11, 3);
+        round(RR, RL, 10, 2);
+        round(RL, RR, 9, 1);
+        round(RR, RL, 8, 3);
+        round(RL, RR, 7, 2);
+        round(RR, RL, 6, 1);
+        round(RL, RR, 5, 3);
+        round(RR, RL, 4, 2);
+        round(RL, RR, 3, 1);
+        round(RR, RL, 2, 3);
+        round(RL, RR, 1, 2);
+        round(RR, RL, 0, 1);
 
-	vmovdqa .Lbswap_mask(%rip), RKM;
-	popq %rbx;
-	popq %r15;
+        vmovdqa .Lbswap_mask(%rip), RKM;
+        popq    %rbx;
+        popq    %r15;
 
-	outunpack_blocks(RR1, RL1, RTMP, RX, RKM);
-	outunpack_blocks(RR2, RL2, RTMP, RX, RKM);
-	outunpack_blocks(RR3, RL3, RTMP, RX, RKM);
-	outunpack_blocks(RR4, RL4, RTMP, RX, RKM);
+        outunpack_blocks(RR1, RL1, RTMP, RX, RKM);
+        outunpack_blocks(RR2, RL2, RTMP, RX, RKM);
+        outunpack_blocks(RR3, RL3, RTMP, RX, RKM);
+        outunpack_blocks(RR4, RL4, RTMP, RX, RKM);
 
-	RET;
+        RET;
 
 .L__skip_dec:
-	vpsrldq $4, RKR, RKR;
-	jmp .L__dec_tail;
+        vpsrldq $4, RKR, RKR;
+        jmp     .L__dec_tail;
 SYM_FUNC_END(__cast5_dec_blk16)
 
 SYM_FUNC_START(cast5_ecb_enc_16way)
@@ -367,35 +366,35 @@ SYM_FUNC_START(cast5_ecb_enc_16way)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	FRAME_BEGIN
-	pushq %r15;
+        FRAME_BEGIN
+        pushq   %r15;
 
-	movq %rdi, CTX;
-	movq %rsi, %r11;
+        movq    %rdi, CTX;
+        movq    %rsi, %r11;
 
-	vmovdqu (0*4*4)(%rdx), RL1;
-	vmovdqu (1*4*4)(%rdx), RR1;
-	vmovdqu (2*4*4)(%rdx), RL2;
-	vmovdqu (3*4*4)(%rdx), RR2;
-	vmovdqu (4*4*4)(%rdx), RL3;
-	vmovdqu (5*4*4)(%rdx), RR3;
-	vmovdqu (6*4*4)(%rdx), RL4;
-	vmovdqu (7*4*4)(%rdx), RR4;
+        vmovdqu (0*4*4)(%rdx), RL1;
+        vmovdqu (1*4*4)(%rdx), RR1;
+        vmovdqu (2*4*4)(%rdx), RL2;
+        vmovdqu (3*4*4)(%rdx), RR2;
+        vmovdqu (4*4*4)(%rdx), RL3;
+        vmovdqu (5*4*4)(%rdx), RR3;
+        vmovdqu (6*4*4)(%rdx), RL4;
+        vmovdqu (7*4*4)(%rdx), RR4;
 
-	call __cast5_enc_blk16;
+        call    __cast5_enc_blk16;
 
-	vmovdqu RR1, (0*4*4)(%r11);
-	vmovdqu RL1, (1*4*4)(%r11);
-	vmovdqu RR2, (2*4*4)(%r11);
-	vmovdqu RL2, (3*4*4)(%r11);
-	vmovdqu RR3, (4*4*4)(%r11);
-	vmovdqu RL3, (5*4*4)(%r11);
-	vmovdqu RR4, (6*4*4)(%r11);
-	vmovdqu RL4, (7*4*4)(%r11);
+        vmovdqu RR1, (0*4*4)(%r11);
+        vmovdqu RL1, (1*4*4)(%r11);
+        vmovdqu RR2, (2*4*4)(%r11);
+        vmovdqu RL2, (3*4*4)(%r11);
+        vmovdqu RR3, (4*4*4)(%r11);
+        vmovdqu RL3, (5*4*4)(%r11);
+        vmovdqu RR4, (6*4*4)(%r11);
+        vmovdqu RL4, (7*4*4)(%r11);
 
-	popq %r15;
-	FRAME_END
-	RET;
+        popq    %r15;
+        FRAME_END
+        RET;
 SYM_FUNC_END(cast5_ecb_enc_16way)
 
 SYM_FUNC_START(cast5_ecb_dec_16way)
@@ -405,35 +404,35 @@ SYM_FUNC_START(cast5_ecb_dec_16way)
 	 *	%rdx: src
 	 */
 
-	FRAME_BEGIN
-	pushq %r15;
+        FRAME_BEGIN
+        pushq   %r15;
 
-	movq %rdi, CTX;
-	movq %rsi, %r11;
+        movq    %rdi, CTX;
+        movq    %rsi, %r11;
 
-	vmovdqu (0*4*4)(%rdx), RL1;
-	vmovdqu (1*4*4)(%rdx), RR1;
-	vmovdqu (2*4*4)(%rdx), RL2;
-	vmovdqu (3*4*4)(%rdx), RR2;
-	vmovdqu (4*4*4)(%rdx), RL3;
-	vmovdqu (5*4*4)(%rdx), RR3;
-	vmovdqu (6*4*4)(%rdx), RL4;
-	vmovdqu (7*4*4)(%rdx), RR4;
+        vmovdqu (0*4*4)(%rdx), RL1;
+        vmovdqu (1*4*4)(%rdx), RR1;
+        vmovdqu (2*4*4)(%rdx), RL2;
+        vmovdqu (3*4*4)(%rdx), RR2;
+        vmovdqu (4*4*4)(%rdx), RL3;
+        vmovdqu (5*4*4)(%rdx), RR3;
+        vmovdqu (6*4*4)(%rdx), RL4;
+        vmovdqu (7*4*4)(%rdx), RR4;
 
-	call __cast5_dec_blk16;
+        call    __cast5_dec_blk16;
 
-	vmovdqu RR1, (0*4*4)(%r11);
-	vmovdqu RL1, (1*4*4)(%r11);
-	vmovdqu RR2, (2*4*4)(%r11);
-	vmovdqu RL2, (3*4*4)(%r11);
-	vmovdqu RR3, (4*4*4)(%r11);
-	vmovdqu RL3, (5*4*4)(%r11);
-	vmovdqu RR4, (6*4*4)(%r11);
-	vmovdqu RL4, (7*4*4)(%r11);
+        vmovdqu RR1, (0*4*4)(%r11);
+        vmovdqu RL1, (1*4*4)(%r11);
+        vmovdqu RR2, (2*4*4)(%r11);
+        vmovdqu RL2, (3*4*4)(%r11);
+        vmovdqu RR3, (4*4*4)(%r11);
+        vmovdqu RL3, (5*4*4)(%r11);
+        vmovdqu RR4, (6*4*4)(%r11);
+        vmovdqu RL4, (7*4*4)(%r11);
 
-	popq %r15;
-	FRAME_END
-	RET;
+        popq    %r15;
+        FRAME_END
+        RET;
 SYM_FUNC_END(cast5_ecb_dec_16way)
 
 SYM_FUNC_START(cast5_cbc_dec_16way)
@@ -442,48 +441,48 @@ SYM_FUNC_START(cast5_cbc_dec_16way)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	FRAME_BEGIN
-	pushq %r12;
-	pushq %r15;
+        FRAME_BEGIN
+        pushq   %r12;
+        pushq   %r15;
 
-	movq %rdi, CTX;
-	movq %rsi, %r11;
-	movq %rdx, %r12;
+        movq    %rdi, CTX;
+        movq    %rsi, %r11;
+        movq    %rdx, %r12;
 
-	vmovdqu (0*16)(%rdx), RL1;
-	vmovdqu (1*16)(%rdx), RR1;
-	vmovdqu (2*16)(%rdx), RL2;
-	vmovdqu (3*16)(%rdx), RR2;
-	vmovdqu (4*16)(%rdx), RL3;
-	vmovdqu (5*16)(%rdx), RR3;
-	vmovdqu (6*16)(%rdx), RL4;
-	vmovdqu (7*16)(%rdx), RR4;
+        vmovdqu (0*16)(%rdx), RL1;
+        vmovdqu (1*16)(%rdx), RR1;
+        vmovdqu (2*16)(%rdx), RL2;
+        vmovdqu (3*16)(%rdx), RR2;
+        vmovdqu (4*16)(%rdx), RL3;
+        vmovdqu (5*16)(%rdx), RR3;
+        vmovdqu (6*16)(%rdx), RL4;
+        vmovdqu (7*16)(%rdx), RR4;
 
-	call __cast5_dec_blk16;
+        call    __cast5_dec_blk16;
 
-	/* xor with src */
-	vmovq (%r12), RX;
-	vpshufd $0x4f, RX, RX;
-	vpxor RX, RR1, RR1;
-	vpxor 0*16+8(%r12), RL1, RL1;
-	vpxor 1*16+8(%r12), RR2, RR2;
-	vpxor 2*16+8(%r12), RL2, RL2;
-	vpxor 3*16+8(%r12), RR3, RR3;
-	vpxor 4*16+8(%r12), RL3, RL3;
-	vpxor 5*16+8(%r12), RR4, RR4;
-	vpxor 6*16+8(%r12), RL4, RL4;
+        /* xor with src */
+        vmovq   (%r12), RX;
+        vpshufd $0x4f,  RX,  RX;
+        vpxor   RX,     RR1, RR1;
+        vpxor   0*16+8(%r12), RL1, RL1;
+        vpxor   1*16+8(%r12), RR2, RR2;
+        vpxor   2*16+8(%r12), RL2, RL2;
+        vpxor   3*16+8(%r12), RR3, RR3;
+        vpxor   4*16+8(%r12), RL3, RL3;
+        vpxor   5*16+8(%r12), RR4, RR4;
+        vpxor   6*16+8(%r12), RL4, RL4;
 
-	vmovdqu RR1, (0*16)(%r11);
-	vmovdqu RL1, (1*16)(%r11);
-	vmovdqu RR2, (2*16)(%r11);
-	vmovdqu RL2, (3*16)(%r11);
-	vmovdqu RR3, (4*16)(%r11);
-	vmovdqu RL3, (5*16)(%r11);
-	vmovdqu RR4, (6*16)(%r11);
-	vmovdqu RL4, (7*16)(%r11);
+        vmovdqu RR1, (0*16)(%r11);
+        vmovdqu RL1, (1*16)(%r11);
+        vmovdqu RR2, (2*16)(%r11);
+        vmovdqu RL2, (3*16)(%r11);
+        vmovdqu RR3, (4*16)(%r11);
+        vmovdqu RL3, (5*16)(%r11);
+        vmovdqu RR4, (6*16)(%r11);
+        vmovdqu RL4, (7*16)(%r11);
 
-	popq %r15;
-	popq %r12;
-	FRAME_END
-	RET;
+        popq    %r15;
+        popq    %r12;
+        FRAME_END
+        RET;
 SYM_FUNC_END(cast5_cbc_dec_16way)

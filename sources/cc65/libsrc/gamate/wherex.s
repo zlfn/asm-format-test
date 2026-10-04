@@ -4,10 +4,10 @@
 ; unsigned char wherex (void);
 ;
 
-        .export         _wherex
+        .export _wherex
 
-        .include        "gamate.inc"
-        .include        "extzp.inc"
+        .include "gamate.inc"
+        .include "extzp.inc"
 
 .proc   _wherex
 
@@ -16,5 +16,3 @@
         rts
 
 .endproc
-
-

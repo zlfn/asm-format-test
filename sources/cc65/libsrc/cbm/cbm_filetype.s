@@ -9,7 +9,6 @@
 
         .macpack generic
 
-
 ; --------------------------------------------------------------------------
 ; Table with types for a list of start characters
 
@@ -37,14 +36,13 @@
         .byte   CBM_T_VRP       ; v
 .endproc
 
-
 ; --------------------------------------------------------------------------
 ; Mapper function
 
 .code
 .proc   __cbm_filetype
 
-        ldx     #0              ; Clear high byte
+        ldx     #0      ; Clear high byte
 
 ; Check that the given char is in table range
 
@@ -57,7 +55,7 @@
 ; Ok, load the type
 
         tay
-        lda     TypeTable,y
+        lda     TypeTable, y
         rts
 
 ; Out of table range, return CBM_T_OTHER
@@ -66,6 +64,3 @@ L1:     lda     #CBM_T_OTHER
         rts
 
 .endproc
-
-
-

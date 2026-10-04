@@ -10,17 +10,17 @@ EXTERN l0__shellsort__callee
 
 __shellsort_:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   exx
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        exx
+        pop     bc
 
-   jp l0__shellsort__callee
+        push    bc
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        jp      l0__shellsort__callee

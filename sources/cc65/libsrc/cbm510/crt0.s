@@ -2,20 +2,19 @@
 ; Startup code for cc65 (CBM 500 version)
 ;
 
-        .export         _exit, BRKVec
-        .export         __STARTUP__ : absolute = 1      ; Mark as startup
+        .export _exit, BRKVec
+        .export __STARTUP__ : absolute = 1      ; Mark as startup
 
-        .import         _clrscr, initlib, donelib, callirq_y
-        .import         push0, callmain
-        .import         __CHARRAM_START__, __CHARRAM_SIZE__, __VIDRAM_START__
-        .import         __BSS_RUN__, __BSS_SIZE__, __EXTZP_RUN__
-        .import         __INTERRUPTOR_COUNT__
-        .import         scnkey, UDTIM
+        .import _clrscr, initlib, donelib, callirq_y
+        .import push0,   callmain
+        .import __CHARRAM_START__, __CHARRAM_SIZE__, __VIDRAM_START__
+        .import __BSS_RUN__, __BSS_SIZE__, __EXTZP_RUN__
+        .import __INTERRUPTOR_COUNT__
+        .import scnkey, UDTIM
 
-        .include        "zeropage.inc"
-        .include        "extzp.inc"
-        .include        "cbm510.inc"
-
+        .include "zeropage.inc"
+        .include "extzp.inc"
+        .include "cbm510.inc"
 
 ; ------------------------------------------------------------------------
 ; The BASIC header and a small BASIC program. Since it isn't possible to start
@@ -48,11 +47,11 @@
 
 .segment        "EXEHDR"
 
-        .byte   $03,$00,$11,$00,$0a,$00,$81,$20,$49,$b2,$30,$20,$a4,$20,$34,$00
-        .byte   $19,$00,$14,$00,$87,$20,$4a,$00,$27,$00,$1e,$00,$97,$20,$32,$35
-        .byte   $36,$aa,$49,$2c,$4a,$00,$2f,$00,$28,$00,$82,$20,$49,$00,$39,$00
-        .byte   $32,$00,$9e,$20,$32,$35,$36,$00,$4f,$00,$3c,$00,$83,$20,$31,$32
-        .byte   $30,$2c,$31,$36,$39,$2c,$30,$2c,$31,$33,$33,$2c,$30,$00,$00,$00
+        .byte   $03, $00, $11, $00, $0a, $00, $81, $20, $49, $b2, $30, $20, $a4, $20, $34, $00
+        .byte   $19, $00, $14, $00, $87, $20, $4a, $00, $27, $00, $1e, $00, $97, $20, $32, $35
+        .byte   $36, $aa, $49, $2c, $4a, $00, $2f, $00, $28, $00, $82, $20, $49, $00, $39, $00
+        .byte   $32, $00, $9e, $20, $32, $35, $36, $00, $4f, $00, $3c, $00, $83, $20, $31, $32
+        .byte   $30, $2c, $31, $36, $39, $2c, $30, $2c, $31, $33, $33, $2c, $30, $00, $00, $00
 
 ;------------------------------------------------------------------------------
 ; A table that contains values that must be transferred from the system zero-
@@ -75,7 +74,6 @@
 
 .endproc
 
-
 ;------------------------------------------------------------------------------
 ; Page 3 data. This page contains the break vector and the bankswitch
 ; subroutine that is copied into high memory on startup. The space occupied by
@@ -84,7 +82,7 @@
 
 .segment        "PAGE3"
 
-BRKVec: .addr   _exit           ; BRK indirect vector
+BRKVec: .addr   _exit   ; BRK indirect vector
 
 .proc   callbank15
 
@@ -94,7 +92,7 @@ BRKVec: .addr   _exit           ; BRK indirect vector
 
 entry:  php
         pha
-        lda     #$0F            ; Bank 15
+        lda     #$0F    ; Bank 15
         sta     IndReg
         txa
         pha
@@ -102,56 +100,56 @@ entry:  php
         pha
         sei
         ldy     #$FF
-        lda     (sysp1),y
+        lda     (sysp1), y
         tay
         lda     ExecReg
-        sta     (sysp1),y
+        sta     (sysp1), y
         dey
 
         lda     #.hibyte(excrts-1)
-        sta     (sysp1),y
+        sta     (sysp1), y
         dey
         lda     #.lobyte(excrts-1)
-        sta     (sysp1),y
+        sta     (sysp1), y
 
         tya
         sec
         sbc     #7
-        sta     $1FF            ; Save new c_sp
+        sta     $1FF    ; Save new c_sp
         tay
 
         tsx
 
         pla
         iny
-        sta     (sysp1),y
+        sta     (sysp1), y
         pla
         iny
-        sta     (sysp1),y
+        sta     (sysp1), y
         pla
         iny
-        sta     (sysp1),y
+        sta     (sysp1), y
         pla
         iny
-        sta     (sysp1),y
+        sta     (sysp1), y
 
-        lda     $105,x
+        lda     $105, x
         sec
         sbc     #3
         iny
-        sta     (sysp1),y
-        lda     $106,x
+        sta     (sysp1), y
+        lda     $106,    x
         sbc     #0
         iny
-        sta     (sysp1),y
+        sta     (sysp1), y
 
-        ldy     $1FF            ; Restore c_sp in bank 15
+        ldy     $1FF    ; Restore c_sp in bank 15
 
         lda     #.hibyte(expull-1)
-        sta     (sysp1),y
+        sta     (sysp1), y
         dey
         lda     #.lobyte(expull-1)
-        sta     (sysp1),y
+        sta     (sysp1), y
         dey
         pla
         pla
@@ -209,27 +207,27 @@ Back:   sta     ExecReg
         sta     ExecReg
         rts
         nop
-        .word   nmi             ; NMI vector
-        .word   0               ; Reset -- not used
-        .word   irq             ; IRQ vector
+        .word   nmi     ; NMI vector
+        .word   0       ; Reset -- not used
+        .word   irq     ; IRQ vector
 .endproc
 
 ; Initializers for the extended zero-page. See "extzp.s".
 
 .proc   extzp
-        .word   $0100           ; sysp1
-        .word   $0300           ; sysp3
-        .word   $d800           ; vic
-        .word   $da00           ; sid
-        .word   $db00           ; cia1
-        .word   $dc00           ; cia2
-        .word   $dd00           ; acia
-        .word   $de00           ; tpi1
-        .word   $df00           ; tpi2
-        .word   $eab1           ; ktab1
-        .word   $eb11           ; ktab2
-        .word   $eb71           ; ktab3
-        .word   $ebd1           ; ktab4
+        .word   $0100   ; sysp1
+        .word   $0300   ; sysp3
+        .word   $d800   ; vic
+        .word   $da00   ; sid
+        .word   $db00   ; cia1
+        .word   $dc00   ; cia2
+        .word   $dd00   ; acia
+        .word   $de00   ; tpi1
+        .word   $df00   ; tpi2
+        .word   $eab1   ; ktab1
+        .word   $eb11   ; ktab2
+        .word   $eb71   ; ktab3
+        .word   $ebd1   ; ktab4
 .endproc
 
 ; Switch the indirect segment to the system bank.
@@ -240,8 +238,8 @@ Origin: lda     #$0F
 ; Initialize the extended zero-page.
 
         ldx     #.sizeof(extzp)-1
-L1:     lda     extzp,x
-        sta     <__EXTZP_RUN__,x
+L1:     lda     extzp, x
+        sta     <__EXTZP_RUN__, x
         dex
         bpl     L1
 
@@ -250,7 +248,7 @@ L1:     lda     extzp,x
         tsx
         txa
         ldy     #$FF
-        sta     (sysp1),y       ; Save system stack point into $F:$1FF
+        sta     (sysp1), y      ; Save system stack point into $F:$1FF
         ldx     #$FE            ; Leave $1FF untouched for cross-bank calls
         txs                     ; Set up our own stack
 
@@ -259,11 +257,11 @@ L1:     lda     extzp,x
         lda     #.sizeof(transfer_table)
         sta     ktmp
 L2:     ldx     ktmp
-        ldy     transfer_table-2,x
-        lda     transfer_table-1,x
+        ldy     transfer_table-2, x
+        lda     transfer_table-1, x
         tax
-        lda     (sysp0),y
-        sta     $00,x
+        lda     (sysp0), y
+        sta     $00,     x
         dec     ktmp
         dec     ktmp
         bne     L2
@@ -271,8 +269,8 @@ L2:     ldx     ktmp
 ; Set the interrupt, NMI, and other vectors.
 
         ldx     #.sizeof(vectors)-1
-L3:     lda     vectors,x
-        sta     $10000 - .sizeof(vectors),x
+L3:     lda     vectors, x
+        sta     $10000 - .sizeof(vectors), x
         dex
         bpl     L3
 
@@ -287,22 +285,22 @@ L3:     lda     vectors,x
 ; the system bank.
 
         ldy     #.sizeof(callbank15)
-@L1:    lda     callbank15-1,y
-        sta     callbank15::entry-1,y
+@L1:    lda     callbank15-1, y
+        sta     callbank15::entry-1, y
         dey
         bne     @L1
 
 ; Set up the jump vector table. Y is zero on entry.
 
-        ldx     #45-1           ; Number of vectors
-@L2:    lda     #$20            ; JSR opcode
-        sta     $FF6F,y
+        ldx     #45-1   ; Number of vectors
+@L2:    lda     #$20    ; JSR opcode
+        sta     $FF6F, y
         iny
         lda     #.lobyte(callbank15::entry)
-        sta     $FF6F,y
+        sta     $FF6F, y
         iny
         lda     #.hibyte(callbank15::entry)
-        sta     $FF6F,y
+        sta     $FF6F, y
         iny
         dex
         bpl     @L2
@@ -327,10 +325,10 @@ L3:     lda     vectors,x
 
         ldx     #>__BSS_SIZE__
         beq     Z2
-Z1:     sta     (ptr1),y
+Z1:     sta     (ptr1), y
         iny
         bne     Z1
-        inc     ptr1+1          ; Next page
+        inc     ptr1+1  ; Next page
         dex
         bne     Z1
 
@@ -338,7 +336,7 @@ Z1:     sta     (ptr1),y
 
 Z2:     ldx     #<__BSS_SIZE__
         beq     Z4
-Z3:     sta     (ptr1),y
+Z3:     sta     (ptr1), y
         iny
         dex
         bne     Z3
@@ -364,19 +362,19 @@ Init:   lda     #<$C000
         sta     tmp1
         ldy     #$00
 ccopy:  lda     #$0F
-        sta     IndReg          ; Access the system bank
-ccopy1: lda     (ptr1),y
-        sta     __VIDRAM_START__,y
+        sta     IndReg                  ; Access the system bank
+ccopy1: lda     (ptr1), y
+        sta     __VIDRAM_START__, y
         iny
         bne     ccopy1
         lda     ExecReg
         sta     IndReg
-ccopy2: lda     __VIDRAM_START__,y
-        sta     (ptr2),y
+ccopy2: lda     __VIDRAM_START__, y
+        sta     (ptr2), y
         iny
         bne     ccopy2
         inc     ptr1+1
-        inc     ptr2+1          ; Bump high pointer bytes
+        inc     ptr2+1                  ; Bump high pointer bytes
         dec     tmp1
         bne     ccopy
 
@@ -388,7 +386,7 @@ ccopy2: lda     __VIDRAM_START__,y
 ; Reprogram the VIC so that the text screen and the character ROM are in the
 ; execution bank. This is done in three steps:
 
-        lda     #$0F            ; We need access to the system bank
+        lda     #$0F    ; We need access to the system bank
         sta     IndReg
 
 ; Place the VIC video RAM into bank 0.
@@ -396,33 +394,33 @@ ccopy2: lda     __VIDRAM_START__,y
 ; CB (VICDOTSEL) = 0
 
         ldy     #TPI::CR
-        lda     (tpi1),y
+        lda     (tpi1), y
         sta     vidsave+0
         and     #%00001111
         ora     #%10100000
-        sta     (tpi1),y
+        sta     (tpi1), y
 
 ; Set bit 14/15 of the VIC address range to the high bits of __VIDRAM_START__.
 ; PC6/PC7 (VICBANKSEL 0/1) = 11
 
         ldy     #TPI::PRC
-        lda     (tpi2),y
+        lda     (tpi2), y
         sta     vidsave+1
         and     #$3F
         ora     #<((>__VIDRAM_START__) & $C0)
-        sta     (tpi2),y
+        sta     (tpi2), y
 
 ; Set the VIC base address register to the addresses of the video and
 ; character RAM.
 
         ldy     #VIC_VIDEO_ADR
-        lda     (vic),y
+        lda     (vic), y
         sta     vidsave+2
         and     #$01
         ora     #<(((__VIDRAM_START__ >> 6) & $F0) | ((__CHARRAM_START__ >> 10) & $0E) | $02)
 ;       and     #$0F
 ;       ora     #<(((>__VIDRAM_START__) << 2) & $F0)
-        sta     (vic),y
+        sta     (vic), y
 
 ; Switch back to the execution bank.
 
@@ -460,15 +458,15 @@ _exit:  pha                     ; Save the return code on stack
 
         ldy     #TPI::CR
         lda     vidsave+0
-        sta     (tpi1),y
+        sta     (tpi1), y
 
         ldy     #TPI::PRC
         lda     vidsave+1
-        sta     (tpi2),y
+        sta     (tpi2), y
 
         ldy     #VIC_VIDEO_ADR
         lda     vidsave+2
-        sta     (vic),y
+        sta     (vic), y
 
 ; Copy stuff back from our zero-page to the system's.
 
@@ -476,11 +474,11 @@ _exit:  pha                     ; Save the return code on stack
         lda     #.sizeof(transfer_table)
         sta     ktmp
 @L0:    ldx     ktmp
-        ldy     transfer_table-2,x
-        lda     transfer_table-1,x
+        ldy     transfer_table-2, x
+        lda     transfer_table-1, x
         tax
-        lda     $00,x
-        sta     (sysp0),y
+        lda     $00,     x
+        sta     (sysp0), y
         dec     ktmp
         dec     ktmp
         bne     @L0
@@ -489,20 +487,20 @@ _exit:  pha                     ; Save the return code on stack
 ; Place the program return code into BASIC's status variable.
 
         pla
-        ldy     #$9C            ; ST
-        sta     (sysp0),y
+        ldy     #$9C    ; ST
+        sta     (sysp0), y
 
 ; Set up the welcome code at the stack bottom in the system bank.
 
         ldy     #$FF
-        lda     (sysp1),y       ; Load system bank c_sp
+        lda     (sysp1), y      ; Load system bank c_sp
         tax
         iny                     ; Y = 0
         lda     #$58            ; CLI opcode
-        sta     (sysp1),y
+        sta     (sysp1), y
         iny
         lda     #$60            ; RTS opcode
-        sta     (sysp1),y
+        sta     (sysp1), y
         lda     IndReg
         sei
         txs
@@ -530,10 +528,10 @@ irq:    pha
         lda     IndReg
         pha
         lda     ExecReg
-        sta     IndReg          ; Be sure to address our segment
+        sta     IndReg  ; Be sure to address our segment
         tsx
-        lda     $105,x          ; Get the flags from the stack
-        and     #$10            ; Test break flag
+        lda     $105, x ; Get the flags from the stack
+        and     #$10    ; Test break flag
         bne     dobrk
 
 ; It's an IRQ.
@@ -548,10 +546,10 @@ irq:    pha
 
 ; Done with the chained IRQ handlers; check the TPI for IRQs, and handle them.
 
-irqskip:lda     #$0F
+irqskip: lda    #$0F
         sta     IndReg
         ldy     #TPI::AIR
-        lda     (tpi1),y        ; Interrupt Register 6525
+        lda     (tpi1), y       ; Interrupt Register 6525
         beq     noirq
 
 ; 50/60Hz. interrupt
@@ -564,7 +562,7 @@ irqskip:lda     #$0F
 ; Done.
 
 irqend: ldy     #TPI::AIR
-        sta     (tpi1),y        ; Clear interrupt
+        sta     (tpi1), y       ; Clear interrupt
 
 noirq:  pla
         sta     IndReg
@@ -581,7 +579,7 @@ dobrk:  jmp     (BRKVec)
 ; Data area
 
 .data
-vidsave:.res    3
+vidsave: .res   3
 
 .bss
-irqcount:       .byte   0
+irqcount: .byte 0

@@ -2,13 +2,13 @@
 
 .code
 
-foo PROC
-  ret
-foo ENDP
+foo     PROC
+        ret
+foo     ENDP
 
-bar PROC
-  ret
-bar ENDP
+bar     PROC
+        ret
+bar     ENDP
 
 t1:
 alias foo = bar

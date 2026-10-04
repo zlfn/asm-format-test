@@ -9,19 +9,19 @@
 ;
 
         SECTION code_clib
-	PUBLIC	get_exos_variable
-	PUBLIC	_get_exos_variable
+        PUBLIC  get_exos_variable
+        PUBLIC  _get_exos_variable
 
 ;_FASTCALL_
 
 get_exos_variable:
 _get_exos_variable:
 
-	ld	b,0		; GET mode
-	ld	c,l		; Variable
-	rst   30h
-	defb  16	; SET_GET_EXOS_VARIABLE
-	ld	h,0
-	ld	l,d
+        ld      b, 0    ; GET mode
+        ld      c, l    ; Variable
+        rst     30h
+        defb    16      ; SET_GET_EXOS_VARIABLE
+        ld      h, 0
+        ld      l, d
 
-	ret
+        ret

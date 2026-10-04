@@ -4,10 +4,10 @@
 ; unsigned char getcurrentdevice (void);
 ;
 
-        .export         _getcurrentdevice
-        .import         __dos_type
+        .export _getcurrentdevice
+        .import __dos_type
 
-        .include        "mli.inc"
+        .include "mli.inc"
 
 _getcurrentdevice:
 
@@ -21,7 +21,7 @@ _getcurrentdevice:
         ; Check for ProDOS 8
         ldx     __dos_type
         bne     :+
-        lda     #$FF            ; INVALID_DEVICE
+        lda     #$FF    ; INVALID_DEVICE
 
 :       ldx     #>$0000
         rts

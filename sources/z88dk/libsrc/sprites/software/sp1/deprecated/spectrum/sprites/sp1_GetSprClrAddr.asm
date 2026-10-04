@@ -9,11 +9,10 @@ EXTERN ASMDISP_SP1_GETSPRCLRADDR_CALLEE
 
 .sp1_GetSprClrAddr
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
-   jp sp1_GetSprClrAddr_callee + ASMDISP_SP1_GETSPRCLRADDR_CALLEE
-   
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
+        jp      sp1_GetSprClrAddr_callee + ASMDISP_SP1_GETSPRCLRADDR_CALLEE

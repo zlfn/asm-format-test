@@ -23,83 +23,83 @@ PUBLIC RIntersectIval16
 
 .RIntersectIval16
 
-   push hl
-   push bc
-   
-   or a
-   sbc hl,bc
-   or a
-   sbc hl,de
-   jr nc, checki2ini1
-   
+        push    hl
+        push    bc
+
+        or      a
+        sbc     hl, bc
+        or      a
+        sbc     hl, de
+        jr      nc, checki2ini1
+
 .i1ini2
 
-   push hl
-   exx
-   pop bc
-   xor a
-   ld h,a
-   ld l,a
-   sbc hl,bc
-   push hl
-   or a
-   sbc hl,de
-   push de
-   exx
-   
-   jr nc, w1smaller
-   
-   pop de
-   pop de
-   pop bc
-   pop bc
-   ret
+        push    hl
+        exx
+        pop     bc
+        xor     a
+        ld      h,  a
+        ld      l,  a
+        sbc     hl, bc
+        push    hl
+        or      a
+        sbc     hl, de
+        push    de
+        exx
+
+        jr      nc, w1smaller
+
+        pop     de
+        pop     de
+        pop     bc
+        pop     bc
+        ret
 
 .w1smaller
 
-   pop de
-   pop bc
-   pop bc
-   pop bc
-   scf
-   ret
+        pop     de
+        pop     bc
+        pop     bc
+        pop     bc
+        scf
+        ret
 
 .checki2ini1
 
-   exx
-   
-   pop hl
-   pop bc
-   
-   or a
-   sbc hl,bc
-   or a
-   sbc hl,de
-   jr nc, exit
+        exx
 
-   ex de,hl
-   xor a
-   ld h,a
-   ld l,a
-   sbc hl,de
-   push hl
-   exx
-   
-   pop hl
-   push hl
-   or a
-   sbc hl,de
-   jr nc, w2smaller
-   
-   pop de
-   ret
+        pop     hl
+        pop     bc
+
+        or      a
+        sbc     hl, bc
+        or      a
+        sbc     hl, de
+        jr      nc, exit
+
+        ex      de, hl
+        xor     a
+        ld      h,  a
+        ld      l,  a
+        sbc     hl, de
+        push    hl
+        exx
+
+        pop     hl
+        push    hl
+        or      a
+        sbc     hl, de
+        jr      nc, w2smaller
+
+        pop     de
+        ret
 
 .w2smaller
 
-   scf
-   ret
+        scf
+        ret
 
 .exit
 
-   exx
-   ret
+        exx
+        ret

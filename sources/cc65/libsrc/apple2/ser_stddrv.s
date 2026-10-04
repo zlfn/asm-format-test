@@ -12,7 +12,7 @@
 
 _ser_stddrv:
         .ifdef  __APPLE2ENH__
-        .asciiz "A2E.SSC.SER"
+                .asciiz "A2E.SSC.SER"
         .else
-        .asciiz "A2.SSC.SER"
+                .asciiz "A2.SSC.SER"
         .endif

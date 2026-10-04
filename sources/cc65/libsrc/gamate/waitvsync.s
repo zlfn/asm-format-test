@@ -4,11 +4,11 @@
 ; void waitvsync (void);
 ;
 
-        .include        "gamate.inc"
-        .include        "extzp.inc"
+        .include "gamate.inc"
+        .include "extzp.inc"
 
-        .forceimport    ticktock
-        .export         _waitvsync
+        .forceimport ticktock
+        .export _waitvsync
 
 ; FIXME: is this actually correct?
 

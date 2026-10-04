@@ -47,7 +47,6 @@
 #define R3B    %dl
 #define R3H    %dh
 
-
 /* performs input whitening */
 #define input_whitening(src,context,offset)\
 	xor	w+offset(context),	src;
@@ -55,7 +54,6 @@
 /* performs input whitening */
 #define output_whitening(src,context,offset)\
 	xor	w+16+offset(context),	src;
-
 
 /*
  * a input register containing a (rotated 16)
@@ -204,106 +202,105 @@
 	ror	$1,		d ## D;
 
 SYM_TYPED_FUNC_START(twofish_enc_blk)
-	pushq    R1
+        pushq   R1
 
-	/* %rdi contains the ctx address */
-	/* %rsi contains the output address */
-	/* %rdx contains the input address */
+        /* %rdi contains the ctx address */
+        /* %rsi contains the output address */
+        /* %rdx contains the input address */
 	/* ctx address is moved to free one non-rex register
 	as target for the 8bit high operations */
-	mov	%rdi,		%r11
+        mov     %rdi, %r11
 
-	movq	(R3),	R1
-	movq	8(R3),	R3
-	input_whitening(R1,%r11,a_offset)
-	input_whitening(R3,%r11,c_offset)
-	mov	R1D,	R0D
-	rol	$16,	R0D
-	shr	$32,	R1
-	mov	R3D,	R2D
-	shr	$32,	R3
-	rol	$1,	R3D
+        movq    (R3),  R1
+        movq    8(R3), R3
+        input_whitening(R1,%r11,a_offset)
+        input_whitening(R3,%r11,c_offset)
+        mov     R1D, R0D
+        rol     $16, R0D
+        shr     $32, R1
+        mov     R3D, R2D
+        shr     $32, R3
+        rol     $1,  R3D
 
-	encrypt_round(R0,R1,R2,R3,0);
-	encrypt_round(R2,R3,R0,R1,8);
-	encrypt_round(R0,R1,R2,R3,2*8);
-	encrypt_round(R2,R3,R0,R1,3*8);
-	encrypt_round(R0,R1,R2,R3,4*8);
-	encrypt_round(R2,R3,R0,R1,5*8);
-	encrypt_round(R0,R1,R2,R3,6*8);
-	encrypt_round(R2,R3,R0,R1,7*8);
-	encrypt_round(R0,R1,R2,R3,8*8);
-	encrypt_round(R2,R3,R0,R1,9*8);
-	encrypt_round(R0,R1,R2,R3,10*8);
-	encrypt_round(R2,R3,R0,R1,11*8);
-	encrypt_round(R0,R1,R2,R3,12*8);
-	encrypt_round(R2,R3,R0,R1,13*8);
-	encrypt_round(R0,R1,R2,R3,14*8);
-	encrypt_last_round(R2,R3,R0,R1,15*8);
+        encrypt_round(R0,R1,R2,R3,0);
+        encrypt_round(R2,R3,R0,R1,8);
+        encrypt_round(R0,R1,R2,R3,2*8);
+        encrypt_round(R2,R3,R0,R1,3*8);
+        encrypt_round(R0,R1,R2,R3,4*8);
+        encrypt_round(R2,R3,R0,R1,5*8);
+        encrypt_round(R0,R1,R2,R3,6*8);
+        encrypt_round(R2,R3,R0,R1,7*8);
+        encrypt_round(R0,R1,R2,R3,8*8);
+        encrypt_round(R2,R3,R0,R1,9*8);
+        encrypt_round(R0,R1,R2,R3,10*8);
+        encrypt_round(R2,R3,R0,R1,11*8);
+        encrypt_round(R0,R1,R2,R3,12*8);
+        encrypt_round(R2,R3,R0,R1,13*8);
+        encrypt_round(R0,R1,R2,R3,14*8);
+        encrypt_last_round(R2,R3,R0,R1,15*8);
 
+        output_whitening(%r10,%r11,a_offset)
+        movq    %r10, (%rsi)
 
-	output_whitening(%r10,%r11,a_offset)
-	movq	%r10,	(%rsi)
+        shl     $32, R1
+        xor     R0,  R1
 
-	shl	$32,	R1
-	xor	R0,	R1
+        output_whitening(R1,%r11,c_offset)
+        movq    R1, 8(%rsi)
 
-	output_whitening(R1,%r11,c_offset)
-	movq	R1,	8(%rsi)
-
-	popq	R1
-	movl	$1,%eax
-	RET
+        popq    R1
+        movl    $1, %eax
+        RET
 SYM_FUNC_END(twofish_enc_blk)
 
 SYM_TYPED_FUNC_START(twofish_dec_blk)
-	pushq    R1
+        pushq   R1
 
-	/* %rdi contains the ctx address */
-	/* %rsi contains the output address */
-	/* %rdx contains the input address */
+        /* %rdi contains the ctx address */
+        /* %rsi contains the output address */
+        /* %rdx contains the input address */
 	/* ctx address is moved to free one non-rex register
 	as target for the 8bit high operations */
-	mov	%rdi,		%r11
+        mov     %rdi, %r11
 
-	movq	(R3),	R1
-	movq	8(R3),	R3
-	output_whitening(R1,%r11,a_offset)
-	output_whitening(R3,%r11,c_offset)
-	mov	R1D,	R0D
-	shr	$32,	R1
-	rol	$16,	R1D
-	mov	R3D,	R2D
-	shr	$32,	R3
-	rol	$1,	R2D
+        movq    (R3),  R1
+        movq    8(R3), R3
+        output_whitening(R1,%r11,a_offset)
+        output_whitening(R3,%r11,c_offset)
+        mov     R1D, R0D
+        shr     $32, R1
+        rol     $16, R1D
+        mov     R3D, R2D
+        shr     $32, R3
+        rol     $1,  R2D
 
-	decrypt_round(R0,R1,R2,R3,15*8);
-	decrypt_round(R2,R3,R0,R1,14*8);
-	decrypt_round(R0,R1,R2,R3,13*8);
-	decrypt_round(R2,R3,R0,R1,12*8);
-	decrypt_round(R0,R1,R2,R3,11*8);
-	decrypt_round(R2,R3,R0,R1,10*8);
-	decrypt_round(R0,R1,R2,R3,9*8);
-	decrypt_round(R2,R3,R0,R1,8*8);
-	decrypt_round(R0,R1,R2,R3,7*8);
-	decrypt_round(R2,R3,R0,R1,6*8);
-	decrypt_round(R0,R1,R2,R3,5*8);
-	decrypt_round(R2,R3,R0,R1,4*8);
-	decrypt_round(R0,R1,R2,R3,3*8);
-	decrypt_round(R2,R3,R0,R1,2*8);
-	decrypt_round(R0,R1,R2,R3,1*8);
-	decrypt_last_round(R2,R3,R0,R1,0);
+        decrypt_round(R0,R1,R2,R3,15*8);
+        decrypt_round(R2,R3,R0,R1,14*8);
+        decrypt_round(R0,R1,R2,R3,13*8);
+        decrypt_round(R2,R3,R0,R1,12*8);
+        decrypt_round(R0,R1,R2,R3,11*8);
+        decrypt_round(R2,R3,R0,R1,10*8);
+        decrypt_round(R0,R1,R2,R3,9*8);
+        decrypt_round(R2,R3,R0,R1,8*8);
+        decrypt_round(R0,R1,R2,R3,7*8);
+        decrypt_round(R2,R3,R0,R1,6*8);
+        decrypt_round(R0,R1,R2,R3,5*8);
+        decrypt_round(R2,R3,R0,R1,4*8);
+        decrypt_round(R0,R1,R2,R3,3*8);
+        decrypt_round(R2,R3,R0,R1,2*8);
+        decrypt_round(R0,R1,R2,R3,1*8);
+        decrypt_last_round(R2,R3,R0,R1,0);
 
-	input_whitening(%r10,%r11,a_offset)
-	movq	%r10,	(%rsi)
+        input_whitening(%r10,%r11,a_offset)
+        movq    %r10, (%rsi)
 
-	shl	$32,	R1
-	xor	R0,	R1
+        shl     $32, R1
+        xor     R0,  R1
 
-	input_whitening(R1,%r11,c_offset)
-	movq	R1,	8(%rsi)
+        input_whitening(R1,%r11,c_offset)
+        movq    R1, 8(%rsi)
 
-	popq	R1
-	movl	$1,%eax
-	RET
+        popq    R1
+        movl    $1, %eax
+        RET
 SYM_FUNC_END(twofish_dec_blk)

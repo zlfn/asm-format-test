@@ -4,15 +4,15 @@
 ; clock_t clock (void);
 ;
 
-        .export         _clock, clock_count
-        .interruptor    update_clock, 2 ; (low priority)
-        .constructor    init_clock
+        .export _clock, clock_count
+        .interruptor update_clock, 2    ; (low priority)
+        .constructor init_clock
 
-        .import         sreg: zp
-        .import         _zonecounter
-        .include        "atari7800.inc"
+        .import sreg: zp
+        .import _zonecounter
+        .include "atari7800.inc"
 
-        .macpack        generic
+        .macpack generic
 
         .code
 
@@ -22,7 +22,7 @@
         .proc   _clock
 
         lda     #0
-        sta     sreg+1          ; Promote 24 bits up to 32 bits
+        sta     sreg+1  ; Promote 24 bits up to 32 bits
         lda     clock_count+2
         sta     sreg
         ldx     clock_count+1
@@ -46,13 +46,13 @@ update_clock:
         inc     clock_count+1
         bne     @L1
         inc     clock_count+2
-@L1:    ;clc                    ; General interrupt was not reset
+@L1:            ;clc                    ; General interrupt was not reset
         rts
 
 ;-----------------------------------------------------------------------------
 ; Set time to zero at startup
 ;
-        .segment        "ONCE"
+        .segment "ONCE"
 init_clock:
         lda     #0
         sta     clock_count+2
@@ -66,4 +66,3 @@ init_clock:
         .bss
 clock_count:
         .res    3
-

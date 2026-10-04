@@ -44,13 +44,13 @@
  */
 SYM_TYPED_FUNC_START(cpu_v7_switch_mm)
 #ifdef CONFIG_MMU
-	mmid	r2, r2
-	asid	r2, r2
-	orr	rpgdh, rpgdh, r2, lsl #(48 - 32)	@ upper 32-bits of pgd
-	mcrr	p15, 0, rpgdl, rpgdh, c2		@ set TTB 0
-	isb
+        mmid    r2,    r2
+        asid    r2,    r2
+        orr     rpgdh, rpgdh, r2,    lsl #(48 - 32)     @ upper 32-bits of pgd
+        mcrr    p15,   0,     rpgdl, rpgdh, c2          @ set TTB 0
+        isb
 #endif
-	ret	lr
+        ret     lr
 SYM_FUNC_END(cpu_v7_switch_mm)
 
 #ifdef __ARMEB__
@@ -70,23 +70,23 @@ SYM_FUNC_END(cpu_v7_switch_mm)
  */
 SYM_TYPED_FUNC_START(cpu_v7_set_pte_ext)
 #ifdef CONFIG_MMU
-	tst	rl, #L_PTE_VALID
-	beq	1f
-	tst	rh, #1 << (57 - 32)		@ L_PTE_NONE
-	bicne	rl, #L_PTE_VALID
-	bne	1f
+        tst     rl, #L_PTE_VALID
+        beq     1f
+        tst     rh, #1 << (57 - 32)     @ L_PTE_NONE
+        bicne   rl, #L_PTE_VALID
+        bne     1f
 
-	eor	ip, rh, #1 << (55 - 32)	@ toggle L_PTE_DIRTY in temp reg to
-					@ test for !L_PTE_DIRTY || L_PTE_RDONLY
-	tst	ip, #1 << (55 - 32) | 1 << (58 - 32)
-	orrne	rl, #PTE_AP2
-	biceq	rl, #PTE_AP2
+        eor     ip, rh, #1 << (55 - 32) @ toggle L_PTE_DIRTY in temp reg to
+                                        @ test for !L_PTE_DIRTY || L_PTE_RDONLY
+        tst     ip, #1 << (55 - 32) | 1 << (58 - 32)
+        orrne   rl, #PTE_AP2
+        biceq   rl, #PTE_AP2
 
-1:	strd	r2, r3, [r0]
-	ALT_SMP(W(nop))
-	ALT_UP (mcr	p15, 0, r0, c7, c10, 1)		@ flush_pte
+1:      strd    r2, r3, [r0]
+        ALT_SMP(W(nop))
+        ALT_UP  (mcr	p15, 0, r0, c7, c10, 1) @ flush_pte
 #endif
-	ret	lr
+        ret     lr
 SYM_FUNC_END(cpu_v7_set_pte_ext)
 
 	/*
@@ -114,26 +114,26 @@ SYM_FUNC_END(cpu_v7_set_pte_ext)
 	 * Macro for setting up the TTBRx and TTBCR registers.
 	 * - \ttbr1 updated.
 	 */
-	.macro	v7_ttb_setup, zero, ttbr0l, ttbr0h, ttbr1, tmp
-	ldr	\tmp, =swapper_pg_dir		@ swapper_pg_dir virtual address
-	cmp	\ttbr1, \tmp, lsr #12		@ PHYS_OFFSET > PAGE_OFFSET?
-	mov	\tmp, #TTB_EAE			@ for TTB control egister
-	ALT_SMP(orr	\tmp, \tmp, #TTB_FLAGS_SMP)
-	ALT_UP(orr	\tmp, \tmp, #TTB_FLAGS_UP)
-	ALT_SMP(orr	\tmp, \tmp, #TTB_FLAGS_SMP << 16)
-	ALT_UP(orr	\tmp, \tmp, #TTB_FLAGS_UP << 16)
+        .macro  v7_ttb_setup, zero, ttbr0l, ttbr0h, ttbr1, tmp
+                ldr     \tmp,   =swapper_pg_dir @ swapper_pg_dir virtual address
+                cmp     \ttbr1, \tmp, lsr #12   @ PHYS_OFFSET > PAGE_OFFSET?
+                mov     \tmp,   #TTB_EAE        @ for TTB control egister
+                ALT_SMP(orr \tmp, \tmp, #TTB_FLAGS_SMP)
+                ALT_UP(orr \tmp, \tmp, #TTB_FLAGS_UP)
+                ALT_SMP(orr \tmp, \tmp, #TTB_FLAGS_SMP << 16)
+                ALT_UP(orr \tmp, \tmp, #TTB_FLAGS_UP << 16)
 	/*
 	 * Only use split TTBRs if PHYS_OFFSET <= PAGE_OFFSET (cmp above),
 	 * otherwise booting secondary CPUs would end up using TTBR1 for the
 	 * identity mapping set up in TTBR0.
 	 */
-	orrls	\tmp, \tmp, #TTBR1_SIZE				@ TTBCR.T1SZ
-	mcr	p15, 0, \tmp, c2, c0, 2				@ TTBCR
-	mov	\tmp, \ttbr1, lsr #20
-	mov	\ttbr1, \ttbr1, lsl #12
-	addls	\ttbr1, \ttbr1, #TTBR1_OFFSET
-	mcrr	p15, 1, \ttbr1, \tmp, c2			@ load TTBR1
-	.endm
+                orrls   \tmp,   \tmp,   #TTBR1_SIZE             @ TTBCR.T1SZ
+                mcr     p15,    0,      \tmp,   c2,   c0, 2     @ TTBCR
+                mov     \tmp,   \ttbr1, lsr #20
+                mov     \ttbr1, \ttbr1, lsl #12
+                addls   \ttbr1, \ttbr1, #TTBR1_OFFSET
+                mcrr    p15,    1,      \ttbr1, \tmp, c2        @ load TTBR1
+        .endm
 
 	/*
 	 *   AT
@@ -142,7 +142,7 @@ SYM_FUNC_END(cpu_v7_set_pte_ext)
 	 * rxxx rrxx xxx0 0101 xxxx xxxx x111 xxxx < forced
 	 *   11    0 110    0  0011 1100 .111 1101 < we want
 	 */
-	.align	2
-	.type	v7_crval, #object
+        .align  2
+        .type   v7_crval, #object
 v7_crval:
-	crval	clear=0x0122c302, mmuset=0x30c03c7d, ucset=0x00c01c7c
+        crval   clear=0x0122c302, mmuset=0x30c03c7d, ucset=0x00c01c7c

@@ -20,7 +20,6 @@
 
         EXTERN  ozpointcolor
 
-
 ozvline:
 _ozvline:
         push    ix
@@ -28,13 +27,13 @@ _ozvline:
         add     ix, sp
         call    ozpointcolor
 
-        ld      l, (ix+6)               ;y0
-        ld      h, (ix+8)               ;x0
+        ld      l, (ix+6)       ;y0
+        ld      h, (ix+8)       ;x0
 
-        ld      e, h                    ;x1
+        ld      e, h    ;x1
         ld      a, (ix+4)
         add     l
-        ld      d, a                    ;y1 (y0 + len)
+        ld      d, a    ;y1 (y0 + len)
 
         call    __gfx_vram_page_in
         push    hl

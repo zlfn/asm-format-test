@@ -11,40 +11,40 @@
 ;
 
 IF  !__CPU_INTEL__&!__CPU_RABBIT__&!__CPU_GBZ80__
-    SECTION code_clib
-    PUBLIC  psg_init
-    PUBLIC  _psg_init
-    PUBLIC  ___psg_init
+        SECTION code_clib
+        PUBLIC  psg_init
+        PUBLIC  _psg_init
+        PUBLIC  ___psg_init
 
-    INCLUDE "../../sn76489.inc"
+        INCLUDE "../../sn76489.inc"
 
 psg_init:
 _psg_init:
 ___psg_init:
 
-    LD      BC, PSGPort
-    LD      A, $9F
-    OUT     (C), A
-  IF    SN76489_HAS_LATCH_PORT
-    in      a, (PSGLatchPort)
-  ENDIF
-    LD      A, $BF
-  IF    SN76489_HAS_LATCH_PORT
-    in      a, (PSGLatchPort)
-  ENDIF
-    OUT     (C), A
-  IF    SN76489_HAS_LATCH_PORT
-    in      a, (PSGLatchPort)
-  ENDIF
-    LD      A, $DF
-    OUT     (C), A
-  IF    SN76489_HAS_LATCH_PORT
-    in      a, (PSGLatchPort)
-  ENDIF
-    LD      A, $FF
-    OUT     (C), A
-  IF    SN76489_HAS_LATCH_PORT 
-    in      a, (PSGLatchPort)
-  ENDIF
-    RET
+        LD      BC,  PSGPort
+        LD      A,   $9F
+        OUT     (C), A
+        IF      SN76489_HAS_LATCH_PORT
+                in      a, (PSGLatchPort)
+        ENDIF
+        LD      A, $BF
+        IF      SN76489_HAS_LATCH_PORT
+                in      a, (PSGLatchPort)
+        ENDIF
+        OUT     (C), A
+        IF      SN76489_HAS_LATCH_PORT
+                in      a, (PSGLatchPort)
+        ENDIF
+        LD      A,   $DF
+        OUT     (C), A
+        IF      SN76489_HAS_LATCH_PORT
+                in      a, (PSGLatchPort)
+        ENDIF
+        LD      A,   $FF
+        OUT     (C), A
+        IF      SN76489_HAS_LATCH_PORT
+                in      a, (PSGLatchPort)
+        ENDIF
+        RET
 ENDIF

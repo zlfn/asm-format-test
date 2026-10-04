@@ -7,20 +7,20 @@
 ;	$Id: getk.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  getk
-    PUBLIC  _getk
+        SECTION code_clib
+        PUBLIC  getk
+        PUBLIC  _getk
 
-    INCLUDE "target/hdos/def/hdos.def"
+        INCLUDE "target/hdos/def/hdos.def"
 
 getk:
 _getk:
-    rst    38h
-	defb   SCIN
-	ld     h,0
-	jr     nc,got_key
-	ld     l,h
-	ret
+        rst     38h
+        defb    SCIN
+        ld      h,  0
+        jr      nc, got_key
+        ld      l,  h
+        ret
 got_key:
-	ld     l,a
-    ret
+        ld      l, a
+        ret

@@ -10,15 +10,14 @@ PUBLIC ___memmove_stdc
 EXTERN asm_memmove
 
 ___memmove_stdc:
-   pop af
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push af
-   jp asm_memmove
-ENDIF
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
 
+        push    bc
+        push    hl
+        push    de
+        push    af
+        jp      asm_memmove
+ENDIF

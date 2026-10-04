@@ -1,7 +1,4 @@
 
-
-
-
 ; **************************************************
 ; SMSlib - C programming library for the SMS/GG
 ; ( part of devkitSMS - github.com/sverx/devkitSMS )
@@ -27,7 +24,7 @@ PUBLIC l_outi_16
 PUBLIC l_outi_8
 PUBLIC l_outi_4
 PUBLIC l_outi_2
-PUBLIC l_outi_1 
+PUBLIC l_outi_1
 
 defc l_outi_128 = asm_SMSlib_outi128
 defc l_outi_64  = asm_SMSlib_outi64
@@ -41,276 +38,270 @@ defc l_outi_1  = l_outi_2  +  2
 asm_SMSlib_outi256:
 l_outi_256:
 
-   call asm_SMSlib_outi128
+        call    asm_SMSlib_outi128
 
 asm_SMSlib_outi128:
 
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
-
-   outi
-
+        outi
 
 asm_SMSlib_outi64:
 
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
-
-   outi
-
+        outi
 
 asm_SMSlib_outi32:
 
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
+        outi
 
-   outi
-
-   outi
-
+        outi
 
 asm_SMSlib_outi_block:
 
-   ret
+        ret

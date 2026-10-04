@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_f_closedir
 defc _esx_f_closedir = esx_f_closedir
 ENDIF
-

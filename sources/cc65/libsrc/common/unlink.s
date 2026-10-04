@@ -4,10 +4,9 @@
 ; int __fastcall__ unlink (const char* name);
 ;
 
-        .export         _unlink
-        .import         _remove
+        .export _unlink
+        .import _remove
 
 ; unlink is just an alias for remove
 
         _unlink = _remove
-

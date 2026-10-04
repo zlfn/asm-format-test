@@ -48,14 +48,14 @@ limit_wd	.req	x14
 #define REP8_80 0x8080808080808080
 
 SYM_FUNC_START(__pi_strnlen)
-	cbz	limit, .Lhit_limit
-	mov	zeroones, #REP8_01
-	bic	src, srcin, #15
-	ands	tmp1, srcin, #15
-	b.ne	.Lmisaligned
-	/* Calculate the number of full and partial words -1.  */
-	sub	limit_wd, limit, #1 /* Limit != 0, so no underflow.  */
-	lsr	limit_wd, limit_wd, #4  /* Convert to Qwords.  */
+        cbz     limit,    .Lhit_limit
+        mov     zeroones, #REP8_01
+        bic     src,  srcin, #15
+        ands    tmp1, srcin, #15
+        b.ne    .Lmisaligned
+        /* Calculate the number of full and partial words -1.  */
+        sub     limit_wd, limit,    #1  /* Limit != 0, so no underflow.  */
+        lsr     limit_wd, limit_wd, #4  /* Convert to Qwords.  */
 
 	/*
 	* NUL detection works on the principle that (X - 1) & (~X) & 0x80
@@ -69,32 +69,32 @@ SYM_FUNC_START(__pi_strnlen)
 	* cycle, as we get much better parallelism out of the operations.
 	*/
 .Lloop:
-	ldp	data1, data2, [src], #16
+        ldp     data1, data2, [src], #16
 .Lrealigned:
-	sub	tmp1, data1, zeroones
-	orr	tmp2, data1, #REP8_7f
-	sub	tmp3, data2, zeroones
-	orr	tmp4, data2, #REP8_7f
-	bic	has_nul1, tmp1, tmp2
-	bic	has_nul2, tmp3, tmp4
-	subs	limit_wd, limit_wd, #1
-	orr	tmp1, has_nul1, has_nul2
-	ccmp	tmp1, #0, #0, pl    /* NZCV = 0000  */
-	b.eq	.Lloop
+        sub     tmp1,     data1,    zeroones
+        orr     tmp2,     data1,    #REP8_7f
+        sub     tmp3,     data2,    zeroones
+        orr     tmp4,     data2,    #REP8_7f
+        bic     has_nul1, tmp1,     tmp2
+        bic     has_nul2, tmp3,     tmp4
+        subs    limit_wd, limit_wd, #1
+        orr     tmp1,     has_nul1, has_nul2
+        ccmp    tmp1,     #0,       #0, pl      /* NZCV = 0000  */
+        b.eq    .Lloop
 
-	cbz	tmp1, .Lhit_limit   /* No null in final Qword.  */
+        cbz     tmp1, .Lhit_limit       /* No null in final Qword.  */
 
 	/*
 	* We know there's a null in the final Qword. The easiest thing
 	* to do now is work out the length of the string and return
 	* MIN (len, limit).
 	*/
-	sub	len, src, srcin
-	cbz	has_nul1, .Lnul_in_data2
+        sub     len, src, srcin
+        cbz     has_nul1, .Lnul_in_data2
 CPU_BE( mov	data2, data1 )	/*perpare data to re-calculate the syndrome*/
 
-	sub	len, len, #8
-	mov	has_nul2, has_nul1
+        sub     len, len, #8
+        mov     has_nul2, has_nul1
 .Lnul_in_data2:
 	/*
 	* For big-endian, carry propagation (if the final byte in the
@@ -107,13 +107,13 @@ CPU_BE( sub	tmp1, data2, zeroones )
 CPU_BE( orr	tmp2, data2, #REP8_7f )
 CPU_BE( bic	has_nul2, tmp1, tmp2 )
 
-	sub	len, len, #8
-	rev	has_nul2, has_nul2
-	clz	pos, has_nul2
-	add	len, len, pos, lsr #3       /* Bits to bytes.  */
-	cmp	len, limit
-	csel	len, len, limit, ls     /* Return the lower value.  */
-	ret
+        sub     len, len, #8
+        rev     has_nul2, has_nul2
+        clz     pos, has_nul2
+        add     len, len, pos,   lsr #3 /* Bits to bytes.  */
+        cmp     len, limit
+        csel    len, len, limit, ls     /* Return the lower value.  */
+        ret
 
 .Lmisaligned:
 	/*
@@ -126,36 +126,36 @@ CPU_BE( bic	has_nul2, tmp1, tmp2 )
 	* before the ones we are interested in to 0xff - this ensures
 	* early bytes will not hit any zero detection.
 	*/
-	ldp	data1, data2, [src], #16
+        ldp     data1, data2, [src], #16
 
-	sub	limit_wd, limit, #1
-	and	tmp3, limit_wd, #15
-	lsr	limit_wd, limit_wd, #4
+        sub     limit_wd, limit,    #1
+        and     tmp3,     limit_wd, #15
+        lsr     limit_wd, limit_wd, #4
 
-	add	tmp3, tmp3, tmp1
-	add	limit_wd, limit_wd, tmp3, lsr #4
+        add     tmp3,     tmp3,     tmp1
+        add     limit_wd, limit_wd, tmp3, lsr #4
 
-	neg	tmp4, tmp1
-	lsl	tmp4, tmp4, #3  /* Bytes beyond alignment -> bits.  */
+        neg     tmp4, tmp1
+        lsl     tmp4, tmp4, #3  /* Bytes beyond alignment -> bits.  */
 
-	mov	tmp2, #~0
-	/* Big-endian.  Early bytes are at MSB.  */
+        mov     tmp2, #~0
+        /* Big-endian.  Early bytes are at MSB.  */
 CPU_BE( lsl	tmp2, tmp2, tmp4 )	/* Shift (tmp1 & 63).  */
-	/* Little-endian.  Early bytes are at LSB.  */
+        /* Little-endian.  Early bytes are at LSB.  */
 CPU_LE( lsr	tmp2, tmp2, tmp4 )	/* Shift (tmp1 & 63).  */
 
-	cmp	tmp1, #8
+        cmp     tmp1, #8
 
-	orr	data1, data1, tmp2
-	orr	data2a, data2, tmp2
+        orr     data1,  data1, tmp2
+        orr     data2a, data2, tmp2
 
-	csinv	data1, data1, xzr, le
-	csel	data2, data2, data2a, le
-	b	.Lrealigned
+        csinv   data1, data1, xzr,    le
+        csel    data2, data2, data2a, le
+        b       .Lrealigned
 
 .Lhit_limit:
-	mov	len, limit
-	ret
+        mov     len, limit
+        ret
 SYM_FUNC_END(__pi_strnlen)
 
 SYM_FUNC_ALIAS_WEAK(strnlen, __pi_strnlen)

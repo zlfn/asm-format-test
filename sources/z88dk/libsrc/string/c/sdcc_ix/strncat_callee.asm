@@ -10,10 +10,10 @@ EXTERN asm_strncat
 
 _strncat_callee:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_strncat
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_strncat

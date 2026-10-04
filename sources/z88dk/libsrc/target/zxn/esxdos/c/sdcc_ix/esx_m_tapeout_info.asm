@@ -8,12 +8,12 @@ EXTERN l0_esx_m_tapeout_info_callee
 
 _esx_m_tapeout_info:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp l0_esx_m_tapeout_info_callee
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      l0_esx_m_tapeout_info_callee

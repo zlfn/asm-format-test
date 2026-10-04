@@ -13,7 +13,7 @@ PUBLIC l_jrde
 
 l_jrde:
 
-   ex (sp),hl
-   add hl,de
-   ex (sp),hl
-   ret
+        ex      (sp), hl
+        add     hl,   de
+        ex      (sp), hl
+        ret

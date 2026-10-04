@@ -13,18 +13,18 @@ MAXARGS = 16            ; max. amount of arguments in arg. table
 CL_SIZE = 64            ; command line buffer size
 SPACE   = 32            ; SPACE char.
 
-        .include        "atari.inc"
-        .import         __argc, __argv
-        .importzp       ptr1
-        .import         __dos_type
-        .constructor    initmainargs, 25
+        .include "atari.inc"
+        .import __argc, __argv
+        .importzp ptr1
+        .import __dos_type
+        .constructor initmainargs, 25
 
 ; --------------------------------------------------------------------------
 ; Get command line
 
 .segment        "ONCE"
 
-nargdos:rts
+nargdos: rts
 
 initmainargs:
         lda     __dos_type      ; which DOS?
@@ -56,8 +56,8 @@ sparta: lda     DOSVEC
         sta     ptr1+1
 
 cpcl0:  ldy     #0
-cpcl:   lda     (ptr1),y
-        sta     ourcl,y
+cpcl:   lda     (ptr1), y
+        sta     ourcl,  y
         iny
         cmp     #ATEOL
         beq     movdon
@@ -65,13 +65,13 @@ cpcl:   lda     (ptr1),y
         bne     cpcl
 
 movdon: lda     #0
-        sta     ourcl,y         ; null terminate behind ATEOL
+        sta     ourcl, y        ; null terminate behind ATEOL
 
 ; Turn command line into argv table
 
         ;ldy    #0
         tay
-eatspc: lda     ourcl,y         ; eat spaces
+eatspc: lda     ourcl, y        ; eat spaces
         cmp     #ATEOL
         beq     finargs
         cmp     #SPACE
@@ -83,16 +83,16 @@ eatspc: lda     ourcl,y         ; eat spaces
 
 ; Store argument vector
 
-rpar:   lda     __argc          ; low-byte
+rpar:   lda     __argc  ; low-byte
         asl
-        tax                     ; table index
-        tya                     ; ourcl index
+        tax             ; table index
+        tya             ; ourcl index
         clc
         adc     #<ourcl
-        sta     argv,x
+        sta     argv, x
         lda     #>ourcl
         adc     #0
-        sta     argv+1,x
+        sta     argv+1, x
         ldx     __argc
         inx
         stx     __argc
@@ -102,8 +102,8 @@ rpar:   lda     __argc          ; low-byte
 ; Skip this arg.
 
 skiparg:
-        ldx     ourcl,y
-        cpx     #ATEOL          ; end of line?
+        ldx     ourcl, y
+        cpx     #ATEOL  ; end of line?
         beq     eopar
         cpx     #SPACE
         beq     eopar
@@ -115,9 +115,9 @@ skiparg:
 
 eopar:
         lda     #0
-        sta     ourcl,y
-        iny                     ; y behind arg.
-        cpx     #ATEOL          ; was it the last arg?
+        sta     ourcl, y
+        iny             ; y behind arg.
+        cpx     #ATEOL  ; was it the last arg?
         bne     eatspc
 
 ; Finish args
@@ -127,8 +127,8 @@ finargs:
         asl
         tax
         lda     #0
-        sta     argv,x
-        sta     argv+1,x
+        sta     argv,   x
+        sta     argv+1, x
         lda     #<argv
         ldx     #>argv
         sta     __argv

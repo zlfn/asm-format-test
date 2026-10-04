@@ -3,9 +3,9 @@
 // license that can be found in the LICENSE file.
 
 TEXT foo(SB), 0, $0
-	RET
+        RET
 TEXT foo(SB), 0, $0 // ERROR "symbol foo redeclared"
-	RET
+        RET
 
 GLOBL bar(SB), 0, $8
 GLOBL bar(SB), 0, $8 // ERROR "symbol bar redeclared"

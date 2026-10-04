@@ -12,16 +12,16 @@ PUBLIC l_ne
 
 .l_ne
 
-    ; DE != HL
-    ; set carry if true
+        ; DE != HL
+        ; set carry if true
 
-    or a
-    sbc hl,de
+        or      a
+        sbc     hl, de
 
-    scf
-    ld hl,1
-    ret nz
+        scf
+        ld      hl, 1
+        ret     nz
 
-    or a
-    dec l
-    ret
+        or      a
+        dec     l
+        ret

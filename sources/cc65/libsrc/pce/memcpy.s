@@ -14,12 +14,11 @@
 ; "pce/memmove.s" and "pce/memset.s"!
 ;
 
-        .export         _memcpy
-        .export         memcpy_increment, memcpy_transfer, memcpy_getparams
+        .export _memcpy
+        .export memcpy_increment, memcpy_transfer, memcpy_getparams
 
-        .import         incsp2, popax, popptr1
-        .importzp       c_sp, ptr1, ptr2, ptr3
-
+        .import incsp2, popax, popptr1
+        .importzp c_sp, ptr1, ptr2, ptr3
 
 ; The structure of the transfer instructions
 
@@ -35,7 +34,7 @@ _memcpy:
         jsr     memcpy_getparams
 
 memcpy_increment:
-        ldy     #$73                    ; TII opcode
+        ldy     #$73    ; TII opcode
 
 memcpy_transfer:
         sty     transfer + opcode
@@ -68,7 +67,7 @@ memcpy_transfer:
 
 memcpy_getparams:
         sta     ptr3
-        stx     ptr3+1                  ; save size
+        stx     ptr3+1  ; save size
         ora     ptr3+1
         bne     @L1
 
@@ -76,22 +75,22 @@ memcpy_getparams:
 ; (The HuC6280's transfer instructions can't copy $0000 bytes;
 ;  they would copy $10000 [64K] bytes instead.)
 
-        ply                             ; drop return address
+        ply             ; drop return address
         plx
-        jsr     incsp2                  ; drop src address
-        jmp     popax                   ; get pointer; return it as result
+        jsr     incsp2  ; drop src address
+        jmp     popax   ; get pointer; return it as result
 
-@L1:    jsr     popptr1                 ; save src
+@L1:    jsr     popptr1 ; save src
 
 ; (Direct stack access is six cycles faster [total cycle count].)
 
-        iny                             ; (Y=0 by popptr1, need '1' here) save dest
-        lda     (c_sp),y                ; get high byte
+        iny                     ; (Y=0 by popptr1, need '1' here) save dest
+        lda     (c_sp), y       ; get high byte
         tax
-        lda     (c_sp)                  ; get low byte
+        lda     (c_sp)          ; get low byte
         sta     ptr2
         stx     ptr2+1
-        rts                             ; return dest address (for memmove)
+        rts                     ; return dest address (for memmove)
 
 ; ----------------------------------------------------------------------
 ; The transfer instructions use inline arguments.
@@ -101,4 +100,4 @@ memcpy_getparams:
 
 transfer:
         tii     $FFFF, $FFFF, $0001
-        jmp     popax                   ; get pointer; return it as result
+        jmp     popax   ; get pointer; return it as result

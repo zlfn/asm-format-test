@@ -14,17 +14,15 @@
 
         EXTERN  COORDS
 
-
-	INCLUDE	"classic/gfx/grafix.inc"
-
+        INCLUDE "classic/gfx/grafix.inc"
 
 ozplotpixel:
 
-  IF    _GFX_MAXX<>256
-        ld      a, h
-        cp      _GFX_MAXX
-        jr      nc, xyoverflow
-  ENDIF
+        IF      _GFX_MAXX<>256
+                ld      a, h
+                cp      _GFX_MAXX
+                jr      nc, xyoverflow
+        ENDIF
 
         ld      a, l
         cp      _GFX_MAXY
@@ -44,13 +42,12 @@ put_pixel:
         ex      de, hl
 
 put_instr:
-        nop                             ; cpl       	nop
-        or      (hl)                    ; and (hl)	xor (hl)
+        nop             ; cpl       	nop
+        or      (hl)    ; and (hl)	xor (hl)
 
         ld      (hl), a
         pop     bc
         ret
-
 
 xyoverflow:
         ld      hl, -1

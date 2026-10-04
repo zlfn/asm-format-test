@@ -20,57 +20,57 @@ EXTERN asm_f16_inf
 PUBLIC asm_f16_mul10
 
 .asm_f16_mul10
-    ld a,$7c
-    and h
-    jr Z,mul10_expand
-    cp $7c
-    ret Z
+        ld      a, $7c
+        and     h
+        jr      Z, mul10_expand
+        cp      $7c
+        ret     Z
 
 .mul10_expand
-    call asm_f24_f16
+        call    asm_f24_f16
 
-    ld a,d
-    and a
-    jp Z,asm_f16_zero
+        ld      a, d
+        and     a
+        jp      Z, asm_f16_zero
 
-    ld bc,hl                    ; 10*a = 2*(4*a + a)  →  (a + a>>2) << 1
+        ld      bc, hl  ; 10*a = 2*(4*a + a)  →  (a + a>>2) << 1
 
-    ; logical srl b; rr c twice
-    or a
-    ld a,b
-    rra
-    ld b,a
-    ld a,c
-    rra
-    ld c,a
-    or a
-    ld a,b
-    rra
-    ld b,a
-    ld a,c
-    rra
-    ld c,a
+        ; logical srl b; rr c twice
+        or      a
+        ld      a, b
+        rra
+        ld      b, a
+        ld      a, c
+        rra
+        ld      c, a
+        or      a
+        ld      a, b
+        rra
+        ld      b, a
+        ld      a, c
+        rra
+        ld      c, a
 
-    add hl,bc
-    ld a,3
-    jr NC,no_carry
+        add     hl, bc
+        ld      a,  3
+        jr      NC, no_carry
 
-    ; rr hl
-    ld b,a
-    ld a,h
-    rra
-    ld h,a
-    ld a,l
-    rra
-    ld l,a
-    ld a,b
-    inc a
+        ; rr hl
+        ld      b, a
+        ld      a, h
+        rra
+        ld      h, a
+        ld      a, l
+        rra
+        ld      l, a
+        ld      a, b
+        inc     a
 
 .no_carry
-    add a,d
-    jr C,mul10_oflow
-    ld d,a
-    jp asm_f16_f24
+        add     a, d
+        jr      C, mul10_oflow
+        ld      d, a
+        jp      asm_f16_f24
 
 .mul10_oflow
-    jp asm_f16_inf
+        jp      asm_f16_inf

@@ -12,11 +12,11 @@ EXTERN asm_find_file
 
 find_file:
 _find_file:
-	pop		bc
-	pop		de	; ptr to file struct
-	pop		hl	; ptr to file name
-	push	hl
-	push	de
-	push	bc
+        pop     bc
+        pop     de      ; ptr to file struct
+        pop     hl      ; ptr to file name
+        push    hl
+        push    de
+        push    bc
 
-   jp asm_find_file
+        jp      asm_find_file

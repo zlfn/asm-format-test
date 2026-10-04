@@ -10,8 +10,8 @@ PUBLIC l_gint_eq
 ; HL = (HL), z set if the word is zero
 
 .l_gint_eq
-    ex de,hl
-    ld hl,(de)
-    ld a,l
-    or h
-    ret
+        ex      de, hl
+        ld      hl, (de)
+        ld      a,  l
+        or      h
+        ret

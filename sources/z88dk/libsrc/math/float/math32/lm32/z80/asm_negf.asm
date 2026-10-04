@@ -8,16 +8,15 @@ PUBLIC asm_negf
 
 EXTERN m32_fsneg
 
-    ; negate sccz80 floats
-    ;
-    ; enter : stack = ret
-    ;          DEHL = sccz80_float number
-    ;
-    ; exit  :  DEHL = sccz80_float(-number)
-    ;
-    ; uses  : af, bc, de, hl
+        ; negate sccz80 floats
+        ;
+        ; enter : stack = ret
+        ;          DEHL = sccz80_float number
+        ;
+        ; exit  :  DEHL = sccz80_float(-number)
+        ;
+        ; uses  : af, bc, de, hl
 
 DEFC  asm_negf = m32_fsneg                      ; enter stack = ret
-                                                ;        DEHL = d32_float
-                                                ; return DEHL = d32_float
-
+        ;        DEHL = d32_float
+        ; return DEHL = d32_float

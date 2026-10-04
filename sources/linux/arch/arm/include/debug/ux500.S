@@ -5,7 +5,6 @@
  *  Copyright (C) 2009 ST-Ericsson
  */
 
-
 #if CONFIG_UX500_DEBUG_UART > 2
 #error Invalid Ux500 debug UART
 #endif
@@ -31,9 +30,9 @@
 #define UART_PHYS_BASE	UX500_PHYS_UART(CONFIG_UX500_DEBUG_UART)
 #define UART_VIRT_BASE	(0xfff07000)
 
-	.macro	addruart, rp, rv, tmp
-	ldr	\rp, =UART_PHYS_BASE		@ no, physical address
-	ldr	\rv, =UART_VIRT_BASE		@ yes, virtual address
-	.endm
+        .macro  addruart, rp, rv, tmp
+                ldr     \rp, =UART_PHYS_BASE    @ no, physical address
+                ldr     \rv, =UART_VIRT_BASE    @ yes, virtual address
+        .endm
 
 #include <debug/pl01x.S>

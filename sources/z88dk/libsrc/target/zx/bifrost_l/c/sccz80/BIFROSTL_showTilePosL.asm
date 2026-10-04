@@ -15,18 +15,17 @@ EXTERN asm_BIFROSTL_showTilePosL
 
 BIFROSTL_showTilePosL:
 
-        ld hl,2
-        add hl,sp
-        ld e,(hl)       ; E=col
-        inc hl
-        inc hl
-        ld d,(hl)       ; D=row
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)        ; E=col
+        inc     hl
+        inc     hl
+        ld      d, (hl)         ; D=row
 
-        jp asm_BIFROSTL_showTilePosL        ; execute 'show_tile_pos'
+        jp      asm_BIFROSTL_showTilePosL       ; execute 'show_tile_pos'
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _BIFROSTL_showTilePosL
 defc _BIFROSTL_showTilePosL = BIFROSTL_showTilePosL
 ENDIF
-

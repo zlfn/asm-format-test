@@ -9,22 +9,22 @@ EXTERN l0_sp1_MoveSprPix_callee
 
 _sp1_MoveSprPix:
 
-   pop af
-   exx
-   pop bc
-   pop iy
-   exx
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   exx
-   push iy
-   push bc
-   push af
-   
-   push bc
-   jp l0_sp1_MoveSprPix_callee
+        pop     af
+        exx
+        pop     bc
+        pop     iy
+        exx
+        pop     hl
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+        exx
+        push    iy
+        push    bc
+        push    af
+
+        push    bc
+        jp      l0_sp1_MoveSprPix_callee

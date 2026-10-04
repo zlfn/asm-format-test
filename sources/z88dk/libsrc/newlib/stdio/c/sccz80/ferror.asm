@@ -16,10 +16,10 @@ EXTERN asm_ferror
 
 ferror:
 
-   push hl
-   pop ix
-   
-   jp asm_ferror
+        push    hl
+        pop     ix
+
+        jp      asm_ferror
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

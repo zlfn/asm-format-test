@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; void *obstack_free(struct obstack *ob, void *object)
 ;
 ; If object is part of the obstack, deallocate the object and
@@ -24,15 +24,14 @@ EXTERN asm_obstack_free
 
 obstack_free_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   jp asm_obstack_free
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_obstack_free
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _obstack_free_callee
 defc _obstack_free_callee = obstack_free_callee
 ENDIF
-

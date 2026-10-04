@@ -8,9 +8,9 @@
 ; memcpy and strlen.
 ;
 
-        .importzp       ptr2, ptr3, ptr4, tmp1, tmp2, tmp3
-        .import         _strlen_ptr4, _malloc, _memcpy, pushax
-        .export         _strdup
+        .importzp ptr2, ptr3, ptr4, tmp1, tmp2, tmp3
+        .import _strlen_ptr4, _malloc, _memcpy, pushax
+        .export _strdup
 
 _strdup:
         ; Get length (and store source in ptr4)
@@ -42,7 +42,7 @@ _strdup:
         beq     OutOfMemory
 
         ; Push dest
-:       jsr    pushax
+:       jsr     pushax
 
         ; Push source
         lda     ptr4

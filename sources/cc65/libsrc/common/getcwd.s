@@ -4,14 +4,13 @@
 ; char* __fastcall__ getcwd (char* buf, size_t size);
 ;
 
-        .export         _getcwd
+        .export _getcwd
 
-        .import         popptr1
-        .import         __cwd
-        .importzp       ptr1, ptr2
+        .import popptr1
+        .import __cwd
+        .importzp ptr1, ptr2
 
-        .include        "errno.inc"
-
+        .include "errno.inc"
 
 ;--------------------------------------------------------------------------
 
@@ -23,9 +22,9 @@
         stx     ptr2+1
         tax
         inx
-        stx     ptr2            ; Save size with each byte incremented separately
+        stx     ptr2    ; Save size with each byte incremented separately
 
-        jsr     popptr1         ; Get buf to ptr1
+        jsr     popptr1 ; Get buf to ptr1
 
 ; Copy __cwd to the given buffer checking the length
 
@@ -38,8 +37,8 @@ loop:   dec     ptr2
 ; Copy one character, end the loop if the zero terminator is reached. We
 ; don't support directories longer than 255 characters for now.
 
-@L1:    lda     __cwd,y
-        sta     (ptr1),y
+@L1:    lda     __cwd,  y
+        sta     (ptr1), y
         beq     done
         iny
         bne     loop
@@ -51,7 +50,7 @@ loop:   dec     ptr2
 
 overflow:
         lda     #<ERANGE
-        jsr     ___seterrno      ; Returns 0 in A
+        jsr     ___seterrno     ; Returns 0 in A
         tax                     ; Return zero
         rts
 
@@ -62,5 +61,3 @@ done:   lda     ptr1
         rts
 
 .endproc
-
-

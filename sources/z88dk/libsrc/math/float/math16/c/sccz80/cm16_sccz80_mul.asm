@@ -9,9 +9,9 @@ PUBLIC cm16_sccz80_mul
 EXTERN asm_f16_mul_callee
 
 .cm16_sccz80_mul
-    ; enter : stack = left, right, ret
-    ; exit  :    HL = left*right
-    pop bc                      ; ret
-    pop hl                      ; right
-    push bc                     ; ret; left remains
-    jp asm_f16_mul_callee
+        ; enter : stack = left, right, ret
+        ; exit  :    HL = left*right
+        pop     bc      ; ret
+        pop     hl      ; right
+        push    bc      ; ret; left remains
+        jp      asm_f16_mul_callee

@@ -11,37 +11,36 @@ EXTERN __esxdos_error_mc
 
 asm_esx_f_stat:
 
-   ; enter : hl = char *filename
-   ;         de = struct esx_stat *es
-   ;
-   ; exit  : success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl, ix
-   
-   ld a,'*'
-   
+        ; enter : hl = char *filename
+        ;         de = struct esx_stat *es
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl, ix
+
+        ld      a, '*'
+
 IF __SDCC_IY
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 ELSE
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 ENDIF
 
-   rst __ESX_RST_SYS
-   defb __ESX_F_STAT
+        rst     __ESX_RST_SYS
+        defb    __ESX_F_STAT
 
-   jp nc, error_znc
-   jp __esxdos_error_mc
-
+        jp      nc, error_znc
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * F_STAT ($ac) *

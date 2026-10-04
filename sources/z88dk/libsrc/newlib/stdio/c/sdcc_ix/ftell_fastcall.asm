@@ -15,14 +15,14 @@ PUBLIC _ftell_fastcall
 EXTERN asm_ftell
 
 _ftell_fastcall:
-   
-   push hl
-   ex (sp),ix
-   
-   call asm_ftell
 
-   pop ix
-   ret
+        push    hl
+        ex      (sp), ix
+
+        call    asm_ftell
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

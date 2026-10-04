@@ -15,16 +15,16 @@ PUBLIC __SMSlib_clipWin_y1
 
 __SMSlib_clipWin_x0:
 
-   defb 0
+        defb    0
 
 __SMSlib_clipWin_y0:
 
-   defb 0
+        defb    0
 
 __SMSlib_clipWin_x1:
 
-   defb 255
+        defb    255
 
 __SMSlib_clipWin_y1:
 
-   defb 191
+        defb    191

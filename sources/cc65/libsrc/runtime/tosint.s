@@ -4,9 +4,9 @@
 ; CC65 runtime: Convert tos from long to int
 ;
 
-        .export         tosint
-        .import         incsp2
-        .importzp       c_sp
+        .export tosint
+        .import incsp2
+        .importzp c_sp
 
 ; Convert TOS from long to int by cutting of the high 16bit
 
@@ -17,15 +17,15 @@
         lda     (c_sp)
 .else
         ldy     #0
-        lda     (c_sp),y        ; c_sp+1
+        lda     (c_sp), y       ; c_sp+1
 .endif
         ldy     #2
-        sta     (c_sp),y
+        sta     (c_sp), y
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
         ldy     #3
-        sta     (c_sp),y
+        sta     (c_sp), y
         pla
-        jmp     incsp2          ; Drop 16 bit
+        jmp     incsp2  ; Drop 16 bit
 
 .endproc

@@ -6,22 +6,21 @@
 ; 2017-11-01, Stefan Haubenthal
 ;
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "atmos.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "atmos.inc"
 
-        .macpack        module
-
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _atmos_ijk_joy
+        module_header _atmos_ijk_joy
 
 ; Driver signature
 
-        .byte   $6A, $6F, $79           ; "joy"
-        .byte   JOY_API_VERSION         ; Driver API version number
+        .byte   $6A, $6F, $79   ; "joy"
+        .byte   JOY_API_VERSION ; Driver API version number
 
 ; Library reference
 
@@ -56,7 +55,7 @@ INSTALL:
         and     #%00100000
         bne     ijkPresent
         lda     #JOY_ERR_NO_DEVICE
-        .byte   $2C             ; Skip next opcode
+        .byte   $2C     ; Skip next opcode
 ijkPresent:
         lda     #JOY_ERR_OK
         .assert JOY_ERR_OK = 0, error
@@ -70,7 +69,6 @@ ijkPresent:
 
 UNINSTALL:
         rts
-
 
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.
@@ -109,7 +107,7 @@ READ:
         eor     #%00011111
         ; Index table to conform to Generic Format
         tax
-        lda     GenericIJKBits,X
+        lda     GenericIJKBits, X
         bne     L1
 
 right:
@@ -121,7 +119,7 @@ right:
         and     #%00011111
         eor     #%00011111
         tax
-        lda     GenericIJKBits,X
+        lda     GenericIJKBits, X
 
         ; Restore VIA PortA state
 L1:     ldx     #%11111111
@@ -131,5 +129,5 @@ L1:     ldx     #%11111111
 
 .rodata
 GenericIJKBits:
-        .byte   0,2,1,3,32,34,33,0,8,10,9,0,40,42,41,0
-        .byte   16,18,17,0,48,50,49,0,0,0,0,0,0,0,0,0
+        .byte   0,  2,  1,  3, 32, 34, 33, 0, 8, 10, 9, 0, 40, 42, 41, 0
+        .byte   16, 18, 17, 0, 48, 50, 49, 0, 0, 0,  0, 0, 0,  0,  0,  0

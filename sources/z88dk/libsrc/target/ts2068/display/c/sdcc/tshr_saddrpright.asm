@@ -9,12 +9,12 @@ EXTERN asm_tshr_saddrpright
 
 _tshr_saddrpright:
 
-   pop af
-   pop hl
-   pop de
+        pop     af
+        pop     hl
+        pop     de
 
-   push de
-   push hl
-   push af
+        push    de
+        push    hl
+        push    af
 
-   jp asm_tshr_saddrpright
+        jp      asm_tshr_saddrpright

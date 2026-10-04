@@ -5,10 +5,9 @@
 ; /* Set the video mode the machine will use. */
 ;
 
-        .export         _set_tv
+        .export _set_tv
 
-        .include        "cx16.inc"
-
+        .include "cx16.inc"
 
 .proc   _set_tv
         stz     VERA::CTRL              ; Use display register bank 0

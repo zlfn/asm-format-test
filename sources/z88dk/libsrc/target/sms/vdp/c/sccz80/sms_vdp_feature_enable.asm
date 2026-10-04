@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _sms_vdp_feature_enable
 defc _sms_vdp_feature_enable = sms_vdp_feature_enable
 ENDIF
-

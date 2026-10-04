@@ -12,7 +12,6 @@
 ; CALLER LINKAGE FOR FUNCTION POINTERS
 ; ----- int  point(int x, int y)
 
-
         SECTION code_graphics
 
         PUBLIC  point_callee
@@ -22,10 +21,10 @@
 
 point_callee:
 _point_callee:
-        pop     af                      ; ret addr
+        pop     af      ; ret addr
         pop     bc
         pop     de
-        push    af                      ; ret addr
+        push    af      ; ret addr
         push    de
         push    bc
 

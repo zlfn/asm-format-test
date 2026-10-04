@@ -10,9 +10,9 @@ EXTERN asm_sscanf
 
 _sscanf:
 
-   push ix
-   
-   call asm_sscanf
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_sscanf
+
+        pop     ix
+        ret

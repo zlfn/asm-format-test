@@ -60,33 +60,33 @@ GLOBL p256mul<>(SB), 8, $160
 #define SEL1  V5
 #define CAR1  V6
 TEXT ·p256NegCond(SB), NOSPLIT, $0
-	MOVD val+0(FP), P1ptr
+        MOVD    val+0(FP), P1ptr
 
-	MOVD $p256mul<>+0x00(SB), CPOOL
-	VL   16(CPOOL), PL
-	VL   0(CPOOL), PH
+        MOVD    $p256mul<>+0x00(SB), CPOOL
+        VL      16(CPOOL), PL
+        VL      0(CPOOL),  PH
 
-	VL   16(P1ptr), Y1H
-	VPDI $0x4, Y1H, Y1H, Y1H
-	VL   0(P1ptr), Y1L
-	VPDI $0x4, Y1L, Y1L, Y1L
+        VL      16(P1ptr), Y1H
+        VPDI    $0x4,     Y1H, Y1H, Y1H
+        VL      0(P1ptr), Y1L
+        VPDI    $0x4,     Y1L, Y1L, Y1L
 
-	VLREPG cond+8(FP), SEL1
-	VZERO  ZER
-	VCEQG  SEL1, ZER, SEL1
+        VLREPG  cond+8(FP), SEL1
+        VZERO   ZER
+        VCEQG   SEL1, ZER, SEL1
 
-	VSCBIQ Y1L, PL, CAR1
-	VSQ    Y1L, PL, T1L
-	VSBIQ  PH, Y1H, CAR1, T1H
+        VSCBIQ  Y1L, PL,  CAR1
+        VSQ     Y1L, PL,  T1L
+        VSBIQ   PH,  Y1H, CAR1, T1H
 
-	VSEL Y1L, T1L, SEL1, Y1L
-	VSEL Y1H, T1H, SEL1, Y1H
+        VSEL    Y1L, T1L, SEL1, Y1L
+        VSEL    Y1H, T1H, SEL1, Y1H
 
-	VPDI $0x4, Y1H, Y1H, Y1H
-	VST  Y1H, 16(P1ptr)
-	VPDI $0x4, Y1L, Y1L, Y1L
-	VST  Y1L, 0(P1ptr)
-	RET
+        VPDI    $0x4, Y1H, Y1H, Y1H
+        VST     Y1H,  16(P1ptr)
+        VPDI    $0x4, Y1L, Y1L, Y1L
+        VST     Y1L,  0(P1ptr)
+        RET
 
 #undef P1ptr
 #undef CPOOL
@@ -123,42 +123,42 @@ TEXT ·p256NegCond(SB), NOSPLIT, $0
 #define ZER   V18
 #define SEL1  V19
 TEXT ·p256MovCond(SB), NOSPLIT, $0
-	MOVD   res+0(FP), P3ptr
-	MOVD   a+8(FP), P1ptr
-	MOVD   b+16(FP), P2ptr
-	VLREPG cond+24(FP), SEL1
-	VZERO  ZER
-	VCEQG  SEL1, ZER, SEL1
+        MOVD    res+0(FP),   P3ptr
+        MOVD    a+8(FP),     P1ptr
+        MOVD    b+16(FP),    P2ptr
+        VLREPG  cond+24(FP), SEL1
+        VZERO   ZER
+        VCEQG   SEL1, ZER, SEL1
 
-	VL 0(P1ptr), X1H
-	VL 16(P1ptr), X1L
-	VL 32(P1ptr), Y1H
-	VL 48(P1ptr), Y1L
-	VL 64(P1ptr), Z1H
-	VL 80(P1ptr), Z1L
+        VL      0(P1ptr),  X1H
+        VL      16(P1ptr), X1L
+        VL      32(P1ptr), Y1H
+        VL      48(P1ptr), Y1L
+        VL      64(P1ptr), Z1H
+        VL      80(P1ptr), Z1L
 
-	VL 0(P2ptr), X2H
-	VL 16(P2ptr), X2L
-	VL 32(P2ptr), Y2H
-	VL 48(P2ptr), Y2L
-	VL 64(P2ptr), Z2H
-	VL 80(P2ptr), Z2L
+        VL      0(P2ptr),  X2H
+        VL      16(P2ptr), X2L
+        VL      32(P2ptr), Y2H
+        VL      48(P2ptr), Y2L
+        VL      64(P2ptr), Z2H
+        VL      80(P2ptr), Z2L
 
-	VSEL X2L, X1L, SEL1, X1L
-	VSEL X2H, X1H, SEL1, X1H
-	VSEL Y2L, Y1L, SEL1, Y1L
-	VSEL Y2H, Y1H, SEL1, Y1H
-	VSEL Z2L, Z1L, SEL1, Z1L
-	VSEL Z2H, Z1H, SEL1, Z1H
+        VSEL    X2L, X1L, SEL1, X1L
+        VSEL    X2H, X1H, SEL1, X1H
+        VSEL    Y2L, Y1L, SEL1, Y1L
+        VSEL    Y2H, Y1H, SEL1, Y1H
+        VSEL    Z2L, Z1L, SEL1, Z1L
+        VSEL    Z2H, Z1H, SEL1, Z1H
 
-	VST X1H, 0(P3ptr)
-	VST X1L, 16(P3ptr)
-	VST Y1H, 32(P3ptr)
-	VST Y1L, 48(P3ptr)
-	VST Z1H, 64(P3ptr)
-	VST Z1L, 80(P3ptr)
+        VST     X1H, 0(P3ptr)
+        VST     X1L, 16(P3ptr)
+        VST     Y1H, 32(P3ptr)
+        VST     Y1L, 48(P3ptr)
+        VST     Z1H, 64(P3ptr)
+        VST     Z1L, 80(P3ptr)
 
-	RET
+        RET
 
 #undef P3ptr
 #undef P1ptr
@@ -205,50 +205,50 @@ TEXT ·p256MovCond(SB), NOSPLIT, $0
 #define SEL1  V20
 #define SEL2  V21
 TEXT ·p256Select(SB), NOSPLIT, $0
-	MOVD   res+0(FP), P3ptr
-	MOVD   table+8(FP), P1ptr
-	VLREPB idx+(16+7)(FP), IDX
-	VREPIB $1, ONE
-	VREPIB $1, SEL2
-	MOVD   $1, COUNT
+        MOVD    res+0(FP),   P3ptr
+        MOVD    table+8(FP), P1ptr
+        VLREPB  idx+(16+7)(FP), IDX
+        VREPIB  $1, ONE
+        VREPIB  $1, SEL2
+        MOVD    $1, COUNT
 
-	VZERO X1H
-	VZERO X1L
-	VZERO Y1H
-	VZERO Y1L
-	VZERO Z1H
-	VZERO Z1L
+        VZERO   X1H
+        VZERO   X1L
+        VZERO   Y1H
+        VZERO   Y1L
+        VZERO   Z1H
+        VZERO   Z1L
 
 loop_select:
-	VL 0(P1ptr), X2H
-	VL 16(P1ptr), X2L
-	VL 32(P1ptr), Y2H
-	VL 48(P1ptr), Y2L
-	VL 64(P1ptr), Z2H
-	VL 80(P1ptr), Z2L
+        VL      0(P1ptr),  X2H
+        VL      16(P1ptr), X2L
+        VL      32(P1ptr), Y2H
+        VL      48(P1ptr), Y2L
+        VL      64(P1ptr), Z2H
+        VL      80(P1ptr), Z2L
 
-	VCEQG SEL2, IDX, SEL1
+        VCEQG   SEL2, IDX, SEL1
 
-	VSEL X2L, X1L, SEL1, X1L
-	VSEL X2H, X1H, SEL1, X1H
-	VSEL Y2L, Y1L, SEL1, Y1L
-	VSEL Y2H, Y1H, SEL1, Y1H
-	VSEL Z2L, Z1L, SEL1, Z1L
-	VSEL Z2H, Z1H, SEL1, Z1H
+        VSEL    X2L, X1L, SEL1, X1L
+        VSEL    X2H, X1H, SEL1, X1H
+        VSEL    Y2L, Y1L, SEL1, Y1L
+        VSEL    Y2H, Y1H, SEL1, Y1H
+        VSEL    Z2L, Z1L, SEL1, Z1L
+        VSEL    Z2H, Z1H, SEL1, Z1H
 
-	VAB  SEL2, ONE, SEL2
-	ADDW $1, COUNT
-	ADD  $96, P1ptr
-	CMPW COUNT, $17
-	BLT  loop_select
+        VAB     SEL2,  ONE, SEL2
+        ADDW    $1,    COUNT
+        ADD     $96,   P1ptr
+        CMPW    COUNT, $17
+        BLT     loop_select
 
-	VST X1H, 0(P3ptr)
-	VST X1L, 16(P3ptr)
-	VST Y1H, 32(P3ptr)
-	VST Y1L, 48(P3ptr)
-	VST Z1H, 64(P3ptr)
-	VST Z1L, 80(P3ptr)
-	RET
+        VST     X1H, 0(P3ptr)
+        VST     X1L, 16(P3ptr)
+        VST     Y1H, 32(P3ptr)
+        VST     Y1L, 48(P3ptr)
+        VST     Z1H, 64(P3ptr)
+        VST     Z1L, 80(P3ptr)
+        RET
 
 #undef P3ptr
 #undef P1ptr
@@ -294,95 +294,95 @@ loop_select:
 #define PH    V14
 
 TEXT ·p256FromMont(SB), NOSPLIT, $0
-	MOVD res+0(FP), res_ptr
-	MOVD in+8(FP), x_ptr
+        MOVD    res+0(FP), res_ptr
+        MOVD    in+8(FP),  x_ptr
 
-	VZERO T2
-	VZERO ZER
-	MOVD  $p256<>+0x00(SB), CPOOL
-	VL    16(CPOOL), PL
-	VL    0(CPOOL), PH
-	VL    48(CPOOL), SEL2
-	VL    64(CPOOL), SEL1
+        VZERO   T2
+        VZERO   ZER
+        MOVD    $p256<>+0x00(SB), CPOOL
+        VL      16(CPOOL), PL
+        VL      0(CPOOL),  PH
+        VL      48(CPOOL), SEL2
+        VL      64(CPOOL), SEL1
 
-	VL   (0*16)(x_ptr), T0
-	VPDI $0x4, T0, T0, T0
-	VL   (1*16)(x_ptr), T1
-	VPDI $0x4, T1, T1, T1
+        VL      (0*16)(x_ptr), T0
+        VPDI    $0x4, T0, T0, T0
+        VL      (1*16)(x_ptr), T1
+        VPDI    $0x4, T1, T1, T1
 
-	// First round
-	VPERM T1, T0, SEL1, RED2    // d1 d0 d1 d0
-	VPERM ZER, RED2, SEL2, RED1 // 0  d1 d0  0
-	VSQ   RED1, RED2, RED2      // Guaranteed not to underflow
+        // First round
+        VPERM   T1,   T0,   SEL1, RED2  // d1 d0 d1 d0
+        VPERM   ZER,  RED2, SEL2, RED1  // 0  d1 d0  0
+        VSQ     RED1, RED2, RED2        // Guaranteed not to underflow
 
-	VSLDB $8, T1, T0, T0
-	VSLDB $8, T2, T1, T1
+        VSLDB   $8, T1, T0, T0
+        VSLDB   $8, T2, T1, T1
 
-	VACCQ  T0, RED1, CAR1
-	VAQ    T0, RED1, T0
-	VACCCQ T1, RED2, CAR1, CAR2
-	VACQ   T1, RED2, CAR1, T1
-	VAQ    T2, CAR2, T2
+        VACCQ   T0, RED1, CAR1
+        VAQ     T0, RED1, T0
+        VACCCQ  T1, RED2, CAR1, CAR2
+        VACQ    T1, RED2, CAR1, T1
+        VAQ     T2, CAR2, T2
 
-	// Second round
-	VPERM T1, T0, SEL1, RED2    // d1 d0 d1 d0
-	VPERM ZER, RED2, SEL2, RED1 // 0  d1 d0  0
-	VSQ   RED1, RED2, RED2      // Guaranteed not to underflow
+        // Second round
+        VPERM   T1,   T0,   SEL1, RED2  // d1 d0 d1 d0
+        VPERM   ZER,  RED2, SEL2, RED1  // 0  d1 d0  0
+        VSQ     RED1, RED2, RED2        // Guaranteed not to underflow
 
-	VSLDB $8, T1, T0, T0
-	VSLDB $8, T2, T1, T1
+        VSLDB   $8, T1, T0, T0
+        VSLDB   $8, T2, T1, T1
 
-	VACCQ  T0, RED1, CAR1
-	VAQ    T0, RED1, T0
-	VACCCQ T1, RED2, CAR1, CAR2
-	VACQ   T1, RED2, CAR1, T1
-	VAQ    T2, CAR2, T2
+        VACCQ   T0, RED1, CAR1
+        VAQ     T0, RED1, T0
+        VACCCQ  T1, RED2, CAR1, CAR2
+        VACQ    T1, RED2, CAR1, T1
+        VAQ     T2, CAR2, T2
 
-	// Third round
-	VPERM T1, T0, SEL1, RED2    // d1 d0 d1 d0
-	VPERM ZER, RED2, SEL2, RED1 // 0  d1 d0  0
-	VSQ   RED1, RED2, RED2      // Guaranteed not to underflow
+        // Third round
+        VPERM   T1,   T0,   SEL1, RED2  // d1 d0 d1 d0
+        VPERM   ZER,  RED2, SEL2, RED1  // 0  d1 d0  0
+        VSQ     RED1, RED2, RED2        // Guaranteed not to underflow
 
-	VSLDB $8, T1, T0, T0
-	VSLDB $8, T2, T1, T1
+        VSLDB   $8, T1, T0, T0
+        VSLDB   $8, T2, T1, T1
 
-	VACCQ  T0, RED1, CAR1
-	VAQ    T0, RED1, T0
-	VACCCQ T1, RED2, CAR1, CAR2
-	VACQ   T1, RED2, CAR1, T1
-	VAQ    T2, CAR2, T2
+        VACCQ   T0, RED1, CAR1
+        VAQ     T0, RED1, T0
+        VACCCQ  T1, RED2, CAR1, CAR2
+        VACQ    T1, RED2, CAR1, T1
+        VAQ     T2, CAR2, T2
 
-	// Last round
-	VPERM T1, T0, SEL1, RED2    // d1 d0 d1 d0
-	VPERM ZER, RED2, SEL2, RED1 // 0  d1 d0  0
-	VSQ   RED1, RED2, RED2      // Guaranteed not to underflow
+        // Last round
+        VPERM   T1,   T0,   SEL1, RED2  // d1 d0 d1 d0
+        VPERM   ZER,  RED2, SEL2, RED1  // 0  d1 d0  0
+        VSQ     RED1, RED2, RED2        // Guaranteed not to underflow
 
-	VSLDB $8, T1, T0, T0
-	VSLDB $8, T2, T1, T1
+        VSLDB   $8, T1, T0, T0
+        VSLDB   $8, T2, T1, T1
 
-	VACCQ  T0, RED1, CAR1
-	VAQ    T0, RED1, T0
-	VACCCQ T1, RED2, CAR1, CAR2
-	VACQ   T1, RED2, CAR1, T1
-	VAQ    T2, CAR2, T2
+        VACCQ   T0, RED1, CAR1
+        VAQ     T0, RED1, T0
+        VACCCQ  T1, RED2, CAR1, CAR2
+        VACQ    T1, RED2, CAR1, T1
+        VAQ     T2, CAR2, T2
 
-	// ---------------------------------------------------
+        // ---------------------------------------------------
 
-	VSCBIQ  PL, T0, CAR1
-	VSQ     PL, T0, TT0
-	VSBCBIQ T1, PH, CAR1, CAR2
-	VSBIQ   T1, PH, CAR1, TT1
-	VSBIQ   T2, ZER, CAR2, T2
+        VSCBIQ  PL, T0,  CAR1
+        VSQ     PL, T0,  TT0
+        VSBCBIQ T1, PH,  CAR1, CAR2
+        VSBIQ   T1, PH,  CAR1, TT1
+        VSBIQ   T2, ZER, CAR2, T2
 
-	// what output to use, TT1||TT0 or T1||T0?
-	VSEL T0, TT0, T2, T0
-	VSEL T1, TT1, T2, T1
+        // what output to use, TT1||TT0 or T1||T0?
+        VSEL    T0, TT0, T2, T0
+        VSEL    T1, TT1, T2, T1
 
-	VPDI $0x4, T0, T0, TT0
-	VST  TT0, (0*16)(res_ptr)
-	VPDI $0x4, T1, T1, TT1
-	VST  TT1, (1*16)(res_ptr)
-	RET
+        VPDI    $0x4, T0, T0, TT0
+        VST     TT0,  (0*16)(res_ptr)
+        VPDI    $0x4, T1, T1, TT1
+        VST     TT1,  (1*16)(res_ptr)
+        RET
 
 #undef res_ptr
 #undef x_ptr
@@ -433,44 +433,44 @@ TEXT ·p256FromMont(SB), NOSPLIT, $0
 #define SEL2  V21
 
 TEXT ·p256SelectAffine(SB), NOSPLIT, $0
-	MOVD   res+0(FP), P3ptr
-	MOVD   table+8(FP), P1ptr
-	MOVD   $p256<>+0x00(SB), CPOOL
-	VLREPB idx+(16+7)(FP), IDX
-	VREPIB $1, ONE
-	VREPIB $1, SEL2
-	MOVD   $1, COUNT
-	VL     80(CPOOL), LE2BE
+        MOVD    res+0(FP),   P3ptr
+        MOVD    table+8(FP), P1ptr
+        MOVD    $p256<>+0x00(SB), CPOOL
+        VLREPB  idx+(16+7)(FP),   IDX
+        VREPIB  $1, ONE
+        VREPIB  $1, SEL2
+        MOVD    $1, COUNT
+        VL      80(CPOOL), LE2BE
 
-	VZERO X1H
-	VZERO X1L
-	VZERO Y1H
-	VZERO Y1L
+        VZERO   X1H
+        VZERO   X1L
+        VZERO   Y1H
+        VZERO   Y1L
 
 loop_select:
-	VL 0(P1ptr), X2H
-	VL 16(P1ptr), X2L
-	VL 32(P1ptr), Y2H
-	VL 48(P1ptr), Y2L
+        VL      0(P1ptr),  X2H
+        VL      16(P1ptr), X2L
+        VL      32(P1ptr), Y2H
+        VL      48(P1ptr), Y2L
 
-	VCEQG SEL2, IDX, SEL1
+        VCEQG   SEL2, IDX, SEL1
 
-	VSEL X2L, X1L, SEL1, X1L
-	VSEL X2H, X1H, SEL1, X1H
-	VSEL Y2L, Y1L, SEL1, Y1L
-	VSEL Y2H, Y1H, SEL1, Y1H
+        VSEL    X2L, X1L, SEL1, X1L
+        VSEL    X2H, X1H, SEL1, X1H
+        VSEL    Y2L, Y1L, SEL1, Y1L
+        VSEL    Y2H, Y1H, SEL1, Y1H
 
-	VAB  SEL2, ONE, SEL2
-	ADDW $1, COUNT
-	ADD  $64, P1ptr
-	CMPW COUNT, $33 // len(p256AffineTable) + 1
-	BLT  loop_select
-	VST  X1H, 0(P3ptr)
-	VST  X1L, 16(P3ptr)
-	VST  Y1H, 32(P3ptr)
-	VST  Y1L, 48(P3ptr)
+        VAB     SEL2,  ONE, SEL2
+        ADDW    $1,    COUNT
+        ADD     $64,   P1ptr
+        CMPW    COUNT, $33      // len(p256AffineTable) + 1
+        BLT     loop_select
+        VST     X1H, 0(P3ptr)
+        VST     X1L, 16(P3ptr)
+        VST     Y1H, 32(P3ptr)
+        VST     Y1L, 48(P3ptr)
 
-	RET
+        RET
 
 #undef P3ptr
 #undef P1ptr
@@ -638,214 +638,214 @@ loop_select:
  * Last 'group' needs to RED2||RED1 shifted less
  */
 TEXT p256MulInternal<>(SB), NOSPLIT, $0-0
-	VL 32(CPOOL), SEL1
-	VL 48(CPOOL), SEL2
-	VL 64(CPOOL), SEL3
-	VL 80(CPOOL), SEL4
+        VL      32(CPOOL), SEL1
+        VL      48(CPOOL), SEL2
+        VL      64(CPOOL), SEL3
+        VL      80(CPOOL), SEL4
 
-	// ---------------------------------------------------
+        // ---------------------------------------------------
 
-	VREPF $3, Y0, YDIG
-	VMLHF X0, YDIG, ADD1H
-	VMLHF X1, YDIG, ADD2H
-	VMLF  X0, YDIG, ADD1
-	VMLF  X1, YDIG, ADD2
+        VREPF   $3, Y0,   YDIG
+        VMLHF   X0, YDIG, ADD1H
+        VMLHF   X1, YDIG, ADD2H
+        VMLF    X0, YDIG, ADD1
+        VMLF    X1, YDIG, ADD2
 
-	VREPF  $2, Y0, YDIG
-	VMALF  X0, YDIG, ADD1H, ADD3
-	VMALF  X1, YDIG, ADD2H, ADD4
-	VMALHF X0, YDIG, ADD1H, ADD3H // ADD1H Free
-	VMALHF X1, YDIG, ADD2H, ADD4H // ADD2H Free
+        VREPF   $2, Y0,   YDIG
+        VMALF   X0, YDIG, ADD1H, ADD3
+        VMALF   X1, YDIG, ADD2H, ADD4
+        VMALHF  X0, YDIG, ADD1H, ADD3H  // ADD1H Free
+        VMALHF  X1, YDIG, ADD2H, ADD4H  // ADD2H Free
 
-	VZERO ZER
-	VL    32(CPOOL), SEL1
-	VPERM ZER, ADD1, SEL1, RED3 // [d0 0 0 d0]
+        VZERO   ZER
+        VL      32(CPOOL), SEL1
+        VPERM   ZER, ADD1, SEL1, RED3   // [d0 0 0 d0]
 
-	VSLDB $12, ADD2, ADD1, T0 // ADD1 Free
-	VSLDB $12, ZER, ADD2, T1  // ADD2 Free
+        VSLDB   $12, ADD2, ADD1, T0     // ADD1 Free
+        VSLDB   $12, ZER,  ADD2, T1     // ADD2 Free
 
-	VACCQ  T0, ADD3, CAR1
-	VAQ    T0, ADD3, T0       // ADD3 Free
-	VACCCQ T1, ADD4, CAR1, T2
-	VACQ   T1, ADD4, CAR1, T1 // ADD4 Free
+        VACCQ   T0, ADD3, CAR1
+        VAQ     T0, ADD3, T0            // ADD3 Free
+        VACCCQ  T1, ADD4, CAR1, T2
+        VACQ    T1, ADD4, CAR1, T1      // ADD4 Free
 
-	VL    48(CPOOL), SEL2
-	VL    64(CPOOL), SEL3
-	VL    80(CPOOL), SEL4
-	VPERM RED3, T0, SEL2, RED1 // [d0  0 d1 d0]
-	VPERM RED3, T0, SEL3, RED2 // [ 0 d1 d0 d1]
-	VPERM RED3, T0, SEL4, RED3 // [ 0  0 d1 d0]
-	VSQ   RED3, RED2, RED2     // Guaranteed not to underflow
+        VL      48(CPOOL), SEL2
+        VL      64(CPOOL), SEL3
+        VL      80(CPOOL), SEL4
+        VPERM   RED3, T0,   SEL2, RED1  // [d0  0 d1 d0]
+        VPERM   RED3, T0,   SEL3, RED2  // [ 0 d1 d0 d1]
+        VPERM   RED3, T0,   SEL4, RED3  // [ 0  0 d1 d0]
+        VSQ     RED3, RED2, RED2        // Guaranteed not to underflow
 
-	VSLDB $12, T1, T0, T0
-	VSLDB $12, T2, T1, T1
+        VSLDB   $12, T1, T0, T0
+        VSLDB   $12, T2, T1, T1
 
-	VACCQ  T0, ADD3H, CAR1
-	VAQ    T0, ADD3H, T0
-	VACCCQ T1, ADD4H, CAR1, T2
-	VACQ   T1, ADD4H, CAR1, T1
+        VACCQ   T0, ADD3H, CAR1
+        VAQ     T0, ADD3H, T0
+        VACCCQ  T1, ADD4H, CAR1, T2
+        VACQ    T1, ADD4H, CAR1, T1
 
-	// ---------------------------------------------------
+        // ---------------------------------------------------
 
-	VREPF  $1, Y0, YDIG
-	VMALHF X0, YDIG, T0, ADD1H
-	VMALHF X1, YDIG, T1, ADD2H
-	VMALF  X0, YDIG, T0, ADD1  // T0 Free->ADD1
-	VMALF  X1, YDIG, T1, ADD2  // T1 Free->ADD2
+        VREPF   $1, Y0,   YDIG
+        VMALHF  X0, YDIG, T0, ADD1H
+        VMALHF  X1, YDIG, T1, ADD2H
+        VMALF   X0, YDIG, T0, ADD1      // T0 Free->ADD1
+        VMALF   X1, YDIG, T1, ADD2      // T1 Free->ADD2
 
-	VREPF  $0, Y0, YDIG
-	VMALF  X0, YDIG, ADD1H, ADD3
-	VMALF  X1, YDIG, ADD2H, ADD4
-	VMALHF X0, YDIG, ADD1H, ADD3H // ADD1H Free->ADD3H
-	VMALHF X1, YDIG, ADD2H, ADD4H // ADD2H Free->ADD4H , YDIG Free->ZER
+        VREPF   $0, Y0,   YDIG
+        VMALF   X0, YDIG, ADD1H, ADD3
+        VMALF   X1, YDIG, ADD2H, ADD4
+        VMALHF  X0, YDIG, ADD1H, ADD3H  // ADD1H Free->ADD3H
+        VMALHF  X1, YDIG, ADD2H, ADD4H  // ADD2H Free->ADD4H , YDIG Free->ZER
 
-	VZERO ZER
-	VL    32(CPOOL), SEL1
-	VPERM ZER, ADD1, SEL1, RED3 // [d0 0 0 d0]
+        VZERO   ZER
+        VL      32(CPOOL), SEL1
+        VPERM   ZER, ADD1, SEL1, RED3   // [d0 0 0 d0]
 
-	VSLDB $12, ADD2, ADD1, T0 // ADD1 Free->T0
-	VSLDB $12, T2, ADD2, T1   // ADD2 Free->T1, T2 Free
+        VSLDB   $12, ADD2, ADD1, T0     // ADD1 Free->T0
+        VSLDB   $12, T2,   ADD2, T1     // ADD2 Free->T1, T2 Free
 
-	VACCQ  T0, RED1, CAR1
-	VAQ    T0, RED1, T0
-	VACCCQ T1, RED2, CAR1, T2
-	VACQ   T1, RED2, CAR1, T1
+        VACCQ   T0, RED1, CAR1
+        VAQ     T0, RED1, T0
+        VACCCQ  T1, RED2, CAR1, T2
+        VACQ    T1, RED2, CAR1, T1
 
-	VACCQ  T0, ADD3, CAR1
-	VAQ    T0, ADD3, T0
-	VACCCQ T1, ADD4, CAR1, CAR2
-	VACQ   T1, ADD4, CAR1, T1
-	VAQ    T2, CAR2, T2
+        VACCQ   T0, ADD3, CAR1
+        VAQ     T0, ADD3, T0
+        VACCCQ  T1, ADD4, CAR1, CAR2
+        VACQ    T1, ADD4, CAR1, T1
+        VAQ     T2, CAR2, T2
 
-	VL    48(CPOOL), SEL2
-	VL    64(CPOOL), SEL3
-	VL    80(CPOOL), SEL4
-	VPERM RED3, T0, SEL2, RED1 // [d0  0 d1 d0]
-	VPERM RED3, T0, SEL3, RED2 // [ 0 d1 d0 d1]
-	VPERM RED3, T0, SEL4, RED3 // [ 0  0 d1 d0]
-	VSQ   RED3, RED2, RED2     // Guaranteed not to underflow
+        VL      48(CPOOL), SEL2
+        VL      64(CPOOL), SEL3
+        VL      80(CPOOL), SEL4
+        VPERM   RED3, T0,   SEL2, RED1  // [d0  0 d1 d0]
+        VPERM   RED3, T0,   SEL3, RED2  // [ 0 d1 d0 d1]
+        VPERM   RED3, T0,   SEL4, RED3  // [ 0  0 d1 d0]
+        VSQ     RED3, RED2, RED2        // Guaranteed not to underflow
 
-	VSLDB $12, T1, T0, T0
-	VSLDB $12, T2, T1, T1
+        VSLDB   $12, T1, T0, T0
+        VSLDB   $12, T2, T1, T1
 
-	VACCQ  T0, ADD3H, CAR1
-	VAQ    T0, ADD3H, T0
-	VACCCQ T1, ADD4H, CAR1, T2
-	VACQ   T1, ADD4H, CAR1, T1
+        VACCQ   T0, ADD3H, CAR1
+        VAQ     T0, ADD3H, T0
+        VACCCQ  T1, ADD4H, CAR1, T2
+        VACQ    T1, ADD4H, CAR1, T1
 
-	// ---------------------------------------------------
+        // ---------------------------------------------------
 
-	VREPF  $3, Y1, YDIG
-	VMALHF X0, YDIG, T0, ADD1H
-	VMALHF X1, YDIG, T1, ADD2H
-	VMALF  X0, YDIG, T0, ADD1
-	VMALF  X1, YDIG, T1, ADD2
+        VREPF   $3, Y1,   YDIG
+        VMALHF  X0, YDIG, T0, ADD1H
+        VMALHF  X1, YDIG, T1, ADD2H
+        VMALF   X0, YDIG, T0, ADD1
+        VMALF   X1, YDIG, T1, ADD2
 
-	VREPF  $2, Y1, YDIG
-	VMALF  X0, YDIG, ADD1H, ADD3
-	VMALF  X1, YDIG, ADD2H, ADD4
-	VMALHF X0, YDIG, ADD1H, ADD3H // ADD1H Free
-	VMALHF X1, YDIG, ADD2H, ADD4H // ADD2H Free
+        VREPF   $2, Y1,   YDIG
+        VMALF   X0, YDIG, ADD1H, ADD3
+        VMALF   X1, YDIG, ADD2H, ADD4
+        VMALHF  X0, YDIG, ADD1H, ADD3H  // ADD1H Free
+        VMALHF  X1, YDIG, ADD2H, ADD4H  // ADD2H Free
 
-	VZERO ZER
-	VL    32(CPOOL), SEL1
-	VPERM ZER, ADD1, SEL1, RED3 // [d0 0 0 d0]
+        VZERO   ZER
+        VL      32(CPOOL), SEL1
+        VPERM   ZER, ADD1, SEL1, RED3   // [d0 0 0 d0]
 
-	VSLDB $12, ADD2, ADD1, T0 // ADD1 Free
-	VSLDB $12, T2, ADD2, T1   // ADD2 Free
+        VSLDB   $12, ADD2, ADD1, T0     // ADD1 Free
+        VSLDB   $12, T2,   ADD2, T1     // ADD2 Free
 
-	VACCQ  T0, RED1, CAR1
-	VAQ    T0, RED1, T0
-	VACCCQ T1, RED2, CAR1, T2
-	VACQ   T1, RED2, CAR1, T1
+        VACCQ   T0, RED1, CAR1
+        VAQ     T0, RED1, T0
+        VACCCQ  T1, RED2, CAR1, T2
+        VACQ    T1, RED2, CAR1, T1
 
-	VACCQ  T0, ADD3, CAR1
-	VAQ    T0, ADD3, T0
-	VACCCQ T1, ADD4, CAR1, CAR2
-	VACQ   T1, ADD4, CAR1, T1
-	VAQ    T2, CAR2, T2
+        VACCQ   T0, ADD3, CAR1
+        VAQ     T0, ADD3, T0
+        VACCCQ  T1, ADD4, CAR1, CAR2
+        VACQ    T1, ADD4, CAR1, T1
+        VAQ     T2, CAR2, T2
 
-	VL    48(CPOOL), SEL2
-	VL    64(CPOOL), SEL3
-	VL    80(CPOOL), SEL4
-	VPERM RED3, T0, SEL2, RED1 // [d0  0 d1 d0]
-	VPERM RED3, T0, SEL3, RED2 // [ 0 d1 d0 d1]
-	VPERM RED3, T0, SEL4, RED3 // [ 0  0 d1 d0]
-	VSQ   RED3, RED2, RED2     // Guaranteed not to underflow
+        VL      48(CPOOL), SEL2
+        VL      64(CPOOL), SEL3
+        VL      80(CPOOL), SEL4
+        VPERM   RED3, T0,   SEL2, RED1  // [d0  0 d1 d0]
+        VPERM   RED3, T0,   SEL3, RED2  // [ 0 d1 d0 d1]
+        VPERM   RED3, T0,   SEL4, RED3  // [ 0  0 d1 d0]
+        VSQ     RED3, RED2, RED2        // Guaranteed not to underflow
 
-	VSLDB $12, T1, T0, T0
-	VSLDB $12, T2, T1, T1
+        VSLDB   $12, T1, T0, T0
+        VSLDB   $12, T2, T1, T1
 
-	VACCQ  T0, ADD3H, CAR1
-	VAQ    T0, ADD3H, T0
-	VACCCQ T1, ADD4H, CAR1, T2
-	VACQ   T1, ADD4H, CAR1, T1
+        VACCQ   T0, ADD3H, CAR1
+        VAQ     T0, ADD3H, T0
+        VACCCQ  T1, ADD4H, CAR1, T2
+        VACQ    T1, ADD4H, CAR1, T1
 
-	// ---------------------------------------------------
+        // ---------------------------------------------------
 
-	VREPF  $1, Y1, YDIG
-	VMALHF X0, YDIG, T0, ADD1H
-	VMALHF X1, YDIG, T1, ADD2H
-	VMALF  X0, YDIG, T0, ADD1
-	VMALF  X1, YDIG, T1, ADD2
+        VREPF   $1, Y1,   YDIG
+        VMALHF  X0, YDIG, T0, ADD1H
+        VMALHF  X1, YDIG, T1, ADD2H
+        VMALF   X0, YDIG, T0, ADD1
+        VMALF   X1, YDIG, T1, ADD2
 
-	VREPF  $0, Y1, YDIG
-	VMALF  X0, YDIG, ADD1H, ADD3
-	VMALF  X1, YDIG, ADD2H, ADD4
-	VMALHF X0, YDIG, ADD1H, ADD3H
-	VMALHF X1, YDIG, ADD2H, ADD4H
+        VREPF   $0, Y1,   YDIG
+        VMALF   X0, YDIG, ADD1H, ADD3
+        VMALF   X1, YDIG, ADD2H, ADD4
+        VMALHF  X0, YDIG, ADD1H, ADD3H
+        VMALHF  X1, YDIG, ADD2H, ADD4H
 
-	VZERO ZER
-	VL    32(CPOOL), SEL1
-	VPERM ZER, ADD1, SEL1, RED3 // [d0 0 0 d0]
+        VZERO   ZER
+        VL      32(CPOOL), SEL1
+        VPERM   ZER, ADD1, SEL1, RED3   // [d0 0 0 d0]
 
-	VSLDB $12, ADD2, ADD1, T0
-	VSLDB $12, T2, ADD2, T1
+        VSLDB   $12, ADD2, ADD1, T0
+        VSLDB   $12, T2,   ADD2, T1
 
-	VACCQ  T0, RED1, CAR1
-	VAQ    T0, RED1, T0
-	VACCCQ T1, RED2, CAR1, T2
-	VACQ   T1, RED2, CAR1, T1
+        VACCQ   T0, RED1, CAR1
+        VAQ     T0, RED1, T0
+        VACCCQ  T1, RED2, CAR1, T2
+        VACQ    T1, RED2, CAR1, T1
 
-	VACCQ  T0, ADD3, CAR1
-	VAQ    T0, ADD3, T0
-	VACCCQ T1, ADD4, CAR1, CAR2
-	VACQ   T1, ADD4, CAR1, T1
-	VAQ    T2, CAR2, T2
+        VACCQ   T0, ADD3, CAR1
+        VAQ     T0, ADD3, T0
+        VACCCQ  T1, ADD4, CAR1, CAR2
+        VACQ    T1, ADD4, CAR1, T1
+        VAQ     T2, CAR2, T2
 
-	VL    96(CPOOL), SEL5
-	VL    112(CPOOL), SEL6
-	VPERM T0, RED3, SEL5, RED2 // [d1 d0 d1 d0]
-	VPERM T0, RED3, SEL6, RED1 // [ 0 d1 d0  0]
-	VSQ   RED1, RED2, RED2     // Guaranteed not to underflow
+        VL      96(CPOOL),  SEL5
+        VL      112(CPOOL), SEL6
+        VPERM   T0,   RED3, SEL5, RED2  // [d1 d0 d1 d0]
+        VPERM   T0,   RED3, SEL6, RED1  // [ 0 d1 d0  0]
+        VSQ     RED1, RED2, RED2        // Guaranteed not to underflow
 
-	VSLDB $12, T1, T0, T0
-	VSLDB $12, T2, T1, T1
+        VSLDB   $12, T1, T0, T0
+        VSLDB   $12, T2, T1, T1
 
-	VACCQ  T0, ADD3H, CAR1
-	VAQ    T0, ADD3H, T0
-	VACCCQ T1, ADD4H, CAR1, T2
-	VACQ   T1, ADD4H, CAR1, T1
+        VACCQ   T0, ADD3H, CAR1
+        VAQ     T0, ADD3H, T0
+        VACCCQ  T1, ADD4H, CAR1, T2
+        VACQ    T1, ADD4H, CAR1, T1
 
-	VACCQ  T0, RED1, CAR1
-	VAQ    T0, RED1, T0
-	VACCCQ T1, RED2, CAR1, CAR2
-	VACQ   T1, RED2, CAR1, T1
-	VAQ    T2, CAR2, T2
+        VACCQ   T0, RED1, CAR1
+        VAQ     T0, RED1, T0
+        VACCCQ  T1, RED2, CAR1, CAR2
+        VACQ    T1, RED2, CAR1, T1
+        VAQ     T2, CAR2, T2
 
-	// ---------------------------------------------------
+        // ---------------------------------------------------
 
-	VZERO   RED3
-	VSCBIQ  P0, T0, CAR1
-	VSQ     P0, T0, ADD1H
-	VSBCBIQ T1, P1, CAR1, CAR2
-	VSBIQ   T1, P1, CAR1, ADD2H
-	VSBIQ   T2, RED3, CAR2, T2
+        VZERO   RED3
+        VSCBIQ  P0, T0,   CAR1
+        VSQ     P0, T0,   ADD1H
+        VSBCBIQ T1, P1,   CAR1, CAR2
+        VSBIQ   T1, P1,   CAR1, ADD2H
+        VSBIQ   T2, RED3, CAR2, T2
 
-	// what output to use, ADD2H||ADD1H or T1||T0?
-	VSEL T0, ADD1H, T2, T0
-	VSEL T1, ADD2H, T2, T1
-	RET
+        // what output to use, ADD2H||ADD1H or T1||T0?
+        VSEL    T0, ADD1H, T2, T0
+        VSEL    T1, ADD2H, T2, T1
+        RET
 
 #undef CPOOL
 
@@ -891,9 +891,9 @@ TEXT p256MulInternal<>(SB), NOSPLIT, $0-0
 #define Y1    V3
 
 TEXT p256SqrInternal<>(SB), NOFRAME|NOSPLIT, $0
-	VLR X0, Y0
-	VLR X1, Y1
-	BR  p256MulInternal<>(SB)
+        VLR     X0, Y0
+        VLR     X1, Y1
+        BR      p256MulInternal<>(SB)
 
 #undef X0
 #undef X1
@@ -901,59 +901,59 @@ TEXT p256SqrInternal<>(SB), NOFRAME|NOSPLIT, $0
 #undef Y1
 
 #define p256SubInternal(T1, T0, X1, X0, Y1, Y0) \
-	VZERO   ZER                \
-	VSCBIQ  Y0, X0, CAR1       \
-	VSQ     Y0, X0, T0         \
-	VSBCBIQ X1, Y1, CAR1, SEL1 \
-	VSBIQ   X1, Y1, CAR1, T1   \
-	VSQ     SEL1, ZER, SEL1    \
-	                           \
-	VACCQ   T0, PL, CAR1       \
-	VAQ     T0, PL, TT0        \
-	VACQ    T1, PH, CAR1, TT1  \
-	                           \
-	VSEL    T0, TT0, SEL1, T0  \
-	VSEL    T1, TT1, SEL1, T1  \
+        VZERO   ZER                             \
+        VSCBIQ  Y0, X0, CAR1                    \
+        VSQ     Y0, X0, T0                      \
+        VSBCBIQ X1, Y1, CAR1, SEL1              \
+        VSBIQ   X1, Y1, CAR1, T1                \
+        VSQ     SEL1, ZER, SEL1                 \
+        \
+        VACCQ   T0, PL, CAR1                    \
+        VAQ     T0, PL, TT0                     \
+        VACQ    T1, PH, CAR1, TT1               \
+        \
+        VSEL    T0, TT0, SEL1, T0               \
+        VSEL    T1, TT1, SEL1, T1               \
 
 #define p256AddInternal(T1, T0, X1, X0, Y1, Y0) \
-	VACCQ   X0, Y0, CAR1        \
-	VAQ     X0, Y0, T0          \
-	VACCCQ  X1, Y1, CAR1, T2    \
-	VACQ    X1, Y1, CAR1, T1    \
-	                            \
-	VZERO   ZER                 \
-	VSCBIQ  PL, T0, CAR1        \
-	VSQ     PL, T0, TT0         \
-	VSBCBIQ T1, PH, CAR1, CAR2  \
-	VSBIQ   T1, PH, CAR1, TT1   \
-	VSBIQ   T2, ZER, CAR2, SEL1 \
-	                            \
-	VSEL    T0, TT0, SEL1, T0   \
-	VSEL    T1, TT1, SEL1, T1
+        VACCQ   X0, Y0, CAR1                    \
+        VAQ     X0, Y0, T0                      \
+        VACCCQ  X1, Y1, CAR1, T2                \
+        VACQ    X1, Y1, CAR1, T1                \
+        \
+        VZERO   ZER                             \
+        VSCBIQ  PL, T0, CAR1                    \
+        VSQ     PL, T0, TT0                     \
+        VSBCBIQ T1, PH, CAR1, CAR2              \
+        VSBIQ   T1, PH, CAR1, TT1               \
+        VSBIQ   T2, ZER, CAR2, SEL1             \
+        \
+        VSEL    T0, TT0, SEL1, T0               \
+        VSEL    T1, TT1, SEL1, T1
 
 #define p256HalfInternal(T1, T0, X1, X0) \
-	VZERO  ZER                \
-	VSBIQ  ZER, ZER, X0, SEL1 \
-	                          \
-	VACCQ  X0, PL, CAR1       \
-	VAQ    X0, PL, T0         \
-	VACCCQ X1, PH, CAR1, T2   \
-	VACQ   X1, PH, CAR1, T1   \
-	                          \
-	VSEL   X0, T0, SEL1, T0   \
-	VSEL   X1, T1, SEL1, T1   \
-	VSEL   ZER, T2, SEL1, T2  \
-	                          \
-	VSLDB  $15, T2, ZER, TT1  \
-	VSLDB  $15, T1, ZER, TT0  \
-	VREPIB $1, SEL1           \
-	VSRL   SEL1, T0, T0       \
-	VSRL   SEL1, T1, T1       \
-	VREPIB $7, SEL1           \
-	VSL    SEL1, TT0, TT0     \
-	VSL    SEL1, TT1, TT1     \
-	VO     T0, TT0, T0        \
-	VO     T1, TT1, T1
+        VZERO  ZER                       \
+        VSBIQ  ZER, ZER, X0, SEL1        \
+        \
+        VACCQ  X0, PL, CAR1              \
+        VAQ    X0, PL, T0                \
+        VACCCQ X1, PH, CAR1, T2          \
+        VACQ   X1, PH, CAR1, T1          \
+        \
+        VSEL   X0, T0, SEL1, T0          \
+        VSEL   X1, T1, SEL1, T1          \
+        VSEL   ZER, T2, SEL1, T2         \
+        \
+        VSLDB  $15, T2, ZER, TT1         \
+        VSLDB  $15, T1, ZER, TT0         \
+        VREPIB $1, SEL1                  \
+        VSRL   SEL1, T0, T0              \
+        VSRL   SEL1, T1, T1              \
+        VREPIB $7, SEL1                  \
+        VSL    SEL1, TT0, TT0            \
+        VSL    SEL1, TT1, TT1            \
+        VO     T0, TT0, T0               \
+        VO     T1, TT1, T1
 
 // ---------------------------------------
 // func p256Mul(res, in1, in2 *p256Element)
@@ -974,30 +974,30 @@ TEXT p256SqrInternal<>(SB), NOFRAME|NOSPLIT, $0
 #define P0    V30
 #define P1    V31
 TEXT ·p256Mul(SB), NOSPLIT, $0
-	MOVD res+0(FP), res_ptr
-	MOVD in1+8(FP), x_ptr
-	MOVD in2+16(FP), y_ptr
+        MOVD    res+0(FP),  res_ptr
+        MOVD    in1+8(FP),  x_ptr
+        MOVD    in2+16(FP), y_ptr
 
-	VL   (0*16)(x_ptr), X0
-	VPDI $0x4, X0, X0, X0
-	VL   (1*16)(x_ptr), X1
-	VPDI $0x4, X1, X1, X1
-	VL   (0*16)(y_ptr), Y0
-	VPDI $0x4, Y0, Y0, Y0
-	VL   (1*16)(y_ptr), Y1
-	VPDI $0x4, Y1, Y1, Y1
+        VL      (0*16)(x_ptr), X0
+        VPDI    $0x4, X0, X0, X0
+        VL      (1*16)(x_ptr), X1
+        VPDI    $0x4, X1, X1, X1
+        VL      (0*16)(y_ptr), Y0
+        VPDI    $0x4, Y0, Y0, Y0
+        VL      (1*16)(y_ptr), Y1
+        VPDI    $0x4, Y1, Y1, Y1
 
-	MOVD $p256mul<>+0x00(SB), CPOOL
-	VL   16(CPOOL), P0
-	VL   0(CPOOL), P1
+        MOVD    $p256mul<>+0x00(SB), CPOOL
+        VL      16(CPOOL), P0
+        VL      0(CPOOL),  P1
 
-	CALL p256MulInternal<>(SB)
+        CALL    p256MulInternal<>(SB)
 
-	VPDI $0x4, T0, T0, T0
-	VST  T0, (0*16)(res_ptr)
-	VPDI $0x4, T1, T1, T1
-	VST  T1, (1*16)(res_ptr)
-	RET
+        VPDI    $0x4, T0, T0, T0
+        VST     T0,   (0*16)(res_ptr)
+        VPDI    $0x4, T1, T1, T1
+        VST     T1,   (1*16)(res_ptr)
+        RET
 
 #undef res_ptr
 #undef x_ptr
@@ -1032,33 +1032,33 @@ TEXT ·p256Mul(SB), NOSPLIT, $0
 #define P0    V30
 #define P1    V31
 TEXT ·p256Sqr(SB), NOSPLIT, $0
-	MOVD res+0(FP), res_ptr
-	MOVD in+8(FP), x_ptr
+        MOVD    res+0(FP), res_ptr
+        MOVD    in+8(FP),  x_ptr
 
-	VL   (0*16)(x_ptr), X0
-	VPDI $0x4, X0, X0, X0
-	VL   (1*16)(x_ptr), X1
-	VPDI $0x4, X1, X1, X1
+        VL      (0*16)(x_ptr), X0
+        VPDI    $0x4, X0, X0, X0
+        VL      (1*16)(x_ptr), X1
+        VPDI    $0x4, X1, X1, X1
 
-	MOVD $p256mul<>+0x00(SB), CPOOL
-	MOVD $0, COUNT
-	MOVD n+16(FP), N
-	VL   16(CPOOL), P0
-	VL   0(CPOOL), P1
+        MOVD    $p256mul<>+0x00(SB), CPOOL
+        MOVD    $0, COUNT
+        MOVD    n+16(FP),  N
+        VL      16(CPOOL), P0
+        VL      0(CPOOL),  P1
 
 loop:
-	CALL p256SqrInternal<>(SB)
-	VLR  T0, X0
-	VLR  T1, X1
-	ADDW $1, COUNT
-	CMPW COUNT, N
-	BLT  loop
+        CALL    p256SqrInternal<>(SB)
+        VLR     T0,    X0
+        VLR     T1,    X1
+        ADDW    $1,    COUNT
+        CMPW    COUNT, N
+        BLT     loop
 
-	VPDI $0x4, T0, T0, T0
-	VST  T0, (0*16)(res_ptr)
-	VPDI $0x4, T1, T1, T1
-	VST  T1, (1*16)(res_ptr)
-	RET
+        VPDI    $0x4, T0, T0, T0
+        VST     T0,   (0*16)(res_ptr)
+        VPDI    $0x4, T1, T1, T1
+        VST     T1,   (1*16)(res_ptr)
+        RET
 
 #undef res_ptr
 #undef x_ptr
@@ -1178,224 +1178,224 @@ SUB(T<T3-T) Y3:=T    // Y3 = T3-T4              T3   T4
 
 	*/
 TEXT ·p256PointAddAffineAsm(SB), NOSPLIT, $0
-	MOVD res+0(FP), P3ptr
-	MOVD in1+8(FP), P1ptr
-	MOVD in2+16(FP), P2ptr
+        MOVD    res+0(FP),  P3ptr
+        MOVD    in1+8(FP),  P1ptr
+        MOVD    in2+16(FP), P2ptr
 
-	MOVD $p256mul<>+0x00(SB), CPOOL
-	VL   16(CPOOL), PL
-	VL   0(CPOOL), PH
+        MOVD    $p256mul<>+0x00(SB), CPOOL
+        VL      16(CPOOL), PL
+        VL      0(CPOOL),  PH
 
-	//	if (sign == 1) {
-	//		Y2 = fromBig(new(big.Int).Mod(new(big.Int).Sub(p256.P, new(big.Int).SetBytes(Y2)), p256.P)) // Y2  = P-Y2
-	//	}
+        //	if (sign == 1) {
+        //		Y2 = fromBig(new(big.Int).Mod(new(big.Int).Sub(p256.P, new(big.Int).SetBytes(Y2)), p256.P)) // Y2  = P-Y2
+        //	}
 
-	VL   48(P2ptr), Y2H
-	VPDI $0x4, Y2H, Y2H, Y2H
-	VL   32(P2ptr), Y2L
-	VPDI $0x4, Y2L, Y2L, Y2L
+        VL      48(P2ptr), Y2H
+        VPDI    $0x4, Y2H, Y2H, Y2H
+        VL      32(P2ptr), Y2L
+        VPDI    $0x4, Y2L, Y2L, Y2L
 
-	VLREPG sign+24(FP), SEL1
-	VZERO  ZER
-	VCEQG  SEL1, ZER, SEL1
+        VLREPG  sign+24(FP), SEL1
+        VZERO   ZER
+        VCEQG   SEL1, ZER, SEL1
 
-	VSCBIQ Y2L, PL, CAR1
-	VSQ    Y2L, PL, T1L
-	VSBIQ  PH, Y2H, CAR1, T1H
+        VSCBIQ  Y2L, PL,  CAR1
+        VSQ     Y2L, PL,  T1L
+        VSBIQ   PH,  Y2H, CAR1, T1H
 
-	VSEL Y2L, T1L, SEL1, Y2L
-	VSEL Y2H, T1H, SEL1, Y2H
+        VSEL    Y2L, T1L, SEL1, Y2L
+        VSEL    Y2H, T1H, SEL1, Y2H
 
 /* *
  * Three operand formula:
  * Source: 2004 Hankerson–Menezes–Vanstone, page 91.
  */
-	// X=Z1; Y=Z1; MUL; T-   // T1 = Z1²      T1
-	VL   80(P1ptr), X1       // Z1H
-	VPDI $0x4, X1, X1, X1
-	VL   64(P1ptr), X0       // Z1L
-	VPDI $0x4, X0, X0, X0
-	VLR  X0, Y0
-	VLR  X1, Y1
-	CALL p256SqrInternal<>(SB)
+        // X=Z1; Y=Z1; MUL; T-   // T1 = Z1²      T1
+        VL      80(P1ptr), X1   // Z1H
+        VPDI    $0x4, X1, X1, X1
+        VL      64(P1ptr), X0   // Z1L
+        VPDI    $0x4, X0, X0, X0
+        VLR     X0,   Y0
+        VLR     X1,   Y1
+        CALL    p256SqrInternal<>(SB)
 
-	// X=T ; Y-  ; MUL; T2=T // T2 = T1*Z1    T1   T2
-	VLR  T0, X0
-	VLR  T1, X1
-	CALL p256MulInternal<>(SB)
-	VLR  T0, T2L
-	VLR  T1, T2H
+        // X=T ; Y-  ; MUL; T2=T // T2 = T1*Z1    T1   T2
+        VLR     T0, X0
+        VLR     T1, X1
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, T2L
+        VLR     T1, T2H
 
-	// X-  ; Y=X2; MUL; T1=T // T1 = T1*X2    T1   T2
-	VL   16(P2ptr), Y1       // X2H
-	VPDI $0x4, Y1, Y1, Y1
-	VL   0(P2ptr), Y0        // X2L
-	VPDI $0x4, Y0, Y0, Y0
-	CALL p256MulInternal<>(SB)
-	VLR  T0, T1L
-	VLR  T1, T1H
+        // X-  ; Y=X2; MUL; T1=T // T1 = T1*X2    T1   T2
+        VL      16(P2ptr), Y1   // X2H
+        VPDI    $0x4,     Y1, Y1, Y1
+        VL      0(P2ptr), Y0    // X2L
+        VPDI    $0x4,     Y0, Y0, Y0
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, T1L
+        VLR     T1, T1H
 
-	// X=T2; Y=Y2; MUL; T-   // T2 = T2*Y2    T1   T2
-	VLR  T2L, X0
-	VLR  T2H, X1
-	VLR  Y2L, Y0
-	VLR  Y2H, Y1
-	CALL p256MulInternal<>(SB)
+        // X=T2; Y=Y2; MUL; T-   // T2 = T2*Y2    T1   T2
+        VLR     T2L, X0
+        VLR     T2H, X1
+        VLR     Y2L, Y0
+        VLR     Y2H, Y1
+        CALL    p256MulInternal<>(SB)
 
-	// SUB(T2<T-Y1)          // T2 = T2-Y1    T1   T2
-	VL   48(P1ptr), Y1H
-	VPDI $0x4, Y1H, Y1H, Y1H
-	VL   32(P1ptr), Y1L
-	VPDI $0x4, Y1L, Y1L, Y1L
-	p256SubInternal(T2H,T2L,T1,T0,Y1H,Y1L)
+        // SUB(T2<T-Y1)          // T2 = T2-Y1    T1   T2
+        VL      48(P1ptr), Y1H
+        VPDI    $0x4, Y1H, Y1H, Y1H
+        VL      32(P1ptr), Y1L
+        VPDI    $0x4, Y1L, Y1L, Y1L
+        p256SubInternal(T2H,T2L,T1,T0,Y1H,Y1L)
 
-	// SUB(Y<T1-X1)          // T1 = T1-X1    T1   T2
-	VL   16(P1ptr), X1H
-	VPDI $0x4, X1H, X1H, X1H
-	VL   0(P1ptr), X1L
-	VPDI $0x4, X1L, X1L, X1L
-	p256SubInternal(Y1,Y0,T1H,T1L,X1H,X1L)
+        // SUB(Y<T1-X1)          // T1 = T1-X1    T1   T2
+        VL      16(P1ptr), X1H
+        VPDI    $0x4,     X1H, X1H, X1H
+        VL      0(P1ptr), X1L
+        VPDI    $0x4,     X1L, X1L, X1L
+        p256SubInternal(Y1,Y0,T1H,T1L,X1H,X1L)
 
-	// X=Z1; Y- ;  MUL; Z3:=T// Z3 = Z1*T1         T2
-	VL   80(P1ptr), X1       // Z1H
-	VPDI $0x4, X1, X1, X1
-	VL   64(P1ptr), X0       // Z1L
-	VPDI $0x4, X0, X0, X0
-	CALL p256MulInternal<>(SB)
+        // X=Z1; Y- ;  MUL; Z3:=T// Z3 = Z1*T1         T2
+        VL      80(P1ptr), X1   // Z1H
+        VPDI    $0x4, X1, X1, X1
+        VL      64(P1ptr), X0   // Z1L
+        VPDI    $0x4, X0, X0, X0
+        CALL    p256MulInternal<>(SB)
 
-	// VST T1, 64(P3ptr)
-	// VST T0, 80(P3ptr)
-	VLR T0, Z3L
-	VLR T1, Z3H
+        // VST T1, 64(P3ptr)
+        // VST T0, 80(P3ptr)
+        VLR     T0, Z3L
+        VLR     T1, Z3H
 
-	// X=Y;  Y- ;  MUL; X=T  // T3 = T1*T1         T2
-	VLR  Y0, X0
-	VLR  Y1, X1
-	CALL p256SqrInternal<>(SB)
-	VLR  T0, X0
-	VLR  T1, X1
+        // X=Y;  Y- ;  MUL; X=T  // T3 = T1*T1         T2
+        VLR     Y0, X0
+        VLR     Y1, X1
+        CALL    p256SqrInternal<>(SB)
+        VLR     T0, X0
+        VLR     T1, X1
 
-	// X- ;  Y- ;  MUL; T4=T // T4 = T3*T1         T2        T4
-	CALL p256MulInternal<>(SB)
-	VLR  T0, T4L
-	VLR  T1, T4H
+        // X- ;  Y- ;  MUL; T4=T // T4 = T3*T1         T2        T4
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, T4L
+        VLR     T1, T4H
 
-	// X- ;  Y=X1; MUL; T3=T // T3 = T3*X1         T2   T3   T4
-	VL   16(P1ptr), Y1       // X1H
-	VPDI $0x4, Y1, Y1, Y1
-	VL   0(P1ptr), Y0        // X1L
-	VPDI $0x4, Y0, Y0, Y0
-	CALL p256MulInternal<>(SB)
-	VLR  T0, T3L
-	VLR  T1, T3H
+        // X- ;  Y=X1; MUL; T3=T // T3 = T3*X1         T2   T3   T4
+        VL      16(P1ptr), Y1   // X1H
+        VPDI    $0x4,     Y1, Y1, Y1
+        VL      0(P1ptr), Y0    // X1L
+        VPDI    $0x4,     Y0, Y0, Y0
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, T3L
+        VLR     T1, T3H
 
-	// ADD(T1<T+T)           // T1 = T3+T3    T1   T2   T3   T4
-	p256AddInternal(T1H,T1L, T1,T0,T1,T0)
+        // ADD(T1<T+T)           // T1 = T3+T3    T1   T2   T3   T4
+        p256AddInternal(T1H,T1L, T1,T0,T1,T0)
 
-	// X=T2; Y=T2; MUL; T-   // X3 = T2*T2    T1   T2   T3   T4
-	VLR  T2L, X0
-	VLR  T2H, X1
-	VLR  T2L, Y0
-	VLR  T2H, Y1
-	CALL p256SqrInternal<>(SB)
+        // X=T2; Y=T2; MUL; T-   // X3 = T2*T2    T1   T2   T3   T4
+        VLR     T2L, X0
+        VLR     T2H, X1
+        VLR     T2L, Y0
+        VLR     T2H, Y1
+        CALL    p256SqrInternal<>(SB)
 
-	// SUB(T<T-T1)           // X3 = X3-T1    T1   T2   T3   T4  (T1 = X3)
-	p256SubInternal(T1,T0,T1,T0,T1H,T1L)
+        // SUB(T<T-T1)           // X3 = X3-T1    T1   T2   T3   T4  (T1 = X3)
+        p256SubInternal(T1,T0,T1,T0,T1H,T1L)
 
-	// SUB(T<T-T4) X3:=T     // X3 = X3-T4         T2   T3   T4
-	p256SubInternal(T1,T0,T1,T0,T4H,T4L)
-	VLR T0, X3L
-	VLR T1, X3H
+        // SUB(T<T-T4) X3:=T     // X3 = X3-T4         T2   T3   T4
+        p256SubInternal(T1,T0,T1,T0,T4H,T4L)
+        VLR     T0, X3L
+        VLR     T1, X3H
 
-	// SUB(X<T3-T)           // T3 = T3-X3         T2   T3   T4
-	p256SubInternal(X1,X0,T3H,T3L,T1,T0)
+        // SUB(X<T3-T)           // T3 = T3-X3         T2   T3   T4
+        p256SubInternal(X1,X0,T3H,T3L,T1,T0)
 
-	// X- ;  Y- ;  MUL; T3=T // T3 = T3*T2         T2   T3   T4
-	CALL p256MulInternal<>(SB)
-	VLR  T0, T3L
-	VLR  T1, T3H
+        // X- ;  Y- ;  MUL; T3=T // T3 = T3*T2         T2   T3   T4
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, T3L
+        VLR     T1, T3H
 
-	// X=T4; Y=Y1; MUL; T-   // T4 = T4*Y1              T3   T4
-	VLR  T4L, X0
-	VLR  T4H, X1
-	VL   48(P1ptr), Y1       // Y1H
-	VPDI $0x4, Y1, Y1, Y1
-	VL   32(P1ptr), Y0       // Y1L
-	VPDI $0x4, Y0, Y0, Y0
-	CALL p256MulInternal<>(SB)
+        // X=T4; Y=Y1; MUL; T-   // T4 = T4*Y1              T3   T4
+        VLR     T4L, X0
+        VLR     T4H, X1
+        VL      48(P1ptr), Y1   // Y1H
+        VPDI    $0x4, Y1, Y1, Y1
+        VL      32(P1ptr), Y0   // Y1L
+        VPDI    $0x4, Y0, Y0, Y0
+        CALL    p256MulInternal<>(SB)
 
-	// SUB(T<T3-T) Y3:=T     // Y3 = T3-T4              T3   T4  (T3 = Y3)
-	p256SubInternal(Y3H,Y3L,T3H,T3L,T1,T0)
+        // SUB(T<T3-T) Y3:=T     // Y3 = T3-T4              T3   T4  (T3 = Y3)
+        p256SubInternal(Y3H,Y3L,T3H,T3L,T1,T0)
 
-	//	if (sel == 0) {
-	//		copy(P3.x[:], X1)
-	//		copy(P3.y[:], Y1)
-	//		copy(P3.z[:], Z1)
-	//	}
+        //	if (sel == 0) {
+        //		copy(P3.x[:], X1)
+        //		copy(P3.y[:], Y1)
+        //		copy(P3.z[:], Z1)
+        //	}
 
-	VL   16(P1ptr), X1H
-	VPDI $0x4, X1H, X1H, X1H
-	VL   0(P1ptr), X1L
-	VPDI $0x4, X1L, X1L, X1L
+        VL      16(P1ptr), X1H
+        VPDI    $0x4,     X1H, X1H, X1H
+        VL      0(P1ptr), X1L
+        VPDI    $0x4,     X1L, X1L, X1L
 
-	// Y1 already loaded, left over from addition
-	VL   80(P1ptr), Z1H
-	VPDI $0x4, Z1H, Z1H, Z1H
-	VL   64(P1ptr), Z1L
-	VPDI $0x4, Z1L, Z1L, Z1L
+        // Y1 already loaded, left over from addition
+        VL      80(P1ptr), Z1H
+        VPDI    $0x4, Z1H, Z1H, Z1H
+        VL      64(P1ptr), Z1L
+        VPDI    $0x4, Z1L, Z1L, Z1L
 
-	VLREPG sel+32(FP), SEL1
-	VZERO  ZER
-	VCEQG  SEL1, ZER, SEL1
+        VLREPG  sel+32(FP), SEL1
+        VZERO   ZER
+        VCEQG   SEL1, ZER, SEL1
 
-	VSEL X1L, X3L, SEL1, X3L
-	VSEL X1H, X3H, SEL1, X3H
-	VSEL Y1L, Y3L, SEL1, Y3L
-	VSEL Y1H, Y3H, SEL1, Y3H
-	VSEL Z1L, Z3L, SEL1, Z3L
-	VSEL Z1H, Z3H, SEL1, Z3H
+        VSEL    X1L, X3L, SEL1, X3L
+        VSEL    X1H, X3H, SEL1, X3H
+        VSEL    Y1L, Y3L, SEL1, Y3L
+        VSEL    Y1H, Y3H, SEL1, Y3H
+        VSEL    Z1L, Z3L, SEL1, Z3L
+        VSEL    Z1H, Z3H, SEL1, Z3H
 
-	//	if (zero == 0) {
-	//		copy(P3.x[:], X2)
-	//		copy(P3.y[:], Y2)
-	//		copy(P3.z[:], []byte{0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-	//			0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01})  //(p256.z*2^256)%p
-	//	}
-	VL   16(P2ptr), X2H
-	VPDI $0x4, X2H, X2H, X2H
-	VL   0(P2ptr), X2L
-	VPDI $0x4, X2L, X2L, X2L
+        //	if (zero == 0) {
+        //		copy(P3.x[:], X2)
+        //		copy(P3.y[:], Y2)
+        //		copy(P3.z[:], []byte{0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+        //			0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01})  //(p256.z*2^256)%p
+        //	}
+        VL      16(P2ptr), X2H
+        VPDI    $0x4,     X2H, X2H, X2H
+        VL      0(P2ptr), X2L
+        VPDI    $0x4,     X2L, X2L, X2L
 
-	// Y2 already loaded
-	VL 128(CPOOL), Z2H
-	VL 144(CPOOL), Z2L
+        // Y2 already loaded
+        VL      128(CPOOL), Z2H
+        VL      144(CPOOL), Z2L
 
-	VLREPG zero+40(FP), SEL1
-	VZERO  ZER
-	VCEQG  SEL1, ZER, SEL1
+        VLREPG  zero+40(FP), SEL1
+        VZERO   ZER
+        VCEQG   SEL1, ZER, SEL1
 
-	VSEL X2L, X3L, SEL1, X3L
-	VSEL X2H, X3H, SEL1, X3H
-	VSEL Y2L, Y3L, SEL1, Y3L
-	VSEL Y2H, Y3H, SEL1, Y3H
-	VSEL Z2L, Z3L, SEL1, Z3L
-	VSEL Z2H, Z3H, SEL1, Z3H
+        VSEL    X2L, X3L, SEL1, X3L
+        VSEL    X2H, X3H, SEL1, X3H
+        VSEL    Y2L, Y3L, SEL1, Y3L
+        VSEL    Y2H, Y3H, SEL1, Y3H
+        VSEL    Z2L, Z3L, SEL1, Z3L
+        VSEL    Z2H, Z3H, SEL1, Z3H
 
-	// All done, store out the result!!!
-	VPDI $0x4, X3H, X3H, X3H
-	VST  X3H, 16(P3ptr)
-	VPDI $0x4, X3L, X3L, X3L
-	VST  X3L, 0(P3ptr)
-	VPDI $0x4, Y3H, Y3H, Y3H
-	VST  Y3H, 48(P3ptr)
-	VPDI $0x4, Y3L, Y3L, Y3L
-	VST  Y3L, 32(P3ptr)
-	VPDI $0x4, Z3H, Z3H, Z3H
-	VST  Z3H, 80(P3ptr)
-	VPDI $0x4, Z3L, Z3L, Z3L
-	VST  Z3L, 64(P3ptr)
+        // All done, store out the result!!!
+        VPDI    $0x4, X3H, X3H, X3H
+        VST     X3H,  16(P3ptr)
+        VPDI    $0x4, X3L, X3L, X3L
+        VST     X3L,  0(P3ptr)
+        VPDI    $0x4, Y3H, Y3H, Y3H
+        VST     Y3H,  48(P3ptr)
+        VPDI    $0x4, Y3L, Y3L, Y3L
+        VST     Y3L,  32(P3ptr)
+        VPDI    $0x4, Z3H, Z3H, Z3H
+        VST     Z3H,  80(P3ptr)
+        VPDI    $0x4, Z3L, Z3L, Z3L
+        VST     Z3L,  64(P3ptr)
 
-	RET
+        RET
 
 #undef P3ptr
 #undef P1ptr
@@ -1532,112 +1532,112 @@ TEXT ·p256PointAddAffineAsm(SB), NOSPLIT, $0
  */
 
 TEXT ·p256PointDoubleAsm(SB), NOSPLIT, $0
-	MOVD res+0(FP), P3ptr
-	MOVD in+8(FP), P1ptr
+        MOVD    res+0(FP), P3ptr
+        MOVD    in+8(FP),  P1ptr
 
-	MOVD $p256mul<>+0x00(SB), CPOOL
-	VL   16(CPOOL), PL
-	VL   0(CPOOL), PH
+        MOVD    $p256mul<>+0x00(SB), CPOOL
+        VL      16(CPOOL), PL
+        VL      0(CPOOL),  PH
 
-	// X=Z1; Y=Z1; MUL; T-    // T1 = Z1²
-	VL   80(P1ptr), X1        // Z1H
-	VPDI $0x4, X1, X1, X1
-	VL   64(P1ptr), X0        // Z1L
-	VPDI $0x4, X0, X0, X0
-	VLR  X0, Y0
-	VLR  X1, Y1
-	CALL p256SqrInternal<>(SB)
+        // X=Z1; Y=Z1; MUL; T-    // T1 = Z1²
+        VL      80(P1ptr), X1   // Z1H
+        VPDI    $0x4, X1, X1, X1
+        VL      64(P1ptr), X0   // Z1L
+        VPDI    $0x4, X0, X0, X0
+        VLR     X0,   Y0
+        VLR     X1,   Y1
+        CALL    p256SqrInternal<>(SB)
 
-	// SUB(X<X1-T)            // T2 = X1-T1
-	VL   16(P1ptr), X1H
-	VPDI $0x4, X1H, X1H, X1H
-	VL   0(P1ptr), X1L
-	VPDI $0x4, X1L, X1L, X1L
-	p256SubInternal(X1,X0,X1H,X1L,T1,T0)
+        // SUB(X<X1-T)            // T2 = X1-T1
+        VL      16(P1ptr), X1H
+        VPDI    $0x4,     X1H, X1H, X1H
+        VL      0(P1ptr), X1L
+        VPDI    $0x4,     X1L, X1L, X1L
+        p256SubInternal(X1,X0,X1H,X1L,T1,T0)
 
-	// ADD(Y<X1+T)            // T1 = X1+T1
-	p256AddInternal(Y1,Y0,X1H,X1L,T1,T0)
+        // ADD(Y<X1+T)            // T1 = X1+T1
+        p256AddInternal(Y1,Y0,X1H,X1L,T1,T0)
 
-	// X-  ; Y-  ; MUL; T-    // T2 = T2*T1
-	CALL p256MulInternal<>(SB)
+        // X-  ; Y-  ; MUL; T-    // T2 = T2*T1
+        CALL    p256MulInternal<>(SB)
 
-	// ADD(T2<T+T); ADD(T2<T2+T)  // T2 = 3*T2
-	p256AddInternal(T2H,T2L,T1,T0,T1,T0)
-	p256AddInternal(T2H,T2L,T2H,T2L,T1,T0)
+        // ADD(T2<T+T); ADD(T2<T2+T)  // T2 = 3*T2
+        p256AddInternal(T2H,T2L,T1,T0,T1,T0)
+        p256AddInternal(T2H,T2L,T2H,T2L,T1,T0)
 
-	// ADD(X<Y1+Y1)           // Y3 = 2*Y1
-	VL   48(P1ptr), Y1H
-	VPDI $0x4, Y1H, Y1H, Y1H
-	VL   32(P1ptr), Y1L
-	VPDI $0x4, Y1L, Y1L, Y1L
-	p256AddInternal(X1,X0,Y1H,Y1L,Y1H,Y1L)
+        // ADD(X<Y1+Y1)           // Y3 = 2*Y1
+        VL      48(P1ptr), Y1H
+        VPDI    $0x4, Y1H, Y1H, Y1H
+        VL      32(P1ptr), Y1L
+        VPDI    $0x4, Y1L, Y1L, Y1L
+        p256AddInternal(X1,X0,Y1H,Y1L,Y1H,Y1L)
 
-	// X-  ; Y=Z1; MUL; Z3:=T // Z3 = Y3*Z1
-	VL   80(P1ptr), Y1        // Z1H
-	VPDI $0x4, Y1, Y1, Y1
-	VL   64(P1ptr), Y0        // Z1L
-	VPDI $0x4, Y0, Y0, Y0
-	CALL p256MulInternal<>(SB)
-	VPDI $0x4, T1, T1, TT1
-	VST  TT1, 80(P3ptr)
-	VPDI $0x4, T0, T0, TT0
-	VST  TT0, 64(P3ptr)
+        // X-  ; Y=Z1; MUL; Z3:=T // Z3 = Y3*Z1
+        VL      80(P1ptr), Y1   // Z1H
+        VPDI    $0x4, Y1, Y1, Y1
+        VL      64(P1ptr), Y0   // Z1L
+        VPDI    $0x4, Y0, Y0, Y0
+        CALL    p256MulInternal<>(SB)
+        VPDI    $0x4, T1, T1, TT1
+        VST     TT1,  80(P3ptr)
+        VPDI    $0x4, T0, T0, TT0
+        VST     TT0,  64(P3ptr)
 
-	// X-  ; Y=X ; MUL; T-    // Y3 = Y3²
-	VLR  X0, Y0
-	VLR  X1, Y1
-	CALL p256SqrInternal<>(SB)
+        // X-  ; Y=X ; MUL; T-    // Y3 = Y3²
+        VLR     X0, Y0
+        VLR     X1, Y1
+        CALL    p256SqrInternal<>(SB)
 
-	// X=T ; Y=X1; MUL; T3=T  // T3 = Y3*X1
-	VLR  T0, X0
-	VLR  T1, X1
-	VL   16(P1ptr), Y1
-	VPDI $0x4, Y1, Y1, Y1
-	VL   0(P1ptr), Y0
-	VPDI $0x4, Y0, Y0, Y0
-	CALL p256MulInternal<>(SB)
-	VLR  T0, T3L
-	VLR  T1, T3H
+        // X=T ; Y=X1; MUL; T3=T  // T3 = Y3*X1
+        VLR     T0, X0
+        VLR     T1, X1
+        VL      16(P1ptr), Y1
+        VPDI    $0x4,     Y1, Y1, Y1
+        VL      0(P1ptr), Y0
+        VPDI    $0x4,     Y0, Y0, Y0
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, T3L
+        VLR     T1, T3H
 
-	// X-  ; Y=X ; MUL; T-    // Y3 = Y3²
-	VLR  X0, Y0
-	VLR  X1, Y1
-	CALL p256SqrInternal<>(SB)
+        // X-  ; Y=X ; MUL; T-    // Y3 = Y3²
+        VLR     X0, Y0
+        VLR     X1, Y1
+        CALL    p256SqrInternal<>(SB)
 
-	// HAL(Y3<T)              // Y3 = half*Y3
-	p256HalfInternal(Y3H,Y3L, T1,T0)
+        // HAL(Y3<T)              // Y3 = half*Y3
+        p256HalfInternal(Y3H,Y3L, T1,T0)
 
-	// X=T2; Y=T2; MUL; T-    // X3 = T2²
-	VLR  T2L, X0
-	VLR  T2H, X1
-	VLR  T2L, Y0
-	VLR  T2H, Y1
-	CALL p256SqrInternal<>(SB)
+        // X=T2; Y=T2; MUL; T-    // X3 = T2²
+        VLR     T2L, X0
+        VLR     T2H, X1
+        VLR     T2L, Y0
+        VLR     T2H, Y1
+        CALL    p256SqrInternal<>(SB)
 
-	// ADD(T1<T3+T3)          // T1 = 2*T3
-	p256AddInternal(T1H,T1L,T3H,T3L,T3H,T3L)
+        // ADD(T1<T3+T3)          // T1 = 2*T3
+        p256AddInternal(T1H,T1L,T3H,T3L,T3H,T3L)
 
-	// SUB(X3<T-T1) X3:=X3    // X3 = X3-T1
-	p256SubInternal(X3H,X3L,T1,T0,T1H,T1L)
-	VPDI $0x4, X3H, X3H, TT1
-	VST  TT1, 16(P3ptr)
-	VPDI $0x4, X3L, X3L, TT0
-	VST  TT0, 0(P3ptr)
+        // SUB(X3<T-T1) X3:=X3    // X3 = X3-T1
+        p256SubInternal(X3H,X3L,T1,T0,T1H,T1L)
+        VPDI    $0x4, X3H, X3H, TT1
+        VST     TT1,  16(P3ptr)
+        VPDI    $0x4, X3L, X3L, TT0
+        VST     TT0,  0(P3ptr)
 
-	// SUB(X<T3-X3)           // T1 = T3-X3
-	p256SubInternal(X1,X0,T3H,T3L,X3H,X3L)
+        // SUB(X<T3-X3)           // T1 = T3-X3
+        p256SubInternal(X1,X0,T3H,T3L,X3H,X3L)
 
-	// X-  ; Y-  ; MUL; T-    // T1 = T1*T2
-	CALL p256MulInternal<>(SB)
+        // X-  ; Y-  ; MUL; T-    // T1 = T1*T2
+        CALL    p256MulInternal<>(SB)
 
-	// SUB(Y3<T-Y3)           // Y3 = T1-Y3
-	p256SubInternal(Y3H,Y3L,T1,T0,Y3H,Y3L)
+        // SUB(Y3<T-Y3)           // Y3 = T1-Y3
+        p256SubInternal(Y3H,Y3L,T1,T0,Y3H,Y3L)
 
-	VPDI $0x4, Y3H, Y3H, Y3H
-	VST  Y3H, 48(P3ptr)
-	VPDI $0x4, Y3L, Y3L, Y3L
-	VST  Y3L, 32(P3ptr)
-	RET
+        VPDI    $0x4, Y3H, Y3H, Y3H
+        VST     Y3H,  48(P3ptr)
+        VPDI    $0x4, Y3L, Y3L, Y3L
+        VST     Y3L,  32(P3ptr)
+        RET
 
 #undef P3ptr
 #undef P1ptr
@@ -1784,206 +1784,206 @@ TEXT ·p256PointDoubleAsm(SB), NOSPLIT, $0
 	// SUB(T<U1-T); Y3:=T    // Y3 = Y3-T2 << store-out Y3 result reg
 	*/
 TEXT ·p256PointAddAsm(SB), NOSPLIT, $0
-	MOVD res+0(FP), P3ptr
-	MOVD in1+8(FP), P1ptr
-	MOVD in2+16(FP), P2ptr
+        MOVD    res+0(FP),  P3ptr
+        MOVD    in1+8(FP),  P1ptr
+        MOVD    in2+16(FP), P2ptr
 
-	MOVD $p256mul<>+0x00(SB), CPOOL
-	VL   16(CPOOL), PL
-	VL   0(CPOOL), PH
+        MOVD    $p256mul<>+0x00(SB), CPOOL
+        VL      16(CPOOL), PL
+        VL      0(CPOOL),  PH
 
-	// X=Z1; Y=Z1; MUL; T-   // T1 = Z1*Z1
-	VL   80(P1ptr), X1       // Z1H
-	VPDI $0x4, X1, X1, X1
-	VL   64(P1ptr), X0       // Z1L
-	VPDI $0x4, X0, X0, X0
-	VLR  X0, Y0
-	VLR  X1, Y1
-	CALL p256SqrInternal<>(SB)
+        // X=Z1; Y=Z1; MUL; T-   // T1 = Z1*Z1
+        VL      80(P1ptr), X1   // Z1H
+        VPDI    $0x4, X1, X1, X1
+        VL      64(P1ptr), X0   // Z1L
+        VPDI    $0x4, X0, X0, X0
+        VLR     X0,   Y0
+        VLR     X1,   Y1
+        CALL    p256SqrInternal<>(SB)
 
-	// X-  ; Y=T ; MUL; R=T  // R  = Z1*T1
-	VLR  T0, Y0
-	VLR  T1, Y1
-	CALL p256MulInternal<>(SB)
-	VLR  T0, RL
-	VLR  T1, RH
+        // X-  ; Y=T ; MUL; R=T  // R  = Z1*T1
+        VLR     T0, Y0
+        VLR     T1, Y1
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, RL
+        VLR     T1, RH
 
-	// X=X2; Y-  ; MUL; H=T  // H  = X2*T1
-	VL   16(P2ptr), X1       // X2H
-	VPDI $0x4, X1, X1, X1
-	VL   0(P2ptr), X0        // X2L
-	VPDI $0x4, X0, X0, X0
-	CALL p256MulInternal<>(SB)
-	VLR  T0, HL
-	VLR  T1, HH
+        // X=X2; Y-  ; MUL; H=T  // H  = X2*T1
+        VL      16(P2ptr), X1   // X2H
+        VPDI    $0x4,     X1, X1, X1
+        VL      0(P2ptr), X0    // X2L
+        VPDI    $0x4,     X0, X0, X0
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, HL
+        VLR     T1, HH
 
-	// X=Z2; Y=Z2; MUL; T-   // T2 = Z2*Z2
-	VL   80(P2ptr), X1       // Z2H
-	VPDI $0x4, X1, X1, X1
-	VL   64(P2ptr), X0       // Z2L
-	VPDI $0x4, X0, X0, X0
-	VLR  X0, Y0
-	VLR  X1, Y1
-	CALL p256SqrInternal<>(SB)
+        // X=Z2; Y=Z2; MUL; T-   // T2 = Z2*Z2
+        VL      80(P2ptr), X1   // Z2H
+        VPDI    $0x4, X1, X1, X1
+        VL      64(P2ptr), X0   // Z2L
+        VPDI    $0x4, X0, X0, X0
+        VLR     X0,   Y0
+        VLR     X1,   Y1
+        CALL    p256SqrInternal<>(SB)
 
-	// X-  ; Y=T ; MUL; S1=T // S1 = Z2*T2
-	VLR  T0, Y0
-	VLR  T1, Y1
-	CALL p256MulInternal<>(SB)
-	VLR  T0, S1L
-	VLR  T1, S1H
+        // X-  ; Y=T ; MUL; S1=T // S1 = Z2*T2
+        VLR     T0, Y0
+        VLR     T1, Y1
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, S1L
+        VLR     T1, S1H
 
-	// X=X1; Y-  ; MUL; U1=T // U1 = X1*T2
-	VL   16(P1ptr), X1       // X1H
-	VPDI $0x4, X1, X1, X1
-	VL   0(P1ptr), X0        // X1L
-	VPDI $0x4, X0, X0, X0
-	CALL p256MulInternal<>(SB)
-	VLR  T0, U1L
-	VLR  T1, U1H
+        // X=X1; Y-  ; MUL; U1=T // U1 = X1*T2
+        VL      16(P1ptr), X1   // X1H
+        VPDI    $0x4,     X1, X1, X1
+        VL      0(P1ptr), X0    // X1L
+        VPDI    $0x4,     X0, X0, X0
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, U1L
+        VLR     T1, U1H
 
-	// SUB(H<H-T)            // H  = H-U1
-	p256SubInternal(HH,HL,HH,HL,T1,T0)
+        // SUB(H<H-T)            // H  = H-U1
+        p256SubInternal(HH,HL,HH,HL,T1,T0)
 
-	// if H == 0 or H^P == 0 then ret=1 else ret=0
-	// clobbers T1H and T1L
-	MOVD   $0, ISZERO
-	MOVD   $1, TRUE
-	VZERO  ZER
-	VO     HL, HH, T1H
-	VCEQGS ZER, T1H, T1H
-	MOVDEQ TRUE, ISZERO
-	VX     HL, PL, T1L
-	VX     HH, PH, T1H
-	VO     T1L, T1H, T1H
-	VCEQGS ZER, T1H, T1H
-	MOVDEQ TRUE, ISZERO
-	MOVD   ISZERO, ret+24(FP)
+        // if H == 0 or H^P == 0 then ret=1 else ret=0
+        // clobbers T1H and T1L
+        MOVD    $0, ISZERO
+        MOVD    $1, TRUE
+        VZERO   ZER
+        VO      HL,     HH,  T1H
+        VCEQGS  ZER,    T1H, T1H
+        MOVDEQ  TRUE,   ISZERO
+        VX      HL,     PL,  T1L
+        VX      HH,     PH,  T1H
+        VO      T1L,    T1H, T1H
+        VCEQGS  ZER,    T1H, T1H
+        MOVDEQ  TRUE,   ISZERO
+        MOVD    ISZERO, ret+24(FP)
 
-	// X=Z1; Y=Z2; MUL; T-   // Z3 = Z1*Z2
-	VL   80(P1ptr), X1       // Z1H
-	VPDI $0x4, X1, X1, X1
-	VL   64(P1ptr), X0       // Z1L
-	VPDI $0x4, X0, X0, X0
-	VL   80(P2ptr), Y1       // Z2H
-	VPDI $0x4, Y1, Y1, Y1
-	VL   64(P2ptr), Y0       // Z2L
-	VPDI $0x4, Y0, Y0, Y0
-	CALL p256MulInternal<>(SB)
+        // X=Z1; Y=Z2; MUL; T-   // Z3 = Z1*Z2
+        VL      80(P1ptr), X1   // Z1H
+        VPDI    $0x4, X1, X1, X1
+        VL      64(P1ptr), X0   // Z1L
+        VPDI    $0x4, X0, X0, X0
+        VL      80(P2ptr), Y1   // Z2H
+        VPDI    $0x4, Y1, Y1, Y1
+        VL      64(P2ptr), Y0   // Z2L
+        VPDI    $0x4, Y0, Y0, Y0
+        CALL    p256MulInternal<>(SB)
 
-	// X=T ; Y=H ; MUL; Z3:=T// Z3 = Z3*H
-	VLR  T0, X0
-	VLR  T1, X1
-	VLR  HL, Y0
-	VLR  HH, Y1
-	CALL p256MulInternal<>(SB)
-	VPDI $0x4, T1, T1, TT1
-	VST  TT1, 80(P3ptr)
-	VPDI $0x4, T0, T0, TT0
-	VST  TT0, 64(P3ptr)
+        // X=T ; Y=H ; MUL; Z3:=T// Z3 = Z3*H
+        VLR     T0, X0
+        VLR     T1, X1
+        VLR     HL, Y0
+        VLR     HH, Y1
+        CALL    p256MulInternal<>(SB)
+        VPDI    $0x4, T1, T1, TT1
+        VST     TT1,  80(P3ptr)
+        VPDI    $0x4, T0, T0, TT0
+        VST     TT0,  64(P3ptr)
 
-	// X=Y1; Y=S1; MUL; S1=T // S1 = Y1*S1
-	VL   48(P1ptr), X1
-	VPDI $0x4, X1, X1, X1
-	VL   32(P1ptr), X0
-	VPDI $0x4, X0, X0, X0
-	VLR  S1L, Y0
-	VLR  S1H, Y1
-	CALL p256MulInternal<>(SB)
-	VLR  T0, S1L
-	VLR  T1, S1H
+        // X=Y1; Y=S1; MUL; S1=T // S1 = Y1*S1
+        VL      48(P1ptr), X1
+        VPDI    $0x4, X1, X1, X1
+        VL      32(P1ptr), X0
+        VPDI    $0x4, X0, X0, X0
+        VLR     S1L,  Y0
+        VLR     S1H,  Y1
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, S1L
+        VLR     T1, S1H
 
-	// X=Y2; Y=R ; MUL; T-   // R  = Y2*R
-	VL   48(P2ptr), X1
-	VPDI $0x4, X1, X1, X1
-	VL   32(P2ptr), X0
-	VPDI $0x4, X0, X0, X0
-	VLR  RL, Y0
-	VLR  RH, Y1
-	CALL p256MulInternal<>(SB)
+        // X=Y2; Y=R ; MUL; T-   // R  = Y2*R
+        VL      48(P2ptr), X1
+        VPDI    $0x4, X1, X1, X1
+        VL      32(P2ptr), X0
+        VPDI    $0x4, X0, X0, X0
+        VLR     RL,   Y0
+        VLR     RH,   Y1
+        CALL    p256MulInternal<>(SB)
 
-	// SUB(R<T-S1)           // R  = T-S1
-	p256SubInternal(RH,RL,T1,T0,S1H,S1L)
+        // SUB(R<T-S1)           // R  = T-S1
+        p256SubInternal(RH,RL,T1,T0,S1H,S1L)
 
-	// if R == 0 or R^P == 0 then ret=ret else ret=0
-	// clobbers T1H and T1L
-	MOVD   $0, ISZERO
-	MOVD   $1, TRUE
-	VZERO  ZER
-	VO     RL, RH, T1H
-	VCEQGS ZER, T1H, T1H
-	MOVDEQ TRUE, ISZERO
-	VX     RL, PL, T1L
-	VX     RH, PH, T1H
-	VO     T1L, T1H, T1H
-	VCEQGS ZER, T1H, T1H
-	MOVDEQ TRUE, ISZERO
-	AND    ret+24(FP), ISZERO
-	MOVD   ISZERO, ret+24(FP)
+        // if R == 0 or R^P == 0 then ret=ret else ret=0
+        // clobbers T1H and T1L
+        MOVD    $0, ISZERO
+        MOVD    $1, TRUE
+        VZERO   ZER
+        VO      RL,   RH,  T1H
+        VCEQGS  ZER,  T1H, T1H
+        MOVDEQ  TRUE, ISZERO
+        VX      RL,   PL,  T1L
+        VX      RH,   PH,  T1H
+        VO      T1L,  T1H, T1H
+        VCEQGS  ZER,  T1H, T1H
+        MOVDEQ  TRUE, ISZERO
+        AND     ret+24(FP), ISZERO
+        MOVD    ISZERO,     ret+24(FP)
 
-	// X=H ; Y=H ; MUL; T-   // T1 = H*H
-	VLR  HL, X0
-	VLR  HH, X1
-	VLR  HL, Y0
-	VLR  HH, Y1
-	CALL p256SqrInternal<>(SB)
+        // X=H ; Y=H ; MUL; T-   // T1 = H*H
+        VLR     HL, X0
+        VLR     HH, X1
+        VLR     HL, Y0
+        VLR     HH, Y1
+        CALL    p256SqrInternal<>(SB)
 
-	// X-  ; Y=T ; MUL; T2=T // T2 = H*T1
-	VLR  T0, Y0
-	VLR  T1, Y1
-	CALL p256MulInternal<>(SB)
-	VLR  T0, T2L
-	VLR  T1, T2H
+        // X-  ; Y=T ; MUL; T2=T // T2 = H*T1
+        VLR     T0, Y0
+        VLR     T1, Y1
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, T2L
+        VLR     T1, T2H
 
-	// X=U1; Y-  ; MUL; U1=T // U1 = U1*T1
-	VLR  U1L, X0
-	VLR  U1H, X1
-	CALL p256MulInternal<>(SB)
-	VLR  T0, U1L
-	VLR  T1, U1H
+        // X=U1; Y-  ; MUL; U1=T // U1 = U1*T1
+        VLR     U1L, X0
+        VLR     U1H, X1
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, U1L
+        VLR     T1, U1H
 
-	// X=R ; Y=R ; MUL; T-   // X3 = R*R
-	VLR  RL, X0
-	VLR  RH, X1
-	VLR  RL, Y0
-	VLR  RH, Y1
-	CALL p256SqrInternal<>(SB)
+        // X=R ; Y=R ; MUL; T-   // X3 = R*R
+        VLR     RL, X0
+        VLR     RH, X1
+        VLR     RL, Y0
+        VLR     RH, Y1
+        CALL    p256SqrInternal<>(SB)
 
-	// SUB(T<T-T2)           // X3 = X3-T2
-	p256SubInternal(T1,T0,T1,T0,T2H,T2L)
+        // SUB(T<T-T2)           // X3 = X3-T2
+        p256SubInternal(T1,T0,T1,T0,T2H,T2L)
 
-	// ADD(X<U1+U1)          // T1 = 2*U1
-	p256AddInternal(X1,X0,U1H,U1L,U1H,U1L)
+        // ADD(X<U1+U1)          // T1 = 2*U1
+        p256AddInternal(X1,X0,U1H,U1L,U1H,U1L)
 
-	// SUB(T<T-X) X3:=T      // X3 = X3-T1 << store-out X3 result reg
-	p256SubInternal(T1,T0,T1,T0,X1,X0)
-	VPDI $0x4, T1, T1, TT1
-	VST  TT1, 16(P3ptr)
-	VPDI $0x4, T0, T0, TT0
-	VST  TT0, 0(P3ptr)
+        // SUB(T<T-X) X3:=T      // X3 = X3-T1 << store-out X3 result reg
+        p256SubInternal(T1,T0,T1,T0,X1,X0)
+        VPDI    $0x4, T1, T1, TT1
+        VST     TT1,  16(P3ptr)
+        VPDI    $0x4, T0, T0, TT0
+        VST     TT0,  0(P3ptr)
 
-	// SUB(Y<U1-T)           // Y3 = U1-X3
-	p256SubInternal(Y1,Y0,U1H,U1L,T1,T0)
+        // SUB(Y<U1-T)           // Y3 = U1-X3
+        p256SubInternal(Y1,Y0,U1H,U1L,T1,T0)
 
-	// X=R ; Y-  ; MUL; U1=T // Y3 = R*Y3
-	VLR  RL, X0
-	VLR  RH, X1
-	CALL p256MulInternal<>(SB)
-	VLR  T0, U1L
-	VLR  T1, U1H
+        // X=R ; Y-  ; MUL; U1=T // Y3 = R*Y3
+        VLR     RL, X0
+        VLR     RH, X1
+        CALL    p256MulInternal<>(SB)
+        VLR     T0, U1L
+        VLR     T1, U1H
 
-	// X=S1; Y=T2; MUL; T-   // T2 = S1*T2
-	VLR  S1L, X0
-	VLR  S1H, X1
-	VLR  T2L, Y0
-	VLR  T2H, Y1
-	CALL p256MulInternal<>(SB)
+        // X=S1; Y=T2; MUL; T-   // T2 = S1*T2
+        VLR     S1L, X0
+        VLR     S1H, X1
+        VLR     T2L, Y0
+        VLR     T2H, Y1
+        CALL    p256MulInternal<>(SB)
 
-	// SUB(T<U1-T); Y3:=T    // Y3 = Y3-T2 << store-out Y3 result reg
-	p256SubInternal(T1,T0,U1H,U1L,T1,T0)
-	VPDI $0x4, T1, T1, T1
-	VST  T1, 48(P3ptr)
-	VPDI $0x4, T0, T0, T0
-	VST  T0, 32(P3ptr)
+        // SUB(T<U1-T); Y3:=T    // Y3 = Y3-T2 << store-out Y3 result reg
+        p256SubInternal(T1,T0,U1H,U1L,T1,T0)
+        VPDI    $0x4, T1, T1, T1
+        VST     T1,   48(P3ptr)
+        VPDI    $0x4, T0, T0, T0
+        VST     T0,   32(P3ptr)
 
-	RET
+        RET

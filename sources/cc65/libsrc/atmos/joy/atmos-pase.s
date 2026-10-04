@@ -7,22 +7,21 @@
 ; 2013-07-15, Greg King
 ;
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "atmos.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "atmos.inc"
 
-        .macpack        module
-
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _atmos_pase_joy
+        module_header _atmos_pase_joy
 
 ; Driver signature
 
-        .byte   $6A, $6F, $79           ; "joy"
-        .byte   JOY_API_VERSION         ; Driver API version number
+        .byte   $6A, $6F, $79   ; "joy"
+        .byte   JOY_API_VERSION ; Driver API version number
 
 ; Library reference
 
@@ -69,7 +68,6 @@ INSTALL:
 
 UNINSTALL:
         rts
-
 
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.

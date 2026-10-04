@@ -10,12 +10,12 @@ EXTERN l0_fgetpos_unlocked_callee
 
 _fgetpos_unlocked:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp l0_fgetpos_unlocked_callee
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      l0_fgetpos_unlocked_callee

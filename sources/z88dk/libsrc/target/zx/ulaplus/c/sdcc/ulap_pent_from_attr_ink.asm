@@ -9,10 +9,10 @@ EXTERN asm_ulap_pent_from_attr_ink
 
 _ulap_pent_from_attr_ink:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_ulap_pent_from_attr_ink
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_ulap_pent_from_attr_ink

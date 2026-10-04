@@ -5,10 +5,9 @@
 ; machines in the first two bytes of overlay disk files.
 ;
 
-
         ; The following symbol is used by linker config to force the module
         ; to get included into the output file
-        .export         __OVERLAYADDR__: absolute = 1
+        .export __OVERLAYADDR__: absolute = 1
 
 .segment        "OVL1ADDR"
 

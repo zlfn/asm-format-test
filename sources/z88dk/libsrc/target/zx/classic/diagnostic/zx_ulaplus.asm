@@ -11,32 +11,32 @@
 ;	$Id: zx_ulaplus.asm,v 1.4 2016-06-10 20:02:05 dom Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  zx_ulaplus
-    PUBLIC  _zx_ulaplus
-    INCLUDE "target/zx/def/zxports.h"
+        SECTION code_clib
+        PUBLIC  zx_ulaplus
+        PUBLIC  _zx_ulaplus
+        INCLUDE "target/zx/def/zxports.h"
 
 zx_ulaplus:
 _zx_ulaplus:
-	; Enter in 64 colour mode
-    ld      bc, __IO_ULAP_REGISTER
-    ld      a, 64                       ; select mode group (01xxxxxx)
-    out     (c), a
+        ; Enter in 64 colour mode
+        ld      bc,  __IO_ULAP_REGISTER
+        ld      a,   64 ; select mode group (01xxxxxx)
+        out     (c), a
 
-    ld      b, +(__IO_ULAP_DATA / 256)
-    in      a, (c)
-    ld      e, a
+        ld      b, +(__IO_ULAP_DATA / 256)
+        in      a, (c)
+        ld      e, a
 
-    ld      a, 1                        ; palette mode
-    out     (c), a
+        ld      a,   1  ; palette mode
+        out     (c), a
 
-    in      a, (c)                      ; see if ULAPlus got palette mode
-    dec     a
-    ld      hl, 0
-    ret     nz
+        in      a, (c)  ; see if ULAPlus got palette mode
+        dec     a
+        ld      hl, 0
+        ret     nz
 
-    ld      a, e
-    out     (c), a                      ; restore current palette mode
+        ld      a,   e
+        out     (c), a  ; restore current palette mode
 
-    inc     hl
-    ret
+        inc     hl
+        ret

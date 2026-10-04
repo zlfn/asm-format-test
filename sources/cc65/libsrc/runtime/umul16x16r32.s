@@ -4,11 +4,10 @@
 ; CC65 runtime: 16x16 => 32 unsigned multiplication
 ;
 
-        .export         umul16x16r32, umul16x16r32m
-        .export         umul16x16r16, umul16x16r16m
+        .export umul16x16r32, umul16x16r32m
+        .export umul16x16r16, umul16x16r16m
 
-        .include        "zeropage.inc"
-
+        .include "zeropage.inc"
 
 ;---------------------------------------------------------------------------
 ; 16x16 => 32 unsigned multiplication routine. Because the overhead for a
@@ -34,10 +33,10 @@ umul16x16r32m:
 umul16x16r16m:
         lda     #0
         sta     sreg+1
-        ldy     #16             ; Number of bits
+        ldy     #16     ; Number of bits
 
         lsr     ptr1+1
-        ror     ptr1            ; Get first bit into carry
+        ror     ptr1    ; Get first bit into carry
 @L0:    bcc     @L1
 
         clc
@@ -55,9 +54,7 @@ umul16x16r16m:
         dey
         bne     @L0
 
-        sta     sreg            ; Save byte 3
-        lda     ptr1            ; Load the result
+        sta     sreg    ; Save byte 3
+        lda     ptr1    ; Load the result
         ldx     ptr1+1
-        rts                     ; Done
-
-
+        rts             ; Done

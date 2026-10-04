@@ -5,15 +5,15 @@
 ; void chline (unsigned char length);
 ;
 
-        .export         _chlinexy, _chline
-        .import         gotoxy, cputdirect
-        .importzp       tmp1
-        .include        "atari5200.inc"
+        .export _chlinexy, _chline
+        .import gotoxy,    cputdirect
+        .importzp tmp1
+        .include "atari5200.inc"
 
 _chlinexy:
-        pha                     ; Save the length
-        jsr     gotoxy          ; Call this one, will pop params
-        pla                     ; Restore the length
+        pha             ; Save the length
+        jsr     gotoxy  ; Call this one, will pop params
+        pla             ; Restore the length
 
 _chline:
         cmp     #0              ; Is the length zero?

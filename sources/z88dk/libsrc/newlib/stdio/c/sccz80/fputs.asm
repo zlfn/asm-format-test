@@ -16,15 +16,15 @@ EXTERN asm_fputs
 
 fputs:
 
-   pop af
-   pop ix
-   pop hl
-   
-   push hl
-   push hl
-   push af
-   
-   jp asm_fputs
+        pop     af
+        pop     ix
+        pop     hl
+
+        push    hl
+        push    hl
+        push    af
+
+        jp      asm_fputs
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

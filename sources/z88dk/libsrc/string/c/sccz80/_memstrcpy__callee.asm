@@ -10,13 +10,13 @@ EXTERN asm__memstrcpy
 
 _memstrcpy__callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   ex de,hl
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+        ex      de,   hl
 
-   jp asm__memstrcpy
+        jp      asm__memstrcpy
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -24,10 +24,8 @@ PUBLIC __memstrcpy__callee
 defc __memstrcpy__callee = _memstrcpy__callee
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ____memstrcpy__callee
 defc ____memstrcpy__callee = _memstrcpy__callee
 ENDIF
-

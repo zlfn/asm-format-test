@@ -7,6 +7,6 @@
 ; */
 ;
 
-        .include        "mouse-kernel.inc"
+        .include "mouse-kernel.inc"
 
-        _mouse_buttons  = mouse_buttons ; Call driver directly
+        _mouse_buttons = mouse_buttons  ; Call driver directly

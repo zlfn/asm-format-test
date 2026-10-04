@@ -8,23 +8,23 @@
 ;
 
         SECTION code_clib
-	PUBLIC	clock
-	PUBLIC	_clock
+        PUBLIC  clock
+        PUBLIC  _clock
 
 .clock
 ._clock
 
-	rst   30h
-	defb  32
-	
-    ;              C hours   0 .. 23 (BCD)
-    ;              D minutes 0 .. 59 (BCD)
-    ;              E seconds 0 .. 59 (BCD) 	
+        rst     30h
+        defb    32
 
-	; let's copy the result in dehl
-	; in a quick but wrong way..
-	ex	de,hl
-	ld	d,0
-	ld	e,c
-	
-	ret
+        ;              C hours   0 .. 23 (BCD)
+        ;              D minutes 0 .. 59 (BCD)
+        ;              E seconds 0 .. 59 (BCD)
+
+        ; let's copy the result in dehl
+        ; in a quick but wrong way..
+        ex      de, hl
+        ld      d,  0
+        ld      e,  c
+
+        ret

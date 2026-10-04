@@ -10,16 +10,15 @@ EXTERN asm__strtou
 
 _strtou__callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   
-   jp asm__strtou
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+
+        jp      asm__strtou
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC __strtou__callee
 defc __strtou__callee = _strtou__callee
 ENDIF
-

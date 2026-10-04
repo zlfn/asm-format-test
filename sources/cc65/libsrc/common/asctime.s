@@ -4,10 +4,10 @@
 ; char* __fastcall__ asctime (const struct tm* timep)
 ;
 
-        .export         _asctime
-        .import         _strftime, pushax
-        .importzp       ptr1
-        .include        "time.inc"
+        .export _asctime
+        .import _strftime, pushax
+        .importzp ptr1
+        .include "time.inc"
 
 ; ------------------------------------------------------------------------
 ; Special values
@@ -22,12 +22,12 @@ MAX_BUF_LEN = 38
 
 _asctime:
         ; Backup timep
-        .if .cap(CPU_HAS_PUSHXY)
-        pha
-        phx
+        .if     .cap(CPU_HAS_PUSHXY)
+                pha
+                phx
         .else
-        sta     ptr1
-        stx     ptr1+1
+                sta     ptr1
+                stx     ptr1+1
         .endif
 
         ; Push buf
@@ -46,12 +46,12 @@ _asctime:
         jsr     pushax
 
         ; Restore timep
-        .if .cap(CPU_HAS_PUSHXY)
-        plx
-        pla
+        .if     .cap(CPU_HAS_PUSHXY)
+                plx
+                pla
         .else
-        lda     ptr1
-        ldx     ptr1+1
+                lda     ptr1
+                ldx     ptr1+1
         .endif
 
         ; Call formatter
@@ -69,11 +69,11 @@ _asctime:
 
         .data
 
-fmt:    .byte '%'
-        .byte 'c'
-        .byte $0A
-        .byte $00
+fmt:    .byte   '%'
+        .byte   'c'
+        .byte   $0A
+        .byte   $00
 
         .bss
 
-buf:    .res MAX_BUF_LEN
+buf:    .res    MAX_BUF_LEN

@@ -6,20 +6,14 @@
 ; ** function will return SER_ERR_NO_DATA, so this is not a fatal error.
 ; */
 
+        .importzp ptr1
 
-        .importzp       ptr1
-
-        .include        "ser-kernel.inc"
-
+        .include "ser-kernel.inc"
 
 .proc   _ser_get
 
         sta     ptr1
-        stx     ptr1+1                  ; Save pointer to char
-        jmp     ser_get                 ; Call the driver
+        stx     ptr1+1  ; Save pointer to char
+        jmp     ser_get ; Call the driver
 
 .endproc
-
-
-
-

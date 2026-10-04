@@ -9,9 +9,9 @@ EXTERN asm_cpm_device_file
 
 _cpm_device_file:
 
-   pop af
-   pop hl
-   push hl
-   push af
+        pop     af
+        pop     hl
+        push    hl
+        push    af
 
-   jp asm_cpm_device_file
+        jp      asm_cpm_device_file

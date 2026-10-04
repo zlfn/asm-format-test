@@ -17,10 +17,8 @@ PUBLIC _rindex_callee
 defc _rindex_callee = rindex_callee
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___rindex_callee
 defc ___rindex_callee = rindex_callee
 ENDIF
-

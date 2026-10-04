@@ -31,11 +31,6 @@
 ;/*                                                                           */
 ;/*****************************************************************************/
 
-
-
-
-
-
 ;------------------------------------------------------------------------------
 ; Driver header stuff
 
@@ -44,10 +39,10 @@
         VERSION .byte   1       ; Interface version
         LIBREF  .addr           ; Library reference
         JUMPTAB .struct
-            INSTALL     .addr   ; INSTALL routine
-            UNINSTALL   .addr   ; UNINSTALL routine
-            COUNT       .addr   ; COUNT routine
-            READ        .addr   ; READ routine
+        INSTALL .addr           ; INSTALL routine
+        UNINSTALL .addr         ; UNINSTALL routine
+        COUNT   .addr           ; COUNT routine
+        READ    .addr           ; READ routine
         .endstruct
 .endstruct
 
@@ -59,7 +54,7 @@ JOY_API_VERSION         = $05
 ;------------------------------------------------------------------------------
 ; Variables
 
-        .global _joy_drv                        ; Pointer to driver
+        .global _joy_drv        ; Pointer to driver
         .global _joy_masks
 
 ;------------------------------------------------------------------------------

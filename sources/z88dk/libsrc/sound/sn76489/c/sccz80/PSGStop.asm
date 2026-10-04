@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _PSGStop
 defc _PSGStop = PSGStop
 ENDIF
-

@@ -13,324 +13,324 @@ EXTERN derror_einval_zc, derror_znc, derror_erange_pinfc
 
 __strtod_dec_fp_only:
 
-   ;; leading decimal point seen
+        ;; leading decimal point seen
 
-   ;  b = num sig dec digits
-   ; de = original char *
-   ; hl = char *
+        ;  b = num sig dec digits
+        ; de = original char *
+        ; hl = char *
 
-   inc hl
-   ld a,(hl)
-   
-   call asm_isdigit
-   jp c, derror_einval_zc      ; reject lone decimal point
+        inc     hl
+        ld      a, (hl)
+
+        call    asm_isdigit
+        jp      c, derror_einval_zc     ; reject lone decimal point
 
 decimal_fraction_join:
 
-   ld c,$fe                    ; indicate decimal point seen
-   
-   ;; eliminate leading fraction zeroes
-   
+        ld      c, $fe  ; indicate decimal point seen
+
+        ;; eliminate leading fraction zeroes
+
 decimal_fz_loop:
 
-   cp '0'
-   jr nz, __strtod_dec
-   
-   dec c                       ; * 10^(-1)
-   
-   inc hl
-   ld a,(hl)
-   
-   call asm_isdigit
-   jr nc, decimal_fz_loop      ; if another decimal digit
+        cp      '0'
+        jr      nz, __strtod_dec
+
+        dec     c       ; * 10^(-1)
+
+        inc     hl
+        ld      a, (hl)
+
+        call    asm_isdigit
+        jr      nc, decimal_fz_loop     ; if another decimal digit
 
 decimal_zero:
 
-   ;; digit portion is all zeroes
-   
-   call derror_znc             ; exx = 0.0
-   
-   ld bc,$00ff                 ; no exponent adjust
-   jp decimal_exponent         ; look for following exponent
+        ;; digit portion is all zeroes
+
+        call    derror_znc      ; exx = 0.0
+
+        ld      bc, $00ff               ; no exponent adjust
+        jp      decimal_exponent        ; look for following exponent
 
 __strtod_dec_ip_lz:
 
-   ;; eliminate leading zeroes in integer part
+        ;; eliminate leading zeroes in integer part
 
-   cp '0'
-   jr nz, __strtod_dec_ip_lz_end
-   
-   inc hl
-   ld a,(hl)
-   
-   jr __strtod_dec_ip_lz
+        cp      '0'
+        jr      nz, __strtod_dec_ip_lz_end
+
+        inc     hl
+        ld      a, (hl)
+
+        jr      __strtod_dec_ip_lz
 
 __strtod_dec_ip_lz_end:
 
-   call asm_isdigit
-   jr nc, __strtod_dec_ip
+        call    asm_isdigit
+        jr      nc, __strtod_dec_ip
 
-   cp '.'
-   jr nz, decimal_zero         ; if string of 0s ends in non-digit
-   
-   inc hl
-   ld a,(hl)
-   
-   call asm_isdigit
-   jr nc, decimal_fraction_join
-   
-   jr decimal_zero
+        cp      '.'
+        jr      nz, decimal_zero        ; if string of 0s ends in non-digit
+
+        inc     hl
+        ld      a, (hl)
+
+        call    asm_isdigit
+        jr      nc, decimal_fraction_join
+
+        jr      decimal_zero
 
 __strtod_dec_ip:
 
-   ld c,127                    ; indicate have not seen decimal point
+        ld      c, 127  ; indicate have not seen decimal point
 
 __strtod_dec:
 
-   ;  a = char digit
-   ;  b = number significant decimal digits
-   ;  c = if < 0, base 10 exponent adjust - 1
-   ; hl = char *
-   
-   ;; form float from first digit
-   
-   push bc
-   push hl
-   
-   sub '0'
-   ld l,a
-   ld h,0                      ; hl = integer digit
-   
-   call asm_double16u          ; exx = (double)(hl)
-   
-   pop hl
-   pop bc
+        ;  a = char digit
+        ;  b = number significant decimal digits
+        ;  c = if < 0, base 10 exponent adjust - 1
+        ; hl = char *
+
+        ;; form float from first digit
+
+        push    bc
+        push    hl
+
+        sub     '0'
+        ld      l, a
+        ld      h, 0    ; hl = integer digit
+
+        call    asm_double16u   ; exx = (double)(hl)
+
+        pop     hl
+        pop     bc
 
 decimal_mantissa:
 
-   inc hl                      ; advance to next char
+        inc     hl      ; advance to next char
 
-   ;   b = remaining significant digits
-   ;   c = if < 0, base 10 exponent adjust - 1
-   ;  hl = char *
-   ; exx = double x
+        ;   b = remaining significant digits
+        ;   c = if < 0, base 10 exponent adjust - 1
+        ;  hl = char *
+        ; exx = double x
 
-   ld a,(hl)
-   
-   call asm_isdigit
-   jr nc, decimal_valid
-   
-   bit 7,c
-   jr nz, decimal_exp_adjust   ; if decimal point already seen
-   
-   cp '.'
-   jr nz, decimal_exp_adjust
-   
-   ld c,$ff                    ; start decimal point counter
-   jr decimal_mantissa
+        ld      a, (hl)
+
+        call    asm_isdigit
+        jr      nc, decimal_valid
+
+        bit     7,  c
+        jr      nz, decimal_exp_adjust  ; if decimal point already seen
+
+        cp      '.'
+        jr      nz, decimal_exp_adjust
+
+        ld      c, $ff  ; start decimal point counter
+        jr      decimal_mantissa
 
 decimal_valid:
 
-   push bc
-   push hl
-   
-   sub '0'
-   ld l,a
-   ld h,0                      ; hl = integer digit
-   
-   call asm_double16u
-   
-   exx
-   
-   ; AC'= double x
-   ; AC = (double)(digit)
-   
-   call asm_dmul10a            ; x *= 10
-   call asm_dadd               ; x += digit
-   
-   pop hl                      ; hl = char *
-   pop bc
-   
-   dec c                       ; base 10 exponent adjust
-   djnz decimal_mantissa
-   
-   ;; exhausted significant digits
-   
-   inc hl
+        push    bc
+        push    hl
+
+        sub     '0'
+        ld      l, a
+        ld      h, 0    ; hl = integer digit
+
+        call    asm_double16u
+
+        exx
+
+        ; AC'= double x
+        ; AC = (double)(digit)
+
+        call    asm_dmul10a     ; x *= 10
+        call    asm_dadd        ; x += digit
+
+        pop     hl      ; hl = char *
+        pop     bc
+
+        dec     c       ; base 10 exponent adjust
+        djnz    decimal_mantissa
+
+        ;; exhausted significant digits
+
+        inc     hl
 
 decimal_exp_adjust:
 
-   ;; fix exponent adjust
+        ;; fix exponent adjust
 
-   ;   c = if < 0, base 10 exponent adjust - 1
-   ;  hl = char *
-   ; exx = double x
+        ;   c = if < 0, base 10 exponent adjust - 1
+        ;  hl = char *
+        ; exx = double x
 
-   ld b,0                      ; b = base 10 positive exp adjust
-   
-   bit 7,c
-   jr nz, decimal_consume_fp   ; if already seen a decimal point
-   
-   ld c,$ff
-   
-   ;; consume extra digits
+        ld      b, 0    ; b = base 10 positive exp adjust
 
-   ;   b = base 10 positibe exponent adjust
-   ;   c = base 10 negative exponent adjust - 1
-   ;  hl = char *
-   ; exx = double x
+        bit     7,  c
+        jr      nz, decimal_consume_fp  ; if already seen a decimal point
+
+        ld      c, $ff
+
+        ;; consume extra digits
+
+        ;   b = base 10 positibe exponent adjust
+        ;   c = base 10 negative exponent adjust - 1
+        ;  hl = char *
+        ; exx = double x
 
 decimal_consume_ip:
 
-    ; consume extra integer digits, rounding the accumulated mantissa
-    ; from the first consumed digit so the result is correctly rounded
-    ; rather than truncated (a 24-bit float library reads fewer than the
-    ; full significant digits here; math48 reads all digits and the
-    ; +1.0 is supplied by the linked library via asm_dconst_1).
+        ; consume extra integer digits, rounding the accumulated mantissa
+        ; from the first consumed digit so the result is correctly rounded
+        ; rather than truncated (a 24-bit float library reads fewer than the
+        ; full significant digits here; math48 reads all digits and the
+        ; +1.0 is supplied by the linked library via asm_dconst_1).
 
-   ld a,(hl)
+        ld      a, (hl)
 
-   call asm_isdigit
-   jr c, decimal_consume_pt    ; if not digit
+        call    asm_isdigit
+        jr      c, decimal_consume_pt   ; if not digit
 
-   cp '5'
-   jr c, decimal_consume_ip_loop   ; if first extra digit < 5
+        cp      '5'
+        jr      c, decimal_consume_ip_loop      ; if first extra digit < 5
 
-   push bc
-   call asm_dconst_1           ; load +1.0 for linked math library
-   call asm_dadd               ; x = x + 1
-   pop bc
+        push    bc
+        call    asm_dconst_1    ; load +1.0 for linked math library
+        call    asm_dadd        ; x = x + 1
+        pop     bc
 
 decimal_consume_ip_loop:
 
-   inc b                       ; multiply by 10
-   inc hl
+        inc     b       ; multiply by 10
+        inc     hl
 
-   ld a,(hl)
-   call asm_isdigit
-   jr nc, decimal_consume_ip_loop
+        ld      a, (hl)
+        call    asm_isdigit
+        jr      nc, decimal_consume_ip_loop
 
 decimal_consume_pt:
 
-   cp '.'
-   jr nz, decimal_exponent     ; if no decimal point
+        cp      '.'
+        jr      nz, decimal_exponent    ; if no decimal point
 
-   inc hl
+        inc     hl
 
 decimal_consume_fp:
 
-   ; consume extra fraction digits, rounding from the first one
+        ; consume extra fraction digits, rounding from the first one
 
-   ld a,(hl)
-   call asm_isdigit
-   jr c, decimal_exponent      ; if no fraction digits
+        ld      a, (hl)
+        call    asm_isdigit
+        jr      c, decimal_exponent     ; if no fraction digits
 
-   cp '5'
-   jr c, decimal_consume_fp_loop
+        cp      '5'
+        jr      c, decimal_consume_fp_loop
 
-   push bc
-   call asm_dconst_1           ; load +1.0 for linked math library
-   call asm_dadd               ; x = x + 1
-   pop bc
+        push    bc
+        call    asm_dconst_1    ; load +1.0 for linked math library
+        call    asm_dadd        ; x = x + 1
+        pop     bc
 
 decimal_consume_fp_loop:
 
-   call l_eat_ddigits          ; consume excess fraction digits
+        call    l_eat_ddigits   ; consume excess fraction digits
 
 decimal_exponent:
 
-   ;; Ee
-   
-   ld de,0
-   
-   ;   b = base 10 positive exponent adjust
-   ;   c = base 10 negative exponent adjust - 1
-   ;  hl = char *
-   ;  de = 0
-   ; exx = double x
+        ;; Ee
 
-   ld a,(hl)
-   call asm_tolower
-   
-   cp 'e'
-   jr nz, decimal_suffix
+        ld      de, 0
+
+        ;   b = base 10 positive exponent adjust
+        ;   c = base 10 negative exponent adjust - 1
+        ;  hl = char *
+        ;  de = 0
+        ; exx = double x
+
+        ld      a, (hl)
+        call    asm_tolower
+
+        cp      'e'
+        jr      nz, decimal_suffix
 
 decimal_read_exponent:
 
-   inc hl
+        inc     hl
 
-   ;; read decimal exponent
-   
-   ;   b = base 10 positive exponent adjust
-   ;   c = base 10 negative exponent adjust - 1
-   ;  hl = char *
-   ;  de = 0
-   ; exx = double x
+        ;; read decimal exponent
 
-   call __strtod_exponent
+        ;   b = base 10 positive exponent adjust
+        ;   c = base 10 negative exponent adjust - 1
+        ;  hl = char *
+        ;  de = 0
+        ; exx = double x
+
+        call    __strtod_exponent
 
 decimal_suffix:
 
-   ;; read optional suffix
-   
-   ;   b = base 10 positive exponent adjust
-   ;   c = base 10 negative exponent adjust - 1
-   ;  hl = char *
-   ;  de = exponent
-   ; exx = double x
+        ;; read optional suffix
 
-   call __strtod_suffix
+        ;   b = base 10 positive exponent adjust
+        ;   c = base 10 negative exponent adjust - 1
+        ;  hl = char *
+        ;  de = exponent
+        ; exx = double x
+
+        call    __strtod_suffix
 
 decimal_finalize:
 
-   ex de,hl
+        ex      de, hl
 
-   ;; apply exponent
+        ;; apply exponent
 
-   ;   b = base 10 positive exponent adjust
-   ;   c = base 10 negative exponent adjust - 1
-   ;  de = char *
-   ;  hl = exponent
-   ; exx = double x
+        ;   b = base 10 positive exponent adjust
+        ;   c = base 10 negative exponent adjust - 1
+        ;  de = char *
+        ;  hl = exponent
+        ; exx = double x
 
-   ld a,b
-   ld b,$ff
+        ld      a, b
+        ld      b, $ff
 
 decimal_nexp:
 
-   inc c
-   jp p, decimal_pexp          ; if there is no negative adjust
-   
-   add hl,bc
+        inc     c
+        jp      p, decimal_pexp ; if there is no negative adjust
+
+        add     hl, bc
 
 decimal_pexp:
 
-   ld c,a
-   inc b
-   add hl,bc                   ; hl = final base 10 exponent
-   
-   ld a,l
-   add a,a
-   sbc a,a
-   xor h
-   jr nz, decimal_exp_error    ; if |exponent| > 127 
-   
-   push de
-   
-   ld a,l
-   or a
-   
-   call nz, asm_dmulpow10      ; x *= 10^A
-   
-   pop de
-   ret
+        ld      c, a
+        inc     b
+        add     hl, bc  ; hl = final base 10 exponent
+
+        ld      a, l
+        add     a, a
+        sbc     a, a
+        xor     h
+        jr      nz, decimal_exp_error   ; if |exponent| > 127
+
+        push    de
+
+        ld      a, l
+        or      a
+
+        call    nz, asm_dmulpow10       ; x *= 10^A
+
+        pop     de
+        ret
 
 decimal_exp_error:
 
-   ;  de = char *
-   ;  hl = exponent
+        ;  de = char *
+        ;  hl = exponent
 
-   bit 7,h
-   jp nz, derror_znc           ; if exponent << 0
-   
-   jp derror_erange_pinfc
+        bit     7,  h
+        jp      nz, derror_znc  ; if exponent << 0
+
+        jp      derror_erange_pinfc

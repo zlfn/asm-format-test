@@ -26,31 +26,31 @@
 SECTION .text
 
 %macro AVG8 2
-    movq   m2, %2
-    pavgb  %1, m2
+        movq    m2, %2
+        pavgb   %1, m2
 %endmacro
 
 %macro AVG16 2
-    pavgb  %1, %2
+        pavgb   %1, %2
 %endmacro
 
 %macro op_avg_8 2
-    movq   m2, %2
-    pavgb  %1, m2
-    movq   %2, %1
+        movq    m2, %2
+        pavgb   %1, m2
+        movq    %2, %1
 %endmacro
 
 %macro op_avg_16 2
-    pavgb  %1, %2
-    mova   %2, %1
+        pavgb   %1, %2
+        mova    %2, %1
 %endmacro
 
 %macro op_put_8 2
-    movq   %2, %1
+        movq    %2, %1
 %endmacro
 
 %macro op_put_16 2
-    mova   %2, %1
+        mova    %2, %1
 %endmacro
 
 %define MOV8  movq
@@ -61,28 +61,28 @@ SECTION .text
 ; void ff_avg/put_pixels8x8_l2_sse2(uint8_t *dst, const uint8_t *src1, const uint8_t *src2,
 ;                                   ptrdiff_t dstStride, ptrdiff_t src1Stride)
 cglobal %1_pixels%2x%2_l2, 5,6,%3
-    mov         r5d, %2
+        mov     r5d, %2
 .loop:
-    MOV%2        m0, [r1]
-    MOV%2        m1, [r1+r4]
-    lea          r1, [r1+2*r4]
-    AVG%2        m0, [r2]
-    AVG%2        m1, [r2+%2]
-    OP           m0, [r0]
-    OP           m1, [r0+r3]
-    lea          r0, [r0+2*r3]
-    MOV%2        m0, [r1]
-    MOV%2        m1, [r1+r4]
-    lea          r1, [r1+2*r4]
-    AVG%2        m0, [r2+2*%2]
-    AVG%2        m1, [r2+3*%2]
-    OP           m0, [r0]
-    OP           m1, [r0+r3]
-    lea          r0, [r0+2*r3]
-    add          r2, 4*%2
-    sub         r5d, 4
-    jne       .loop
-    RET
+        MOV%2   m0,  [r1]
+        MOV%2   m1,  [r1+r4]
+        lea     r1,  [r1+2*r4]
+        AVG%2   m0,  [r2]
+        AVG%2   m1,  [r2+%2]
+        OP      m0,  [r0]
+        OP      m1,  [r0+r3]
+        lea     r0,  [r0+2*r3]
+        MOV%2   m0,  [r1]
+        MOV%2   m1,  [r1+r4]
+        lea     r1,  [r1+2*r4]
+        AVG%2   m0,  [r2+2*%2]
+        AVG%2   m1,  [r2+3*%2]
+        OP      m0,  [r0]
+        OP      m1,  [r0+r3]
+        lea     r0,  [r0+2*r3]
+        add     r2,  4*%2
+        sub     r5d, 4
+        jne     .loop
+        RET
 %endmacro
 
 INIT_XMM sse2

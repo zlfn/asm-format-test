@@ -20,43 +20,41 @@ PUBLIC m32_f2ulong
 PUBLIC m32_f2sint
 PUBLIC m32_f2uint
 
-
 ; Convert floating point number to long
 m32_f2sint:
 m32_f2uint:
 m32_f2slong:
 m32_f2ulong:
-    ld b,d
-    ld a,d                      ;Holds sign + 7bits of exponent
-    rl e
-    rla                         ;a = Exponent
-    and a
-    jp Z,f2_izero               ; exp 0: integer 0, not signed IEEE zero
-    cp $7e + 32
-    jp NC,m32_fsmax             ;number too large
-    ; e register is rotated by bit, restore the hidden bit and rotate back
-    scf
-    rr  e
-    ld d,e
-    ld e,h
-    ld h,l
-    ld l,0
+        ld      b, d
+        ld      a, d            ;Holds sign + 7bits of exponent
+        rl      e
+        rla                     ;a = Exponent
+        and     a
+        jp      Z, f2_izero     ; exp 0: integer 0, not signed IEEE zero
+        cp      $7e + 32
+        jp      NC, m32_fsmax   ;number too large
+        ; e register is rotated by bit, restore the hidden bit and rotate back
+        scf
+        rr      e
+        ld      d, e
+        ld      e, h
+        ld      h, l
+        ld      l, 0
 loop:
-    srl d                       ;fill with 0
-    rr e
-    rr hl
-    inc a
-    cp $7e + 32
-    jr NZ,loop
-    rl b                        ;check sign bit
-    call C,l_neg_dehl
-    ret
+        srl     d       ;fill with 0
+        rr      e
+        rr      hl
+        inc     a
+        cp      $7e + 32
+        jr      NZ, loop
+        rl      b       ;check sign bit
+        call    C, l_neg_dehl
+        ret
 
 ; Integer conversion of ±0 / subnormal-as-zero.  m32_fszero keeps the
 ; sign in D (0x80000000), which is INT_MIN as a long and breaks
 ; sin/cos range reduction of -0 (whetstone module 7: 0.5-0.5 → -0).
 .f2_izero
-    ld de,0
-    ld hl,0
-    ret
-
+        ld      de, 0
+        ld      hl, 0
+        ret

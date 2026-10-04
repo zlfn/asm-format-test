@@ -2,14 +2,14 @@
 ; Oliver Schmidt, 12.01.2005
 ;
 
-        .export         rwprolog, rwcommon, rwepilog
-        .import         popax, popptr1
+        .export rwprolog, rwcommon, rwepilog
+        .import popax,    popptr1
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "mli.inc"
-        .include        "filedes.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "mli.inc"
+        .include "filedes.inc"
 
 rwprolog:
         ; Save count
@@ -21,7 +21,7 @@ rwprolog:
 
         ; Get and process fd
         jsr     popax
-        jmp     getfd           ; Returns A, Y and C
+        jmp     getfd   ; Returns A, Y and C
 
 rwcommon:
         ; Set fd
@@ -36,8 +36,8 @@ rwcommon:
         .assert MLI::RW::REQUEST_COUNT = MLI::RW::DATA_BUFFER + 2, error
 
         ldx     #$03
-:       lda     ptr1,x
-        sta     mliparam + MLI::RW::DATA_BUFFER,x
+:       lda     ptr1, x
+        sta     mliparam + MLI::RW::DATA_BUFFER, x
         dex
         bpl     :-
 
@@ -46,7 +46,7 @@ rwcommon:
         ldx     #RW_COUNT
         jsr     callmli
         bcc     rwepilog
-        cmp     #$4C            ; "End of file encountered"
+        cmp     #$4C    ; "End of file encountered"
         bne     oserr
 
 rwepilog:

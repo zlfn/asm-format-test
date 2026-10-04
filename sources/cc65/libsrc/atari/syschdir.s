@@ -23,43 +23,43 @@
 
 .proc   __syschdir
 
-        pha                     ; save input parameter
+        pha     ; save input parameter
         txa
         pha
 
         jsr     findfreeiocb
-        beq     iocbok          ; we found one
+        beq     iocbok  ; we found one
 
         pla
-        pla                     ; fix up stack
+        pla     ; fix up stack
 
-        lda     #TMOF           ; too many open files
+        lda     #TMOF   ; too many open files
         rts
 
-iocbok: stx     tmp4            ; remember IOCB index
+iocbok: stx     tmp4    ; remember IOCB index
         pla
         tax
-        pla                     ; get argument again
+        pla             ; get argument again
 
 .ifdef  UCASE_FILENAME
 
 .ifdef  DEFAULT_DEVICE
         ldy     #$80
-        sty     tmp2            ; set flag for ucase_fn
+        sty     tmp2    ; set flag for ucase_fn
 .endif
         jsr     ucase_fn
         bcc     ucok1
 
-        lda     #183            ; see oserror.s
+        lda     #183    ; see oserror.s
         rts
 ucok1:
 
 .endif  ; defined UCASE_FILENAME
 
         ldy     tmp4            ; IOCB index
-        sta     ICBAL,y         ; store pointer to filename
+        sta     ICBAL, y        ; store pointer to filename
         txa
-        sta     ICBAH,y
+        sta     ICBAH, y
         tya
         tax
         lda     __dos_type
@@ -72,19 +72,19 @@ ucok1:
         lda     #CHDIR_MYDOS
         .byte   $2C             ; BIT <abs>
 :       lda     #CHDIR_SPDOS
-        sta     ICCOM,x
+        sta     ICCOM, x
         lda     #0
-        sta     ICAX1,x
-        sta     ICAX2,x
-        sta     ICBLL,x
-        sta     ICBLH,x
+        sta     ICAX1, x
+        sta     ICAX2, x
+        sta     ICBLL, x
+        sta     ICBLH, x
         jsr     CIOV
 
 .ifdef  UCASE_FILENAME
         tya
         pha
-        ldy     tmp3            ; get size
-        jsr     addysp          ; free used space on the stack
+        ldy     tmp3    ; get size
+        jsr     addysp  ; free used space on the stack
         pla
         tay
 .endif  ; defined UCASE_FILENAME

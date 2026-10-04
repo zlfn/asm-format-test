@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _w_vector_push_back
 defc _w_vector_push_back = w_vector_push_back
 ENDIF
-

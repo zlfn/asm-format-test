@@ -17,29 +17,29 @@
  * register CR3.
  */
 
-	.section ".rodata", "a", @progbits
+        .section ".rodata", "a", @progbits
 SYM_CODE_START(trampoline_32bit_src)
 	/*
 	 * Preserve callee save 64-bit registers on the stack: this is
 	 * necessary because the architecture does not guarantee that GPRs will
 	 * retain their full 64-bit values across a 32-bit mode switch.
 	 */
-	pushq	%r15
-	pushq	%r14
-	pushq	%r13
-	pushq	%r12
-	pushq	%rbp
-	pushq	%rbx
+        pushq   %r15
+        pushq   %r14
+        pushq   %r13
+        pushq   %r12
+        pushq   %rbp
+        pushq   %rbx
 
-	/* Preserve top half of RSP in a legacy mode GPR to avoid truncation */
-	movq	%rsp, %rbx
-	shrq	$32, %rbx
+        /* Preserve top half of RSP in a legacy mode GPR to avoid truncation */
+        movq    %rsp, %rbx
+        shrq    $32,  %rbx
 
-	/* Switch to compatibility mode (CS.L = 0 CS.D = 1) via far return */
-	pushq	$__KERNEL32_CS
-	leaq	0f(%rip), %rax
-	pushq	%rax
-	lretq
+        /* Switch to compatibility mode (CS.L = 0 CS.D = 1) via far return */
+        pushq   $__KERNEL32_CS
+        leaq    0f(%rip), %rax
+        pushq   %rax
+        lretq
 
 	/*
 	 * The 32-bit code below will do a far jump back to long mode and end
@@ -48,45 +48,45 @@ SYM_CODE_START(trampoline_32bit_src)
 	 * the callee save register contents can be popped from the stack.
 	 */
 .Lret:
-	shlq	$32, %rbx
-	orq	%rbx, %rsp
+        shlq    $32,  %rbx
+        orq     %rbx, %rsp
 
-	/* Restore the preserved 64-bit registers */
-	popq	%rbx
-	popq	%rbp
-	popq	%r12
-	popq	%r13
-	popq	%r14
-	popq	%r15
-	retq
+        /* Restore the preserved 64-bit registers */
+        popq    %rbx
+        popq    %rbp
+        popq    %r12
+        popq    %r13
+        popq    %r14
+        popq    %r15
+        retq
 
-	.code32
+        .code32
 0:
-	/* Disable paging */
-	movl	%cr0, %eax
-	btrl	$X86_CR0_PG_BIT, %eax
-	movl	%eax, %cr0
+        /* Disable paging */
+        movl    %cr0, %eax
+        btrl    $X86_CR0_PG_BIT, %eax
+        movl    %eax, %cr0
 
-	/* Point CR3 to the trampoline's new top level page table */
-	movl	%edi, %cr3
+        /* Point CR3 to the trampoline's new top level page table */
+        movl    %edi, %cr3
 
-	/* Set EFER.LME=1 as a precaution in case hypervsior pulls the rug */
-	movl	$MSR_EFER, %ecx
-	rdmsr
-	btsl	$_EFER_LME, %eax
-	/* Avoid writing EFER if no change was made (for TDX guest) */
-	jc	1f
-	wrmsr
+        /* Set EFER.LME=1 as a precaution in case hypervsior pulls the rug */
+        movl    $MSR_EFER, %ecx
+        rdmsr
+        btsl    $_EFER_LME, %eax
+        /* Avoid writing EFER if no change was made (for TDX guest) */
+        jc      1f
+        wrmsr
 1:
-	/* Toggle CR4.LA57 */
-	movl	%cr4, %eax
-	btcl	$X86_CR4_LA57_BIT, %eax
-	movl	%eax, %cr4
+        /* Toggle CR4.LA57 */
+        movl    %cr4, %eax
+        btcl    $X86_CR4_LA57_BIT, %eax
+        movl    %eax, %cr4
 
-	/* Enable paging again. */
-	movl	%cr0, %eax
-	btsl	$X86_CR0_PG_BIT, %eax
-	movl	%eax, %cr0
+        /* Enable paging again. */
+        movl    %cr0, %eax
+        btsl    $X86_CR0_PG_BIT, %eax
+        movl    %eax, %cr0
 
 	/*
 	 * Return to the 64-bit calling code using LJMP rather than LRET, to
@@ -94,7 +94,7 @@ SYM_CODE_START(trampoline_32bit_src)
 	 * address will be adjusted after the template code is copied into a
 	 * 32-bit addressable buffer.
 	 */
-.Ljmp:	ljmpl	$__KERNEL_CS, $(.Lret - trampoline_32bit_src)
+.Ljmp:  ljmpl   $__KERNEL_CS, $(.Lret - trampoline_32bit_src)
 SYM_CODE_END(trampoline_32bit_src)
 
 /*
@@ -108,4 +108,4 @@ SYM_DATA(trampoline_ljmp_imm_offset, .word  .Ljmp + 1 - trampoline_32bit_src)
          * Make sure we fail to compile if the trampoline code grows
          * beyond TRAMPOLINE_32BIT_CODE_SIZE bytes.
 	 */
-	.org	trampoline_32bit_src + TRAMPOLINE_32BIT_CODE_SIZE
+        .org    trampoline_32bit_src + TRAMPOLINE_32BIT_CODE_SIZE

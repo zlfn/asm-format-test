@@ -13,135 +13,135 @@
 ; This routine shouldn't stay in contended memory locations !!
 ;
 
-    SECTION code_clib
-    PUBLIC  bit_synth
-    PUBLIC  _bit_synth
-    INCLUDE "classic/games/games.inc"
+        SECTION code_clib
+        PUBLIC  bit_synth
+        PUBLIC  _bit_synth
+        INCLUDE "classic/games/games.inc"
 
-    EXTERN  bit_open_di
-    EXTERN  bit_close_ei
+        EXTERN  bit_open_di
+        EXTERN  bit_close_ei
 
 bit_synth:
 _bit_synth:
-    push    ix                          ;save callers ix
-    ld      ix, 4
-    add     ix, sp
-    ld      a, (ix+8)
-    ld      (LEN+1), a
-    ld      a, (ix+6)
-    and     a
-    jr      z, FR1_blank
-    ld      (FR_1+1), a
-    ld      a, SOUND_ONEBIT_mask
+        push    ix      ;save callers ix
+        ld      ix, 4
+        add     ix, sp
+        ld      a,  (ix+8)
+        ld      (LEN+1), a
+        ld      a, (ix+6)
+        and     a
+        jr      z, FR1_blank
+        ld      (FR_1+1), a
+        ld      a, SOUND_ONEBIT_mask
 FR1_blank:
-    ld      (FR1_tick+1), a
-    ld      a, (ix+4)
-    and     a
-    jr      z, FR2_blank
-    ld      (FR_2+1), a
-    ld      a, SOUND_ONEBIT_mask
+        ld      (FR1_tick+1), a
+        ld      a, (ix+4)
+        and     a
+        jr      z, FR2_blank
+        ld      (FR_2+1), a
+        ld      a, SOUND_ONEBIT_mask
 FR2_blank:
-    ld      (FR2_tick+1), a
-    ld      a, (ix+2)
-    and     a
-    jr      z, FR3_blank
-    ld      (FR_3+1), a
-    ld      a, SOUND_ONEBIT_mask
+        ld      (FR2_tick+1), a
+        ld      a, (ix+2)
+        and     a
+        jr      z, FR3_blank
+        ld      (FR_3+1), a
+        ld      a, SOUND_ONEBIT_mask
 FR3_blank:
-    ld      (FR1_tick+1), a
-    ld      a, (ix+0)
-    and     a
-    jr      z, FR4_blank
-    ld      (FR_4+1), a
-    ld      a, SOUND_ONEBIT_mask
+        ld      (FR1_tick+1), a
+        ld      a, (ix+0)
+        and     a
+        jr      z, FR4_blank
+        ld      (FR_4+1), a
+        ld      a, SOUND_ONEBIT_mask
 FR4_blank:
-    ld      (FR1_tick+1), a
+        ld      (FR1_tick+1), a
 
-    call    bit_open_di
-    ld      h, 1
-    ld      l, h
-    ld      d, h
-    ld      e, h
+        call    bit_open_di
+        ld      h, 1
+        ld      l, h
+        ld      d, h
+        ld      e, h
 LEN:
-    ld      b, 50
+        ld      b, 50
 loop:
-    ld      c, 4
+        ld      c, 4
 loop2:
-    dec     h
-    jr      nz, jump
+        dec     h
+        jr      nz, jump
 FR1_tick:
-    xor     SOUND_ONEBIT_mask
+        xor     SOUND_ONEBIT_mask
 
 ;-----
-    out     (255), a
-    jp      z, isz
+        out     (255), a
+        jp      z,     isz
 
-    ex      af, af
-    in      a, (254)
-    ex      af, af
+        ex      af, af
+        in      a,  (254)
+        ex      af, af
 isz:
 ;-----
 
 FR_1:
-    ld      h, 80
+        ld      h, 80
 jump:
-    dec     l
-    jr      nz, jump2
+        dec     l
+        jr      nz, jump2
 FR2_tick:
-    xor     SOUND_ONEBIT_mask
+        xor     SOUND_ONEBIT_mask
 
 ;-----
-    out     (255), a
-    jp      z, isz2
+        out     (255), a
+        jp      z,     isz2
 
-    ex      af, af
-    in      a, (254)
-    ex      af, af
+        ex      af, af
+        in      a,  (254)
+        ex      af, af
 isz2:
 ;-----
 
 FR_2:
-    ld      l, 81
+        ld      l, 81
 jump2:
-    dec     d
-    jr      nz, jump3
+        dec     d
+        jr      nz, jump3
 FR3_tick:
-    xor     SOUND_ONEBIT_mask
+        xor     SOUND_ONEBIT_mask
 
 ;-----
-    out     (255), a
-    jp      z, isz3
+        out     (255), a
+        jp      z,     isz3
 
-    ex      af, af
-    in      a, (254)
-    ex      af, af
+        ex      af, af
+        in      a,  (254)
+        ex      af, af
 isz3:
 ;-----
 
 FR_3:
-    ld      d, 162
+        ld      d, 162
 jump3:
-    dec     e
-    jr      nz, loop2
+        dec     e
+        jr      nz, loop2
 FR4_tick:
-    xor     SOUND_ONEBIT_mask
+        xor     SOUND_ONEBIT_mask
 
 ;-----
-    out     (255), a
-    jp      z, isz4
+        out     (255), a
+        jp      z,     isz4
 
-    ex      af, af
-    in      a, (254)
-    ex      af, af
+        ex      af, af
+        in      a,  (254)
+        ex      af, af
 isz4:
 ;-----
 
 FR_4:
-    ld      e, 163
+        ld      e, 163
 
-    dec     c
-    jr      nz, loop2
-    djnz    loop
-    call    bit_close_ei
-    pop     ix                          ;restore callers
-    ret
+        dec     c
+        jr      nz, loop2
+        djnz    loop
+        call    bit_close_ei
+        pop     ix      ;restore callers
+        ret

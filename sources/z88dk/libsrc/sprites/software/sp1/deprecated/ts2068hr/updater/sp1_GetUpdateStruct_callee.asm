@@ -10,10 +10,10 @@ PUBLIC ASMDISP_SP1_GETUPDATESTRUCT_CALLEE
 
 .sp1_GetUpdateStruct_callee
 
-   pop hl
-   pop de
-   ex (sp),hl
-   ld d,l
+        pop     hl
+        pop     de
+        ex      (sp), hl
+        ld      d,    l
 
 .asmentry
 
@@ -27,166 +27,166 @@ PUBLIC ASMDISP_SP1_GETUPDATESTRUCT_CALLEE
 
 .SP1GetUpdateStruct
 
-      ld l,d
-      ld h,0
-      ld a,d
-      ld d,h
-      cp SP1V_DISPHEIGHT
-      jp c, nohtadj
-      dec h
+        ld      l, d
+        ld      h, 0
+        ld      a, d
+        ld      d, h
+        cp      SP1V_DISPHEIGHT
+        jp      c, nohtadj
+        dec     h
 
-   .nohtadj
+.nohtadj
 
-   IF SP1V_DISPWIDTH=16
+        IF      SP1V_DISPWIDTH=16
 
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      ld a,e
-      cp SP1V_DISPWIDTH
-      jp c, nowiadj
-      dec d
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                ld      a,  e
+                cp      SP1V_DISPWIDTH
+                jp      c, nowiadj
+                dec     d
 
-   .nowiadj
+.nowiadj
 
-      add hl,de            ; hl = 16 * ROW + COL
+                add     hl, de  ; hl = 16 * ROW + COL
 
-   ENDIF
+        ENDIF
 
-   IF SP1V_DISPWIDTH=24
+        IF      SP1V_DISPWIDTH=24
 
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      push hl
-      add hl,hl
-      ld a,e
-      cp SP1V_DISPWIDTH
-      jp c, nowiadj
-      dec d
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                push    hl
+                add     hl, hl
+                ld      a,  e
+                cp      SP1V_DISPWIDTH
+                jp      c, nowiadj
+                dec     d
 
-   .nowiadj
+.nowiadj
 
-      add hl,de
-      pop de
-      add hl,de            ; hl = 24 * ROW + COL
+                add     hl, de
+                pop     de
+                add     hl, de  ; hl = 24 * ROW + COL
 
-   ENDIF
+        ENDIF
 
-   IF SP1V_DISPWIDTH=32
+        IF      SP1V_DISPWIDTH=32
 
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      ld a,e
-      cp SP1V_DISPWIDTH
-      jp c, nowiadj
-      dec d
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                ld      a,  e
+                cp      SP1V_DISPWIDTH
+                jp      c, nowiadj
+                dec     d
 
-   .nowiadj
+.nowiadj
 
-      add hl,de            ; hl = 32 * ROW + COL
+                add     hl, de  ; hl = 32 * ROW + COL
 
-   ENDIF
+        ENDIF
 
-   IF SP1V_DISPWIDTH=40
-   
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      push hl
-      add hl,hl
-      add hl,hl
-      ld a,e
-      cp SP1V_DISPWIDTH
-      jp c, nowiadj
-      dec d
-   
-   .nowiadj
-   
-      add hl,de
-      pop de
-      add hl,de            ; hl = 40 * ROW + COL
-   
-   ENDIF
-   
-   IF SP1V_DISPWIDTH=48
+        IF      SP1V_DISPWIDTH=40
 
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      push hl
-      add hl,hl
-      ld a,e
-      cp SP1V_DISPWIDTH
-      jp c, nowiadj
-      dec d
-   
-   .nowiadj
-   
-      add hl,de
-      pop de
-      add hl,de            ; hl = 48 * ROW + COL
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                push    hl
+                add     hl, hl
+                add     hl, hl
+                ld      a,  e
+                cp      SP1V_DISPWIDTH
+                jp      c, nowiadj
+                dec     d
 
-   ENDIF
-   
-   IF SP1V_DISPWIDTH=56
-   
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      push hl
-      add hl,hl
-      push hl
-      add hl,hl
-      ld a,e
-      cp SP1V_DISPWIDTH
-      jp c, nowiadj
-      dec d
-   
-   .nowiadj
-   
-      add hl,de
-      pop de
-      add hl,de
-      pop de
-      add hl,de            ; hl = 56 * ROW + COL
+.nowiadj
 
-   ENDIF
-   
-   IF SP1V_DISPWIDTH=64
+                add     hl, de
+                pop     de
+                add     hl, de  ; hl = 40 * ROW + COL
 
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      add hl,hl
-      ld a,e
-      cp SP1V_DISPWIDTH
-      jp c, nowiadj
-      dec d
-   
-   .nowiadj
-   
-      add hl,de            ; hl = 64 * ROW + COL
+        ENDIF
 
-   ENDIF
+        IF      SP1V_DISPWIDTH=48
 
-   ld d,h
-   ld e,l
-   add hl,hl
-   add hl,hl
-   add hl,hl
-   add hl,de               ; hl = 9 * (SP1V_DISPWIDTH * ROW + COL)
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                push    hl
+                add     hl, hl
+                ld      a,  e
+                cp      SP1V_DISPWIDTH
+                jp      c, nowiadj
+                dec     d
 
-   ld de,SP1V_UPDATEARRAY
-   add hl,de
+.nowiadj
 
-   ret
+                add     hl, de
+                pop     de
+                add     hl, de  ; hl = 48 * ROW + COL
+
+        ENDIF
+
+        IF      SP1V_DISPWIDTH=56
+
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                push    hl
+                add     hl, hl
+                push    hl
+                add     hl, hl
+                ld      a,  e
+                cp      SP1V_DISPWIDTH
+                jp      c, nowiadj
+                dec     d
+
+.nowiadj
+
+                add     hl, de
+                pop     de
+                add     hl, de
+                pop     de
+                add     hl, de  ; hl = 56 * ROW + COL
+
+        ENDIF
+
+        IF      SP1V_DISPWIDTH=64
+
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                add     hl, hl
+                ld      a,  e
+                cp      SP1V_DISPWIDTH
+                jp      c, nowiadj
+                dec     d
+
+.nowiadj
+
+                add     hl, de  ; hl = 64 * ROW + COL
+
+        ENDIF
+
+        ld      d,  h
+        ld      e,  l
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, de  ; hl = 9 * (SP1V_DISPWIDTH * ROW + COL)
+
+        ld      de, SP1V_UPDATEARRAY
+        add     hl, de
+
+        ret
 
 DEFC ASMDISP_SP1_GETUPDATESTRUCT_CALLEE = asmentry - sp1_GetUpdateStruct_callee

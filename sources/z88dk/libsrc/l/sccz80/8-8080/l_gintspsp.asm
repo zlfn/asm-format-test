@@ -8,15 +8,14 @@ SECTION code_l_sccz80
 PUBLIC l_gintspsp
 
 l_gintspsp:
-    add     hl,sp
-    inc     hl
-    inc     hl
+        add     hl, sp
+        inc     hl
+        inc     hl
 
-    ld      a,(hl)
-    inc     hl
-    ld      h,(hl)
-    ld      l,a
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
 
-    ex      (sp),hl
-    jp      (hl)
-
+        ex      (sp), hl
+        jp      (hl)

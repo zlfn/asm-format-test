@@ -7,7 +7,7 @@
 #include <asm/asm-bug.h>
 #include <asm/assembler.h>
 
-	.text
+        .text
 
 SYM_CODE_START(__kretprobe_trampoline)
 	/*
@@ -15,6 +15,6 @@ SYM_CODE_START(__kretprobe_trampoline)
 	 * kretprobe_brk_handler(), and no subsequent instructions will
 	 * be executed from the trampoline.
 	 */
-	brk #KRETPROBES_BRK_IMM
-	ASM_BUG()
+        brk     #KRETPROBES_BRK_IMM
+        ASM_BUG()
 SYM_CODE_END(__kretprobe_trampoline)

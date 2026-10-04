@@ -7,15 +7,15 @@ PUBLIC error_llmc
 
 EXTERN error_lmc
 
-   pop hl
+        pop     hl
 
 error_llmc:
 
-   ; set dehl'dehl = -1
-   ; set carry flag
+        ; set dehl'dehl = -1
+        ; set carry flag
 
-   exx
-   call error_lmc
-   exx
-   jp error_lmc
+        exx
+        call    error_lmc
+        exx
+        jp      error_lmc
 ENDIF

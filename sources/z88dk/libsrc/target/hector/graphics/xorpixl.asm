@@ -1,8 +1,8 @@
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  xorpixel
+        PUBLIC  xorpixel
 
 xorpixel:
-    defc    NEEDxor=1
-    INCLUDE "target/hector/graphics/pixel.inc"
+        defc    NEEDxor=1
+        INCLUDE "target/hector/graphics/pixel.inc"

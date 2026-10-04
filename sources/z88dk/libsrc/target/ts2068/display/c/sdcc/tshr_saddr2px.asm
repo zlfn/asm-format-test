@@ -9,10 +9,10 @@ EXTERN asm_tshr_saddr2px
 
 _tshr_saddr2px:
 
-   pop af
-   pop hl
+        pop     af
+        pop     hl
 
-   push hl
-   push af
+        push    hl
+        push    af
 
-   jp asm_tshr_saddr2px
+        jp      asm_tshr_saddr2px

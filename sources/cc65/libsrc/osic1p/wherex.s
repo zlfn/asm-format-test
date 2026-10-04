@@ -4,8 +4,8 @@
 
 ; unsigned char wherex (void);
 ;
-        .export         _wherex
-        .include        "extzp.inc"
+        .export _wherex
+        .include "extzp.inc"
 
 .proc   _wherex
         lda     CURS_X

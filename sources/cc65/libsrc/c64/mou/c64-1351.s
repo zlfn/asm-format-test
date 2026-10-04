@@ -24,18 +24,17 @@
 ; scanner see normally, again, when no buttons/switches are active.
 ;
 
-        .include        "zeropage.inc"
-        .include        "mouse-kernel.inc"
-        .include        "c64.inc"
+        .include "zeropage.inc"
+        .include "mouse-kernel.inc"
+        .include "c64.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c64_1351_mou
+        module_header _c64_1351_mou
 
 HEADER:
 
@@ -69,13 +68,12 @@ HEADER:
 
 ; Callback table, set by the kernel before INSTALL is called
 
-CHIDE:  jmp     $0000                   ; Hide the cursor
-CSHOW:  jmp     $0000                   ; Show the cursor
-CPREP:  jmp     $0000                   ; Prepare to move the cursor
-CDRAW:  jmp     $0000                   ; Draw the cursor
-CMOVEX: jmp     $0000                   ; Move the cursor to X coord
-CMOVEY: jmp     $0000                   ; Move the cursor to Y coord
-
+CHIDE:  jmp     $0000   ; Hide the cursor
+CSHOW:  jmp     $0000   ; Show the cursor
+CPREP:  jmp     $0000   ; Prepare to move the cursor
+CDRAW:  jmp     $0000   ; Draw the cursor
+CMOVEX: jmp     $0000   ; Move the cursor to X coord
+CMOVEY: jmp     $0000   ; Move the cursor to Y coord
 
 ;----------------------------------------------------------------------------
 ; Constants
@@ -91,19 +89,19 @@ SCREEN_WIDTH    = XSIZE * 8 - 1
 .bss
 
 Vars:
-OldPotX:        .res    1               ; Old hw counter values
-OldPotY:        .res    1
+OldPotX: .res   1       ; Old hw counter values
+OldPotY: .res   1
 
-XPos:           .res    2               ; Current mouse position, X
-YPos:           .res    2               ; Current mouse position, Y
-XMin:           .res    2               ; X1 value of bounding box
-YMin:           .res    2               ; Y1 value of bounding box
-XMax:           .res    2               ; X2 value of bounding box
-YMax:           .res    2               ; Y2 value of bounding box
-Buttons:        .res    1               ; button status bits
+XPos:   .res    2       ; Current mouse position, X
+YPos:   .res    2       ; Current mouse position, Y
+XMin:   .res    2       ; X1 value of bounding box
+YMin:   .res    2       ; Y1 value of bounding box
+XMax:   .res    2       ; X2 value of bounding box
+YMax:   .res    2       ; Y2 value of bounding box
+Buttons: .res   1       ; button status bits
 
-OldValue:       .res    1               ; Temp for MoveCheck routine
-NewValue:       .res    1               ; Temp for MoveCheck routine
+OldValue: .res  1       ; Temp for MoveCheck routine
+NewValue: .res  1       ; Temp for MoveCheck routine
 
 .rodata
 
@@ -111,14 +109,14 @@ NewValue:       .res    1               ; Temp for MoveCheck routine
 ; (We use ".proc" because we want to define both a label and a scope.)
 
 .proc   DefVars
-        .byte   0, 0                    ; OldPotX/OldPotY
-        .word   SCREEN_WIDTH/2          ; XPos
-        .word   SCREEN_HEIGHT/2         ; YPos
-        .word   0                       ; XMin
-        .word   0                       ; YMin
-        .word   SCREEN_WIDTH            ; XMax
-        .word   SCREEN_HEIGHT           ; YMax
-        .byte   %00000000               ; Buttons
+        .byte   0, 0            ; OldPotX/OldPotY
+        .word   SCREEN_WIDTH/2  ; XPos
+        .word   SCREEN_HEIGHT/2 ; YPos
+        .word   0               ; XMin
+        .word   0               ; YMin
+        .word   SCREEN_WIDTH    ; XMax
+        .word   SCREEN_HEIGHT   ; YMax
+        .byte   %00000000       ; Buttons
 .endproc
 
 .code
@@ -133,8 +131,8 @@ INSTALL:
 ; Initialize variables. Just copy the default stuff over
 
         ldx     #.sizeof(DefVars)-1
-@L1:    lda     DefVars,x
-        sta     Vars,x
+@L1:    lda     DefVars, x
+        sta     Vars,    x
         dex
         bpl     @L1
 
@@ -197,13 +195,13 @@ SHOW:   sei
 ; caller and save some code here. No return code required.
 
 SETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX)-1
         sei
 
-@L1:    lda     (ptr1),y
-        sta     XMin,y
+@L1:    lda     (ptr1), y
+        sta     XMin,   y
         dey
         bpl     @L1
 
@@ -215,11 +213,11 @@ SETBOX: sta     ptr1
 ; come from the C program, that is, a pointer to a mouse_box struct in a/x.
 
 GETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX)-1
-@L1:    lda     XMin,y
-        sta     (ptr1),y
+@L1:    lda     XMin,   y
+        sta     (ptr1), y
         dey
         bpl     @L1
         rts
@@ -232,23 +230,23 @@ GETBOX: sta     ptr1
 ; the screen). No return code required.
 ;
 
-MOVE:   sei                             ; No interrupts
+MOVE:   sei     ; No interrupts
 
         sta     YPos
-        stx     YPos+1                  ; New Y position
-        jsr     CMOVEY                  ; Set it
+        stx     YPos+1  ; New Y position
+        jsr     CMOVEY  ; Set it
 
         ldy     #$01
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     XPos+1
         tax
         dey
-        lda     (c_sp),y
-        sta     XPos                    ; New X position
+        lda     (c_sp), y
+        sta     XPos    ; New X position
 
-        jsr     CMOVEX                  ; Move the cursor
+        jsr     CMOVEX  ; Move the cursor
 
-        cli                             ; Allow interrupts
+        cli     ; Allow interrupts
         rts
 
 ;----------------------------------------------------------------------------
@@ -266,22 +264,22 @@ BUTTONS:
 
 POS:    ldy     #MOUSE_POS::XCOORD      ; Structure offset
 
-        sei                             ; Disable interrupts
-        lda     XPos                    ; Transfer the position
-        sta     (ptr1),y
+        sei             ; Disable interrupts
+        lda     XPos    ; Transfer the position
+        sta     (ptr1), y
         lda     XPos+1
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos+1
-        cli                             ; Enable interrupts
+        cli             ; Enable interrupts
 
         iny
-        sta     (ptr1),y                ; Store last byte
+        sta     (ptr1), y       ; Store last byte
 
-        rts                             ; Done
+        rts     ; Done
 
 ;----------------------------------------------------------------------------
 ; INFO: Returns mouse position and current button mask in the MOUSE_INFO
@@ -296,9 +294,9 @@ INFO:   jsr     POS
 
 ; Fill in the button state
 
-        jsr     BUTTONS                 ; Will not touch ptr1
+        jsr     BUTTONS ; Will not touch ptr1
         ldy     #MOUSE_INFO::BUTTONS
-        sta     (ptr1),y
+        sta     (ptr1), y
 
         rts
 
@@ -309,7 +307,7 @@ INFO:   jsr     POS
 ;
 
 IOCTL:  lda     #MOUSE_ERR_INV_IOCTL    ; We don't support ioclts for now
-        ldx     #0 ; return value is char
+        ldx     #0                      ; return value is char
         rts
 
 ;----------------------------------------------------------------------------
@@ -324,20 +322,20 @@ IRQ:    jsr     CPREP
 ; Record the state of the buttons.
 ; Avoid crosstalk between the keyboard and the mouse.
 
-        ldy     #%00000000              ; Set ports A and B to input
+        ldy     #%00000000      ; Set ports A and B to input
         sty     CIA1_DDRB
-        sty     CIA1_DDRA               ; Keyboard won't look like mouse
-        lda     CIA1_PRB                ; Read Control-Port 1
-        dec     CIA1_DDRA               ; Set port A back to output
-        eor     #%11111111              ; Bit goes up when button goes down
+        sty     CIA1_DDRA       ; Keyboard won't look like mouse
+        lda     CIA1_PRB        ; Read Control-Port 1
+        dec     CIA1_DDRA       ; Set port A back to output
+        eor     #%11111111      ; Bit goes up when button goes down
         sta     Buttons
-        beq     @L0                     ;(bze)
-        dec     CIA1_DDRB               ; Mouse won't look like keyboard
-        sty     CIA1_PRB                ; Set "all keys pushed"
+        beq     @L0             ;(bze)
+        dec     CIA1_DDRB       ; Mouse won't look like keyboard
+        sty     CIA1_PRB        ; Set "all keys pushed"
 
-@L0:    lda     SID_ADConv1             ; Get mouse X movement
+@L0:    lda     SID_ADConv1     ; Get mouse X movement
         ldy     OldPotX
-        jsr     MoveCheck               ; Calculate movement vector
+        jsr     MoveCheck       ; Calculate movement vector
 
 ; Skip processing if nothing has changed
 
@@ -347,7 +345,7 @@ IRQ:    jsr     CPREP
 ; Calculate the new X coordinate (--> a/y)
 
         add     XPos
-        tay                             ; Remember low byte
+        tay     ; Remember low byte
         txa
         adc     XPos+1
         tax
@@ -377,9 +375,9 @@ IRQ:    jsr     CPREP
 
 ; Calculate the Y movement vector
 
-@SkipX: lda     SID_ADConv2             ; Get mouse Y movement
+@SkipX: lda     SID_ADConv2     ; Get mouse Y movement
         ldy     OldPotY
-        jsr     MoveCheck               ; Calculate movement
+        jsr     MoveCheck       ; Calculate movement
 
 ; Skip processing if nothing has changed
 
@@ -423,7 +421,7 @@ IRQ:    jsr     CPREP
 ; Done
 
 @SkipY: jsr     CDRAW
-        clc                             ; Interrupt not "handled"
+        clc     ; Interrupt not "handled"
         rts
 
 ; --------------------------------------------------------------------------
@@ -441,27 +439,26 @@ MoveCheck:
         sta     NewValue
         ldx     #$00
 
-        sub     OldValue                ; a = mod64 (new - old)
+        sub     OldValue        ; a = mod64 (new - old)
         and     #%01111111
-        cmp     #%01000000              ; if (a > 0)
-        bcs     @L1                     ;
-        lsr     a                       ;   a /= 2;
-        beq     @L2                     ;   if (a != 0)
-        ldy     NewValue                ;     y = NewValue
+        cmp     #%01000000      ; if (a > 0)
+        bcs     @L1             ;
+        lsr     a               ;   a /= 2;
+        beq     @L2             ;   if (a != 0)
+        ldy     NewValue        ;     y = NewValue
         sec
-        rts                             ;   return
+        rts                     ;   return
 
-@L1:    ora     #%11000000              ; else, "or" in high-order bits
-        cmp     #$FF                    ; if (a != -1)
+@L1:    ora     #%11000000      ; else, "or" in high-order bits
+        cmp     #$FF            ; if (a != -1)
         beq     @L2
         sec
-        ror     a                       ;   a /= 2
-        dex                             ;   high byte = -1 (X = $FF)
+        ror     a               ;   a /= 2
+        dex                     ;   high byte = -1 (X = $FF)
         ldy     NewValue
         sec
         rts
 
-@L2:    txa                             ; A = $00
+@L2:    txa     ; A = $00
         clc
         rts
-

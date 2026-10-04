@@ -51,108 +51,108 @@ GLOBL ·acoshtab2068<> + 0(SB), RODATA, $128
 // with coefficients determined with a Remez exchange algorithm.
 
 TEXT	·acoshAsm(SB), NOSPLIT, $0-16
-	FMOVD	x+0(FP), F0
-	MOVD	$·acoshrodataL11<>+0(SB), R9
-	LGDR	F0, R1
-	WORD	$0xC0295FEF	//iilf	%r2,1609564159
-	BYTE	$0xFF
-	BYTE	$0xFF
-	SRAD	$32, R1
-	CMPW	R1, R2
-	BGT	L2
-	WORD	$0xC0293FEF	//iilf	%r2,1072693247
-	BYTE	$0xFF
-	BYTE	$0xFF
-	CMPW	R1, R2
-	BGT	L10
+        FMOVD   x+0(FP), F0
+        MOVD    $·acoshrodataL11<>+0(SB), R9
+        LGDR    F0, R1
+        WORD    $0xC0295FEF     //iilf	%r2,1609564159
+        BYTE    $0xFF
+        BYTE    $0xFF
+        SRAD    $32, R1
+        CMPW    R1,  R2
+        BGT     L2
+        WORD    $0xC0293FEF     //iilf	%r2,1072693247
+        BYTE    $0xFF
+        BYTE    $0xFF
+        CMPW    R1, R2
+        BGT     L10
 L3:
-	WFCEDBS	V0, V0, V2
-	BVS	L1
-	FMOVD	112(R9), F0
+        WFCEDBS V0, V0, V2
+        BVS     L1
+        FMOVD   112(R9), F0
 L1:
-	FMOVD	F0, ret+8(FP)
-	RET
+        FMOVD   F0, ret+8(FP)
+        RET
 L2:
-	WORD	$0xC0297FEF	//iilf	%r2,2146435071
-	BYTE	$0xFF
-	BYTE	$0xFF
-	MOVW	R1, R6
-	MOVW	R2, R7
-	CMPBGT	R6, R7, L1
-	FMOVD	F0, F8
-	FMOVD	$0, F0
-	WFADB	V0, V8, V0
-	WORD	$0xC0398006	//iilf	%r3,2147909631
-	BYTE	$0x7F
-	BYTE	$0xFF
-	LGDR	F0, R5
-	SRAD	$32, R5
-	MOVH	$0x0, R1
-	SUBW	R5, R3
-	FMOVD	$0, F10
-	RISBGZ	$32, $47, $0, R3, R4
-	RISBGZ	$57, $60, $51, R3, R3
-	BYTE	$0x18	//lr	%r2,%r4
-	BYTE	$0x24
-	RISBGN	$0, $31, $32, R4, R1
-	SUBW	$0x100000, R2
-	SRAW	$8, R2, R2
-	ORW	$0x45000000, R2
+        WORD    $0xC0297FEF     //iilf	%r2,2146435071
+        BYTE    $0xFF
+        BYTE    $0xFF
+        MOVW    R1, R6
+        MOVW    R2, R7
+        CMPBGT  R6, R7, L1
+        FMOVD   F0, F8
+        FMOVD   $0, F0
+        WFADB   V0, V8, V0
+        WORD    $0xC0398006     //iilf	%r3,2147909631
+        BYTE    $0x7F
+        BYTE    $0xFF
+        LGDR    F0,   R5
+        SRAD    $32,  R5
+        MOVH    $0x0, R1
+        SUBW    R5,   R3
+        FMOVD   $0,   F10
+        RISBGZ  $32,  $47, $0,  R3, R4
+        RISBGZ  $57,  $60, $51, R3, R3
+        BYTE    $0x18           //lr	%r2,%r4
+        BYTE    $0x24
+        RISBGN  $0, $31, $32, R4, R1
+        SUBW    $0x100000, R2
+        SRAW    $8, R2, R2
+        ORW     $0x45000000, R2
 L5:
-	LDGR	R1, F0
-	FMOVD	104(R9), F2
-	FMADD	F8, F0, F2
-	FMOVD	96(R9), F4
-	WFMADB	V10, V0, V2, V0
-	FMOVD	88(R9), F6
-	FMOVD	80(R9), F2
-	WFMADB	V0, V6, V4, V6
-	FMOVD	72(R9), F1
-	WFMDB	V0, V0, V4
-	WFMADB	V0, V1, V2, V1
-	FMOVD	64(R9), F2
-	WFMADB	V6, V4, V1, V6
-	FMOVD	56(R9), F1
-	RISBGZ	$57, $60, $0, R3, R3
-	WFMADB	V0, V2, V1, V2
-	FMOVD	48(R9), F1
-	WFMADB	V4, V6, V2, V6
-	FMOVD	40(R9), F2
-	WFMADB	V0, V1, V2, V1
-	VLVGF	$0, R2, V2
-	WFMADB	V4, V6, V1, V4
-	LDEBR	F2, F2
-	FMOVD	32(R9), F6
-	WFMADB	V0, V4, V6, V4
-	FMOVD	24(R9), F1
-	FMOVD	16(R9), F6
-	MOVD	$·acoshtab2068<>+0(SB), R1
-	WFMADB	V2, V1, V6, V2
-	FMOVD	0(R3)(R1*1), F3
-	WFMADB	V0, V4, V3, V0
-	FMOVD	8(R9), F4
-	FMADD	F4, F2, F0
-	FMOVD	F0, ret+8(FP)
-	RET
+        LDGR    R1, F0
+        FMOVD   104(R9), F2
+        FMADD   F8,     F0,  F2
+        FMOVD   96(R9), F4
+        WFMADB  V10,    V0,  V2, V0
+        FMOVD   88(R9), F6
+        FMOVD   80(R9), F2
+        WFMADB  V0,     V6,  V4, V6
+        FMOVD   72(R9), F1
+        WFMDB   V0,     V0,  V4
+        WFMADB  V0,     V1,  V2, V1
+        FMOVD   64(R9), F2
+        WFMADB  V6,     V4,  V1, V6
+        FMOVD   56(R9), F1
+        RISBGZ  $57,    $60, $0, R3, R3
+        WFMADB  V0,     V2,  V1, V2
+        FMOVD   48(R9), F1
+        WFMADB  V4,     V6,  V2, V6
+        FMOVD   40(R9), F2
+        WFMADB  V0,     V1,  V2, V1
+        VLVGF   $0,     R2,  V2
+        WFMADB  V4,     V6,  V1, V4
+        LDEBR   F2,     F2
+        FMOVD   32(R9), F6
+        WFMADB  V0,     V4,  V6, V4
+        FMOVD   24(R9), F1
+        FMOVD   16(R9), F6
+        MOVD    $·acoshtab2068<>+0(SB), R1
+        WFMADB  V2, V1, V6, V2
+        FMOVD   0(R3)(R1*1), F3
+        WFMADB  V0,    V4, V3, V0
+        FMOVD   8(R9), F4
+        FMADD   F4,    F2, F0
+        FMOVD   F0,    ret+8(FP)
+        RET
 L10:
-	FMOVD	F0, F8
-	FMOVD	0(R9), F0
-	FMADD	F8, F8, F0
-	LTDBR	F0, F0
-	FSQRT	F0, F10
+        FMOVD   F0,    F8
+        FMOVD   0(R9), F0
+        FMADD   F8,    F8, F0
+        LTDBR   F0,    F0
+        FSQRT   F0,    F10
 L4:
-	WFADB	V10, V8, V0
-	WORD	$0xC0398006	//iilf	%r3,2147909631
-	BYTE	$0x7F
-	BYTE	$0xFF
-	LGDR	F0, R5
-	SRAD	$32, R5
-	MOVH	$0x0, R1
-	SUBW	R5, R3
-	SRAW	$8, R3, R2
-	RISBGZ	$32, $47, $0, R3, R4
-	ANDW	$0xFFFFFF00, R2
-	RISBGZ	$57, $60, $51, R3, R3
-	ORW	$0x45000000, R2
-	RISBGN	$0, $31, $32, R4, R1
-	BR	L5
+        WFADB   V10, V8, V0
+        WORD    $0xC0398006     //iilf	%r3,2147909631
+        BYTE    $0x7F
+        BYTE    $0xFF
+        LGDR    F0,   R5
+        SRAD    $32,  R5
+        MOVH    $0x0, R1
+        SUBW    R5,   R3
+        SRAW    $8,   R3,  R2
+        RISBGZ  $32,  $47, $0, R3, R4
+        ANDW    $0xFFFFFF00, R2
+        RISBGZ  $57, $60, $51, R3, R3
+        ORW     $0x45000000, R2
+        RISBGN  $0, $31, $32, R4, R1
+        BR      L5

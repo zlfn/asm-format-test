@@ -11,91 +11,90 @@ EXTERN __esxdos_error_mc
 
 asm_esx_m_drvapi:
 
-   ; enter : hl = struct esx_drvapi *
-   ;         (struct has input values set)
-   ;
-   ; exit  : success
-   ;
-   ;            hl = 0
-   ;            (struct has output values set)
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : all except ix,iy
-   
-   push hl                     ; save esx_drvapi *
+        ; enter : hl = struct esx_drvapi *
+        ;         (struct has input values set)
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            (struct has output values set)
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : all except ix,iy
 
-   ld c,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a
-   
-   push ix
-   push iy
+        push    hl      ; save esx_drvapi *
+
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
+
+        push    ix
+        push    iy
 
 IF __SDCC_IY
 
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 
 ELSE
 
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 
 ENDIF
-   
-   rst __ESX_RST_SYS
-   defb __ESX_M_DRVAPI
-   
-   pop iy
-   pop ix
-   
-   jr c, error
 
-   ex (sp),hl                  ; restore esx_drvapi *
-   
-   ld (hl),c
-   inc hl
-   ld (hl),b
-   inc hl
-   ld (hl),e
-   inc hl
-   ld (hl),d
-   inc hl
-   
-   pop bc
-   
-   ld (hl),c
-   inc hl
-   ld (hl),b
-   
-   jp error_znc
+        rst     __ESX_RST_SYS
+        defb    __ESX_M_DRVAPI
+
+        pop     iy
+        pop     ix
+
+        jr      c, error
+
+        ex      (sp), hl        ; restore esx_drvapi *
+
+        ld      (hl), c
+        inc     hl
+        ld      (hl), b
+        inc     hl
+        ld      (hl), e
+        inc     hl
+        ld      (hl), d
+        inc     hl
+
+        pop     bc
+
+        ld      (hl), c
+        inc     hl
+        ld      (hl), b
+
+        jp      error_znc
 
 error:
 
-   pop hl
-   
-   or a
-   jp nz, __esxdos_error_mc
-   
-   ; driver not found
-   
-   ld a,__ESX_ENODEV
-   jp __esxdos_error_mc
+        pop     hl
 
+        or      a
+        jp      nz, __esxdos_error_mc
+
+        ; driver not found
+
+        ld      a, __ESX_ENODEV
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * M_DRVAPI ($92) *

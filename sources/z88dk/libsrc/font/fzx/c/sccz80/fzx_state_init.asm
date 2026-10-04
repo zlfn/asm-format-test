@@ -10,14 +10,14 @@ EXTERN asm_fzx_state_init
 
 fzx_state_init:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push af
-   
-   jp asm_fzx_state_init
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        jp      asm_fzx_state_init

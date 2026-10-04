@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Jan 2014
 ; ===============================================================
-; 
+;
 ; int fseek(FILE *stream, long offset, int whence)
 ;
 ; Move to new position in file indicated by the signed value
@@ -33,44 +33,44 @@ EXTERN asm0_fseek_unlocked, __stdio_lock_release
 
 asm_fseek:
 
-   ; enter :   ix = FILE *
-   ;         dehl = offset
-   ;            c = whence
-   ;
-   ; exit  :   ix = FILE *
-   ;
-   ;         success
-   ;
-   ;           hl = 0
-   ;           carry reset
-   ;
-   ;         fail
-   ;
-   ;           hl = -1
-   ;           carry set
-   ;
-   ; uses  : all except ix
-   
+        ; enter :   ix = FILE *
+        ;         dehl = offset
+        ;            c = whence
+        ;
+        ; exit  :   ix = FILE *
+        ;
+        ;         success
+        ;
+        ;           hl = 0
+        ;           carry reset
+        ;
+        ;         fail
+        ;
+        ;           hl = -1
+        ;           carry set
+        ;
+        ; uses  : all except ix
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF __CLIB_OPT_STDIO & $01
 
-   EXTERN __stdio_verify_valid_lock
+        EXTERN  __stdio_verify_valid_lock
 
-   call __stdio_verify_valid_lock
-   ret c
+        call    __stdio_verify_valid_lock
+        ret     c
 
 ELSE
 
-   EXTERN __stdio_lock_acquire, error_enolck_mc
-   
-   call __stdio_lock_acquire
-   jp c, error_enolck_mc
+        EXTERN  __stdio_lock_acquire, error_enolck_mc
+
+        call    __stdio_lock_acquire
+        jp      c, error_enolck_mc
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   
-   call asm0_fseek_unlocked
-   jp __stdio_lock_release
+
+        call    asm0_fseek_unlocked
+        jp      __stdio_lock_release
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -10,7 +10,7 @@ EXTERN asm_ftell_unlocked
 
 ftell_unlocked:
 
-   push hl
-   pop ix
-   
-   jp asm_ftell_unlocked
+        push    hl
+        pop     ix
+
+        jp      asm_ftell_unlocked

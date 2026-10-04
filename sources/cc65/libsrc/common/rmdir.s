@@ -4,11 +4,10 @@
 ; int __fastcall__ rmdir (const char* name);
 ;
 
-        .export         _rmdir
+        .export _rmdir
 
-        .import         __sysrmdir
-        .import         ___mappederrno
-
+        .import __sysrmdir
+        .import ___mappederrno
 
 ;--------------------------------------------------------------------------
 

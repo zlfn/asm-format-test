@@ -11,7 +11,7 @@ EXTERN asm_sms_cls_wc
 
 defc asm_sms_tiles_clear_area = asm_sms_cls_wc
 
-   ; enter : hl = background character
-   ;         ix = rect *
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : hl = background character
+        ;         ix = rect *
+        ;
+        ; uses  : af, bc, de, hl

@@ -10,10 +10,10 @@ EXTERN asm_bv_priority_queue_max_size
 
 _bv_priority_queue_max_size:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_bv_priority_queue_max_size
+        push    hl
+        push    af
+
+        jp      asm_bv_priority_queue_max_size

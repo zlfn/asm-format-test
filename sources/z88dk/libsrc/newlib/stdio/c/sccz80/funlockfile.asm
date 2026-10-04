@@ -10,7 +10,7 @@ EXTERN asm_funlockfile
 
 funlockfile:
 
-   push hl
-   pop ix
-   
-   jp asm_funlockfile
+        push    hl
+        pop     ix
+
+        jp      asm_funlockfile

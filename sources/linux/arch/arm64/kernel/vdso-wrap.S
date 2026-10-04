@@ -11,14 +11,14 @@
 #include <asm/assembler.h>
 #include <asm/page.h>
 
-	.globl vdso_start, vdso_end
-	.section .rodata
-	.balign PAGE_SIZE
+        .globl  vdso_start, vdso_end
+        .section .rodata
+        .balign PAGE_SIZE
 vdso_start:
-	.incbin "arch/arm64/kernel/vdso/vdso.so"
-	.balign PAGE_SIZE
+        .incbin "arch/arm64/kernel/vdso/vdso.so"
+        .balign PAGE_SIZE
 vdso_end:
 
-	.previous
+        .previous
 
 emit_aarch64_feature_1_and

@@ -9,12 +9,12 @@ EXTERN _sms_tiles_put_area_callee_0
 
 _sms_tiles_put_area:
 
-   pop af
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push af
-   
-   jp _sms_tiles_put_area_callee_0
+        pop     af
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    af
+
+        jp      _sms_tiles_put_area_callee_0

@@ -13,30 +13,30 @@ SECTION .text
 %define TDVMCALL                        0x0
 
 %macro tdcall 0
-    db 0x66,0x0f,0x01,0xcc
+        db      0x66, 0x0f, 0x01, 0xcc
 %endmacro
 
 %macro tdcall_push_regs 0
-    push rbp
-    mov  rbp, rsp
-    push r15
-    push r14
-    push r13
-    push r12
-    push rbx
-    push rsi
-    push rdi
+        push    rbp
+        mov     rbp, rsp
+        push    r15
+        push    r14
+        push    r13
+        push    r12
+        push    rbx
+        push    rsi
+        push    rdi
 %endmacro
 
 %macro tdcall_pop_regs 0
-    pop rdi
-    pop rsi
-    pop rbx
-    pop r12
-    pop r13
-    pop r14
-    pop r15
-    pop rbp
+        pop     rdi
+        pop     rsi
+        pop     rbx
+        pop     r12
+        pop     r13
+        pop     r14
+        pop     r15
+        pop     rbp
 %endmacro
 
 %define number_of_regs_pushed 8
@@ -47,44 +47,44 @@ SECTION .text
 ; uses them to find 5th or greater parameters
 ;
 %define first_variable_on_stack_offset \
-  ((number_of_regs_pushed * 8) + (number_of_parameters * 8) + 8)
+        ((number_of_regs_pushed * 8) + (number_of_parameters * 8) + 8)
 %define second_variable_on_stack_offset \
-  ((first_variable_on_stack_offset) + 8)
+        ((first_variable_on_stack_offset) + 8)
 
 %macro tdcall_regs_preamble 2
-    mov rax, %1
+        mov     rax, %1
 
-    xor rcx, rcx
-    mov ecx, %2
+        xor     rcx, rcx
+        mov     ecx, %2
 
-    ; R10 = 0 (standard TDVMCALL)
+        ; R10 = 0 (standard TDVMCALL)
 
-    xor r10d, r10d
+        xor     r10d, r10d
 
-    ; Zero out unused (for standard TDVMCALL) registers to avoid leaking
-    ; secrets to the VMM.
+        ; Zero out unused (for standard TDVMCALL) registers to avoid leaking
+        ; secrets to the VMM.
 
-    xor ebx, ebx
-    xor esi, esi
-    xor edi, edi
+        xor     ebx, ebx
+        xor     esi, esi
+        xor     edi, edi
 
-    xor edx, edx
-    xor ebp, ebp
-    xor r8d, r8d
-    xor r9d, r9d
+        xor     edx, edx
+        xor     ebp, ebp
+        xor     r8d, r8d
+        xor     r9d, r9d
 %endmacro
 
 %macro tdcall_regs_postamble 0
-    xor ebx, ebx
-    xor esi, esi
-    xor edi, edi
+        xor     ebx, ebx
+        xor     esi, esi
+        xor     edi, edi
 
-    xor ecx, ecx
-    xor edx, edx
-    xor r8d,  r8d
-    xor r9d,  r9d
-    xor r10d, r10d
-    xor r11d, r11d
+        xor     ecx,  ecx
+        xor     edx,  edx
+        xor     r8d,  r8d
+        xor     r9d,  r9d
+        xor     r10d, r10d
+        xor     r11d, r11d
 %endmacro
 
 ;------------------------------------------------------------------------------
@@ -109,35 +109,35 @@ SECTION .text
 ;    )
 global ASM_PFX(TdVmCall)
 ASM_PFX(TdVmCall):
-       tdcall_push_regs
+        tdcall_push_regs
 
-       mov r11, rcx
-       mov r12, rdx
-       mov r13, r8
-       mov r14, r9
-       mov r15, [rsp + first_variable_on_stack_offset ]
+        mov     r11, rcx
+        mov     r12, rdx
+        mov     r13, r8
+        mov     r14, r9
+        mov     r15, [rsp + first_variable_on_stack_offset ]
 
-       tdcall_regs_preamble TDVMCALL, TDVMCALL_EXPOSE_REGS_MASK
+        tdcall_regs_preamble TDVMCALL, TDVMCALL_EXPOSE_REGS_MASK
 
-       tdcall
+        tdcall
 
-       ; ignore return data if TDCALL reports failure.
-       test rax, rax
-       jnz .no_return_data
+        ; ignore return data if TDCALL reports failure.
+        test    rax, rax
+        jnz     .no_return_data
 
-       ; Propagate TDVMCALL success/failure to return value.
-       mov rax, r10
+        ; Propagate TDVMCALL success/failure to return value.
+        mov     rax, r10
 
-       ; Retrieve the Val pointer.
-       mov r9, [rsp + second_variable_on_stack_offset ]
-       test r9, r9
-       jz .no_return_data
+        ; Retrieve the Val pointer.
+        mov     r9, [rsp + second_variable_on_stack_offset ]
+        test    r9, r9
+        jz      .no_return_data
 
-       ; Propagate TDVMCALL output value to output param
-       mov [r9], r11
+        ; Propagate TDVMCALL output value to output param
+        mov     [r9], r11
 .no_return_data:
-       tdcall_regs_postamble
+        tdcall_regs_postamble
 
-       tdcall_pop_regs
+        tdcall_pop_regs
 
-       ret
+        ret

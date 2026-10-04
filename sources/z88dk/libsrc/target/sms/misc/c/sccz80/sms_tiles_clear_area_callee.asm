@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _sms_tiles_clear_area_callee
 defc _sms_tiles_clear_area_callee = sms_tiles_clear_area_callee
 ENDIF
-

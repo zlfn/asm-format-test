@@ -23,8 +23,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; CONST VOID *
@@ -37,13 +37,12 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMemScanMem16)
 ASM_PFX(InternalMemScanMem16):
-    push    rdi
-    mov     rdi, rcx
-    mov     rax, r8
-    mov     rcx, rdx
-    repne   scasw
-    lea     rax, [rdi - 2]
-    cmovnz  rax, rcx
-    pop     rdi
-    ret
-
+        push    rdi
+        mov     rdi, rcx
+        mov     rax, r8
+        mov     rcx, rdx
+        repne   scasw
+        lea     rax, [rdi - 2]
+        cmovnz  rax, rcx
+        pop     rdi
+        ret

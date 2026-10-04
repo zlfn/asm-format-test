@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _p_forward_list_alt_back
 defc _p_forward_list_alt_back = p_forward_list_alt_back
 ENDIF
-

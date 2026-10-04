@@ -11,22 +11,22 @@ EXTERN asm_wa_priority_queue_init
 
 _wa_priority_queue_init_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   exx
-   pop bc
-   push af
-   
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        exx
+        pop     bc
+        push    af
+
 l0_wa_priority_queue_init_callee:
 
-   push bc
-   exx
-   
-   ex (sp),ix
-   
-   call asm_wa_priority_queue_init
-   
-   pop ix
-   ret
+        push    bc
+        exx
+
+        ex      (sp), ix
+
+        call    asm_wa_priority_queue_init
+
+        pop     ix
+        ret

@@ -2,16 +2,16 @@
 ;
 ;
 
-        #include    "target/aquarius/def/plus.inc"
+        #include "target/aquarius/def/plus.inc"
         SECTION code_clib
-	EXTERN	__aquarius_mode
+        EXTERN  __aquarius_mode
         PUBLIC  bordercolor
         PUBLIC  _bordercolor
 
 bordercolor:
 _bordercolor:
-        ld      a, (__aquarius_mode)
-        bit     6, a
+        ld      a,  (__aquarius_mode)
+        bit     6,  a
         jr      nz, col80
 
         ; Set the color value
@@ -32,4 +32,3 @@ col80:
         ld      a, b
         out     (IO_VCTRL), a
         ret
-

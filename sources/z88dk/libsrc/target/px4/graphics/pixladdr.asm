@@ -6,12 +6,12 @@
 ;	$Id: pixladdr.asm,v 1.3 2016-06-21 20:16:35 dom Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  pixeladdress
+        SECTION code_clib
+        PUBLIC  pixeladdress
 
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
-    EXTERN  base_graphics
+        EXTERN  base_graphics
 
 ; ******************************************************************
 ;
@@ -30,42 +30,41 @@
 
 pixeladdress:
 
+        push    bc
+        ld      a, h
 
-    push    bc
-    ld      a, h
+        push    af
 
-    push    af
+        srl     a
+        srl     a
+        srl     a
 
-    srl     a
-    srl     a
-    srl     a
+        ld      c, a    ; c=int(x/8)
 
-    ld      c, a                        ; c=int(x/8)
+        ;ld	b,l
+        ld      h, l
+        ld      l, 0
+        srl     h
+        rr      l
+        srl     h
+        rr      l
+        srl     h
+        rr      l
 
-		;ld	b,l
-    ld      h, l
-    ld      l, 0
-    srl     h
-    rr      l
-    srl     h
-    rr      l
-    srl     h
-    rr      l
+        ;ld	de,($f2ad)		; LVRAMYOF
+        ld      de, $e000
+        add     hl, de
 
-		;ld	de,($f2ad)		; LVRAMYOF
-    ld      de, $e000
-    add     hl, de
+        ld      b, 0
 
-    ld      b, 0
+        add     hl, bc
 
-    add     hl, bc
+        ld      d, h
+        ld      e, l
+        pop     af
+        pop     bc
 
-    ld      d, h
-    ld      e, l
-    pop     af
-    pop     bc
+        and     @00000111       ; a = x mod 8
+        xor     @00000111       ; a = 7 - a
 
-    and     @00000111                   ; a = x mod 8
-    xor     @00000111                   ; a = 7 - a
-
-    ret
+        ret

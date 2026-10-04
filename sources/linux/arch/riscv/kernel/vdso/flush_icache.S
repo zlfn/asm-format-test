@@ -7,20 +7,20 @@
 #include <asm/unistd.h>
 #include <asm/assembler.h>
 
-	.text
+        .text
 /* int __vdso_flush_icache(void *start, void *end, unsigned long flags); */
 SYM_FUNC_START(__vdso_flush_icache)
-	.cfi_startproc
-	vdso_lpad
+        .cfi_startproc
+        vdso_lpad
 #ifdef CONFIG_SMP
-	li a7, __NR_riscv_flush_icache
-	ecall
+        li      a7, __NR_riscv_flush_icache
+        ecall
 #else
-	fence.i
-	li a0, 0
+        fence.i
+        li      a0, 0
 #endif
-	ret
-	.cfi_endproc
+        ret
+        .cfi_endproc
 SYM_FUNC_END(__vdso_flush_icache)
 
 emit_riscv_feature_1_and

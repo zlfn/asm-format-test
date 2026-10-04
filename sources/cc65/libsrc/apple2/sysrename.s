@@ -4,12 +4,12 @@
 ; unsigned char __fastcall__ _sysrename (const char* oldname, const char* newname);
 ;
 
-        .export         __sysrename
-        .import         pushname, pushname_tos, mli_set_pathname_tos, popname
-        .import         popax
+        .export __sysrename
+        .import pushname, pushname_tos, mli_set_pathname_tos, popname
+        .import popax
 
-        .include        "zeropage.inc"
-        .include        "mli.inc"
+        .include "zeropage.inc"
+        .include "mli.inc"
 
 __sysrename:
         ; Save newname
@@ -41,9 +41,9 @@ __sysrename:
         jsr     callmli
 
         ; Cleanup newname
-        jsr     popname         ; Preserves A
+        jsr     popname ; Preserves A
 
         ; Cleanup oldname
-oserr2: jmp     popname         ; Preserves A
+oserr2: jmp     popname ; Preserves A
 
 oserr1: rts

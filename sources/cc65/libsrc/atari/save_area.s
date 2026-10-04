@@ -16,10 +16,10 @@
 
 .segment        "LOWBSS"
 
-SAVMSC_save:    .res    2
-MEMTOP_save:    .res    2
-APPMHI_save:    .res    2
-RAMTOP_save:    .res    1
-PORTB_save:     .res    1
+SAVMSC_save: .res 2
+MEMTOP_save: .res 2
+APPMHI_save: .res 2
+RAMTOP_save: .res 1
+PORTB_save:  .res 1
 
 .endif

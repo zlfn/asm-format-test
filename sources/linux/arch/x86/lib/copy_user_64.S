@@ -32,81 +32,81 @@
  * it simpler for us, we can clobber rsi/rdi and rax freely.
  */
 SYM_FUNC_START(rep_movs_alternative)
-	ANNOTATE_NOENDBR
-	cmpq $64,%rcx
-	jae .Llarge
+        ANNOTATE_NOENDBR
+        cmpq    $64, %rcx
+        jae     .Llarge
 
-	cmp $8,%ecx
-	jae .Lword
+        cmp     $8, %ecx
+        jae     .Lword
 
-	testl %ecx,%ecx
-	je .Lexit
+        testl   %ecx, %ecx
+        je      .Lexit
 
 .Lcopy_user_tail:
-0:	movb (%rsi),%al
-1:	movb %al,(%rdi)
-	inc %rdi
-	inc %rsi
-	dec %rcx
-	jne .Lcopy_user_tail
+0:      movb    (%rsi), %al
+1:      movb    %al,    (%rdi)
+        inc     %rdi
+        inc     %rsi
+        dec     %rcx
+        jne     .Lcopy_user_tail
 .Lexit:
-	RET
+        RET
 
-	_ASM_EXTABLE_UA( 0b, .Lexit)
-	_ASM_EXTABLE_UA( 1b, .Lexit)
+        _ASM_EXTABLE_UA( 0b, .Lexit)
+        _ASM_EXTABLE_UA( 1b, .Lexit)
 
-	.p2align 4
+        .p2align 4
 .Lword:
-2:	movq (%rsi),%rax
-3:	movq %rax,(%rdi)
-	addq $8,%rsi
-	addq $8,%rdi
-	sub $8,%ecx
-	je .Lexit
-	cmp $8,%ecx
-	jae .Lword
-	jmp .Lcopy_user_tail
+2:      movq    (%rsi), %rax
+3:      movq    %rax,   (%rdi)
+        addq    $8,     %rsi
+        addq    $8,     %rdi
+        sub     $8,     %ecx
+        je      .Lexit
+        cmp     $8, %ecx
+        jae     .Lword
+        jmp     .Lcopy_user_tail
 
-	_ASM_EXTABLE_UA( 2b, .Lcopy_user_tail)
-	_ASM_EXTABLE_UA( 3b, .Lcopy_user_tail)
+        _ASM_EXTABLE_UA( 2b, .Lcopy_user_tail)
+        _ASM_EXTABLE_UA( 3b, .Lcopy_user_tail)
 
 .Llarge:
-0:	ALTERNATIVE "jmp .Llarge_movsq", "rep movsb", X86_FEATURE_ERMS
-1:	RET
+0:      ALTERNATIVE "jmp .Llarge_movsq", "rep movsb", X86_FEATURE_ERMS
+1:      RET
 
-	_ASM_EXTABLE_UA( 0b, 1b)
+        _ASM_EXTABLE_UA( 0b, 1b)
 
 .Llarge_movsq:
-	/* Do the first possibly unaligned word */
-0:	movq (%rsi),%rax
-1:	movq %rax,(%rdi)
+        /* Do the first possibly unaligned word */
+0:      movq    (%rsi), %rax
+1:      movq    %rax,   (%rdi)
 
-	_ASM_EXTABLE_UA( 0b, .Lcopy_user_tail)
-	_ASM_EXTABLE_UA( 1b, .Lcopy_user_tail)
+        _ASM_EXTABLE_UA( 0b, .Lcopy_user_tail)
+        _ASM_EXTABLE_UA( 1b, .Lcopy_user_tail)
 
-	/* What would be the offset to the aligned destination? */
-	leaq 8(%rdi),%rax
-	andq $-8,%rax
-	subq %rdi,%rax
+        /* What would be the offset to the aligned destination? */
+        leaq    8(%rdi), %rax
+        andq    $-8,     %rax
+        subq    %rdi,    %rax
 
-	/* .. and update pointers and count to match */
-	addq %rax,%rdi
-	addq %rax,%rsi
-	subq %rax,%rcx
+        /* .. and update pointers and count to match */
+        addq    %rax, %rdi
+        addq    %rax, %rsi
+        subq    %rax, %rcx
 
-	/* make %rcx contain the number of words, %rax the remainder */
-	movq %rcx,%rax
-	shrq $3,%rcx
-	andl $7,%eax
-0:	rep movsq
-	movl %eax,%ecx
-	testl %ecx,%ecx
-	jne .Lcopy_user_tail
-	RET
+        /* make %rcx contain the number of words, %rax the remainder */
+        movq    %rcx, %rax
+        shrq    $3,   %rcx
+        andl    $7,   %eax
+0:      rep movsq
+        movl    %eax, %ecx
+        testl   %ecx, %ecx
+        jne     .Lcopy_user_tail
+        RET
 
-1:	leaq (%rax,%rcx,8),%rcx
-	jmp .Lcopy_user_tail
+1:      leaq    (%rax,%rcx,8), %rcx
+        jmp     .Lcopy_user_tail
 
-	_ASM_EXTABLE_UA( 0b, 1b)
+        _ASM_EXTABLE_UA( 0b, 1b)
 SYM_FUNC_END(rep_movs_alternative)
 EXPORT_SYMBOL(rep_movs_alternative)

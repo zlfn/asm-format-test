@@ -9,9 +9,9 @@ PUBLIC asm_im2_InstallISR
 .im2_InstallISR_callee
 ._im2_InstallISR_callee
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 .asm_im2_InstallISR
 
@@ -22,15 +22,14 @@ PUBLIC asm_im2_InstallISR
 
 .IM2InstallISR
 
-   ld a,i
-   ld h,a
-   ld a,(hl)
-   ld (hl),e
-   ld e,a
-   inc hl
-   ld a,(hl)
-   ld (hl),d
-   ld d,a
-   ex de,hl
-   ret
-
+        ld      a,    i
+        ld      h,    a
+        ld      a,    (hl)
+        ld      (hl), e
+        ld      e,    a
+        inc     hl
+        ld      a,    (hl)
+        ld      (hl), d
+        ld      d,    a
+        ex      de,   hl
+        ret

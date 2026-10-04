@@ -17,10 +17,8 @@ PUBLIC _index
 defc _index = index
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___index
 defc ___index = index
 ENDIF
-

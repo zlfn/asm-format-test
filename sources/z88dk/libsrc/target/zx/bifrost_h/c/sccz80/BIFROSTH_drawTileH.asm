@@ -15,21 +15,20 @@ EXTERN asm_BIFROSTH_drawTileH
 
 BIFROSTH_drawTileH:
 
-   	ld hl,2
-   	add hl,sp
-   	ld a,(hl)       ; A=tile
-   	inc hl
-   	inc hl
-   	ld e,(hl)       ; E=col
-   	inc hl
-   	inc hl
-   	ld d,(hl)       ; D=lin
+        ld      hl, 2
+        add     hl, sp
+        ld      a,  (hl)        ; A=tile
+        inc     hl
+        inc     hl
+        ld      e, (hl)         ; E=col
+        inc     hl
+        inc     hl
+        ld      d, (hl)         ; D=lin
 
-      jp asm_BIFROSTH_drawTileH        ; execute 'draw_tile'
+        jp      asm_BIFROSTH_drawTileH  ; execute 'draw_tile'
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _BIFROSTH_drawTileH
 defc _BIFROSTH_drawTileH = BIFROSTH_drawTileH
 ENDIF
-

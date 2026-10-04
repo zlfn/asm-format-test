@@ -10,11 +10,11 @@ EXTERN asm_insertion_sort
 
 _insertion_sort__callee:
 
-   pop af
-   pop ix
-   pop de
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_insertion_sort
+        pop     af
+        pop     ix
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_insertion_sort

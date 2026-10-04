@@ -18,6 +18,6 @@ global ASM_PFX(AsmInterruptHandle)
 DEFAULT REL
 SECTION .text
 ASM_PFX(AsmInterruptHandle):
-    cli
-    mov   al, 1
-    iretq
+        cli
+        mov     al, 1
+        iretq

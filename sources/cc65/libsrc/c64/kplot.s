@@ -5,10 +5,10 @@
 ; does not set the pointer to the color RAM correctly, so we need to fix that.
 ;
 
-        .export         PLOT
+        .export PLOT
 
 .scope  KERNAL
-        .include        "cbm_kernal.inc"
+        .include "cbm_kernal.inc"
 .endscope
 
 .proc   PLOT
@@ -17,6 +17,6 @@
         jsr     KERNAL::PLOT            ; Set cursor position using original ROM PLOT
         jmp     KERNAL::UPDCRAMPTR      ; Set pointer to color RAM to match new cursor position
 
-@L1:    jmp     KERNAL::PLOT            ; Get cursor position
+@L1:    jmp     KERNAL::PLOT    ; Get cursor position
 
 .endproc

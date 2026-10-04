@@ -4,34 +4,32 @@
 ; void __fastcall__ tgi_outtextxy (int x, int y, const char* s);
 ; /* Output text at the given position. */
 
+        .include "tgi-kernel.inc"
 
-        .include        "tgi-kernel.inc"
-
-        .import         addysp1
-        .importzp       c_sp
+        .import addysp1
+        .importzp c_sp
 
 .proc   _tgi_outtextxy
 
 ; Get the X/Y parameters and store them into curx/cury. This enables us
 ; to use tgi_outtext for the actual output
 
-        pha                     ;
+        pha             ;
         ldy     #0
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     _tgi_cury
         iny
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     _tgi_cury+1
         iny
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     _tgi_curx
         iny
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     _tgi_curx+1
         pla
-        jsr     addysp1         ; Drop arguments from stack
+        jsr     addysp1 ; Drop arguments from stack
 
         jmp     _tgi_outtext
 
 .endproc
-

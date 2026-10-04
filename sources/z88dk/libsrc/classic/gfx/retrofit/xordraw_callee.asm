@@ -16,7 +16,7 @@
 
 xordraw_callee:
 _xordraw_callee:
-        ld      hl, retaddr
+        ld      hl,   retaddr
         ex      (sp), hl
         ld      (retaddr0+1), hl
         ld      hl, xordraw
@@ -30,4 +30,3 @@ retaddr:
 retaddr0:
         ld      hl, 0
         jp      (hl)
-

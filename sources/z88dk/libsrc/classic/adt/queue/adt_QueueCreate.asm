@@ -14,16 +14,16 @@ EXTERN _u_malloc
 .adt_QueueCreate
 ._adt_QueueCreate
 
-   ld hl,6           ; sizeof(struct adt_Queue)
-   push hl
-   call _u_malloc
-   pop de
-   ret nc            ; ret with hl = 0 and nc if fail
+        ld      hl, 6   ; sizeof(struct adt_Queue)
+        push    hl
+        call    _u_malloc
+        pop     de
+        ret     nc      ; ret with hl = 0 and nc if fail
 
-   ld e,l
-   ld d,h
-   xor a
-   call l_setmem-11
-   ex de,hl
-   scf
-   ret
+        ld      e, l
+        ld      d, h
+        xor     a
+        call    l_setmem-11
+        ex      de, hl
+        scf
+        ret

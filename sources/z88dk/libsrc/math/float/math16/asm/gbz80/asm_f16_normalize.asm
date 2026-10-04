@@ -24,41 +24,40 @@ EXTERN asm_f24_zero
 
 PUBLIC asm_f24_normalize
 
-
 .asm_f24_normalize
-    bit 7,h
-    ret nz                      ; already normalised
-    ld a,h
-    or a
-    jr nz,need_shift
+        bit     7, h
+        ret     nz      ; already normalised
+        ld      a, h
+        or      a
+        jr      nz, need_shift
 
-    ld a,l
-    or a
-    jp z,asm_f24_zero
+        ld      a, l
+        or      a
+        jp      z, asm_f24_zero
 
-    ld h,l
-    ld l,0
-    ld a,d
-    sub 8
-    ld d,a
-    jp c,asm_f24_zero
+        ld      h, l
+        ld      l, 0
+        ld      a, d
+        sub     8
+        ld      d, a
+        jp      c, asm_f24_zero
 
-    bit 7,h
-    ret nz
-    ld a,h
-    or a
-    jp z,asm_f24_zero
+        bit     7, h
+        ret     nz
+        ld      a, h
+        or      a
+        jp      z, asm_f24_zero
 
 .need_shift
-    ld b,0
+        ld      b, 0
 .shift_loop
-    inc b
-    add hl,hl
-    bit 7,h
-    jr z,shift_loop
+        inc     b
+        add     hl, hl
+        bit     7,  h
+        jr      z,  shift_loop
 
-    ld a,d
-    sub b
-    jp c,asm_f24_zero
-    ld d,a
-    ret
+        ld      a, d
+        sub     b
+        jp      c, asm_f24_zero
+        ld      d, a
+        ret

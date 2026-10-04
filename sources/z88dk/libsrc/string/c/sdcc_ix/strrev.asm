@@ -10,10 +10,10 @@ EXTERN asm_strrev
 
 _strrev:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_strrev
+        push    hl
+        push    af
+
+        jp      asm_strrev

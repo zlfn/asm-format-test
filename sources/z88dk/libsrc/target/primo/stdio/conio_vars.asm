@@ -1,8 +1,7 @@
 
+        SECTION data_clib
 
-    SECTION data_clib
-
-    PUBLIC  __primo_screen_base
+        PUBLIC  __primo_screen_base
 
 __primo_screen_base:
-    defw    $6800
+        defw    $6800

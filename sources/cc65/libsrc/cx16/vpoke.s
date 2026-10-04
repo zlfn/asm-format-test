@@ -7,11 +7,10 @@
 ; */
 ;
 
-        .export         _vpoke
+        .export _vpoke
 
-        .import         vaddr0, popa
-        .include        "cx16.inc"
-
+        .import vaddr0, popa
+        .include "cx16.inc"
 
 _vpoke: jsr     vaddr0          ; put VERA's address
         jsr     popa

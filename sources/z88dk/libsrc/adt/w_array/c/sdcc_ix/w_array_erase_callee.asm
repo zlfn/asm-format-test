@@ -10,9 +10,9 @@ EXTERN asm_w_array_erase
 
 _w_array_erase_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_w_array_erase
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_w_array_erase

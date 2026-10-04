@@ -15,10 +15,10 @@ EXTERN asm_BIFROSTH_getTile
 
 _BIFROSTH_getTile:
 
-   ld hl,3
-	add hl,sp
-	ld c,(hl)       ; C = py
-	dec hl
-	ld l,(hl)       ; L = px
-	
-	jp asm_BIFROSTH_getTile
+        ld      hl, 3
+        add     hl, sp
+        ld      c,  (hl)        ; C = py
+        dec     hl
+        ld      l, (hl)         ; L = px
+
+        jp      asm_BIFROSTH_getTile

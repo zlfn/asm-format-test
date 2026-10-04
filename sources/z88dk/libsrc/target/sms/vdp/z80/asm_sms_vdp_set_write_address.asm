@@ -9,5 +9,5 @@ EXTERN asm_sms_vram_write_de
 
 defc asm_sms_vdp_set_write_address = asm_sms_vram_write_de - 1
 
-   ; enter : hl = unsigned int addr
-   ; uses  : af, de, hl
+        ; enter : hl = unsigned int addr
+        ; uses  : af, de, hl

@@ -9,14 +9,14 @@ EXTERN asm_SMSlib_loadTiles
 
 _SMS_loadTiles:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push af
-   
-   jp asm_SMSlib_loadTiles
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_SMSlib_loadTiles

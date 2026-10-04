@@ -10,16 +10,16 @@ EXTERN asm_fputc_unlocked
 
 _fputc_unlocked_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 l0_fputc_unlocked_callee:
 
-   push hl
-   ex (sp),ix
-   
-   call asm_fputc_unlocked
-   
-   pop ix
-   ret
+        push    hl
+        ex      (sp), ix
+
+        call    asm_fputc_unlocked
+
+        pop     ix
+        ret

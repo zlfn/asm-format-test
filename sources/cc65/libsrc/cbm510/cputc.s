@@ -7,36 +7,36 @@
 ; Important note: The implementation of cputs() relies on the cputc() function
 ; not clobbering ptr1. Beware when rewriting or changing this function!
 
-        .export         _cputcxy, _cputc, cputdirect, putchar
-        .export         newline, plot
+        .export _cputcxy, _cputc, cputdirect, putchar
+        .export newline,  plot
 
-        .import         gotoxy
-        .import         __VIDRAM_START__
-        .import         CURS_X: zp, CURS_Y: zp, CHARCOLOR: zp, RVS: zp
-        .import         SCREEN_PTR: zp, CRAM_PTR: zp
+        .import gotoxy
+        .import __VIDRAM_START__
+        .import CURS_X: zp,     CURS_Y: zp, CHARCOLOR: zp, RVS: zp
+        .import SCREEN_PTR: zp, CRAM_PTR: zp
 
-        .include        "cbm510.inc"
+        .include "cbm510.inc"
 
-        .macpack        generic
+        .macpack generic
 
 ; ------------------------------------------------------------------------
 ;
 
 _cputcxy:
-        pha                     ; Save C
-        jsr     gotoxy          ; Set cursor, drop x and y
-        pla                     ; Restore C
+        pha             ; Save C
+        jsr     gotoxy  ; Set cursor, drop x and y
+        pla             ; Restore C
 
 ; Plot a character - also used as internal function
 
-_cputc: cmp     #$0A            ; CR?
+_cputc: cmp     #$0A    ; CR?
         bne     L1
         lda     #0
         sta     CURS_X
-        beq     plot            ; Recalculate pointers
+        beq     plot    ; Recalculate pointers
 
-L1:     cmp     #$0D            ; LF?
-        beq     newline         ; Recalculate pointers
+L1:     cmp     #$0D    ; LF?
+        beq     newline ; Recalculate pointers
 
 ; Printable char of some sort
 
@@ -51,7 +51,7 @@ L1:     cmp     #$0D            ; LF?
 L2:     and     #$3F
 
 cputdirect:
-        jsr     putchar         ; Write the character to the screen
+        jsr     putchar ; Write the character to the screen
 
 ; Advance cursor position
 
@@ -59,8 +59,8 @@ advance:
         iny
         cpy     #XSIZE
         bne     L3
-        jsr     newline         ; new line
-        ldy     #0              ; + cr
+        jsr     newline ; new line
+        ldy     #0      ; + cr
 L3:     sty     CURS_X
         rts
 
@@ -81,10 +81,10 @@ newline:
 ; Set cursor position, calculate RAM pointers
 
 plot:   ldx     CURS_Y
-        lda     LineLSBTab,x
+        lda     LineLSBTab, x
         sta     SCREEN_PTR
         sta     CRAM_PTR
-        lda     LineMSBTab,x
+        lda     LineMSBTab, x
         sta     SCREEN_PTR+1
         add     #.hibyte(COLOR_RAM - __VIDRAM_START__)
         sta     CRAM_PTR+1
@@ -96,12 +96,12 @@ plot:   ldx     CURS_Y
 putchar:
         ora     RVS             ; Set revers bit
         ldy     CURS_X
-        sta     (SCREEN_PTR),y  ; Set char
+        sta     (SCREEN_PTR), y ; Set char
         ldx     IndReg
         lda     #$0F
         sta     IndReg
         lda     CHARCOLOR
-        sta     (CRAM_PTR),y    ; Set color
+        sta     (CRAM_PTR), y   ; Set color
         stx     IndReg
         rts
 
@@ -112,7 +112,7 @@ putchar:
 
 LineLSBTab:
         .repeat 25, I
-        .byte   .lobyte(__VIDRAM_START__ + I * 40)
+                .byte   .lobyte(__VIDRAM_START__ + I * 40)
         .endrep
 
 ; -------------------------------------------------------------------------
@@ -120,5 +120,5 @@ LineLSBTab:
 
 LineMSBTab:
         .repeat 25, I
-        .byte   .hibyte(__VIDRAM_START__ + I * 40)
+                .byte   .hibyte(__VIDRAM_START__ + I * 40)
         .endrep

@@ -16,7 +16,7 @@
 
 #include "proc-macros.S"
 
-	.text
+        .text
 /*
  * cpu_arm9tdmi_proc_init()
  * cpu_arm9tdmi_do_idle()
@@ -26,26 +26,26 @@
  * These are not required.
  */
 SYM_TYPED_FUNC_START(cpu_arm9tdmi_proc_init)
-		ret	lr
+        ret     lr
 SYM_FUNC_END(cpu_arm9tdmi_proc_init)
 
 SYM_TYPED_FUNC_START(cpu_arm9tdmi_do_idle)
-		ret	lr
+        ret     lr
 SYM_FUNC_END(cpu_arm9tdmi_do_idle)
 
 SYM_TYPED_FUNC_START(cpu_arm9tdmi_dcache_clean_area)
-		ret	lr
+        ret     lr
 SYM_FUNC_END(cpu_arm9tdmi_dcache_clean_area)
 
 SYM_TYPED_FUNC_START(cpu_arm9tdmi_switch_mm)
-		ret	lr
+        ret     lr
 SYM_FUNC_END(cpu_arm9tdmi_switch_mm)
 
 /*
  * cpu_arm9tdmi_proc_fin()
  */
 SYM_TYPED_FUNC_START(cpu_arm9tdmi_proc_fin)
-		ret	lr
+        ret     lr
 SYM_FUNC_END(cpu_arm9tdmi_proc_fin)
 
 /*
@@ -53,51 +53,51 @@ SYM_FUNC_END(cpu_arm9tdmi_proc_fin)
  * Params  : loc(r0)	address to jump to
  * Purpose : Sets up everything for a reset and jump to the location for soft reset.
  */
-		.pushsection	.idmap.text, "ax"
+        .pushsection .idmap.text, "ax"
 SYM_TYPED_FUNC_START(cpu_arm9tdmi_reset)
-		ret	r0
+        ret     r0
 SYM_FUNC_END(cpu_arm9tdmi_reset)
-		.popsection
+        .popsection
 
-		.type	__arm9tdmi_setup, #function
+        .type   __arm9tdmi_setup, #function
 __arm9tdmi_setup:
-		ret	lr
-		.size	__arm9tdmi_setup, . - __arm9tdmi_setup
+        ret     lr
+        .size   __arm9tdmi_setup, . - __arm9tdmi_setup
 
-		__INITDATA
+        __INITDATA
 
-		@ define struct processor (see <asm/proc-fns.h> and proc-macros.S)
-		define_processor_functions arm9tdmi, dabort=nommu_early_abort, pabort=legacy_pabort, nommu=1
+        @ define struct processor (see <asm/proc-fns.h> and proc-macros.S)
+        define_processor_functions arm9tdmi, dabort=nommu_early_abort, pabort=legacy_pabort, nommu=1
 
-		.section ".rodata"
+        .section ".rodata"
 
-		string	cpu_arch_name, "armv4t"
-		string	cpu_elf_name, "v4"
-		string	cpu_arm9tdmi_name, "ARM9TDMI"
-		string	cpu_p2001_name, "P2001"
+        string  cpu_arch_name, "armv4t"
+        string  cpu_elf_name,  "v4"
+        string  cpu_arm9tdmi_name, "ARM9TDMI"
+        string  cpu_p2001_name,    "P2001"
 
-		.align
+        .align
 
-		.section ".proc.info.init", "a"
+        .section ".proc.info.init", "a"
 
 .macro arm9tdmi_proc_info name:req, cpu_val:req, cpu_mask:req, cpu_name:req
-		.type	__\name\()_proc_info, #object
+        .type   __\name\()_proc_info, #object
 __\name\()_proc_info:
-		.long	\cpu_val
-		.long	\cpu_mask
-		.long	0
-		.long	0
-		initfn	__arm9tdmi_setup, __\name\()_proc_info
-		.long	cpu_arch_name
-		.long	cpu_elf_name
-		.long	HWCAP_SWP | HWCAP_THUMB | HWCAP_26BIT
-		.long	\cpu_name
-		.long	arm9tdmi_processor_functions
-		.long	0
-		.long	0
-		.long	v4_cache_fns
-		.size	__\name\()_proc_info, . - __\name\()_proc_info
+        .long   \cpu_val
+        .long   \cpu_mask
+        .long   0
+        .long   0
+        initfn  __arm9tdmi_setup, __\name\()_proc_info
+        .long   cpu_arch_name
+        .long   cpu_elf_name
+        .long   HWCAP_SWP | HWCAP_THUMB | HWCAP_26BIT
+        .long   \cpu_name
+        .long   arm9tdmi_processor_functions
+        .long   0
+        .long   0
+        .long   v4_cache_fns
+        .size   __\name\()_proc_info, . - __\name\()_proc_info
 .endm
 
-	arm9tdmi_proc_info arm9tdmi, 0x41009900, 0xfff8ff00, cpu_arm9tdmi_name
-	arm9tdmi_proc_info p2001, 0x41029000, 0xffffffff, cpu_p2001_name
+        arm9tdmi_proc_info arm9tdmi, 0x41009900, 0xfff8ff00, cpu_arm9tdmi_name
+        arm9tdmi_proc_info p2001,    0x41029000, 0xffffffff, cpu_p2001_name

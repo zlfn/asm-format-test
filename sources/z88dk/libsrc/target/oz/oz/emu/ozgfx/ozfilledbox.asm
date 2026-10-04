@@ -20,25 +20,22 @@
 
         EXTERN  ozpointcolor
 
-
-
 ozfilledbox:
 _ozfilledbox:
-        push    ix                      ;save callers
+        push    ix      ;save callers
         ld      ix, 2
         add     ix, sp
         call    ozpointcolor
 
-        ld      c, (ix+4)               ; height
-        ld      b, (ix+6)               ; width
-        ld      l, (ix+8)               ; y
-        ld      h, (ix+10)              ; x
+        ld      c,  (ix+4)      ; height
+        ld      b,  (ix+6)      ; width
+        ld      l,  (ix+8)      ; y
+        ld      h,  (ix+10)     ; x
         ld      ix, ozplotpixel
         call    __gfx_vram_page_in
 
-
         ld      a, c
-        ld      c, h                    ; BC - >  horizontal parameters
+        ld      c, h    ; BC - >  horizontal parameters
 
         ld      h, a
 
@@ -49,7 +46,7 @@ bloop1:
         push    hl
         ld      a, b
         add     c
-        ld      h, a
+        ld      h,  a
         ld      de, plot_RET
         push    de
         jp      (ix)

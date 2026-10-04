@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; char *strsep(char ** restrict stringp, const char * restrict delim)
 ;
 ; BSD alternative to strtok().
@@ -28,68 +28,68 @@ EXTERN asm_strpbrk
 
 asm_strsep:
 
-   ; enter : de = char *delim
-   ;         bc = char **stringp
-   ;
-   ; exit  : de = char *delim
-   ;         bc = char **stringp
-   ;
-   ;         token found
-   ;
-   ;           carry set
-   ;           hl = char *token
-   ;
-   ;         no more tokens
-   ;
-   ;           carry reset
-   ;           hl = 0
-   ;
-   ; uses  : af, hl
-   
-   ld a,(bc)
-   ld l,a
-   inc bc
-   ld a,(bc)
-   ld h,a                      ; hl = char *s
+        ; enter : de = char *delim
+        ;         bc = char **stringp
+        ;
+        ; exit  : de = char *delim
+        ;         bc = char **stringp
+        ;
+        ;         token found
+        ;
+        ;           carry set
+        ;           hl = char *token
+        ;
+        ;         no more tokens
+        ;
+        ;           carry reset
+        ;           hl = 0
+        ;
+        ; uses  : af, hl
 
-   or l                        ; s == NULL?
-   jr Z,notoken
+        ld      a, (bc)
+        ld      l, a
+        inc     bc
+        ld      a, (bc)
+        ld      h, a    ; hl = char *s
+
+        or      l       ; s == NULL?
+        jr      Z, notoken
 
 have_string:
 
-   ; find end of token by searching for a delim char
-   ;
-   ; hl = char *s
-   ; de = char *delims
-   ; bc = char **string_ptr + 1b
+        ; find end of token by searching for a delim char
+        ;
+        ; hl = char *s
+        ; de = char *delims
+        ; bc = char **string_ptr + 1b
 
-   push hl                     ; save start of token
-   push bc                     ; save char **string_ptr + 1b
+        push    hl      ; save start of token
+        push    bc      ; save char **string_ptr + 1b
 
-   call asm_strpbrk            ; hl = ptr to delim char
-   jr C,token_toend            ; if token extends to end of string (hl=0)
+        call    asm_strpbrk     ; hl = ptr to delim char
+        jr      C, token_toend  ; if token extends to end of string (hl=0)
 
-   ld (hl),0                   ; terminate token by overwriting delim char
-   inc hl                      ; tokenize from here next time
+        ld      (hl), 0 ; terminate token by overwriting delim char
+        inc     hl      ; tokenize from here next time
 
 token_toend:
 
-   ; hl = char *s (where to tokenize from next time)
-   ; de = char *delims
-   ; stack = char *s (start of token), char **string_ptr + 1
+        ; hl = char *s (where to tokenize from next time)
+        ; de = char *delims
+        ; stack = char *s (start of token), char **string_ptr + 1
 
-   pop bc
+        pop     bc
 
-   ld a,h                      ; write next token position into string_ptr
-   ld (bc),a
-   dec bc
-   ld a,l
-   ld (bc),a
+        ld      a,    h ; write next token position into string_ptr
+        ld      (bc), a
+        dec     bc
+        ld      a,    l
+        ld      (bc), a
 
-   pop hl                      ; hl = start of token
-   scf
-   ret
+        pop     hl      ; hl = start of token
+        scf
+        ret
 
 notoken:
-   dec bc
-   ret
+        dec     bc
+        ret

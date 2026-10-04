@@ -28,29 +28,29 @@
 #define TDFE	(1 << 5)
 #define TEND	(1 << 6)
 
-	.macro	addruart, rp, rv, tmp
-	ldr	\rp, =SCIF_PHYS
-	ldr	\rv, =SCIF_VIRT
-	.endm
+        .macro  addruart, rp, rv, tmp
+                ldr     \rp, =SCIF_PHYS
+                ldr     \rv, =SCIF_VIRT
+        .endm
 
-	.macro	waituartcts,rd,rx
-	.endm
+        .macro  waituartcts, rd, rx
+        .endm
 
-	.macro	waituarttxrdy, rd, rx
-1001:	ldrh	\rd, [\rx, #FSR]
-	tst	\rd, #TDFE
-	beq	1001b
-	.endm
+        .macro  waituarttxrdy, rd, rx
+1001:           ldrh    \rd, [\rx, #FSR]
+                tst     \rd, #TDFE
+                beq     1001b
+        .endm
 
-	.macro	senduart, rd, rx
-	strb	\rd, [\rx, #FTDR]
-	ldrh	\rd, [\rx, #FSR]
-	bic	\rd, \rd, #TEND
-	strh	\rd, [\rx, #FSR]
-	.endm
+        .macro  senduart, rd, rx
+                strb    \rd, [\rx, #FTDR]
+                ldrh    \rd, [\rx, #FSR]
+                bic     \rd, \rd, #TEND
+                strh    \rd, [\rx, #FSR]
+        .endm
 
-	.macro	busyuart, rd, rx
-1001:	ldrh	\rd, [\rx, #FSR]
-	tst	\rd, #TEND
-	beq	1001b
-	.endm
+        .macro  busyuart, rd, rx
+1001:           ldrh    \rd, [\rx, #FSR]
+                tst     \rd, #TEND
+                beq     1001b
+        .endm

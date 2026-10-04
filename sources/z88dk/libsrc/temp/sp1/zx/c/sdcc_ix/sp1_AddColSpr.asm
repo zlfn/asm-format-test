@@ -9,23 +9,23 @@ EXTERN l0_sp1_AddColSpr_callee
 
 _sp1_AddColSpr:
 
-   exx
-   pop bc
-   pop de
-   exx
-   pop de
-   pop hl
-   pop bc
-   ld a,l
-   pop hl
-   ld h,l
-   ld l,a
+        exx
+        pop     bc
+        pop     de
+        exx
+        pop     de
+        pop     hl
+        pop     bc
+        ld      a, l
+        pop     hl
+        ld      h, l
+        ld      l, a
 
-   push hl
-   push bc
-   push hl
-   push de
-   exx
-   push de
+        push    hl
+        push    bc
+        push    hl
+        push    de
+        exx
+        push    de
 
-   jp l0_sp1_AddColSpr_callee
+        jp      l0_sp1_AddColSpr_callee

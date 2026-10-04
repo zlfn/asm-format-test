@@ -10,8 +10,8 @@ EXTERN asm_strstr
 
 _strstr_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_strstr
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_strstr

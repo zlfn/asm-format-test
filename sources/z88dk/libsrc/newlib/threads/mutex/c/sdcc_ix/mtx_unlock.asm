@@ -10,10 +10,10 @@ EXTERN asm_mtx_unlock
 
 _mtx_unlock:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_mtx_unlock
+        push    hl
+        push    af
+
+        jp      asm_mtx_unlock

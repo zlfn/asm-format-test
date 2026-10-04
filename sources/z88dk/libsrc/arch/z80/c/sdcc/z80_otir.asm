@@ -10,12 +10,12 @@ EXTERN asm_z80_otir
 
 _z80_otir:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   otir
-   ret
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+        otir
+        ret

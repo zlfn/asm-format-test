@@ -17,17 +17,17 @@
 
 .rodata
 __ctype:
-ct_none:                .byte CT_NONE
-ct_lower:               .byte CT_LOWER
-ct_upper:               .byte CT_UPPER
-ct_digit_xdigit:        .byte CT_DIGIT | CT_XDIGIT
-ct_lower_xdigit:        .byte CT_LOWER | CT_XDIGIT
-ct_upper_xdigit:        .byte CT_UPPER | CT_XDIGIT
-ct_ctrl:                .byte CT_CTRL
-ct_ws:                  .byte CT_OTHER_WS
-ct_ctrl_ws:             .byte CT_CTRL | CT_OTHER_WS
-ct_space_spacetab:      .byte CT_SPACE | CT_SPACE_TAB
-ct_ctrl_ws_spacetab:    .byte CT_CTRL | CT_OTHER_WS | CT_SPACE_TAB
+ct_none:             .byte CT_NONE
+ct_lower:            .byte CT_LOWER
+ct_upper:            .byte CT_UPPER
+ct_digit_xdigit:     .byte CT_DIGIT | CT_XDIGIT
+ct_lower_xdigit:     .byte CT_LOWER | CT_XDIGIT
+ct_upper_xdigit:     .byte CT_UPPER | CT_XDIGIT
+ct_ctrl:             .byte CT_CTRL
+ct_ws:  .byte   CT_OTHER_WS
+ct_ctrl_ws:          .byte CT_CTRL | CT_OTHER_WS
+ct_space_spacetab:   .byte CT_SPACE | CT_SPACE_TAB
+ct_ctrl_ws_spacetab: .byte CT_CTRL | CT_OTHER_WS | CT_SPACE_TAB
 
 ; build indices out of the table above:
 
@@ -44,5 +44,5 @@ CT_SPACE_SPACETAB_IDX   = ct_space_spacetab - __ctype
 CT_CTRL_WS_SPACETAB_IDX = ct_ctrl_ws_spacetab - __ctype
 
 .macro ct_mix lower, upper
-        .byte ((lower) & $0F) | ((upper) << 4)
+        .byte   ((lower) & $0F) | ((upper) << 4)
 .endmacro

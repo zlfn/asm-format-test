@@ -17,29 +17,29 @@ EXTERN RIsRectInRect8
 
 .SP1IsRectInRect
 
-   ld a,(de)
-   inc de
-   push de
-   ex af,af                  ; a' = rect #1 y coord
-   ld a,(hl)                 ; a = rect #2 y coord
-   inc hl
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ex (sp),hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
-   inc hl
-   push hl
-   exx
-   pop hl
-   ld c,(hl)
-   ld d,a
-   ex af,af
-   ld b,a
-   pop hl
-   ld e,(hl)
-   exx
-   jp RIsRectInRect8
+        ld      a, (de)
+        inc     de
+        push    de
+        ex      af, af          ; a' = rect #1 y coord
+        ld      a,  (hl)        ; a = rect #2 y coord
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ex      (sp), hl
+        ld      b,    (hl)
+        inc     hl
+        ld      c, (hl)
+        inc     hl
+        push    hl
+        exx
+        pop     hl
+        ld      c,  (hl)
+        ld      d,  a
+        ex      af, af
+        ld      b,  a
+        pop     hl
+        ld      e, (hl)
+        exx
+        jp      RIsRectInRect8

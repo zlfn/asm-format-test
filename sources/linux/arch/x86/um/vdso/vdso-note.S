@@ -8,5 +8,5 @@
 #include <linux/elfnote.h>
 
 ELFNOTE_START(Linux, 0, "a")
-	.long LINUX_VERSION_CODE
+        .long   LINUX_VERSION_CODE
 ELFNOTE_END

@@ -10,4 +10,4 @@
 
 .rodata
 
-_mouse_stddrv:  .asciiz "cx16-std.mou"
+_mouse_stddrv: .asciiz "cx16-std.mou"

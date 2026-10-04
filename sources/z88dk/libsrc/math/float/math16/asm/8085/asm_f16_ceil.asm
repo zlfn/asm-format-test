@@ -17,15 +17,15 @@ EXTERN  asm_f16_f24
 PUBLIC  asm_f16_ceil
 
 .asm_f16_ceil
-    call asm_f24_f16
-    call asm_f24_discardfraction
-    jp NC,asm_f16_f24
-    ld a,e
-    rla
-    jp C,asm_f16_f24            ; negative: trunc is ceil
-    push de
-    push hl
-    ld de,07f00h
-    ld hl,08000h
-    call asm_f24_add_callee
-    jp asm_f16_f24
+        call    asm_f24_f16
+        call    asm_f24_discardfraction
+        jp      NC, asm_f16_f24
+        ld      a,  e
+        rla
+        jp      C, asm_f16_f24  ; negative: trunc is ceil
+        push    de
+        push    hl
+        ld      de, 07f00h
+        ld      hl, 08000h
+        call    asm_f24_add_callee
+        jp      asm_f16_f24

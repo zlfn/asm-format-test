@@ -2,7 +2,7 @@
 ; Platform-specific variables for the exec program-chaining function
 ;
 
-        .include        "cx16.inc"
+        .include "cx16.inc"
 
 ; exec() is written in C.
 ; Provide the spellings that the C compiler wants to use.

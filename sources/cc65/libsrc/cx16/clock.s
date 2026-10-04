@@ -5,12 +5,11 @@
 ; clock_t clock (void);
 ;
 
-        .constructor    initclock
-        .export         _clock
+        .constructor initclock
+        .export _clock
 
-        .import         SETTIM, RDTIM
-        .importzp       sreg
-
+        .import SETTIM, RDTIM
+        .importzp sreg
 
 ; clock() counts the amount of time that the process has run.
 ; Therefore, reset it when the program begins.
@@ -23,7 +22,6 @@
         jmp     SETTIM
 
 .endproc
-
 
 .proc   _clock
 

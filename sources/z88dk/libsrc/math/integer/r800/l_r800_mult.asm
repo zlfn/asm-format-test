@@ -20,5 +20,5 @@ PUBLIC l_mult_u
 ; Exit:  hl = value1 * value2
 .l_mult
 .l_mult_u
-    defb $ED,$D3        ; muluw hl,de -- dehl = hl*de, truncate to hl
-    ret
+        defb    $ED, $D3        ; muluw hl,de -- dehl = hl*de, truncate to hl
+        ret

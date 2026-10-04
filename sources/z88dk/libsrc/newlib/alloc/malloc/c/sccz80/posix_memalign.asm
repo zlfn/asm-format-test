@@ -16,17 +16,17 @@ EXTERN asm_posix_memalign
 
 posix_memalign:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push hl
-   push af
-   
-   jp asm_posix_memalign
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_posix_memalign
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -41,4 +41,3 @@ defc posix_memalign = posix_memalign_unlocked
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-

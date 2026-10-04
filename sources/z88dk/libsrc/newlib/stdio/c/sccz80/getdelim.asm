@@ -16,19 +16,19 @@ EXTERN asm_getdelim
 
 getdelim:
 
-   pop af
-   pop ix
-   pop bc
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push bc
-   push hl
-   push af
-   
-   jp asm_getdelim
+        pop     af
+        pop     ix
+        pop     bc
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_getdelim
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

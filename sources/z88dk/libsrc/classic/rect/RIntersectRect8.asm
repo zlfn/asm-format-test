@@ -26,73 +26,73 @@ PUBLIC RIntersectRect8
 
 .RIntersectRect8
 
-   ld a,b
-   sub d
-   sub e
-   jr c, xr1inr2
-   
-   ld a,d
-   sub b
-   sub c
-   ret nc
-   
+        ld      a, b
+        sub     d
+        sub     e
+        jr      c, xr1inr2
+
+        ld      a, d
+        sub     b
+        sub     c
+        ret     nc
+
 .xr2inr1
 
-   ld b,d
-   neg
-   cp e
-   ld c,a
-   jr c, doy
-   ld c,e
+        ld      b, d
+        neg
+        cp      e
+        ld      c, a
+        jr      c, doy
+        ld      c, e
 
 .doy
 
-   exx
-   
-   ld a,b
-   sub d
-   sub e
-   jr c, yr1inr2
-   
-   ld a,d
-   sub b
-   sub c
-   jr c, yr2inr1
-   
-   exx
-   ret
+        exx
+
+        ld      a, b
+        sub     d
+        sub     e
+        jr      c, yr1inr2
+
+        ld      a, d
+        sub     b
+        sub     c
+        jr      c, yr2inr1
+
+        exx
+        ret
 
 .xr1inr2
 
-   neg
-   cp c
-   jr nc, doy
-   ld c,a
-   jp doy
+        neg
+        cp      c
+        jr      nc, doy
+        ld      c,  a
+        jp      doy
 
 .yr1inr2
 
-   neg
-   cp c
-   jr nc, done
-   ld c,a
-   exx
-   ret
-   
+        neg
+        cp      c
+        jr      nc, done
+        ld      c,  a
+        exx
+        ret
+
 .done
 
-   scf
-   exx
-   ret
+        scf
+        exx
+        ret
 
 .yr2inr1
 
-   ld b,d
-   neg
-   cp e
-   ld c,a
-   jr c, done+1
-   ld c,e
-   exx
-   scf
-   ret
+        ld      b, d
+        neg
+        cp      e
+        ld      c, a
+        jr      c, done+1
+        ld      c, e
+        exx
+        scf
+        ret

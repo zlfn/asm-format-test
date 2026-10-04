@@ -10,10 +10,10 @@ EXTERN asm_balloc_free
 
 _balloc_free:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_balloc_free
+        push    hl
+        push    af
+
+        jp      asm_balloc_free

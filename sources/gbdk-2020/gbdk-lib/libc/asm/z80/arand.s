@@ -1,78 +1,78 @@
         .module Random
 
-        .globl	.initrand
-        .globl	_rand
+        .globl  .initrand
+        .globl  _rand
 
-        .area	_DATA
+        .area   _DATA
 
 .randarr:
-        .ds	55
+        .ds     55
 .raxj:
-        .ds	0x01
+        .ds     0x01
 .raxk:
-        .ds	0x01
+        .ds     0x01
 
-        .area	_CODE
+        .area   _CODE
 
-_arand::                        ; Banked
-        PUSH BC
-        LD D, #0
-        LD HL, #(.randarr - 1)
-        LD A, (.raxj)
-        LD E, A
-        DEC A		        ; Decrease the pointer
-        JR NZ, 1$
-        LD A, #55
+_arand::                ; Banked
+        PUSH    BC
+        LD      D,  #0
+        LD      HL, #(.randarr - 1)
+        LD      A,  (.raxj)
+        LD      E,  A
+        DEC     A       ; Decrease the pointer
+        JR      NZ, 1$
+        LD      A,  #55
 1$:
-        LD (.raxj), A
-        ADD HL, DE
-        LD B, (HL)
+        LD      (.raxj), A
+        ADD     HL, DE
+        LD      B,  (HL)
 
-        LD HL, #(.randarr - 1)  ; Ooh...
-        LD A, (.raxk)
-        LD E, A
-        DEC A                   ; Decrease the pointer
-        JR NZ, 2$
-        LD A, #55
+        LD      HL, #(.randarr - 1)     ; Ooh...
+        LD      A,  (.raxk)
+        LD      E,  A
+        DEC     A                       ; Decrease the pointer
+        JR      NZ, 2$
+        LD      A,  #55
 2$:
-        LD (.raxk), A
-        ADD HL, DE
-        LD A, (HL)
+        LD      (.raxk), A
+        ADD     HL, DE
+        LD      A,  (HL)
 
-        ADD B
-        LD (HL), A              ; Store new value
+        ADD     B
+        LD      (HL), A ; Store new value
 
-        POP BC
+        POP     BC
 
-        LD H, #0
-        LD L, A
+        LD      H, #0
+        LD      L, A
 
         RET
 
-_initarand::                    ; Banked
-        CALL .initrand
+_initarand::    ; Banked
+        CALL    .initrand
 
-        LD A, #55
-        LD HL, #.randarr
+        LD      A,  #55
+        LD      HL, #.randarr
 1$:
-        DEC A
-        LD (.raxj), A
-        LD B, H
-        LD C, L
-        CALL _rand
-        LD H, B
-        LD L, C
+        DEC     A
+        LD      (.raxj), A
+        LD      B, H
+        LD      C, L
+        CALL    _rand
+        LD      H, B
+        LD      L, C
 
-        LD (HL), E
-        INC HL
-        
-        LD A, (.raxj)
-        CP #0
-        JP NZ, 1$
+        LD      (HL), E
+        INC     HL
 
-        LD A, #24               ; Now the array has been filled,set the pointers
-        LD (.raxj), A
-        LD A, #55
-        LD (.raxk), A
+        LD      A, (.raxj)
+        CP      #0
+        JP      NZ, 1$
+
+        LD      A, #24  ; Now the array has been filled,set the pointers
+        LD      (.raxj), A
+        LD      A, #55
+        LD      (.raxk), A
 
         RET

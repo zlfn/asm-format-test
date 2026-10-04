@@ -9,15 +9,15 @@
 
 ; int hdos_decode(char *name, char *fcb);
 
-    SECTION code_clib
-    PUBLIC  hdos_decode_callee
-    PUBLIC  _hdos_decode_callee
+        SECTION code_clib
+        PUBLIC  hdos_decode_callee
+        PUBLIC  _hdos_decode_callee
 
-    EXTERN  hdos_default
+        EXTERN  hdos_default
 
-    PUBLIC    asm_hdos_decode
+        PUBLIC  asm_hdos_decode
 
-    INCLUDE "target/hdos/def/hdos.def"
+        INCLUDE "target/hdos/def/hdos.def"
 
 hdos_decode_callee:
 _hdos_decode_callee:
@@ -27,11 +27,11 @@ _hdos_decode_callee:
         push    af
 
 asm_hdos_decode:
-    ld     a,c
-    ld     de,hdos_default
-    rst    38h
-    defb   DECODE
-    ld     hl,1
-    ret    c          ; error
-    dec    hl
-    ret
+        ld      a,  c
+        ld      de, hdos_default
+        rst     38h
+        defb    DECODE
+        ld      hl, 1
+        ret     c       ; error
+        dec     hl
+        ret

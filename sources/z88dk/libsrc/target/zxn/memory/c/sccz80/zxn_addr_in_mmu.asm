@@ -9,21 +9,20 @@ EXTERN asm_zxn_addr_in_mmu
 
 zxn_addr_in_mmu:
 
-   pop de
-   pop hl
-   dec sp
-   pop af
-   
-   push af
-   inc sp
-   push hl
-   push de
+        pop     de
+        pop     hl
+        dec     sp
+        pop     af
 
-   jp asm_zxn_addr_in_mmu
+        push    af
+        inc     sp
+        push    hl
+        push    de
+
+        jp      asm_zxn_addr_in_mmu
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _zxn_addr_in_mmu
 defc _zxn_addr_in_mmu = zxn_addr_in_mmu
 ENDIF
-

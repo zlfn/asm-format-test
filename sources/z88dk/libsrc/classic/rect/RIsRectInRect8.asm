@@ -21,31 +21,31 @@ PUBLIC RIsRectInRect8
 
 .RIsRectInRect8
 
-   ld a,b
-   sub d
-   cp e
-   jr c, intersect1
-   
-   ld a,d
-   sub b
-   cp c
-   ret nc
-   
+        ld      a, b
+        sub     d
+        cp      e
+        jr      c, intersect1
+
+        ld      a, d
+        sub     b
+        cp      c
+        ret     nc
+
 .intersect1
 
-   exx
-   
-   ld a,b
-   sub d
-   cp e
-   jr c, intersect2
-   
-   ld a,d
-   sub b
-   cp c
-   
+        exx
+
+        ld      a, b
+        sub     d
+        cp      e
+        jr      c, intersect2
+
+        ld      a, d
+        sub     b
+        cp      c
+
 .intersect2
 
-   exx
-   
-   ret
+        exx
+
+        ret

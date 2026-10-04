@@ -21,23 +21,23 @@ PUBLIC l_long_mod_u
 EXTERN l_divu_32_32x32
 
 l_long_mod_u:
-   and a
-   jr  common
+        and     a
+        jr      common
 l_long_div_u:
-   scf
+        scf
 common:
 
-   ; dehl  = divisor
-   ; stack = dividend, ret
-   
-   exx
-   pop bc
-   
-   pop hl
-   pop de
-   
-   push bc
-   jp c,l_divu_32_32x32 - 1
-   call l_divu_32_32x32 - 1
-   exx
-   ret
+        ; dehl  = divisor
+        ; stack = dividend, ret
+
+        exx
+        pop     bc
+
+        pop     hl
+        pop     de
+
+        push    bc
+        jp      c, l_divu_32_32x32 - 1
+        call    l_divu_32_32x32 - 1
+        exx
+        ret

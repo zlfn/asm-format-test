@@ -16,17 +16,17 @@ EXTERN l0_vfprintf_callee
 
 _vfprintf:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
-   
-   jp l0_vfprintf_callee
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_vfprintf_callee
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -37,7 +37,7 @@ PUBLIC _vfprintf
 EXTERN _vfprintf_unlocked
 
 defc _vfprintf = _vfprintf_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

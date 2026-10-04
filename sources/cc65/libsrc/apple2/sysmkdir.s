@@ -4,12 +4,12 @@
 ; unsigned char _sysmkdir (const char* name, ...);
 ;
 
-        .export         __sysmkdir
-        .import         pushname_tos, popname, mli_set_pathname_tos
-        .import         addysp, popax
+        .export __sysmkdir
+        .import pushname_tos, popname, mli_set_pathname_tos
+        .import addysp, popax
 
-        .include        "zeropage.inc"
-        .include        "mli.inc"
+        .include "zeropage.inc"
+        .include "mli.inc"
 
 __sysmkdir:
         ; Throw away all parameters except the name
@@ -26,8 +26,8 @@ __sysmkdir:
 
         ; Set all other parameters from template
         ldx     #(MLI::CREATE::CREATE_TIME+1) - (MLI::CREATE::PATHNAME+1) - 1
-:       lda     CREATE,x
-        sta     mliparam + MLI::CREATE::ACCESS,x
+:       lda     CREATE, x
+        sta     mliparam + MLI::CREATE::ACCESS, x
         dex
         bpl     :-
 
@@ -37,7 +37,7 @@ __sysmkdir:
         jsr     callmli
 
         ; Cleanup name
-        jsr     popname         ; Preserves A
+        jsr     popname ; Preserves A
 
 oserr:  rts
 

@@ -15,33 +15,33 @@
 ;
 ;===------------------------------------------------------------------------===;
 
-	.area _CODE
-	.globl _start
-	.globl _main
-	.globl _halt
+        .area   _CODE
+        .globl  _start
+        .globl  _main
+        .globl  _halt
 
 _start:
-	ld	sp,#0xFFFE	; top of WRAM (Game Boy: 0xC000-0xDFFF)
+        ld      sp, #0xFFFE     ; top of WRAM (Game Boy: 0xC000-0xDFFF)
 
-	;; Zero-fill .bss using ld (hl+),a auto-increment store.
-	ld	hl,#__bss_start
-	ld	de,#__bss_size
-	ld	a,d
-	or	a,e
-	jr	z,_bss_done	; skip if .bss is empty
-	xor	a,a		; A = 0
+        ;; Zero-fill .bss using ld (hl+),a auto-increment store.
+        ld      hl, #__bss_start
+        ld      de, #__bss_size
+        ld      a,  d
+        or      a,  e
+        jr      z,  _bss_done   ; skip if .bss is empty
+        xor     a,  a           ; A = 0
 _bss_loop:
-	ld	(hl+),a		; (HL) = 0; HL++
-	dec	de
-	ld	a,d
-	or	a,e
-	ld	a,#0		; reset A without affecting flags
-	jr	nz,_bss_loop
+        ld      (hl+), a        ; (HL) = 0; HL++
+        dec     de
+        ld      a,  d
+        or      a,  e
+        ld      a,  #0          ; reset A without affecting flags
+        jr      nz, _bss_loop
 _bss_done:
 
-	call	_main
+        call    _main
 _halt:
 _halt_loop:
-	halt
-	nop			; the HALT bug can run the byte after HALT twice
-	jr	_halt_loop
+        halt
+        nop     ; the HALT bug can run the byte after HALT twice
+        jr      _halt_loop

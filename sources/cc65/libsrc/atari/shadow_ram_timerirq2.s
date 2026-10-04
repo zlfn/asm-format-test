@@ -9,22 +9,19 @@
 .ifdef __ATARIXL__
 
 SHRAM_HANDLERS  =       1
-                .include        "atari.inc"
-                .include        "romswitch.inc"
-                .import         __CHARGEN_START__
-                .export         set_VTIMR2_handler
-
+        .include "atari.inc"
+        .include "romswitch.inc"
+        .import __CHARGEN_START__
+        .export set_VTIMR2_handler
 
 .segment "LOWBSS"
 
-VTIMR2_handler: .res    3
-
+VTIMR2_handler: .res 3
 
 .segment "BSS"
 
 old_VTIMR2_handler:
-                .res    2
-
+        .res    2
 
 .segment "LOWCODE"
 
@@ -32,11 +29,11 @@ old_VTIMR2_handler:
 ; disable ROM, call user handler, enable ROM again
 
 my_VTIMR2_handler:
-                disable_rom_quick
-                jsr     VTIMR2_handler
-                enable_rom_quick
-                pla
-                rti
+        disable_rom_quick
+        jsr     VTIMR2_handler
+        enable_rom_quick
+        pla
+        rti
 
 .segment "CODE"
 
@@ -47,36 +44,36 @@ my_VTIMR2_handler:
 
 set_VTIMR2_handler:
 
-                bcc     @remove
+        bcc     @remove
 
 ; install vector
 
-                stx     VTIMR2_handler+2
-                sta     VTIMR2_handler+1        ; save passed vector in low memory
-                lda     #$4C                    ; "JMP" opcode
-                sta     VTIMR2_handler
+        stx     VTIMR2_handler+2
+        sta     VTIMR2_handler+1        ; save passed vector in low memory
+        lda     #$4C                    ; "JMP" opcode
+        sta     VTIMR2_handler
 
-                lda     VTIMR2
-                sta     old_VTIMR2_handler
-                lda     VTIMR2+1
-                sta     old_VTIMR2_handler+1
+        lda     VTIMR2
+        sta     old_VTIMR2_handler
+        lda     VTIMR2+1
+        sta     old_VTIMR2_handler+1
 
-                lda     #<my_VTIMR2_handler
-                php
-                sei
-                sta     VTIMR2
-                lda     #>my_VTIMR2_handler
-                sta     VTIMR2+1
-                plp
-                rts
+        lda     #<my_VTIMR2_handler
+        php
+        sei
+        sta     VTIMR2
+        lda     #>my_VTIMR2_handler
+        sta     VTIMR2+1
+        plp
+        rts
 
-@remove:        php
-                sei
-                lda     old_VTIMR2_handler
-                sta     VTIMR2
-                lda     old_VTIMR2_handler+1
-                sta     VTIMR2+1
-                plp
-                rts
+@remove: php
+        sei
+        lda     old_VTIMR2_handler
+        sta     VTIMR2
+        lda     old_VTIMR2_handler+1
+        sta     VTIMR2+1
+        plp
+        rts
 
 .endif  ; .ifdef __ATARIXL__

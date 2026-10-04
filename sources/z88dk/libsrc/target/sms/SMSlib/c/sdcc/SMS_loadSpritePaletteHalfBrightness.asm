@@ -9,10 +9,10 @@ EXTERN asm_SMSlib_loadSpritePaletteHalfBrightness
 
 _SMS_loadSpritePaletteHalfBrightness:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_SMSlib_loadSpritePaletteHalfBrightness
+        push    hl
+        push    af
+
+        jp      asm_SMSlib_loadSpritePaletteHalfBrightness

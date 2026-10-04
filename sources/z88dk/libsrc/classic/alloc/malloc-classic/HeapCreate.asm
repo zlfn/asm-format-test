@@ -14,5 +14,5 @@ EXTERN l_setmem
 .HeapCreate
 ._HeapCreate
 
-   xor a
-   jp l_setmem - 7           ; four bytes: 2*4-1
+        xor     a
+        jp      l_setmem - 7    ; four bytes: 2*4-1

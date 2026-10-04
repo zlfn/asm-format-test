@@ -5,25 +5,23 @@
 ; CC65 runtime: long pop
 ;
 
-        .export         popeax
-        .import         incsp4
-        .importzp       c_sp, sreg
+        .export popeax
+        .import incsp4
+        .importzp c_sp, sreg
 
 popeax: ldy     #3
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     sreg+1
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     sreg
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
         tax
 .if .cap(CPU_HAS_ZPIND)
         lda     (c_sp)
 .else
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
 .endif
         jmp     incsp4
-
-

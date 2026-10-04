@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _sms_psg_silence
 defc _sms_psg_silence = sms_psg_silence
 ENDIF
-

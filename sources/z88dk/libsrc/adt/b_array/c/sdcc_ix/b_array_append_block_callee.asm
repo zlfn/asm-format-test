@@ -10,14 +10,14 @@ EXTERN error_zc, asm_b_array_append_block
 
 _b_array_append_block_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
 l0_b_array_append_block_callee:
- 
-   call asm_b_array_append_block
-   ret nc
-   
-   jp error_zc
+
+        call    asm_b_array_append_block
+        ret     nc
+
+        jp      error_zc

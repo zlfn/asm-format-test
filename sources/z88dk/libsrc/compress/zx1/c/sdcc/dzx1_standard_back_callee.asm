@@ -10,9 +10,9 @@ EXTERN asm_dzx1_standard_back
 
 _dzx1_standard_back_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
-   jp asm_dzx1_standard_back
+        jp      asm_dzx1_standard_back

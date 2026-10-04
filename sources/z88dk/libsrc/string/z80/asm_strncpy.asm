@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013 / Dec 2021 feilipu
 ; ===============================================================
-; 
+;
 ; char *strncpy(char * restrict s1, const char * restrict s2, size_t n)
 ;
 ; Copy at most n chars from string s2 to string s1, return s1.
@@ -20,74 +20,74 @@ PUBLIC asm_strncpy
 
 asm_strncpy:
 
-   ; enter : de = char *s1 = dst
-   ;         hl = char *s2 = src
-   ;         bc = size_t n
-   ;
-   ; exit  : hl = char *s1 = dst
-   ;         de = & s1[n] = dst + n
-   ;         bc = 0
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : de = char *s1 = dst
+        ;         hl = char *s2 = src
+        ;         bc = size_t n
+        ;
+        ; exit  : hl = char *s1 = dst
+        ;         de = & s1[n] = dst + n
+        ;         bc = 0
+        ;
+        ; uses  : af, bc, de, hl
 
-   push de                     ; save dst
+        push    de      ; save dst
 
-   ld a,b
-   or c
-   jr Z,done
+        ld      a, b
+        or      c
+        jr      Z, done
 
-   ; first copy src to dst
+        ; first copy src to dst
 
 IF __CPU_INTEL__ || __CPU_GBZ80__
 
-   dec bc
-   inc b
-   inc c
+        dec     bc
+        inc     b
+        inc     c
 
 loop:
-   ld a,(hl+)
-   ld (de),a
-   and a
-   jr Z,copied
+        ld      a,    (hl+)
+        ld      (de), a
+        and     a
+        jr      Z, copied
 
-   inc de
+        inc     de
 
-   dec c
-   jr NZ,loop
-   dec b
-   jr NZ,loop
+        dec     c
+        jr      NZ, loop
+        dec     b
+        jr      NZ, loop
 
-   jr done                      ; reached max number of chars
+        jr      done    ; reached max number of chars
 
 copied:
-   ; now pad with zeroes
+        ; now pad with zeroes
 
 zeroloop:
-   ld (de+),a
+        ld      (de+), a
 
-   dec c
-   jr NZ,zeroloop
-   dec b
-   jr NZ,zeroloop
+        dec     c
+        jr      NZ, zeroloop
+        dec     b
+        jr      NZ, zeroloop
 
 ELSE
 
-   xor a
+        xor     a
 
 loop:
-   cp (hl)
-   ldi
-   jp PO,done                  ; reached max number of chars
-   jr NZ,loop
+        cp      (hl)
+        ldi
+        jp      PO, done        ; reached max number of chars
+        jr      NZ, loop
 
-   ; now pad with zeroes
+        ; now pad with zeroes
 
-   ld hl,de
-   dec hl
-   ldir
+        ld      hl, de
+        dec     hl
+        ldir
 
 ENDIF
 
 done:
-   pop hl
-   ret
+        pop     hl
+        ret

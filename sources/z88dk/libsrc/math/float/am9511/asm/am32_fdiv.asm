@@ -27,42 +27,40 @@ EXTERN asm_am9511_spec_div
 
 PUBLIC asm_am9511_fdiv, asm_am9511_fdiv_callee
 
-
 ; enter: stack = x, ret; DEHL = y → DEHL = x/y
 .asm_am9511_fdiv
-    call asm_am9511_spec_div
-    ret C                           ; IEEE special handled
+        call    asm_am9511_spec_div
+        ret     C       ; IEEE special handled
 
-    call asm_am9511_pushf           ; x
+        call    asm_am9511_pushf        ; x
 
-    call asm_am9511_pushf_fastcall  ; y
+        call    asm_am9511_pushf_fastcall       ; y
 
-    ld a,__IO_APU_OP_FDIV
-    AM9511_OUT_APU_CONTROL        ; x / y
+        ld      a, __IO_APU_OP_FDIV
+        AM9511_OUT_APU_CONTROL  ; x / y
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf
 
 ; enter: stack = x, ret; DEHL = y; consumes x
 .asm_am9511_fdiv_callee
-    call asm_am9511_spec_div
-    jr NC,dcal_apu
-    pop bc                          ; ret
-    pop af
-    pop af                          ; drop x
-    push bc
-    ret
+        call    asm_am9511_spec_div
+        jr      NC, dcal_apu
+        pop     bc      ; ret
+        pop     af
+        pop     af      ; drop x
+        push    bc
+        ret
 
 .dcal_apu
-    call asm_am9511_pushf           ; x
+        call    asm_am9511_pushf        ; x
 
-    call asm_am9511_pushf_fastcall  ; y
+        call    asm_am9511_pushf_fastcall       ; y
 
-    ld a,__IO_APU_OP_FDIV
-    AM9511_OUT_APU_CONTROL        ; x / y
+        ld      a, __IO_APU_OP_FDIV
+        AM9511_OUT_APU_CONTROL  ; x / y
 
-    pop hl                          ; ret
-    pop de
-    ex (sp),hl                      ; ret back on stack
+        pop     hl              ; ret
+        pop     de
+        ex      (sp), hl        ; ret back on stack
 
-    jp asm_am9511_popf
+        jp      asm_am9511_popf

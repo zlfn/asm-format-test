@@ -9,28 +9,28 @@ EXTERN asm_sp1_AddColSpr
 
 _sp1_AddColSpr_callee:
 
-   exx
-   pop bc
-   pop de
-   exx
-   pop de
-   pop hl
-   pop bc
-   ld a,l
-   pop hl
-   ld h,l
-   ld l,a
-   exx
+        exx
+        pop     bc
+        pop     de
+        exx
+        pop     de
+        pop     hl
+        pop     bc
+        ld      a, l
+        pop     hl
+        ld      h, l
+        ld      l, a
+        exx
 
 l0_sp1_AddColSpr_callee:
 
-   push bc
-   push de
-   exx
-   
-   ex (sp),ix
-   
-   call asm_sp1_AddColSpr
-   
-   pop ix
-   ret
+        push    bc
+        push    de
+        exx
+
+        ex      (sp), ix
+
+        call    asm_sp1_AddColSpr
+
+        pop     ix
+        ret

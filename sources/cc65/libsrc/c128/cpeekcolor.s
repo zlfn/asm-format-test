@@ -5,17 +5,16 @@
 ; unsigned char cpeekcolor (void);
 ;
 
-        .export         _cpeekcolor
+        .export _cpeekcolor
 
-        .include        "c128.inc"
-
+        .include "c128.inc"
 
 _cpeekcolor:
         bit     MODE
         bmi     @c80
 
         ldy     CURS_X
-        lda     (CRAM_PTR),y    ; get color
+        lda     (CRAM_PTR), y   ; get color
         and     #$0F
         ldx     #>$0000
         rts
@@ -40,7 +39,7 @@ _cpeekcolor:
         ldx     #VDC_RAM_RW
         stx     VDC_INDEX
 @L1:    bit     VDC_INDEX
-        bpl     @L1             ; wait for blanking
+        bpl     @L1     ; wait for blanking
         lda     VDC_DATA
         and     #$0F
 
@@ -49,7 +48,7 @@ _cpeekcolor:
 vdctovic:
         ldy     #$0F + 1
 @L2:    dey
-        cmp     $CE5C,y
+        cmp     $CE5C, y
         bne     @L2
         tya
         ldx     #>$0000

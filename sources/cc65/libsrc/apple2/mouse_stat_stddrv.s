@@ -8,9 +8,9 @@
 
         .export _mouse_static_stddrv
         .ifdef  __APPLE2ENH__
-        .import _a2e_stdmou_mou
+                .import _a2e_stdmou_mou
         .else
-        .import _a2_stdmou_mou
+                .import _a2_stdmou_mou
         .endif
 
 .rodata

@@ -15,14 +15,14 @@ PUBLIC _ferror_fastcall
 EXTERN asm_ferror
 
 _ferror_fastcall:
-   
-   push hl
-   ex (sp),ix
-   
-   call asm_ferror
-   
-   pop ix
-   ret
+
+        push    hl
+        ex      (sp), ix
+
+        call    asm_ferror
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

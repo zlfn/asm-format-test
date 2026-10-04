@@ -10,17 +10,17 @@ EXTERN asm_fputs_unlocked
 
 _fputs_unlocked_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
 
 l0_fputs_unlocked_callee:
 
-   push bc
-   ex (sp),ix
-   
-   call asm_fputs_unlocked
-   
-   pop ix
-   ret
+        push    bc
+        ex      (sp), ix
+
+        call    asm_fputs_unlocked
+
+        pop     ix
+        ret

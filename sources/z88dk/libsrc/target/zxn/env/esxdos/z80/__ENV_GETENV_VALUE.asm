@@ -6,4 +6,4 @@ PUBLIC __ENV_GETENV_VALUE
 
 __ENV_GETENV_VALUE:
 
-   defs __ENV_GETENV_VALSZ + 1
+        defs    __ENV_GETENV_VALSZ + 1

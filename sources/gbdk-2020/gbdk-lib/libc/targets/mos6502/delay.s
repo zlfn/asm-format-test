@@ -13,47 +13,47 @@
 ;
 __delay_1ms::
 .delay_1ms::
-    bit *__SYSTEM
-    bmi .delay_1ms_dendy
-    bvs .delay_1ms_pal
+        bit     *__SYSTEM
+        bmi     .delay_1ms_dendy
+        bvs     .delay_1ms_pal
 .delay_1ms_ntsc:
-    ldy #252
-    bne .delay_1ms_loop
+        ldy     #252
+        bne     .delay_1ms_loop
 .delay_1ms_pal:
-    ldy #234
-    bne .delay_1ms_loop
+        ldy     #234
+        bne     .delay_1ms_loop
 .delay_1ms_dendy:
-    ldy #250
-    bne .delay_1ms_loop
+        ldy     #250
+        bne     .delay_1ms_loop
 
 .delay_1ms_loop:
-    nop
-    dey
-    bne .delay_1ms_loop
-    rts
+        nop
+        dey
+        bne     .delay_1ms_loop
+        rts
 
 ;
 ; Delay AX milliseconds
-; 
+;
 ; Entry conditions
 ;   AX = number of milliseconds to delay (1 to 65535)
-; 
+;
 ; Registers used: A, X, Y
 ;
-; Single iteration with X = 0 takes 6 + .delay_1ms + 2 + 2 + 2 + 2 + 3 + 6 = .delay_1ms + 23 cycles 
+; Single iteration with X = 0 takes 6 + .delay_1ms + 2 + 2 + 2 + 2 + 3 + 6 = .delay_1ms + 23 cycles
 ;       = (((.delay_1ms + 7) * A - 1) + 9) * X + 12
 ;
 _delay::
 .delay::
-1$: 
+1$:
 2$:
-    jsr .delay_1ms
-    sec
-    sbc #1
-    bcs 2$
-    cpx #0
-    beq 3$
-    dex
-    jmp 1$
+        jsr     .delay_1ms
+        sec
+        sbc     #1
+        bcs     2$
+        cpx     #0
+        beq     3$
+        dex
+        jmp     1$
 3$:
-    rts
+        rts

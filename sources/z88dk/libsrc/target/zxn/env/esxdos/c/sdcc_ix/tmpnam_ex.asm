@@ -8,10 +8,10 @@ EXTERN _tmpnam_ex_fastcall
 
 _tmpnam_ex:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _tmpnam_ex_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _tmpnam_ex_fastcall

@@ -16,12 +16,12 @@ EXTERN asm_BIFROSTH_drawTileH
 
 _BIFROSTH_drawTileH_callee:
 
-   pop de
-	pop hl
-	dec sp
-	pop af          ; A = tile
-	push de
-	ld d,l          ; D = lin
-	ld e,h          ; E = col
-	
-	jp asm_BIFROSTH_drawTileH
+        pop     de
+        pop     hl
+        dec     sp
+        pop     af      ; A = tile
+        push    de
+        ld      d, l    ; D = lin
+        ld      e, h    ; E = col
+
+        jp      asm_BIFROSTH_drawTileH

@@ -9,11 +9,11 @@ EXTERN asm_SMSlib_addSprite
 
 _SMS_addSprite_callee:
 
-   pop af
-   pop de
-   dec sp
-   pop bc
-   push af
-   
-   ld c,e
-   jp asm_SMSlib_addSprite
+        pop     af
+        pop     de
+        dec     sp
+        pop     bc
+        push    af
+
+        ld      c, e
+        jp      asm_SMSlib_addSprite

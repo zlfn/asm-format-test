@@ -8,17 +8,17 @@
 ;
 
 ;   This function goes through the sector chain in a file up to the desired sector count.
-;   
+;
 
 ; uint16_t hdos_posit(int channel, uint16_t sector);
 
-    SECTION code_clib
-    PUBLIC  hdos_posit_callee
-    PUBLIC  _hdos_posit_callee
+        SECTION code_clib
+        PUBLIC  hdos_posit_callee
+        PUBLIC  _hdos_posit_callee
 
-    PUBLIC    asm_hdos_posit
+        PUBLIC  asm_hdos_posit
 
-    INCLUDE "target/hdos/def/hdos.def"
+        INCLUDE "target/hdos/def/hdos.def"
 
 hdos_posit_callee:
 _hdos_posit_callee:
@@ -28,9 +28,9 @@ _hdos_posit_callee:
         push    af
 
 asm_hdos_posit:
-    ld     a,l
-    rst    38h
-    defb   POSIT
-    ld     h,b
-    ld     l,c
-    ret
+        ld      a, l
+        rst     38h
+        defb    POSIT
+        ld      h, b
+        ld      l, c
+        ret

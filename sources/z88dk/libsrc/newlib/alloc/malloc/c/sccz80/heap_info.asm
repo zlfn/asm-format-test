@@ -16,15 +16,15 @@ EXTERN asm_heap_info
 
 heap_info:
 
-   pop af
-   pop ix
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   jp asm_heap_info
+        pop     af
+        pop     ix
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_heap_info
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

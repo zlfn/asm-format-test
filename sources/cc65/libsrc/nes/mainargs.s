@@ -4,10 +4,8 @@
 ; Setup arguments for main
 ;
 
-
-        .constructor    initmainargs, 24
-        .import         __argc, __argv
-
+        .constructor initmainargs, 24
+        .import __argc, __argv
 
 ;---------------------------------------------------------------------------
 ; Get possible command-line arguments. Goes into the special ONCE segment,
@@ -20,5 +18,3 @@
         rts
 
 .endproc
-
-

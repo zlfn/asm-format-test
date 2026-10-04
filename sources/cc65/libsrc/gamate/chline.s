@@ -5,16 +5,16 @@
 ; void chline (unsigned char length);
 ;
 
-        .export         _chlinexy, _chline
-        .import         gotoxy, cputdirect
-        .importzp       tmp1
+        .export _chlinexy, _chline
+        .import gotoxy,    cputdirect
+        .importzp tmp1
 
-        .include        "gamate.inc"
+        .include "gamate.inc"
 
 _chlinexy:
-        pha                     ; Save the length
-        jsr     gotoxy          ; Call this one, will pop params
-        pla                     ; Restore the length
+        pha             ; Save the length
+        jsr     gotoxy  ; Call this one, will pop params
+        pla             ; Restore the length
 
 _chline:
         cmp     #0              ; Is the length zero?
@@ -25,7 +25,3 @@ L1:     lda     #CH_HLINE       ; Horizontal line, screen code
         dec     tmp1
         bne     L1
 L9:     rts
-
-
-
-

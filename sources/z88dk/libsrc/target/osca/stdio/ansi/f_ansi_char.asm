@@ -22,20 +22,18 @@
 ;	$Id: f_ansi_char.asm,v 1.5 2016-07-14 17:44:18 pauloscustodio Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_CHAR
-    INCLUDE "target/osca/def/flos.def"
+        SECTION code_clib
+        PUBLIC  ansi_CHAR
+        INCLUDE "target/osca/def/flos.def"
 
-    EXTERN  __console_y
-    EXTERN  __console_x
-
+        EXTERN  __console_y
+        EXTERN  __console_x
 
 ;	EXTERN	cursor_y
 ;	EXTERN	cursor_x
 
 ;.mychar   defb 0
 ;          defb 0 ; string termination
-
 
 ansi_CHAR:
 
@@ -47,11 +45,10 @@ ansi_CHAR:
 ;	ld hl,mychar
 ;	jp kjt_print_string
 
-    ld      e, a
-    ld      a, (__console_x)
-    ld      b, a
-    ld      a, (__console_y)
-    ld      c, a
-    ld      a, e
-    jp      kjt_plot_char
-
+        ld      e, a
+        ld      a, (__console_x)
+        ld      b, a
+        ld      a, (__console_y)
+        ld      c, a
+        ld      a, e
+        jp      kjt_plot_char

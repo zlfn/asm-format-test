@@ -10,10 +10,10 @@ EXTERN asm_z80_inp
 
 _z80_inp:
 
-   pop af
-   pop bc
-   
-   push bc
-   push af
-   in  l,(c)
-   ret
+        pop     af
+        pop     bc
+
+        push    bc
+        push    af
+        in      l, (c)
+        ret

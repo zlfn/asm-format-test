@@ -10,10 +10,10 @@ EXTERN asm_sp1_ValUpdateStruct
 
 _sp1_ValUpdateStruct:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_sp1_ValUpdateStruct
+        push    hl
+        push    af
+
+        jp      asm_sp1_ValUpdateStruct

@@ -5,19 +5,14 @@
 ; /* Return the current mouse position */
 ;
 
-        .import         ptr1: zp
+        .import ptr1: zp
 
-        .include        "mouse-kernel.inc"
+        .include "mouse-kernel.inc"
 
 .proc   _mouse_pos
 
         sta     ptr1
-        stx     ptr1+1                  ; Store pos into ptr1
-        jmp     mouse_pos               ; Call the driver
+        stx     ptr1+1          ; Store pos into ptr1
+        jmp     mouse_pos       ; Call the driver
 
 .endproc
-
-
-
-
-

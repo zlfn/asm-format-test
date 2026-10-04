@@ -10,12 +10,12 @@ EXTERN l0_obstack_1grow_fast_callee
 
 _obstack_1grow_fast:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   jp l0_obstack_1grow_fast_callee
+        pop     af
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_obstack_1grow_fast_callee

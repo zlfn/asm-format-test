@@ -9,16 +9,16 @@
 ;
 
         SECTION code_clib
-	PUBLIC	exos_channel_read_status
-	PUBLIC	_exos_channel_read_status
+        PUBLIC  exos_channel_read_status
+        PUBLIC  _exos_channel_read_status
 
 exos_channel_read_status:
 _exos_channel_read_status:
 
-	ld	a,l
-	rst   30h
-	defb  9
-	ld	h,0
-	ld	l,c
+        ld      a, l
+        rst     30h
+        defb    9
+        ld      h, 0
+        ld      l, c
 
-	ret
+        ret

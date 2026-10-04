@@ -4,16 +4,16 @@
 ; CC65 runtime: modulo operation for unsigned ints
 ;
 
-        .export         tosumoda0, tosumodax
-        .import         popptr1, udiv16
-        .importzp       sreg, ptr4
+        .export tosumoda0, tosumodax
+        .import popptr1,   udiv16
+        .importzp sreg, ptr4
 
 tosumoda0:
         ldx     #0
 tosumodax:
         sta     ptr4
-        stx     ptr4+1          ; Save right operand
-        jsr     popptr1         ; Get right operand
+        stx     ptr4+1  ; Save right operand
+        jsr     popptr1 ; Get right operand
 
 ; Do the division
 
@@ -24,5 +24,3 @@ tosumodax:
         lda     sreg
         ldx     sreg+1
         rts
-
-

@@ -8,4 +8,4 @@ _GLOBAL_ZXN_PORT_FE:
 _GLOBAL_TS_PORT_FE:
 _GLOBAL_ZX_PORT_FE:
 
-   defb 7
+        defb    7

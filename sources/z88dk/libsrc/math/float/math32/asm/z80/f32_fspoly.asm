@@ -43,133 +43,132 @@ EXTERN m32_fsmul24x32, m32_fsadd24x32
 PUBLIC m32_fspoly_callee
 PUBLIC _m32_polyf
 
-
 ._m32_polyf
 .m32_fspoly_callee
-    ; evaluation of a polynomial function
-    ;
-    ; enter : stack = uint16_t n, float d[], float x, ret
-    ;
-    ; exit  : dehl  = 32-bit product
-    ;         carry reset
-    ;
-    ; uses  : af, bc, de, hl, af', bc', de', hl'
+        ; evaluation of a polynomial function
+        ;
+        ; enter : stack = uint16_t n, float d[], float x, ret
+        ;
+        ; exit  : dehl  = 32-bit product
+        ;         carry reset
+        ;
+        ; uses  : af, bc, de, hl, af', bc', de', hl'
 
-    pop af                      ; return
-    pop hl                      ; (float)x in dehl
-    pop de
+        pop     af      ; return
+        pop     hl      ; (float)x in dehl
+        pop     de
 
-    exx
-    pop de                      ; address of base of coefficient table (float)d[]
-    pop hl                      ; count n
-    push af                     ; return on stack
+        exx
+        pop     de      ; address of base of coefficient table (float)d[]
+        pop     hl      ; count n
+        push    af      ; return on stack
 
-    ld b,l                      ; mask n to uint8_t in b, because that's got to be enough coefficients.
-    push bc                     ; copy of n on stack
-    dec hl                      ; count of (float)d[n-1]
+        ld      b, l    ; mask n to uint8_t in b, because that's got to be enough coefficients.
+        push    bc      ; copy of n on stack
+        dec     hl      ; count of (float)d[n-1]
 
-    add hl,hl                   ; point at float relative index
-    add hl,hl
-    add hl,de                   ; create absolute table index from base and relative index
+        add     hl, hl  ; point at float relative index
+        add     hl, hl
+        add     hl, de  ; create absolute table index from base and relative index
 
-    exx
-    push de                     ; (float)x on stack
-    push hl
+        exx
+        push    de      ; (float)x on stack
+        push    hl
 
-    exx
-    push hl                     ; absolute table index on stack
-  
-    ld e,(hl+)                   ; collect (float)d[n-1]
-    ld d,(hl+)
-    ld c,(hl+)
-    ld b,(hl+)                  ; sdcc_float d[n-1] in bcde
-    push bc                     ; sdcc_float d[n-1] on stack
-    push de
+        exx
+        push    hl      ; absolute table index on stack
 
-    ld e,(hl+)                   ; collect d[n]
-    ld d,(hl+)
-    ld c,(hl+)
-    ld b,(hl)                   ; sdcc_float res = d[n] in bcde
-    push bc                     ; sdcc_float res = d[n] on stack
-    push de
+        ld      e, (hl+)        ; collect (float)d[n-1]
+        ld      d, (hl+)
+        ld      c, (hl+)
+        ld      b, (hl+)        ; sdcc_float d[n-1] in bcde
+        push    bc              ; sdcc_float d[n-1] on stack
+        push    de
 
-    exx
-    rl de                       ; get full exponent into d
-    rr c                        ; put sign in c
-    scf
-    rr e                        ; put implicit bit for mantissa in ehl
-    ld b,d                      ; unpack IEEE to expanded float 32-bit mantissa
-    ld d,e
-    ld e,h
-    ld h,l
-    ld l,0                      ; (float)x in bc dehl
+        ld      e, (hl+)        ; collect d[n]
+        ld      d, (hl+)
+        ld      c, (hl+)
+        ld      b, (hl)         ; sdcc_float res = d[n] in bcde
+        push    bc              ; sdcc_float res = d[n] on stack
+        push    de
+
+        exx
+        rl      de      ; get full exponent into d
+        rr      c       ; put sign in c
+        scf
+        rr      e       ; put implicit bit for mantissa in ehl
+        ld      b, d    ; unpack IEEE to expanded float 32-bit mantissa
+        ld      d, e
+        ld      e, h
+        ld      h, l
+        ld      l, 0    ; (float)x in bc dehl
 
 .fep0
-    call m32_fsmul24x32         ; x * res => bc dehl
-    call m32_fsadd24x32         ; d[--n] + res * x => bc dehl
+        call    m32_fsmul24x32  ; x * res => bc dehl
+        call    m32_fsadd24x32  ; d[--n] + res * x => bc dehl
 
-    exx
-    pop hl                      ; current absolute table index
-    pop af                      ; (float)x lsw from stack
-    pop bc                      ; (float)x msw from stack
+        exx
+        pop     hl      ; current absolute table index
+        pop     af      ; (float)x lsw from stack
+        pop     bc      ; (float)x msw from stack
 
-    exx
-    ex af,af
-    pop af                      ; current n value in a
-    dec a
-    jr Z,fep1                   ; n value == 0 ?
+        exx
+        ex      af, af
+        pop     af      ; current n value in a
+        dec     a
+        jr      Z, fep1 ; n value == 0 ?
 
-    push af                     ; current n value on stack
+        push    af      ; current n value on stack
 
-    exx
-    ex af,af
-    push bc                     ; x msw on stack preserved for next iteration
-    push af                     ; x lsw on stack preserved for next iteration
+        exx
+        ex      af, af
+        push    bc      ; x msw on stack preserved for next iteration
+        push    af      ; x lsw on stack preserved for next iteration
 
-    dec hl
-    ld d,(hl-)
-    ld e,(hl-)
-    push de                     ; push d[--n] msw to stack
-    ld d,(hl-)
-    ld e,(hl)                   ; sdcc_float d[--n] lsw
+        dec     hl
+        ld      d, (hl-)
+        ld      e, (hl-)
+        push    de      ; push d[--n] msw to stack
+        ld      d, (hl-)
+        ld      e, (hl) ; sdcc_float d[--n] lsw
 
-    ex (sp),hl                  ; next absolute table index to stack
-    push hl                     ; push d[--n] msw to stack
-    push de                     ; push d[--n] lsw to stack
+        ex      (sp), hl        ; next absolute table index to stack
+        push    hl              ; push d[--n] msw to stack
+        push    de              ; push d[--n] lsw to stack
 
-    push bc                     ; x msw on stack for this iteration
-    push af                     ; x lsw on stack for this iteration
+        push    bc      ; x msw on stack for this iteration
+        push    af      ; x lsw on stack for this iteration
 
-    exx
-    jr fep0
+        exx
+        jr      fep0
 
 .fep1
-    ld a,l
-    ld l,h                      ; align 32-bit mantissa to IEEE 24-bit mantissa
-    ld h,e
-    ld e,d
+        ld      a, l
+        ld      l, h    ; align 32-bit mantissa to IEEE 24-bit mantissa
+        ld      h, e
+        ld      e, d
 
-    ; IEEE RNE: residual A → G=bit7, S=bits6..0 (via add a,a), B=L.0
-    add a,a
-    jr NC,fep2                  ; G=0
-    jr NZ,fep_up                ; G=1 S≠0
-    bit 0,l
-    jr Z,fep2                   ; tie, already even
+        ; IEEE RNE: residual A → G=bit7, S=bits6..0 (via add a,a), B=L.0
+        add     a,  a
+        jr      NC, fep2        ; G=0
+        jr      NZ, fep_up      ; G=1 S≠0
+        bit     0,  l
+        jr      Z,  fep2        ; tie, already even
 .fep_up
-    inc l
-    jr NZ,fep2
-    inc h
-    jr NZ,fep2
-    inc e
-    jr NZ,fep2
-    ld hl,0                     ; mant overflow → 1.0, exp++ (E=0; sla e discards implicit 1)
-    ld e,l
-    inc b
+        inc     l
+        jr      NZ, fep2
+        inc     h
+        jr      NZ, fep2
+        inc     e
+        jr      NZ, fep2
+        ld      hl, 0           ; mant overflow → 1.0, exp++ (E=0; sla e discards implicit 1)
+        ld      e,  l
+        inc     b
 
 .fep2
-    sla e
-    sla c                       ; recover sign from c
-    ld d,b                      ; put exponent in D
-    rr de                       ; put sign and 7 exp bits into place
-                                ; put last exp bit into place
-    ret                         ; return IEEE DEHL
+        sla     e
+        sla     c       ; recover sign from c
+        ld      d, b    ; put exponent in D
+        rr      de      ; put sign and 7 exp bits into place
+                        ; put last exp bit into place
+        ret             ; return IEEE DEHL

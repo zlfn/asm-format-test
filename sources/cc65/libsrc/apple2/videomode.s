@@ -3,18 +3,17 @@
 ;
 ; signed char __fastcall__ videomode (unsigned mode);
 ;
-        .export         _videomode
+        .export _videomode
 
-        .import         aux80col
-        .import         returnFFFF
+        .import aux80col
+        .import returnFFFF
 
-        .include        "apple2.inc"
-
+        .include "apple2.inc"
 
 VIDEOMODE_40x24 = $15
 VIDEOMODE_80x24 = $00
 
-        .segment        "LOWCODE"
+        .segment "LOWCODE"
 
 _videomode:
         bit     aux80col
@@ -49,4 +48,4 @@ set_mode:
         plp
         bpl     out
         lda     #VIDEOMODE_80x24
-out:    rts                     ; X was preserved all the way
+out:    rts     ; X was preserved all the way

@@ -2,9 +2,9 @@
 ; Greg King, 10-Apr-2019
 ;
 
-        .export         _bgcolor
+        .export _bgcolor
 
-        .include        "atari5200.inc"
+        .include "atari5200.inc"
 
 .data
 
@@ -16,11 +16,11 @@ old_bg_index:
 _bgcolor:
         and     #$03
         tax
-        ldy     COLOR0,x
+        ldy     COLOR0, x
         lda     old_bg_index
-        sty     COLOR4          ; set new value
+        sty     COLOR4  ; set new value
         stx     old_bg_index
-        ldx     #0              ; fix high byte
+        ldx     #0      ; fix high byte
         rts
 
 .end

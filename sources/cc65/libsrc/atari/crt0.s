@@ -8,26 +8,26 @@
 ;       Stefan Haubenthal
 ;
 
-        .export         __STARTUP__ : absolute = 1      ; Mark as startup
-        .export         _exit, start, excexit, SP_save
-        .export         __LMARGN_save                   ; original LMARGN setting
+        .export __STARTUP__ : absolute = 1      ; Mark as startup
+        .export _exit, start, excexit, SP_save
+        .export __LMARGN_save                   ; original LMARGN setting
 
-        .import         initlib, donelib
-        .import         callmain, zerobss
-        .import         __RESERVED_MEMORY__
-        .import         __MAIN_START__, __MAIN_SIZE__
-        .import         __LOWCODE_RUN__, __LOWCODE_SIZE__
+        .import initlib,  donelib
+        .import callmain, zerobss
+        .import __RESERVED_MEMORY__
+        .import __MAIN_START__,  __MAIN_SIZE__
+        .import __LOWCODE_RUN__, __LOWCODE_SIZE__
 .ifdef __ATARIXL__
-        .import         __STACKSIZE__
-        .import         sram_init
-        .import         scrdev
-        .import         findfreeiocb
-        .forceimport    sramprep                        ; force inclusion of the "shadow RAM preparation" load chunk
-        .include        "save_area.inc"
+        .import __STACKSIZE__
+        .import sram_init
+        .import scrdev
+        .import findfreeiocb
+        .forceimport sramprep   ; force inclusion of the "shadow RAM preparation" load chunk
+        .include "save_area.inc"
 .endif
 
-        .include        "zeropage.inc"
-        .include        "atari.inc"
+        .include "zeropage.inc"
+        .include "atari.inc"
 
 ; ------------------------------------------------------------------------
 
@@ -68,18 +68,18 @@ start:
 
         lda     APPMHI
         ldx     APPMHI+1
-        sta     APPMHI_save             ; remember old APPMHI value
+        sta     APPMHI_save     ; remember old APPMHI value
         stx     APPMHI_save+1
 
         sec
         lda     MEMTOP
         sbc     #<__RESERVED_MEMORY__
-        sta     APPMHI                  ; initialize our APPMHI value
-        sta     c_sp                    ; set up runtime stack part 1
+        sta     APPMHI  ; initialize our APPMHI value
+        sta     c_sp    ; set up runtime stack part 1
         lda     MEMTOP+1
         sbc     #>__RESERVED_MEMORY__
         sta     APPMHI+1
-        sta     c_sp+1                  ; set up runtime stack part 2
+        sta     c_sp+1  ; set up runtime stack part 2
 
 .endif
 
@@ -98,8 +98,8 @@ start:
 
 ; Initialize the conio stuff.
 
-        dey                     ; Set Y to $FF
-        sty     CH              ; remove keypress which might be in the input buffer
+        dey             ; Set Y to $FF
+        sty     CH      ; remove keypress which might be in the input buffer
 
 ; Call the module constructors.
 
@@ -112,11 +112,11 @@ start:
 ; Call the module destructors. This is also the exit() entry.
 
 _exit:  ldx     SP_save
-        txs                     ; Restore stack pointer
+        txs     ; Restore stack pointer
 
 ; Restore the system stuff.
 
-excexit:jsr     donelib         ; Run module destructors; 'excexit' is called from the exec routine
+excexit: jsr    donelib ; Run module destructors; 'excexit' is called from the exec routine
 
 ; Restore the left margin.
 
@@ -148,7 +148,6 @@ excexit:jsr     donelib         ; Run module destructors; 'excexit' is called fr
         sta     MEMTOP
         stx     MEMTOP+1
 
-
 ; Issue a GRAPHICS 0 call (copied'n'pasted from the TGI drivers), in
 ; order to restore screen memory to its default location just
 ; before the ROM.
@@ -157,25 +156,25 @@ excexit:jsr     donelib         ; Run module destructors; 'excexit' is called fr
 
         ; Reopen it in Graphics 0
         lda     #OPEN
-        sta     ICCOM,x
+        sta     ICCOM, x
         lda     #OPNIN | OPNOT
-        sta     ICAX1,x
+        sta     ICAX1, x
         lda     #0
-        sta     ICAX2,x
+        sta     ICAX2, x
         lda     #<scrdev
-        sta     ICBAL,x
+        sta     ICBAL, x
         lda     #>scrdev
-        sta     ICBAH,x
+        sta     ICBAH, x
         lda     #3
-        sta     ICBLL,x
+        sta     ICBLL, x
         lda     #0
-        sta     ICBLH,x
+        sta     ICBLH, x
         jsr     CIOV_org
 ; No error checking here, shouldn't happen(TM); and, no way to
 ; recover anyway.
 
         lda     #CLOSE
-        sta     ICCOM,x
+        sta     ICCOM, x
         jsr     CIOV_org
 
 .endif
@@ -195,11 +194,11 @@ excexit:jsr     donelib         ; Run module destructors; 'excexit' is called fr
 
 .bss
 
-SP_save:        .res    1
-SHFLOK_save:    .res    1
-__LMARGN_save:  .res    1
+SP_save:       .res 1
+SHFLOK_save:   .res 1
+__LMARGN_save: .res 1
 .ifndef __ATARIXL__
-APPMHI_save:    .res    2
+APPMHI_save: .res 2
 .endif
 
 ; ------------------------------------------------------------------------

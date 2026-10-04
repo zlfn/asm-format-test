@@ -10,19 +10,19 @@ EXTERN asm0_tshr_scroll_wc_up_pix
 
 _tshr_scroll_wc_up_pix_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   ld e,l
-   ld l,h
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        ld      e, l
+        ld      l, h
 
 l0_tshr_scroll_wc_up_pix_callee:
 
-   push bc
-   ex (sp),ix
+        push    bc
+        ex      (sp), ix
 
-   call asm0_tshr_scroll_wc_up_pix
-   
-   pop ix
-   ret
+        call    asm0_tshr_scroll_wc_up_pix
+
+        pop     ix
+        ret

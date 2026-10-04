@@ -10,10 +10,10 @@ EXTERN asm_feof_unlocked
 
 _feof_unlocked_fastcall:
 
-   push hl
-   ex (sp),ix
-   
-   call asm_feof_unlocked
-   
-   pop ix
-   ret
+        push    hl
+        ex      (sp), ix
+
+        call    asm_feof_unlocked
+
+        pop     ix
+        ret

@@ -1,17 +1,17 @@
 .ifndef __APPLE2ENH__
 
-        .constructor    initmachinetype, 8
+        .constructor initmachinetype, 8
 
-        .import         ostype
-        .export         machinetype
+        .import ostype
+        .export machinetype
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 initmachinetype:
         ldx     ostype
-        cpx     #$31          ; Apple //e enhanced?
-        ror     machinetype   ; Carry to high bit
-        cpx     #$30          ; Apple //e?
+        cpx     #$31            ; Apple //e enhanced?
+        ror     machinetype     ; Carry to high bit
+        cpx     #$30            ; Apple //e?
         ror     machinetype
         rts
 
@@ -19,6 +19,6 @@ initmachinetype:
 
 ; bit 7: Machine is a //e or newer
 ; bit 6: Machine is a //e enhanced or newer
-machinetype:            .byte 0
+machinetype: .byte 0
 
 .endif

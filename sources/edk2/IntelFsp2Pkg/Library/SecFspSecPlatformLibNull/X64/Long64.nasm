@@ -16,8 +16,8 @@ SECTION .text
 
 %macro RET_RSI  0
 
-  movd    rsi, mm7                      ; restore RSI from MM7
-  jmp     rsi
+        movd    rsi, mm7        ; restore RSI from MM7
+        jmp     rsi
 
 %endmacro
 
@@ -27,5 +27,4 @@ SECTION .text
 global ASM_PFX(SecPlatformInit)
 ASM_PFX(SecPlatformInit):
 
-  RET_RSI
-
+        RET_RSI

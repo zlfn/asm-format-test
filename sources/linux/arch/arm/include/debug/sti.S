@@ -13,27 +13,26 @@
 #define ASC_STA_TX_FULL         (1<<9)
 #define ASC_STA_TX_EMPTY        (1<<1)
 
+        .macro  addruart, rp, rv, tmp
+                ldr     \rp, =CONFIG_DEBUG_UART_PHYS    @ physical base
+                ldr     \rv, =CONFIG_DEBUG_UART_VIRT    @ virt base
+        .endm
 
-		.macro	addruart, rp, rv, tmp
-		ldr	\rp,      =CONFIG_DEBUG_UART_PHYS	@ physical base
-		ldr	\rv,      =CONFIG_DEBUG_UART_VIRT	@ virt base
-		.endm
-
-                .macro  senduart,rd,rx
+        .macro  senduart, rd, rx
                 strb    \rd, [\rx, #ASC_TX_BUF_OFF]
-                .endm
+        .endm
 
-		.macro	waituartcts,rd,rx
-		.endm
+        .macro  waituartcts, rd, rx
+        .endm
 
-                .macro  waituarttxrdy,rd,rx
+        .macro  waituarttxrdy, rd, rx
 1001:           ldr     \rd, [\rx, #ASC_STA_OFF]
                 tst     \rd, #ASC_STA_TX_FULL
                 bne     1001b
-                .endm
+        .endm
 
-                .macro  busyuart,rd,rx
+        .macro  busyuart, rd, rx
 1001:           ldr     \rd, [\rx, #ASC_STA_OFF]
                 tst     \rd, #ASC_STA_TX_EMPTY
                 beq     1001b
-                .endm
+        .endm

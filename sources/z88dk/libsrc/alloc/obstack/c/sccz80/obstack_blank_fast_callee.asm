@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; void *obstack_blank_fast(struct obstack *ob, int size)
 ;
 ; Resize the currently growing object by signed size bytes.  If
@@ -21,15 +21,14 @@ EXTERN asm_obstack_blank_fast
 
 obstack_blank_fast_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   jp asm_obstack_blank_fast
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_obstack_blank_fast
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _obstack_blank_fast_callee
 defc _obstack_blank_fast_callee = obstack_blank_fast_callee
 ENDIF
-

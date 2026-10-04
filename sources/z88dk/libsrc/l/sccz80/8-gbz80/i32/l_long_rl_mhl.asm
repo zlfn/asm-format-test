@@ -8,16 +8,15 @@ SECTION code_l_sccz80
 
 PUBLIC  l_long_rl_mhl
 
-
 ;primary = primary<<1
 ;enter with primary in (hl)
 
 .l_long_rl_mhl
-    rl      (hl)
-    inc     hl
-    rl      (hl)
-    inc     hl
-    rl      (hl)
-    inc     hl
-    rl      (hl)
-    ret
+        rl      (hl)
+        inc     hl
+        rl      (hl)
+        inc     hl
+        rl      (hl)
+        inc     hl
+        rl      (hl)
+        ret

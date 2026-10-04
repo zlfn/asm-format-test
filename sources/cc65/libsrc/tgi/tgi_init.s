@@ -4,27 +4,25 @@
 ; void tgi_init (void);
 ; /* Initialize the already loaded graphics driver */
 
+        .include "tgi-kernel.inc"
+        .include "tgi-error.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-error.inc"
-
-        .import         pushax, pusha, decax1
-        .importzp       ptr1
-
+        .import pushax, pusha, decax1
+        .importzp ptr1
 
 ;----------------------------------------------------------------------------
 
 .code
 .proc   _tgi_init
 
-        jsr     _tgi_done               ; Switch off graphics if needed
-        jsr     tgi_init                ; Go into graphics mode
-        jsr     tgi_geterror            ; Get the error code
-        sta     _tgi_error              ; Save for later reference
+        jsr     _tgi_done       ; Switch off graphics if needed
+        jsr     tgi_init        ; Go into graphics mode
+        jsr     tgi_geterror    ; Get the error code
+        sta     _tgi_error      ; Save for later reference
         cmp     #TGI_ERR_OK
-        bne     @L9                     ; Jump on error
+        bne     @L9             ; Jump on error
 
-        inc     _tgi_gmode              ; Remember that graph mode is active
+        inc     _tgi_gmode      ; Remember that graph mode is active
 
 ; Get the maximum X and Y coordinate
 
@@ -56,7 +54,7 @@
 ; Set the drawing color to white
 
 @L1:    lda     #tgi_color_white
-        jsr     _tgi_setcolor           ; tgi_setcolor (TGI_COLOR_WHITE);
+        jsr     _tgi_setcolor   ; tgi_setcolor (TGI_COLOR_WHITE);
 
 ; Set the text style
 

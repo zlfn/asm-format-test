@@ -4,36 +4,36 @@
 ; int __fastcall__ write (int fd, const void* buf, unsigned count);
 ;
 
-        .export         _write
-        .import         rwprolog, rwcommon, rwepilog
-        .import         COUT
+        .export _write
+        .import rwprolog, rwcommon, rwepilog
+        .import COUT
         .ifndef __APPLE2ENH__
-        .import         uppercasemask
+                .import uppercasemask
         .endif
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "mli.inc"
-        .include        "filedes.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "mli.inc"
+        .include "filedes.inc"
 
 _write:
         ; Get parameters
         jsr     rwprolog
         bcs     errno
-        tax                     ; Save fd
+        tax     ; Save fd
 
         ; Check for write access
-        lda     fdtab + FD::FLAGS,y
+        lda     fdtab + FD::FLAGS, y
         and     #O_WRONLY
         beq     einval
 
         ; Check for device
-        txa                     ; Restore fd
+        txa     ; Restore fd
         bmi     device
 
         ; Check for append flag
-        lda     fdtab + FD::FLAGS,y
+        lda     fdtab + FD::FLAGS, y
         and     #O_APPEND
         beq     write
 
@@ -59,7 +59,7 @@ _write:
         bcs     oserr
 
         ; Do write
-write:  lda     fdtab + FD::REF_NUM,y
+write:  lda     fdtab + FD::REF_NUM, y
         ldy     #WRITE_CALL
         jmp     rwcommon
 
@@ -75,7 +75,7 @@ device: ldx     ptr2
 
         ; Get char from buf
         ldy     #$00
-next:   lda     (ptr1),y
+next:   lda     (ptr1), y
 
         ; Replace '\n' with '\r'
         cmp     #$0A
@@ -85,9 +85,9 @@ next:   lda     (ptr1),y
         ; Set hi bit and write to device
 :       ora     #$80
         .ifndef __APPLE2ENH__
-        cmp     #$E0            ; Test for lowercase
-        bcc     output
-        and     uppercasemask
+                cmp     #$E0    ; Test for lowercase
+                bcc     output
+                and     uppercasemask
         .endif
 output: jsr     COUT            ; Preserves X and Y
 
@@ -114,4 +114,3 @@ errno:  jmp     ___directerrno
 
         ; Set ___oserror
 oserr:  jmp     ___mappederrno
-

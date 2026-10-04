@@ -1,5 +1,4 @@
 
-
 SECTION code_graphics
 
 PUBLIC clg

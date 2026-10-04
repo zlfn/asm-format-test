@@ -10,28 +10,28 @@ PUBLIC asm_sms_vdp_init
 
 asm_sms_vdp_init:
 
-   ; initialize VDP registers R0-R10
-   ;
-   ; INTERRUPTS ARE NOT AFFECTED HERE BECAUSE THIS IS CALLED FROM CRTs
-   ; INTERRUPTS SHOULD BE DISABLED WHILE THIS RUNS
-   ;
-   ; enter : hl = void *vdp_register_array
-	;
-	; uses  : af, b, hl
-	
-	ld b,11
-	
+        ; initialize VDP registers R0-R10
+        ;
+        ; INTERRUPTS ARE NOT AFFECTED HERE BECAUSE THIS IS CALLED FROM CRTs
+        ; INTERRUPTS SHOULD BE DISABLED WHILE THIS RUNS
+        ;
+        ; enter : hl = void *vdp_register_array
+        ;
+        ; uses  : af, b, hl
+
+        ld      b, 11
+
 loop:
 
-   ld a,(hl)
-	inc hl
-	
-	out (__IO_VDP_COMMAND),a
-	
-	ld a,11+0x80
-	sub b
-	
-	out (__IO_VDP_COMMAND),a
-	
-	djnz loop
-	ret
+        ld      a, (hl)
+        inc     hl
+
+        out     (__IO_VDP_COMMAND), a
+
+        ld      a, 11+0x80
+        sub     b
+
+        out     (__IO_VDP_COMMAND), a
+
+        djnz    loop
+        ret

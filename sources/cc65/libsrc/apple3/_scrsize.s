@@ -5,10 +5,10 @@
 ; Screen size variables
 ;
 
-        .export         screensize
-        .import         consvpwidth, consvpheight
+        .export screensize
+        .import consvpwidth, consvpheight
 
-        .include        "apple3.inc"
+        .include "apple3.inc"
 
 screensize:
         ldx     consvpwidth

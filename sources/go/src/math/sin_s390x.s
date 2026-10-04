@@ -64,156 +64,155 @@ GLOBL sincoss7<>+0(SB), RODATA, $8
 // with coefficients determined with a Remez exchange algorithm.
 
 TEXT ·sinAsm(SB),NOSPLIT,$0-16
-	FMOVD   x+0(FP), F0
-	//special case Sin(±0) = ±0
-	FMOVD   $(0.0), F1
-	FCMPU   F0, F1
-	BEQ     sinIsZero
-	LTDBR	F0, F0
-	BLTU    L17
-	FMOVD   F0, F5
+        FMOVD   x+0(FP), F0
+        //special case Sin(±0) = ±0
+        FMOVD   $(0.0), F1
+        FCMPU   F0,     F1
+        BEQ     sinIsZero
+        LTDBR   F0, F0
+        BLTU    L17
+        FMOVD   F0, F5
 L2:
-	MOVD    $sincosxlim<>+0(SB), R1
-	FMOVD   0(R1), F1
-	FCMPU   F5, F1
-	BGT     L16
-	MOVD    $sincoss7<>+0(SB), R1
-	FMOVD   0(R1), F4
-	MOVD    $sincoss6<>+0(SB), R1
-	FMOVD   0(R1), F1
-	MOVD    $sincoss5<>+0(SB), R1
-	VLEG    $0, 0(R1), V18
-	MOVD    $sincoss4<>+0(SB), R1
-	FMOVD   0(R1), F6
-	MOVD    $sincoss2<>+0(SB), R1
-	VLEG    $0, 0(R1), V16
-	MOVD    $sincoss3<>+0(SB), R1
-	FMOVD   0(R1), F7
-	MOVD    $sincoss1<>+0(SB), R1
-	FMOVD   0(R1), F3
-	MOVD    $sincoss0<>+0(SB), R1
-	FMOVD   0(R1), F2
-	WFCHDBS V2, V5, V2
-	BEQ     L18
-	MOVD    $sincosrpi2<>+0(SB), R1
-	FMOVD   0(R1), F3
-	MOVD    $sincosxadd<>+0(SB), R1
-	FMOVD   0(R1), F2
-	WFMSDB  V0, V3, V2, V3
-	FMOVD   0(R1), F6
-	FADD    F3, F6
-	MOVD    $sincosxpi2h<>+0(SB), R1
-	FMOVD   0(R1), F2
-	FMSUB   F2, F6, F0
-	MOVD    $sincosxpi2m<>+0(SB), R1
-	FMOVD   0(R1), F4
-	FMADD   F4, F6, F0
-	MOVD    $sincosxpi2l<>+0(SB), R1
-	WFMDB   V0, V0, V1
-	FMOVD   0(R1), F7
-	WFMDB   V1, V1, V2
-	LGDR    F3, R1
-	MOVD    $sincosxlim<>+0(SB), R2
-	TMLL	R1, $1
-	BEQ     L6
-	FMOVD   0(R2), F0
-	WFCHDBS V0, V5, V0
-	BNE     L14
-	MOVD    $sincosc7<>+0(SB), R2
-	FMOVD   0(R2), F0
-	MOVD    $sincosc6<>+0(SB), R2
-	FMOVD   0(R2), F4
-	MOVD    $sincosc5<>+0(SB), R2
-	WFMADB  V1, V0, V4, V0
-	FMOVD   0(R2), F6
-	MOVD    $sincosc4<>+0(SB), R2
-	WFMADB  V1, V0, V6, V0
-	FMOVD   0(R2), F4
-	MOVD    $sincosc2<>+0(SB), R2
-	FMOVD   0(R2), F6
-	WFMADB  V2, V4, V6, V4
-	MOVD    $sincosc3<>+0(SB), R2
-	FMOVD   0(R2), F3
-	MOVD    $sincosc1<>+0(SB), R2
-	WFMADB  V2, V0, V3, V0
-	FMOVD   0(R2), F6
-	WFMADB  V1, V4, V6, V4
-	TMLL	R1, $2
-	WFMADB  V2, V0, V4, V0
-	MOVD    $sincosc0<>+0(SB), R1
-	FMOVD   0(R1), F2
-	WFMADB  V1, V0, V2, V0
-	BNE     L15
-	FMOVD   F0, ret+8(FP)
-	RET
+        MOVD    $sincosxlim<>+0(SB), R1
+        FMOVD   0(R1), F1
+        FCMPU   F5,    F1
+        BGT     L16
+        MOVD    $sincoss7<>+0(SB), R1
+        FMOVD   0(R1), F4
+        MOVD    $sincoss6<>+0(SB), R1
+        FMOVD   0(R1), F1
+        MOVD    $sincoss5<>+0(SB), R1
+        VLEG    $0, 0(R1), V18
+        MOVD    $sincoss4<>+0(SB), R1
+        FMOVD   0(R1), F6
+        MOVD    $sincoss2<>+0(SB), R1
+        VLEG    $0, 0(R1), V16
+        MOVD    $sincoss3<>+0(SB), R1
+        FMOVD   0(R1), F7
+        MOVD    $sincoss1<>+0(SB), R1
+        FMOVD   0(R1), F3
+        MOVD    $sincoss0<>+0(SB), R1
+        FMOVD   0(R1), F2
+        WFCHDBS V2,    V5, V2
+        BEQ     L18
+        MOVD    $sincosrpi2<>+0(SB), R1
+        FMOVD   0(R1), F3
+        MOVD    $sincosxadd<>+0(SB), R1
+        FMOVD   0(R1), F2
+        WFMSDB  V0,    V3, V2, V3
+        FMOVD   0(R1), F6
+        FADD    F3,    F6
+        MOVD    $sincosxpi2h<>+0(SB), R1
+        FMOVD   0(R1), F2
+        FMSUB   F2,    F6, F0
+        MOVD    $sincosxpi2m<>+0(SB), R1
+        FMOVD   0(R1), F4
+        FMADD   F4,    F6, F0
+        MOVD    $sincosxpi2l<>+0(SB), R1
+        WFMDB   V0,    V0, V1
+        FMOVD   0(R1), F7
+        WFMDB   V1,    V1, V2
+        LGDR    F3,    R1
+        MOVD    $sincosxlim<>+0(SB), R2
+        TMLL    R1, $1
+        BEQ     L6
+        FMOVD   0(R2), F0
+        WFCHDBS V0,    V5, V0
+        BNE     L14
+        MOVD    $sincosc7<>+0(SB), R2
+        FMOVD   0(R2), F0
+        MOVD    $sincosc6<>+0(SB), R2
+        FMOVD   0(R2), F4
+        MOVD    $sincosc5<>+0(SB), R2
+        WFMADB  V1,    V0, V4, V0
+        FMOVD   0(R2), F6
+        MOVD    $sincosc4<>+0(SB), R2
+        WFMADB  V1,    V0, V6, V0
+        FMOVD   0(R2), F4
+        MOVD    $sincosc2<>+0(SB), R2
+        FMOVD   0(R2), F6
+        WFMADB  V2,    V4, V6, V4
+        MOVD    $sincosc3<>+0(SB), R2
+        FMOVD   0(R2), F3
+        MOVD    $sincosc1<>+0(SB), R2
+        WFMADB  V2,    V0, V3, V0
+        FMOVD   0(R2), F6
+        WFMADB  V1,    V4, V6, V4
+        TMLL    R1,    $2
+        WFMADB  V2,    V0, V4, V0
+        MOVD    $sincosc0<>+0(SB), R1
+        FMOVD   0(R1), F2
+        WFMADB  V1,    V0, V2, V0
+        BNE     L15
+        FMOVD   F0, ret+8(FP)
+        RET
 
 L6:
-	FMOVD   0(R2), F4
-	WFCHDBS V4, V5, V4
-	BNE     L14
-	MOVD    $sincoss7<>+0(SB), R2
-	FMOVD   0(R2), F4
-	MOVD    $sincoss6<>+0(SB), R2
-	FMOVD   0(R2), F3
-	MOVD    $sincoss5<>+0(SB), R2
-	WFMADB  V1, V4, V3, V4
-	WFMADB  V6, V7, V0, V6
-	FMOVD   0(R2), F0
-	MOVD    $sincoss4<>+0(SB), R2
-	FMADD   F4, F1, F0
-	FMOVD   0(R2), F3
-	MOVD    $sincoss2<>+0(SB), R2
-	FMOVD   0(R2), F4
-	MOVD    $sincoss3<>+0(SB), R2
-	WFMADB  V2, V3, V4, V3
-	FMOVD   0(R2), F4
-	MOVD    $sincoss1<>+0(SB), R2
-	WFMADB  V2, V0, V4, V0
-	FMOVD   0(R2), F4
-	WFMADB  V1, V3, V4, V3
-	FNEG    F6, F4
-	WFMADB  V2, V0, V3, V2
-	WFMDB   V4, V1, V0
-	TMLL	R1, $2
-	WFMSDB  V0, V2, V6, V0
-	BNE     L15
-	FMOVD   F0, ret+8(FP)
-	RET
+        FMOVD   0(R2), F4
+        WFCHDBS V4,    V5, V4
+        BNE     L14
+        MOVD    $sincoss7<>+0(SB), R2
+        FMOVD   0(R2), F4
+        MOVD    $sincoss6<>+0(SB), R2
+        FMOVD   0(R2), F3
+        MOVD    $sincoss5<>+0(SB), R2
+        WFMADB  V1,    V4, V3, V4
+        WFMADB  V6,    V7, V0, V6
+        FMOVD   0(R2), F0
+        MOVD    $sincoss4<>+0(SB), R2
+        FMADD   F4,    F1, F0
+        FMOVD   0(R2), F3
+        MOVD    $sincoss2<>+0(SB), R2
+        FMOVD   0(R2), F4
+        MOVD    $sincoss3<>+0(SB), R2
+        WFMADB  V2,    V3, V4, V3
+        FMOVD   0(R2), F4
+        MOVD    $sincoss1<>+0(SB), R2
+        WFMADB  V2,    V0, V4, V0
+        FMOVD   0(R2), F4
+        WFMADB  V1,    V3, V4, V3
+        FNEG    F6,    F4
+        WFMADB  V2,    V0, V3, V2
+        WFMDB   V4,    V1, V0
+        TMLL    R1,    $2
+        WFMSDB  V0,    V2, V6, V0
+        BNE     L15
+        FMOVD   F0, ret+8(FP)
+        RET
 
 L14:
-	MOVD    $sincosxnan<>+0(SB), R1
-	FMOVD   0(R1), F0
-	FMOVD   F0, ret+8(FP)
-	RET
+        MOVD    $sincosxnan<>+0(SB), R1
+        FMOVD   0(R1), F0
+        FMOVD   F0,    ret+8(FP)
+        RET
 
 L18:
-	WFMDB   V0, V0, V2
-	WFMADB  V2, V4, V1, V4
-	WFMDB   V2, V2, V1
-	WFMADB  V2, V4, V18, V4
-	WFMADB  V1, V6, V16, V6
-	WFMADB  V1, V4, V7, V4
-	WFMADB  V2, V6, V3, V6
-	FMUL    F0, F2
-	WFMADB  V1, V4, V6, V4
-	FMADD   F4, F2, F0
-	FMOVD   F0, ret+8(FP)
-	RET
+        WFMDB   V0, V0, V2
+        WFMADB  V2, V4, V1,  V4
+        WFMDB   V2, V2, V1
+        WFMADB  V2, V4, V18, V4
+        WFMADB  V1, V6, V16, V6
+        WFMADB  V1, V4, V7,  V4
+        WFMADB  V2, V6, V3,  V6
+        FMUL    F0, F2
+        WFMADB  V1, V4, V6,  V4
+        FMADD   F4, F2, F0
+        FMOVD   F0, ret+8(FP)
+        RET
 
 L17:
-	FNEG    F0, F5
-	BR      L2
+        FNEG    F0, F5
+        BR      L2
 L15:
-	FNEG    F0, F0
-	FMOVD   F0, ret+8(FP)
-	RET
-
+        FNEG    F0, F0
+        FMOVD   F0, ret+8(FP)
+        RET
 
 L16:
-	BR     ·sin(SB)		//tail call
+        BR      ·sin(SB)        //tail call
 sinIsZero:
-	FMOVD   F0, ret+8(FP)
-	RET
+        FMOVD   F0, ret+8(FP)
+        RET
 
 // Cos returns the cosine of the radian argument.
 //
@@ -224,146 +223,146 @@ sinIsZero:
 // with coefficients determined with a Remez exchange algorithm.
 
 TEXT ·cosAsm(SB),NOSPLIT,$0-16
-	FMOVD   x+0(FP), F0
-	LTDBR	F0, F0
-	BLTU    L35
-	FMOVD   F0, F1
+        FMOVD   x+0(FP), F0
+        LTDBR   F0, F0
+        BLTU    L35
+        FMOVD   F0, F1
 L21:
-	MOVD    $sincosxlim<>+0(SB), R1
-	FMOVD   0(R1), F2
-	FCMPU   F1, F2
-	BGT     L30
-	MOVD    $sincosc7<>+0(SB), R1
-	FMOVD   0(R1), F4
-	MOVD    $sincosc6<>+0(SB), R1
-	VLEG    $0, 0(R1), V20
-	MOVD    $sincosc5<>+0(SB), R1
-	VLEG    $0, 0(R1), V18
-	MOVD    $sincosc4<>+0(SB), R1
-	FMOVD   0(R1), F6
-	MOVD    $sincosc2<>+0(SB), R1
-	VLEG    $0, 0(R1), V16
-	MOVD    $sincosc3<>+0(SB), R1
-	FMOVD   0(R1), F7
-	MOVD    $sincosc1<>+0(SB), R1
-	FMOVD   0(R1), F5
-	MOVD    $sincosrpi2<>+0(SB), R1
-	FMOVD   0(R1), F2
-	MOVD    $sincosxadd<>+0(SB), R1
-	FMOVD   0(R1), F3
-	MOVD    $sincoss0<>+0(SB), R1
-	WFMSDB  V0, V2, V3, V2
-	FMOVD   0(R1), F3
-	WFCHDBS V3, V1, V3
-	LGDR    F2, R1
-	BEQ     L36
-	MOVD    $sincosxadd<>+0(SB), R2
-	FMOVD   0(R2), F4
-	FADD    F2, F4
-	MOVD    $sincosxpi2h<>+0(SB), R2
-	FMOVD   0(R2), F2
-	WFMSDB  V4, V2, V0, V2
-	MOVD    $sincosxpi2m<>+0(SB), R2
-	FMOVD   0(R2), F0
-	WFMADB  V4, V0, V2, V0
-	MOVD    $sincosxpi2l<>+0(SB), R2
-	WFMDB   V0, V0, V2
-	FMOVD   0(R2), F5
-	WFMDB   V2, V2, V6
-	MOVD    $sincosxlim<>+0(SB), R2
-	TMLL	R1, $1
-	BNE     L25
-	FMOVD   0(R2), F0
-	WFCHDBS V0, V1, V0
-	BNE     L33
-	MOVD    $sincosc7<>+0(SB), R2
-	FMOVD   0(R2), F0
-	MOVD    $sincosc6<>+0(SB), R2
-	FMOVD   0(R2), F4
-	MOVD    $sincosc5<>+0(SB), R2
-	WFMADB  V2, V0, V4, V0
-	FMOVD   0(R2), F1
-	MOVD    $sincosc4<>+0(SB), R2
-	WFMADB  V2, V0, V1, V0
-	FMOVD   0(R2), F4
-	MOVD    $sincosc2<>+0(SB), R2
-	FMOVD   0(R2), F1
-	WFMADB  V6, V4, V1, V4
-	MOVD    $sincosc3<>+0(SB), R2
-	FMOVD   0(R2), F3
-	MOVD    $sincosc1<>+0(SB), R2
-	WFMADB  V6, V0, V3, V0
-	FMOVD   0(R2), F1
-	WFMADB  V2, V4, V1, V4
-	TMLL	R1, $2
-	WFMADB  V6, V0, V4, V0
-	MOVD    $sincosc0<>+0(SB), R1
-	FMOVD   0(R1), F4
-	WFMADB  V2, V0, V4, V0
-	BNE     L34
-	FMOVD   F0, ret+8(FP)
-	RET
+        MOVD    $sincosxlim<>+0(SB), R1
+        FMOVD   0(R1), F2
+        FCMPU   F1,    F2
+        BGT     L30
+        MOVD    $sincosc7<>+0(SB), R1
+        FMOVD   0(R1), F4
+        MOVD    $sincosc6<>+0(SB), R1
+        VLEG    $0, 0(R1), V20
+        MOVD    $sincosc5<>+0(SB), R1
+        VLEG    $0, 0(R1), V18
+        MOVD    $sincosc4<>+0(SB), R1
+        FMOVD   0(R1), F6
+        MOVD    $sincosc2<>+0(SB), R1
+        VLEG    $0, 0(R1), V16
+        MOVD    $sincosc3<>+0(SB), R1
+        FMOVD   0(R1), F7
+        MOVD    $sincosc1<>+0(SB), R1
+        FMOVD   0(R1), F5
+        MOVD    $sincosrpi2<>+0(SB), R1
+        FMOVD   0(R1), F2
+        MOVD    $sincosxadd<>+0(SB), R1
+        FMOVD   0(R1), F3
+        MOVD    $sincoss0<>+0(SB), R1
+        WFMSDB  V0,    V2, V3, V2
+        FMOVD   0(R1), F3
+        WFCHDBS V3,    V1, V3
+        LGDR    F2,    R1
+        BEQ     L36
+        MOVD    $sincosxadd<>+0(SB), R2
+        FMOVD   0(R2), F4
+        FADD    F2,    F4
+        MOVD    $sincosxpi2h<>+0(SB), R2
+        FMOVD   0(R2), F2
+        WFMSDB  V4,    V2, V0, V2
+        MOVD    $sincosxpi2m<>+0(SB), R2
+        FMOVD   0(R2), F0
+        WFMADB  V4,    V0, V2, V0
+        MOVD    $sincosxpi2l<>+0(SB), R2
+        WFMDB   V0,    V0, V2
+        FMOVD   0(R2), F5
+        WFMDB   V2,    V2, V6
+        MOVD    $sincosxlim<>+0(SB), R2
+        TMLL    R1, $1
+        BNE     L25
+        FMOVD   0(R2), F0
+        WFCHDBS V0,    V1, V0
+        BNE     L33
+        MOVD    $sincosc7<>+0(SB), R2
+        FMOVD   0(R2), F0
+        MOVD    $sincosc6<>+0(SB), R2
+        FMOVD   0(R2), F4
+        MOVD    $sincosc5<>+0(SB), R2
+        WFMADB  V2,    V0, V4, V0
+        FMOVD   0(R2), F1
+        MOVD    $sincosc4<>+0(SB), R2
+        WFMADB  V2,    V0, V1, V0
+        FMOVD   0(R2), F4
+        MOVD    $sincosc2<>+0(SB), R2
+        FMOVD   0(R2), F1
+        WFMADB  V6,    V4, V1, V4
+        MOVD    $sincosc3<>+0(SB), R2
+        FMOVD   0(R2), F3
+        MOVD    $sincosc1<>+0(SB), R2
+        WFMADB  V6,    V0, V3, V0
+        FMOVD   0(R2), F1
+        WFMADB  V2,    V4, V1, V4
+        TMLL    R1,    $2
+        WFMADB  V6,    V0, V4, V0
+        MOVD    $sincosc0<>+0(SB), R1
+        FMOVD   0(R1), F4
+        WFMADB  V2,    V0, V4, V0
+        BNE     L34
+        FMOVD   F0, ret+8(FP)
+        RET
 
 L25:
-	FMOVD   0(R2), F3
-	WFCHDBS V3, V1, V1
-	BNE     L33
-	MOVD    $sincoss7<>+0(SB), R2
-	FMOVD   0(R2), F1
-	MOVD    $sincoss6<>+0(SB), R2
-	FMOVD   0(R2), F3
-	MOVD    $sincoss5<>+0(SB), R2
-	WFMADB  V2, V1, V3, V1
-	FMOVD   0(R2), F3
-	MOVD    $sincoss4<>+0(SB), R2
-	WFMADB  V2, V1, V3, V1
-	FMOVD   0(R2), F3
-	MOVD    $sincoss2<>+0(SB), R2
-	FMOVD   0(R2), F7
-	WFMADB  V6, V3, V7, V3
-	MOVD    $sincoss3<>+0(SB), R2
-	FMADD   F5, F4, F0
-	FMOVD   0(R2), F4
-	MOVD    $sincoss1<>+0(SB), R2
-	FMADD   F1, F6, F4
-	FMOVD   0(R2), F1
-	FMADD   F3, F2, F1
-	FMUL    F0, F2
-	WFMADB  V6, V4, V1, V6
-	TMLL	R1, $2
-	FMADD   F6, F2, F0
-	BNE     L34
-	FMOVD   F0, ret+8(FP)
-	RET
+        FMOVD   0(R2), F3
+        WFCHDBS V3,    V1, V1
+        BNE     L33
+        MOVD    $sincoss7<>+0(SB), R2
+        FMOVD   0(R2), F1
+        MOVD    $sincoss6<>+0(SB), R2
+        FMOVD   0(R2), F3
+        MOVD    $sincoss5<>+0(SB), R2
+        WFMADB  V2,    V1, V3, V1
+        FMOVD   0(R2), F3
+        MOVD    $sincoss4<>+0(SB), R2
+        WFMADB  V2,    V1, V3, V1
+        FMOVD   0(R2), F3
+        MOVD    $sincoss2<>+0(SB), R2
+        FMOVD   0(R2), F7
+        WFMADB  V6,    V3, V7, V3
+        MOVD    $sincoss3<>+0(SB), R2
+        FMADD   F5,    F4, F0
+        FMOVD   0(R2), F4
+        MOVD    $sincoss1<>+0(SB), R2
+        FMADD   F1,    F6, F4
+        FMOVD   0(R2), F1
+        FMADD   F3,    F2, F1
+        FMUL    F0,    F2
+        WFMADB  V6,    V4, V1, V6
+        TMLL    R1,    $2
+        FMADD   F6,    F2, F0
+        BNE     L34
+        FMOVD   F0, ret+8(FP)
+        RET
 
 L33:
-	MOVD    $sincosxnan<>+0(SB), R1
-	FMOVD   0(R1), F0
-	FMOVD   F0, ret+8(FP)
-	RET
+        MOVD    $sincosxnan<>+0(SB), R1
+        FMOVD   0(R1), F0
+        FMOVD   F0,    ret+8(FP)
+        RET
 
 L36:
-	FMUL    F0, F0
-	MOVD    $sincosc0<>+0(SB), R1
-	WFMDB   V0, V0, V1
-	WFMADB  V0, V4, V20, V4
-	WFMADB  V1, V6, V16, V6
-	WFMADB  V0, V4, V18, V4
-	WFMADB  V0, V6, V5, V6
-	WFMADB  V1, V4, V7, V4
-	FMOVD   0(R1), F2
-	WFMADB  V1, V4, V6, V4
-	WFMADB  V0, V4, V2, V0
-	FMOVD   F0, ret+8(FP)
-	RET
+        FMUL    F0, F0
+        MOVD    $sincosc0<>+0(SB), R1
+        WFMDB   V0,    V0, V1
+        WFMADB  V0,    V4, V20, V4
+        WFMADB  V1,    V6, V16, V6
+        WFMADB  V0,    V4, V18, V4
+        WFMADB  V0,    V6, V5,  V6
+        WFMADB  V1,    V4, V7,  V4
+        FMOVD   0(R1), F2
+        WFMADB  V1,    V4, V6,  V4
+        WFMADB  V0,    V4, V2,  V0
+        FMOVD   F0,    ret+8(FP)
+        RET
 
 L35:
-	FNEG    F0, F1
-	BR      L21
+        FNEG    F0, F1
+        BR      L21
 L34:
-	FNEG    F0, F0
-	FMOVD   F0, ret+8(FP)
-	RET
+        FNEG    F0, F0
+        FMOVD   F0, ret+8(FP)
+        RET
 
 L30:
-	BR     ·cos(SB)		//tail call
+        BR      ·cos(SB)        //tail call

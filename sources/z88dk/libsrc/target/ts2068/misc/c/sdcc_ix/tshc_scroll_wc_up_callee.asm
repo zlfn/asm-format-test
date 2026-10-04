@@ -10,20 +10,19 @@ EXTERN asm0_tshc_scroll_wc_up
 
 _tshc_scroll_wc_up_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   ld e,l
-   ld l,h
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        ld      e, l
+        ld      l, h
 
 l0_tshc_scroll_wc_up_callee:
 
-   push bc
-   ex (sp),ix
-   
-   call asm0_tshc_scroll_wc_up
-   
-   pop ix
-   ret
+        push    bc
+        ex      (sp), ix
 
+        call    asm0_tshc_scroll_wc_up
+
+        pop     ix
+        ret

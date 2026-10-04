@@ -5,17 +5,15 @@
 ; unsigned char __fastcall__ bgcolor (unsigned char color);
 ;
 
+        .export _textcolor, _bgcolor
 
-        .export         _textcolor, _bgcolor
-
-        .include        "mega65.inc"
+        .include "mega65.inc"
 
 _textcolor:
         ldx     CHARCOLOR       ; get old value
         sta     CHARCOLOR       ; set new value
         txa
         rts
-
 
 _bgcolor:
         ldx     VIC_BG_COLOR0   ; get old value

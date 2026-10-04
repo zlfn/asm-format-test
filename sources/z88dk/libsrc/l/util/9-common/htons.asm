@@ -12,8 +12,8 @@ PUBLIC htons
 
 htons:
 
-   ld a,l
-   ld l,h
-   ld h,a
-   
-   ret
+        ld      a, l
+        ld      l, h
+        ld      h, a
+
+        ret

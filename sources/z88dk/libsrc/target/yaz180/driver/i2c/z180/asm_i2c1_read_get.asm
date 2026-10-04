@@ -11,16 +11,16 @@
 ;
 ; This work was authored in Marrakech, Morocco during May/June 2017.
 
-    INCLUDE "config_private.inc"
+        INCLUDE "config_private.inc"
 
-    SECTION code_driver
+        SECTION code_driver
 
-    PUBLIC asm_i2c1_read_get
+        PUBLIC  asm_i2c1_read_get
 
-    EXTERN __i2c1RxPtr
-    EXTERN __i2c1ControlEcho, __i2c1SlaveAddr, __i2c1SentenceLgth
+        EXTERN  __i2c1RxPtr
+        EXTERN  __i2c1ControlEcho, __i2c1SlaveAddr, __i2c1SentenceLgth
 
-    EXTERN pca9665_read_burst
+        EXTERN  pca9665_read_burst
 
 ;   Read from the I2C Interface, using Byte Mode transmission
 ;   uint8_t i2c_read_get( char addr, char length );
@@ -29,30 +29,29 @@
 ;   C  = 7 bit address of slave device, uint8_t _i2c1SlaveAddr
 
 .asm_i2c1_read_get
-    ld hl,0                     ;prepare zero return
+        ld      hl, 0   ;prepare zero return
 
-    ld a,(__i2c1SlaveAddr)      ;check the 7 bit slave address
-    rra
-    xor c
-    ret NZ                      ;return if the slave address is mismatched
+        ld      a, (__i2c1SlaveAddr)    ;check the 7 bit slave address
+        rra
+        xor     c
+        ret     NZ                      ;return if the slave address is mismatched
 
-    ld a,b                      ;check the sentence expected for zero length
-    and a
-    ret Z                       ;return if the expected sentence is 0 length
+        ld      a, b    ;check the sentence expected for zero length
+        and     a
+        ret     Z       ;return if the expected sentence is 0 length
 
-.i2c1_read_wait                 ;busy wait loop
-    ld a,(__i2c1ControlEcho)
-    tst __IO_I2C_CON_ECHO_BUS_RESTART|__IO_I2C_CON_ECHO_BUS_ILLEGAL
-    ret NZ                      ;just exit if a fault
+.i2c1_read_wait         ;busy wait loop
+        ld      a, (__i2c1ControlEcho)
+        tst     __IO_I2C_CON_ECHO_BUS_RESTART|__IO_I2C_CON_ECHO_BUS_ILLEGAL
+        ret     NZ      ;just exit if a fault
 
-    and __IO_I2C_CON_ECHO_BUS_STOPPED
-    jr Z,i2c1_read_wait         ;if the bus is still not stopped, then wait till it is
+        and     __IO_I2C_CON_ECHO_BUS_STOPPED
+        jr      Z, i2c1_read_wait       ;if the bus is still not stopped, then wait till it is
 
-    ld a,b                      ;check we have the bytes we require
-    ld hl,__i2c1SentenceLgth
-    sub a,(hl)                  ;subtract the remaining unobtained sentence length
+        ld      a,  b           ;check we have the bytes we require
+        ld      hl, __i2c1SentenceLgth
+        sub     a,  (hl)        ;subtract the remaining unobtained sentence length
 
-    ld h,0
-    ld l,a                      ;capture the number of available bytes
-    ret
-
+        ld      h, 0
+        ld      l, a    ;capture the number of available bytes
+        ret

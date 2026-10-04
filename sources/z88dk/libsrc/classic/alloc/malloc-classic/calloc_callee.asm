@@ -1,4 +1,4 @@
-; void __CALLEE__ *calloc_callee(unsigned int nobj, unsigned int size) 
+; void __CALLEE__ *calloc_callee(unsigned int nobj, unsigned int size)
 ; 12.2006 aralbrec
 
 SECTION code_clib
@@ -12,9 +12,9 @@ EXTERN _heap
 .calloc_callee
 ._calloc_callee
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 .asm_calloc
 
@@ -24,6 +24,5 @@ EXTERN _heap
 ;              else 0 and no carry if failed
 ; uses  : af, bc, de, hl
 
-   ld bc,_heap
-   jp asm_HeapCalloc
-
+        ld      bc, _heap
+        jp      asm_HeapCalloc

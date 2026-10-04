@@ -8,12 +8,12 @@
 #include <asm/cpufeatures.h>
 #include <asm/alternative.h>
 
-	.text
-	.globl __kernel_vsyscall
-	.type __kernel_vsyscall,@function
-	ALIGN
+        .text
+        .globl  __kernel_vsyscall
+        .type   __kernel_vsyscall, @function
+        ALIGN
 __kernel_vsyscall:
-	CFI_STARTPROC
+        CFI_STARTPROC
 
 	/*
 	 * If using int $0x80, there is no reason to muck about with the
@@ -24,7 +24,7 @@ __kernel_vsyscall:
 	 * would a fair bit of tooling work or by simply compiling
 	 * two different vDSO images, but that doesn't seem worth it.
 	 */
-	ALTERNATIVE "int $0x80; ret", "", X86_FEATURE_SYSFAST32
+        ALTERNATIVE "int $0x80; ret", "", X86_FEATURE_SYSFAST32
 
 	/*
 	 * Reshuffle regs so that all of any of the entry instructions
@@ -51,23 +51,23 @@ __kernel_vsyscall:
 	 * call on Linux.  (Open-coding int $0x80 is also fine, but it's
 	 * slow.)
 	 */
-	pushl	%ecx
-	CFI_ADJUST_CFA_OFFSET	4
-	CFI_REL_OFFSET		ecx, 0
-	pushl	%edx
-	CFI_ADJUST_CFA_OFFSET	4
-	CFI_REL_OFFSET		edx, 0
-	pushl	%ebp
-	CFI_ADJUST_CFA_OFFSET	4
-	CFI_REL_OFFSET		ebp, 0
+        pushl   %ecx
+        CFI_ADJUST_CFA_OFFSET 4
+        CFI_REL_OFFSET ecx, 0
+        pushl   %edx
+        CFI_ADJUST_CFA_OFFSET 4
+        CFI_REL_OFFSET edx, 0
+        pushl   %ebp
+        CFI_ADJUST_CFA_OFFSET 4
+        CFI_REL_OFFSET ebp, 0
 
-	#define SYSENTER_SEQUENCE	"movl %esp, %ebp; sysenter"
-	#define SYSCALL_SEQUENCE	"movl %ecx, %ebp; syscall"
+        #define SYSENTER_SEQUENCE	"movl %esp, %ebp; sysenter"
+        #define SYSCALL_SEQUENCE	"movl %ecx, %ebp; syscall"
 
-	ALTERNATIVE SYSENTER_SEQUENCE, SYSCALL_SEQUENCE, X86_FEATURE_SYSCALL32
+        ALTERNATIVE SYSENTER_SEQUENCE, SYSCALL_SEQUENCE, X86_FEATURE_SYSCALL32
 
-	/* Re-enter using int $0x80 */
-	int	$0x80
+        /* Re-enter using int $0x80 */
+        int     $0x80
 SYM_INNER_LABEL(int80_landing_pad, SYM_L_GLOBAL)
 
 	/*
@@ -75,17 +75,17 @@ SYM_INNER_LABEL(int80_landing_pad, SYM_L_GLOBAL)
 	 * clobbered (the kernel restores it), but it's cleaner and
 	 * probably faster to pop it than to adjust ESP using addl.
 	 */
-	popl	%ebp
-	CFI_RESTORE		ebp
-	CFI_ADJUST_CFA_OFFSET	-4
-	popl	%edx
-	CFI_RESTORE		edx
-	CFI_ADJUST_CFA_OFFSET	-4
-	popl	%ecx
-	CFI_RESTORE		ecx
-	CFI_ADJUST_CFA_OFFSET	-4
-	RET
-	CFI_ENDPROC
+        popl    %ebp
+        CFI_RESTORE ebp
+        CFI_ADJUST_CFA_OFFSET -4
+        popl    %edx
+        CFI_RESTORE edx
+        CFI_ADJUST_CFA_OFFSET -4
+        popl    %ecx
+        CFI_RESTORE ecx
+        CFI_ADJUST_CFA_OFFSET -4
+        RET
+        CFI_ENDPROC
 
-	.size __kernel_vsyscall,.-__kernel_vsyscall
-	.previous
+        .size   __kernel_vsyscall, .-__kernel_vsyscall
+        .previous

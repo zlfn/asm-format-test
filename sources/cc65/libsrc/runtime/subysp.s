@@ -5,8 +5,8 @@
 ; CC65 runtime: Decrement the stackpointer by value in y
 ;
 
-        .export         subysp
-        .importzp       c_sp
+        .export subysp
+        .importzp c_sp
 
 .proc   subysp
 
@@ -20,5 +20,3 @@
 @L1:    rts
 
 .endproc
-
-

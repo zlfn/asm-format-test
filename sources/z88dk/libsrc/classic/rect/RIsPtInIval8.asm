@@ -16,6 +16,6 @@ PUBLIC RIsPtInIval8
 
 .RIsPtInIval8
 
-   sub d
-   cp e
-   ret
+        sub     d
+        cp      e
+        ret

@@ -8,23 +8,23 @@
 
 // func Syscall6(num, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, errno uintptr)
 TEXT ·Syscall6(SB),NOSPLIT,$0-80
-	MOVV	num+0(FP), R2	// syscall entry
-	MOVV	a1+8(FP), R4
-	MOVV	a2+16(FP), R5
-	MOVV	a3+24(FP), R6
-	MOVV	a4+32(FP), R7
-	MOVV	a5+40(FP), R8
-	MOVV	a6+48(FP), R9
-	MOVV	R0, R3	// reset R3 to 0 as 1-ret SYSCALL keeps it
-	SYSCALL
-	BEQ	R7, ok
-	MOVV	$-1, R1
-	MOVV	R1, r1+56(FP)
-	MOVV	R0, r2+64(FP)
-	MOVV	R2, errno+72(FP)
-	RET
+        MOVV    num+0(FP), R2   // syscall entry
+        MOVV    a1+8(FP),  R4
+        MOVV    a2+16(FP), R5
+        MOVV    a3+24(FP), R6
+        MOVV    a4+32(FP), R7
+        MOVV    a5+40(FP), R8
+        MOVV    a6+48(FP), R9
+        MOVV    R0, R3          // reset R3 to 0 as 1-ret SYSCALL keeps it
+        SYSCALL
+        BEQ     R7,  ok
+        MOVV    $-1, R1
+        MOVV    R1,  r1+56(FP)
+        MOVV    R0,  r2+64(FP)
+        MOVV    R2,  errno+72(FP)
+        RET
 ok:
-	MOVV	R2, r1+56(FP)
-	MOVV	R3, r2+64(FP)
-	MOVV	R0, errno+72(FP)
-	RET
+        MOVV    R2, r1+56(FP)
+        MOVV    R3, r2+64(FP)
+        MOVV    R0, errno+72(FP)
+        RET

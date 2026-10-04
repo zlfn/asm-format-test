@@ -26,37 +26,36 @@
 ; POSSIBILITY OF SUCH DAMAGE.
 ;
 ;    HL = address of the z180 prt0 address
-    
-    INCLUDE "config_private.inc"
 
-    SECTION code_driver
+        INCLUDE "config_private.inc"
 
-    PUBLIC	asm_system_tick_init
+        SECTION code_driver
 
-    EXTERN  asm_system_tick
+        PUBLIC  asm_system_tick_init
 
-    asm_system_tick_init:       ; set up system tick timer
-        push af
-        push de
+        EXTERN  asm_system_tick
 
-        xor a
-        out0 (TCR), a           ; disable down counting and interrupts for PRT0/PRT1
+asm_system_tick_init:   ; set up system tick timer
+        push    af
+        push    de
 
-                                ; remember the interrupt location for PRT0 is in hl
-        ld de, asm_system_tick  ; load our interrupt service routine origin
-                                ; initially there is a RET there
-        ld (hl), e              ; load the address of the PRT0 service routine
-        inc hl
-        ld (hl), d
+        xor     a
+        out0    (TCR), a        ; disable down counting and interrupts for PRT0/PRT1
 
-        ld hl, __CPU_CLOCK/__CPU_TIMER_SCALE/__CLOCKS_PER_SECOND-1  ; we do 256 ticks per second
-        out0 (RLDR0L), l
-        out0 (RLDR0H), h
+        ; remember the interrupt location for PRT0 is in hl
+        ld      de, asm_system_tick     ; load our interrupt service routine origin
+                                        ; initially there is a RET there
+        ld      (hl), e                 ; load the address of the PRT0 service routine
+        inc     hl
+        ld      (hl), d
 
-        ld a, TCR_TIE0|TCR_TDE0 ; enable down counting and interrupts for PRT0
-        out0 (TCR), a
+        ld      hl, __CPU_CLOCK/__CPU_TIMER_SCALE/__CLOCKS_PER_SECOND-1 ; we do 256 ticks per second
+        out0    (RLDR0L), l
+        out0    (RLDR0H), h
 
-        pop de
-        pop af
+        ld      a,     TCR_TIE0|TCR_TDE0        ; enable down counting and interrupts for PRT0
+        out0    (TCR), a
+
+        pop     de
+        pop     af
         ret
-

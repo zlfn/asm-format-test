@@ -11,10 +11,10 @@ EXTERN asm_esxdos_f_opendir
 
 esxdos_f_opendir:
 
-   ld a,__ESXDOS_DRIVE_CURRENT
-   ld b,0
+        ld      a, __ESXDOS_DRIVE_CURRENT
+        ld      b, 0
 
-   jp asm_esxdos_f_opendir
+        jp      asm_esxdos_f_opendir
 
 ; SDCC bridge for Classic
 IF __CLASSIC

@@ -10,59 +10,59 @@ EXTERN asm_memccpy
 
 memccpy_callee:
 IF __CPU_INTEL__ | __CPU_GBZ80__
-   ld hl,sp+2
-   ld  c,(hl)
-   inc hl
-   ld  b,(hl)
-   inc hl
-   ld  a,(hl)
-   inc hl
-   inc hl
-   ld  e,(hl)
-   inc hl
-   ld  d,(hl)
-   inc hl
-   push de
-   ld  e,(hl)
-   inc hl
-   ld  d,(hl)
-   inc hl
-   pop hl
-   call asm_memccpy
- IF __CPU_GBZ80__
-   ld d,h
-   ld e,l
- ENDIF
-   pop bc ; return value
-   ; Discarding through AF is fine where F is scratch, but the VM1's pop af
-   ; loads MF, the data-bank flag, and the stack moves with the bank.
-   IF __CPU_VM1__
-   inc sp
-   inc sp
-   inc sp
-   inc sp
-   inc sp
-   inc sp
-   inc sp
-   inc sp
-   ELSE
-   pop af ;dump arg
-   pop af ;dump arg
-   pop af ;dump arg
-   pop af ;dump arg
-   ENDIF
-   push bc
-   ret
+        ld      hl, sp+2
+        ld      c,  (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        push    de
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        pop     hl
+        call    asm_memccpy
+        IF      __CPU_GBZ80__
+                ld      d, h
+                ld      e, l
+        ENDIF
+        pop     bc      ; return value
+        ; Discarding through AF is fine where F is scratch, but the VM1's pop af
+        ; loads MF, the data-bank flag, and the stack moves with the bank.
+        IF      __CPU_VM1__
+                inc     sp
+                inc     sp
+                inc     sp
+                inc     sp
+                inc     sp
+                inc     sp
+                inc     sp
+                inc     sp
+        ELSE
+                pop     af      ;dump arg
+                pop     af      ;dump arg
+                pop     af      ;dump arg
+                pop     af      ;dump arg
+        ENDIF
+        push    bc
+        ret
 ELSE
-   pop ix
-   pop bc
-   pop de
-   ld a,e
-   pop hl
-   pop de
-   push ix
+        pop     ix
+        pop     bc
+        pop     de
+        ld      a, e
+        pop     hl
+        pop     de
+        push    ix
 
-   jp asm_memccpy
+        jp      asm_memccpy
 ENDIF
 
 ; SDCC bridge for Classic
@@ -71,10 +71,8 @@ PUBLIC _memccpy_callee
 defc _memccpy_callee = memccpy_callee
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___memccpy_callee
 defc ___memccpy_callee = memccpy_callee
 ENDIF
-

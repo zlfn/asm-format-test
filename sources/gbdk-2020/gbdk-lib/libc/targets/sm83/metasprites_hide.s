@@ -1,4 +1,4 @@
-        .include    "global.s"
+        .include "global.s"
 
         .title  "Metasprites"
         .module Metasprites
@@ -6,7 +6,6 @@
         .globl  ___current_metasprite, ___render_shadow_OAM
 
         .area   _CODE
-
 
 ; void __hide_metasprite(uint8_t id)
 
@@ -19,9 +18,9 @@ ___hide_metasprite::
         ld      e, a
 
         ld      hl, #___current_metasprite
-        ld      a, (hl+)
-        ld      h, (hl)
-        ld      l, a
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a
 
         ld      bc, #3
 

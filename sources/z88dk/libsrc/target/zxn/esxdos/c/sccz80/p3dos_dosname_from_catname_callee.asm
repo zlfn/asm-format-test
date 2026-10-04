@@ -8,8 +8,8 @@ EXTERN asm_p3dos_dosname_from_catname
 
 p3dos_dosname_from_catname_callee:
 
-   pop hl
-	pop de
-	ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
-   jp asm_p3dos_dosname_from_catname
+        jp      asm_p3dos_dosname_from_catname

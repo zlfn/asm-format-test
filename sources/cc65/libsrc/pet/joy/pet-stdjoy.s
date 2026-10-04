@@ -4,24 +4,23 @@
 ; Marco van den Heuvel, 2010-01-23
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "pet.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "pet.inc"
 
-        .macpack        module
-
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _pet_stdjoy_joy
+        module_header _pet_stdjoy_joy
 
 ; Driver signature
 
-        .byte   $6A, $6F, $79           ; "joy"
-        .byte   JOY_API_VERSION         ; Driver API version number
+        .byte   $6A, $6F, $79   ; "joy"
+        .byte   JOY_API_VERSION ; Driver API version number
 
 ; Library reference
 
@@ -38,7 +37,6 @@
 ; Constants
 
 JOY_COUNT       = 2             ; Number of joysticks we support
-
 
 .code
 
@@ -62,7 +60,6 @@ INSTALL:
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.
 ;
@@ -77,7 +74,7 @@ COUNT:
 ;
 
 READ:
-        tax                     ; Joystick number into X
+        tax     ; Joystick number into X
         bne     joy2
 
 ; Read joystick 1

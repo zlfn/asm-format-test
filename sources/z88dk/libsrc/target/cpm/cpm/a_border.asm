@@ -8,18 +8,17 @@
 ;       $Id: a_border.asm,v 1.3 2017-01-02 20:06:48 aralbrec Exp $
 ;
 
-	SECTION code_clib
+        SECTION code_clib
 
-	PUBLIC	a_border
-   PUBLIC   _a_border
-	
-	EXTERN	subuserf
-	INCLUDE	"target/cpc/def/amstrad_userf.def"
+        PUBLIC  a_border
+        PUBLIC  _a_border
+
+        EXTERN  subuserf
+        INCLUDE "target/cpc/def/amstrad_userf.def"
 
 a_border:
 _a_border:
-	ld b,l
-	call subuserf
-	defw TE_SET_BORDER
-	ret
-
+        ld      b, l
+        call    subuserf
+        defw    TE_SET_BORDER
+        ret

@@ -11,16 +11,16 @@
 ; * 0x01  : Chameleon cartridge present
 ; */
 
-        .export         _detect_chameleon
+        .export _detect_chameleon
 
-        .include        "accelerator.inc"
+        .include "accelerator.inc"
 
 _detect_chameleon:
         lda     #$00
         tax
 
 ; Make sure the CPU is a 6510
-        .byte   $1A                   ; NOP on 6510, INA on 65(S)C(E)02, 4510 and 65816
+        .byte   $1A     ; NOP on 6510, INA on 65(S)C(E)02, 4510 and 65816
         bne     not_found
 
         ldy     CHAMELEON_CFGENA
@@ -36,4 +36,3 @@ found:
 not_found:
         txa
         rts
-

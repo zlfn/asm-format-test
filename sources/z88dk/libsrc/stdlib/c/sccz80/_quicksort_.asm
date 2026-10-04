@@ -10,16 +10,16 @@ EXTERN asm_quicksort
 
 _quicksort_:
 
-   pop af
-   pop ix
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push hl
-   push af
-   
-   jp asm_quicksort
+        pop     af
+        pop     ix
+        pop     de
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_quicksort

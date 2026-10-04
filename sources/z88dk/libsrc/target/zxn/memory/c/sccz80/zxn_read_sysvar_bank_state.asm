@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _zxn_read_sysvar_bank_state
 defc _zxn_read_sysvar_bank_state = zxn_read_sysvar_bank_state
 ENDIF
-

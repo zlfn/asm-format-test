@@ -10,17 +10,17 @@ EXTERN asm_write
 
 _write_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
 l0_write_callee:
-   
-   push ix
-   
-   call asm_write
-   
-   pop ix
-   ret
+
+        push    ix
+
+        call    asm_write
+
+        pop     ix
+        ret

@@ -26,17 +26,17 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _divuchar
+        .module _divuchar
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __divuchar   ; arguments in A and X, result in AX
-	
+        .globl  __divuchar      ; arguments in A and X, result in AX
+
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 
 ;--------------------------------------------------------
 ; local aliases
@@ -45,11 +45,10 @@
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 __divuchar:
-	stx	*__divuint_PARM_2
-	ldx	#0x00
-	stx	*(__divuint_PARM_2 + 1)
-	jmp	__divuint
-
+        stx     *__divuint_PARM_2
+        ldx     #0x00
+        stx     *(__divuint_PARM_2 + 1)
+        jmp     __divuint

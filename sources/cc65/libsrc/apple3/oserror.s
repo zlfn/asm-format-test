@@ -4,13 +4,13 @@
 ; int __fastcall__ __osmaperrno (unsigned char oserror);
 ;
 
-        .export         ___osmaperrno
+        .export ___osmaperrno
 
-        .include        "errno.inc"
+        .include "errno.inc"
 
 ___osmaperrno:
         ldx     #ErrTabSize
-:       cmp     ErrTab-2,x      ; Search for the error code
+:       cmp     ErrTab-2, x     ; Search for the error code
         beq     :+              ; Jump if found
         dex
         dex
@@ -22,7 +22,7 @@ ___osmaperrno:
         rts
 
         ; Found the code
-:       lda     ErrTab-1,x
+:       lda     ErrTab-1, x
         ldx     #>$0000
         rts
 

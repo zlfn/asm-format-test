@@ -5,25 +5,24 @@
 ; Ullrich von Bassewitz, 2002-11-29
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "em-kernel.inc"
-        .include        "em-error.inc"
-        .include        "c128.inc"
+        .include "em-kernel.inc"
+        .include "em-error.inc"
+        .include "c128.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c128_reu_emd
+        module_header _c128_reu_emd
 
 ; Driver signature
 
-        .byte   $65, $6d, $64           ; "emd"
-        .byte   EMD_API_VERSION         ; EM API version number
+        .byte   $65, $6d, $64   ; "emd"
+        .byte   EMD_API_VERSION ; EM API version number
 
 ; Library reference
 
@@ -62,17 +61,17 @@ OP_COPYTO_ALOAD   = $B0
 ; Data.
 
 .bss
-pagecount:      .res    2               ; Number of pages available
-curpage:        .res    2               ; Current page number
+pagecount: .res 2       ; Number of pages available
+curpage:   .res 2       ; Current page number
 
-window:         .res    256             ; Memory "window"
+window: .res    256     ; Memory "window"
 
-reu_params:     .word   $0000           ; Host address, lo, hi
-                .word   $0000           ; Exp  address, lo, hi
-                .byte   $00             ; Expansion  bank no.
-                .word   $0000           ; # bytes to move, lo, hi
-                .byte   $00             ; Interrupt mask reg.
-                .byte   $00             ; Address control reg.
+reu_params: .word $0000 ; Host address, lo, hi
+        .word   $0000   ; Exp  address, lo, hi
+        .byte   $00     ; Expansion  bank no.
+        .word   $0000   ; # bytes to move, lo, hi
+        .byte   $00     ; Interrupt mask reg.
+        .byte   $00     ; Address control reg.
 
 .code
 
@@ -84,14 +83,14 @@ reu_params:     .word   $0000           ; Host address, lo, hi
 ;
 
 INSTALL:
-        ldx     #$00                    ; High byte of return code
+        ldx     #$00            ; High byte of return code
         lda     #$55
         sta     REU_REUADDR
-        cmp     REU_REUADDR             ; Check for presence of REU
+        cmp     REU_REUADDR     ; Check for presence of REU
         bne     nodevice
-        asl     a                       ; A = $AA
+        asl     a               ; A = $AA
         sta     REU_REUADDR
-        cmp     REU_REUADDR             ; Check for presence of REU
+        cmp     REU_REUADDR     ; Check for presence of REU
         bne     nodevice
 
 ; determine the size
@@ -118,7 +117,7 @@ size_loop:
 size_found:
         plp
         ldx     #$00
-        cpy     #$00                    ; too many pages, shave off 2
+        cpy     #$00    ; too many pages, shave off 2
         bne     pagecount_ok
         dex
         dex
@@ -161,7 +160,6 @@ nodevice:
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; PAGECOUNT: Return the total number of available pages in a/x.
 ;
@@ -178,30 +176,30 @@ PAGECOUNT:
 ;
 
 MAP:    sta     curpage
-        stx     curpage+1               ; Remember the new page
+        stx     curpage+1       ; Remember the new page
 
         ldy     #OP_COPYFROM
-        jsr     common                  ; Copy the window
+        jsr     common  ; Copy the window
 
         lda     #<window
-        ldx     #>window                ; Return the window address
+        ldx     #>window        ; Return the window address
 done:   rts
 
 ; ------------------------------------------------------------------------
 ; USE: Tell the driver that the window is now associated with a given page.
 
 USE:    sta     curpage
-        stx     curpage+1               ; Remember the page
+        stx     curpage+1       ; Remember the page
         lda     #<window
-        ldx     #>window                ; Return the window
+        ldx     #>window        ; Return the window
         rts
 
 ; ------------------------------------------------------------------------
 ; COMMIT: Commit changes in the memory window to extended storage.
 
 COMMIT: lda     curpage
-        ldx     curpage+1               ; Do we have a page mapped?
-        bmi     done                    ; Jump if no page mapped
+        ldx     curpage+1       ; Do we have a page mapped?
+        bmi     done            ; Jump if no page mapped
 
         ldy     #OP_COPYTO
 common: sty     tmp1
@@ -218,8 +216,8 @@ common: sty     tmp1
 
         sty     REU_COUNT+0
         ldy     #1
-        sty     REU_COUNT+1             ; Move 256 bytes
-        bne     transfer1               ; Transfer 256 bytes into REU
+        sty     REU_COUNT+1     ; Move 256 bytes
+        bne     transfer1       ; Transfer 256 bytes into REU
 
 ; ------------------------------------------------------------------------
 ; COPYFROM: Copy from extended into linear memory. A pointer to a structure
@@ -244,14 +242,14 @@ COPYTO:
 ; Remember the passed pointer
 
         sta     ptr1
-        stx     ptr1+1          ; Save the pointer
+        stx     ptr1+1  ; Save the pointer
 
 ; The structure passed to the functions has the same layout as the registers
 ; of the Commodore REU, so register programming is easy.
 
         ldy     #7-1
-@L1:    lda     (ptr1),y
-        sta     REU_C64ADDR,y
+@L1:    lda     (ptr1), y
+        sta     REU_C64ADDR, y
         dey
         bpl     @L1
 
@@ -276,7 +274,6 @@ transfer:
         lda     REU_TRIGGER     ; Don't change $FF00
         sta     REU_TRIGGER     ; Start the transfer...
 
-        sty     MMU_CR          ; Restore the old configuration
+        sty     MMU_CR  ; Restore the old configuration
         cli
         rts
-

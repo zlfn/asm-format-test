@@ -10,17 +10,17 @@ EXTERN asm_tshr_visit_wc_pix
 
 _tshr_visit_wc_pix_callee:
 
-   pop af
-   pop bc
-   pop de
-   push af
+        pop     af
+        pop     bc
+        pop     de
+        push    af
 
 l0_tshr_visit_wc_pix_callee:
 
-   push bc
-   ex (sp),ix
-   
-   call asm_tshr_visit_wc_pix
+        push    bc
+        ex      (sp), ix
 
-   pop ix
-   ret
+        call    asm_tshr_visit_wc_pix
+
+        pop     ix
+        ret

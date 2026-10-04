@@ -8,16 +8,14 @@
 ;
 ;
 
+        INCLUDE "classic/gfx/grafix.inc"
 
-    INCLUDE "classic/gfx/grafix.inc"
+        SECTION code_clib
+        PUBLIC  cleargraphics
+        PUBLIC  _cleargraphics
+        PUBLIC  ___cleargraphics
+        EXTERN  generic_console_cls
 
-    SECTION code_clib
-    PUBLIC  cleargraphics
-    PUBLIC  _cleargraphics
-    PUBLIC  ___cleargraphics
-    EXTERN  generic_console_cls
-
-
-    defc    cleargraphics=generic_console_cls
-    defc    _cleargraphics=cleargraphics
-    defc    ___cleargraphics=cleargraphics
+        defc    cleargraphics=generic_console_cls
+        defc    _cleargraphics=cleargraphics
+        defc    ___cleargraphics=cleargraphics

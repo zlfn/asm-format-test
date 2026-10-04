@@ -3,37 +3,37 @@
 ;
 ; void waitvsync (void);
 ;
-        .export         _waitvsync
-        .import         ostype
+        .export _waitvsync
+        .import ostype
 
-        .ifndef  __APPLE2ENH__
-        .import         machinetype
+        .ifndef __APPLE2ENH__
+                .import machinetype
         .endif
 
-        .include        "apple2.inc"
+        .include "apple2.inc"
 
 _waitvsync:
-        .ifndef  __APPLE2ENH__
-        bit     machinetype     ; IIe/enh?
-        bpl     out             ; No, silently fail
+        .ifndef __APPLE2ENH__
+                bit     machinetype     ; IIe/enh?
+                bpl     out             ; No, silently fail
         .endif
 
         bit     ostype
-        bmi     iigs            ; $8x
-        bvs     iic             ; $4x
+        bmi     iigs    ; $8x
+        bvs     iic     ; $4x
 
         ; Apple IIe
 :       bit     RDVBLBAR
-        bpl     :-              ; Blanking
+        bpl     :-      ; Blanking
 :       bit     RDVBLBAR
-        bmi     :-              ; Drawing
+        bmi     :-      ; Drawing
         rts
 
         ; Apple IIgs TechNote #40, VBL Signal
 iigs:   bit     RDVBLBAR
-        bmi     iigs            ; Blanking
+        bmi     iigs    ; Blanking
 :       bit     RDVBLBAR
-        bpl     :-              ; Drawing
+        bpl     :-      ; Drawing
         rts
 
         ; Apple IIc TechNote #9, Detecting VBL

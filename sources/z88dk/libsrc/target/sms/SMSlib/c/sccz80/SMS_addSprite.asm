@@ -9,24 +9,23 @@ EXTERN asm_SMSlib_addSprite
 
 SMS_addSprite:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
-   
-   ld b,l
-   ld d,e
-   
-   jp asm_SMSlib_addSprite
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        ld      b, l
+        ld      d, e
+
+        jp      asm_SMSlib_addSprite
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _SMS_addSprite
 defc _SMS_addSprite = SMS_addSprite
 ENDIF
-

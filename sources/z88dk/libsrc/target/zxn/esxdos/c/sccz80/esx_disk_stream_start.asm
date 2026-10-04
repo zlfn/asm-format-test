@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_disk_stream_start
 defc _esx_disk_stream_start = esx_disk_stream_start
 ENDIF
-

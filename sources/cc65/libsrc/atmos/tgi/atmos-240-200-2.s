@@ -5,14 +5,14 @@
 ; 2014-09-10, Greg King <gregdk@users.sf.net>
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-error.inc"
-        .include        "atmos.inc"
+        .include "tgi-kernel.inc"
+        .include "tgi-error.inc"
+        .include "atmos.inc"
 
-        .macpack        generic
-        .macpack        module
+        .macpack generic
+        .macpack module
 
 XSIZE   =       6                       ; System font width
 YSIZE   =       8                       ; System font height
@@ -20,22 +20,22 @@ YSIZE   =       8                       ; System font height
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table and constants.
 
-        module_header   _atmos_240_200_2_tgi
+        module_header _atmos_240_200_2_tgi
 
 ; First part of the header is a structure that has a magic and defines the
 ; capabilities of the driver
 
-        .byte   $74, $67, $69           ; "tgi"
-        .byte   TGI_API_VERSION         ; TGI API version number
-        .addr   $0000                   ; Library reference
-        .word   240                     ; X resolution
-        .word   200                     ; Y resolution
-        .byte   2                       ; Number of drawing colors
-        .byte   1                       ; Number of screens available
-        .byte   XSIZE                   ; System font X size
-        .byte   YSIZE                   ; System font Y size
-        .word   $011C                   ; Aspect ratio (based on 4/3 display)
-        .byte   0                       ; TGI driver flags
+        .byte   $74, $67, $69   ; "tgi"
+        .byte   TGI_API_VERSION ; TGI API version number
+        .addr   $0000           ; Library reference
+        .word   240             ; X resolution
+        .word   200             ; Y resolution
+        .byte   2               ; Number of drawing colors
+        .byte   1               ; Number of screens available
+        .byte   XSIZE           ; System font X size
+        .byte   YSIZE           ; System font Y size
+        .word   $011C           ; Aspect ratio (based on 4/3 display)
+        .byte   0               ; TGI driver flags
 
 ; Next comes the jump table. Currently all entries must be valid and may point
 ; to an RTS for test versions (function not implemented).
@@ -75,14 +75,14 @@ Y2              := ptr4
 
 .bss
 
-ERROR:          .res    1       ; Error code
-MODE:           .res    1       ; Graphics mode
+ERROR:  .res    1       ; Error code
+MODE:   .res    1       ; Graphics mode
 
 ; Constant table
 
 .rodata
 
-DEFPALETTE:     .byte   0, 1
+DEFPALETTE: .byte 0, 1
 
 .code
 
@@ -345,7 +345,6 @@ BAR:
 TEXTSTYLE:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; OUTTEXT: Output text at X/Y = ptr1/ptr2 using the current color and the
 ; current text style. The text to output is given as a zero terminated
@@ -358,11 +357,11 @@ OUTTEXT:
         lda     Y1
         sub     #(YSIZE - 1)
         sta     PARAM2
-        lda     #3              ; (Move graphics cursor; don't draw)
+        lda     #3      ; (Move graphics cursor; don't draw)
         jsr     mymode
 
         ldy     #0
-@next:  lda     (ptr3),y
+@next:  lda     (ptr3), y
         beq     @end
         sta     PARAM1
         lda     #0

@@ -8,11 +8,10 @@
 ; */
 ;
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
-        .import         popa
-        .importzp       ptr1
-
+        .import popa
+        .importzp ptr1
 
 .proc   _tgi_ioctl
 
@@ -22,5 +21,3 @@
         jmp     tgi_control     ; Call the driver
 
 .endproc
-
-

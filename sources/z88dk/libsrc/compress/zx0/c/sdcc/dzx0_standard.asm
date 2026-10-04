@@ -10,12 +10,12 @@ EXTERN asm_dzx0_standard
 
 _dzx0_standard:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   jp asm_dzx0_standard
+        pop     af
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_dzx0_standard

@@ -4,15 +4,15 @@
 ; Christian Groessler (chris@groessler.org), 2014
 ;
 
-        .export         _exit, start
-        .export         __STARTUP__ : absolute = 1      ; Mark as startup
-        .import         __RAM_START__, __RAM_SIZE__
-        .import         __RESERVED_MEMORY__
+        .export _exit, start
+        .export __STARTUP__ : absolute = 1      ; Mark as startup
+        .import __RAM_START__, __RAM_SIZE__
+        .import __RESERVED_MEMORY__
 
-        .import         initlib, donelib, callmain
-        .import         zerobss, copydata
+        .import initlib, donelib, callmain
+        .import zerobss, copydata
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
 start:
 
@@ -28,7 +28,7 @@ start:
         lda     #<(__RAM_START__ + __RAM_SIZE__ - __RESERVED_MEMORY__)
         ldx     #>(__RAM_START__ + __RAM_SIZE__ - __RESERVED_MEMORY__)
         sta     c_sp
-        stx     c_sp+1          ; Set argument stack ptr
+        stx     c_sp+1  ; Set argument stack ptr
 
 ; Call the module constructors.
 
@@ -40,7 +40,7 @@ start:
 
 ; Call the module destructors. This is also the exit() entry.
 
-_exit:  jsr     donelib         ; Run module destructors
+_exit:  jsr     donelib ; Run module destructors
 
 ; A 5200 program isn't supposed to exit.
 

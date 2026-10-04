@@ -11,9 +11,9 @@ EXTERN asm_cpm_bdos_hl
 
 _cpm_bdos_hl_callee:
 
-   pop af
-   pop bc
-   pop de
-   push af
-   
-   jp asm_cpm_bdos_hl
+        pop     af
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_cpm_bdos_hl

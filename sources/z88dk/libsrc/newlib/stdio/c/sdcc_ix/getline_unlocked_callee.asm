@@ -10,18 +10,18 @@ EXTERN asm_getline_unlocked
 
 _getline_unlocked_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
 l0_getline_unlocked_callee:
 
-   push bc
-   ex (sp),ix
-   
-   call asm_getline_unlocked
-   
-   pop ix
-   ret
+        push    bc
+        ex      (sp), ix
+
+        call    asm_getline_unlocked
+
+        pop     ix
+        ret

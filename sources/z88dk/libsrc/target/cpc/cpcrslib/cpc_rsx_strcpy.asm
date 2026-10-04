@@ -9,10 +9,10 @@
 ;       $Id: cpc_rsx_strcpy.asm,v 1.3 2016-06-10 21:12:36 dom Exp $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_rsx_strcpy
-        PUBLIC    _cpc_rsx_strcpy
-        EXTERN    asm_cpc_rsx_strcpy
+        SECTION code_clib
+        PUBLIC  cpc_rsx_strcpy
+        PUBLIC  _cpc_rsx_strcpy
+        EXTERN  asm_cpc_rsx_strcpy
 
 .cpc_rsx_strcpy
 ._cpc_rsx_strcpy
@@ -22,4 +22,4 @@
         push    de
         push    hl
         push    bc
-        jp asm_cpc_rsx_strcpy
+        jp      asm_cpc_rsx_strcpy

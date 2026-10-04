@@ -9,12 +9,12 @@ EXTERN l0_zx_cls_wc_pix
 
 _zx_cls_wc_pix:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp l0_zx_cls_wc_pix
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      l0_zx_cls_wc_pix

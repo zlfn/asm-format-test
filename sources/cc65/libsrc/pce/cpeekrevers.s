@@ -5,10 +5,10 @@
 ;
 ; get inverse flag from current position, do NOT advance cursor
 
-        .export         _cpeekrevers
+        .export _cpeekrevers
 
-        .include        "pce.inc"
-        .include        "extzp.inc"
+        .include "pce.inc"
+        .include "extzp.inc"
 
 _cpeekrevers:
         st0     #VDC_MARR       ; Memory-Address Read

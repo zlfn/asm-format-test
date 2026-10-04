@@ -9,16 +9,16 @@ EXTERN asm_esx_f_rename
 
 _esx_f_rename_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
 l0_esx_f_rename_callee:
 
-   push ix
-   
-   call asm_esx_f_rename
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_rename
+
+        pop     ix
+        ret

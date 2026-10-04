@@ -21,88 +21,87 @@ SECTION code_fp_math32
 
 PUBLIC m32_fsnormalize32
 
-
 .m32_fsnormalize32
-    ld a,d
-    or a
-    ret m                       ; already normalised
-    jr nz,need_shift
+        ld      a, d
+        or      a
+        ret     m       ; already normalised
+        jr      nz, need_shift
 
-    ld a,e
-    or a
-    jr nz,need8
+        ld      a, e
+        or      a
+        jr      nz, need8
 
-    ld a,h
-    or a
-    jr nz,need16
+        ld      a, h
+        or      a
+        jr      nz, need16
 
-    ld a,l
-    or a
-    jr z,normzero
+        ld      a, l
+        or      a
+        jr      z, normzero
 
-    ; leading in L → +24
-    ld d,l
-    ld e,0
-    ld hl,0
-    ld a,b
-    sub 24
-    ld b,a
-    jr c,normzero
-    jr bitshift_check
+        ; leading in L → +24
+        ld      d,  l
+        ld      e,  0
+        ld      hl, 0
+        ld      a,  b
+        sub     24
+        ld      b, a
+        jr      c, normzero
+        jr      bitshift_check
 
 .need16
-    ex de,hl                    ; DE ← old HL, HL ← 0 (old DE was 0)
-    ld a,b
-    sub 16
-    ld b,a
-    jr c,normzero
-    jr bitshift_check
+        ex      de, hl  ; DE ← old HL, HL ← 0 (old DE was 0)
+        ld      a,  b
+        sub     16
+        ld      b, a
+        jr      c, normzero
+        jr      bitshift_check
 
 .need8
-    ld d,e
-    ld e,h
-    ld h,l
-    ld l,0
-    ld a,b
-    sub 8
-    ld b,a
-    jr c,normzero
-    ; fall through
+        ld      d, e
+        ld      e, h
+        ld      h, l
+        ld      l, 0
+        ld      a, b
+        sub     8
+        ld      b, a
+        jr      c, normzero
+        ; fall through
 
 .bitshift_check
-    ld a,d
-    or a
-    ret m                       ; normalised after byte align only
-    jr z,normzero
+        ld      a, d
+        or      a
+        ret     m       ; normalised after byte align only
+        jr      z, normzero
 
-    ; ---------------------------------------------------------------
-    ; Residual: count in temp B; exp+sign on stack
-    ; rl de ends with rl d → SF = D.7 (Z80)
-    ; ---------------------------------------------------------------
+        ; ---------------------------------------------------------------
+        ; Residual: count in temp B; exp+sign on stack
+        ; rl de ends with rl d → SF = D.7 (Z80)
+        ; ---------------------------------------------------------------
 
 .need_shift
-    push bc                     ; exp + sign
-    ld b,0
+        push    bc              ; exp + sign
+        ld      b, 0
 .shift_loop
-    inc b
-    add hl,hl
-    rl de
-    jp p,shift_loop             ; D.7 not set yet
+        inc     b
+        add     hl, hl
+        rl      de
+        jp      p, shift_loop   ; D.7 not set yet
 
-    ld a,b                      ; residual
-    pop bc                      ; B = exp, C = sign
-    cpl
-    inc a                       ; −residual
-    add a,b
-    jr nc,normzero
-    ld b,a
-    ret
+        ld      a, b    ; residual
+        pop     bc      ; B = exp, C = sign
+        cpl
+        inc     a       ; −residual
+        add     a,  b
+        jr      nc, normzero
+        ld      b,  a
+        ret
 
 .normzero
-    xor a
-    ld b,a
-    ld d,a
-    ld e,a
-    ld h,a
-    ld l,a
-    ret
+        xor     a
+        ld      b, a
+        ld      d, a
+        ld      e, a
+        ld      h, a
+        ld      l, a
+        ret

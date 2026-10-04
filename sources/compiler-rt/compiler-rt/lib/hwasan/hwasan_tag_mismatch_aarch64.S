@@ -23,7 +23,6 @@
 // completes the stack unwinding and error printing. This function is not
 // permitted to return.
 
-
 // Frame from __hwasan_check_:
 // |              ...                |
 // |              ...                |
@@ -75,82 +74,82 @@ TEXT_SECTION
 .global __hwasan_tag_mismatch
 .type __hwasan_tag_mismatch, %function
 __hwasan_tag_mismatch:
-  BTI_J
+        BTI_J
 
-  // Compute the granule position one past the end of the access.
-  mov x16, #1
-  and x17, x1, #0xf
-  lsl x16, x16, x17
-  and x17, x0, #0xf
-  add x17, x16, x17
+        // Compute the granule position one past the end of the access.
+        mov     x16, #1
+        and     x17, x1,  #0xf
+        lsl     x16, x16, x17
+        and     x17, x0,  #0xf
+        add     x17, x16, x17
 
-  // Load the shadow byte again and check whether it is a short tag within the
-  // range of the granule position computed above.
-  ubfx x16, x0, #4, #52
-  ldrb w16, [x9, x16]
-  cmp w16, #0xf
-  b.hi mismatch
-  cmp w16, w17
-  b.lo mismatch
+        // Load the shadow byte again and check whether it is a short tag within the
+        // range of the granule position computed above.
+        ubfx    x16, x0, #4, #52
+        ldrb    w16, [x9, x16]
+        cmp     w16, #0xf
+        b.hi    mismatch
+        cmp     w16, w17
+        b.lo    mismatch
 
-  // Load the real tag from the last byte of the granule and compare against
-  // the pointer tag.
-  orr x16, x0, #0xf
-  ldrb w16, [x16]
-  cmp x16, x0, lsr #56
-  b.ne mismatch
+        // Load the real tag from the last byte of the granule and compare against
+        // the pointer tag.
+        orr     x16, x0, #0xf
+        ldrb    w16, [x16]
+        cmp     x16, x0, lsr #56
+        b.ne    mismatch
 
-  // Restore x0, x1 and sp to their values from before the __hwasan_tag_mismatch
-  // call and resume execution.
-  ldp x0, x1, [sp], #256
-  ret
+        // Restore x0, x1 and sp to their values from before the __hwasan_tag_mismatch
+        // call and resume execution.
+        ldp     x0, x1, [sp], #256
+        ret
 
 .global __hwasan_tag_mismatch_v2
 .type __hwasan_tag_mismatch_v2, %function
 __hwasan_tag_mismatch_v2:
 // Avoid using global label, to prevent "relocation out of range".
 mismatch:
-  CFI_STARTPROC
-  BTI_J
+        CFI_STARTPROC
+        BTI_J
 
-  // Set the CFA to be the return address for caller of __hwasan_check_*. Note
-  // that we do not emit CFI predicates to describe the contents of this stack
-  // frame, as this proxy entry point should never be debugged. The contents
-  // are static and are handled by the unwinder after calling
-  // __hwasan_tag_mismatch. The frame pointer is already correctly setup
-  // by __hwasan_check_*.
-  add x29, sp, #232
-  CFI_DEF_CFA(w29, 24)
-  CFI_OFFSET(w30, -16)
-  CFI_OFFSET(w29, -24)
+        // Set the CFA to be the return address for caller of __hwasan_check_*. Note
+        // that we do not emit CFI predicates to describe the contents of this stack
+        // frame, as this proxy entry point should never be debugged. The contents
+        // are static and are handled by the unwinder after calling
+        // __hwasan_tag_mismatch. The frame pointer is already correctly setup
+        // by __hwasan_check_*.
+        add     x29, sp, #232
+        CFI_DEF_CFA(w29, 24)
+        CFI_OFFSET(w30, -16)
+        CFI_OFFSET(w29, -24)
 
-  // Save the rest of the registers into the preallocated space left by
-  // __hwasan_check.
-  str     x28,      [sp, #224]
-  stp     x26, x27, [sp, #208]
-  stp     x24, x25, [sp, #192]
-  stp     x22, x23, [sp, #176]
-  stp     x20, x21, [sp, #160]
-  stp     x18, x19, [sp, #144]
-  stp     x16, x17, [sp, #128]
-  stp     x14, x15, [sp, #112]
-  stp     x12, x13, [sp, #96]
-  stp     x10, x11, [sp, #80]
-  stp     x8,  x9,  [sp, #64]
-  stp     x6,  x7,  [sp, #48]
-  stp     x4,  x5,  [sp, #32]
-  stp     x2,  x3,  [sp, #16]
+        // Save the rest of the registers into the preallocated space left by
+        // __hwasan_check.
+        str     x28, [sp, #224]
+        stp     x26, x27, [sp, #208]
+        stp     x24, x25, [sp, #192]
+        stp     x22, x23, [sp, #176]
+        stp     x20, x21, [sp, #160]
+        stp     x18, x19, [sp, #144]
+        stp     x16, x17, [sp, #128]
+        stp     x14, x15, [sp, #112]
+        stp     x12, x13, [sp, #96]
+        stp     x10, x11, [sp, #80]
+        stp     x8,  x9,  [sp, #64]
+        stp     x6,  x7,  [sp, #48]
+        stp     x4,  x5,  [sp, #32]
+        stp     x2,  x3,  [sp, #16]
 
-  // Pass the address of the frame to __hwasan_tag_mismatch4, so that it can
-  // extract the saved registers from this frame without having to worry about
-  // finding this frame.
-  mov x2, sp
+        // Pass the address of the frame to __hwasan_tag_mismatch4, so that it can
+        // extract the saved registers from this frame without having to worry about
+        // finding this frame.
+        mov     x2, sp
 
-  bl __hwasan_tag_mismatch4
-  CFI_ENDPROC
+        bl      __hwasan_tag_mismatch4
+        CFI_ENDPROC
 
 .Lfunc_end0:
-  .size __hwasan_tag_mismatch, .Lfunc_end0-__hwasan_tag_mismatch
+        .size   __hwasan_tag_mismatch, .Lfunc_end0-__hwasan_tag_mismatch
 
 #endif  // defined(__aarch64__)
 

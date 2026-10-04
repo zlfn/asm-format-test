@@ -8,5 +8,5 @@ PUBLIC l_retn
 
 l_retn:
 
-   retn
+        retn
 ENDIF

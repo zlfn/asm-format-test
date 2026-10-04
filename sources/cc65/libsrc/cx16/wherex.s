@@ -4,9 +4,9 @@
 ; unsigned char wherex (void);
 ;
 
-        .export         _wherex
+        .export _wherex
 
-        .include        "cx16.inc"
+        .include "cx16.inc"
 
 .proc   _wherex
         lda     CURS_X

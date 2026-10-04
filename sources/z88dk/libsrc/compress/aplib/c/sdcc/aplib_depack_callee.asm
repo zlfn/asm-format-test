@@ -10,9 +10,8 @@ EXTERN asm_aplib_depack
 
 _aplib_depack_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_aplib_depack
- 
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_aplib_depack

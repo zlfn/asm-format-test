@@ -10,6 +10,6 @@ EXTERN am48_nan, cm48_sdccixp_m482d
 
 cm48_sdccix_nan_fastcall:
 
-   call am48_nan
-   
-   jp cm48_sdccixp_m482d
+        call    am48_nan
+
+        jp      cm48_sdccixp_m482d

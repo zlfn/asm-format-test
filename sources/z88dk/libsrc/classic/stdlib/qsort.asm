@@ -24,16 +24,16 @@
 ; executable mix sccz80 and sdcc translation units.
 ;
 
-    SECTION code_clib
+        SECTION code_clib
 
 ; The closure lives in ix, so this implementation is Z80-family only.
 ; 8080/8085/gbz80 (no ix) need a memory-indirect fallback -- TODO.
 IF !__CPU_INTEL__ && !__CPU_GBZ80__
 
-    PUBLIC  qsort                       ; sccz80 links the bare name (__LIB__)
-    PUBLIC  l_cmp_sccz80                ; comparator thunk (closure slot target)
+        PUBLIC  qsort           ; sccz80 links the bare name (__LIB__)
+        PUBLIC  l_cmp_sccz80    ; comparator thunk (closure slot target)
 
-    EXTERN  asm_qsort
+        EXTERN  asm_qsort
 
 ;------------------------------------------------------------------------
 ; qsort(base, nel, width, compar)  __smallc  (caller cleans arguments)
@@ -44,45 +44,45 @@ IF !__CPU_INTEL__ && !__CPU_GBZ80__
 
 qsort:
 
-    push    ix                          ; preserve caller's ix (frame pointer)
+        push    ix      ; preserve caller's ix (frame pointer)
 
-    ld      hl,4
-    add     hl,sp
-    ld      e,(hl)                      ; de = compar (user comparator address)
-    inc     hl
-    ld      d,(hl)
+        ld      hl, 4
+        add     hl, sp
+        ld      e,  (hl)        ; de = compar (user comparator address)
+        inc     hl
+        ld      d, (hl)
 
-    ; build the closure by pushing it, low..high:
-    ;   C3 lo(thunk) hi(thunk)  = jp l_cmp_sccz80
-    ;   C3 lo(user)  hi(user)   = jp compar   (only its address is read)
+        ; build the closure by pushing it, low..high:
+        ;   C3 lo(thunk) hi(thunk)  = jp l_cmp_sccz80
+        ;   C3 lo(user)  hi(user)   = jp compar   (only its address is read)
 
-    push    de                          ; bytes 4,5 = user comparator address
-    ld      hl,0C300h + (l_cmp_sccz80 >> 8)
-    push    hl                          ; bytes 2,3 = hi(thunk), C3
-    ld      hl,0C3h + ((l_cmp_sccz80 & 0FFh) << 8)
-    push    hl                          ; bytes 0,1 = C3, lo(thunk)
+        push    de      ; bytes 4,5 = user comparator address
+        ld      hl, 0C300h + (l_cmp_sccz80 >> 8)
+        push    hl      ; bytes 2,3 = hi(thunk), C3
+        ld      hl, 0C3h + ((l_cmp_sccz80 & 0FFh) << 8)
+        push    hl      ; bytes 0,1 = C3, lo(thunk)
 
-    ld      ix,0
-    add     ix,sp                       ; ix -> closure (slot0 = jp l_cmp_sccz80)
+        ld      ix, 0
+        add     ix, sp  ; ix -> closure (slot0 = jp l_cmp_sccz80)
 
-    ; asm_qsort wants: ix = comparator handle, bc = base, hl = nmemb, de = size
-    ; saved-ix + ret + args sit just above the 6-byte closure
+        ; asm_qsort wants: ix = comparator handle, bc = base, hl = nmemb, de = size
+        ; saved-ix + ret + args sit just above the 6-byte closure
 
-    ld      e,(ix+12)                   ; width -> de = size
-    ld      d,(ix+13)
-    ld      l,(ix+14)                   ; nel   -> hl = nmemb
-    ld      h,(ix+15)
-    ld      c,(ix+16)                   ; base  -> bc = base
-    ld      b,(ix+17)
+        ld      e, (ix+12)      ; width -> de = size
+        ld      d, (ix+13)
+        ld      l, (ix+14)      ; nel   -> hl = nmemb
+        ld      h, (ix+15)
+        ld      c, (ix+16)      ; base  -> bc = base
+        ld      b, (ix+17)
 
-    call    asm_qsort
+        call    asm_qsort
 
-    pop     bc                          ; discard the 6-byte closure
-    pop     bc
-    pop     bc
+        pop     bc      ; discard the 6-byte closure
+        pop     bc
+        pop     bc
 
-    pop     ix                          ; restore caller's ix
-    ret                                 ; caller cleans the arguments
+        pop     ix      ; restore caller's ix
+        ret             ; caller cleans the arguments
 
 ;------------------------------------------------------------------------
 ; sccz80 comparator thunk
@@ -97,25 +97,25 @@ qsort:
 
 l_cmp_sccz80:
 
-    push    bc                          ; core needs bc (size) preserved
-    push    ix                          ; core needs ix (closure) preserved
+        push    bc      ; core needs bc (size) preserved
+        push    ix      ; core needs ix (closure) preserved
 
-    push    de                          ; arg0 = left  (deeper); restores de later
-    push    hl                          ; arg1 = right (top);    restores hl later
+        push    de      ; arg0 = left  (deeper); restores de later
+        push    hl      ; arg1 = right (top);    restores hl later
 
-    ld      c,(ix+4)                    ; bc = user comparator address
-    ld      b,(ix+5)
-    call    l_call_bc                   ; (*compar)(left, right) -> hl
+        ld      c, (ix+4)       ; bc = user comparator address
+        ld      b, (ix+5)
+        call    l_call_bc       ; (*compar)(left, right) -> hl
 
-    ld      a,h
-    or      a
-    ld      a,l                         ; sign flags + a = low byte, carry reset
+        ld      a, h
+        or      a
+        ld      a, l    ; sign flags + a = low byte, carry reset
 
-    pop     hl                          ; hl = right (restored)
-    pop     de                          ; de = left  (restored)
-    pop     ix                          ; ix = closure
-    pop     bc                          ; bc = size
-    ret
+        pop     hl      ; hl = right (restored)
+        pop     de      ; de = left  (restored)
+        pop     ix      ; ix = closure
+        pop     bc      ; bc = size
+        ret
 
 ;------------------------------------------------------------------------
 ; call the routine whose address is in bc  (l_call_bc is not in the library)
@@ -123,7 +123,7 @@ l_cmp_sccz80:
 
 l_call_bc:
 
-    push    bc
-    ret
+        push    bc
+        ret
 
 ENDIF

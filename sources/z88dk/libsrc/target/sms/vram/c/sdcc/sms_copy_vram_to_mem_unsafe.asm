@@ -9,12 +9,12 @@ EXTERN asm_sms_copy_vram_to_mem_unsafe
 
 _sms_copy_vram_to_mem_unsafe:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   
-   jp asm_sms_copy_vram_to_mem_unsafe
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_sms_copy_vram_to_mem_unsafe

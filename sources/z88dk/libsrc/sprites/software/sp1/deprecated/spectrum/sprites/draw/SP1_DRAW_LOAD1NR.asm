@@ -8,10 +8,10 @@ EXTERN SP1RETSPRDRAW, SP1V_PIXELBUFFER
 
 ; following data segment copied into struct sp1_cs
 
-   ld hl,0
-   nop
-   ld de,0
-   call SP1_DRAW_LOAD1NR
+        ld      hl, 0
+        nop
+        ld      de, 0
+        call    SP1_DRAW_LOAD1NR
 
 ; following draw code called by way of SP1UpdateNow
 ;
@@ -24,19 +24,19 @@ EXTERN SP1RETSPRDRAW, SP1V_PIXELBUFFER
 
 .SP1_DRAW_LOAD1NR
 
-   add hl,bc
+        add     hl, bc
 
-   ; hl = sprite def (graph only)
+        ; hl = sprite def (graph only)
 
-   ld de,SP1V_PIXELBUFFER
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ldi
-   ld a,(hl)
-   ld (de),a
+        ld      de, SP1V_PIXELBUFFER
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ldi
+        ld      a,    (hl)
+        ld      (de), a
 
-   jp SP1RETSPRDRAW
+        jp      SP1RETSPRDRAW

@@ -8,15 +8,15 @@
 ; $Id: scrollup_4px.asm $
 ;
 
-    PUBLIC  scrollup_4px
-    PUBLIC  _scrollup_4px
-    PUBLIC  ___scrollup_4px
+        PUBLIC  scrollup_4px
+        PUBLIC  _scrollup_4px
+        PUBLIC  ___scrollup_4px
 
-    EXTERN  scrolluptxt
+        EXTERN  scrolluptxt
 
 scrollup_4px:
 _scrollup_4px:
 ___scrollup_4px:
 
-	call    scrolluptxt
-    jp      scrolluptxt
+        call    scrolluptxt
+        jp      scrolluptxt

@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _PSGPlay
 defc _PSGPlay = PSGPlay
 ENDIF
-

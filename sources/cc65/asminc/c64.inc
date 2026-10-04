@@ -2,7 +2,6 @@
 ; C64 generic definitions. Stolen from Elite128
 ;
 
-
 ; ---------------------------------------------------------------------------
 ; Zero page, Commodore stuff
 
@@ -115,7 +114,6 @@ VIC_BG_COLOR3   := $D024
 VIC_KBD_128     := $D02F        ; Extended kbd bits (visible in 64 mode)
 VIC_CLK_128     := $D030        ; Clock rate register (visible in 64 mode)
 
-
 ; ---------------------------------------------------------------------------
 ; I/O: SID
 
@@ -203,7 +201,6 @@ SCPU_Fast       := $D07B
 SCPU_EnableRegs := $D07E
 SCPU_DisableRegs:= $D07F
 SCPU_Detect     := $D0BC
-
 
 ; ---------------------------------------------------------------------------
 ; Processor Port at $01

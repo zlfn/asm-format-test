@@ -10,13 +10,13 @@ EXTERN asm_strncat
 
 strncat_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   ex de,hl
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+        ex      de,   hl
 
-   jp asm_strncat
+        jp      asm_strncat
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -24,10 +24,8 @@ PUBLIC _strncat_callee
 defc _strncat_callee = strncat_callee
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___strncat_callee
 defc ___strncat_callee = strncat_callee
 ENDIF
-

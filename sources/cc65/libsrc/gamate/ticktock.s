@@ -1,7 +1,7 @@
-        .interruptor    ticktock, 24
+        .interruptor ticktock, 24
 
-        .include        "gamate.inc"
-        .include        "extzp.inc"
+        .include "gamate.inc"
+        .include "extzp.inc"
 
 ticktock:
 

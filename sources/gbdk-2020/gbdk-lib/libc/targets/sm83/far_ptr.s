@@ -26,44 +26,44 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-        .module     far_ptr
+        .module far_ptr
 
-        .include    "global.s"
+        .include "global.s"
 
         .area   _HOME
 
 ___call__banked::
-        ldh A, (#__current_bank)
-        push AF
-        ld  HL, #1$
-        push HL
-        ld  HL, #___call_banked_addr
-        ld  A, (HL+)
-        ld  H, (HL)
-        ld  L, A
-        ld  A, (#___call_banked_bank)
-        ldh (#__current_bank), A
-        ld  (rROMB0),A
-        jp  (HL)
+        ldh     A, (#__current_bank)
+        push    AF
+        ld      HL, #1$
+        push    HL
+        ld      HL, #___call_banked_addr
+        ld      A,  (HL+)
+        ld      H,  (HL)
+        ld      L,  A
+        ld      A,  (#___call_banked_bank)
+        ldh     (#__current_bank), A
+        ld      (rROMB0), A
+        jp      (HL)
 1$:
-        pop AF
-        ldh (#__current_bank), A
-        ld  (rROMB0), A
+        pop     AF
+        ldh     (#__current_bank), A
+        ld      (rROMB0), A
         ret
 
 _to_far_ptr::
-        ld  a, c
-        ld  c, e
-        ld  e, a
-        ld  a, b
-        ld  b, d
-        ld  d, a
+        ld      a, c
+        ld      c, e
+        ld      e, a
+        ld      a, b
+        ld      b, d
+        ld      d, a
         ret
 
-        .area  _DATA
+        .area   _DATA
 
 ___call_banked_ptr::
 ___call_banked_addr::
-    .ds 0x02    ; far pointer offset
+        .ds     0x02    ; far pointer offset
 ___call_banked_bank::
-    .ds 0x02    ; far pointer segment
+        .ds     0x02    ; far pointer segment

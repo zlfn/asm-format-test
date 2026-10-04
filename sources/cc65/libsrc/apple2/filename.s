@@ -4,12 +4,12 @@
 ; File name handling for ProDOS 8 file I/O
 ;
 
-        .export         pushname_tos, pushname, popname
-        .import         popax, subysp, addysp, decsp1
+        .export pushname_tos, pushname, popname
+        .import popax, subysp, addysp, decsp1
 
-        .include        "zeropage.inc"
-        .include        "apple2.inc"
-        .include        "mli.inc"
+        .include "zeropage.inc"
+        .include "apple2.inc"
+        .include "mli.inc"
 
 pushname_tos:
         jsr     popax
@@ -23,7 +23,7 @@ pushname:
 
         ; Check for full pathname
         ldy     #$00
-        lda     (ptr1),y
+        lda     (ptr1), y
         cmp     #'/'
         beq     copy
 
@@ -48,17 +48,17 @@ pushname:
         bcs     addsp65
 
         ; Get volume name length
-        lda     (c_sp),y
-        and     #15             ; Max volume name length
+        lda     (c_sp), y
+        and     #15     ; Max volume name length
 
         ; Bracket volume name with slashes to form prefix
         sta     tmp1
         lda     #'/'
-        sta     (c_sp),y
+        sta     (c_sp), y
         ldy     tmp1
-        iny                     ; Leading slash
-        sta     (c_sp),y
-        iny                     ; Trailing slash
+        iny     ; Leading slash
+        sta     (c_sp), y
+        iny     ; Trailing slash
 
         ; Adjust source pointer for copy
         sty     tmp1
@@ -70,25 +70,25 @@ pushname:
 :       sta     ptr1
 
         ; Copy source to allocated pathname buffer
-copy:   lda     (ptr1),y
-        sta     (c_sp),y
+copy:   lda     (ptr1), y
+        sta     (c_sp), y
         beq     setlen
         iny
         cpy     #FILENAME_MAX
         bcc     copy
 
         ; Load oserror code
-        lda     #$40            ; "Invalid pathname"
+        lda     #$40    ; "Invalid pathname"
 
         ; Free pathname buffer
-addsp65:ldy     #FILENAME_MAX
-        bne     addsp           ; Branch always
+addsp65: ldy    #FILENAME_MAX
+        bne     addsp   ; Branch always
 
         ; Alloc and set length byte
 setlen: tya
-        jsr     decsp1          ; Preserves A
+        jsr     decsp1  ; Preserves A
         ldy     #$00
-        sta     (c_sp),y
+        sta     (c_sp), y
 
         ; Return success
         tya
@@ -97,4 +97,4 @@ setlen: tya
 popname:
         ; Cleanup stack
         ldy     #1 + FILENAME_MAX
-addsp:  jmp     addysp          ; Preserves A and X
+addsp:  jmp     addysp  ; Preserves A and X

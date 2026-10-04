@@ -2,11 +2,11 @@
 ; Ullrich von Bassewitz, 14.09.2001
 ;
 
-        .export         _clrscr
-        .import         plot
+        .export _clrscr
+        .import plot
 
-        .include        "cbm510.inc"
-        .include        "extzp.inc"
+        .include "cbm510.inc"
+        .include "extzp.inc"
 
 ; ------------------------------------------------------------------------
 ; void clrscr (void);
@@ -16,7 +16,7 @@
         lda     #0
         sta     CURS_X
         sta     CURS_Y
-        jsr     plot            ; Set cursor to top left corner
+        jsr     plot    ; Set cursor to top left corner
 
         ldx     #$00            ; Count
         jsr     clearpage
@@ -28,15 +28,14 @@
 
 .endproc
 
-
 .proc   clearpage
 
         txa
-        pha                     ; Save count
+        pha     ; Save count
 
-        lda     #$20            ; Screencode for blank
+        lda     #$20    ; Screencode for blank
         ldy     #$00
-@L1:    sta     (SCREEN_PTR),y
+@L1:    sta     (SCREEN_PTR), y
         iny
         dex
         bne     @L1
@@ -50,7 +49,7 @@
         sta     IndReg          ; Switch to the system bank
         lda     CHARCOLOR       ; Load color
         ldy     #$00
-@L2:    sta     (CRAM_PTR),y
+@L2:    sta     (CRAM_PTR), y
         iny
         dex
         bne     @L2

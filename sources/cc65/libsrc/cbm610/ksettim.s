@@ -4,9 +4,8 @@
 ; SETTIM kernal call
 ;
 
-        .export         SETTIM
-        .import         time : zeropage
-
+        .export SETTIM
+        .import time : zeropage
 
 .proc   SETTIM
 
@@ -18,4 +17,3 @@
         rts
 
 .endproc
-

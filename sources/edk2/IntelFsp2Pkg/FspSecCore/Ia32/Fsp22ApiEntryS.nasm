@@ -5,7 +5,7 @@
 ; SPDX-License-Identifier: BSD-2-Clause-Patent
 ;;
 
-    SECTION .text
+        SECTION .text
 
 ;
 ; Following functions will be provided in C
@@ -22,8 +22,8 @@ extern ASM_PFX(FspMultiPhaseSiInitApiHandler)
 ;----------------------------------------------------------------------------
 global ASM_PFX(NotifyPhaseApi)
 ASM_PFX(NotifyPhaseApi):
-  mov    eax,  2 ; FSP_API_INDEX.NotifyPhaseApiIndex
-  jmp    ASM_PFX(FspApiCommon)
+        mov     eax, 2  ; FSP_API_INDEX.NotifyPhaseApiIndex
+        jmp     ASM_PFX(FspApiCommon)
 
 ;----------------------------------------------------------------------------
 ; FspSiliconInit API
@@ -34,8 +34,8 @@ ASM_PFX(NotifyPhaseApi):
 ;----------------------------------------------------------------------------
 global ASM_PFX(FspSiliconInitApi)
 ASM_PFX(FspSiliconInitApi):
-  mov    eax,  5 ; FSP_API_INDEX.FspSiliconInitApiIndex
-  jmp    ASM_PFX(FspApiCommon)
+        mov     eax, 5  ; FSP_API_INDEX.FspSiliconInitApiIndex
+        jmp     ASM_PFX(FspApiCommon)
 
 ;----------------------------------------------------------------------------
 ; FspMultiPhaseSiInitApi API
@@ -49,8 +49,8 @@ ASM_PFX(FspSiliconInitApi):
 ;----------------------------------------------------------------------------
 global ASM_PFX(FspMultiPhaseSiInitApi)
 ASM_PFX(FspMultiPhaseSiInitApi):
-  mov    eax,  6 ; FSP_API_INDEX.FspMultiPhaseSiInitApiIndex
-  jmp    ASM_PFX(FspApiCommon)
+        mov     eax, 6  ; FSP_API_INDEX.FspMultiPhaseSiInitApiIndex
+        jmp     ASM_PFX(FspApiCommon)
 
 ;----------------------------------------------------------------------------
 ; FspApiCommonContinue API
@@ -60,24 +60,24 @@ ASM_PFX(FspMultiPhaseSiInitApi):
 ;----------------------------------------------------------------------------
 global ASM_PFX(FspApiCommonContinue)
 ASM_PFX(FspApiCommonContinue):
-  ;
-  ; Handle FspMultiPhaseSiInitApiIndex API
-  ;
-  cmp    eax, 6
-  jnz    NotMultiPhaseSiInitApi
+        ;
+        ; Handle FspMultiPhaseSiInitApiIndex API
+        ;
+        cmp     eax, 6
+        jnz     NotMultiPhaseSiInitApi
 
-  pushad
-  push   DWORD [esp + (4 * 8 + 4)]  ; push ApiParam
-  push   eax                ; push ApiIdx
-  call   ASM_PFX(FspMultiPhaseSiInitApiHandler)
-  add    esp, 8
-  mov    dword  [esp + (4 * 7)], eax
-  popad
-  ret
+        pushad
+        push    DWORD [esp + (4 * 8 + 4)]       ; push ApiParam
+        push    eax                             ; push ApiIdx
+        call    ASM_PFX(FspMultiPhaseSiInitApiHandler)
+        add     esp, 8
+        mov     dword  [esp + (4 * 7)], eax
+        popad
+        ret
 
 NotMultiPhaseSiInitApi:
-  jmp $
-  ret
+        jmp     $
+        ret
 
 ;----------------------------------------------------------------------------
 ; TempRamInit API
@@ -87,13 +87,12 @@ NotMultiPhaseSiInitApi:
 ;----------------------------------------------------------------------------
 global ASM_PFX(TempRamInitApi)
 ASM_PFX(TempRamInitApi):
-  jmp $
-  ret
+        jmp     $
+        ret
 
 ;----------------------------------------------------------------------------
 ; Module Entrypoint API
 ;----------------------------------------------------------------------------
 global ASM_PFX(_ModuleEntryPoint)
 ASM_PFX(_ModuleEntryPoint):
-  jmp $
-
+        jmp     $

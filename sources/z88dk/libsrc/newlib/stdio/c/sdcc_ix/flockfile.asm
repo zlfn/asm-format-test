@@ -10,10 +10,10 @@ EXTERN _flockfile_fastcall
 
 _flockfile:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _flockfile_fastcall
+        push    hl
+        push    af
+
+        jp      _flockfile_fastcall

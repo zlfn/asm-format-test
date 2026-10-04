@@ -4,14 +4,12 @@
 ; CKOUT replacement function for the PETs
 ;
 
-        .export         CKOUT
-        .import         checkst
-
+        .export CKOUT
+        .import checkst
 
 .proc   CKOUT
 
-        jsr     $FFC9           ; Call kernal function
-        jmp     checkst         ; Check status, return carry on error
+        jsr     $FFC9   ; Call kernal function
+        jmp     checkst ; Check status, return carry on error
 
 .endproc
-

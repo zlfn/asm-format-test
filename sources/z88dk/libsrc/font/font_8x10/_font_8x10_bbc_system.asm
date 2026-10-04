@@ -6,6 +6,6 @@ PUBLIC _font_8x10_bbc_system_end
 
 _font_8x10_bbc_system:
 
-   BINARY "font_8x10_bbc_system.bin"
+        BINARY  "font_8x10_bbc_system.bin"
 
 _font_8x10_bbc_system_end:

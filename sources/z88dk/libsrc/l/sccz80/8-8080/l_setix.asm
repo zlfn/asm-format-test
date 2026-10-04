@@ -6,5 +6,5 @@ PUBLIC l_setix
 EXTERN l_ix_addr
 
 l_setix:
-    ld (l_ix_addr),hl
-    ret
+        ld      (l_ix_addr), hl
+        ret

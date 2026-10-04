@@ -7,13 +7,13 @@
 ; **                                                                           **
 ; *******************************************************************************
 
-            ; The '_peripherals' symbol is defined in the linker configuration
-            ; file to correspond to the first address in the periperal memory
-            ; aparture.
-            ;
-            ; We use it here as a base address for all peripheral addresses.
+        ; The '_peripherals' symbol is defined in the linker configuration
+        ; file to correspond to the first address in the periperal memory
+        ; aparture.
+        ;
+        ; We use it here as a base address for all peripheral addresses.
 
-            .import _peripherals
+        .import _peripherals
 
 ; **************************************************************
 ; **                                                          **

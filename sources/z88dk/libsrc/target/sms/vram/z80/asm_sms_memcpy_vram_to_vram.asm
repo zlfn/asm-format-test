@@ -1,5 +1,5 @@
 ; ========================================================================
-; 
+;
 ; void *sms_memcpy_vram_to_vram(void *dst, void *src, unsigned int n)
 ;
 ; memcpy within vram; ; VRAM addresses are assumed to be stable.
@@ -17,70 +17,70 @@ PUBLIC asm_sms_memcpy_vram_to_vram
 
 asm_sms_memcpy_vram_to_vram:
 
-   ; memcpy within vram
-   ;
-   ; enter : hl = void *src in vram
-   ;         de = void *dst in vram
-   ;         bc = unsigned int n > 0
-   ;
-   ; exit  : hl = void *src, &byte after last read
-   ;         de = void *dst, &byte after last written
-   ;         bc = 0
-   ;
-   ; uses  : af, bc, de, hl
+        ; memcpy within vram
+        ;
+        ; enter : hl = void *src in vram
+        ;         de = void *dst in vram
+        ;         bc = unsigned int n > 0
+        ;
+        ; exit  : hl = void *src, &byte after last read
+        ;         de = void *dst, &byte after last written
+        ;         bc = 0
+        ;
+        ; uses  : af, bc, de, hl
 
-   set 6,d
-   
-   dec bc
-   inc b
-   inc c
+        set     6, d
 
-   ld a,c
+        dec     bc
+        inc     b
+        inc     c
+
+        ld      a, c
 
 no_adjust:
-   
-   ld c,__IO_VDP_COMMAND
+
+        ld      c, __IO_VDP_COMMAND
 
 outer_loop:
 
-   push bc
-   ld b,a
+        push    bc
+        ld      b, a
 
-   di
+        di
 
 inner_loop:
-   
-   ; must yield opportunities for an interrupt to occur
 
-   out (c),l
-   out (c),h
+        ; must yield opportunities for an interrupt to occur
 
-   inc hl
-   xor a
-   ret nz
+        out     (c), l
+        out     (c), h
 
-   in a,(__IO_VDP_DATA)
+        inc     hl
+        xor     a
+        ret     nz
 
-   ei
-   nop
-   nop
-   di
+        in      a, (__IO_VDP_DATA)
 
-   out (c),e
-   out (c),d
-   out (__IO_VDP_DATA),a
+        ei
+        nop
+        nop
+        di
 
-   inc de
-   djnz inner_loop
+        out     (c), e
+        out     (c), d
+        out     (__IO_VDP_DATA), a
 
-   ld a,b
-   pop bc
-   
-   djnz outer_loop
+        inc     de
+        djnz    inner_loop
 
-   ei
+        ld      a, b
+        pop     bc
 
-   ld c,b
-   res 6,d
-   
-   ret
+        djnz    outer_loop
+
+        ei
+
+        ld      c, b
+        res     6, d
+
+        ret

@@ -34,11 +34,11 @@ TEXT_SECTION
 .global ASM_WRAPPER_NAME(setjmp)
 ASM_TYPE_FUNCTION(ASM_WRAPPER_NAME(setjmp))
 ASM_WRAPPER_NAME(setjmp):
-  CFI_STARTPROC
-  BTI_C
-  mov	x1, #0
-  b	ASM_WRAPPER_NAME(sigsetjmp)
-  CFI_ENDPROC
+        CFI_STARTPROC
+        BTI_C
+        mov     x1, #0
+        b       ASM_WRAPPER_NAME(sigsetjmp)
+        CFI_ENDPROC
 ASM_SIZE(ASM_WRAPPER_NAME(setjmp))
 
 ASM_INTERCEPTOR_TRAMPOLINE(setjmp)
@@ -49,11 +49,11 @@ ASM_INTERCEPTOR_TRAMPOLINE(setjmp)
 .global ASM_WRAPPER_NAME(setjmp_bionic)
 ASM_TYPE_FUNCTION(ASM_WRAPPER_NAME(setjmp_bionic))
 ASM_WRAPPER_NAME(setjmp_bionic):
-  CFI_STARTPROC
-  BTI_C
-  mov	x1, #1
-  b	ASM_WRAPPER_NAME(sigsetjmp)
-  CFI_ENDPROC
+        CFI_STARTPROC
+        BTI_C
+        mov     x1, #1
+        b       ASM_WRAPPER_NAME(sigsetjmp)
+        CFI_ENDPROC
 ASM_SIZE(ASM_WRAPPER_NAME(setjmp_bionic))
 
 ASM_INTERCEPTOR_TRAMPOLINE(setjmp_bionic)
@@ -62,29 +62,28 @@ ASM_INTERCEPTOR_TRAMPOLINE(setjmp_bionic)
 .global ASM_WRAPPER_NAME(sigsetjmp)
 ASM_TYPE_FUNCTION(ASM_WRAPPER_NAME(sigsetjmp))
 ASM_WRAPPER_NAME(sigsetjmp):
-  CFI_STARTPROC
-  BTI_C
-  stp	x19, x20, [x0, #0<<3]
-  stp	x21, x22, [x0, #2<<3]
-  stp	x23, x24, [x0, #4<<3]
-  stp	x25, x26, [x0, #6<<3]
-  stp	x27, x28, [x0, #8<<3]
-  stp	x29, x30, [x0, #10<<3]
-  stp	 d8,  d9, [x0, #14<<3]
-  stp	d10, d11, [x0, #16<<3]
-  stp	d12, d13, [x0, #18<<3]
-  stp	d14, d15, [x0, #20<<3]
-  mov	x2,  sp
-  str	x2,  [x0, #13<<3]
-  // We always have the second argument to __sigjmp_save (savemask) set, since
-  // the _setjmp function above has set it for us as `false`.
-  // This function is defined in hwasan_interceptors.cc
-  b	__sigjmp_save
-  CFI_ENDPROC
+        CFI_STARTPROC
+        BTI_C
+        stp     x19, x20, [x0, #0<<3]
+        stp     x21, x22, [x0, #2<<3]
+        stp     x23, x24, [x0, #4<<3]
+        stp     x25, x26, [x0, #6<<3]
+        stp     x27, x28, [x0, #8<<3]
+        stp     x29, x30, [x0, #10<<3]
+        stp     d8,  d9,  [x0, #14<<3]
+        stp     d10, d11, [x0, #16<<3]
+        stp     d12, d13, [x0, #18<<3]
+        stp     d14, d15, [x0, #20<<3]
+        mov     x2,  sp
+        str     x2,  [x0, #13<<3]
+        // We always have the second argument to __sigjmp_save (savemask) set, since
+        // the _setjmp function above has set it for us as `false`.
+        // This function is defined in hwasan_interceptors.cc
+        b       __sigjmp_save
+        CFI_ENDPROC
 ASM_SIZE(ASM_WRAPPER_NAME(sigsetjmp))
 
 ASM_INTERCEPTOR_TRAMPOLINE(sigsetjmp)
-
 
 #if SANITIZER_ANDROID
 ASM_TRAMPOLINE_ALIAS(sigsetjmp, sigsetjmp)

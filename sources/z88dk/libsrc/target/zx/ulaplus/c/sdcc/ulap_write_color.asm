@@ -9,10 +9,10 @@ EXTERN asm_ulap_write_color
 
 _ulap_write_color:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_ulap_write_color
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_ulap_write_color

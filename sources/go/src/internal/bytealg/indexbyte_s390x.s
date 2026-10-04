@@ -5,15 +5,14 @@
 #include "go_asm.h"
 #include "textflag.h"
 
-
 TEXT ·IndexByte<ABIInternal>(SB),NOSPLIT|NOFRAME,$0-40
-	MOVD    R5, R4
-	AND	$0xff, R4
-	BR      indexbytebody<>(SB)
+        MOVD    R5,    R4
+        AND     $0xff, R4
+        BR      indexbytebody<>(SB)
 
 TEXT ·IndexByteString<ABIInternal>(SB),NOSPLIT|NOFRAME,$0-32
-	AND	$0xff, R4
-	BR      indexbytebody<>(SB)
+        AND     $0xff, R4
+        BR      indexbytebody<>(SB)
 
 // input:
 // R2: s
@@ -29,10 +28,10 @@ TEXT indexbytebody<>(SB),NOSPLIT|NOFRAME,$0
         CMPBGE  R3, $16, large
 
 residual:
-        CMPBEQ  R2, R8, notfound
+        CMPBEQ  R2,    R8, notfound
         MOVBZ   0(R2), R7
         LA      1(R2), R2
-        CMPBNE  R7, R4, residual
+        CMPBNE  R7,    R4, residual
 
 found:
         SUB     R6, R2
@@ -59,47 +58,46 @@ foundr0:
         MOVD    R8, R2
         RET
 notfoundr0:
-        XOR     R0, R0          // reset R0
+        XOR     R0,  R0         // reset R0
         MOVD    $-1, R2
         RET
 
 vectorimpl:
         //if the address is not 16byte aligned, use loop for the header
-        MOVD    R2, R8
+        MOVD    R2,  R8
         AND     $15, R8
-        CMPBGT  R8, $0, notaligned
+        CMPBGT  R8,  $0, notaligned
 
 aligned:
-        ADD     R6, R3, R8
-        MOVD    R8, R7
+        ADD     R6,   R3, R8
+        MOVD    R8,   R7
         AND     $-16, R7
         // replicate c across V17
-        VLVGB   $0, R4, V19
+        VLVGB   $0, R4,  V19
         VREPB   $0, V19, V17
 
 vectorloop:
-        CMPBGE  R2, R7, residual
-        VL      0(R2), V16    // load string to be searched into V16
-        ADD     $16, R2
-        VFEEBS  V16, V17, V18 // search V17 in V16 and set conditional code accordingly
+        CMPBGE  R2,    R7,  residual
+        VL      0(R2), V16      // load string to be searched into V16
+        ADD     $16,   R2
+        VFEEBS  V16,   V17, V18 // search V17 in V16 and set conditional code accordingly
         BVS     vectorloop
 
         // when vector search found c in the string
-        VLGVB   $7, V18, R7   // load 7th element of V18 containing index into R7
+        VLGVB   $7,  V18, R7    // load 7th element of V18 containing index into R7
         SUB     $16, R2
-        SUB     R6, R2
-        ADD     R2, R7
-        MOVD    R7, R2
+        SUB     R6,  R2
+        ADD     R2,  R7
+        MOVD    R7,  R2
         RET
 
 notaligned:
-        MOVD    R2, R8
+        MOVD    R2,   R8
         AND     $-16, R8
-        ADD     $16, R8
+        ADD     $16,  R8
 notalignedloop:
-        CMPBEQ  R2, R8, aligned
+        CMPBEQ  R2,    R8, aligned
         MOVBZ   0(R2), R7
         LA      1(R2), R2
-        CMPBNE  R7, R4, notalignedloop
+        CMPBNE  R7,    R4, notalignedloop
         BR      found
-

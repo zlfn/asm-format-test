@@ -51,7 +51,6 @@
 #include <asm/opcodes-virt.h>
 #include <xen/interface/xen.h>
 
-
 #define XEN_IMM 0xEA1
 
 #define HYPERCALL_SIMPLE(hypercall)		\
@@ -77,7 +76,7 @@ ENTRY(HYPERVISOR_##hypercall)			\
 	ret lr					\
 ENDPROC(HYPERVISOR_##hypercall)
 
-                .text
+        .text
 
 HYPERCALL2(xen_version);
 HYPERCALL3(console_io);
@@ -94,28 +93,28 @@ HYPERCALL2(vm_assist);
 HYPERCALL3(dm_op);
 
 ENTRY(privcmd_call)
-	stmdb sp!, {r4}
-	mov r12, r0
-	mov r0, r1
-	mov r1, r2
-	mov r2, r3
-	ldr r3, [sp, #8]
+        stmdb   sp!, {r4}
+        mov     r12, r0
+        mov     r0,  r1
+        mov     r1,  r2
+        mov     r2,  r3
+        ldr     r3,  [sp, #8]
 	/*
 	 * Privcmd calls are issued by the userspace. We need to allow the
 	 * kernel to access the userspace memory before issuing the hypercall.
 	 */
-	uaccess_enable r4
+        uaccess_enable r4
 
-	/* r4 is loaded now as we use it as scratch register before */
-	ldr r4, [sp, #4]
-	__HVC(XEN_IMM)
+        /* r4 is loaded now as we use it as scratch register before */
+        ldr     r4, [sp, #4]
+        __HVC(XEN_IMM)
 
 	/*
 	 * Disable userspace access from kernel. This is fine to do it
 	 * unconditionally as no set_fs(KERNEL_DS) is called before.
 	 */
-	uaccess_disable r4
+        uaccess_disable r4
 
-	ldm sp!, {r4}
-	ret lr
+        ldm     sp!, {r4}
+        ret     lr
 ENDPROC(privcmd_call);

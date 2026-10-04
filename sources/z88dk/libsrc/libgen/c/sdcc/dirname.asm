@@ -8,10 +8,10 @@ EXTERN asm_dirname
 
 _dirname:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_dirname
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_dirname

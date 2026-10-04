@@ -9,9 +9,9 @@ EXTERN asm_sp1_InsertCharStruct
 
 _sp1_InsertCharStruct_callee:
 
-   pop af
-   pop de
-   pop hl
-   push af
+        pop     af
+        pop     de
+        pop     hl
+        push    af
 
-   jp asm_sp1_InsertCharStruct
+        jp      asm_sp1_InsertCharStruct

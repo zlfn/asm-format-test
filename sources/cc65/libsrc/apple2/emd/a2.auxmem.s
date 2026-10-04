@@ -5,26 +5,26 @@
 ; Ullrich von Bassewitz, 2002-12-02
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "em-kernel.inc"
-        .include        "em-error.inc"
+        .include "em-kernel.inc"
+        .include "em-error.inc"
 
-        .macpack        module
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
         .ifdef  __APPLE2ENH__
-        module_header   _a2e_auxmem_emd
+                module_header _a2e_auxmem_emd
         .else
-        module_header   _a2_auxmem_emd
+                module_header _a2_auxmem_emd
         .endif
 
 ; Driver signature
 
-        .byte   $65, $6d, $64           ; "emd"
-        .byte   EMD_API_VERSION         ; EM API version number
+        .byte   $65, $6d, $64   ; "emd"
+        .byte   EMD_API_VERSION ; EM API version number
 
 ; Library reference
 
@@ -53,10 +53,10 @@ PAGES   = ($C000 - BASE) / 256
 ; Data.
 
 .data
-curpage:        .byte   $FF             ; Current page number (invalid)
+curpage: .byte  $FF     ; Current page number (invalid)
 
 .bss
-window:         .res    256             ; Memory "window"
+window: .res    256     ; Memory "window"
 
 .code
 
@@ -87,7 +87,6 @@ INSTALL:
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; PAGECOUNT: Return the total number of available pages in a/x.
 ;
@@ -103,7 +102,7 @@ PAGECOUNT:
 ; by the driver.
 ;
 
-MAP:    sta     curpage                 ; Remember the new page
+MAP:    sta     curpage ; Remember the new page
 
         clc
         adc     #>BASE
@@ -118,13 +117,13 @@ MAP:    sta     curpage                 ; Remember the new page
 
 ; Transfer one page
 
-        clc                             ; Direction flag
-        jsr     transfer                ; Transfer one page
+        clc                     ; Direction flag
+        jsr     transfer        ; Transfer one page
 
 ; Return the memory window
 
         lda     #<window
-        ldx     #>window                ; Return the window address
+        ldx     #>window        ; Return the window address
 
 ; Done
 
@@ -133,17 +132,17 @@ done:   rts
 ; ------------------------------------------------------------------------
 ; USE: Tell the driver that the window is now associated with a given page.
 
-USE:    sta     curpage                 ; Remember the page
+USE:    sta     curpage         ; Remember the page
         lda     #<window
-        ldx     #>window                ; Return the window
+        ldx     #>window        ; Return the window
         rts
 
 ; ------------------------------------------------------------------------
 ; COMMIT: Commit changes in the memory window to extended storage.
 
-COMMIT: lda     curpage                 ; Get the current page
+COMMIT: lda     curpage ; Get the current page
         cmp     #$FF
-        beq     done                    ; Jump if no page mapped
+        beq     done    ; Jump if no page mapped
 
         clc
         adc     #>BASE
@@ -159,7 +158,7 @@ COMMIT: lda     curpage                 ; Get the current page
         sta     ptr4
         lda     #>$FF
         sta     ptr4+1
-        sec                             ; Direction flag
+        sec     ; Direction flag
 
 ; Transfer one page/all bytes
 
@@ -189,30 +188,30 @@ transfer:
 
 COPYFROM:
         sta     ptr3
-        stx     ptr3+1                  ; Save the passed em_copy pointer
+        stx     ptr3+1  ; Save the passed em_copy pointer
 
         ldy     #EM_COPY::OFFS
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr1
         ldy     #EM_COPY::PAGE
-        lda     (ptr3),y
+        lda     (ptr3), y
         clc
         adc     #>BASE
-        sta     ptr1+1                  ; From
+        sta     ptr1+1  ; From
 
         ldy     #EM_COPY::BUF
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr2
         iny
-        lda     (ptr3),y
-        sta     ptr2+1                  ; To
-        clc                             ; Direction flag
+        lda     (ptr3), y
+        sta     ptr2+1  ; To
+        clc             ; Direction flag
 
 common: ldy     #EM_COPY::COUNT
-        lda     (ptr3),y                ; Get bytes in last page
+        lda     (ptr3), y       ; Get bytes in last page
         sta     ptr4
         iny
-        lda     (ptr3),y                ; Get number of pages
+        lda     (ptr3), y       ; Get number of pages
         sta     ptr4+1
 
         jmp     transfer
@@ -224,23 +223,23 @@ common: ldy     #EM_COPY::COUNT
 ;
 
 COPYTO: sta     ptr3
-        stx     ptr3+1                  ; Save the passed em_copy pointer
+        stx     ptr3+1  ; Save the passed em_copy pointer
 
         ldy     #EM_COPY::OFFS
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr2
         ldy     #EM_COPY::PAGE
-        lda     (ptr3),y
+        lda     (ptr3), y
         clc
         adc     #>BASE
-        sta     ptr2+1                  ; To
+        sta     ptr2+1  ; To
 
         ldy     #EM_COPY::BUF
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr1
         iny
-        lda     (ptr3),y
-        sta     ptr1+1                  ; From
+        lda     (ptr3), y
+        sta     ptr1+1  ; From
 
-        sec                             ; Direction flag
+        sec     ; Direction flag
         jmp     common

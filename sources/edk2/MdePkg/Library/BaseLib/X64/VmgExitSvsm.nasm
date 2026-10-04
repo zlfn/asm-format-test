@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; typedef struct {
@@ -42,35 +42,35 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmVmgExitSvsm)
 ASM_PFX(AsmVmgExitSvsm):
-    push    r10
-    push    r11
-    push    r12
+        push    r10
+        push    r11
+        push    r12
 
 ;
 ; Calling convention has SvsmCallData in RCX. Move RCX to R12 in order to
 ; properly populate the SVSM register state.
 ;
-    mov     r12, rcx
+        mov     r12, rcx
 
-    mov     rax, [r12 + 8]
-    mov     rcx, [r12 + 16]
-    mov     rdx, [r12 + 24]
-    mov     r8,  [r12 + 32]
-    mov     r9,  [r12 + 40]
+        mov     rax, [r12 + 8]
+        mov     rcx, [r12 + 16]
+        mov     rdx, [r12 + 24]
+        mov     r8,  [r12 + 32]
+        mov     r9,  [r12 + 40]
 
 ;
 ; Set CA call pending
 ;
-    mov     r10, [r12]
-    mov     byte [r10], 1
+        mov     r10, [r12]
+        mov     byte [r10], 1
 
-    rep     vmmcall
+        rep     vmmcall
 
-    mov     [r12 + 48], rax
-    mov     [r12 + 56], rcx
-    mov     [r12 + 64], rdx
-    mov     [r12 + 72], r8
-    mov     [r12 + 80], r9
+        mov     [r12 + 48], rax
+        mov     [r12 + 56], rcx
+        mov     [r12 + 64], rdx
+        mov     [r12 + 72], r8
+        mov     [r12 + 80], r9
 
 ;
 ; Perform the atomic exchange and return the CA call pending value.
@@ -78,17 +78,16 @@ ASM_PFX(AsmVmgExitSvsm):
 ; which is currently the value in R10.
 ;
 
-    mov     r11, [r12 + 88]     ; Get CallPending address
-    mov     cl, byte [r11]
-    xchg    byte [r10], cl
-    mov     byte [r11], cl      ; Return the exchanged value
+        mov     r11, [r12 + 88] ; Get CallPending address
+        mov     cl,  byte [r11]
+        xchg    byte [r10], cl
+        mov     byte [r11], cl  ; Return the exchanged value
 
-    pop     r12
-    pop     r11
-    pop     r10
+        pop     r12
+        pop     r11
+        pop     r10
 
 ;
 ; RAX has the value to be returned from the SVSM
 ;
-    ret
-
+        ret

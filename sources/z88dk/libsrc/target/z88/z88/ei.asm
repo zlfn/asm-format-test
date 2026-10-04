@@ -10,20 +10,18 @@
 ;       Enable interrupts (used with di to get value)
 ;       void ei(int)
 
+        SECTION code_clib
 
-    SECTION code_clib
+        PUBLIC  ei
+        PUBLIC  _ei
 
-    PUBLIC  ei
-    PUBLIC  _ei
-
-    INCLUDE "interrpt.def"
+        INCLUDE "interrpt.def"
 
 ei:
 _ei:
-    pop     bc
-    pop     af
-    push    af
-    push    bc
-    call    oz_ei
-    ret
-
+        pop     bc
+        pop     af
+        push    af
+        push    bc
+        call    oz_ei
+        ret

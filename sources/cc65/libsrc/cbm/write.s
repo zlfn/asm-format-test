@@ -4,17 +4,16 @@
 ; int write (int fd, const void* buf, unsigned count);
 ;
 
-        .export         _write
-        .constructor    initstdout
+        .export _write
+        .constructor initstdout
 
-        .import         rwcommon
-        .importzp       c_sp, ptr1, ptr2, ptr3
+        .import rwcommon
+        .importzp c_sp, ptr1, ptr2, ptr3
 
-        .include        "cbm.inc"
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "filedes.inc"
-
+        .include "cbm.inc"
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "filedes.inc"
 
 ;--------------------------------------------------------------------------
 ; initstdout: Open the stdout and stderr file descriptors for the screen.
@@ -29,7 +28,7 @@
 @L1:    ldx     #CBMDEV_SCREEN
         ldy     #$FF
         jsr     SETLFS
-        jmp     OPEN            ; Will always succeed
+        jmp     OPEN    ; Will always succeed
 
 .endproc
 
@@ -45,10 +44,10 @@
 
 ; Check if the LFN is valid and the file is open for writing
 
-        adc     #LFN_OFFS       ; Carry is already clear
+        adc     #LFN_OFFS               ; Carry is already clear
         tax
-        lda     fdtab-LFN_OFFS,x; Get flags for this handle
-        and     #LFN_WRITE      ; File open for writing?
+        lda     fdtab-LFN_OFFS, x       ; Get flags for this handle
+        and     #LFN_WRITE              ; File open for writing?
         beq     invalidfd
 
 ; Valid lfn. Make it the output file
@@ -60,17 +59,17 @@
 ; Output the next character from the buffer
 
 @L0:    ldy     #0
-        lda     (ptr1),y
+        lda     (ptr1), y
         inc     ptr1
         bne     @L1
-        inc     ptr1+1          ; A = *buf++;
+        inc     ptr1+1  ; A = *buf++;
 @L1:    jsr     BSOUT
 
 ; Check the status
 
         pha
         jsr     READST
-        lsr     a               ; Bit zero is write timeout
+        lsr     a       ; Bit zero is write timeout
         bne     devnotpresent2
         pla
         bcs     @L3
@@ -106,7 +105,7 @@ devnotpresent2:
         pla
 devnotpresent:
         lda     #ENODEV
-        .byte   $2C             ; Skip next opcode via BIT <abs>
+        .byte   $2C     ; Skip next opcode via BIT <abs>
 
 ; Error entry: The given file descriptor is not valid or not open
 

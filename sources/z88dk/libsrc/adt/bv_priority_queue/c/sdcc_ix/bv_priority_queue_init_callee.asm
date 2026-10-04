@@ -11,27 +11,27 @@ EXTERN asm_bv_priority_queue_init
 
 _bv_priority_queue_init_callee:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   exx
-   pop bc
-   
-   push bc
-   push hl
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
+        exx
+        pop     bc
+
+        push    bc
+        push    hl
+        push    bc
+        push    de
+        push    af
 
 l0_bv_priority_queue_init_callee:
 
-   push bc
-   exx
-   
-   ex (sp),ix
+        push    bc
+        exx
 
-   call asm_bv_priority_queue_init
-   
-   pop ix
-   ret   
+        ex      (sp), ix
+
+        call    asm_bv_priority_queue_init
+
+        pop     ix
+        ret

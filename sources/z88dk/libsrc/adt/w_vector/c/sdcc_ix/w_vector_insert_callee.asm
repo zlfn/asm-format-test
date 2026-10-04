@@ -10,10 +10,10 @@ EXTERN asm_w_vector_insert
 
 _w_vector_insert_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   push af
-   
-   jp asm_w_vector_insert
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_w_vector_insert

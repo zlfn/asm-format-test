@@ -4,8 +4,8 @@
 ; unsigned char wherey()
 ;
 
-        .export         _wherey
-        .include        "extzp.inc"
+        .export _wherey
+        .include "extzp.inc"
 
 ;-----------------------------------------------------------------------------
 ; Get cursor Y position
@@ -16,4 +16,3 @@
         lda     CURS_Y
         rts
         .endproc
-

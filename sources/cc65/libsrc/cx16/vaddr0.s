@@ -5,11 +5,10 @@
 ; This is a support function for the fastcall functions vpeek() and vpoke().
 ;
 
-        .export         vaddr0
+        .export vaddr0
 
-        .importzp       sreg
-        .include        "cx16.inc"
-
+        .importzp sreg
+        .include "cx16.inc"
 
 vaddr0: stz     VERA::CTRL      ; set address for VERA's data port zero
         ldy     sreg

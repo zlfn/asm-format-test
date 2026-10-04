@@ -11,18 +11,18 @@ EXTERN SP1V_TEMP_IY
 
 .sp1_MoveSprPix
 
-   pop af
-   pop bc
-   pop de
-   pop hl
-   pop ix
-   ld (SP1V_TEMP_IY),ix
-   pop ix
-   push hl
-   push hl
-   push hl
-   push de
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     de
+        pop     hl
+        pop     ix
+        ld      (SP1V_TEMP_IY), ix
+        pop     ix
+        push    hl
+        push    hl
+        push    hl
+        push    de
+        push    bc
+        push    af
 
-   jp sp1_MoveSprPix_callee + ASMDISP_SP1_MOVESPRPIX_CALLEE
+        jp      sp1_MoveSprPix_callee + ASMDISP_SP1_MOVESPRPIX_CALLEE

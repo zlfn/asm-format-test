@@ -11,25 +11,24 @@ EXTERN asm_sp1_PrintAt
 
 sp1_PrintAt_callee:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   ld d,l
-   pop hl
-   push af
-   ld a,d
-   ld d,l
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        ld      d, l
+        pop     hl
+        push    af
+        ld      a, d
+        ld      d, l
 
 ;   jp asm_sp1_PrintAt
-   push ix
-   call asm_sp1_PrintAt
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_PrintAt
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_PrintAt_callee
 defc _sp1_PrintAt_callee = sp1_PrintAt_callee
 ENDIF
-

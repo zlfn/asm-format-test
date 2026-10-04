@@ -10,15 +10,15 @@ EXTERN asm_dzx2_nano_back
 
 dzx2_nano_back:
 
-   pop af
-   pop de
-   pop hl
+        pop     af
+        pop     de
+        pop     hl
 
-   push hl
-   push de
-   push af
+        push    hl
+        push    de
+        push    af
 
-   jp asm_dzx2_nano_back
+        jp      asm_dzx2_nano_back
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -31,4 +31,3 @@ IF __CLASSIC
 PUBLIC ___dzx2_nano_back
 defc ___dzx2_nano_back = dzx2_nano_back
 ENDIF
-

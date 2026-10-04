@@ -8,9 +8,9 @@
 
         .export _joy_static_stddrv
         .ifdef  __ATARIXL__
-        .import _atrxstd_joy
+                .import _atrxstd_joy
         .else
-        .import _atrstd_joy
+                .import _atrstd_joy
         .endif
 
 .rodata

@@ -10,12 +10,12 @@ EXTERN asm_sms_aplib_depack_vram
 
 _sms_aplib_depack_vram:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp asm_sms_aplib_depack_vram
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_sms_aplib_depack_vram

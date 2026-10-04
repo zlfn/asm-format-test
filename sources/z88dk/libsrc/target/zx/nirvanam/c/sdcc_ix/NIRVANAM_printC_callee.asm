@@ -16,12 +16,12 @@ EXTERN asm_NIRVANAM_printC
 
 _NIRVANAM_printC_callee:
 
-   pop hl
-   dec sp
-   pop af          ; a = ch
-   pop bc          ; bc = attrs
-   ex (sp),hl
-   ld d,l          ; d = lin
-   ld e,h          ; e = col
+        pop     hl
+        dec     sp
+        pop     af      ; a = ch
+        pop     bc      ; bc = attrs
+        ex      (sp), hl
+        ld      d,    l ; d = lin
+        ld      e,    h ; e = col
 
-	jp asm_NIRVANAM_printC
+        jp      asm_NIRVANAM_printC

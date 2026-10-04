@@ -10,13 +10,11 @@
 ;	$Id: f_ansi_bel.asm $
 ;
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  ansi_BEL
-    EXTERN  putvid_a
-
+        PUBLIC  ansi_BEL
+        EXTERN  putvid_a
 
 ansi_BEL:
-    ld      a, 7
-    jp      putvid_a
-
+        ld      a, 7
+        jp      putvid_a

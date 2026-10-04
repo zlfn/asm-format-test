@@ -10,10 +10,10 @@ EXTERN asm_memcpy
 
 _memcpy_callee:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_memcpy
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_memcpy

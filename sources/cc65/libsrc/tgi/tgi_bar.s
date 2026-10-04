@@ -4,27 +4,25 @@
 ; void __fastcall__ tgi_bar (int x1, int y1, int x2, int y2);
 ; /* Draw a bar (a filled rectangle) using the current color */
 
+        .include "tgi-kernel.inc"
 
-        .include        "tgi-kernel.inc"
-
-        .importzp       ptr1, ptr2, ptr3, ptr4
-        .import         popax, popptr1
-
+        .importzp ptr1, ptr2, ptr3, ptr4
+        .import popax, popptr1
 
 .proc   _tgi_bar
 
-        sta     ptr4            ; Y2
+        sta     ptr4    ; Y2
         stx     ptr4+1
 
         jsr     popax
-        sta     ptr3            ; X2
+        sta     ptr3    ; X2
         stx     ptr3+1
 
         jsr     popax
-        sta     ptr2            ; Y1
+        sta     ptr2    ; Y1
         stx     ptr2+1
 
-        jsr     popptr1         ; X1
+        jsr     popptr1 ; X1
 
 ; Make sure X1 is less than X2. Swap both if not.
 
@@ -62,7 +60,7 @@
 
 @L2:    lda     ptr4+1
         ora     ptr3+1
-        bmi     @L9             ; Bail out
+        bmi     @L9     ; Bail out
 
 ; Check if X1 is negative. If so, clip it to the left border (zero).
 
@@ -71,7 +69,7 @@
         lda     #$00
         sta     ptr1
         sta     ptr1+1
-        beq     @L4             ; Branch always, skip following test
+        beq     @L4     ; Branch always, skip following test
 
 ; Check if X1 is beyond the right border. If so, the bar is invisible.
 
@@ -79,7 +77,7 @@
         cmp     _tgi_xres
         lda     ptr1+1
         sbc     _tgi_xres
-        bcs     @L9             ; Bail out if invisible
+        bcs     @L9     ; Bail out if invisible
 
 ; Check if Y1 is negative. If so, clip it to the top border (zero).
 
@@ -88,7 +86,7 @@
         lda     #$00
         sta     ptr2
         sta     ptr2+1
-        beq     @L6             ; Branch always, skip following test
+        beq     @L6     ; Branch always, skip following test
 
 ; Check if Y1 is beyond the bottom border. If so, the bar is invisible.
 
@@ -96,7 +94,7 @@
         cmp     _tgi_yres
         lda     ptr2+1
         sbc     _tgi_yres
-        bcs     @L9             ; Bail out if invisible
+        bcs     @L9     ; Bail out if invisible
 
 ; Check if X2 is larger than the maximum x coord. If so, clip it.
 

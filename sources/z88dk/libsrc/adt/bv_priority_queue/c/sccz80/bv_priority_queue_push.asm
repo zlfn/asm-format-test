@@ -10,19 +10,18 @@ EXTERN asm_bv_priority_queue_push
 
 bv_priority_queue_push:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp asm_bv_priority_queue_push
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_bv_priority_queue_push
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _bv_priority_queue_push
 defc _bv_priority_queue_push = bv_priority_queue_push
 ENDIF
-

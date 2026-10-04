@@ -16,11 +16,11 @@ EXTERN asm_heap_free
 
 _heap_free_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_heap_free
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_heap_free
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

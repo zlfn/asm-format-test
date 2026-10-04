@@ -16,17 +16,17 @@ EXTERN asm_fgets
 
 fgets:
 
-   pop af
-   pop ix
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push hl
-   push af
-   
-   jp asm_fgets
+        pop     af
+        pop     ix
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_fgets
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

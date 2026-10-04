@@ -7,9 +7,9 @@
 ; When negating values, we will ignore the possibility here, that one of the
 ; values if $80000000, in which case the negate will fail.
 
-        .export         tosdiv0ax, tosdiveax
-        .import         poplsargs, udiv32, negeax
-        .importzp       sreg, ptr1, tmp1, tmp2
+        .export tosdiv0ax, tosdiveax
+        .import poplsargs, udiv32, negeax
+        .importzp sreg, ptr1, tmp1, tmp2
 
 tosdiv0ax:
         ldy     #$00
@@ -23,18 +23,16 @@ tosdiveax:
 
 ; Adjust the sign of the result
 
-        lda     tmp1            ; Get sign of left operand
-        eor     tmp2            ; Calculate sign of result
-        bpl     Pos             ; Jump if result positive
+        lda     tmp1    ; Get sign of left operand
+        eor     tmp2    ; Calculate sign of result
+        bpl     Pos     ; Jump if result positive
 
 ; Result is negative
 
-        lda     ptr1            ; Load byte 0
-        jmp     negeax          ; Negate value
+        lda     ptr1    ; Load byte 0
+        jmp     negeax  ; Negate value
 
 ; Result is positive
 
 Pos:    lda     ptr1
         rts
-
-

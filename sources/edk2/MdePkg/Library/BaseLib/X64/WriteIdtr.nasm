@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID
@@ -27,9 +27,8 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalX86WriteIdtr)
 ASM_PFX(InternalX86WriteIdtr):
-    pushfq
-    cli
-    lidt    [rcx]
-    popfq
-    ret
-
+        pushfq
+        cli
+        lidt    [rcx]
+        popfq
+        ret

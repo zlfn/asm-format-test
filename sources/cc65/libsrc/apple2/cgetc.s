@@ -6,15 +6,15 @@
 ; If open_apple key is pressed then the high-bit of the key is set.
 ;
 
-        .export         _cgetc
+        .export _cgetc
 
         .ifndef __APPLE2ENH__
-        .import         machinetype
+                .import machinetype
         .endif
-        .import         cursor, putchardirect
+        .import cursor, putchardirect
 
-        .include        "zeropage.inc"
-        .include        "apple2.inc"
+        .include "zeropage.inc"
+        .include "apple2.inc"
 
 _cgetc:
         ; Cursor on ?
@@ -23,9 +23,9 @@ _cgetc:
 
         ; Show caret.
         .ifndef __APPLE2ENH__
-        lda     #' ' | $40      ; Blank, flashing
-        bit     machinetype
-        bpl     put_caret
+                lda     #' ' | $40      ; Blank, flashing
+                bit     machinetype
+                bpl     put_caret
         .endif
 
         lda     #$7F | $80      ; Checkerboard, screen code
@@ -33,11 +33,11 @@ put_caret:
         jsr     putchardirect   ; Saves old character in tmp3
 
         ; Wait for keyboard strobe.
-:       inc     RNDL            ; Increment random counter low
+:       inc     RNDL    ; Increment random counter low
         bne     :+
-        inc     RNDH            ; Increment random counter high
+        inc     RNDH    ; Increment random counter high
 :       lda     KBD
-        bpl     :--             ; If < 128, no key pressed
+        bpl     :--     ; If < 128, no key pressed
 
         ; Cursor on ?
         ldy     cursor
@@ -50,15 +50,15 @@ put_caret:
         pla
 
         ; At this time, the high bit of the key pressed is set.
-:       bit     KBDSTRB         ; Clear keyboard strobe
+:       bit     KBDSTRB ; Clear keyboard strobe
 
         .ifndef __APPLE2ENH__
-        bit     machinetype     ; Apple //e or more recent?
-        bpl     clear
+                bit     machinetype     ; Apple //e or more recent?
+                bpl     clear
         .endif
-        bit     BUTN0           ; Check if OpenApple is down
+        bit     BUTN0                   ; Check if OpenApple is down
         bmi     done
 
-clear:  and     #$7F            ; If not down, then clear high bit
+clear:  and     #$7F    ; If not down, then clear high bit
 done:   ldx     #>$0000
         rts

@@ -9,13 +9,13 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 acosh:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_acoshf
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_acoshf
 
 ; SDCC bridge for Classic
 PUBLIC _acosh

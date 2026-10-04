@@ -10,15 +10,14 @@ EXTERN asm_zx_saddrpright
 
 zx_saddrpright_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_zx_saddrpright
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_zx_saddrpright
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _zx_saddrpright_callee
 defc _zx_saddrpright_callee = zx_saddrpright_callee
 ENDIF
-

@@ -10,12 +10,11 @@
         ; to force this module to be included into the output file.
         .export __BASHDR__:abs = 1
 
-
 .segment        "BASHDR"
 
         .addr   Next
         .word   .version        ; Line number
-        .byte   $BF,'#'         ; CALL token, mark number as hexadecimal
+        .byte   $BF, '#'        ; CALL token, mark number as hexadecimal
         .byte   <(Start >> 8      ) + '0' + (Start >> 8       > $09) * $07
         .byte   <(Start >> 4 & $0F) + '0' + (Start >> 4 & $0F > $09) * $07
         .byte   <(Start      & $0F) + '0' + (Start      & $0F > $09) * $07

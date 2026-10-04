@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _z80_delay_tstate
 defc _z80_delay_tstate = z80_delay_tstate
 ENDIF
-

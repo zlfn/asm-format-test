@@ -2,6 +2,6 @@
 ; Oliver Schmidt, 2010-02-14
 ;
 
-        .include        "c65.inc"
+        .include "c65.inc"
 
-        .exportzp       devnum := DEVNUM
+        .exportzp devnum := DEVNUM

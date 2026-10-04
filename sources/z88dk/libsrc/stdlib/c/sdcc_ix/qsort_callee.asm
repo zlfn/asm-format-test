@@ -10,22 +10,22 @@ EXTERN asm_qsort
 
 _qsort_callee:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   exx
-   pop bc
-   push af
-   
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        exx
+        pop     bc
+        push    af
+
 l0_qsort_callee:
 
-   push bc
-   exx
-   
-   ex (sp),ix
-   
-   call asm_qsort
-   
-   pop ix
-   ret
+        push    bc
+        exx
+
+        ex      (sp), ix
+
+        call    asm_qsort
+
+        pop     ix
+        ret

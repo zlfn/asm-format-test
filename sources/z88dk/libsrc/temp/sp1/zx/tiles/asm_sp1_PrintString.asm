@@ -10,10 +10,10 @@ PUBLIC asm_sp1_PrintString
 EXTERN SP1PrintString, SP1PSPOP, SP1PSPUSH
 
 asm_sp1_PrintString:
-   
-   push hl                   ; save & struct sp1_pss
-   call SP1PSPOP
-   call SP1PrintString
-   pop hl
-   
-   jp SP1PSPUSH
+
+        push    hl      ; save & struct sp1_pss
+        call    SP1PSPOP
+        call    SP1PrintString
+        pop     hl
+
+        jp      SP1PSPUSH

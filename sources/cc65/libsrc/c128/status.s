@@ -2,9 +2,9 @@
 ; Stefan Haubenthal, 2023-01-16
 ;
 
-        .export         initst
+        .export initst
 
-        .include        "c128.inc"
+        .include "c128.inc"
 
 .proc   initst
 

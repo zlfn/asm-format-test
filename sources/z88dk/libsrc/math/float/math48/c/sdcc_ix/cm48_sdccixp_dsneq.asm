@@ -10,18 +10,18 @@ EXTERN cm48_sdccixp_dread2, am48_dne
 
 cm48_sdccixp_dsneq:
 
-   ; (left != right)
-   ;
-   ; enter : sdcc_float right, sdcc_float left, ret
-   ;
-   ; exit  : HL = 0 and carry reset if false
-   ;         HL = 1 and carry set if true
-   ;
-   ; uses  : af, bc, de, hl, bc', de', hl'
-   
-   call cm48_sdccixp_dread2
+        ; (left != right)
+        ;
+        ; enter : sdcc_float right, sdcc_float left, ret
+        ;
+        ; exit  : HL = 0 and carry reset if false
+        ;         HL = 1 and carry set if true
+        ;
+        ; uses  : af, bc, de, hl, bc', de', hl'
 
-   ; AC = right
-   ; AC'= left
+        call    cm48_sdccixp_dread2
 
-   jp am48_dne
+        ; AC = right
+        ; AC'= left
+
+        jp      am48_dne

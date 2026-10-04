@@ -15,21 +15,20 @@ EXTERN asm_NIRVANAM_drawW_di
 
 NIRVANAM_drawW:
 
-   	ld hl,2
-   	add hl,sp
-   	ld e,(hl)       ; col
-   	inc hl
-   	inc hl
-   	ld d,(hl)       ; lin
-   	inc hl
-   	inc hl
-   	ld a,(hl)       ; tile
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)        ; col
+        inc     hl
+        inc     hl
+        ld      d, (hl)         ; lin
+        inc     hl
+        inc     hl
+        ld      a, (hl)         ; tile
 
-   	jp asm_NIRVANAM_drawW_di
+        jp      asm_NIRVANAM_drawW_di
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _NIRVANAM_drawW
 defc _NIRVANAM_drawW = NIRVANAM_drawW
 ENDIF
-

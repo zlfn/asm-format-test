@@ -10,21 +10,20 @@ EXTERN asm_p_list_insert
 
 p_list_insert:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push af
-   
-   jp asm_p_list_insert
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_p_list_insert
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _p_list_insert
 defc _p_list_insert = p_list_insert
 ENDIF
-

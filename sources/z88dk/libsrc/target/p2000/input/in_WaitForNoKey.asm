@@ -14,12 +14,12 @@ PUBLIC in_WaitForNoKey
 ; -----------------------------------------------------------------------------
 in_WaitForNoKey:
 _wfnk_l:
-    di                      ; Disable interrupts
-    ld a, $40
-    out ($10), a            ; Enable KBIEN for global scan
-    in a, ($00)             ; Read all rows
-    ei                      ; Re-enable interrupts
+        di                      ; Disable interrupts
+        ld      a,     $40
+        out     ($10), a        ; Enable KBIEN for global scan
+        in      a,     ($00)    ; Read all rows
+        ei                      ; Re-enable interrupts
 
-    inc a                   ; Check if any key was pressed (result != 0xFF)
-    jr nz, _wfnk_l          ; Loop if a key IS pressed
-    ret
+        inc     a               ; Check if any key was pressed (result != 0xFF)
+        jr      nz, _wfnk_l     ; Loop if a key IS pressed
+        ret

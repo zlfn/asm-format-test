@@ -7,7 +7,7 @@
 #include <linux/linkage.h>
 #include <asm/assembler.h>
 #include "bitops.h"
-                .text
+        .text
 
 testop	_test_and_clear_bit, bicne, strne
 

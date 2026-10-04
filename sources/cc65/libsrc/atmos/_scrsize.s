@@ -5,8 +5,8 @@
 ; Screen size variables
 ;
 
-        .export         screensize
-        .include        "atmos.inc"
+        .export screensize
+        .include "atmos.inc"
 
 .proc   screensize
 
@@ -15,5 +15,3 @@
         rts
 
 .endproc
-
-

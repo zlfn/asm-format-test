@@ -10,17 +10,17 @@ EXTERN asm_fzx_string_partition_ww
 
 _fzx_string_partition_ww_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
 
 l0_fzx_string_partition_ww_callee:
 
-   push bc
-   ex (sp),ix
-   
-   call asm_fzx_string_partition_ww
-   
-   pop ix
-   ret
+        push    bc
+        ex      (sp), ix
+
+        call    asm_fzx_string_partition_ww
+
+        pop     ix
+        ret

@@ -8,10 +8,10 @@
 ; (c) 2022 DMSC
 ; Code under MIT license, see LICENSE file.
 
-        .export         _decompress_zx02
+        .export _decompress_zx02
 
-        .import         popax
-        .importzp       ptr1, ptr2, ptr3, tmp1, tmp2
+        .import popax
+        .importzp ptr1, ptr2, ptr3, tmp1, tmp2
 
 offset_hi = tmp1
 ZX0_src   = ptr1

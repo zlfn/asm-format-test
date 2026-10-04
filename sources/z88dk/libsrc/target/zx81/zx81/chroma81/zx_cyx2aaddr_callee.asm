@@ -1,47 +1,46 @@
 ; uchar __CALLEE__ *zx_cyx2aaddr_callee(uchar row, uchar col)
 ; Stefano, 2014.12
 
-    SECTION code_clib
-    PUBLIC  zx_cyx2aaddr_callee
-    PUBLIC  _zx_cyx2aaddr_callee
-    PUBLIC  asm_zx_cyx2aaddr
-    EXTERN  HRG_LineStart
+        SECTION code_clib
+        PUBLIC  zx_cyx2aaddr_callee
+        PUBLIC  _zx_cyx2aaddr_callee
+        PUBLIC  asm_zx_cyx2aaddr
+        EXTERN  HRG_LineStart
 
 zx_cyx2aaddr_callee:
 _zx_cyx2aaddr_callee:
 
-    pop     hl
-    pop     de
-    ex      (sp), hl
-    ld      h, l
-    ld      l, e
+        pop     hl
+        pop     de
+        ex      (sp), hl
+        ld      h,    l
+        ld      l,    e
 
 asm_zx_cyx2aaddr:
 
-   ; h = char Y 0..23
-   ; l = char X 0..31
+        ; h = char Y 0..23
+        ; l = char X 0..31
 
-    ld      c, l
-    ld      a, h
-    and     $1f
-    ld      b, a
-  IF    FORlambda
-    ld      hl, 8319
-  ELSE
-    ld      hl, HRG_LineStart+2+32768
-  ENDIF
-    jr      z, zrow
-  IF    FORlambda
-    ld      de, 33
-  ELSE
-    ld      de, 35
-  ENDIF
+        ld      c, l
+        ld      a, h
+        and     $1f
+        ld      b, a
+        IF      FORlambda
+                ld      hl, 8319
+        ELSE
+                ld      hl, HRG_LineStart+2+32768
+        ENDIF
+        jr      z, zrow
+        IF      FORlambda
+                ld      de, 33
+        ELSE
+                ld      de, 35
+        ENDIF
 rloop:
-    add     hl, de
-    djnz    rloop
+        add     hl, de
+        djnz    rloop
 zrow:
-    ld      e, c
-    add     hl, de
+        ld      e,  c
+        add     hl, de
 
-    ret
-
+        ret

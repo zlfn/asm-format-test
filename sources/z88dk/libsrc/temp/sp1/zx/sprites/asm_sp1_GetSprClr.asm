@@ -17,20 +17,20 @@ asm_sp1_GetSprClr:
 ;         hl = array of sprite colour addresses (all point at struct sp1_cs.attr_mask)
 ; uses  : f, bc, de, hl
 
-   ld c,$ff
+        ld      c, $ff
 
 loop:
 
-   push de
-   ld e,(hl)
-   inc hl
-   ld d,(hl)                   ; de = & struct sp1_cs.attr_mask
-   inc hl
-   ex (sp),hl
-   ex de,hl                    ; hl = & struct sp1_cs.attr_mask, de = destination array of colour pairs
-   ldi
-   ldi
-   pop hl
-   djnz loop
+        push    de
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)         ; de = & struct sp1_cs.attr_mask
+        inc     hl
+        ex      (sp), hl
+        ex      de,   hl        ; hl = & struct sp1_cs.attr_mask, de = destination array of colour pairs
+        ldi
+        ldi
+        pop     hl
+        djnz    loop
 
-   ret
+        ret

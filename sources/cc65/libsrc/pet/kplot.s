@@ -4,15 +4,14 @@
 ; PLOT replacement function for the PETs
 ;
 
-        .export         PLOT
-        .import         plot            ; from cputc.s
+        .export PLOT
+        .import plot    ; from cputc.s
 
-        .include        "pet.inc"
-
+        .include "pet.inc"
 
 .proc   PLOT
 
-        bcs     @L1                     ; Fetch values if carry set
+        bcs     @L1     ; Fetch values if carry set
         sty     CURS_X
         stx     CURS_Y
         jsr     plot
@@ -21,5 +20,3 @@
         rts
 
 .endproc
-
-

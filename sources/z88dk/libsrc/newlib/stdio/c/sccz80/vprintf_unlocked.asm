@@ -10,12 +10,12 @@ EXTERN asm_vprintf_unlocked
 
 vprintf_unlocked:
 
-   pop af
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push af
-   
-   jp asm_vprintf_unlocked
+        pop     af
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    af
+
+        jp      asm_vprintf_unlocked

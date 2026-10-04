@@ -8,22 +8,21 @@ EXTERN asm_esx_f_chmod
 
 esx_f_chmod:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
 
-   ld b,e
-   jp asm_esx_f_chmod
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        ld      b, e
+        jp      asm_esx_f_chmod
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _esx_f_chmod
 defc _esx_f_chmod = esx_f_chmod
 ENDIF
-

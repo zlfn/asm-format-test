@@ -14,36 +14,36 @@ EXTERN __SMSlib_VDPReg
 
 asm_SMSlib_VDPturnOnFeature:
 
-   ; void SMS_VDPturnOnFeature (unsigned int feature)
-   ;
-   ; enter : hl = unsigned int feature
-   ;
-   ; uses  : af, de, hl
-   
-   ex de,hl
-   
-   ld hl,__SMSlib_VDPReg
-   
-   inc d
-   dec d
-   jr z, noinc
-   
-   inc hl
+        ; void SMS_VDPturnOnFeature (unsigned int feature)
+        ;
+        ; enter : hl = unsigned int feature
+        ;
+        ; uses  : af, de, hl
+
+        ex      de, hl
+
+        ld      hl, __SMSlib_VDPReg
+
+        inc     d
+        dec     d
+        jr      z, noinc
+
+        inc     hl
 
 noinc:
-   
-   ld a,e
-   or (hl)
-   ld (hl),a
-   
-   di
-   
-   out (VDPControlPort),a
-   
-   ld a,d
-   or 0x80
-   
-   out (VDPControlPort),a
-   
-   ei
-   ret
+
+        ld      a, e
+        or      (hl)
+        ld      (hl), a
+
+        di
+
+        out     (VDPControlPort), a
+
+        ld      a, d
+        or      0x80
+
+        out     (VDPControlPort), a
+
+        ei
+        ret

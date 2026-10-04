@@ -5,10 +5,10 @@
 ; unsigned char cpeekrevers (void);
 ;
 
-        .include        "mega65.inc"
+        .include "mega65.inc"
 
-        .export         _cpeekrevers
-        .importzp       ptr1
+        .export _cpeekrevers
+        .importzp ptr1
 
 _cpeekrevers:
         lda     SCREEN_PTR + 1
@@ -19,7 +19,7 @@ _cpeekrevers:
         sta     ptr1
 
         ldy     CURS_X
-        lda     (ptr1),y  ; get screen code
+        lda     (ptr1), y       ; get screen code
         and     #$80            ; get reverse bit
         asl     a
         tax                     ; ldx #>$0000

@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID
@@ -26,7 +26,6 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalX86FxRestore)
 ASM_PFX(InternalX86FxRestore):
-    mov     eax, [esp + 4]              ; Buffer must be 16-byte aligned
-    fxrstor [eax]
-    ret
-
+        mov     eax, [esp + 4]  ; Buffer must be 16-byte aligned
+        fxrstor [eax]
+        ret

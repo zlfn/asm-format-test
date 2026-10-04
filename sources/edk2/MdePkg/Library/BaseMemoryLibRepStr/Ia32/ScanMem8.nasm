@@ -23,7 +23,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; CONST VOID *
@@ -36,15 +36,14 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMemScanMem8)
 ASM_PFX(InternalMemScanMem8):
-    push    edi
-    mov     ecx, [esp + 12]
-    mov     edi, [esp + 8]
-    mov     al, [esp + 16]
-    repne   scasb
-    lea     eax, [edi - 1]
-    jz      .0
-    mov     eax, ecx
+        push    edi
+        mov     ecx, [esp + 12]
+        mov     edi, [esp + 8]
+        mov     al,  [esp + 16]
+        repne   scasb
+        lea     eax, [edi - 1]
+        jz      .0
+        mov     eax, ecx
 .0:
-    pop     edi
-    ret
-
+        pop     edi
+        ret

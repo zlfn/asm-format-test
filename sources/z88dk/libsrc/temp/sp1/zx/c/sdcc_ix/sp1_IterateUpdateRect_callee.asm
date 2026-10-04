@@ -9,26 +9,26 @@ EXTERN asm_sp1_IterateUpdateRect
 
 _sp1_IterateUpdateRect_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
 
 l0_sp1_IterateUpdateRect_callee:
 
-   push bc
-   
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
+        push    bc
 
-   ex (sp),ix
-   
-   call asm_sp1_IterateUpdateRect
-   
-   pop ix
-   ret
+        ld      d, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
+
+        ex      (sp), ix
+
+        call    asm_sp1_IterateUpdateRect
+
+        pop     ix
+        ret

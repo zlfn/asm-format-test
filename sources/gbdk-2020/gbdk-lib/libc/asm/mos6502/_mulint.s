@@ -26,67 +26,67 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _mulint
+        .module _mulint
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __mulint_PARM_2
-	.globl __mulint
+        .globl  __mulint_PARM_2
+        .globl  __mulint
 
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 __mulint_PARM_2:
-	.ds 2
+        .ds     2
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define res0 "___SDCC_m6502_ret0"
-	.define res1 "___SDCC_m6502_ret1"
-	.define P1   "___SDCC_m6502_ret2"
-	
+        .define res0 "___SDCC_m6502_ret0"
+        .define res1 "___SDCC_m6502_ret1"
+        .define P1   "___SDCC_m6502_ret2"
+
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 __mulint:
-	eor #0xff	; invert P1 to avoid clc in the add loops
-	sta *P1+0
-	txa
-	eor #0xff
-	sta *P1+1
+        eor     #0xff   ; invert P1 to avoid clc in the add loops
+        sta     *P1+0
+        txa
+        eor     #0xff
+        sta     *P1+1
 
-	lda #0x00	; set result to 0
-	sta *res0
+        lda     #0x00   ; set result to 0
+        sta     *res0
 
-	ldy #0x08	; first 8 bits
+        ldy     #0x08                   ; first 8 bits
 loop1:
-	lsr *P1+0
-	bcs skip1	; add if necessary
-	tax
-	lda *res0
-	adc *__mulint_PARM_2+0
-	sta *res0
-	txa
-	adc *__mulint_PARM_2+1
+        lsr     *P1+0
+        bcs     skip1                   ; add if necessary
+        tax
+        lda     *res0
+        adc     *__mulint_PARM_2+0
+        sta     *res0
+        txa
+        adc     *__mulint_PARM_2+1
 skip1:
-	asl *__mulint_PARM_2+0 ; shift P2
-	rol *__mulint_PARM_2+1
-	dey
-	bne loop1
+        asl     *__mulint_PARM_2+0      ; shift P2
+        rol     *__mulint_PARM_2+1
+        dey
+        bne     loop1
 
 loop2:
-	lsr *P1+1
-	bcs skip2
-	adc *__mulint_PARM_2+1
+        lsr     *P1+1
+        bcs     skip2
+        adc     *__mulint_PARM_2+1
 skip2:
-	asl *__mulint_PARM_2+1
-	bne loop2	; second loop ends when P2 is completely shifted out
+        asl     *__mulint_PARM_2+1
+        bne     loop2   ; second loop ends when P2 is completely shifted out
 
-	tax
-	lda *res0
-	rts
+        tax
+        lda     *res0
+        rts

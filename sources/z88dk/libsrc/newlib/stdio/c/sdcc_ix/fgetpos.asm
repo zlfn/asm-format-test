@@ -16,15 +16,15 @@ EXTERN l0_fgetpos_callee
 
 _fgetpos:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     hl
 
-   jp l0_fgetpos_callee
+        push    hl
+        push    bc
+        push    af
+
+        jp      l0_fgetpos_callee
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

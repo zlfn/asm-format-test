@@ -10,11 +10,11 @@ EXTERN asm_adt_ListDeleteS
 .adt_ListDeleteS
 ._adt_ListDeleteS
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
-   
-   jp asm_adt_ListDeleteS
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
+
+        jp      asm_adt_ListDeleteS

@@ -11,10 +11,10 @@ EXTERN asm_bcopy
 
 _bcopy_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
-   
-   jp asm_bcopy
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
+
+        jp      asm_bcopy

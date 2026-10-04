@@ -5,37 +5,37 @@
 ; Important note: The implementation of cputs() relies on the cputc() function
 ; not clobbering ptr1. Beware when rewriting or changing this function!
 
-        .export         _cputcxy, _cputc, cputdirect, putchar
-        .export         newline, plot
-        .forceimport    initconio       ; force conio initiation
+        .export _cputcxy, _cputc, cputdirect, putchar
+        .export newline,  plot
+        .forceimport initconio  ; force conio initiation
 
-        .import         gotoxy
-        .import         PLOT
-        .import         xsize
-        .importzp       tmp3, tmp4
+        .import gotoxy
+        .import PLOT
+        .import xsize
+        .importzp tmp3, tmp4
 
-        .include        "pce.inc"
-        .include        "extzp.inc"
+        .include "pce.inc"
+        .include "extzp.inc"
 
 _cputcxy:
-        pha                     ; Save C
-        jsr     gotoxy          ; Set cursor, drop x and y
-        pla                     ; Restore C
+        pha             ; Save C
+        jsr     gotoxy  ; Set cursor, drop x and y
+        pla             ; Restore C
 
 ; Plot a character - also used as internal function
 
-_cputc: cmp     #$0D            ; CR?
+_cputc: cmp     #$0D    ; CR?
         bne     L1
         stz     CURS_X
-        bra     plot            ; Recalculate pointer
+        bra     plot    ; Recalculate pointer
 
-L1:     cmp     #$0A            ; LF?
-        beq     newline         ; Recalculate pointer
+L1:     cmp     #$0A    ; LF?
+        beq     newline ; Recalculate pointer
 
 ; Printable char of some sort
 
 cputdirect:
-        jsr     putchar         ; Write the character to the screen
+        jsr     putchar ; Write the character to the screen
 
 ; Move the cursor (rightwards) to the next position.
 
@@ -44,8 +44,8 @@ advance:
         iny
         cpy     xsize
         bne     L3
-        inc     CURS_Y          ; new line
-        cly                     ; + CR
+        inc     CURS_Y  ; new line
+        cly             ; + CR
 L3:     sty     CURS_X
 
 ; Set cursor position; calculate VRAM pointer.
@@ -53,7 +53,7 @@ L3:     sty     CURS_X
 plot:   ldy     CURS_X
         ldx     CURS_Y
         clc
-        jmp     PLOT            ; Set the new cursor
+        jmp     PLOT    ; Set the new cursor
 
 newline:
         inc     CURS_Y
@@ -62,7 +62,7 @@ newline:
 ; Write one character to the screen without doing anything else.
 
 putchar:
-        ora     RVS             ; Set reverse bit
+        ora     RVS     ; Set reverse bit
 
         st0     #VDC_MAWR       ; Memory-Address Write
         ldy     SCREEN_PTR

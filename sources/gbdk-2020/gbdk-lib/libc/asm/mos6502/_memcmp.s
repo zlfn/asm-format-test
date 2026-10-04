@@ -28,73 +28,73 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module memcmp
+        .module memcmp
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl _memcmp_PARM_2
-	.globl _memcmp_PARM_3
-	.globl _memcmp
+        .globl  _memcmp_PARM_2
+        .globl  _memcmp_PARM_3
+        .globl  _memcmp
 
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 _memcmp_PARM_2:
-	.ds 2
+        .ds     2
 _memcmp_PARM_3:
-	.ds 2
+        .ds     2
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define s1    "DPTR"
-	.define s2    "_memcmp_PARM_2"
-	.define count "_memcmp_PARM_3"
+        .define s1    "DPTR"
+        .define s2    "_memcmp_PARM_2"
+        .define count "_memcmp_PARM_3"
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
-	
+        .area   _CODE
+
 ;--------------------------------------------------------
 ; int memcmp (int *s1, int *s2, int count)
 ;--------------------------------------------------------
 
 _memcmp:
-	sta	*s1+0
-	stx	*s1+1
-	ldy	#0
-	ldx	*count+1
-	beq	endhi
+        sta     *s1+0
+        stx     *s1+1
+        ldy     #0
+        ldx     *count+1
+        beq     endhi
 hiloop:
-	lda	[s1],y
-	cmp	[s2],y
-	bne	noteq
-	iny
-	bne	hiloop
-	inc	*s1+1
-	inc	*s2+1
-	dex
-	bne	hiloop
+        lda     [s1], y
+        cmp     [s2], y
+        bne     noteq
+        iny
+        bne     hiloop
+        inc     *s1+1
+        inc     *s2+1
+        dex
+        bne     hiloop
 endhi:
-	ldx	*count+0
-	beq	end
+        ldx     *count+0
+        beq     end
 loloop:
-	lda	[s1],y
-	cmp	[s2],y
-	bne	noteq
-	iny
-	dex
-	bne	loloop
+        lda     [s1], y
+        cmp     [s2], y
+        bne     noteq
+        iny
+        dex
+        bne     loloop
 end:
-	txa
-	rts
+        txa
+        rts
 noteq:
-	bcs	L2
-	ldx	#0xFF
-	rts
+        bcs     L2
+        ldx     #0xFF
+        rts
 L2:
-	ldx	#0x01
-	rts
+        ldx     #0x01
+        rts

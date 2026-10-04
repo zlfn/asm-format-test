@@ -20,12 +20,12 @@
 
 #define LL_UART (S3C_PA_UART + (0x400 * CONFIG_S3C_LOWLEVEL_UART_PORT))
 
-	.text
+        .text
 
 	/* Sleep magic, the word before the resume entry point so that the
 	 * bootloader can check for a resumeable image. */
 
-	.word	0x2bedf00d
+        .word   0x2bedf00d
 
 	/* s3c_cpu_reusme
 	 *
@@ -37,6 +37,6 @@
 	*/
 
 ENTRY(s3c_cpu_resume)
-	msr	cpsr_c, #PSR_I_BIT | PSR_F_BIT | SVC_MODE
-	ldr	r2, =LL_UART		/* for debug */
-	b	cpu_resume
+        msr     cpsr_c, #PSR_I_BIT | PSR_F_BIT | SVC_MODE
+        ldr     r2,     =LL_UART        /* for debug */
+        b       cpu_resume

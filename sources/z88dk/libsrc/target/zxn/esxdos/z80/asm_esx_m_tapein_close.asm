@@ -8,22 +8,22 @@ EXTERN __esx_m_tapein_call
 
 asm_esx_m_tapein_close:
 
-   ; enter : none
-	;
-	; exit  : success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-	;
-	; uses  : af, bc, de, hl
-	
-	ld b,1
-	jp __esx_m_tapein_call
+        ; enter : none
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl
+
+        ld      b, 1
+        jp      __esx_m_tapein_call
 
 ; ***************************************************************************
 ; * M_TAPEIN ($8b) *

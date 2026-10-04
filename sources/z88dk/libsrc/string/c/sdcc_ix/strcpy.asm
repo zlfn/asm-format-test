@@ -10,12 +10,12 @@ EXTERN asm_strcpy
 
 _strcpy:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp asm_strcpy
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_strcpy

@@ -17,4 +17,4 @@ PUBLIC dstore
 
 dstore:
 
-   ret
+        ret

@@ -11,8 +11,8 @@ EXTERN asm_f16_div_callee
 ; enter stack: left, right, ret
 ; callee wants: right in HL, stack left, ret
 .cm16_sccz80_div
-    pop bc                      ; ret
-    pop hl                      ; right (y)
-    ; stack: left
-    push bc                     ; ret
-    jp asm_f16_div_callee
+        pop     bc      ; ret
+        pop     hl      ; right (y)
+        ; stack: left
+        push    bc      ; ret
+        jp      asm_f16_div_callee

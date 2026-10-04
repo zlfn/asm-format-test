@@ -9,12 +9,12 @@ EXTERN l0_zx_scroll_wc_up_pix_callee
 
 _zx_scroll_wc_up_pix:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     hl
 
-   jp l0_zx_scroll_wc_up_pix_callee
+        push    hl
+        push    bc
+        push    af
+
+        jp      l0_zx_scroll_wc_up_pix_callee

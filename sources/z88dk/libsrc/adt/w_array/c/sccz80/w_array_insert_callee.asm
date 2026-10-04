@@ -10,16 +10,15 @@ EXTERN asm_w_array_insert
 
 w_array_insert_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   jp asm_w_array_insert
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_w_array_insert
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _w_array_insert_callee
 defc _w_array_insert_callee = w_array_insert_callee
 ENDIF
-

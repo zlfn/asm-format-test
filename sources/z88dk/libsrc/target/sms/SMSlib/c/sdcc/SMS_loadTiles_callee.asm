@@ -9,10 +9,10 @@ EXTERN asm_SMSlib_loadTiles
 
 _SMS_loadTiles_callee:
 
-	pop af
-	pop de
-	pop hl
-	pop bc
-	push af
-	
-	jp asm_SMSlib_loadTiles
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_SMSlib_loadTiles

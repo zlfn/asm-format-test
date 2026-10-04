@@ -250,36 +250,36 @@ EXTERN zx_01_output_fzx_oterm_msg_fzx_get_xor_draw
 
 zx_01_output_fzx:
 
-   cp OTERM_MSG_FZX_PUTC
-   jp z, zx_01_output_fzx_oterm_msg_fzx_putc
+        cp      OTERM_MSG_FZX_PUTC
+        jp      z, zx_01_output_fzx_oterm_msg_fzx_putc
 
-   cp ITERM_MSG_BELL
-   jp z, zx_01_output_char_32_iterm_msg_bell
-   
-   cp ITERM_MSG_READLINE_END
-   jp z, zx_01_output_fzx_iterm_msg_readline_end
+        cp      ITERM_MSG_BELL
+        jp      z, zx_01_output_char_32_iterm_msg_bell
 
-   cp STDIO_MSG_ICTL
-   jp z, zx_01_output_fzx_stdio_msg_ictl
+        cp      ITERM_MSG_READLINE_END
+        jp      z, zx_01_output_fzx_iterm_msg_readline_end
 
-   cp OTERM_MSG_SCROLL
-   jp z, zx_01_output_fzx_oterm_msg_scroll
+        cp      STDIO_MSG_ICTL
+        jp      z, zx_01_output_fzx_stdio_msg_ictl
 
-   jp c, console_01_output_terminal_fzx   ; forward to library
+        cp      OTERM_MSG_SCROLL
+        jp      z, zx_01_output_fzx_oterm_msg_scroll
 
-   cp OTERM_MSG_PSCROLL
-   jp z, zx_01_output_fzx_oterm_msg_pscroll
+        jp      c, console_01_output_terminal_fzx       ; forward to library
 
-   cp OTERM_MSG_FZX_GET_XOR_DRAW
-   jp z, zx_01_output_fzx_oterm_msg_fzx_get_xor_draw
+        cp      OTERM_MSG_PSCROLL
+        jp      z, zx_01_output_fzx_oterm_msg_pscroll
 
-   cp OTERM_MSG_CLS
-   jp z, zx_01_output_fzx_oterm_msg_cls
-   
-   cp OTERM_MSG_PAUSE
-   jp z, zx_01_output_char_32_oterm_msg_pause
-   
-   cp OTERM_MSG_BELL
-   jp z, zx_01_output_char_32_oterm_msg_bell
+        cp      OTERM_MSG_FZX_GET_XOR_DRAW
+        jp      z, zx_01_output_fzx_oterm_msg_fzx_get_xor_draw
 
-   jp console_01_output_terminal_fzx      ; forward to library
+        cp      OTERM_MSG_CLS
+        jp      z, zx_01_output_fzx_oterm_msg_cls
+
+        cp      OTERM_MSG_PAUSE
+        jp      z, zx_01_output_char_32_oterm_msg_pause
+
+        cp      OTERM_MSG_BELL
+        jp      z, zx_01_output_char_32_oterm_msg_bell
+
+        jp      console_01_output_terminal_fzx  ; forward to library

@@ -1,12 +1,11 @@
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  clg
-    PUBLIC  _clg
+        PUBLIC  clg
+        PUBLIC  _clg
 
-    EXTERN  v1050_sendchar
-    EXTERN  set_cursor
-
+        EXTERN  v1050_sendchar
+        EXTERN  set_cursor
 
 ;
 ;	$Id: clg.asm $
@@ -19,7 +18,7 @@
 
 clg:
 _clg:
-		; Set terminal to transparent mode for debugging purposes
+        ; Set terminal to transparent mode for debugging purposes
 ;		ld l,27
 ;		call v1050_sendchar
 ;		ld l,';'
@@ -27,7 +26,7 @@ _clg:
 ;		ld l,'T'
 ;		call v1050_sendchar
 
-    ld      l, 12
-    call    v1050_sendchar
-    ld      hl, 0
-    jp      set_cursor
+        ld      l, 12
+        call    v1050_sendchar
+        ld      hl, 0
+        jp      set_cursor

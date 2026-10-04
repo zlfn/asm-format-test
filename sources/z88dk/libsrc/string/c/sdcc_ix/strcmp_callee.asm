@@ -10,8 +10,8 @@ EXTERN asm_strcmp
 
 _strcmp_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_strcmp
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_strcmp

@@ -11,29 +11,29 @@ EXTERN asm_pop_ei_jp
 EXTERN __IO_RAM_SHADOW_BASE
 
 ._shadow_write
-   pop af
-   pop de
-   pop hl
-   pop bc
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
 
-   push bc
-   push hl
-   push de
-   push af
+        push    bc
+        push    hl
+        push    de
+        push    af
 
-   ld a,b
-   or c
-   ret Z
+        ld      a, b
+        or      c
+        ret     Z
 
-   call asm_push_di
+        call    asm_push_di
 
-   push hl
-   ld hl,asm_pop_ei_jp
-   ex (sp),hl
+        push    hl
+        ld      hl,   asm_pop_ei_jp
+        ex      (sp), hl
 
-   push hl
-   ld hl,(__IO_RAM_SHADOW_BASE)
-   ex (sp),hl
+        push    hl
+        ld      hl,   (__IO_RAM_SHADOW_BASE)
+        ex      (sp), hl
 
-   or a         ; set up write to shadow ram
-   ret          ; jp (__IO_RAM_SHADOW_BASE)
+        or      a       ; set up write to shadow ram
+        ret             ; jp (__IO_RAM_SHADOW_BASE)

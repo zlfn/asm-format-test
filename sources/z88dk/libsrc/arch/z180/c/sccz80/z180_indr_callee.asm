@@ -10,10 +10,10 @@ EXTERN asm_z180_indr
 
 z180_indr_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   ld b,e
-   jp asm_z180_indr
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        ld      b, e
+        jp      asm_z180_indr

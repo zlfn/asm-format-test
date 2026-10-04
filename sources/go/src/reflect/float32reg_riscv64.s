@@ -11,17 +11,16 @@
 
 // Convert float32->uint64
 TEXT ·archFloat32ToReg(SB),NOSPLIT,$0-16
-	MOVF	val+0(FP), F1
-	MOVD	F1, ret+8(FP)
-	RET
+        MOVF    val+0(FP), F1
+        MOVD    F1, ret+8(FP)
+        RET
 
 // Convert uint64->float32
 TEXT ·archFloat32FromReg(SB),NOSPLIT,$0-12
-	// Normally a float64->float32 conversion
-	// would need rounding, but riscv64 store valid
-	// float32 in the lower 32 bits, thus we only need to
-	// unboxed the NaN-box by store a float32.
-	MOVD	reg+0(FP), F1
-	MOVF	F1, ret+8(FP)
-	RET
-
+        // Normally a float64->float32 conversion
+        // would need rounding, but riscv64 store valid
+        // float32 in the lower 32 bits, thus we only need to
+        // unboxed the NaN-box by store a float32.
+        MOVD    reg+0(FP), F1
+        MOVF    F1, ret+8(FP)
+        RET

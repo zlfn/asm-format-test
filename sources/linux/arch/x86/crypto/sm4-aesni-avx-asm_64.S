@@ -41,7 +41,6 @@
 #define RNOT         %xmm0
 #define RBSWAP       %xmm1
 
-
 /* Transpose four 32-bit words between 128-bit vectors. */
 #define transpose_4x4(x0, x1, x2, x3, t1, t2) \
 	vpunpckhdq x1, x0, t2;                \
@@ -78,7 +77,6 @@
 	vpshufb x, hi_t, x;                           \
 	vpxor tmp0, x, x;
 
-
 .section	.rodata.cst16, "aM", @progbits, 16
 .align 16
 
@@ -91,53 +89,52 @@
 
 /* pre-SubByte affine transform, from SM4 field to AES field. */
 .Lpre_tf_lo_s:
-	.quad 0x9197E2E474720701, 0xC7C1B4B222245157
+        .quad   0x9197E2E474720701, 0xC7C1B4B222245157
 .Lpre_tf_hi_s:
-	.quad 0xE240AB09EB49A200, 0xF052B91BF95BB012
+        .quad   0xE240AB09EB49A200, 0xF052B91BF95BB012
 
 /* post-SubByte affine transform, from AES field to SM4 field. */
 .Lpost_tf_lo_s:
-	.quad 0x5B67F2CEA19D0834, 0xEDD14478172BBE82
+        .quad   0x5B67F2CEA19D0834, 0xEDD14478172BBE82
 .Lpost_tf_hi_s:
-	.quad 0xAE7201DD73AFDC00, 0x11CDBE62CC1063BF
+        .quad   0xAE7201DD73AFDC00, 0x11CDBE62CC1063BF
 
 /* For isolating SubBytes from AESENCLAST, inverse shift row */
 .Linv_shift_row:
-	.byte 0x00, 0x0d, 0x0a, 0x07, 0x04, 0x01, 0x0e, 0x0b
-	.byte 0x08, 0x05, 0x02, 0x0f, 0x0c, 0x09, 0x06, 0x03
+        .byte   0x00, 0x0d, 0x0a, 0x07, 0x04, 0x01, 0x0e, 0x0b
+        .byte   0x08, 0x05, 0x02, 0x0f, 0x0c, 0x09, 0x06, 0x03
 
 /* Inverse shift row + Rotate left by 8 bits on 32-bit words with vpshufb */
 .Linv_shift_row_rol_8:
-	.byte 0x07, 0x00, 0x0d, 0x0a, 0x0b, 0x04, 0x01, 0x0e
-	.byte 0x0f, 0x08, 0x05, 0x02, 0x03, 0x0c, 0x09, 0x06
+        .byte   0x07, 0x00, 0x0d, 0x0a, 0x0b, 0x04, 0x01, 0x0e
+        .byte   0x0f, 0x08, 0x05, 0x02, 0x03, 0x0c, 0x09, 0x06
 
 /* Inverse shift row + Rotate left by 16 bits on 32-bit words with vpshufb */
 .Linv_shift_row_rol_16:
-	.byte 0x0a, 0x07, 0x00, 0x0d, 0x0e, 0x0b, 0x04, 0x01
-	.byte 0x02, 0x0f, 0x08, 0x05, 0x06, 0x03, 0x0c, 0x09
+        .byte   0x0a, 0x07, 0x00, 0x0d, 0x0e, 0x0b, 0x04, 0x01
+        .byte   0x02, 0x0f, 0x08, 0x05, 0x06, 0x03, 0x0c, 0x09
 
 /* Inverse shift row + Rotate left by 24 bits on 32-bit words with vpshufb */
 .Linv_shift_row_rol_24:
-	.byte 0x0d, 0x0a, 0x07, 0x00, 0x01, 0x0e, 0x0b, 0x04
-	.byte 0x05, 0x02, 0x0f, 0x08, 0x09, 0x06, 0x03, 0x0c
+        .byte   0x0d, 0x0a, 0x07, 0x00, 0x01, 0x0e, 0x0b, 0x04
+        .byte   0x05, 0x02, 0x0f, 0x08, 0x09, 0x06, 0x03, 0x0c
 
 /* For CTR-mode IV byteswap */
 .Lbswap128_mask:
-	.byte 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
+        .byte   15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 
 /* For input word byte-swap */
 .Lbswap32_mask:
-	.byte 3, 2, 1, 0, 7, 6, 5, 4, 11, 10, 9, 8, 15, 14, 13, 12
+        .byte   3, 2, 1, 0, 7, 6, 5, 4, 11, 10, 9, 8, 15, 14, 13, 12
 
 .align 4
 /* 4-bit mask */
 .L0f0f0f0f:
-	.long 0x0f0f0f0f
+        .long   0x0f0f0f0f
 
 /* 12 bytes, only for padding */
 .Lpadding_deadbeef:
-	.long 0xdeadbeef, 0xdeadbeef, 0xdeadbeef
-
+        .long   0xdeadbeef, 0xdeadbeef, 0xdeadbeef
 
 .text
 
@@ -152,38 +149,38 @@ SYM_FUNC_START(sm4_aesni_avx_crypt4)
 	 *	%rdx: src (1..4 blocks)
 	 *	%rcx: num blocks (1..4)
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	vmovdqu 0*16(%rdx), RA0;
-	vmovdqa RA0, RA1;
-	vmovdqa RA0, RA2;
-	vmovdqa RA0, RA3;
-	cmpq $2, %rcx;
-	jb .Lblk4_load_input_done;
-	vmovdqu 1*16(%rdx), RA1;
-	je .Lblk4_load_input_done;
-	vmovdqu 2*16(%rdx), RA2;
-	cmpq $3, %rcx;
-	je .Lblk4_load_input_done;
-	vmovdqu 3*16(%rdx), RA3;
+        vmovdqu 0*16(%rdx), RA0;
+        vmovdqa RA0, RA1;
+        vmovdqa RA0, RA2;
+        vmovdqa RA0, RA3;
+        cmpq    $2,  %rcx;
+        jb      .Lblk4_load_input_done;
+        vmovdqu 1*16(%rdx), RA1;
+        je      .Lblk4_load_input_done;
+        vmovdqu 2*16(%rdx), RA2;
+        cmpq    $3, %rcx;
+        je      .Lblk4_load_input_done;
+        vmovdqu 3*16(%rdx), RA3;
 
 .Lblk4_load_input_done:
 
-	vmovdqa .Lbswap32_mask rRIP, RTMP2;
-	vpshufb RTMP2, RA0, RA0;
-	vpshufb RTMP2, RA1, RA1;
-	vpshufb RTMP2, RA2, RA2;
-	vpshufb RTMP2, RA3, RA3;
+        vmovdqa .Lbswap32_mask rRIP, RTMP2;
+        vpshufb RTMP2, RA0, RA0;
+        vpshufb RTMP2, RA1, RA1;
+        vpshufb RTMP2, RA2, RA2;
+        vpshufb RTMP2, RA3, RA3;
 
-	vbroadcastss .L0f0f0f0f rRIP, MASK_4BIT;
-	vmovdqa .Lpre_tf_lo_s rRIP, RTMP4;
-	vmovdqa .Lpre_tf_hi_s rRIP, RB0;
-	vmovdqa .Lpost_tf_lo_s rRIP, RB1;
-	vmovdqa .Lpost_tf_hi_s rRIP, RB2;
-	vmovdqa .Linv_shift_row rRIP, RB3;
-	vmovdqa .Linv_shift_row_rol_8 rRIP, RTMP2;
-	vmovdqa .Linv_shift_row_rol_16 rRIP, RTMP3;
-	transpose_4x4(RA0, RA1, RA2, RA3, RTMP0, RTMP1);
+        vbroadcastss .L0f0f0f0f rRIP, MASK_4BIT;
+        vmovdqa .Lpre_tf_lo_s rRIP,   RTMP4;
+        vmovdqa .Lpre_tf_hi_s rRIP,   RB0;
+        vmovdqa .Lpost_tf_lo_s rRIP,  RB1;
+        vmovdqa .Lpost_tf_hi_s rRIP,  RB2;
+        vmovdqa .Linv_shift_row rRIP, RB3;
+        vmovdqa .Linv_shift_row_rol_8 rRIP,  RTMP2;
+        vmovdqa .Linv_shift_row_rol_16 rRIP, RTMP3;
+        transpose_4x4(RA0, RA1, RA2, RA3, RTMP0, RTMP1);
 
 #define ROUND(round, s0, s1, s2, s3)                                \
 	vbroadcastss (4*(round))(%rdi), RX0;                        \
@@ -211,41 +208,41 @@ SYM_FUNC_START(sm4_aesni_avx_crypt4)
 	/* s0 ^ x ^ rol(x,2) ^ rol(x,10) ^ rol(x,18) ^ rol(x,24) */ \
 	vpxor RTMP1, s0, s0;
 
-	leaq (32*4)(%rdi), %rax;
+        leaq    (32*4)(%rdi), %rax;
 .align 16
 .Lroundloop_blk4:
-	ROUND(0, RA0, RA1, RA2, RA3);
-	ROUND(1, RA1, RA2, RA3, RA0);
-	ROUND(2, RA2, RA3, RA0, RA1);
-	ROUND(3, RA3, RA0, RA1, RA2);
-	leaq (4*4)(%rdi), %rdi;
-	cmpq %rax, %rdi;
-	jne .Lroundloop_blk4;
+        ROUND(0, RA0, RA1, RA2, RA3);
+        ROUND(1, RA1, RA2, RA3, RA0);
+        ROUND(2, RA2, RA3, RA0, RA1);
+        ROUND(3, RA3, RA0, RA1, RA2);
+        leaq    (4*4)(%rdi), %rdi;
+        cmpq    %rax, %rdi;
+        jne     .Lroundloop_blk4;
 
 #undef ROUND
 
-	vmovdqa .Lbswap128_mask rRIP, RTMP2;
+        vmovdqa .Lbswap128_mask rRIP, RTMP2;
 
-	transpose_4x4(RA0, RA1, RA2, RA3, RTMP0, RTMP1);
-	vpshufb RTMP2, RA0, RA0;
-	vpshufb RTMP2, RA1, RA1;
-	vpshufb RTMP2, RA2, RA2;
-	vpshufb RTMP2, RA3, RA3;
+        transpose_4x4(RA0, RA1, RA2, RA3, RTMP0, RTMP1);
+        vpshufb RTMP2, RA0, RA0;
+        vpshufb RTMP2, RA1, RA1;
+        vpshufb RTMP2, RA2, RA2;
+        vpshufb RTMP2, RA3, RA3;
 
-	vmovdqu RA0, 0*16(%rsi);
-	cmpq $2, %rcx;
-	jb .Lblk4_store_output_done;
-	vmovdqu RA1, 1*16(%rsi);
-	je .Lblk4_store_output_done;
-	vmovdqu RA2, 2*16(%rsi);
-	cmpq $3, %rcx;
-	je .Lblk4_store_output_done;
-	vmovdqu RA3, 3*16(%rsi);
+        vmovdqu RA0, 0*16(%rsi);
+        cmpq    $2,  %rcx;
+        jb      .Lblk4_store_output_done;
+        vmovdqu RA1, 1*16(%rsi);
+        je      .Lblk4_store_output_done;
+        vmovdqu RA2, 2*16(%rsi);
+        cmpq    $3,  %rcx;
+        je      .Lblk4_store_output_done;
+        vmovdqu RA3, 3*16(%rsi);
 
 .Lblk4_store_output_done:
-	vzeroall;
-	FRAME_END
-	RET;
+        vzeroall;
+        FRAME_END
+        RET;
 SYM_FUNC_END(sm4_aesni_avx_crypt4)
 
 SYM_FUNC_START_LOCAL(__sm4_crypt_blk8)
@@ -257,21 +254,21 @@ SYM_FUNC_START_LOCAL(__sm4_crypt_blk8)
 	 *	RA0, RA1, RA2, RA3, RB0, RB1, RB2, RB3: eight parallel
 	 * 						ciphertext blocks
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	vmovdqa .Lbswap32_mask rRIP, RTMP2;
-	vpshufb RTMP2, RA0, RA0;
-	vpshufb RTMP2, RA1, RA1;
-	vpshufb RTMP2, RA2, RA2;
-	vpshufb RTMP2, RA3, RA3;
-	vpshufb RTMP2, RB0, RB0;
-	vpshufb RTMP2, RB1, RB1;
-	vpshufb RTMP2, RB2, RB2;
-	vpshufb RTMP2, RB3, RB3;
+        vmovdqa .Lbswap32_mask rRIP, RTMP2;
+        vpshufb RTMP2, RA0, RA0;
+        vpshufb RTMP2, RA1, RA1;
+        vpshufb RTMP2, RA2, RA2;
+        vpshufb RTMP2, RA3, RA3;
+        vpshufb RTMP2, RB0, RB0;
+        vpshufb RTMP2, RB1, RB1;
+        vpshufb RTMP2, RB2, RB2;
+        vpshufb RTMP2, RB3, RB3;
 
-	vbroadcastss .L0f0f0f0f rRIP, MASK_4BIT;
-	transpose_4x4(RA0, RA1, RA2, RA3, RTMP0, RTMP1);
-	transpose_4x4(RB0, RB1, RB2, RB3, RTMP0, RTMP1);
+        vbroadcastss .L0f0f0f0f rRIP, MASK_4BIT;
+        transpose_4x4(RA0, RA1, RA2, RA3, RTMP0, RTMP1);
+        transpose_4x4(RB0, RB1, RB2, RB3, RTMP0, RTMP1);
 
 #define ROUND(round, s0, s1, s2, s3, r0, r1, r2, r3)                \
 	vbroadcastss (4*(round))(%rdi), RX0;                        \
@@ -327,34 +324,34 @@ SYM_FUNC_START_LOCAL(__sm4_crypt_blk8)
 	vpxor RTMP2, r0, r0;                                        \
 	vpxor RTMP3, r0, r0;
 
-	leaq (32*4)(%rdi), %rax;
+        leaq    (32*4)(%rdi), %rax;
 .align 16
 .Lroundloop_blk8:
-	ROUND(0, RA0, RA1, RA2, RA3, RB0, RB1, RB2, RB3);
-	ROUND(1, RA1, RA2, RA3, RA0, RB1, RB2, RB3, RB0);
-	ROUND(2, RA2, RA3, RA0, RA1, RB2, RB3, RB0, RB1);
-	ROUND(3, RA3, RA0, RA1, RA2, RB3, RB0, RB1, RB2);
-	leaq (4*4)(%rdi), %rdi;
-	cmpq %rax, %rdi;
-	jne .Lroundloop_blk8;
+        ROUND(0, RA0, RA1, RA2, RA3, RB0, RB1, RB2, RB3);
+        ROUND(1, RA1, RA2, RA3, RA0, RB1, RB2, RB3, RB0);
+        ROUND(2, RA2, RA3, RA0, RA1, RB2, RB3, RB0, RB1);
+        ROUND(3, RA3, RA0, RA1, RA2, RB3, RB0, RB1, RB2);
+        leaq    (4*4)(%rdi), %rdi;
+        cmpq    %rax, %rdi;
+        jne     .Lroundloop_blk8;
 
 #undef ROUND
 
-	vmovdqa .Lbswap128_mask rRIP, RTMP2;
+        vmovdqa .Lbswap128_mask rRIP, RTMP2;
 
-	transpose_4x4(RA0, RA1, RA2, RA3, RTMP0, RTMP1);
-	transpose_4x4(RB0, RB1, RB2, RB3, RTMP0, RTMP1);
-	vpshufb RTMP2, RA0, RA0;
-	vpshufb RTMP2, RA1, RA1;
-	vpshufb RTMP2, RA2, RA2;
-	vpshufb RTMP2, RA3, RA3;
-	vpshufb RTMP2, RB0, RB0;
-	vpshufb RTMP2, RB1, RB1;
-	vpshufb RTMP2, RB2, RB2;
-	vpshufb RTMP2, RB3, RB3;
+        transpose_4x4(RA0, RA1, RA2, RA3, RTMP0, RTMP1);
+        transpose_4x4(RB0, RB1, RB2, RB3, RTMP0, RTMP1);
+        vpshufb RTMP2, RA0, RA0;
+        vpshufb RTMP2, RA1, RA1;
+        vpshufb RTMP2, RA2, RA2;
+        vpshufb RTMP2, RA3, RA3;
+        vpshufb RTMP2, RB0, RB0;
+        vpshufb RTMP2, RB1, RB1;
+        vpshufb RTMP2, RB2, RB2;
+        vpshufb RTMP2, RB3, RB3;
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(__sm4_crypt_blk8)
 
 /*
@@ -368,48 +365,48 @@ SYM_FUNC_START(sm4_aesni_avx_crypt8)
 	 *	%rdx: src (1..8 blocks)
 	 *	%rcx: num blocks (1..8)
 	 */
-	cmpq $5, %rcx;
-	jb sm4_aesni_avx_crypt4;
+        cmpq    $5, %rcx;
+        jb      sm4_aesni_avx_crypt4;
 
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	vmovdqu (0 * 16)(%rdx), RA0;
-	vmovdqu (1 * 16)(%rdx), RA1;
-	vmovdqu (2 * 16)(%rdx), RA2;
-	vmovdqu (3 * 16)(%rdx), RA3;
-	vmovdqu (4 * 16)(%rdx), RB0;
-	vmovdqa RB0, RB1;
-	vmovdqa RB0, RB2;
-	vmovdqa RB0, RB3;
-	je .Lblk8_load_input_done;
-	vmovdqu (5 * 16)(%rdx), RB1;
-	cmpq $7, %rcx;
-	jb .Lblk8_load_input_done;
-	vmovdqu (6 * 16)(%rdx), RB2;
-	je .Lblk8_load_input_done;
-	vmovdqu (7 * 16)(%rdx), RB3;
+        vmovdqu (0 * 16)(%rdx), RA0;
+        vmovdqu (1 * 16)(%rdx), RA1;
+        vmovdqu (2 * 16)(%rdx), RA2;
+        vmovdqu (3 * 16)(%rdx), RA3;
+        vmovdqu (4 * 16)(%rdx), RB0;
+        vmovdqa RB0, RB1;
+        vmovdqa RB0, RB2;
+        vmovdqa RB0, RB3;
+        je      .Lblk8_load_input_done;
+        vmovdqu (5 * 16)(%rdx), RB1;
+        cmpq    $7, %rcx;
+        jb      .Lblk8_load_input_done;
+        vmovdqu (6 * 16)(%rdx), RB2;
+        je      .Lblk8_load_input_done;
+        vmovdqu (7 * 16)(%rdx), RB3;
 
 .Lblk8_load_input_done:
-	call __sm4_crypt_blk8;
+        call    __sm4_crypt_blk8;
 
-	cmpq $6, %rcx;
-	vmovdqu RA0, (0 * 16)(%rsi);
-	vmovdqu RA1, (1 * 16)(%rsi);
-	vmovdqu RA2, (2 * 16)(%rsi);
-	vmovdqu RA3, (3 * 16)(%rsi);
-	vmovdqu RB0, (4 * 16)(%rsi);
-	jb .Lblk8_store_output_done;
-	vmovdqu RB1, (5 * 16)(%rsi);
-	je .Lblk8_store_output_done;
-	vmovdqu RB2, (6 * 16)(%rsi);
-	cmpq $7, %rcx;
-	je .Lblk8_store_output_done;
-	vmovdqu RB3, (7 * 16)(%rsi);
+        cmpq    $6,  %rcx;
+        vmovdqu RA0, (0 * 16)(%rsi);
+        vmovdqu RA1, (1 * 16)(%rsi);
+        vmovdqu RA2, (2 * 16)(%rsi);
+        vmovdqu RA3, (3 * 16)(%rsi);
+        vmovdqu RB0, (4 * 16)(%rsi);
+        jb      .Lblk8_store_output_done;
+        vmovdqu RB1, (5 * 16)(%rsi);
+        je      .Lblk8_store_output_done;
+        vmovdqu RB2, (6 * 16)(%rsi);
+        cmpq    $7,  %rcx;
+        je      .Lblk8_store_output_done;
+        vmovdqu RB3, (7 * 16)(%rsi);
 
 .Lblk8_store_output_done:
-	vzeroall;
-	FRAME_END
-	RET;
+        vzeroall;
+        FRAME_END
+        RET;
 SYM_FUNC_END(sm4_aesni_avx_crypt8)
 
 /*
@@ -423,16 +420,16 @@ SYM_TYPED_FUNC_START(sm4_aesni_avx_ctr_enc_blk8)
 	 *	%rdx: src (8 blocks)
 	 *	%rcx: iv (big endian, 128bit)
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	/* load IV and byteswap */
-	vmovdqu (%rcx), RA0;
+        /* load IV and byteswap */
+        vmovdqu (%rcx), RA0;
 
-	vmovdqa .Lbswap128_mask rRIP, RBSWAP;
-	vpshufb RBSWAP, RA0, RTMP0; /* be => le */
+        vmovdqa .Lbswap128_mask rRIP, RBSWAP;
+        vpshufb RBSWAP, RA0, RTMP0; /* be => le */
 
-	vpcmpeqd RNOT, RNOT, RNOT;
-	vpsrldq $8, RNOT, RNOT; /* low: -1, high: 0 */
+        vpcmpeqd RNOT, RNOT, RNOT;
+        vpsrldq $8, RNOT, RNOT; /* low: -1, high: 0 */
 
 #define inc_le128(x, minus_one, tmp) \
 	vpcmpeqq minus_one, x, tmp;  \
@@ -440,50 +437,50 @@ SYM_TYPED_FUNC_START(sm4_aesni_avx_ctr_enc_blk8)
 	vpslldq $8, tmp, tmp;        \
 	vpsubq tmp, x, x;
 
-	/* construct IVs */
-	inc_le128(RTMP0, RNOT, RTMP2); /* +1 */
-	vpshufb RBSWAP, RTMP0, RA1;
-	inc_le128(RTMP0, RNOT, RTMP2); /* +2 */
-	vpshufb RBSWAP, RTMP0, RA2;
-	inc_le128(RTMP0, RNOT, RTMP2); /* +3 */
-	vpshufb RBSWAP, RTMP0, RA3;
-	inc_le128(RTMP0, RNOT, RTMP2); /* +4 */
-	vpshufb RBSWAP, RTMP0, RB0;
-	inc_le128(RTMP0, RNOT, RTMP2); /* +5 */
-	vpshufb RBSWAP, RTMP0, RB1;
-	inc_le128(RTMP0, RNOT, RTMP2); /* +6 */
-	vpshufb RBSWAP, RTMP0, RB2;
-	inc_le128(RTMP0, RNOT, RTMP2); /* +7 */
-	vpshufb RBSWAP, RTMP0, RB3;
-	inc_le128(RTMP0, RNOT, RTMP2); /* +8 */
-	vpshufb RBSWAP, RTMP0, RTMP1;
+        /* construct IVs */
+        inc_le128(RTMP0, RNOT, RTMP2); /* +1 */
+        vpshufb RBSWAP, RTMP0, RA1;
+        inc_le128(RTMP0, RNOT, RTMP2); /* +2 */
+        vpshufb RBSWAP, RTMP0, RA2;
+        inc_le128(RTMP0, RNOT, RTMP2); /* +3 */
+        vpshufb RBSWAP, RTMP0, RA3;
+        inc_le128(RTMP0, RNOT, RTMP2); /* +4 */
+        vpshufb RBSWAP, RTMP0, RB0;
+        inc_le128(RTMP0, RNOT, RTMP2); /* +5 */
+        vpshufb RBSWAP, RTMP0, RB1;
+        inc_le128(RTMP0, RNOT, RTMP2); /* +6 */
+        vpshufb RBSWAP, RTMP0, RB2;
+        inc_le128(RTMP0, RNOT, RTMP2); /* +7 */
+        vpshufb RBSWAP, RTMP0, RB3;
+        inc_le128(RTMP0, RNOT, RTMP2); /* +8 */
+        vpshufb RBSWAP, RTMP0, RTMP1;
 
-	/* store new IV */
-	vmovdqu RTMP1, (%rcx);
+        /* store new IV */
+        vmovdqu RTMP1, (%rcx);
 
-	call __sm4_crypt_blk8;
+        call    __sm4_crypt_blk8;
 
-	vpxor (0 * 16)(%rdx), RA0, RA0;
-	vpxor (1 * 16)(%rdx), RA1, RA1;
-	vpxor (2 * 16)(%rdx), RA2, RA2;
-	vpxor (3 * 16)(%rdx), RA3, RA3;
-	vpxor (4 * 16)(%rdx), RB0, RB0;
-	vpxor (5 * 16)(%rdx), RB1, RB1;
-	vpxor (6 * 16)(%rdx), RB2, RB2;
-	vpxor (7 * 16)(%rdx), RB3, RB3;
+        vpxor   (0 * 16)(%rdx), RA0, RA0;
+        vpxor   (1 * 16)(%rdx), RA1, RA1;
+        vpxor   (2 * 16)(%rdx), RA2, RA2;
+        vpxor   (3 * 16)(%rdx), RA3, RA3;
+        vpxor   (4 * 16)(%rdx), RB0, RB0;
+        vpxor   (5 * 16)(%rdx), RB1, RB1;
+        vpxor   (6 * 16)(%rdx), RB2, RB2;
+        vpxor   (7 * 16)(%rdx), RB3, RB3;
 
-	vmovdqu RA0, (0 * 16)(%rsi);
-	vmovdqu RA1, (1 * 16)(%rsi);
-	vmovdqu RA2, (2 * 16)(%rsi);
-	vmovdqu RA3, (3 * 16)(%rsi);
-	vmovdqu RB0, (4 * 16)(%rsi);
-	vmovdqu RB1, (5 * 16)(%rsi);
-	vmovdqu RB2, (6 * 16)(%rsi);
-	vmovdqu RB3, (7 * 16)(%rsi);
+        vmovdqu RA0, (0 * 16)(%rsi);
+        vmovdqu RA1, (1 * 16)(%rsi);
+        vmovdqu RA2, (2 * 16)(%rsi);
+        vmovdqu RA3, (3 * 16)(%rsi);
+        vmovdqu RB0, (4 * 16)(%rsi);
+        vmovdqu RB1, (5 * 16)(%rsi);
+        vmovdqu RB2, (6 * 16)(%rsi);
+        vmovdqu RB3, (7 * 16)(%rsi);
 
-	vzeroall;
-	FRAME_END
-	RET;
+        vzeroall;
+        FRAME_END
+        RET;
 SYM_FUNC_END(sm4_aesni_avx_ctr_enc_blk8)
 
 /*
@@ -497,40 +494,40 @@ SYM_TYPED_FUNC_START(sm4_aesni_avx_cbc_dec_blk8)
 	 *	%rdx: src (8 blocks)
 	 *	%rcx: iv
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	vmovdqu (0 * 16)(%rdx), RA0;
-	vmovdqu (1 * 16)(%rdx), RA1;
-	vmovdqu (2 * 16)(%rdx), RA2;
-	vmovdqu (3 * 16)(%rdx), RA3;
-	vmovdqu (4 * 16)(%rdx), RB0;
-	vmovdqu (5 * 16)(%rdx), RB1;
-	vmovdqu (6 * 16)(%rdx), RB2;
-	vmovdqu (7 * 16)(%rdx), RB3;
+        vmovdqu (0 * 16)(%rdx), RA0;
+        vmovdqu (1 * 16)(%rdx), RA1;
+        vmovdqu (2 * 16)(%rdx), RA2;
+        vmovdqu (3 * 16)(%rdx), RA3;
+        vmovdqu (4 * 16)(%rdx), RB0;
+        vmovdqu (5 * 16)(%rdx), RB1;
+        vmovdqu (6 * 16)(%rdx), RB2;
+        vmovdqu (7 * 16)(%rdx), RB3;
 
-	call __sm4_crypt_blk8;
+        call    __sm4_crypt_blk8;
 
-	vmovdqu (7 * 16)(%rdx), RNOT;
-	vpxor (%rcx), RA0, RA0;
-	vpxor (0 * 16)(%rdx), RA1, RA1;
-	vpxor (1 * 16)(%rdx), RA2, RA2;
-	vpxor (2 * 16)(%rdx), RA3, RA3;
-	vpxor (3 * 16)(%rdx), RB0, RB0;
-	vpxor (4 * 16)(%rdx), RB1, RB1;
-	vpxor (5 * 16)(%rdx), RB2, RB2;
-	vpxor (6 * 16)(%rdx), RB3, RB3;
-	vmovdqu RNOT, (%rcx); /* store new IV */
+        vmovdqu (7 * 16)(%rdx), RNOT;
+        vpxor   (%rcx), RA0, RA0;
+        vpxor   (0 * 16)(%rdx), RA1, RA1;
+        vpxor   (1 * 16)(%rdx), RA2, RA2;
+        vpxor   (2 * 16)(%rdx), RA3, RA3;
+        vpxor   (3 * 16)(%rdx), RB0, RB0;
+        vpxor   (4 * 16)(%rdx), RB1, RB1;
+        vpxor   (5 * 16)(%rdx), RB2, RB2;
+        vpxor   (6 * 16)(%rdx), RB3, RB3;
+        vmovdqu RNOT, (%rcx); /* store new IV */
 
-	vmovdqu RA0, (0 * 16)(%rsi);
-	vmovdqu RA1, (1 * 16)(%rsi);
-	vmovdqu RA2, (2 * 16)(%rsi);
-	vmovdqu RA3, (3 * 16)(%rsi);
-	vmovdqu RB0, (4 * 16)(%rsi);
-	vmovdqu RB1, (5 * 16)(%rsi);
-	vmovdqu RB2, (6 * 16)(%rsi);
-	vmovdqu RB3, (7 * 16)(%rsi);
+        vmovdqu RA0, (0 * 16)(%rsi);
+        vmovdqu RA1, (1 * 16)(%rsi);
+        vmovdqu RA2, (2 * 16)(%rsi);
+        vmovdqu RA3, (3 * 16)(%rsi);
+        vmovdqu RB0, (4 * 16)(%rsi);
+        vmovdqu RB1, (5 * 16)(%rsi);
+        vmovdqu RB2, (6 * 16)(%rsi);
+        vmovdqu RB3, (7 * 16)(%rsi);
 
-	vzeroall;
-	FRAME_END
-	RET;
+        vzeroall;
+        FRAME_END
+        RET;
 SYM_FUNC_END(sm4_aesni_avx_cbc_dec_blk8)

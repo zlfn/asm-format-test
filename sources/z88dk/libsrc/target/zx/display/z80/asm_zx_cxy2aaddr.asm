@@ -18,34 +18,34 @@ PUBLIC asm_zx_cxy2aaddr
 
 asm_zx_cxy2aaddr:
 
-   ; enter : h = valid character y coordinate
-   ;         l = valid character x coordinate
-   ;
-   ; exit  : hl = attribute address corresponding to character
-   ;
-   ; uses  : af, hl
+        ; enter : h = valid character y coordinate
+        ;         l = valid character x coordinate
+        ;
+        ; exit  : hl = attribute address corresponding to character
+        ;
+        ; uses  : af, hl
 
-   ld a,h
-   rrca
-   rrca
-   rrca
-   ld h,a
-   
-   and $e0
-   or l
-   ld l,a
-   
-   ld a,h
-   and $03
+        ld      a, h
+        rrca
+        rrca
+        rrca
+        ld      h, a
+
+        and     $e0
+        or      l
+        ld      l, a
+
+        ld      a, h
+        and     $03
 
 IF __USE_SPECTRUM_128_SECOND_DFILE
-   or $d8
+        or      $d8
 ELIF __USE_OFFSET_SCREEN
-   EXTERN SCREEN_BASE
-   or +(SCREEN_BASE/256) + $18
+        EXTERN  SCREEN_BASE
+        or      +(SCREEN_BASE/256) + $18
 ELSE
-   or $58
+        or      $58
 ENDIF
 
-   ld h,a
-   ret
+        ld      h, a
+        ret

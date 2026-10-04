@@ -9,18 +9,18 @@ EXTERN asm_zx_cls_wc_attr
 
 _zx_cls_wc_attr_callee:
 
-   pop hl
-   pop bc
-   dec sp
-   ex (sp),hl
-   ld l,h
+        pop     hl
+        pop     bc
+        dec     sp
+        ex      (sp), hl
+        ld      l,    h
 
 l0_zx_cls_wc_attr_callee:
-   
-   push bc
-   ex (sp),ix
-   
-   call asm_zx_cls_wc_attr
-   
-   pop ix
-   ret
+
+        push    bc
+        ex      (sp), ix
+
+        call    asm_zx_cls_wc_attr
+
+        pop     ix
+        ret

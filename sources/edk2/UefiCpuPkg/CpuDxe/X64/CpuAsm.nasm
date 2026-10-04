@@ -9,8 +9,8 @@
 ;*
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID
@@ -20,12 +20,12 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(SetCodeSelector)
 ASM_PFX(SetCodeSelector):
-    push    rcx
-    lea     rax, [setCodeSelectorLongJump]
-    push    rax
-    retfq
+        push    rcx
+        lea     rax, [setCodeSelectorLongJump]
+        push    rax
+        retfq
 setCodeSelectorLongJump:
-    ret
+        ret
 
 ;------------------------------------------------------------------------------
 ; VOID
@@ -40,5 +40,4 @@ o16 mov     ds, cx
 o16 mov     es, cx
 o16 mov     fs, cx
 o16 mov     gs, cx
-    ret
-
+        ret

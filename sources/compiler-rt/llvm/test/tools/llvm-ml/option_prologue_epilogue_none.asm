@@ -4,9 +4,9 @@ OPTION pRoLoGuE:nOnE, EPILogue:None
 
 .code
 
-t1 PROC
-  ret
-t1 ENDP
+t1      PROC
+        ret
+t1      ENDP
 
 ; CHECK-LABEL: t1:
 ; CHECK-NOT: pop
@@ -14,4 +14,3 @@ t1 ENDP
 ; CHECK: {{^ *}}ret{{ *$}}
 
 end
-

@@ -13,7 +13,7 @@
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ;  GNU General Public License for more details.
 ;
-;  You should have received a copy of the GNU General Public License 
+;  You should have received a copy of the GNU General Public License
 ;  along with this library; see the file COPYING. If not, write to the
 ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
 ;   MA 02110-1301, USA.
@@ -32,15 +32,14 @@
 .globl	__modsint
 
 __modschar:
-	ld	e, l
-	ld	l, a
+        ld      e, l
+        ld      l, a
 
-	call    __div8
+        call    __div8
 
-	jp	__get_remainder
+        jp      __get_remainder
 
 __modsint:
-	call    __div16
+        call    __div16
 
-	jp	__get_remainder
-
+        jp      __get_remainder

@@ -9,7 +9,7 @@ EXTERN asm_ulap_attr_from_pentp_penti
 
 _ulap_attr_from_pentp_penti_callee:
 
-   pop hl
-   ex (sp),hl
+        pop     hl
+        ex      (sp), hl
 
-   jp asm_ulap_attr_from_pentp_penti
+        jp      asm_ulap_attr_from_pentp_penti

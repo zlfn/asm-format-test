@@ -16,12 +16,12 @@ EXTERN asm_heap_alloc_fixed
 
 _heap_alloc_fixed_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   jp asm_heap_alloc_fixed
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_heap_alloc_fixed
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

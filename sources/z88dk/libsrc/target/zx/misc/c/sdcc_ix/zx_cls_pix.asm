@@ -9,10 +9,10 @@ EXTERN asm_zx_cls_pix
 
 _zx_cls_pix:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_zx_cls_pix
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_zx_cls_pix

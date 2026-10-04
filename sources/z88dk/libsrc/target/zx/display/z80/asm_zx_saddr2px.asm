@@ -17,22 +17,22 @@ PUBLIC asm_zx_saddr2px
 
 asm_zx_saddr2px:
 
-   ; enter : hl = screen address
-   ;
-   ; exit  :  l = pixel x coordinate of leftmost pixel in byte
-   ;              at screen address
-   ;
-   ; uses  : af, l
+        ; enter : hl = screen address
+        ;
+        ; exit  :  l = pixel x coordinate of leftmost pixel in byte
+        ;              at screen address
+        ;
+        ; uses  : af, l
 
-   ld a,l
-   add a,a
-   add a,a
-   add a,a
-   
-   ld l,a
+        ld      a, l
+        add     a, a
+        add     a, a
+        add     a, a
+
+        ld      l, a
 
 IF __SCCZ80
-   ld h,0
+        ld      h, 0
 ENDIF
 
-   ret
+        ret

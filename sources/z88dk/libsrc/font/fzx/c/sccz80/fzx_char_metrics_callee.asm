@@ -10,31 +10,31 @@ EXTERN asm_fzx_char_metrics
 
 fzx_char_metrics_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
 
 fzx0_char_metrics_callee:
-   
-   ld a,c
-   call asm_fzx_char_metrics
-   
-   ex de,hl                    ; de = bitmap address, hl = struct fzx_cmetric *
-   
-   ld (hl),a
-   inc hl
-   
-   inc b
-   ld (hl),b
-   inc hl
-   
-   ld (hl),c
-   inc hl
-   
-   ld (hl),e
-   inc hl
-   ld (hl),d
-   
-   ex de,hl                    ; return bitmap address
-   ret
+
+        ld      a, c
+        call    asm_fzx_char_metrics
+
+        ex      de, hl  ; de = bitmap address, hl = struct fzx_cmetric *
+
+        ld      (hl), a
+        inc     hl
+
+        inc     b
+        ld      (hl), b
+        inc     hl
+
+        ld      (hl), c
+        inc     hl
+
+        ld      (hl), e
+        inc     hl
+        ld      (hl), d
+
+        ex      de, hl  ; return bitmap address
+        ret

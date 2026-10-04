@@ -22,25 +22,25 @@
 #include <asm/processor-flags.h>
 #include <asm/segment.h>
 
-	.text
-	.code32
+        .text
+        .code32
 #ifdef CONFIG_EFI_HANDOVER_PROTOCOL
 SYM_FUNC_START(efi32_stub_entry)
-	call	1f
-1:	popl	%ecx
+        call    1f
+1:      popl    %ecx
 
-	/* Clear BSS */
-	xorl	%eax, %eax
-	leal	(_bss - 1b)(%ecx), %edi
-	leal	(_ebss - 1b)(%ecx), %ecx
-	subl	%edi, %ecx
-	shrl	$2, %ecx
-	cld
-	rep	stosl
+        /* Clear BSS */
+        xorl    %eax, %eax
+        leal    (_bss - 1b)(%ecx),  %edi
+        leal    (_ebss - 1b)(%ecx), %ecx
+        subl    %edi, %ecx
+        shrl    $2,   %ecx
+        cld
+        rep	stosl
 
-	add	$0x4, %esp		/* Discard return address */
-	movl	8(%esp), %ebx		/* struct boot_params pointer */
-	jmp	efi32_startup
+        add     $0x4,    %esp   /* Discard return address */
+        movl    8(%esp), %ebx   /* struct boot_params pointer */
+        jmp     efi32_startup
 SYM_FUNC_END(efi32_stub_entry)
 #endif
 
@@ -56,74 +56,74 @@ SYM_FUNC_START_LOCAL(efi_enter32)
 	/*
 	 * Convert x86-64 SysV ABI params to i386 ABI
 	 */
-	pushl	32(%ebp)	/* Up to 3 args passed via the stack */
-	pushl	24(%ebp)
-	pushl	16(%ebp)
-	pushl	%ebx		/* R9 */
-	pushl	%eax		/* R8 */
-	pushl	%ecx
-	pushl	%edx
-	pushl	%esi
+        pushl   32(%ebp)        /* Up to 3 args passed via the stack */
+        pushl   24(%ebp)
+        pushl   16(%ebp)
+        pushl   %ebx            /* R9 */
+        pushl   %eax            /* R8 */
+        pushl   %ecx
+        pushl   %edx
+        pushl   %esi
 
-	/* Disable paging */
-	movl	%cr0, %eax
-	btrl	$X86_CR0_PG_BIT, %eax
-	movl	%eax, %cr0
+        /* Disable paging */
+        movl    %cr0, %eax
+        btrl    $X86_CR0_PG_BIT, %eax
+        movl    %eax, %cr0
 
-	/* Disable long mode via EFER */
-	movl	$MSR_EFER, %ecx
-	rdmsr
-	btrl	$_EFER_LME, %eax
-	wrmsr
+        /* Disable long mode via EFER */
+        movl    $MSR_EFER, %ecx
+        rdmsr
+        btrl    $_EFER_LME, %eax
+        wrmsr
 
-	call	*%edi
+        call    *%edi
 
-	/* We must preserve return value */
-	movl	%eax, %edi
+        /* We must preserve return value */
+        movl    %eax, %edi
 
-	call	efi32_enable_long_mode
+        call    efi32_enable_long_mode
 
-	addl	$32, %esp
-	movl	%edi, %eax
-	lret
+        addl    $32,  %esp
+        movl    %edi, %eax
+        lret
 SYM_FUNC_END(efi_enter32)
 
-	.code64
+        .code64
 SYM_FUNC_START(__efi64_thunk)
-	push	%rbp
-	movl	%esp, %ebp
-	push	%rbx
+        push    %rbp
+        movl    %esp, %ebp
+        push    %rbx
 
-	/* Move args #5 and #6 into 32-bit accessible registers */
-	movl	%r8d, %eax
-	movl	%r9d, %ebx
+        /* Move args #5 and #6 into 32-bit accessible registers */
+        movl    %r8d, %eax
+        movl    %r9d, %ebx
 
-	lcalll	*efi32_call(%rip)
+        lcalll  *efi32_call(%rip)
 
-	pop	%rbx
-	pop	%rbp
-	RET
+        pop     %rbx
+        pop     %rbp
+        RET
 SYM_FUNC_END(__efi64_thunk)
 
-	.code32
+        .code32
 SYM_FUNC_START_LOCAL(efi32_enable_long_mode)
-	movl	%cr4, %eax
-	btsl	$(X86_CR4_PAE_BIT), %eax
-	movl	%eax, %cr4
+        movl    %cr4, %eax
+        btsl    $(X86_CR4_PAE_BIT), %eax
+        movl    %eax, %cr4
 
-	movl	$MSR_EFER, %ecx
-	rdmsr
-	btsl	$_EFER_LME, %eax
-	wrmsr
+        movl    $MSR_EFER, %ecx
+        rdmsr
+        btsl    $_EFER_LME, %eax
+        wrmsr
 
-	/* Disable interrupts - the firmware's IDT does not work in long mode */
-	cli
+        /* Disable interrupts - the firmware's IDT does not work in long mode */
+        cli
 
-	/* Enable paging */
-	movl	%cr0, %eax
-	btsl	$X86_CR0_PG_BIT, %eax
-	movl	%eax, %cr0
-	ret
+        /* Enable paging */
+        movl    %cr0, %eax
+        btsl    $X86_CR0_PG_BIT, %eax
+        movl    %eax, %cr0
+        ret
 SYM_FUNC_END(efi32_enable_long_mode)
 
 /*
@@ -141,75 +141,75 @@ SYM_FUNC_END(efi32_enable_long_mode)
  * service.]
  */
 SYM_FUNC_START_LOCAL(efi32_startup)
-	movl	%esp, %ebp
+        movl    %esp, %ebp
 
-	subl	$8, %esp
-	sgdtl	(%esp)			/* Save GDT descriptor to the stack */
-	movl	2(%esp), %esi		/* Existing GDT pointer */
-	movzwl	(%esp), %ecx		/* Existing GDT limit */
-	inc	%ecx			/* Existing GDT size */
-	andl	$~7, %ecx		/* Ensure size is multiple of 8 */
+        subl    $8, %esp
+        sgdtl   (%esp)          /* Save GDT descriptor to the stack */
+        movl    2(%esp), %esi   /* Existing GDT pointer */
+        movzwl  (%esp),  %ecx   /* Existing GDT limit */
+        inc     %ecx            /* Existing GDT size */
+        andl    $~7, %ecx       /* Ensure size is multiple of 8 */
 
-	subl	%ecx, %esp		/* Allocate new GDT */
-	andl	$~15, %esp		/* Realign the stack */
-	movl	%esp, %edi		/* New GDT address */
-	leal	7(%ecx), %eax		/* New GDT limit */
-	pushw	%cx			/* Push 64-bit CS (for LJMP below) */
-	pushl	%edi			/* Push new GDT address */
-	pushw	%ax			/* Push new GDT limit */
+        subl    %ecx,    %esp   /* Allocate new GDT */
+        andl    $~15,    %esp   /* Realign the stack */
+        movl    %esp,    %edi   /* New GDT address */
+        leal    7(%ecx), %eax   /* New GDT limit */
+        pushw   %cx             /* Push 64-bit CS (for LJMP below) */
+        pushl   %edi            /* Push new GDT address */
+        pushw   %ax             /* Push new GDT limit */
 
-	/* Copy GDT to the stack and add a 64-bit code segment at the end */
-	movl	$GDT_ENTRY(DESC_CODE64, 0, 0xfffff) & 0xffffffff, (%edi,%ecx)
-	movl	$GDT_ENTRY(DESC_CODE64, 0, 0xfffff) >> 32, 4(%edi,%ecx)
-	shrl	$2, %ecx
-	cld
-	rep	movsl			/* Copy the firmware GDT */
-	lgdtl	(%esp)			/* Switch to the new GDT */
+        /* Copy GDT to the stack and add a 64-bit code segment at the end */
+        movl    $GDT_ENTRY(DESC_CODE64, 0, 0xfffff) & 0xffffffff, (%edi,%ecx)
+        movl    $GDT_ENTRY(DESC_CODE64, 0, 0xfffff) >> 32, 4(%edi,%ecx)
+        shrl    $2, %ecx
+        cld
+        rep	movsl   /* Copy the firmware GDT */
+        lgdtl   (%esp)  /* Switch to the new GDT */
 
-	call	1f
-1:	pop	%edi
+        call    1f
+1:      pop     %edi
 
-	/* Record mixed mode entry */
-	movb	$0x0, (efi_is64 - 1b)(%edi)
+        /* Record mixed mode entry */
+        movb    $0x0, (efi_is64 - 1b)(%edi)
 
-	/* Set up indirect far call to re-enter 32-bit mode */
-	leal	(efi32_call - 1b)(%edi), %eax
-	addl	%eax, (%eax)
-	movw	%cs, 4(%eax)
+        /* Set up indirect far call to re-enter 32-bit mode */
+        leal    (efi32_call - 1b)(%edi), %eax
+        addl    %eax, (%eax)
+        movw    %cs,  4(%eax)
 
-	/* Disable paging */
-	movl	%cr0, %eax
-	btrl	$X86_CR0_PG_BIT, %eax
-	movl	%eax, %cr0
+        /* Disable paging */
+        movl    %cr0, %eax
+        btrl    $X86_CR0_PG_BIT, %eax
+        movl    %eax, %cr0
 
-	/* Set up 1:1 mapping */
-	leal	(pte - 1b)(%edi), %eax
-	movl	$_PAGE_PRESENT | _PAGE_RW | _PAGE_PSE, %ecx
-	leal	(_PAGE_PRESENT | _PAGE_RW)(%eax), %edx
-2:	movl	%ecx, (%eax)
-	addl	$8, %eax
-	addl	$PMD_SIZE, %ecx
-	jnc	2b
+        /* Set up 1:1 mapping */
+        leal    (pte - 1b)(%edi), %eax
+        movl    $_PAGE_PRESENT | _PAGE_RW | _PAGE_PSE, %ecx
+        leal    (_PAGE_PRESENT | _PAGE_RW)(%eax), %edx
+2:      movl    %ecx, (%eax)
+        addl    $8,   %eax
+        addl    $PMD_SIZE, %ecx
+        jnc     2b
 
-	movl	$PAGE_SIZE, %ecx
-	.irpc	l, 0123
-	movl	%edx, \l * 8(%eax)
-	addl	%ecx, %edx
-	.endr
-	addl	%ecx, %eax
-	movl	%edx, (%eax)
-	movl	%eax, %cr3
+        movl    $PAGE_SIZE, %ecx
+        .irpc   l, 0123
+                movl    %edx, \l * 8(%eax)
+                addl    %ecx, %edx
+        .endr
+        addl    %ecx, %eax
+        movl    %edx, (%eax)
+        movl    %eax, %cr3
 
-	call	efi32_enable_long_mode
+        call    efi32_enable_long_mode
 
-	/* Set up far jump to 64-bit mode (CS is already on the stack) */
-	leal	(efi_stub_entry - 1b)(%edi), %eax
-	movl	%eax, 2(%esp)
+        /* Set up far jump to 64-bit mode (CS is already on the stack) */
+        leal    (efi_stub_entry - 1b)(%edi), %eax
+        movl    %eax, 2(%esp)
 
-	movl	0(%ebp), %edi
-	movl	4(%ebp), %esi
-	movl	%ebx, %edx
-	ljmpl	*2(%esp)
+        movl    0(%ebp), %edi
+        movl    4(%ebp), %esi
+        movl    %ebx,    %edx
+        ljmpl   *2(%esp)
 SYM_FUNC_END(efi32_startup)
 
 /*
@@ -217,37 +217,37 @@ SYM_FUNC_END(efi32_startup)
  *			       efi_system_table_32_t *sys_table)
  */
 SYM_FUNC_START(efi32_pe_entry)
-	pushl	%ebx				// save callee-save registers
+        pushl   %ebx    // save callee-save registers
 
-	/* Check whether the CPU supports long mode */
-	movl	$0x80000001, %eax		// assume extended info support
-	cpuid
-	btl	$29, %edx			// check long mode bit
-	jnc	1f
-	leal	8(%esp), %esp			// preserve stack alignment
-	xor	%ebx, %ebx			// no struct boot_params pointer
-	jmp	efi32_startup			// only ESP and EBX remain live
-1:	movl	$0x80000003, %eax		// EFI_UNSUPPORTED
-	popl	%ebx
-	RET
+        /* Check whether the CPU supports long mode */
+        movl    $0x80000001, %eax       // assume extended info support
+        cpuid
+        btl     $29, %edx               // check long mode bit
+        jnc     1f
+        leal    8(%esp), %esp           // preserve stack alignment
+        xor     %ebx,    %ebx           // no struct boot_params pointer
+        jmp     efi32_startup           // only ESP and EBX remain live
+1:      movl    $0x80000003, %eax       // EFI_UNSUPPORTED
+        popl    %ebx
+        RET
 SYM_FUNC_END(efi32_pe_entry)
 
 #ifdef CONFIG_EFI_HANDOVER_PROTOCOL
-	.org	efi32_stub_entry + 0x200
-	.code64
+        .org    efi32_stub_entry + 0x200
+        .code64
 SYM_FUNC_START_NOALIGN(efi64_stub_entry)
-	jmp	efi_handover_entry
+        jmp     efi_handover_entry
 SYM_FUNC_END(efi64_stub_entry)
 #endif
 
-	.data
-	.balign	8
+        .data
+        .balign 8
 SYM_DATA_START_LOCAL(efi32_call)
-	.long	efi_enter32 - .
-	.word	0x0
+        .long   efi_enter32 - .
+        .word   0x0
 SYM_DATA_END(efi32_call)
 SYM_DATA(efi_is64, .byte 1)
 
-	.bss
-	.balign PAGE_SIZE
+        .bss
+        .balign PAGE_SIZE
 SYM_DATA_LOCAL(pte, .fill 6 * PAGE_SIZE, 1, 0)

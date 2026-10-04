@@ -10,7 +10,7 @@ EXTERN asm_clearerr_unlocked
 
 clearerr_unlocked:
 
-   push hl
-   pop ix
-   
-   jp asm_clearerr_unlocked
+        push    hl
+        pop     ix
+
+        jp      asm_clearerr_unlocked

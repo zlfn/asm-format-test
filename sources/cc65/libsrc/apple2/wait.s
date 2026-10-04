@@ -4,16 +4,16 @@
 ; WAIT routine
 ;
 
-        .export         WAIT
+        .export WAIT
 
-        .include        "apple2.inc"
+        .include "apple2.inc"
 
-        .segment        "LOWCODE"
+        .segment "LOWCODE"
 
 WAIT:
         ; Switch in ROM and call WAIT
         bit     $C082
-        jsr     $FCA8           ; Vector to WAIT routine
+        jsr     $FCA8   ; Vector to WAIT routine
 
         ; Switch in LC bank 2 for R/O and return
         bit     $C080

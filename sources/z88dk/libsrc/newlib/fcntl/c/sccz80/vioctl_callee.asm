@@ -10,9 +10,9 @@ EXTERN asm_vioctl
 
 vioctl_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   jp asm_vioctl
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_vioctl

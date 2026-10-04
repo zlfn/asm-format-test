@@ -12,37 +12,35 @@
 ; $Id: __far_page.asm,v 1.4 2016-06-10 22:42:22 dom Exp $
 ;
 
+        SECTION code_clib
+        PUBLIC  __far_page
 
-	SECTION code_clib
-	PUBLIC	__far_page
-
-        EXTERN    malloc_table
-
+        EXTERN  malloc_table
 
 .__far_page
-    ld      a,e
-    and     a
-    jr      z,localfar  ; move on if we've got a local pointer
-    ld      hl,malloc_table
-    dec     e
-    ld      d,e
-    ld      e,b
-    add     hl,de
-    add     hl,de       ; HL points to 2-byte entry
-    ld      e,d
-    inc     e           ; restore EBC
-    ld      a,(hl)      ; A=bank
-    inc     hl
-    ld      h,(hl)      ; H=address high byte (in seg 1)
-    ld      l,c         ; low byte is the same
-    ld      ($04d1),a
-    out     ($d1),a     ; bind to segment 1
-    ret
+        ld      a, e
+        and     a
+        jr      z,  localfar    ; move on if we've got a local pointer
+        ld      hl, malloc_table
+        dec     e
+        ld      d,  e
+        ld      e,  b
+        add     hl, de
+        add     hl, de          ; HL points to 2-byte entry
+        ld      e,  d
+        inc     e               ; restore EBC
+        ld      a, (hl)         ; A=bank
+        inc     hl
+        ld      h, (hl)         ; H=address high byte (in seg 1)
+        ld      l, c            ; low byte is the same
+        ld      ($04d1), a
+        out     ($d1),   a      ; bind to segment 1
+        ret
 .localfar
-    ex      af,af'
-    ld      ($04d1),a
-    out     ($d1),a     ; bind local memory to seg 1
-    ex      af,af'
-    ld      h,b
-    ld      l,c
-    ret
+        ex      af, af'
+        ld      ($04d1), a
+        out     ($d1),   a      ; bind local memory to seg 1
+        ex      af, af'
+        ld      h,  b
+        ld      l,  c
+        ret

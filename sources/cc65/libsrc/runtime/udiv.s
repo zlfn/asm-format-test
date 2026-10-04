@@ -5,17 +5,16 @@
 ;
 ; Don't use tmp1 here, the signed division tunnels data with it!
 
-        .export         tosudiva0, tosudivax, udiv16
-        .import         popptr1
-        .importzp       sreg, ptr1, ptr4
-
+        .export tosudiva0, tosudivax, udiv16
+        .import popptr1
+        .importzp sreg, ptr1, ptr4
 
 tosudiva0:
-        ldx     #$00            ; Clear high byte
+        ldx     #$00    ; Clear high byte
 tosudivax:
         sta     ptr4
-        stx     ptr4+1          ; Save right operand
-        jsr     popptr1         ; Get left operand
+        stx     ptr4+1  ; Save right operand
+        jsr     popptr1 ; Get left operand
 
 ; Do the division
 
@@ -61,7 +60,6 @@ L1:     txa
         sta     sreg
         rts
 
-
 ;---------------------------------------------------------------------------
 ; 16by8 division
 
@@ -80,4 +78,3 @@ udiv16by8a:
         bne     @L0
         sta     sreg
         rts
-

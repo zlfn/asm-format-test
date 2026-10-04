@@ -6,13 +6,13 @@
 ; Integer ROM Apple ][.
 ;
 
-        .export         bltu2
+        .export bltu2
 
-        .import         _memcpy, pushax
-        .import         __ONCE_LOAD__, __ONCE_SIZE__    ; Linker generated
-        .import         __LC_START__, __LC_LAST__       ; Linker generated
+        .import _memcpy, pushax
+        .import __ONCE_LOAD__, __ONCE_SIZE__    ; Linker generated
+        .import __LC_START__,  __LC_LAST__      ; Linker generated
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 bltu2:
         ; Get the destination start address.

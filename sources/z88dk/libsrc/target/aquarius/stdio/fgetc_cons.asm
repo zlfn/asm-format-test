@@ -9,28 +9,28 @@
 ;	$Id: fgetc_cons.asm,v 1.4 2016-06-12 17:07:43 dom Exp $
 ;
 
-	SECTION code_clib
-	PUBLIC	fgetc_cons
-	PUBLIC	_fgetc_cons
+        SECTION code_clib
+        PUBLIC  fgetc_cons
+        PUBLIC  _fgetc_cons
 
 .fgetc_cons
 ._fgetc_cons
-	call	$1e80
-	and	a
-	jr	nz,fgetc_cons
+        call    $1e80
+        and     a
+        jr      nz, fgetc_cons
 
 .wkey
-	call	$1e80
-	and	a
-	jr	z,wkey
+        call    $1e80
+        and     a
+        jr      z, wkey
 
 IF STANDARDESCAPECHARS
-	cp	13
-	jr	nz,not_return
-	ld	a,10
+        cp      13
+        jr      nz, not_return
+        ld      a,  10
 .not_return
 ENDIF
 
-	ld	l,a
-	ld	h,0
-	ret
+        ld      l, a
+        ld      h, 0
+        ret

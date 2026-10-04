@@ -11,17 +11,15 @@
 ;       $Id: cpc_PrintGphStrStd0.asm $
 ;
 
-        SECTION   code_clib
-		
-        PUBLIC    cpc_PrintGphStrStd0
-		
-		PUBLIC    direcc_destino0s_m1
-		PUBLIC    color_uso
-		
-		EXTERN    cpc_Chars8
-        EXTERN    first_char8
+        SECTION code_clib
 
+        PUBLIC  cpc_PrintGphStrStd0
 
+        PUBLIC  direcc_destino0s_m1
+        PUBLIC  color_uso
+
+        EXTERN  cpc_Chars8
+        EXTERN  first_char8
 
 .color0
 xor a
@@ -54,14 +52,11 @@ ld (cc3-1),a
 ld (cc7-1),a
 ret
 
-
-
-.cpc_PrintGphStrStd0  
+.cpc_PrintGphStrStd0
 
 ;DE destino
 ;HL origen
 ;ex de,hl
-
 
 ;; marcará el color con que se imprime
 .color_uso
@@ -75,7 +70,6 @@ jp z,color2
 cp 3
 jp z,color3
 .sigue
-
 
 ;trabajo previo: Para tener una lista de trabajos de impresión. No se interrumpe
 ;la impresión en curso.
@@ -95,7 +89,6 @@ jp z,terminar_impresion
 call leer_elemento
 jp bucle_cola_impresion
 
-
 .terminar_impresion
 xor a
 ld (imprimiendo),a
@@ -107,42 +100,40 @@ ret
 ret
 .add_elemento
 di
-	ld ix,(pos_cola)
-	ld (ix+0),l
-	ld (ix+1),h
-	ld (ix+2),e
-	ld (ix+3),d
-	inc ix
-	inc ix
-	inc ix
-	inc ix
-	ld (pos_cola),ix
-	
-	ld hl,elementos_cola
-	inc (hl)
-	;Se añaden los valores hl y de
+        ld      ix,     (pos_cola)
+        ld      (ix+0), l
+        ld      (ix+1), h
+        ld      (ix+2), e
+        ld      (ix+3), d
+        inc     ix
+        inc     ix
+        inc     ix
+        inc     ix
+        ld      (pos_cola), ix
+
+        ld      hl, elementos_cola
+        inc     (hl)
+        ;Se añaden los valores hl y de
 ei
-	ret
+        ret
 .leer_elemento
 di
-	ld ix,(pos_cola)
-	ld l,(ix+0)
-	ld h,(ix+1)
-	ld e,(ix+2)
-	ld d,(ix+3)
-	dec ix
-	dec ix
-	dec ix
-	dec ix
-	ld (pos_cola),ix
-	
-	ld hl,elementos_cola
-	dec (hl)
-ei
-	ret
+        ld      ix, (pos_cola)
+        ld      l,  (ix+0)
+        ld      h,  (ix+1)
+        ld      e,  (ix+2)
+        ld      d,  (ix+3)
+        dec     ix
+        dec     ix
+        dec     ix
+        dec     ix
+        ld      (pos_cola), ix
 
-	
-	
+        ld      hl, elementos_cola
+        dec     (hl)
+ei
+        ret
+
 .bucle_texto0
 ld a,1
 ld (imprimiendo),a
@@ -157,7 +148,6 @@ sub b
 ld bc,cpc_Chars8	;apunto a la primera letra
 push hl
 
-
 ld l,a		;en A tengo la letra que sería
 ld h,0
 add hl,hl
@@ -168,7 +158,7 @@ add hl,bc	;ahora HL apunta a los datos de la letra correspondiente
 call escribe_letra
 ld hl,(direcc_destino)
 ld de,letra_decodificada
-;ld A,8	;alto  
+;ld A,8	;alto
 call cpc_PutSp0
 ld hl,(direcc_destino)
 inc hl
@@ -179,36 +169,30 @@ pop hl
 inc hl
 jp bucle_texto0
 
-
-
-
-
 .cpc_PutSp0
-		ld iyh,8		; undocumented instruction
-		ld b,7
-		ld c,b
-	.loop_alto_2
+        ld      iyh, 8  ; undocumented instruction
+        ld      b,   7
+        ld      c,   b
+.loop_alto_2
 
-	.loop_ancho_2		
-		ex de,hl
-		ldi
-		ldi
-		
-	   dec iyh		; undocumented instruction
-	   ret z	
-	   ex de,hl   	   
+.loop_ancho_2
+        ex      de, hl
+        ldi
+        ldi
+
+        dec     iyh             ; undocumented instruction
+        ret     z
+        ex      de, hl
 .salto_linea
-		LD C,$fe			;&07f6 			;salto linea menos ancho
-		ADD HL,BC
-		jp nc,loop_alto_2 ;sig_linea_2zz		;si no desborda va a la siguiente linea
-		ld bc,$c050
-		add HL,BC
-		ld b,7			;sólo se daría una de cada 8 veces en un sprite
-		jp loop_alto_2	
-		
-		
-		
-.escribe_letra		;; lee el byte y lo interpreta
+        LD      C,  $fe         ;&07f6 			;salto linea menos ancho
+        ADD     HL, BC
+        jp      nc, loop_alto_2 ;sig_linea_2zz		;si no desborda va a la siguiente linea
+        ld      bc, $c050
+        add     HL, BC
+        ld      b,  7           ;sólo se daría una de cada 8 veces en un sprite
+        jp      loop_alto_2
+
+.escribe_letra  ;; lee el byte y lo interpreta
 ld iy,letra_decodificada
 ld b,8
 .bucle_alto
@@ -238,7 +222,6 @@ or @00010001
 ld (iy+0),a
 inc iy
 
-
 xor a
 bit 3,b
 jp z,cc4
@@ -261,34 +244,29 @@ or @00010001
 ld (iy+0),a
 inc iy
 
-
 inc hl
 pop bc
 djnz bucle_alto
 ret
 
-
-	SECTION	bss_clib
-
+        SECTION bss_clib
 
 .elementos_cola
- defw 0
- 
+        defw    0
+
 .pos_cola
- defw cola_impresion
- 
+        defw    cola_impresion
+
 ;pos_escritura_cola defw cola_impresion
 .cola_impresion
- defs 12
+        defs    12
 
 .imprimiendo
- defb 0
- 
+        defb    0
+
 .direcc_destino0s_m1
 .direcc_destino
- defw 0
+        defw    0
 
 .letra_decodificada
- defs 16	;uso este espacio para guardar la letra que se decodifica
-
-
+        defs    16      ;uso este espacio para guardar la letra que se decodifica

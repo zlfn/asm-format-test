@@ -25,11 +25,10 @@ SECTION .text
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmSetDataSelectors)
 ASM_PFX(AsmSetDataSelectors):
-  mov     eax, [esp + 4]
+        mov     eax, [esp + 4]
 o16 mov     ds, ax
 o16 mov     es, ax
 o16 mov     fs, ax
 o16 mov     gs, ax
 o16 mov     ss, ax
-  ret
-
+        ret

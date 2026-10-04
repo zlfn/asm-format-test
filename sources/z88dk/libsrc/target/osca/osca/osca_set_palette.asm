@@ -7,32 +7,30 @@
 ;	$Id: osca_set_palette.asm,v 1.5 2016-06-22 22:13:09 dom Exp $
 ;
 
-
         SECTION code_clib
-	PUBLIC	osca_set_palette
-	PUBLIC	_osca_set_palette
-	EXTERN     __gfx_vram_page_in
-	EXTERN    __gfx_vram_page_out
-	
-    INCLUDE "target/osca/def/osca.def"
+        PUBLIC  osca_set_palette
+        PUBLIC  _osca_set_palette
+        EXTERN  __gfx_vram_page_in
+        EXTERN  __gfx_vram_page_out
 
+        INCLUDE "target/osca/def/osca.def"
 
 osca_set_palette:
 _osca_set_palette:
 ; __FASTCALL__, table ptr already in HL
 
-	call __gfx_vram_page_in
+        call    __gfx_vram_page_in
 
-	ld a,(vreg_palette_ctrl)
-	push af
-	ld a,@00000010		; set up OS colour palette 
-	ld (vreg_palette_ctrl),a	; ensure palette 0 receives writes
+        ld      a, (vreg_palette_ctrl)
+        push    af
+        ld      a, @00000010            ; set up OS colour palette
+        ld      (vreg_palette_ctrl), a  ; ensure palette 0 receives writes
 
-	ld de,palette+2
-	ld bc,256*2-2
-	ldir
+        ld      de, palette+2
+        ld      bc, 256*2-2
+        ldir
 
-	pop af
-	ld	(vreg_palette_ctrl),a
+        pop     af
+        ld      (vreg_palette_ctrl), a
 
-	jp __gfx_vram_page_out
+        jp      __gfx_vram_page_out

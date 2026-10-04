@@ -386,7 +386,6 @@ ATRACT  = $4D           ;ATRACT FLAG
 DRKMSK  = $4E           ;DARK ATRACT MASK
 COLRSH  = $4F           ;ATRACT COLOR SHIFTER (EOR'ED WITH PLAYFIELD
 
-
 TMPCHR  = $50           ;1-byte temporary character
 HOLD1   = $51           ;1-byte temporary
 LMARGN  = $52           ;left margin (normally 2, cc65 C startup code sets it to 0)
@@ -755,7 +754,6 @@ FPSCR1  = $05EC         ;6-byte floating point temporary
 
 ;LBFEND = $05FF         ;##old## END OF LBUFF
 
-
 DOS     = $0700
 
 ;-------------------------------------------------------------------------
@@ -764,8 +762,8 @@ DOS     = $0700
 
 SDX_FLAG     = DOS              ; 'S' for SpartaDOS
 SDX_VERSION  = $0701            ; SD version (e.g. $32 = 3.2, $40 = 4.0)
-                                ; address $0702 contains sub-version, e.g.
-                                ; 8 in case of SDX 4.48
+        ; address $0702 contains sub-version, e.g.
+        ; 8 in case of SDX 4.48
 SDX_KERNEL   = $0703            ; SDX kernel entry point
 SDX_BLOCK_IO = $0706            ; block I/O entry point
 SDX_MISC     = $0709            ; "misc" entry point
@@ -792,15 +790,15 @@ SDX_KD_SETTD = 101              ; set time and date
 
 CARTCS  = $BFFA         ;##rev2## 2-byte cartridge coldstart address
 CART    = $BFFC         ;##rev2## 1-byte cartridge present indicator
-                        ;0=Cart Exists
+        ;0=Cart Exists
 CARTFG  = $BFFD         ;##rev2## 1-byte cartridge flags
-                        ;D7  0=Not a Diagnostic Cart
-                        ;    1=Is a Diagnostic cart and control is
-                        ;      given to cart before any OS is init.
-                        ;D2  0=Init but Do not Start Cart
-                        ;    1=Init and Start Cart
-                        ;D0  0=Do not boot disk
-                        ;    1=Boot Disk
+        ;D7  0=Not a Diagnostic Cart
+        ;    1=Is a Diagnostic cart and control is
+        ;      given to cart before any OS is init.
+        ;D2  0=Init but Do not Start Cart
+        ;    1=Init and Start Cart
+        ;D0  0=Do not boot disk
+        ;    1=Boot Disk
 CARTAD  = $BFFE         ;##rev2## 2-byte cartridge start vector
 
 ;-------------------------------------------------------------------------
@@ -1114,7 +1112,7 @@ sst_flag     = 0        ; length 1
 sst_sectsize = 1        ;        2
 sst_driveno  = 3        ;        1  (drive #)
 sst_size     = 4        ; size of one entry
-                        ; if changed, adapt diopncls.s
+        ; if changed, adapt diopncls.s
 
 ;-------------------------------------------------------------------------
 ; OFFSETS INTO dio_phys_pos

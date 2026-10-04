@@ -15,21 +15,20 @@ EXTERN asm_BIFROSTL_setTile
 
 BIFROSTL_setTile:
 
-   	ld hl,2
-   	add hl,sp
-   	ld e,(hl)       ; E=tile
-   	inc hl
-   	inc hl
-   	ld c,(hl)       ; C=py
-   	inc hl
-   	inc hl
-   	ld l,(hl)       ; L=px
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)        ; E=tile
+        inc     hl
+        inc     hl
+        ld      c, (hl)         ; C=py
+        inc     hl
+        inc     hl
+        ld      l, (hl)         ; L=px
 
-   	jp asm_BIFROSTL_setTile
+        jp      asm_BIFROSTL_setTile
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _BIFROSTL_setTile
 defc _BIFROSTL_setTile = BIFROSTL_setTile
 ENDIF
-

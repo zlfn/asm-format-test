@@ -19,36 +19,36 @@
  */
 SYM_FUNC_START(this_cpu_cmpxchg16b_emu)
 
-	pushfq
-	cli
+        pushfq
+        cli
 
-	/* if (*ptr == old) */
-	cmpq	__percpu (%rsi), %rax
-	jne	.Lnot_same
-	cmpq	__percpu 8(%rsi), %rdx
-	jne	.Lnot_same
+        /* if (*ptr == old) */
+        cmpq    __percpu (%rsi), %rax
+        jne     .Lnot_same
+        cmpq    __percpu 8(%rsi), %rdx
+        jne     .Lnot_same
 
-	/* *ptr = new */
-	movq	%rbx, __percpu (%rsi)
-	movq	%rcx, __percpu 8(%rsi)
+        /* *ptr = new */
+        movq    %rbx, __percpu (%rsi)
+        movq    %rcx, __percpu 8(%rsi)
 
-	/* set ZF in EFLAGS to indicate success */
-	orl	$X86_EFLAGS_ZF, (%rsp)
+        /* set ZF in EFLAGS to indicate success */
+        orl     $X86_EFLAGS_ZF, (%rsp)
 
-	popfq
-	RET
+        popfq
+        RET
 
 .Lnot_same:
-	/* *ptr != old */
+        /* *ptr != old */
 
-	/* old = *ptr */
-	movq	__percpu (%rsi), %rax
-	movq	__percpu 8(%rsi), %rdx
+        /* old = *ptr */
+        movq    __percpu (%rsi),  %rax
+        movq    __percpu 8(%rsi), %rdx
 
-	/* clear ZF in EFLAGS to indicate failure */
-	andl	$(~X86_EFLAGS_ZF), (%rsp)
+        /* clear ZF in EFLAGS to indicate failure */
+        andl    $(~X86_EFLAGS_ZF), (%rsp)
 
-	popfq
-	RET
+        popfq
+        RET
 
 SYM_FUNC_END(this_cpu_cmpxchg16b_emu)

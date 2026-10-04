@@ -9,10 +9,10 @@ EXTERN asm_sms_vdp_feature_enable
 
 _sms_vdp_feature_enable:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_sms_vdp_feature_enable
+        push    hl
+        push    af
+
+        jp      asm_sms_vdp_feature_enable

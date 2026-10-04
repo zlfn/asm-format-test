@@ -1,7 +1,6 @@
 
-    SECTION code_clib
-    PUBLIC  pixeladdress
-
+        SECTION code_clib
+        PUBLIC  pixeladdress
 
 ;
 ;	$Id: pixladdr.asm $
@@ -22,34 +21,34 @@
 ;
 ;
 pixeladdress:
-    push    hl
-    ld      a, h
-    push    af
-    rra
-    rra
-    and     @00111111
+        push    hl
+        ld      a, h
+        push    af
+        rra
+        rra
+        and     @00111111
 
-    ld      b, l
+        ld      b, l
 
-    ld      hl, $4800                   ; pointer to base of graphics area
-    ld      l, a
+        ld      hl, $4800       ; pointer to base of graphics area
+        ld      l,  a
 
-    xor     a
-    or      b
-    jr      z, zeroline
-    ld      de, 40
+        xor     a
+        or      b
+        jr      z,  zeroline
+        ld      de, 40
 adder:
-    add     hl, de
-    djnz    adder
+        add     hl, de
+        djnz    adder
 zeroline:
 
-    ld      d, h
-    ld      e, l
-    pop     af
-    pop     hl
+        ld      d, h
+        ld      e, l
+        pop     af
+        pop     hl
 
-    rla
-    and     @00000110                   ; a = x mod 8
-    xor     @00000111                   ; a = 7 - a
+        rla
+        and     @00000110       ; a = x mod 8
+        xor     @00000111       ; a = 7 - a
 
-    ret
+        ret

@@ -10,7 +10,7 @@ EXTERN asm_zx_cxy2aaddr
 
 _zx_cxy2aaddr_callee:
 
-   pop hl
-   ex (sp),hl
+        pop     hl
+        ex      (sp), hl
 
-   jp asm_zx_cxy2aaddr
+        jp      asm_zx_cxy2aaddr

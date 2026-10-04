@@ -25,7 +25,7 @@ ENABLE_SME
 
 function ff_aarch64_sme_length, export=1
         smstart
-        cntb            x0
+        cntb    x0
         smstop
         ret
 endfunc

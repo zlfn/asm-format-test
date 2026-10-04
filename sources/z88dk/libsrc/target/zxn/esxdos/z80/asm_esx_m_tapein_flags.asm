@@ -10,33 +10,31 @@ EXTERN __esxdos_error_mc
 
 asm_esx_m_tapein_flags:
 
+        ; enter :  l = flags (bit 0 = 1 pause on screen$, bit 1 = 1 simulate tape loading)
+        ;
+        ; exit  : success
+        ;
+        ;            hl = previous flags (bit 0=pause on screen$, bit 1=simulate)
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl
 
-   ; enter :  l = flags (bit 0 = 1 pause on screen$, bit 1 = 1 simulate tape loading)
-   ;
-   ; exit  : success
-   ;
-   ;            hl = previous flags (bit 0=pause on screen$, bit 1=simulate)
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl
+        ld      b, 6
+        ld      a, l
 
-   ld b,6
-   ld a,l
+        rst     __ESX_RST_SYS
+        defb    __ESX_M_TAPEIN
 
-   rst __ESX_RST_SYS
-   defb __ESX_M_TAPEIN
+        ld      l, a
+        ld      h, 0
 
-   ld l,a
-   ld h,0
-
-   ret nc
-   jp __esxdos_error_mc
-
+        ret     nc
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * M_TAPEIN ($8b) *

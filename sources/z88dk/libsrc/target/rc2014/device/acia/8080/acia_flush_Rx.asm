@@ -10,31 +10,30 @@ EXTERN aciaRxCount, aciaRxBuffer, aciaRxIn, aciaRxOut
 
 ._acia_flush_Rx_di
 
-    push af
-    push hl
+        push    af
+        push    hl
 
-    call asm_cpu_push_di        ; di
+        call    asm_cpu_push_di ; di
 
-    call _acia_flush_Rx
+        call    _acia_flush_Rx
 
-    call asm_cpu_pop_ei         ; ei
+        call    asm_cpu_pop_ei  ; ei
 
-    pop hl
-    pop af
+        pop     hl
+        pop     af
 
-    ret
+        ret
 
 ._acia_flush_Rx
 
-    xor a
-    ld (aciaRxCount),a          ; reset the Rx counter (set 0)
+        xor     a
+        ld      (aciaRxCount), a        ; reset the Rx counter (set 0)
 
-    ld hl,aciaRxBuffer          ; load Rx buffer pointer home
-    ld (aciaRxIn),hl
-    ld (aciaRxOut),hl
+        ld      hl, aciaRxBuffer        ; load Rx buffer pointer home
+        ld      (aciaRxIn),  hl
+        ld      (aciaRxOut), hl
 
-    ret
+        ret
 
 EXTERN _acia_need
 defc NEED = _acia_need
-

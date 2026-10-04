@@ -1,5 +1,5 @@
 ; ========================================================================
-; 
+;
 ; void *sms_set_vram_unsafe(unsigned char c, unsigned int n)
 ;
 ; set VRAM unsafe; VRAM addresses are assumed to be stable.
@@ -17,13 +17,13 @@ EXTERN asm_sms_set_vram
 
 defc asm_sms_set_vram_unsafe = asm_sms_set_vram
 
-   ; set vram
-   ;
-   ; enter :  a = unsigned char c
-   ;         bc = unsigned int n > 0
-   ;
-   ;         VRAM DESTINATION ADDRESS ALREADY SET!
-   ;
-   ; exit  : bc = 0
-   ;
-   ; uses  : f, bc, hl
+        ; set vram
+        ;
+        ; enter :  a = unsigned char c
+        ;         bc = unsigned int n > 0
+        ;
+        ;         VRAM DESTINATION ADDRESS ALREADY SET!
+        ;
+        ; exit  : bc = 0
+        ;
+        ; uses  : f, bc, hl

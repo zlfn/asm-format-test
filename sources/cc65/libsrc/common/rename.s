@@ -4,21 +4,16 @@
 ; int __fastcall__ rename (const char* oldname, const char* newname);
 ;
 
-        .export         _rename
+        .export _rename
 
-        .import         __sysrename
-        .import         ___mappederrno
-
+        .import __sysrename
+        .import ___mappederrno
 
 ;--------------------------------------------------------------------------
 
 .proc   _rename
 
         jsr     __sysrename     ; Call the machine specific function
-        jmp     ___mappederrno   ; Store into __oserror, set errno, return 0/-1
+        jmp     ___mappederrno  ; Store into __oserror, set errno, return 0/-1
 
 .endproc
-
-
-
-

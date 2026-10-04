@@ -5,36 +5,35 @@
 ; 2021-06-01, Greg King
 ;
 
-                .include        "zeropage.inc"
-                .include        "joy-kernel.inc"
-                .include        "joy-error.inc"
-                .include        "creativision.inc"
+        .include "zeropage.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "creativision.inc"
 
-                .macpack        module
-
+        .macpack module
 
 buttons         :=      tmp2
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-                module_header   _creativisionstd_joy
+        module_header _creativisionstd_joy
 
 ; Driver signature
 
-                .byte   $6A, $6F, $79           ; "joy"
-                .byte   JOY_API_VERSION         ; Driver API version number
+        .byte   $6A, $6F, $79   ; "joy"
+        .byte   JOY_API_VERSION ; Driver API version number
 
 ; Library reference
 
-                .addr   $0000
+        .addr   $0000
 
 ; Jump table.
 
-                .addr   INSTALL
-                .addr   UNINSTALL
-                .addr   COUNT
-                .addr   READJOY
+        .addr   INSTALL
+        .addr   UNINSTALL
+        .addr   COUNT
+        .addr   READJOY
 
 ; ------------------------------------------------------------------------
 ; Constants
@@ -49,7 +48,7 @@ JOY_DOWN        =       $04
 JOY_LEFT        =       $20
 JOY_RIGHT       =       $08
 
-                .code
+        .code
 
 ; ------------------------------------------------------------------------
 ; INSTALL routine. Is called after the driver is loaded into memory. If
@@ -58,9 +57,9 @@ JOY_RIGHT       =       $08
 ; Must return an JOY_ERR_xx code in a/x.
 ;
 
-INSTALL:        lda     #JOY_ERR_OK
-                .assert JOY_ERR_OK = 0, error
-                tax
+INSTALL: lda    #JOY_ERR_OK
+        .assert JOY_ERR_OK = 0, error
+        tax
 ;               rts                             ; Fall through
 
 ; ------------------------------------------------------------------------
@@ -68,38 +67,37 @@ INSTALL:        lda     #JOY_ERR_OK
 ; Can do cleanup or whatever. Must not return anything.
 ;
 
-UNINSTALL:      rts
-
+UNINSTALL: rts
 
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.
 ;
 
-COUNT:          lda     #<JOY_COUNT
-                ldx     #>JOY_COUNT
-                rts
+COUNT:  lda     #<JOY_COUNT
+        ldx     #>JOY_COUNT
+        rts
 
 ; ------------------------------------------------------------------------
 ; READ: Read a particular joystick passed in A.
 ;
 
-READJOY:        lsr     a                       ; Get joystick number
-                bcs     READJOY_1               ; Read right joystick
+READJOY: lsr    a               ; Get joystick number
+        bcs     READJOY_1       ; Read right joystick
 
 ; Read left joystick
 
-                ldx     ZP_JOY0_DIR
-                lda     ZP_JOY0_BUTTONS
-                bcc     convert                 ; Convert joystick state to cc65 values
+        ldx     ZP_JOY0_DIR
+        lda     ZP_JOY0_BUTTONS
+        bcc     convert ; Convert joystick state to cc65 values
 
 ; Read right joystick
 
-READJOY_1:      ldx     ZP_JOY1_DIR
-                lda     ZP_JOY1_BUTTONS
-                lsr     a
-                lsr     a
-                ;jmp    convert                 ; Convert joystick state to cc65 values
-                                                ; Fall thru...
+READJOY_1: ldx  ZP_JOY1_DIR
+        lda     ZP_JOY1_BUTTONS
+        lsr     a
+        lsr     a
+        ;jmp    convert                 ; Convert joystick state to cc65 values
+        ; Fall thru...
 
 ; ------------------------------------------------------------------------
 ; convert: make runtime lib-compatible values
@@ -122,8 +120,8 @@ convert:
 ; Until those questions have been answered, we only use the lower two
 ; bits, and ignore the upper ones.
 
-                and     #%00000011              ; Button status came in A, strip high bits
-                sta     buttons
+        and     #%00000011      ; Button status came in A, strip high bits
+        sta     buttons
 
 ; ------
 ; direction:
@@ -161,70 +159,70 @@ convert:
 ;    call to READJOY:   return JOY_UP | JOY_RIGHT
 ;    etc.
 
-                txa                             ; Move direction status into A
-                beq     done                    ; Center position (no bits are set), nothing to do
+        txa             ; Move direction status into A
+        beq     done    ; Center position (no bits are set), nothing to do
 
-                and     #$0F                    ; Get rid of the "$40" bit
-                lsr     a                       ; Is it "three-letter" direction (NNE, ENE, etc.)?
-                tax                             ; Create index into table
-                bcc     special                 ; Yes (bit #0 was zero)
+        and     #$0F    ; Get rid of the "$40" bit
+        lsr     a       ; Is it "three-letter" direction (NNE, ENE, etc.)?
+        tax             ; Create index into table
+        bcc     special ; Yes (bit #0 was zero)
 
-                lda     dirtable,x
-done:           ora     buttons                 ; Include button bits
-                ldx     #>$0000
-                rts
+        lda     dirtable, x
+done:   ora     buttons ; Include button bits
+        ldx     #>$0000
+        rts
 
 ; NNE, ENE, ESE, SSE, SSW, WSW, WNW, NNW
 
-special:        lda     toggle                  ; Toggle the flag
-                eor     #$01
-                sta     toggle
-                bne     spec_1                  ; Flag is 1, use spectable_1 entry
+special: lda    toggle  ; Toggle the flag
+        eor     #$01
+        sta     toggle
+        bne     spec_1  ; Flag is 1, use spectable_1 entry
 
-                lda     spectable_0,x
-                bne     done                    ; Jump always
+        lda     spectable_0, x
+        bne     done    ; Jump always
 
-spec_1:         lda     spectable_1,x
-                bne     done                    ; Jump always
-
-; ------------------------------------------------------------------------
-;
-                .rodata
-
-                ; A mapping table of "port values" to "cc65 values"
-                ; Port value had been shifted one bit to the right (range 0..7)
-dirtable:       .byte   JOY_DOWN                ; S
-                .byte   JOY_DOWN | JOY_RIGHT    ; SE
-                .byte   JOY_RIGHT               ; E
-                .byte   JOY_UP   | JOY_RIGHT    ; NE
-                .byte   JOY_UP                  ; N
-                .byte   JOY_UP   | JOY_LEFT     ; NW
-                .byte   JOY_LEFT                ; W
-                .byte   JOY_DOWN | JOY_LEFT     ; SW
-
-                ; Two "special" mapping tables for three-letter directions (NNE, etc.)
-spectable_0:    .byte   JOY_DOWN                ; SSW
-                .byte   JOY_DOWN                ; SSE
-                .byte   JOY_RIGHT               ; ESE
-                .byte   JOY_RIGHT               ; ENE
-                .byte   JOY_UP                  ; NNE
-                .byte   JOY_UP                  ; NNW
-                .byte   JOY_LEFT                ; WNW
-                .byte   JOY_LEFT                ; WSW
-
-spectable_1:    .byte   JOY_DOWN | JOY_LEFT     ; SSW
-                .byte   JOY_DOWN | JOY_RIGHT    ; SSE
-                .byte   JOY_DOWN | JOY_RIGHT    ; ESE
-                .byte   JOY_UP   | JOY_RIGHT    ; ENE
-                .byte   JOY_UP   | JOY_RIGHT    ; NNE
-                .byte   JOY_UP   | JOY_LEFT     ; NNW
-                .byte   JOY_UP   | JOY_LEFT     ; WNW
-                .byte   JOY_DOWN | JOY_LEFT     ; WSW
+spec_1: lda     spectable_1, x
+        bne     done    ; Jump always
 
 ; ------------------------------------------------------------------------
 ;
-                .bss
+        .rodata
 
-toggle:         .res    1
+        ; A mapping table of "port values" to "cc65 values"
+        ; Port value had been shifted one bit to the right (range 0..7)
+dirtable: .byte JOY_DOWN                ; S
+        .byte   JOY_DOWN | JOY_RIGHT    ; SE
+        .byte   JOY_RIGHT               ; E
+        .byte   JOY_UP   | JOY_RIGHT    ; NE
+        .byte   JOY_UP                  ; N
+        .byte   JOY_UP   | JOY_LEFT     ; NW
+        .byte   JOY_LEFT                ; W
+        .byte   JOY_DOWN | JOY_LEFT     ; SW
 
-                .end
+        ; Two "special" mapping tables for three-letter directions (NNE, etc.)
+spectable_0: .byte JOY_DOWN     ; SSW
+        .byte   JOY_DOWN        ; SSE
+        .byte   JOY_RIGHT       ; ESE
+        .byte   JOY_RIGHT       ; ENE
+        .byte   JOY_UP          ; NNE
+        .byte   JOY_UP          ; NNW
+        .byte   JOY_LEFT        ; WNW
+        .byte   JOY_LEFT        ; WSW
+
+spectable_1: .byte JOY_DOWN | JOY_LEFT  ; SSW
+        .byte   JOY_DOWN | JOY_RIGHT    ; SSE
+        .byte   JOY_DOWN | JOY_RIGHT    ; ESE
+        .byte   JOY_UP   | JOY_RIGHT    ; ENE
+        .byte   JOY_UP   | JOY_RIGHT    ; NNE
+        .byte   JOY_UP   | JOY_LEFT     ; NNW
+        .byte   JOY_UP   | JOY_LEFT     ; WNW
+        .byte   JOY_DOWN | JOY_LEFT     ; WSW
+
+; ------------------------------------------------------------------------
+;
+        .bss
+
+toggle: .res    1
+
+        .end

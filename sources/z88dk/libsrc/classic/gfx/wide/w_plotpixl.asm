@@ -1,15 +1,15 @@
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
 IF  !__CPU_INTEL__&&!__CPU_GBZ80__
-    SECTION code_graphics
-    PUBLIC  w_plotpixel
+        SECTION code_graphics
+        PUBLIC  w_plotpixel
 
-    EXTERN  l_graphics_cmp
-    EXTERN  w_pixeladdress
-    EXTERN  getmaxx
-    EXTERN  getmaxy
+        EXTERN  l_graphics_cmp
+        EXTERN  w_pixeladdress
+        EXTERN  getmaxx
+        EXTERN  getmaxy
 
-    EXTERN  __gfx_coords
+        EXTERN  __gfx_coords
 
 ;
 ;      $Id: w_plotpixl.asm,v 1.5 2016-07-02 09:01:35 dom Exp $
@@ -32,35 +32,35 @@ IF  !__CPU_INTEL__&&!__CPU_GBZ80__
 ;  afbcdehl/.... different
 ;
 w_plotpixel:
-    push    hl
-    call    getmaxy
-    inc     hl
-    call    l_graphics_cmp
-    pop     hl
-    ret     nc                          ; Return if Y overflows
+        push    hl
+        call    getmaxy
+        inc     hl
+        call    l_graphics_cmp
+        pop     hl
+        ret     nc      ; Return if Y overflows
 
-    push    de
-    ex      de, hl
-    call    getmaxx
-    ex      de, hl
-    call    l_graphics_cmp
-    pop     de
-    ret     c                           ; Return if X overflows
+        push    de
+        ex      de, hl
+        call    getmaxx
+        ex      de, hl
+        call    l_graphics_cmp
+        pop     de
+        ret     c       ; Return if X overflows
 
-    ld      (__gfx_coords), hl          ; store X
-    ld      (__gfx_coords+2), de        ; store Y: COORDS must be 2 bytes wider
+        ld      (__gfx_coords),   hl    ; store X
+        ld      (__gfx_coords+2), de    ; store Y: COORDS must be 2 bytes wider
 
-    call    w_pixeladdress
-    ld      b, a
-    ld      a, 1
-    jr      z, or_pixel                 ; pixel is at bit 0...
+        call    w_pixeladdress
+        ld      b, a
+        ld      a, 1
+        jr      z, or_pixel     ; pixel is at bit 0...
 plot_position:
-    rlca
-    djnz    plot_position
+        rlca
+        djnz    plot_position
 or_pixel:
-    ex      de, hl
-    or      (hl)
-    ld      (hl), a
-    ret
+        ex      de, hl
+        or      (hl)
+        ld      (hl), a
+        ret
 
 ENDIF

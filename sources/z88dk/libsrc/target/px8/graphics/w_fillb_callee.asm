@@ -8,39 +8,36 @@
 ;	$Id: w_fillb_callee.asm $
 ;
 
-
 ;Usage: fillb(struct *pixels)
 
-    SECTION code_graphics
+        SECTION code_graphics
 
-    PUBLIC  fillb_callee
-    PUBLIC  _fillb_callee
+        PUBLIC  fillb_callee
+        PUBLIC  _fillb_callee
 
-    PUBLIC  asm_fillb
+        PUBLIC  asm_fillb
 
-    EXTERN  w_area
+        EXTERN  w_area
 
-    EXTERN  __gfx_vram_page_in
-    EXTERN  __graphics_end
-
+        EXTERN  __gfx_vram_page_in
+        EXTERN  __graphics_end
 
 fillb_callee:
 _fillb_callee:
 
-    pop     af
+        pop     af
 
-    pop     de
-    pop     hl
-    exx                                 ; w_plotpixel and __gfx_vram_page_in must not use the alternate registers, no problem with w_line_r
-    pop     de
-    pop     hl
+        pop     de
+        pop     hl
+        exx     ; w_plotpixel and __gfx_vram_page_in must not use the alternate registers, no problem with w_line_r
+        pop     de
+        pop     hl
 
-    push    af                          ; ret addr
+        push    af      ; ret addr
 
-    exx
+        exx
 
 asm_fillb:
 
-    ld      a, 2
-    jp      w_area
-
+        ld      a, 2
+        jp      w_area

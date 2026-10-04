@@ -6,21 +6,21 @@
 ;
 ; Don't touch the Y-register here, the optimizer relies on it!
 
-        .export         mulax9
-        .importzp       ptr1
+        .export mulax9
+        .importzp ptr1
 
 .proc   mulax9
 
         sta     ptr1
         stx     ptr1+1
         asl     a
-        rol     ptr1+1                  ; * 2
+        rol     ptr1+1  ; * 2
         asl     a
-        rol     ptr1+1                  ; * 4
+        rol     ptr1+1  ; * 4
         asl     a
-        rol     ptr1+1                  ; * 8
+        rol     ptr1+1  ; * 8
         clc
-        adc     ptr1                    ; * (8+1)
+        adc     ptr1    ; * (8+1)
         pha
         txa
         adc     ptr1+1
@@ -29,5 +29,3 @@
         rts
 
 .endproc
-
-

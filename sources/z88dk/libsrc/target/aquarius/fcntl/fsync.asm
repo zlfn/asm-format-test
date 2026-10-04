@@ -5,6 +5,5 @@
 
 fsync:
 _fsync:
-        ld      hl, -1                  ;return -1
+        ld      hl, -1  ;return -1
         ret
-

@@ -8,24 +8,24 @@ ____sdcc_2_copy_src_mhl_dst_deix:
 
 IFDEF __SDCC_IX
 
-   push ix
+        push    ix
 
 ELSE
 
-   push iy
-   
+        push    iy
+
 ENDIF
 
-   ex (sp),hl
-   
-   add hl,de
-   ex de,hl
-   
-   pop hl
-   
-   ldi
-   ld a,(hl)
-   ld (de),a
-   
-   inc bc
-   ret
+        ex      (sp), hl
+
+        add     hl, de
+        ex      de, hl
+
+        pop     hl
+
+        ldi
+        ld      a,    (hl)
+        ld      (de), a
+
+        inc     bc
+        ret

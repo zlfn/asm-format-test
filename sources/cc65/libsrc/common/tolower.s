@@ -10,9 +10,9 @@
 ; int tolower (int c);
 ;
 
-        .export         _tolower, tolowerdirect
-        .include        "ctype.inc"
-        .import         ctypemaskdirect
+        .export _tolower, tolowerdirect
+        .include "ctype.inc"
+        .import ctypemaskdirect
 
 _tolower:
         cpx     #$00            ; out of range?

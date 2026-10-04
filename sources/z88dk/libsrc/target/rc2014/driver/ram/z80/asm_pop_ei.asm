@@ -21,19 +21,19 @@ PUBLIC asm_pop_ei_jp
 
 .asm_pop_ei_jp
 
-   ; enter : stack = ret, ei_di_status
-   ;
-   ; uses  : af
+        ; enter : stack = ret, ei_di_status
+        ;
+        ; uses  : af
 
-   pop af                      ; af = ei_di_status
-   jp PO, di_state
+        pop     af      ; af = ei_di_status
+        jp      PO, di_state
 
 .ei_state
 
-   ei
-   ret
+        ei
+        ret
 
 .di_state
 
-   di
-   ret
+        di
+        ret

@@ -27,36 +27,36 @@ PUBLIC asm_cpu_pop_ei_jp
 asm_z180_pop_ei:
 asm_cpu_pop_ei:
 
-   ; enter  : stack = ei_di_status, ret
-   ;
-   ; uses  : af
+        ; enter  : stack = ei_di_status, ret
+        ;
+        ; uses  : af
 
-   ex (sp),hl
-   pop af                      ; af = old hl
-   
-   ex (sp),hl                  ; hl = ei_di_status
-   push af
-   
-   ex (sp),hl                  ; hl restored
+        ex      (sp), hl
+        pop     af      ; af = old hl
+
+        ex      (sp), hl        ; hl = ei_di_status
+        push    af
+
+        ex      (sp), hl        ; hl restored
 
 asm0_z180_pop_ei:
 asm0_cpu_pop_ei:
 asm_z180_pop_ei_jp:
 asm_cpu_pop_ei_jp:
 
-   ; enter : stack = ret, ei_di_status
-   ;
-   ; uses  : af
+        ; enter : stack = ret, ei_di_status
+        ;
+        ; uses  : af
 
-   pop af                      ; af = ei_di_status
-   jp po, di_state
+        pop     af      ; af = ei_di_status
+        jp      po, di_state
 
 ei_state:
 
-   ei
-   ret
+        ei
+        ret
 
 di_state:
 
-   di
-   ret
+        di
+        ret

@@ -5,19 +5,19 @@
 
 ; struct filehandle* Get1stDirEntry (void);
 
-            .import ___oserror, return0
-            .export _Get1stDirEntry
+        .import ___oserror, return0
+        .export _Get1stDirEntry
 
-            .include "diskdrv.inc"
-            .include "geossym.inc"
+        .include "diskdrv.inc"
+        .include "geossym.inc"
 
 _Get1stDirEntry:
-        jsr Get1stDirEntry
-        stx ___oserror
+        jsr     Get1stDirEntry
+        stx     ___oserror
         txa
-        bne L1                  ; jump if disk error
-        lda r5L
-        ldx r5H
+        bne     L1      ; jump if disk error
+        lda     r5L
+        ldx     r5H
         rts
 
-L1:     jmp return0             ; return NULL if not valid entry
+L1:     jmp     return0 ; return NULL if not valid entry

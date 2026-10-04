@@ -10,16 +10,16 @@ EXTERN asm_fopen
 
 _fopen_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
 l0_fopen_callee:
 
-   push ix
-   
-   call asm_fopen
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_fopen
+
+        pop     ix
+        ret

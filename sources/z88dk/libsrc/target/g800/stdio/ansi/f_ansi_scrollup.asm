@@ -9,11 +9,10 @@
 ;
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_SCROLLUP
-
+        SECTION code_clib
+        PUBLIC  ansi_SCROLLUP
 
 ansi_SCROLLUP:
-    call    $Be53
-    jr      nc, ansi_SCROLLUP
-    jp      $bfeb
+        call    $Be53
+        jr      nc, ansi_SCROLLUP
+        jp      $bfeb

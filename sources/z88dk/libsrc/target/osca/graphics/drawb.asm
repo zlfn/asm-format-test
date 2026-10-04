@@ -1,8 +1,8 @@
-	INCLUDE "classic/gfx/grafix.inc"
-	SECTION  code_clib
-	PUBLIC	 drawb
-	PUBLIC 	_drawb
-	EXTERN 	w_pixeladdress
+        INCLUDE "classic/gfx/grafix.inc"
+        SECTION code_clib
+        PUBLIC  drawb
+        PUBLIC  _drawb
+        EXTERN  w_pixeladdress
 ;	EXTERN	l_cmp
 
 ;
@@ -16,15 +16,15 @@
 
 drawb:
 _drawb:
-        push    ix                      ;save callers
+        push    ix              ;save callers
         ld      ix, 2
         add     ix, sp
-        ld      l, (ix+8)
-        ld      h, (ix+9)               ; x
-        ld      a, 1                    ; 512... range checking needs to be fixed to 320
+        ld      l,  (ix+8)
+        ld      h,  (ix+9)      ; x
+        ld      a,  1           ; 512... range checking needs to be fixed to 320
         cp      h
         jr      c, drawb_exit
-        ld      e, (ix+6)               ; y
+        ld      e, (ix+6)       ; y
         ld      a, _GFX_MAXY
         cp      e
         jr      c, drawb_exit
@@ -33,12 +33,12 @@ _drawb:
         call    vertical
 
 ; right vertical line
-        ld      l, (ix+8)
-        ld      h, (ix+9)               ; x
-        ld      c, (ix+4)
-        ld      b, (ix+5)               ; width
+        ld      l,  (ix+8)
+        ld      h,  (ix+9)      ; x
+        ld      c,  (ix+4)
+        ld      b,  (ix+5)      ; width
         add     hl, bc
-        ld      a, 1
+        ld      a,  1
         cp      h
         jr      c, next
         ld      e, (ix+6)
@@ -48,17 +48,17 @@ _drawb:
 next:
 ; upper horizontal line
         ld      l, (ix+8)
-        ld      h, (ix+9)               ; x
-        ld      e, (ix+6)               ; y
+        ld      h, (ix+9)       ; x
+        ld      e, (ix+6)       ; y
         call    pixel_addr
         call    horizontal
 
 next2:
 ; bottom horizontal line
         ld      l, (ix+8)
-        ld      h, (ix+9)               ;x
-        ld      e, (ix+6)               ;y
-        ld      a, (ix+2)               ;height
+        ld      h, (ix+9)       ;x
+        ld      e, (ix+6)       ;y
+        ld      a, (ix+2)       ;height
         add     a, e
         jr      c, drawb_exit
         ld      e, a
@@ -67,10 +67,10 @@ next2:
         jr      c, drawb_exit
 
         call    pixel_addr
-		; jp horizontal
+        ; jp horizontal
 horizontal:
         ld      c, (ix+4)
-        ld      b, (ix+5)               ; width
+        ld      b, (ix+5)       ; width
 
 loop3:
         ld      a, (de)
@@ -87,15 +87,14 @@ drawb_exit:
         pop     ix
         ret
 
-
 ; (hl) mask
 ; de - screen address
 incx:
         rrc     (hl)
         ret     nc
-        bit     5, d
+        bit     5,  d
         jr      nz, first
-        set     5, d
+        set     5,  d
         or      a
         ret
 first:
@@ -135,7 +134,7 @@ pixel_addr:
         call    w_pixeladdress
         ld      b, a
         ld      a, 1
-        jr      z, getout               ; pixel is at bit 0...
+        jr      z, getout       ; pixel is at bit 0...
 loop1:
         rlca
         djnz    loop1
@@ -146,7 +145,7 @@ getout:
 
 vertical:
 ; vertical line
-        ld      b, (ix+2)               ; height
+        ld      b, (ix+2)       ; height
 loop2:
         ld      a, (de)
         or      (hl)

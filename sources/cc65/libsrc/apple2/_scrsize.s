@@ -4,9 +4,9 @@
 ; Screen size variables
 ;
 
-        .export         screensize
+        .export screensize
 
-        .include        "apple2.inc"
+        .include "apple2.inc"
 
 screensize:
         ldx     WNDWDTH

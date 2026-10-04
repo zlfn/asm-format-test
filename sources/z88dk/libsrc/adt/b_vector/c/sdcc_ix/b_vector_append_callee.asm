@@ -10,9 +10,9 @@ EXTERN asm_b_vector_append
 
 _b_vector_append_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_b_vector_append
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_b_vector_append

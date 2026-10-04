@@ -35,7 +35,7 @@
 #define w18 do_not_use_w18
 
 #if HAVE_AS_ARCH_DIRECTIVE
-        .arch AS_ARCH_LEVEL
+        .arch   AS_ARCH_LEVEL
 #endif
 
 #if HAVE_AS_ARCHEXT_DOTPROD_DIRECTIVE
@@ -76,7 +76,6 @@ DISABLE_DOTPROD
 DISABLE_I8MM
 DISABLE_SVE
 DISABLE_SVE2
-
 
 /* Support macros for
  *   - Armv8.3-A Pointer Authentication and
@@ -199,18 +198,17 @@ DISABLE_SVE2
 #define GNU_PROPERTY_AARCH64_GCS 0 /* No GCS */
 #endif
 
-
 #if (GNU_PROPERTY_AARCH64_BTI != 0 || GNU_PROPERTY_AARCH64_PAC != 0 || GNU_PROPERTY_AARCH64_GCS != 0) && defined(__ELF__)
         .pushsection .note.gnu.property, "a"
         .balign 8
-        .long 4
-        .long 0x10
-        .long 0x5
-        .asciz "GNU"
-        .long 0xc0000000 /* GNU_PROPERTY_AARCH64_FEATURE_1_AND */
-        .long 4
-        .long (GNU_PROPERTY_AARCH64_BTI | GNU_PROPERTY_AARCH64_PAC | GNU_PROPERTY_AARCH64_GCS)
-        .long 0
+        .long   4
+        .long   0x10
+        .long   0x5
+        .asciz  "GNU"
+        .long   0xc0000000      /* GNU_PROPERTY_AARCH64_FEATURE_1_AND */
+        .long   4
+        .long   (GNU_PROPERTY_AARCH64_BTI | GNU_PROPERTY_AARCH64_PAC | GNU_PROPERTY_AARCH64_GCS)
+        .long   0
         .popsection
 #endif /* (GNU_PROPERTY_AARCH64_BTI != 0 || GNU_PROPERTY_AARCH64_PAC != 0 || GNU_PROPERTY_AARCH64_GCS != 0) && defined(__ELF__) */
 #endif /* ARCH_AARCH64 */
@@ -218,11 +216,11 @@ DISABLE_SVE2
 #if ARCH_ARM
         .syntax unified
 #ifdef __ELF__
-        .arch armv7-a
-        .fpu neon
-        .eabi_attribute 10, 0           // suppress Tag_FP_arch
-        .eabi_attribute 12, 0           // suppress Tag_Advanced_SIMD_arch
-        .section .note.GNU-stack,"",%progbits // Mark stack as non-executable
+        .arch   armv7-a
+        .fpu    neon
+        .eabi_attribute 10, 0                   // suppress Tag_FP_arch
+        .eabi_attribute 12, 0                   // suppress Tag_Advanced_SIMD_arch
+        .section .note.GNU-stack, "", %progbits // Mark stack as non-executable
 #endif /* __ELF__ */
 
 #ifdef _WIN32
@@ -281,54 +279,54 @@ DISABLE_SVE2
 #endif
 
 .macro alias_gpr name, type, i
-    \name .req \type\i
-    as_w_\name .req w\i
-    as_x_\name .req x\i
+        \name   .req \type\i
+        as_w_\name .req w\i
+        as_x_\name .req x\i
 .endm
 
 .macro alias_vpr name, type, i
-    \name .req \type\i
-    as_b_\name .req b\i
-    as_h_\name .req h\i
-    as_s_\name .req s\i
-    as_d_\name .req d\i
-    as_q_\name .req q\i
-    as_v_\name .req v\i
+        \name   .req \type\i
+        as_b_\name .req b\i
+        as_h_\name .req h\i
+        as_s_\name .req s\i
+        as_d_\name .req d\i
+        as_q_\name .req q\i
+        as_v_\name .req v\i
 #if HAVE_SVE
-    as_z_\name .req z\i
+        as_z_\name .req z\i
 #endif
 .endm
 
 .macro unalias_gpr name, names:vararg
-    .unreq \name
-    .unreq as_w_\name
-    .unreq as_x_\name
-    .ifnb \names
-        unalias_gpr \names
-    .endif
+        .unreq  \name
+        .unreq  as_w_\name
+        .unreq  as_x_\name
+        .ifnb   \names
+                unalias_gpr \names
+        .endif
 .endm
 
 .macro unalias_vpr name, names:vararg
-    .unreq \name
-    .unreq as_b_\name
-    .unreq as_h_\name
-    .unreq as_s_\name
-    .unreq as_d_\name
-    .unreq as_q_\name
-    .unreq as_v_\name
+        .unreq  \name
+        .unreq  as_b_\name
+        .unreq  as_h_\name
+        .unreq  as_s_\name
+        .unreq  as_d_\name
+        .unreq  as_q_\name
+        .unreq  as_v_\name
 #if HAVE_SVE
-    .unreq as_z_\name
+        .unreq  as_z_\name
 #endif
-    .ifnb \names
-        unalias_vpr \names
-    .endif
+        .ifnb   \names
+                unalias_vpr \names
+        .endif
 .endm
 
 .irpc r,xw
-    .irp i,SEQ_GPR
-        as_\r\()_x\i .req \r\i
-        as_\r\()_w\i .req \r\i
-    .endr
+        .irp    i, SEQ_GPR
+                as_\r\()_x\i .req \r\i
+                as_\r\()_w\i .req \r\i
+        .endr
 .endr
 
 #if HAVE_SVE
@@ -336,84 +334,84 @@ DISABLE_SVE2
 #else
 .irpc r,bhsdqv
 #endif
-    .irp i,SEQ_VPR
-        as_\r\()_b\i .req \r\i
-        as_\r\()_h\i .req \r\i
-        as_\r\()_s\i .req \r\i
-        as_\r\()_d\i .req \r\i
-        as_\r\()_q\i .req \r\i
-        as_\r\()_v\i .req \r\i
+        .irp    i, SEQ_VPR
+                as_\r\()_b\i .req \r\i
+                as_\r\()_h\i .req \r\i
+                as_\r\()_s\i .req \r\i
+                as_\r\()_d\i .req \r\i
+                as_\r\()_q\i .req \r\i
+                as_\r\()_v\i .req \r\i
 #if HAVE_SVE
-        as_\r\()_z\i .req \r\i
+                as_\r\()_z\i .req \r\i
 #endif
-    .endr
+        .endr
 .endr
 #endif /* ARCH_AARCH64 */
 
 .macro function name, export=0, align=2
-    .macro endfunc
+        .macro  endfunc
 #ifdef __ELF__
-        .size   \name, . - \name
+                .size   \name, . - \name
 #endif
 #if HAVE_AS_FUNC
-        .endfunc
+                .endfunc
 #endif
-        .purgem endfunc
-    .endm
+                .purgem endfunc
+        .endm
         .text
-        .align \align
-    .if \export
-        .global EXTERN\name
+        .align  \align
+        .if     \export
+                .global EXTERN\name
 #ifdef __ELF__
-        .type   EXTERN\name, %function
-        .hidden EXTERN\name
+                .type   EXTERN\name, %function
+                .hidden EXTERN\name
 #elif defined(__MACH__)
-        .private_extern EXTERN\name
+                .private_extern EXTERN\name
 #endif
 #if HAVE_AS_FUNC
-        .func   EXTERN\name
+                .func   EXTERN\name
 #endif
 EXTERN\name:
-    .else
+        .else
 #ifdef __ELF__
-        .type \name, %function
+                .type   \name, %function
 #endif
 #if HAVE_AS_FUNC
-        .func \name
+                .func   \name
 #endif
-    .endif
+        .endif
 \name:
 #if ARCH_AARCH64
-    .if \export
-        AARCH64_VALID_CALL_TARGET
-    .endif
+        .if     \export
+                AARCH64_VALID_CALL_TARGET
+        .endif
 #endif
 .endm
 
 .macro  const   name, export=0, align=2
-    .macro endconst
+        .macro  endconst
 #ifdef __ELF__
-        .size   \name, . - \name
+                .size   \name, . - \name
 #endif
-        .purgem endconst
-    .endm
+                .purgem endconst
+        .endm
 #if defined(_WIN32)
-        .section        .rdata
+        .section .rdata
 #elif !defined(__MACH__)
-        .section        .rodata
+        .section .rodata
 #else
         .const_data
 #endif
-        .align          \align
-    .if \export
-        .global EXTERN\name
+        .align  \align
+        .if     \export
+                .global EXTERN\name
 #ifdef __ELF__
-        .hidden EXTERN\name
+                .hidden EXTERN\name
 #elif defined(__MACH__)
-        .private_extern EXTERN\name
+                .private_extern EXTERN\name
 #endif
 EXTERN\name:
-    .endif
+        .endif
 \name:
 .endm
 
@@ -427,11 +425,11 @@ EXTERN\name:
 // for reference. (LLVM can create such relocations, but checking for _WIN32
 // for simplicity, as execute-only memory isn't relevant on Windows at the
 // moment.)
-        function        \name
+        function \name
 #else
 // For other platforms, write jump tables in a const data section, to allow
 // working in environments where executable memory isn't readable.
-        const           \name
+        const   \name
 #endif
 .endm
 
@@ -450,6 +448,5 @@ EXTERN\name:
 #endif
 
 #define X(x) CONCAT(EXTERN, x)
-
 
 #endif /* DAV1D_SRC_ARM_ASM_S */

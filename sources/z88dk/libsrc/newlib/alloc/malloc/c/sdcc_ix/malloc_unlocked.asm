@@ -10,10 +10,10 @@ EXTERN asm_malloc_unlocked
 
 _malloc_unlocked:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_malloc_unlocked
+        push    hl
+        push    af
+
+        jp      asm_malloc_unlocked

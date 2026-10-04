@@ -9,12 +9,12 @@
 ; -1 -- custom build
 ;
 
-        .export         _get_ostype
+        .export _get_ostype
 
 .proc   _get_ostype
         ldx     #>$0000
         lda     $ff80
         bpl     :+
-        dex                     ; negative
+        dex     ; negative
 :       rts
 .endproc

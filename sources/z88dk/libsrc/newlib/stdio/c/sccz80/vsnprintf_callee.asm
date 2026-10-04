@@ -10,13 +10,13 @@ EXTERN asm_vsnprintf
 
 vsnprintf_callee:
 
-   pop af
-   pop bc
-   pop de
-   exx
-   pop bc
-   pop de
-   exx
-   push af
-   
-   jp asm_vsnprintf
+        pop     af
+        pop     bc
+        pop     de
+        exx
+        pop     bc
+        pop     de
+        exx
+        push    af
+
+        jp      asm_vsnprintf

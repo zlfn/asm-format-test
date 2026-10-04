@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _b_array_front
 defc _b_array_front = b_array_front
 ENDIF
-

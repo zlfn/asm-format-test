@@ -10,7 +10,7 @@
         .title  "ZX0 Decompress"
         .module ZX0Decompress
 
-        .area _CODE
+        .area   _CODE
 
 _zx0_decompress::
 dzx0_standard:
@@ -31,8 +31,8 @@ dzx0s_copy:
         ldir                            ; copy from offset
         pop     hl                      ; restore offset
         ex      (sp), hl                ; preserve offset, restore source
-        add     a, a                    ; copy from literals or new offset?
-        jr      nc, dzx0s_literals
+        add     a,    a                 ; copy from literals or new offset?
+        jr      nc,   dzx0s_literals
 dzx0s_new_offset:
         pop     bc                      ; discard last offset
         ld      c, #0xfe                ; prepare negative offset
@@ -52,9 +52,9 @@ dzx0s_new_offset:
 dzx0s_elias:
         inc     c                       ; interlaced Elias gamma coding
 dzx0s_elias_loop:
-        add     a, a
+        add     a,  a
         jr      nz, dzx0s_elias_skip
-        ld      a, (hl)                 ; load another group of 8 bits
+        ld      a,  (hl)                ; load another group of 8 bits
         inc     hl
         rla
 dzx0s_elias_skip:

@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _b_vector_erase_range_callee
 defc _b_vector_erase_range_callee = b_vector_erase_range_callee
 ENDIF
-

@@ -15,7 +15,7 @@ SECTION code_fp_am9511
 PUBLIC  asm_am9511_fabs_fastcall
 
 .asm_am9511_fabs_fastcall
-    ld a,d
-    and $7f         ;reset sign bit
-    ld d,a
-    ret
+        ld      a, d
+        and     $7f     ;reset sign bit
+        ld      d, a
+        ret

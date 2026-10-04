@@ -15,23 +15,22 @@ EXTERN asm_NIRVANAP_readC
 
 NIRVANAP_readC:
 
-   	ld hl,2
-   	add hl,sp
-   	ld e,(hl)       ; col
-   	inc hl
-   	inc hl
-   	ld d,(hl)       ; lin
-   	inc hl
-   	inc hl
-   	ld c,(hl)
-   	inc hl
-   	ld b,(hl)       ; attrs
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)        ; col
+        inc     hl
+        inc     hl
+        ld      d, (hl)         ; lin
+        inc     hl
+        inc     hl
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl)         ; attrs
 
-   	jp asm_NIRVANAP_readC
+        jp      asm_NIRVANAP_readC
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _NIRVANAP_readC
 defc _NIRVANAP_readC = NIRVANAP_readC
 ENDIF
-

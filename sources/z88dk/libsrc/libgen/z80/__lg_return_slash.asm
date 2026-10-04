@@ -4,9 +4,9 @@ PUBLIC __lg_return_slash
 
 __lg_return_slash:
 
-   ld hl,slash_s
-   ret
+        ld      hl, slash_s
+        ret
 
 slash_s:
 
-   defm "/", 0
+        defm    "/", 0

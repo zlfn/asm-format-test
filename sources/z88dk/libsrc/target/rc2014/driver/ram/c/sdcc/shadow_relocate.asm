@@ -11,13 +11,13 @@ EXTERN asm_pop_ei_jp
 EXTERN asm_shadow_relocate
 
 ._shadow_relocate
-   pop bc
-   pop hl
+        pop     bc
+        pop     hl
 
-   push hl
-   push bc
+        push    hl
+        push    bc
 
-   call asm_push_di
+        call    asm_push_di
 
-   call asm_shadow_relocate
-   jp asm_pop_ei_jp
+        call    asm_shadow_relocate
+        jp      asm_pop_ei_jp

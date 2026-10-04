@@ -27,28 +27,28 @@ SECTION .text
 INIT_XMM sse2
 ;void ff_pp7_dctB_sse2(int16_t *dst, const int16_t *src)
 cglobal pp7_dctB, 2, 2, 6, dst, src
-    movq         m0, [srcq+8*0]
-    movq         m5, [srcq+8*6]
-    movq         m3, [srcq+8*3]
-    movq         m1, [srcq+8*1]
-    movq         m4, [srcq+8*5]
-    movq         m2, [srcq+8*2]
-    paddw        m0, m5
-    movq         m5, [srcq+8*4]
-    paddw        m3, m3
-    paddw        m1, m4
-    paddw        m2, m5
+        movq    m0, [srcq+8*0]
+        movq    m5, [srcq+8*6]
+        movq    m3, [srcq+8*3]
+        movq    m1, [srcq+8*1]
+        movq    m4, [srcq+8*5]
+        movq    m2, [srcq+8*2]
+        paddw   m0, m5
+        movq    m5, [srcq+8*4]
+        paddw   m3, m3
+        paddw   m1, m4
+        paddw   m2, m5
 
-    SUMSUB_BA     w, 0, 3, 4
-    SUMSUB_BA     w, 1, 2, 5
+        SUMSUB_BA w, 0, 3, 4
+        SUMSUB_BA w, 1, 2, 5
 
-    SUMSUB_BA     w, 1, 0, 4
-    movq     [dstq], m1
-    paddw        m4, m2, m3
-    paddw        m2, m2
-    movq [dstq+8*2], m0
-    paddw        m4, m3
-    psubw        m3, m2
-    movq [dstq+8*1], m4
-    movq [dstq+8*3], m3
-    RET
+        SUMSUB_BA w, 1, 0, 4
+        movq    [dstq], m1
+        paddw   m4,     m2, m3
+        paddw   m2,     m2
+        movq    [dstq+8*2], m0
+        paddw   m4, m3
+        psubw   m3, m2
+        movq    [dstq+8*1], m4
+        movq    [dstq+8*3], m3
+        RET

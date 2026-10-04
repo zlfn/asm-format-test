@@ -31,45 +31,43 @@
 ;*                                                                           */
 ;*****************************************************************************/
 
-
-
 ;------------------------------------------------------------------------------
 ; The driver header
 
 .struct TGI_HDR
-        ID                  .byte   3   ; Contains 0x74, 0x67, 0x69 ("tgi")
-        VERSION             .byte   1   ; Interface version
-        LIBREF              .addr       ; Library reference
-        VARS                .struct
-            XRES            .word   1   ; X resolution
-            YRES            .word   1   ; Y resolution
-            COLORCOUNT      .byte   1   ; Number of available colors
-            PAGECOUNT       .byte   1   ; Number of screens available
-            FONTWIDTH       .byte   1   ; System font width in pixel
-            FONTHEIGHT      .byte   1   ; System font height in pixel
-            ASPECTRATIO     .word   1   ; Fixed point 8.8 format
-            FLAGS           .byte   1   ; TGI driver flags
+        ID      .byte   3       ; Contains 0x74, 0x67, 0x69 ("tgi")
+        VERSION .byte   1       ; Interface version
+        LIBREF  .addr           ; Library reference
+        VARS    .struct
+        XRES    .word   1       ; X resolution
+        YRES    .word   1       ; Y resolution
+        COLORCOUNT .byte   1    ; Number of available colors
+        PAGECOUNT .byte   1     ; Number of screens available
+        FONTWIDTH .byte   1     ; System font width in pixel
+        FONTHEIGHT .byte   1    ; System font height in pixel
+        ASPECTRATIO .word   1   ; Fixed point 8.8 format
+        FLAGS   .byte   1       ; TGI driver flags
         .endstruct
-        JUMPTAB             .struct
-            INSTALL         .addr       ; INSTALL routine
-            UNINSTALL       .addr       ; UNINSTALL routine
-            INIT            .addr       ; INIT routine
-            DONE            .addr       ; DONE routine
-            GETERROR        .addr       ; GETERROR routine
-            CONTROL         .addr       ; CONTROL routine
-            CLEAR           .addr       ; CLEAR routine
-            SETVIEWPAGE     .addr       ; SETVIEWPAGE routine
-            SETDRAWPAGE     .addr       ; SETDRAWPAGE routine
-            SETCOLOR        .addr       ; SETCOLOR routine
-            SETPALETTE      .addr       ; SETPALETTE routine
-            GETPALETTE      .addr       ; GETPALETTE routine
-            GETDEFPALETTE   .addr       ; GETDEFPALETTE routine
-            SETPIXEL        .addr       ; SETPIXEL routine
-            GETPIXEL        .addr       ; GETPIXEL routine
-            LINE            .addr       ; LINE routine
-            BAR             .addr       ; BAR routine
-            TEXTSTYLE       .addr       ; TEXTSTYLE routine
-            OUTTEXT         .addr       ; OUTTEXT routine
+        JUMPTAB .struct
+        INSTALL .addr           ; INSTALL routine
+        UNINSTALL .addr         ; UNINSTALL routine
+        INIT    .addr           ; INIT routine
+        DONE    .addr           ; DONE routine
+        GETERROR .addr          ; GETERROR routine
+        CONTROL .addr           ; CONTROL routine
+        CLEAR   .addr           ; CLEAR routine
+        SETVIEWPAGE .addr       ; SETVIEWPAGE routine
+        SETDRAWPAGE .addr       ; SETDRAWPAGE routine
+        SETCOLOR .addr          ; SETCOLOR routine
+        SETPALETTE .addr        ; SETPALETTE routine
+        GETPALETTE .addr        ; GETPALETTE routine
+        GETDEFPALETTE .addr     ; GETDEFPALETTE routine
+        SETPIXEL .addr          ; SETPIXEL routine
+        GETPIXEL .addr          ; GETPIXEL routine
+        LINE    .addr           ; LINE routine
+        BAR     .addr           ; BAR routine
+        TEXTSTYLE .addr         ; TEXTSTYLE routine
+        OUTTEXT .addr           ; OUTTEXT routine
         .endstruct
 .endstruct
 
@@ -139,10 +137,10 @@ TGI_CLIP_TOP            = $08
 ;------------------------------------------------------------------------------
 ; ASM accessible variables
 
-        .global tgi_clip_x1             ; Coordinate for line clipper
-        .global tgi_clip_y1             ; Coordinate for line clipper
-        .global tgi_clip_x2             ; Coordinate for line clipper
-        .global tgi_clip_y2             ; Coordinate for line clipper
+        .global tgi_clip_x1     ; Coordinate for line clipper
+        .global tgi_clip_y1     ; Coordinate for line clipper
+        .global tgi_clip_x2     ; Coordinate for line clipper
+        .global tgi_clip_y2     ; Coordinate for line clipper
 
 ;------------------------------------------------------------------------------
 ; Driver entry points

@@ -18,10 +18,10 @@ asm_sp1_ScreenAttr:
 ; exit  : hl = attr
 ; uses  : af, de, hl
 
-   call asm_sp1_GetUpdateStruct
+        call    asm_sp1_GetUpdateStruct
 
-   inc hl
-   ld l,(hl)
-   ld h,0
+        inc     hl
+        ld      l, (hl)
+        ld      h, 0
 
-   ret
+        ret

@@ -16,10 +16,8 @@ PUBLIC _strnicmp_callee
 defc _strnicmp_callee = strnicmp_callee
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___strnicmp_callee
 defc ___strnicmp_callee = strnicmp_callee
 ENDIF
-

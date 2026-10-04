@@ -10,10 +10,10 @@ EXTERN asm_zx_saddrpup
 
 _zx_saddrpup:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_zx_saddrpup
+        push    hl
+        push    af
+
+        jp      asm_zx_saddrpup

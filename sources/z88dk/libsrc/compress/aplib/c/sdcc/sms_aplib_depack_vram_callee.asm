@@ -10,8 +10,8 @@ EXTERN asm_sms_aplib_depack_vram
 
 _sms_aplib_depack_vram_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_sms_aplib_depack_vram
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_sms_aplib_depack_vram

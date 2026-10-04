@@ -10,12 +10,12 @@ EXTERN l0_fputc_unlocked_callee
 
 _fputc_unlocked:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     hl
 
-   jp l0_fputc_unlocked_callee
+        push    hl
+        push    de
+        push    af
+
+        jp      l0_fputc_unlocked_callee

@@ -14,11 +14,11 @@ EXTERN __SMSlib_PauseRequested
 
 asm_SMSlib_queryPauseRequested:
 
-   ; unsigned char SMS_queryPauseRequested (void)
-   ;
-   ; exit : l = 1 if paused else 0
-   ;
-   ; uses : hl
-   
-   ld hl,(__SMSlib_PauseRequested)
-   ret
+        ; unsigned char SMS_queryPauseRequested (void)
+        ;
+        ; exit : l = 1 if paused else 0
+        ;
+        ; uses : hl
+
+        ld      hl, (__SMSlib_PauseRequested)
+        ret

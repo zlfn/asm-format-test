@@ -4,10 +4,10 @@
 
 .ifndef __APPLE2ENH__
 
-        .export         uppercasemask
+        .export uppercasemask
 
-        .import         machinetype
-        .constructor    detectlowercase
+        .import machinetype
+        .constructor detectlowercase
 
         .segment "ONCE"
 
@@ -19,9 +19,8 @@ detectlowercase:
         sta     uppercasemask
 :       rts
 
-
         .data
 
-uppercasemask:  .byte   $DF     ; Convert to uppercase
+uppercasemask: .byte $DF        ; Convert to uppercase
 
 .endif

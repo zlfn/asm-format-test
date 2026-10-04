@@ -10,9 +10,9 @@ EXTERN asm_ba_priority_queue_pop
 
 _ba_priority_queue_pop_fastcall:
 
-   push ix
-   
-   call asm_ba_priority_queue_pop
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_ba_priority_queue_pop
+
+        pop     ix
+        ret

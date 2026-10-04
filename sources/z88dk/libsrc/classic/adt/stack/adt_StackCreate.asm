@@ -16,16 +16,16 @@ EXTERN _u_malloc
 .adt_StackCreate
 ._adt_StackCreate
 
-   ld hl,4                     ; sizeof(struct adt_Stack)
-   push hl
-   call _u_malloc
-   pop de
-   ret nc                      ; mem alloc failed, hl = 0
-   
-   ld e,l
-   ld d,h
-   xor a
-   call l_setmem-7
-   ex de,hl
-   scf
-   ret
+        ld      hl, 4   ; sizeof(struct adt_Stack)
+        push    hl
+        call    _u_malloc
+        pop     de
+        ret     nc      ; mem alloc failed, hl = 0
+
+        ld      e, l
+        ld      d, h
+        xor     a
+        call    l_setmem-7
+        ex      de, hl
+        scf
+        ret

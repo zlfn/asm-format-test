@@ -9,14 +9,14 @@ EXTERN asm_zxn_addr_in_mmu
 
 _zxn_addr_in_mmu:
 
-   pop de
-   dec sp
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   inc sp
-   push de
+        pop     de
+        dec     sp
+        pop     af
+        pop     hl
 
-   jp asm_zxn_addr_in_mmu
+        push    hl
+        push    af
+        inc     sp
+        push    de
+
+        jp      asm_zxn_addr_in_mmu

@@ -10,17 +10,17 @@ EXTERN l0_getdelim_unlocked_callee
 
 _getdelim_unlocked:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   exx
-   pop bc
-   
-   push bc
-   push bc
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        exx
+        pop     bc
 
-   jp l0_getdelim_unlocked_callee
+        push    bc
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_getdelim_unlocked_callee

@@ -11,6 +11,6 @@ EXTERN in_Inkey
 
 .in_WaitForKey
 ._in_WaitForKey
-	call	in_Inkey
-	jr	c,in_WaitForKey
-	ret
+        call    in_Inkey
+        jr      c, in_WaitForKey
+        ret

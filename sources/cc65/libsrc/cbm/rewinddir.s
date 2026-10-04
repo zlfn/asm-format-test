@@ -6,11 +6,10 @@
 ; void __fastcall__ rewinddir (DIR *dir);
 ;
 
+        .include "dir.inc"
+        .include "zeropage.inc"
 
-        .include        "dir.inc"
-        .include        "zeropage.inc"
-
-        .import         pushax
+        .import pushax
 
 .proc   _rewinddir
 
@@ -22,4 +21,3 @@
         jmp     _seekdir        ; ... to seekdir
 
 .endproc
-

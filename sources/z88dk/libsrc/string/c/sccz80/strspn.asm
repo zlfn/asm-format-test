@@ -10,19 +10,19 @@ EXTERN asm_strspn
 
 strspn:
 
-   pop bc
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push bc
+        pop     bc
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    bc
 IF __CLASSIC && __CPU_GBZ80__
-   call asm_strspn
-   ld d,h
-   ld e,l
+        call    asm_strspn
+        ld      d, h
+        ld      e, l
 ELSE
-   jp asm_strspn
+        jp      asm_strspn
 ENDIF
 
 ; SDCC bridge for Classic
@@ -31,10 +31,8 @@ PUBLIC _strspn
 defc _strspn = strspn
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___strspn
 defc ___strspn = strspn
 ENDIF
-

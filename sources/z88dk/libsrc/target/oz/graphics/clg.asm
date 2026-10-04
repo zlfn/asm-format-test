@@ -9,7 +9,6 @@
 ;	$Id: clg.asm,v 1.5 2017-01-02 22:57:58 aralbrec Exp $
 ;
 
-
         PUBLIC  clg
         PUBLIC  _clg
         EXTERN  base_graphics
@@ -23,8 +22,8 @@ _clg:
         call    __gfx_vram_page_in
 
         ld      hl, (base_graphics)
-        ld      d, h
-        ld      e, l
+        ld      d,  h
+        ld      e,  l
         inc     de
         ld      bc, 2400-1
         xor     a

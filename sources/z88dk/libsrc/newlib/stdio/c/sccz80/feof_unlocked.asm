@@ -10,7 +10,7 @@ EXTERN asm_feof_unlocked
 
 feof_unlocked:
 
-   push hl
-   pop ix
-   
-   jp asm_feof_unlocked
+        push    hl
+        pop     ix
+
+        jp      asm_feof_unlocked

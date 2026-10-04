@@ -16,11 +16,11 @@ EXTERN asm_fputs
 
 fputs_callee:
 
-   pop hl
-   pop ix
-   ex (sp),hl
-   
-   jp asm_fputs
+        pop     hl
+        pop     ix
+        ex      (sp), hl
+
+        jp      asm_fputs
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

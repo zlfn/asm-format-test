@@ -11,8 +11,8 @@ PUBLIC l_ghtonsint
 
 l_ghtonsint:
 
-   ld a,(hl+)
-   ld l,(hl)
-   ld h,a
-   
-   ret
+        ld      a, (hl+)
+        ld      l, (hl)
+        ld      h, a
+
+        ret

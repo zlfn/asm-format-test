@@ -6,7 +6,6 @@
 ; 2001-09-13, Ullrich von Bassewitz
 ; 2014-04-02, Greg King
 
-
 ;-----------------------------------------------------------------------------
 ; Zeropage stuff
 
@@ -87,7 +86,6 @@ VIC_BG_COLOR1   = $22
 VIC_BG_COLOR2   = $23
 VIC_BG_COLOR3   = $24
 
-
 ; I/O  $da00: SID 6581
 
 SID_S1Lo        = $00
@@ -123,7 +121,6 @@ SID_ADConv2     = $1A
 SID_Noise       = $1B
 SID_Read3       = $1C
 
-
 ; I/O  $db00: CIA 6526, Inter Process Communication
 ; I/O  $dc00: CIA 6526
 
@@ -133,18 +130,18 @@ SID_Read3       = $1C
         DDRA    .byte
         DDRB    .byte
         .union
-            .struct
-                TALO    .byte
-                TAHI    .byte
-            .endstruct
-            TA          .word
+        .struct
+        TALO    .byte
+        TAHI    .byte
+        .endstruct
+        TA      .word
         .endunion
         .union
-            .struct
-                TBLO    .byte
-                TBHI    .byte
-            .endstruct
-            TB          .word
+        .struct
+        TBLO    .byte
+        TBHI    .byte
+        .endstruct
+        TB      .word
         .endunion
         TOD10   .byte
         TODSEC  .byte
@@ -156,7 +153,6 @@ SID_Read3       = $1C
         CRB     .byte
 .endstruct
 
-
 ; I/O  $dd00: ACIA 6551
 
 .struct ACIA
@@ -166,7 +162,6 @@ SID_Read3       = $1C
         CTRL    .BYTE
 .endstruct
 
-
 ; I/O  $de00: Triport #1 6525
 ; I/O  $df00: Triport #2 6525
 
@@ -174,25 +169,23 @@ SID_Read3       = $1C
         PRA     .byte
         PRB     .byte
         .union
-                PRC     .byte
-                INT     .byte
+        PRC     .byte
+        INT     .byte
         .endunion
         DDRA    .byte
         DDRB    .byte
         .union
-                DDRC    .byte
-                IMR     .byte
+        DDRC    .byte
+        IMR     .byte
         .endunion
         CR      .byte
         AIR     .byte
 .endstruct
 
-
 ;-----------------------------------------------------------------------------
 ; Our video memory address
 
 COLOR_RAM       := $D400        ; System bank
-
 
 ;-----------------------------------------------------------------------------
 

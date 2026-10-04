@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _b_vector_erase_block
 defc _b_vector_erase_block = b_vector_erase_block
 ENDIF
-

@@ -10,12 +10,12 @@ EXTERN cm48_sdccix_asin_fastcall
 
 cm48_sdccix_asin:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   jp cm48_sdccix_asin_fastcall
+        pop     af
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        jp      cm48_sdccix_asin_fastcall

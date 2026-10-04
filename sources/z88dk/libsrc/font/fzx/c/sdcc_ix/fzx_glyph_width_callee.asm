@@ -10,18 +10,18 @@ EXTERN asm_fzx_glyph_width
 
 _fzx_glyph_width_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
 
 l0_fzx_glyph_width_callee:
 
-   ld a,c
-   call asm_fzx_glyph_width
-   
-   ld l,a
-   ld h,0
-   
-   inc hl
-   ret
+        ld      a, c
+        call    asm_fzx_glyph_width
+
+        ld      l, a
+        ld      h, 0
+
+        inc     hl
+        ret

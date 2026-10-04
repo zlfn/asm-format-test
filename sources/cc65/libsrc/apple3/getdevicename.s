@@ -4,11 +4,11 @@
 ; char* __fastcall__ getdevicename (unsigned char device, char* buf, size_t size);
 ;
 
-        .export         _getdevicename
-        .import         popptr1, popa
+        .export _getdevicename
+        .import popptr1, popa
 
-        .include        "zeropage.inc"
-        .include        "sos.inc"
+        .include "zeropage.inc"
+        .include "sos.inc"
 
 _getdevicename:
         ; Check size
@@ -35,14 +35,14 @@ _getdevicename:
 
         ; Get device name length
         ldy     #$00
-        lda     (ptr1),y
-        and     #15             ; Max device name length
+        lda     (ptr1), y
+        and     #15     ; Max device name length
         tay
 
         ; Add terminating zero
         iny
         lda     #$00
-        sta     (ptr1),y
+        sta     (ptr1), y
 
         ; inc ptr1 to skip length byte
         inc     ptr1

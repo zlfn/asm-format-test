@@ -8,9 +8,8 @@
 ; 1 - PAL
 ;
 
-
-        .include        "atari.inc"
-        .include        "get_tv.inc"
+        .include "atari.inc"
+        .include "get_tv.inc"
 
 .proc   _get_tv
 

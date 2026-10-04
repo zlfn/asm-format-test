@@ -7,11 +7,10 @@
 ; This version works around a bug in VIC-20 Kernal's READST function.
 ;
 
-        .include        "vic20.inc"
-        .include        "../cbm/cbm.inc"
+        .include "vic20.inc"
+        .include "../cbm/cbm.inc"
 
-        .export         _cbm_k_readst
-
+        .export _cbm_k_readst
 
 _cbm_k_readst:
         ldx     #>$0000
@@ -24,5 +23,5 @@ _cbm_k_readst:
 ; Work-around:  Read the RS-232 status variable directly.
 
 @L1:    lda     RSSTAT
-        stx     RSSTAT          ; reset the status bits
+        stx     RSSTAT  ; reset the status bits
         rts

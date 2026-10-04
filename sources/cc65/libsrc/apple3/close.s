@@ -5,17 +5,17 @@
 ; int __fastcall__ close (int fd);
 ;
 
-        .export         _close
+        .export _close
 
-        .import         closedirect, freebuffer
+        .import closedirect, freebuffer
 
-        .include        "errno.inc"
-        .include        "filedes.inc"
-        .include        "zeropage.inc"
+        .include "errno.inc"
+        .include "filedes.inc"
+        .include "zeropage.inc"
 
 _close:
         ; Process fd
-        jsr     getfd           ; Returns A, Y and C
+        jsr     getfd   ; Returns A, Y and C
         bcs     errno
 
         ; Check for device
@@ -23,14 +23,14 @@ _close:
         beq     zerofd
 
         ; Close file
-        sty     tmp3            ; Save Y
+        sty     tmp3    ; Save Y
         jsr     closedirect
         bne     oserr
         ldy     tmp3
 
         ; Mark fdtab slot as free
 zerofd: lda     #$00
-        sta     fdtab + FD::REF_NUM,y
+        sta     fdtab + FD::REF_NUM, y
 
         ; Return success
         lda     #$00

@@ -27,40 +27,38 @@ EXTERN asm_am9511_spec_mul
 
 PUBLIC asm_am9511_fmul, asm_am9511_fmul_callee
 
-
 .asm_am9511_fmul
-    call asm_am9511_spec_mul
-    ret C
+        call    asm_am9511_spec_mul
+        ret     C
 
-    call asm_am9511_pushf           ; x
+        call    asm_am9511_pushf        ; x
 
-    call asm_am9511_pushf_fastcall  ; y
+        call    asm_am9511_pushf_fastcall       ; y
 
-    ld a,__IO_APU_OP_FMUL
-    AM9511_OUT_APU_CONTROL        ; x * y
+        ld      a, __IO_APU_OP_FMUL
+        AM9511_OUT_APU_CONTROL  ; x * y
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf
 
 .asm_am9511_fmul_callee
-    call asm_am9511_spec_mul
-    jr NC,mcal_apu
-    pop bc
-    pop af
-    pop af
-    push bc
-    ret
+        call    asm_am9511_spec_mul
+        jr      NC, mcal_apu
+        pop     bc
+        pop     af
+        pop     af
+        push    bc
+        ret
 
 .mcal_apu
-    call asm_am9511_pushf
+        call    asm_am9511_pushf
 
-    call asm_am9511_pushf_fastcall
+        call    asm_am9511_pushf_fastcall
 
-    ld a,__IO_APU_OP_FMUL
-    AM9511_OUT_APU_CONTROL
+        ld      a, __IO_APU_OP_FMUL
+        AM9511_OUT_APU_CONTROL
 
-    pop hl
-    pop de
-    ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
-    jp asm_am9511_popf
+        jp      asm_am9511_popf

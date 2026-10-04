@@ -1,14 +1,14 @@
 
-        .export         Start, _exit
+        .export Start, _exit
 
-        .import         initlib, donelib, callmain
-        .import         push0, _main, zerobss, copydata
+        .import initlib, donelib, callmain
+        .import push0,   _main,   zerobss, copydata
 
         ; Linker generated symbols
-        .import         __RAM_START__, __RAM_SIZE__
+        .import __RAM_START__, __RAM_SIZE__
 
-        .include        "zeropage.inc"
-        .include        "gamate.inc"
+        .include "zeropage.inc"
+        .include "gamate.inc"
 
 Start:
         ; setup the CPU and System-IRQ
@@ -45,15 +45,15 @@ Start:
         cli                     ; allow IRQ only after constructors have run
 
         ; Pass an empty command line
-        jsr     push0           ; argc
-        jsr     push0           ; argv
+        jsr     push0   ; argc
+        jsr     push0   ; argv
 
-        ldy     #4              ; Argument size
-        jsr     _main           ; call the users code
+        ldy     #4      ; Argument size
+        jsr     _main   ; call the users code
 
         ; Call module destructors. This is also the _exit entry.
 _exit:
-        jsr     donelib         ; Run module destructors
+        jsr     donelib ; Run module destructors
 
         ; reset (start over)
         jmp     Start

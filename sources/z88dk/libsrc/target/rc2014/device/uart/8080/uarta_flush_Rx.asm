@@ -16,35 +16,34 @@ EXTERN uartaRxCount, uartaRxBuffer, uartaRxIn, uartaRxOut
 
 ._uarta_flush_rx_di
 
-    push af
-    push hl
+        push    af
+        push    hl
 
-    call asm_cpu_push_di        ; di
+        call    asm_cpu_push_di ; di
 
-    call _uarta_flush_rx
+        call    _uarta_flush_rx
 
-    call asm_cpu_pop_ei         ; ei
+        call    asm_cpu_pop_ei  ; ei
 
-    pop hl
-    pop af
+        pop     hl
+        pop     af
 
-    ret
+        ret
 
 ._uarta_flush_rx
 
-    ; enable and reset the Rx FIFO
-    ld a,__IO_UART_FCR_FIFO_01|__IO_UART_FCR_FIFO_RX_RESET|__IO_UART_FCR_FIFO_ENABLE
-    out (__IO_UARTA_FCR_REGISTER),a
+        ; enable and reset the Rx FIFO
+        ld      a, __IO_UART_FCR_FIFO_01|__IO_UART_FCR_FIFO_RX_RESET|__IO_UART_FCR_FIFO_ENABLE
+        out     (__IO_UARTA_FCR_REGISTER), a
 
-    xor a
-    ld (uartaRxCount),a          ; reset the Rx counter (set 0)
+        xor     a
+        ld      (uartaRxCount), a       ; reset the Rx counter (set 0)
 
-    ld hl,uartaRxBuffer          ; load Rx buffer pointer home
-    ld (uartaRxIn),hl
-    ld (uartaRxOut),hl
+        ld      hl, uartaRxBuffer       ; load Rx buffer pointer home
+        ld      (uartaRxIn),  hl
+        ld      (uartaRxOut), hl
 
-    ret
+        ret
 
 EXTERN _uart_need
 defc NEED = _uart_need
-

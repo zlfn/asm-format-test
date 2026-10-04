@@ -11,28 +11,28 @@
 ; * 0x01  : C65/C64DX in C64 mode present
 ; */
 
-        .export         _detect_c65
+        .export _detect_c65
 
-        .include        "accelerator.inc"
+        .include "accelerator.inc"
 
 _detect_c65:
         ldy     $D000
 
 ; Make sure the CPU is not a 65816
         clc
-        .byte   $E2,$01                ; NOP #$01 on 6510 and 65(S)C02, LDA $(01,S),Y on 65CE02 and 4510, SEP #$01 on 65816
+        .byte   $E2, $01        ; NOP #$01 on 6510 and 65(S)C02, LDA $(01,S),Y on 65CE02 and 4510, SEP #$01 on 65816
         lda     #$00
         tax
-        bcs     not_found              ; carry will be set on 65816
+        bcs     not_found       ; carry will be set on 65816
 
 ; Make sure the CPU is not a 6510
-        .byte   $1A                    ; NOP on 6510, INA on 65(S)C(E)02
+        .byte   $1A     ; NOP on 6510, INA on 65(S)C(E)02
         beq     not_found
         txa
 
 ; Make sure the CPU is a 65CE02/4510
-        .byte   $A3,$A3                ; NOP NOP on 65(S)C02, LDZ #$A3 on 65CE02 and 4510
-        .byte   $6B                    ; NOP on 65(S)C02, TZA on 65CE02 and 4510
+        .byte   $A3, $A3        ; NOP NOP on 65(S)C02, LDZ #$A3 on 65CE02 and 4510
+        .byte   $6B             ; NOP on 65(S)C02, TZA on 65CE02 and 4510
         cmp     #$A3
         bne     not_found
 

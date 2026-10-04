@@ -8,13 +8,13 @@ PUBLIC  asm_mul10uf
 
 EXTERN  m32_mul10u_fastcall
 
-    ; Multiply a float by 10, and make positive
-    ;
-    ; enter : stack = ret
-    ;          DEHL = sccz80_float number
-    ;
-    ; exit  :  DEHL = 10 * |sccz80_float|
-    ;
-    ; uses  : de, hl
+        ; Multiply a float by 10, and make positive
+        ;
+        ; enter : stack = ret
+        ;          DEHL = sccz80_float number
+        ;
+        ; exit  :  DEHL = 10 * |sccz80_float|
+        ;
+        ; uses  : de, hl
 
 defc asm_mul10uf = m32_mul10u_fastcall

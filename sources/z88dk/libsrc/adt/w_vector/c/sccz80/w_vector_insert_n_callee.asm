@@ -10,18 +10,17 @@ EXTERN asm_w_vector_insert_n
 
 w_vector_insert_n_callee:
 
-   pop ix
-   pop af
-   pop de
-   pop bc
-   pop hl
-   push ix
-   
-   jp asm_w_vector_insert_n
+        pop     ix
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
+        push    ix
+
+        jp      asm_w_vector_insert_n
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _w_vector_insert_n_callee
 defc _w_vector_insert_n_callee = w_vector_insert_n_callee
 ENDIF
-

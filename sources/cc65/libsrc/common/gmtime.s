@@ -4,9 +4,9 @@
 ; struct tm* __fastcall__ gmtime (const time_t* timep);
 ;
 
-        .export         _gmtime
-        .import         __time_t_to_tm
-        .import         ldeaxi
+        .export _gmtime
+        .import __time_t_to_tm
+        .import ldeaxi
 
 _gmtime:
         cpx     #$00            ; Check for null pointer
@@ -17,4 +17,4 @@ _gmtime:
         jmp     __time_t_to_tm  ; Convert it
 
 no_pointer:
-        rts                     ; A/X already set
+        rts     ; A/X already set

@@ -10,10 +10,10 @@ EXTERN asm_fgets_unlocked
 
 fgets_unlocked_callee:
 
-   pop af
-   pop ix
-   pop bc
-   pop de
-   push af
-   
-   jp asm_fgets_unlocked
+        pop     af
+        pop     ix
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_fgets_unlocked

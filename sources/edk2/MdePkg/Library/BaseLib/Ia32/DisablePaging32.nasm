@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID
@@ -29,20 +29,19 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalX86DisablePaging32)
 ASM_PFX(InternalX86DisablePaging32):
-    mov     ebx, [esp + 4]
-    mov     ecx, [esp + 8]
-    mov     edx, [esp + 12]
-    pushfd
-    pop     edi                         ; save EFLAGS to edi
-    cli
-    mov     eax, cr0
-    btr     eax, 31
-    mov     esp, [esp + 16]
-    mov     cr0, eax
-    push    edi
-    popfd                               ; restore EFLAGS from edi
-    push    edx
-    push    ecx
-    call    ebx
-    jmp     $                           ; EntryPoint() should not return
-
+        mov     ebx, [esp + 4]
+        mov     ecx, [esp + 8]
+        mov     edx, [esp + 12]
+        pushfd
+        pop     edi     ; save EFLAGS to edi
+        cli
+        mov     eax, cr0
+        btr     eax, 31
+        mov     esp, [esp + 16]
+        mov     cr0, eax
+        push    edi
+        popfd           ; restore EFLAGS from edi
+        push    edx
+        push    ecx
+        call    ebx
+        jmp     $       ; EntryPoint() should not return

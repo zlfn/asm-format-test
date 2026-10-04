@@ -4,14 +4,14 @@
 ; char cgetc (void);
 ;
 
-        .export         _cgetc
-        .constructor    initcgetc
-        .destructor     donecgetc
+        .export _cgetc
+        .constructor initcgetc
+        .destructor donecgetc
 
-        .import         cursor
+        .import cursor
 
-        .include        "cbm_kernal.inc"
-        .include        "c128.inc"
+        .include "cbm_kernal.inc"
+        .include "c128.inc"
 
 ;--------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ L1:     lda     KEY_COUNT       ; Check characters again
         beq     L1
         jsr     CURS_OFF        ; Switch cursor off, if characters available
 
-L2:     jsr     KBDREAD         ; Read char and return in A
+L2:     jsr     KBDREAD ; Read char and return in A
         ldx     #0
         rts
 

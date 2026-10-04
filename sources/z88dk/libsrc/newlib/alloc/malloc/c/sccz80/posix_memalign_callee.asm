@@ -16,13 +16,13 @@ EXTERN asm_posix_memalign
 
 posix_memalign_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   push af
-   
-   jp asm_posix_memalign
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_posix_memalign
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

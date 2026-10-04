@@ -6,25 +6,23 @@
 ; 06,22.12.2002
 ;
 
+        .include "zeropage.inc"
 
-        .include        "zeropage.inc"
+        .include "em-kernel.inc"
+        .include "em-error.inc"
 
-        .include        "em-kernel.inc"
-        .include        "em-error.inc"
-
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c128_ramcart_emd
+        module_header _c128_ramcart_emd
 
 ; Driver signature
 
-        .byte   $65, $6d, $64           ; "emd"
-        .byte   EMD_API_VERSION         ; EM API version number
+        .byte   $65, $6d, $64   ; "emd"
+        .byte   EMD_API_VERSION ; EM API version number
 
 ; Library reference
 
@@ -53,7 +51,7 @@ RAMC_PAGE_HI      = $DE01               ; Page register high (only for RC128)
 
 .bss
 
-pagecount:      .res    2               ; Number of pages available
+pagecount: .res 2       ; Number of pages available
 
 .code
 
@@ -104,7 +102,7 @@ INSTALL:
 @notpresent:
 @readonly:
         lda     #EM_ERR_NO_DEVICE
-        ldx     #0 ; return value is char
+        ldx     #0      ; return value is char
 ;       rts                             ; Run into UNINSTALL instead
 
 ; ------------------------------------------------------------------------
@@ -114,7 +112,6 @@ INSTALL:
 
 UNINSTALL:
         rts
-
 
 ; ------------------------------------------------------------------------
 ; PAGECOUNT: Return the total number of available pages in a/x.
@@ -131,7 +128,6 @@ PAGECOUNT:
 ; identical to MAP.
 
 USE     = MAP
-
 
 ; ------------------------------------------------------------------------
 ; MAP: Map the page in a/x into memory and return a pointer to the page in
@@ -172,8 +168,8 @@ COPYFROM:
 
         jmp     @L5
 
-@L1:    lda     RAMC_WINDOW,x
-        sta     (ptr2),y
+@L1:    lda     RAMC_WINDOW, x
+        sta     (ptr2), y
         iny
         bne     @L2
         inc     ptr2+1
@@ -220,8 +216,8 @@ COPYTO:
 
         jmp     @L5
 
-@L1:    lda     (ptr2),y
-        sta     RAMC_WINDOW,x
+@L1:    lda     (ptr2), y
+        sta     RAMC_WINDOW, x
         iny
         bne     @L2
         inc     ptr2+1
@@ -252,46 +248,45 @@ COPYTO:
 ; structure and prepare data for the copy
 
 setup:  sta     ptr1
-        stx     ptr1+1          ; Save passed pointer
+        stx     ptr1+1  ; Save passed pointer
 
 ; Get the page number from the struct and adjust it so that it may be used
 ; with the hardware. That is: lower 6 bits in tmp1, high bits in tmp2.
 
         ldy     #EM_COPY::PAGE+1
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     tmp2
         dey
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     tmp1
 
 ; Get the buffer pointer into ptr2
 
         ldy     #EM_COPY::BUF
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     ptr2
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     ptr2+1
 
 ; Get the count, calculate -(count-1) and store it into ptr3
 
         ldy     #EM_COPY::COUNT
-        lda     (ptr1),y
+        lda     (ptr1), y
         eor     #$FF
         sta     ptr3
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         eor     #$FF
         sta     ptr3+1
 
 ; Get the page offset into X and clear Y
 
         ldy     #EM_COPY::OFFS
-        lda     (ptr1),y
+        lda     (ptr1), y
         tax
         ldy     #$00
 
 ; Done
 
         rts
-

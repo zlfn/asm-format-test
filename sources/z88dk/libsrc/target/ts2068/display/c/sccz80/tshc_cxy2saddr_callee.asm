@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _tshc_cxy2saddr_callee
 defc _tshc_cxy2saddr_callee = tshc_cxy2saddr_callee
 ENDIF
-

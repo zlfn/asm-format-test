@@ -18,13 +18,13 @@ PUBLIC asm_cpu_inir
 asm_z180_inir:
 asm_cpu_inir:
 
-   ; enter : hl = void *dst
-   ;          c = port
-   ;          b = num
-   ;
-   ; exit  : hl = void *dst_nxt (address following last byte written)
-   ;
-   ; uses  : f, b, hl
-   
-   inir
-   ret
+        ; enter : hl = void *dst
+        ;          c = port
+        ;          b = num
+        ;
+        ; exit  : hl = void *dst_nxt (address following last byte written)
+        ;
+        ; uses  : f, b, hl
+
+        inir
+        ret

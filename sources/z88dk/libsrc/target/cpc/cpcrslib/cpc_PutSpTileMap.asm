@@ -8,22 +8,22 @@
 ;       $Id: cpc_PutSpTileMap.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_PutSpTileMap
-        PUBLIC    _cpc_PutSpTileMap
+        SECTION code_clib
+        PUBLIC  cpc_PutSpTileMap
+        PUBLIC  _cpc_PutSpTileMap
 
-		EXTERN	cpc_UpdTileTable
-		
+        EXTERN  cpc_UpdTileTable
+
 .cpc_PutSpTileMap
 ._cpc_PutSpTileMap
 
 ;según las coordenadas x,y que tenga el sprite, se dibuja en el buffer
 
-	; HL = ptr to sprite
-	
-    ex de,hl	;4
-	LD IXH,d	;9
-    LD IXL,e	;9   
+        ; HL = ptr to sprite
+
+        ex      de,  hl ;4
+        LD      IXH, d  ;9
+        LD      IXL, e  ;9
 
 ;Obtencion de dimensiones, solo usadas para calcular iteraciones -> BC
 ld l, (ix+0)
@@ -35,14 +35,13 @@ Dec b
 Dec c
 ;->BC coord -1
 
-    ld l, (ix+10)
-    ld h, (ix+11)    ;recoje coordenadas anteriores
+        ld      l, (ix+10)
+        ld      h, (ix+11)      ;recoje coordenadas anteriores
 
-    ld e, (ix+8)
-    ld d, (ix+9)
-    ld  (ix+10),e
-    ld  (ix+11),d
-
+        ld      e, (ix+8)
+        ld      d, (ix+9)
+        ld      (ix+10), e
+        ld      (ix+11), d
 
 ;Obtencion x0y0 -> HL
 PUSH HL
@@ -73,22 +72,22 @@ Inc a
 ;Loop from d, i veces
 ;Loop from e, j veces
 
-pasos_ancho_xW:    ; *parametro
-    ld b,a
+pasos_ancho_xW: ; *parametro
+        ld      b, a
 bucle_pasos_anchoW:
-    push de
-pasos_alto_xW: ; *parametro
-    ld c,0
+        push    de
+pasos_alto_xW:  ; *parametro
+        ld      c, 0
 bucle_pasos_altoW:
         ; Mete E y D
-            call cpc_UpdTileTable
-        inc d
-        dec c
-        jp nz,bucle_pasos_altoW
+        call    cpc_UpdTileTable
+        inc     d
+        dec     c
+        jp      nz, bucle_pasos_altoW
 
-    pop de
-    inc e
-    dec b
-    jp nz,bucle_pasos_anchoW
+        pop     de
+        inc     e
+        dec     b
+        jp      nz, bucle_pasos_anchoW
 
-    ret
+        ret

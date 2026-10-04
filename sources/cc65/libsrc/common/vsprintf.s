@@ -4,10 +4,9 @@
 ; Ullrich von Bassewitz, 2009-09-26
 ;
 
-        .export         _vsprintf
-        .import         pushw0sp, staxysp
-        .import         vsnprintf
-
+        .export _vsprintf
+        .import pushw0sp, staxysp
+        .import vsnprintf
 
 ; ----------------------------------------------------------------------------
 ; vsprintf - formatted output into a buffer
@@ -15,11 +14,10 @@
 ; int __fastcall__ vsprintf (char* buf, const char* format, va_list ap);
 ;
 
-
 _vsprintf:
-        pha                     ; Save low byte of ap
+        pha     ; Save low byte of ap
         txa
-        pha                     ; Save high byte of op
+        pha     ; Save high byte of op
 
 ; Build a stackframe for vsnprintf. To do that, we move format one word down,
 ; and store 0x7FFF (INT_MAX) as size.
@@ -34,4 +32,3 @@ _vsprintf:
 ; cleanup the C stack
 
         jmp     vsnprintf
-

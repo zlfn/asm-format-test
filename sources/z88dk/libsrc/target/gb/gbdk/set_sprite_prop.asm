@@ -13,11 +13,11 @@ set_sprite_prop:
 _set_sprite_prop:
         PUSH    BC
 
-        LD      HL,sp+6        ; Skip return address and registers
-        LD      C,(HL)          ; C = nb
+        LD      HL, sp+6        ; Skip return address and registers
+        LD      C,  (HL)        ; C = nb
         DEC     HL
         DEC     HL
-        LD      D,(HL)          ; D = prop
+        LD      D, (HL)         ; D = prop
 
         CALL    set_sprite_prop_impl
 
@@ -25,13 +25,13 @@ _set_sprite_prop:
         RET
 
 set_sprite_prop_impl:
-        LD      HL,OAM+3      ; Calculate origin of sprite info
+        LD      HL, OAM+3       ; Calculate origin of sprite info
 
-        SLA     C               ; Multiply C by 4
+        SLA     C       ; Multiply C by 4
         SLA     C
-        LD      B,0x00
-        ADD     HL,BC
+        LD      B,  0x00
+        ADD     HL, BC
 
-        LD      A,D             ; Set sprite number
-        LD      (HL),A
+        LD      A,    D ; Set sprite number
+        LD      (HL), A
         RET

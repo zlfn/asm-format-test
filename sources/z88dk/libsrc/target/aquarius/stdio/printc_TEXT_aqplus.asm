@@ -1,12 +1,11 @@
-        #include    "target/aquarius/def/plus.inc"
+        #include "target/aquarius/def/plus.inc"
         SECTION code_clib
 
         PUBLIC  printc_TEXT
 
         EXTERN  xypos_TEXT
         EXTERN  __aquarius_attr
-	EXTERN	__aquarius_mode
-
+        EXTERN  __aquarius_mode
 
 ; c = x
 ; b = y
@@ -16,15 +15,15 @@ printc_TEXT:
         call    xypos_TEXT
         ld      (hl), d
 
-        ld      a, (__aquarius_mode)
-        bit     6, a
+        ld      a,  (__aquarius_mode)
+        bit     6,  a
         jr      nz, col80
 
         inc     h
         inc     h
         inc     h
         inc     h
-        ld      a, (__aquarius_attr)
+        ld      a,    (__aquarius_attr)
         ld      (hl), a
         ret
 col80:
@@ -34,10 +33,9 @@ col80:
         or      VCTRL_TEXT_PAGE
         out     (IO_VCTRL), a
 
-        ld      a, (__aquarius_attr)
+        ld      a,    (__aquarius_attr)
         ld      (hl), a
 
         ld      a, b
         out     (IO_VCTRL), a
         ret
-

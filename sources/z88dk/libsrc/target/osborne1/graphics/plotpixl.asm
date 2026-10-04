@@ -11,8 +11,7 @@
 ;	$Id: plotpixl.asm $
 ;
 
-
-	INCLUDE	"classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
         SECTION code_clib
         PUBLIC  plotpixel
@@ -21,14 +20,13 @@
         EXTERN  __gfx_coords
         EXTERN  base_graphics
 
-
 plotpixel:
         ld      a, h
         cp      _GFX_MAXX
         ret     nc
         ld      a, l
         cp      _GFX_MAXY
-        ret     nc                      ; y0	out of range
+        ret     nc      ; y0	out of range
 
         ld      (__gfx_coords), hl
 
@@ -42,27 +40,27 @@ plotpixel:
         srl     b
         srl     c
         ld      hl, $f000
-        ld      a, c
-        ld      c, b                    ; !!
+        ld      a,  c
+        ld      c,  b   ; !!
         and     a
-        ld      b, a
-        ld      de, $80                 ; ..a text row every 128 bytes
-        jr      z, r_zero
+        ld      b,  a
+        ld      de, $80 ; ..a text row every 128 bytes
+        jr      z,  r_zero
 r_loop:
         add     hl, de
         djnz    r_loop
-r_zero:                                 ; hl = char address
-        ld      e, c
+r_zero:                 ; hl = char address
+        ld      e,  c
         add     hl, de
 
-        ld      a, (hl)                 ; get current symbol
+        ld      a, (hl) ; get current symbol
 
         ld      e, a
 
         push    hl
         ld      hl, textpixl
-        ld      e, 0
-        ld      b, 16
+        ld      e,  0
+        ld      b,  16
 ckmap:  cp      (hl)
         jr      z, chfound
         inc     hl
@@ -73,28 +71,28 @@ chfound:
         ld      a, e
         pop     hl
 
-        ex      (sp), hl                ; save char address <=> restore x,y
+        ex      (sp), hl        ; save char address <=> restore x,y
 
         ld      b, a
-        ld      a, 1                    ; the bit we want to draw
+        ld      a, 1    ; the bit we want to draw
 
         bit     0, h
         jr      z, iseven
-        add     a, a                    ; move right the bit
+        add     a, a    ; move right the bit
 
 iseven:
         bit     0, l
         jr      z, evenrow
         add     a, a
-        add     a, a                    ; move down the bit
+        add     a, a    ; move down the bit
 evenrow:
         or      b
 
         ld      hl, textpixl
-        ld      d, 0
-        ld      e, a
+        ld      d,  0
+        ld      e,  a
         add     hl, de
-        ld      a, (hl)
+        ld      a,  (hl)
 
         pop     hl
         ld      (hl), a

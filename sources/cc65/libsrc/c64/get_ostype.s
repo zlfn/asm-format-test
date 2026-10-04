@@ -14,11 +14,11 @@
 ; $FF C64DTV
 ;
 
-        .export         _get_ostype
+        .export _get_ostype
 
 .proc   _get_ostype
 
-        ldx     #0            ; Clear high byte
+        ldx     #0      ; Clear high byte
 
         ldy     #1
         sty     $d03f

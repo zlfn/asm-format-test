@@ -25,14 +25,12 @@ PUBLIC asm_f24_nan
 PUBLIC asm_f16_nan
 
 .asm_f24_nan
-    ; d=255 + nonzero mant → half qNaN via asm_f16_f24 specials path
-    ld d,255
-    ld e,0
-    ld hl,04000h
-    ret
+        ; d=255 + nonzero mant → half qNaN via asm_f16_f24 specials path
+        ld      d,  255
+        ld      e,  0
+        ld      hl, 04000h
+        ret
 
 .asm_f16_nan
-    ld hl,07C80h                ; +qNaN
-    ret
-
-
+        ld      hl, 07C80h      ; +qNaN
+        ret

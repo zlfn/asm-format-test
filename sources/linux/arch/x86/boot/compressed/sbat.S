@@ -2,6 +2,6 @@
 /*
  * Embed SBAT data in the kernel.
  */
-	.pushsection ".sbat", "a", @progbits
-	.incbin CONFIG_EFI_SBAT_FILE
-	.popsection
+        .pushsection ".sbat", "a", @progbits
+        .incbin CONFIG_EFI_SBAT_FILE
+        .popsection

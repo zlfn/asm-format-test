@@ -7,29 +7,28 @@
 ; Important note: The implementation of cputs() relies on the cputc() function
 ; not clobbering ptr1. Beware when rewriting or changing this function!
 
-        .export         _cputcxy, _cputc, cputdirect, putchar
-        .export         newline, plot
-        .import         gotoxy
-        .import         PLOT
+        .export _cputcxy, _cputc, cputdirect, putchar
+        .export newline,  plot
+        .import gotoxy
+        .import PLOT
 
-        .include        "plus4.inc"
-
+        .include "plus4.inc"
 
 _cputcxy:
-        pha                     ; Save C
-        jsr     gotoxy          ; Set cursor, drop x and y
-        pla                     ; Restore C
+        pha             ; Save C
+        jsr     gotoxy  ; Set cursor, drop x and y
+        pla             ; Restore C
 
 ; Plot a character - also used as internal function
 
-_cputc: cmp     #$0A            ; CR?
+_cputc: cmp     #$0A    ; CR?
         bne     L1
         lda     #0
         sta     CURS_X
-        beq     plot            ; Recalculate pointers
+        beq     plot    ; Recalculate pointers
 
-L1:     cmp     #$0D            ; LF?
-        beq     newline         ; Recalculate pointers
+L1:     cmp     #$0D    ; LF?
+        beq     newline ; Recalculate pointers
 
 ; Printable char of some sort
 
@@ -44,7 +43,7 @@ L1:     cmp     #$0D            ; LF?
 L2:     and     #$3F
 
 cputdirect:
-        jsr     putchar         ; Write the character to the screen
+        jsr     putchar ; Write the character to the screen
 
 ; Advance cursor position
 
@@ -52,8 +51,8 @@ advance:
         iny
         cpy     #XSIZE
         bne     L3
-        jsr     newline         ; new line
-        ldy     #0              ; + cr
+        jsr     newline ; new line
+        ldy     #0      ; + cr
 L3:     sty     CURS_X
         rts
 
@@ -76,22 +75,18 @@ L5:     inc     CURS_Y
 ; Handle character if high bit set
 
 L10:    and     #$7F
-        cmp     #$7F            ; PI?
+        cmp     #$7F    ; PI?
         bne     L11
-        lda     #$5E            ; Load screen code for PI
+        lda     #$5E    ; Load screen code for PI
 L11:    ora     #$40
         bne     cputdirect
-
-
 
 ; Set cursor position, calculate RAM pointers
 
 plot:   ldy     CURS_X
         ldx     CURS_Y
         clc
-        jmp     PLOT            ; Set the new cursor
-
-
+        jmp     PLOT    ; Set the new cursor
 
 ; Write one character to the screen without doing anything else, return X
 ; position in Y
@@ -99,7 +94,7 @@ plot:   ldy     CURS_X
 putchar:
         ora     RVS             ; Set revers bit
         ldy     CURS_X
-        sta     (SCREEN_PTR),y  ; Set char
+        sta     (SCREEN_PTR), y ; Set char
         lda     CHARCOLOR
-        sta     (CRAM_PTR),y    ; Set color
+        sta     (CRAM_PTR), y   ; Set color
         rts

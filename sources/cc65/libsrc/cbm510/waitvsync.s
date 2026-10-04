@@ -4,13 +4,13 @@
 ; void waitvsync (void);
 ;
 
-        .export         _waitvsync
-        .import         PALFLAG
-        .import         sys_bank, restore_bank
+        .export _waitvsync
+        .import PALFLAG
+        .import sys_bank, restore_bank
 
-        .importzp       vic
+        .importzp vic
 
-        .include        "cbm510.inc"
+        .include "cbm510.inc"
 
 _waitvsync:
         jsr     sys_bank        ; Switch to the system bank
@@ -18,11 +18,11 @@ _waitvsync:
 
         ldy     #VIC_CTRL1
 @l1:
-        lda     (vic),y
+        lda     (vic), y
         bpl     @l1
 @l2:
-        lda     (vic),y
+        lda     (vic), y
         bmi     @l2
 
         cli
-        jmp    restore_bank
+        jmp     restore_bank

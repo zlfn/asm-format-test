@@ -18,12 +18,12 @@
 ; ZCRNAME is slightly different from SpartaDOS. It will convert D:
 ; into Dn: where n is the default drive.
 
-        .include        "atari.inc"
-        .import         __dos_type
-        .export         __getdefdev             ; get default device
-        .export         __defdev                ; this is the default device string (e.g. "D1:")
+        .include "atari.inc"
+        .import __dos_type
+        .export __getdefdev     ; get default device
+        .export __defdev        ; this is the default device string (e.g. "D1:")
 .ifdef  DYNAMIC_DD
-        .constructor    __getdefdev, 24
+        .constructor __getdefdev, 24
 .endif
 
 ; Get default device (LBUF will be destroyed!!)
@@ -38,30 +38,30 @@ __getdefdev:
 
         ldy     #BUFOFF
         lda     #0
-        sta     (DOSVEC),y      ; reset buffer offset
+        sta     (DOSVEC), y     ; reset buffer offset
 
 ; Store dummy argument
 
         ldy     #LBUF
         lda     #'X'
-        sta     (DOSVEC),y
+        sta     (DOSVEC), y
         iny
         lda     #ATEOL
-        sta     (DOSVEC),y
+        sta     (DOSVEC), y
 
 ; One extra store to avoid the buggy sequence from OS/A+ DOS:
 ; <D><RETURN><:> => drive number = <RETURN>
 
         iny
-        sta     (DOSVEC),y
+        sta     (DOSVEC), y
 
 ; Create crunch vector
 
         ldy     #ZCRNAME+1
-        lda     (DOSVEC),y
+        lda     (DOSVEC), y
         sta     crvec+1
         iny
-        lda     (DOSVEC),y
+        lda     (DOSVEC), y
         sta     crvec+2
 
         jsr     crvec
@@ -69,10 +69,10 @@ __getdefdev:
 ; Get default device
 
         ldy     #COMFNAM        ;  COMFNAM is always "Dn:"
-        lda     (DOSVEC),y
+        lda     (DOSVEC), y
         sta     __defdev
         iny
-        lda     (DOSVEC),y
+        lda     (DOSVEC), y
 done:   sta     __defdev+1
 
 ; Return pointer to default device
@@ -89,7 +89,7 @@ use_DUNIT:
         lda     DUNIT
         clc
         adc     #'0'
-        bne     done            ; jump always
+        bne     done    ; jump always
 
 ; XDOS default device retrieval
 
@@ -98,24 +98,24 @@ xdos:
 ; check XDOS version (we need >= 2.4)
 
         lda     XGLIN
-        cmp     #$4C            ; there needs to be a 'JMP' opcode here
-        bne     finish          ; older version, use DEFAULT_DEVICE or D1:
-        lda     XVER            ; get BCD encoded version ($24 for 2.4)
+        cmp     #$4C    ; there needs to be a 'JMP' opcode here
+        bne     finish  ; older version, use DEFAULT_DEVICE or D1:
+        lda     XVER    ; get BCD encoded version ($24 for 2.4)
         cmp     #$24
-        bcc     finish          ; too old, below 2.4
+        bcc     finish  ; too old, below 2.4
 
 ; good XDOS version, get default drive
 
         lda     #ATEOL
-        sta     XLINE           ; simulate empty command line
+        sta     XLINE   ; simulate empty command line
         ldy     #0
-        jsr     XMOVE           ; create an FMS filename (which in this case only contains the drive)
+        jsr     XMOVE   ; create an FMS filename (which in this case only contains the drive)
         lda     XFILE+1
         bne     done
 
         .data
 
-crvec:  jmp     $FFFF           ; target address will be set to crunch vector
+crvec:  jmp     $FFFF   ; target address will be set to crunch vector
 
 ; Default device string
 

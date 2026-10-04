@@ -10,19 +10,19 @@ EXTERN console_01_output_fzx_proc_putchar_scroll
 
 zx_01_output_fzx_tty_z88dk_01_scroll:
 
-   ; scroll window upward one row
+        ; scroll window upward one row
 
-   ld hl,30
-   call l_offset_ix_de
-   
-   push hl
-   ex (sp),ix                  ; struct fzx_state *
+        ld      hl, 30
+        call    l_offset_ix_de
 
-   call __fzx_puts_single_spacing
-   call console_01_output_fzx_proc_line_spacing
+        push    hl
+        ex      (sp), ix        ; struct fzx_state *
 
-   ; hl = num pixels to scroll vertically
-   
-   pop ix                      ; ix = FDSTRUCT.JP *
+        call    __fzx_puts_single_spacing
+        call    console_01_output_fzx_proc_line_spacing
 
-   jp console_01_output_fzx_proc_putchar_scroll
+        ; hl = num pixels to scroll vertically
+
+        pop     ix      ; ix = FDSTRUCT.JP *
+
+        jp      console_01_output_fzx_proc_putchar_scroll

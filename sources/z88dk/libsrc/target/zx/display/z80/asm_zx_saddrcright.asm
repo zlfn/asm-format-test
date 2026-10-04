@@ -17,21 +17,21 @@ PUBLIC asm_zx_saddrcright
 
 asm_zx_saddrcright:
 
-   ; enter : hl = screen address
-   ;
-   ; exit  : hl = screen address moved to right one character
-   ;         carry set if new screen address is off screen
-   ;
-   ; uses  : af, hl
+        ; enter : hl = screen address
+        ;
+        ; exit  : hl = screen address moved to right one character
+        ;         carry set if new screen address is off screen
+        ;
+        ; uses  : af, hl
 
-   or a
-   inc l
-   ret nz
-   
-   ld a,$08
-   add a,h
-   ld h,a
+        or      a
+        inc     l
+        ret     nz
 
-   and $18
-   add a,$e8
-   ret
+        ld      a, $08
+        add     a, h
+        ld      h, a
+
+        and     $18
+        add     a, $e8
+        ret

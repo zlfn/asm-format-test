@@ -9,10 +9,10 @@ EXTERN _esxdos_m_setdrv_fastcall
 
 _esxdos_m_setdrv:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _esxdos_m_setdrv_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _esxdos_m_setdrv_fastcall

@@ -10,8 +10,8 @@ EXTERN asm_im2_install_isr
 
 im2_install_isr_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_im2_install_isr
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_im2_install_isr

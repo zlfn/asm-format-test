@@ -10,12 +10,12 @@
 ; int isspace (int c);
 ;
 
-        .export         _isspace
-        .include        "ctype.inc"
-        .import         ctypemask
+        .export _isspace
+        .include "ctype.inc"
+        .import ctypemask
 
 _isspace:
-        jsr     ctypemask               ; (always clears X)
-        bcs     @L1                     ; out of range? (everything already clear -> false)
-        and     #(CT_SPACE | CT_OTHER_WS) ; mask space bits
+        jsr     ctypemask                       ; (always clears X)
+        bcs     @L1                             ; out of range? (everything already clear -> false)
+        and     #(CT_SPACE | CT_OTHER_WS)       ; mask space bits
 @L1:    rts

@@ -5,7 +5,7 @@
 __INITDATA
 
 SYM_DATA_START(vdso_start)
-	.incbin "arch/x86/um/vdso/vdso.so"
+        .incbin "arch/x86/um/vdso/vdso.so"
 SYM_DATA_END_LABEL(vdso_start, SYM_L_GLOBAL, vdso_end)
 
 __FINIT

@@ -8,38 +8,37 @@
 ;	$Id: f_ansi_scrollup.asm,v 1.6 2016-06-12 16:06:43 dom Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_SCROLLUP
+        SECTION code_clib
+        PUBLIC  ansi_SCROLLUP
 
-    EXTERN  base_graphics
+        EXTERN  base_graphics
 
-    EXTERN  __gfx_vram_page_in
-    EXTERN  __gfx_vram_page_out
-
+        EXTERN  __gfx_vram_page_in
+        EXTERN  __gfx_vram_page_out
 
 ansi_SCROLLUP:
 
-    call    __gfx_vram_page_in
+        call    __gfx_vram_page_in
 
-    ld      hl, (base_graphics)
-    ld      d, h
-    ld      e, l
-    ld      bc, 0f0h
-    add     hl, bc
+        ld      hl, (base_graphics)
+        ld      d,  h
+        ld      e,  l
+        ld      bc, 0f0h
+        add     hl, bc
 
-    ld      bc, 2160
-	;ld	bc,2160-0f0h
-    ldir
+        ld      bc, 2160
+        ;ld	bc,2160-0f0h
+        ldir
 
-    ld      de, 0f0h
-    sbc     hl, de
+        ld      de, 0f0h
+        sbc     hl, de
 
-    ld      d, h
-    ld      e, l
-    xor     a
-    ld      (hl), a
-    inc     de
-    ld      bc, +(30*8)-1
-    ldir
+        ld      d, h
+        ld      e, l
+        xor     a
+        ld      (hl), a
+        inc     de
+        ld      bc, +(30*8)-1
+        ldir
 
-    jp      __gfx_vram_page_out
+        jp      __gfx_vram_page_out

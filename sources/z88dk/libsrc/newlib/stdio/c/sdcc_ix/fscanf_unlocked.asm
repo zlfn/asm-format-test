@@ -10,9 +10,9 @@ EXTERN asm_fscanf_unlocked
 
 _fscanf_unlocked:
 
-   push ix
-   
-   call asm_fscanf_unlocked
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_fscanf_unlocked
+
+        pop     ix
+        ret

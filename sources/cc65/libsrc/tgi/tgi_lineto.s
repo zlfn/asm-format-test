@@ -6,16 +6,16 @@
 ; ** new end point.
 ; */
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
-        .import         popax
+        .import popax
 
 .proc   _tgi_lineto
 
         pha
         ldy     #3              ; Copy curx/cury to tgi_clip_x1/tgi_clip_y1
-@L1:    lda     _tgi_curx,y
-        sta     tgi_clip_x1,y
+@L1:    lda     _tgi_curx,   y
+        sta     tgi_clip_x1, y
         dey
         bpl     @L1
         pla
@@ -23,4 +23,3 @@
         jmp     tgi_clippedline ; Call the line clipper
 
 .endproc
-

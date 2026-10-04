@@ -1,13 +1,13 @@
-        .include        "global.s"
+        .include "global.s"
 
-        .area _HOME
+        .area   _HOME
 
-___sdcc_bcall_ehl::                     ; Performs a long call.
+___sdcc_bcall_ehl::             ; Performs a long call.
         ldh     a, (__current_bank)
-        push    af                      ; Push the current bank onto the stack
+        push    af              ; Push the current bank onto the stack
         ld      a, e
         ldh     (__current_bank), a
-        ld      (rROMB0), a             ; Perform the switch
+        ld      (rROMB0), a     ; Perform the switch
         rst     0x20
         pop     hl
         ld      l, a

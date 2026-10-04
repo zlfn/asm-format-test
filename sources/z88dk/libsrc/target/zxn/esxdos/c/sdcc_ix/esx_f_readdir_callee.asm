@@ -9,16 +9,16 @@ EXTERN asm_esx_f_readdir
 
 _esx_f_readdir_callee:
 
-   pop hl
-   dec sp
-   pop af
-   ex (sp),hl
+        pop     hl
+        dec     sp
+        pop     af
+        ex      (sp), hl
 
 l0_esx_f_readdir_callee:
 
-   push ix
+        push    ix
 
-   call asm_esx_f_readdir
+        call    asm_esx_f_readdir
 
-   pop ix
-   ret
+        pop     ix
+        ret

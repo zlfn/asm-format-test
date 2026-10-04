@@ -10,9 +10,9 @@ EXTERN asm_w_vector_resize
 
 _w_vector_resize_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_w_vector_resize
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_w_vector_resize

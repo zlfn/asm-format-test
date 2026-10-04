@@ -9,19 +9,18 @@ EXTERN asm_sp1_GetSprClrAddr
 
 sp1_GetSprClrAddr_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 ;   jp asm_sp1_GetSprClrAddr
-   push ix
-   call asm_sp1_GetSprClrAddr
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_GetSprClrAddr
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_GetSprClrAddr_callee
 defc _sp1_GetSprClrAddr_callee = sp1_GetSprClrAddr_callee
 ENDIF
-

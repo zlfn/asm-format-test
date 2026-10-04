@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT64
@@ -28,8 +28,7 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmMwait)
 ASM_PFX(AsmMwait):
-    mov     eax, ecx
-    mov     ecx, edx
-    mwait
-    ret
-
+        mov     eax, ecx
+        mov     ecx, edx
+        mwait
+        ret

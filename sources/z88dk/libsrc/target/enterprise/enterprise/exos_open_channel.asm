@@ -9,21 +9,19 @@
 ;
 
         SECTION code_clib
-	PUBLIC    exos_open_channel
-	PUBLIC    _exos_open_channel
+        PUBLIC  exos_open_channel
+        PUBLIC  _exos_open_channel
 
-	EXTERN     asm_exos_open_channel
-
+        EXTERN  asm_exos_open_channel
 
 exos_open_channel:
 _exos_open_channel:
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
-   
-   jp asm_exos_open_channel
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
 
+        jp      asm_exos_open_channel

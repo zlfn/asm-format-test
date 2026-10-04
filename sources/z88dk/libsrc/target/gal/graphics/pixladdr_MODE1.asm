@@ -2,11 +2,10 @@
 
 ;-----------  GFX paging  -------------
 
-    SECTION code_clib
-    PUBLIC  pixeladdress_MODE1
+        SECTION code_clib
+        PUBLIC  pixeladdress_MODE1
 
-    INCLUDE "classic/gfx/grafix.inc"
-
+        INCLUDE "classic/gfx/grafix.inc"
 
 ; Entry  h = x
 ;        l = y
@@ -18,24 +17,24 @@
 
 pixeladdress_MODE1:
 
-    ; add y-times the nuber of bytes per line (32)
-    ld      e, h
-    ld      h, 0
-    ld      d, h
-    add     hl, hl
-    add     hl, hl
-    add     hl, hl
-    add     hl, hl
-    add     hl, hl
-    ld      a, e
-    srl     e
-    srl     e
-    srl     e
-    ;ld      d, 0
-    add     hl, de
-    ld      e, $20
-    add     hl, de
-    ld      de, ($2a6a)
-    add     hl, de
-    and     7
-    ret
+        ; add y-times the nuber of bytes per line (32)
+        ld      e,  h
+        ld      h,  0
+        ld      d,  h
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        ld      a,  e
+        srl     e
+        srl     e
+        srl     e
+        ;ld      d, 0
+        add     hl, de
+        ld      e,  $20
+        add     hl, de
+        ld      de, ($2a6a)
+        add     hl, de
+        and     7
+        ret

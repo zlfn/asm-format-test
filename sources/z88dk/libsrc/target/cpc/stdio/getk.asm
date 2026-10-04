@@ -10,31 +10,29 @@
 ;
 
         SECTION code_clib
-        PUBLIC	getk
-        PUBLIC	_getk
+        PUBLIC  getk
+        PUBLIC  _getk
 
         INCLUDE "target/cpc/def/cpcfirm.def"
 
-
 .getk
-._getk		
+._getk
         call    firmware
         defw    km_read_char
-		
-		push af
 
-	; clear buffer for next reading
+        push    af
+
+        ; clear buffer for next reading
         call    firmware
         defw    km_initialise
 
-		pop af
-		
-		
-		ld		hl,0
+        pop     af
+
+        ld      hl, 0
         ret     nc
-		ld		l,a
-		
-        cp	127
-		ret	nz
-        ld	l,12
+        ld      l, a
+
+        cp      127
+        ret     nz
+        ld      l, 12
         ret

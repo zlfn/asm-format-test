@@ -14,7 +14,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ;
@@ -23,21 +23,20 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(__ashrdi3)
 ASM_PFX(__ashrdi3):
-    cmp cl,0x40
-    jnc _Exit
-    cmp cl,0x20
-    jnc More32
-    shrd eax,edx,cl
-    shr edx,cl
-    ret
+        cmp     cl, 0x40
+        jnc     _Exit
+        cmp     cl, 0x20
+        jnc     More32
+        shrd    eax, edx, cl
+        shr     edx, cl
+        ret
 More32:
-    mov eax,edx
-    xor edx,edx
-    and cl,0x1f
-    shr eax,cl
-    ret
+        mov     eax, edx
+        xor     edx, edx
+        and     cl,  0x1f
+        shr     eax, cl
+        ret
 _Exit:
-    xor eax,eax
-    xor edx,edx
-    ret
-
+        xor     eax, eax
+        xor     edx, edx
+        ret

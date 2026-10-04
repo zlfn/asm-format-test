@@ -17,15 +17,15 @@ EXTERN _u_malloc
 .adt_ListCreate
 ._adt_ListCreate
 
-   ld hl,9            ; sizeof(struct adt_List)
-   push hl
-   call _u_malloc     ; alloc memory, hl=0 & carry reset if fail
-   pop bc
-   ret nc
+        ld      hl, 9           ; sizeof(struct adt_List)
+        push    hl
+        call    _u_malloc       ; alloc memory, hl=0 & carry reset if fail
+        pop     bc
+        ret     nc
 
-   ld e,l
-   ld d,h
-   ld a,0
-   call l_setmem-17   ; clear 9 bytes
-   ex de,hl
-   ret
+        ld      e, l
+        ld      d, h
+        ld      a, 0
+        call    l_setmem-17     ; clear 9 bytes
+        ex      de, hl
+        ret

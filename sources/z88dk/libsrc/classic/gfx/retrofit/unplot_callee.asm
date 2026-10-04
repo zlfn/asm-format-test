@@ -12,7 +12,6 @@
 ; CALLER LINKAGE FOR FUNCTION POINTERS
 ; ----- void  unplot(int x, int y)
 
-
         SECTION code_graphics
 
         PUBLIC  unplot_callee
@@ -22,10 +21,10 @@
 
 unplot_callee:
 _unplot_callee:
-        pop     af                      ; ret addr
+        pop     af      ; ret addr
         pop     bc
         pop     de
-        push    af                      ; ret addr
+        push    af      ; ret addr
         push    de
         push    bc
 

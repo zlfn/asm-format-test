@@ -20,19 +20,19 @@ PUBLIC RIsPtInRect16
 
 .RIsPtInRect16
 
-   or a
-   sbc hl,bc
-   or a
-   sbc hl,de
-   ret nc
-   
-   exx
-   
-   or a
-   sbc hl,bc
-   or a
-   sbc hl,de
-   
-   exx
-   
-   ret
+        or      a
+        sbc     hl, bc
+        or      a
+        sbc     hl, de
+        ret     nc
+
+        exx
+
+        or      a
+        sbc     hl, bc
+        or      a
+        sbc     hl, de
+
+        exx
+
+        ret

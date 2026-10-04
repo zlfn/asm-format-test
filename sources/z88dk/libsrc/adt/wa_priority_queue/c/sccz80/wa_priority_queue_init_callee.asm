@@ -11,17 +11,16 @@ EXTERN asm_wa_priority_queue_init
 
 wa_priority_queue_init_callee:
 
-   pop hl
-   pop ix
-   pop bc
-   pop de
-   ex (sp),hl
-   
-   jp asm_wa_priority_queue_init
+        pop     hl
+        pop     ix
+        pop     bc
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_wa_priority_queue_init
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _wa_priority_queue_init_callee
 defc _wa_priority_queue_init_callee = wa_priority_queue_init_callee
 ENDIF
-

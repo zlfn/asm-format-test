@@ -13,17 +13,16 @@ EXTERN _u_free
 .adt_StackDelete_callee
 ._adt_StackDelete_callee
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
 .asm_adt_StackDelete
 
-   push hl
-   call asm_adt_StackDeleteS
-   pop hl
-   push hl
-   call _u_free
-   pop hl
-   ret
-
+        push    hl
+        call    asm_adt_StackDeleteS
+        pop     hl
+        push    hl
+        call    _u_free
+        pop     hl
+        ret

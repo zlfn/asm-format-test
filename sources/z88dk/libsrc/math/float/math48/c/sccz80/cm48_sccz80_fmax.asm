@@ -10,9 +10,9 @@ EXTERN am48_fmax, cm48_sccz80p_dread2
 
 cm48_sccz80_fmax:
 
-   call cm48_sccz80p_dread2
-   
-   ; AC'= y
-   ; AC = x
+        call    cm48_sccz80p_dread2
 
-   jp am48_fmax
+        ; AC'= y
+        ; AC = x
+
+        jp      am48_fmax

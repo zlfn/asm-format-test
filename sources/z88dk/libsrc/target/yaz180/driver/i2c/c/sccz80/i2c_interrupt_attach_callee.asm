@@ -14,11 +14,10 @@ PUBLIC i2c_interrupt_attach_callee
 ;   extern void __LIB__ i2c_interrupt_attach_callee(uint8_t device,void *isr) __smallc __z88dk_callee;
 
 .i2c_interrupt_attach_callee
-    pop bc                              ;ret
-    pop hl                              ;*isr
-    dec sp
-    pop af                              ;device address
-    inc sp
-    push bc                             ;ret
-    jp asm_i2c_interrupt_attach
-
+        pop     bc      ;ret
+        pop     hl      ;*isr
+        dec     sp
+        pop     af      ;device address
+        inc     sp
+        push    bc      ;ret
+        jp      asm_i2c_interrupt_attach

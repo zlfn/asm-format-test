@@ -69,189 +69,187 @@
  *	than one 32bit instruction in Thumb-2)
  */
 
-	UNWIND(	.fnstart			)
-		enter	r4, UNWIND(fpreg,) lr
-	UNWIND(	.setfp	fpreg, sp		)
-	UNWIND(	mov	fpreg, sp		)
+        UNWIND( .fnstart			)
+        enter   r4, UNWIND(fpreg,) lr
+        UNWIND( .setfp	fpreg, sp		)
+        UNWIND( mov	fpreg, sp		)
 
-		subs	r2, r2, #4
-		blt	8f
-		ands	ip, r0, #3
-	PLD(	pld	[r1, #0]		)
-		bne	9f
-		ands	ip, r1, #3
-		bne	10f
+        subs    r2, r2, #4
+        blt     8f
+        ands    ip, r0, #3
+        PLD(    pld	[r1, #0]		)
+        bne     9f
+        ands    ip, r1, #3
+        bne     10f
 
-1:		subs	r2, r2, #(28)
-		stmfd	sp!, {r5, r6, r8, r9}
-		blt	5f
+1:      subs    r2,  r2, #(28)
+        stmfd   sp!, {r5, r6, r8, r9}
+        blt     5f
 
-	CALGN(	ands	ip, r0, #31		)
-	CALGN(	rsb	r3, ip, #32		)
-	CALGN(	sbcsne	r4, r3, r2		)  @ C is always set here
-	CALGN(	bcs	2f			)
-	CALGN(	adr	r4, 6f			)
-	CALGN(	subs	r2, r2, r3		)  @ C gets set
-	CALGN(	add	pc, r4, ip		)
+        CALGN(  ands	ip, r0, #31		)
+        CALGN(  rsb	r3, ip, #32		)
+        CALGN(  sbcsne	r4, r3, r2		)       @ C is always set here
+        CALGN(  bcs	2f			)
+        CALGN(  adr	r4, 6f			)
+        CALGN(  subs	r2, r2, r3		)       @ C gets set
+        CALGN(  add	pc, r4, ip		)
 
-	PLD(	pld	[r1, #0]		)
-2:	PLD(	subs	r2, r2, #96		)
-	PLD(	pld	[r1, #28]		)
-	PLD(	blt	4f			)
-	PLD(	pld	[r1, #60]		)
-	PLD(	pld	[r1, #92]		)
+        PLD(    pld	[r1, #0]		)
+2:      PLD(    subs	r2, r2, #96		)
+        PLD(    pld	[r1, #28]		)
+        PLD(    blt	4f			)
+        PLD(    pld	[r1, #60]		)
+        PLD(    pld	[r1, #92]		)
 
-3:	PLD(	pld	[r1, #124]		)
-4:		ldr8w	r1, r3, r4, r5, r6, r8, r9, ip, lr, abort=20f
-		subs	r2, r2, #32
-		str8w	r0, r3, r4, r5, r6, r8, r9, ip, lr, abort=20f
-		bge	3b
-	PLD(	cmn	r2, #96			)
-	PLD(	bge	4b			)
+3:      PLD(    pld	[r1, #124]		)
+4:      ldr8w   r1, r3, r4, r5, r6, r8, r9, ip, lr, abort=20f
+        subs    r2, r2, #32
+        str8w   r0, r3, r4, r5, r6, r8, r9, ip, lr, abort=20f
+        bge     3b
+        PLD(    cmn	r2, #96			)
+        PLD(    bge	4b			)
 
-5:		ands	ip, r2, #28
-		rsb	ip, ip, #32
+5:      ands    ip, r2, #28
+        rsb     ip, ip, #32
 #if LDR1W_SHIFT > 0
-		lsl	ip, ip, #LDR1W_SHIFT
+        lsl     ip, ip, #LDR1W_SHIFT
 #endif
-		addne	pc, pc, ip		@ C is always clear here
-		b	7f
+        addne   pc, pc, ip      @ C is always clear here
+        b       7f
 6:
-		.rept	(1 << LDR1W_SHIFT)
-		W(nop)
-		.endr
-		ldr1w	r1, r3, abort=20f
-		ldr1w	r1, r4, abort=20f
-		ldr1w	r1, r5, abort=20f
-		ldr1w	r1, r6, abort=20f
-		ldr1w	r1, r8, abort=20f
-		ldr1w	r1, r9, abort=20f
-		ldr1w	r1, lr, abort=20f
+        .rept   (1 << LDR1W_SHIFT)
+                W(nop)
+        .endr
+        ldr1w   r1, r3, abort=20f
+        ldr1w   r1, r4, abort=20f
+        ldr1w   r1, r5, abort=20f
+        ldr1w   r1, r6, abort=20f
+        ldr1w   r1, r8, abort=20f
+        ldr1w   r1, r9, abort=20f
+        ldr1w   r1, lr, abort=20f
 
 #if LDR1W_SHIFT < STR1W_SHIFT
-		lsl	ip, ip, #STR1W_SHIFT - LDR1W_SHIFT
+        lsl     ip, ip, #STR1W_SHIFT - LDR1W_SHIFT
 #elif LDR1W_SHIFT > STR1W_SHIFT
-		lsr	ip, ip, #LDR1W_SHIFT - STR1W_SHIFT
+        lsr     ip, ip, #LDR1W_SHIFT - STR1W_SHIFT
 #endif
-		add	pc, pc, ip
-		nop
-		.rept	(1 << STR1W_SHIFT)
-		W(nop)
-		.endr
-		str1w	r0, r3, abort=20f
-		str1w	r0, r4, abort=20f
-		str1w	r0, r5, abort=20f
-		str1w	r0, r6, abort=20f
-		str1w	r0, r8, abort=20f
-		str1w	r0, r9, abort=20f
-		str1w	r0, lr, abort=20f
+        add     pc, pc, ip
+        nop
+        .rept   (1 << STR1W_SHIFT)
+                W(nop)
+        .endr
+        str1w   r0, r3, abort=20f
+        str1w   r0, r4, abort=20f
+        str1w   r0, r5, abort=20f
+        str1w   r0, r6, abort=20f
+        str1w   r0, r8, abort=20f
+        str1w   r0, r9, abort=20f
+        str1w   r0, lr, abort=20f
 
-	CALGN(	bcs	2b			)
+        CALGN(  bcs	2b			)
 
-7:		ldmfd	sp!, {r5, r6, r8, r9}
+7:      ldmfd   sp!, {r5, r6, r8, r9}
 
-8:		movs	r2, r2, lsl #31
-		ldr1b	r1, r3, ne, abort=21f
-		ldr1b	r1, r4, cs, abort=21f
-		ldr1b	r1, ip, cs, abort=21f
-		str1b	r0, r3, ne, abort=21f
-		str1b	r0, r4, cs, abort=21f
-		str1b	r0, ip, cs, abort=21f
+8:      movs    r2, r2, lsl #31
+        ldr1b   r1, r3, ne, abort=21f
+        ldr1b   r1, r4, cs, abort=21f
+        ldr1b   r1, ip, cs, abort=21f
+        str1b   r0, r3, ne, abort=21f
+        str1b   r0, r4, cs, abort=21f
+        str1b   r0, ip, cs, abort=21f
 
-		exit	r4, UNWIND(fpreg,) pc
+        exit    r4, UNWIND(fpreg,) pc
 
-9:		rsb	ip, ip, #4
-		cmp	ip, #2
-		ldr1b	r1, r3, gt, abort=21f
-		ldr1b	r1, r4, ge, abort=21f
-		ldr1b	r1, lr, abort=21f
-		str1b	r0, r3, gt, abort=21f
-		str1b	r0, r4, ge, abort=21f
-		subs	r2, r2, ip
-		str1b	r0, lr, abort=21f
-		blt	8b
-		ands	ip, r1, #3
-		beq	1b
+9:      rsb     ip, ip, #4
+        cmp     ip, #2
+        ldr1b   r1, r3, gt, abort=21f
+        ldr1b   r1, r4, ge, abort=21f
+        ldr1b   r1, lr, abort=21f
+        str1b   r0, r3, gt, abort=21f
+        str1b   r0, r4, ge, abort=21f
+        subs    r2, r2, ip
+        str1b   r0, lr, abort=21f
+        blt     8b
+        ands    ip, r1, #3
+        beq     1b
 
-10:		bic	r1, r1, #3
-		cmp	ip, #2
-		ldr1w	r1, lr, abort=21f
-		beq	17f
-		bgt	18f
+10:     bic     r1, r1, #3
+        cmp     ip, #2
+        ldr1w   r1, lr, abort=21f
+        beq     17f
+        bgt     18f
 
+        .macro  forward_copy_shift pull push
 
-		.macro	forward_copy_shift pull push
+                subs    r2, r2, #28
+                blt     14f
 
-		subs	r2, r2, #28
-		blt	14f
+                CALGN(  ands	ip, r0, #31		)
+                CALGN(  rsb	ip, ip, #32		)
+                CALGN(  sbcsne	r4, ip, r2		)       @ C is always set here
+                CALGN(  subcc	r2, r2, ip		)
+                CALGN(  bcc	15f			)
 
-	CALGN(	ands	ip, r0, #31		)
-	CALGN(	rsb	ip, ip, #32		)
-	CALGN(	sbcsne	r4, ip, r2		)  @ C is always set here
-	CALGN(	subcc	r2, r2, ip		)
-	CALGN(	bcc	15f			)
+11:             stmfd   sp!, {r5, r6, r8 - r10}
 
-11:		stmfd	sp!, {r5, r6, r8 - r10}
+                PLD(    pld	[r1, #0]		)
+                PLD(    subs	r2, r2, #96		)
+                PLD(    pld	[r1, #28]		)
+                PLD(    blt	13f			)
+                PLD(    pld	[r1, #60]		)
+                PLD(    pld	[r1, #92]		)
 
-	PLD(	pld	[r1, #0]		)
-	PLD(	subs	r2, r2, #96		)
-	PLD(	pld	[r1, #28]		)
-	PLD(	blt	13f			)
-	PLD(	pld	[r1, #60]		)
-	PLD(	pld	[r1, #92]		)
+12:             PLD(    pld	[r1, #124]		)
+13:             ldr4w   r1,  r4,  r5,  r6, r8, abort=19f
+                mov     r3,  lr,  lspull #\pull
+                subs    r2,  r2,  #32
+                ldr4w   r1,  r9,  r10, ip, lr, abort=19f
+                orr     r3,  r3,  r4,  lspush #\push
+                mov     r4,  r4,  lspull #\pull
+                orr     r4,  r4,  r5,  lspush #\push
+                mov     r5,  r5,  lspull #\pull
+                orr     r5,  r5,  r6,  lspush #\push
+                mov     r6,  r6,  lspull #\pull
+                orr     r6,  r6,  r8,  lspush #\push
+                mov     r8,  r8,  lspull #\pull
+                orr     r8,  r8,  r9,  lspush #\push
+                mov     r9,  r9,  lspull #\pull
+                orr     r9,  r9,  r10, lspush #\push
+                mov     r10, r10, lspull #\pull
+                orr     r10, r10, ip,  lspush #\push
+                mov     ip,  ip,  lspull #\pull
+                orr     ip,  ip,  lr,  lspush #\push
+                str8w   r0,  r3,  r4,  r5, r6, r8, r9, r10, ip, abort=19f
+                bge     12b
+                PLD(    cmn	r2, #96			)
+                PLD(    bge	13b			)
 
-12:	PLD(	pld	[r1, #124]		)
-13:		ldr4w	r1, r4, r5, r6, r8, abort=19f
-		mov	r3, lr, lspull #\pull
-		subs	r2, r2, #32
-		ldr4w	r1, r9, r10, ip, lr, abort=19f
-		orr	r3, r3, r4, lspush #\push
-		mov	r4, r4, lspull #\pull
-		orr	r4, r4, r5, lspush #\push
-		mov	r5, r5, lspull #\pull
-		orr	r5, r5, r6, lspush #\push
-		mov	r6, r6, lspull #\pull
-		orr	r6, r6, r8, lspush #\push
-		mov	r8, r8, lspull #\pull
-		orr	r8, r8, r9, lspush #\push
-		mov	r9, r9, lspull #\pull
-		orr	r9, r9, r10, lspush #\push
-		mov	r10, r10, lspull #\pull
-		orr	r10, r10, ip, lspush #\push
-		mov	ip, ip, lspull #\pull
-		orr	ip, ip, lr, lspush #\push
-		str8w	r0, r3, r4, r5, r6, r8, r9, r10, ip, abort=19f
-		bge	12b
-	PLD(	cmn	r2, #96			)
-	PLD(	bge	13b			)
+                ldmfd   sp!, {r5, r6, r8 - r10}
 
-		ldmfd	sp!, {r5, r6, r8 - r10}
+14:             ands    ip, r2, #28
+                beq     16f
 
-14:		ands	ip, r2, #28
-		beq	16f
+15:             mov     r3, lr, lspull #\pull
+                ldr1w   r1, lr, abort=21f
+                subs    ip, ip, #4
+                orr     r3, r3, lr, lspush #\push
+                str1w   r0, r3, abort=21f
+                bgt     15b
+                CALGN(  cmp	r2, #0			)
+                CALGN(  bge	11b			)
 
-15:		mov	r3, lr, lspull #\pull
-		ldr1w	r1, lr, abort=21f
-		subs	ip, ip, #4
-		orr	r3, r3, lr, lspush #\push
-		str1w	r0, r3, abort=21f
-		bgt	15b
-	CALGN(	cmp	r2, #0			)
-	CALGN(	bge	11b			)
+16:             sub     r1, r1, #(\push / 8)
+                b       8b
 
-16:		sub	r1, r1, #(\push / 8)
-		b	8b
+        .endm
 
-		.endm
+        forward_copy_shift pull=8	push=24
 
+17:     forward_copy_shift pull=16	push=16
 
-		forward_copy_shift	pull=8	push=24
+18:     forward_copy_shift pull=24	push=8
 
-17:		forward_copy_shift	pull=16	push=16
-
-18:		forward_copy_shift	pull=24	push=8
-
-	UNWIND(	.fnend				)
+        UNWIND( .fnend				)
 
 /*
  * Abort preamble and completion macros.
@@ -260,14 +258,13 @@
  * the exit macro.
  */
 
-	.macro	copy_abort_preamble
-19:	ldmfd	sp!, {r5, r6, r8 - r10}
-	b	21f
-20:	ldmfd	sp!, {r5, r6, r8, r9}
+        .macro  copy_abort_preamble
+19:             ldmfd   sp!, {r5, r6, r8 - r10}
+                b       21f
+20:             ldmfd   sp!, {r5, r6, r8, r9}
 21:
-	.endm
+        .endm
 
-	.macro	copy_abort_end
-	ldmfd	sp!, {r4, UNWIND(fpreg,) pc}
-	.endm
-
+        .macro  copy_abort_end
+                ldmfd   sp!, {r4, UNWIND(fpreg,) pc}
+        .endm

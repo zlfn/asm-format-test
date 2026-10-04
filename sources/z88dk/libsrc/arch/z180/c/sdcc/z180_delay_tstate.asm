@@ -10,10 +10,10 @@ EXTERN asm_z180_delay_tstate
 
 _z180_delay_tstate:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_z180_delay_tstate
+        push    hl
+        push    af
+
+        jp      asm_z180_delay_tstate

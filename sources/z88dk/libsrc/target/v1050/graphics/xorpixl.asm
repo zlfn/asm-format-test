@@ -11,10 +11,9 @@
 ;	$Id: xorpixl.asm $
 ;
 
-
-    SECTION code_graphics
-    PUBLIC  xorpixel
+        SECTION code_graphics
+        PUBLIC  xorpixel
 
 xorpixel:
-    defc    NEEDxor=1
-    INCLUDE "pixel6.inc"
+        defc    NEEDxor=1
+        INCLUDE "pixel6.inc"

@@ -9,18 +9,18 @@ EXTERN asm_ffsll
 
 _ffsll:
 
-   pop af
-   pop hl
-   pop de
-   exx
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   exx
-   push de
-   push hl
-   push af
-   
-   jp asm_ffsll
+        pop     af
+        pop     hl
+        pop     de
+        exx
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        exx
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_ffsll

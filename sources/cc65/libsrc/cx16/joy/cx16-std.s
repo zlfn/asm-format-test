@@ -5,27 +5,26 @@
 ; 2021-04-07, Greg King
 ;
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
 
-        .include        "cbm_kernal.inc"
-        .include        "cx16.inc"
+        .include "cbm_kernal.inc"
+        .include "cx16.inc"
 
-        .macpack        generic
-        .macpack        module
+        .macpack generic
+        .macpack module
 
-        .importzp       tmp1
-
+        .importzp tmp1
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _cx16_std_joy
+        module_header _cx16_std_joy
 
 ; Driver signature
 
-        .byte   $6A, $6F, $79           ; ASCII "joy"
-        .byte   JOY_API_VERSION         ; Driver API version number
+        .byte   $6A, $6F, $79   ; ASCII "joy"
+        .byte   JOY_API_VERSION ; Driver API version number
 
 ; Library reference
 
@@ -45,7 +44,6 @@ JOY_COUNT       = $05           ; Number of joysticks we support
 
 ; ------------------------------------------------------------------------
 ; Data.
-
 
 .code
 
@@ -86,13 +84,13 @@ READ:   cmp     #JOY_COUNT
         bit     #%00001110      ; Is it NES or SNES controller?
         bze     nes
 
-        asl     tmp1            ; Get SNES's B button
-        ror     a               ; Put it next to the A button
-        asl     tmp1            ; Drop SNES's Y button
-        asl     a               ; Get back the B button
+        asl     tmp1    ; Get SNES's B button
+        ror     a       ; Put it next to the A button
+        asl     tmp1    ; Drop SNES's Y button
+        asl     a       ; Get back the B button
         ror     tmp1
-        asl     a               ; Get SNES's A button
-        ror     tmp1            ; Make byte look like NES pad
+        asl     a       ; Get SNES's A button
+        ror     tmp1    ; Make byte look like NES pad
 
 nes:    lda     tmp1            ; The controllers give zeroes for "pressed"
         eor     #%11111111      ; We want ones for "pressed"

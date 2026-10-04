@@ -9,18 +9,18 @@ EXTERN asm_esx_f_open_p3
 
 _esx_f_open_p3_callee:
 
-   pop bc
-   pop hl
-   dec sp
-   pop af
-   pop de
-   push bc
+        pop     bc
+        pop     hl
+        dec     sp
+        pop     af
+        pop     de
+        push    bc
 
 l0_esx_f_open_p3_callee:
 
-   push ix
-   
-   call asm_esx_f_open_p3
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_open_p3
+
+        pop     ix
+        ret

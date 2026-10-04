@@ -12,15 +12,14 @@ EXTERN _heap
 .realloc_callee
 ._realloc_callee
 
-   pop hl
-   pop bc
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        ex      (sp), hl
 
 .asm_realloc
 
-   ; hl = void *p
-   ; bc = size
-   
-   ld de,_heap
-   jp asm_HeapRealloc
+        ; hl = void *p
+        ; bc = size
 
+        ld      de, _heap
+        jp      asm_HeapRealloc

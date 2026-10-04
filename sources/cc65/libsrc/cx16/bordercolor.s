@@ -5,9 +5,9 @@
 ; /* Set the color for the border. The old color setting is returned. */
 ;
 
-        .export         _bordercolor
+        .export _bordercolor
 
-        .include        "cx16.inc"
+        .include "cx16.inc"
 
 _bordercolor:
         tax

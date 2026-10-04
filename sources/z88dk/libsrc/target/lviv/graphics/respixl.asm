@@ -1,8 +1,8 @@
 
-    SECTION code_himem
+        SECTION code_himem
 
-    PUBLIC  respixel
+        PUBLIC  respixel
 
 respixel:
-    defc    NEEDunplot=1
-    INCLUDE "target/lviv/graphics/pixel.inc"
+        defc    NEEDunplot=1
+        INCLUDE "target/lviv/graphics/pixel.inc"

@@ -8,9 +8,9 @@
 ;
 ; push eax on stack
 ;
-        .export         pushl0, push0ax, pusheax
-        .import         decsp4
-        .importzp       c_sp, sreg
+        .export pushl0, push0ax, pusheax
+        .import decsp4
+        .importzp c_sp, sreg
 
 pushl0:
         lda     #0
@@ -25,23 +25,22 @@ push0ax:
         sty     sreg+1
 .endif
 pusheax:
-        pha                     ; decsp will destroy A (but not X)
+        pha     ; decsp will destroy A (but not X)
         jsr     decsp4
         ldy     #3
         lda     sreg+1
-        sta     (c_sp),y
+        sta     (c_sp), y
         dey
         lda     sreg
-        sta     (c_sp),y
+        sta     (c_sp), y
         dey
         txa
-        sta     (c_sp),y
+        sta     (c_sp), y
         pla
 .if .cap(CPU_HAS_ZPIND)
         sta     (c_sp)
 .else
         dey
-        sta     (c_sp),y
+        sta     (c_sp), y
 .endif
         rts
-

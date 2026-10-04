@@ -10,10 +10,10 @@ EXTERN _ispunct_fastcall
 
 _ispunct:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _ispunct_fastcall
+        push    hl
+        push    af
+
+        jp      _ispunct_fastcall

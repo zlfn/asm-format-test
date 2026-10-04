@@ -10,10 +10,10 @@ EXTERN _fileno_unlocked_fastcall
 
 _fileno_unlocked:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _fileno_unlocked_fastcall
+        push    hl
+        push    af
+
+        jp      _fileno_unlocked_fastcall

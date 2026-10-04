@@ -19,22 +19,22 @@ PUBLIC asm_cpu_push_di
 asm_z180_push_di:
 asm_cpu_push_di:
 
-   ; exit  : stack = ei_di_status
-   ;
-   ; uses  : af
+        ; exit  : stack = ei_di_status
+        ;
+        ; uses  : af
 
-   ex (sp),hl
-   push hl
+        ex      (sp), hl
+        push    hl
 
-   ld a,i
-   
-   di
-   
-   push af
-   pop hl                      ; hl = ei_di status
-   
-   pop af                      ; af = ret
-   ex (sp),hl                  ; restore hl, push ei_di_status
-   
-   push af
-   ret
+        ld      a, i
+
+        di
+
+        push    af
+        pop     hl      ; hl = ei_di status
+
+        pop     af              ; af = ret
+        ex      (sp), hl        ; restore hl, push ei_di_status
+
+        push    af
+        ret

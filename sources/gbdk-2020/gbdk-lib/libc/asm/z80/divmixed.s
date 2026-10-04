@@ -13,7 +13,7 @@
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ;  GNU General Public License for more details.
 ;
-;  You should have received a copy of the GNU General Public License 
+;  You should have received a copy of the GNU General Public License
 ;  along with this library; see the file COPYING. If not, write to the
 ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
 ;   MA 02110-1301, USA.
@@ -30,20 +30,19 @@
 .globl	__divuschar
 
 __divsuchar:
-	ld	e, l
-	ld	l, a
-	ld	h, #0
+        ld      e, l
+        ld      l, a
+        ld      h, #0
 
-	jp	__div_signexte
+        jp      __div_signexte
 
 __divuschar:
-	ld	e, l
-	ld	d, #0
-	ld	l, a
+        ld      e, l
+        ld      d, #0
+        ld      l, a
 
-	rlca		; Sign extend
-	sbc	a, a
-	ld	h, a
+        rlca    ; Sign extend
+        sbc     a, a
+        ld      h, a
 
-	jp	__div16
-
+        jp      __div16

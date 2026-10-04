@@ -4,11 +4,9 @@
 ;       Plot pixel at (x,y) coordinate.
 ;
 
-
-    SECTION code_clib
-    PUBLIC  plotpixel
-
+        SECTION code_clib
+        PUBLIC  plotpixel
 
 plotpixel:
-    defc    NEEDplot=1
-    INCLUDE "pixel.inc"
+        defc    NEEDplot=1
+        INCLUDE "pixel.inc"

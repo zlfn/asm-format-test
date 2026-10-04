@@ -16,33 +16,33 @@ PUBLIC asm_random_uniform_xor_8
 
 asm_random_uniform_xor_8:
 
-   ; enter : dehl = seed (0 is invalid input)
-   ;
-   ; exit  :    a = random number
-   ;         dehl = updated seed
-   ;
-   ; uses  : af, de, hl
+        ; enter : dehl = seed (0 is invalid input)
+        ;
+        ; exit  :    a = random number
+        ;         dehl = updated seed
+        ;
+        ; uses  : af, de, hl
 
-   push de
-   
-   ld a,e
-   add a,a
-   add a,a
-   add a,a
-   xor e
-   ld e,a
-   ld a,h
-   add a,a
-   xor h
-   ld d,a
-   rra
-   xor d
-   xor e
-   ld d,l
-   ld e,a
-   
-   pop hl
-   ret
+        push    de
+
+        ld      a, e
+        add     a, a
+        add     a, a
+        add     a, a
+        xor     e
+        ld      e, a
+        ld      a, h
+        add     a, a
+        xor     h
+        ld      d, a
+        rra
+        xor     d
+        xor     e
+        ld      d, l
+        ld      e, a
+
+        pop     hl
+        ret
 
 ;; Patrik's original code
 ;;

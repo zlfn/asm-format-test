@@ -10,17 +10,16 @@ EXTERN mlib2d, asm_strtod
 
 strtod_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
-   call asm_strtod
+        call    asm_strtod
 
-   jp mlib2d                   ; to sccz80_float
+        jp      mlib2d  ; to sccz80_float
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _strtod_callee
 defc _strtod_callee = strtod_callee
 ENDIF
-

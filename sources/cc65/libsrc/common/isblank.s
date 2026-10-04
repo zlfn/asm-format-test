@@ -12,12 +12,12 @@
 ; cc65 (and GNU) extension.
 ;
 
-        .export         _isblank
-        .include        "ctype.inc"
-        .import         ctypemask
+        .export _isblank
+        .include "ctype.inc"
+        .import ctypemask
 
 _isblank:
-        jsr     ctypemask      ; (always clears X)
-        bcs     @L1                     ; out of range? (everything already clear -> false)
-        and     #CT_SPACE_TAB           ; mask blank bit
+        jsr     ctypemask       ; (always clears X)
+        bcs     @L1             ; out of range? (everything already clear -> false)
+        and     #CT_SPACE_TAB   ; mask blank bit
 @L1:    rts

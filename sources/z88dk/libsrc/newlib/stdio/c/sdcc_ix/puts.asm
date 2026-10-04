@@ -16,13 +16,13 @@ EXTERN _puts_fastcall
 
 _puts:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _puts_fastcall
+        push    hl
+        push    af
+
+        jp      _puts_fastcall
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

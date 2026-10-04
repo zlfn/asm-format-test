@@ -7,30 +7,30 @@
 ; void cputc (char c);
 ;
 
-        .export         soft80mono_cputcxy, soft80mono_cputc
-        .export         soft80mono_cputdirect, soft80mono_putchar
-        .export         soft80mono_newline, soft80mono_plot
+        .export soft80mono_cputcxy,    soft80mono_cputc
+        .export soft80mono_cputdirect, soft80mono_putchar
+        .export soft80mono_newline,    soft80mono_plot
 
-        .import         gotoxy
+        .import gotoxy
 
-        .import         soft80mono_kplot
-        .import         soft80mono_internal_bgcolor, soft80mono_internal_cellcolor
-        .import         soft80mono_internal_cursorxlsb, soft80mono_internal_nibble
+        .import soft80mono_kplot
+        .import soft80mono_internal_bgcolor,    soft80mono_internal_cellcolor
+        .import soft80mono_internal_cursorxlsb, soft80mono_internal_nibble
 
-        .importzp       tmp4, tmp3, ptr2
+        .importzp tmp4, tmp3, ptr2
 
-        .include        "c64.inc"
-        .include        "soft80.inc"
+        .include "c64.inc"
+        .include "soft80.inc"
 
 soft80mono_cputcxy:
-        pha                     ; Save C
-        jsr     gotoxy          ; Set cursor, drop x and y
-        pla                     ; Restore C
+        pha             ; Save C
+        jsr     gotoxy  ; Set cursor, drop x and y
+        pla             ; Restore C
 
 ; Plot a character - also used as internal function
 
 soft80mono_cputc:
-        cmp     #$0A            ; CR?
+        cmp     #$0A    ; CR?
         bne     L1
 
         lda     #0
@@ -71,7 +71,7 @@ soft80mono_cputdirect:
         jsr     soft80mono_putchar      ; Write the character to the screen
 
         ; Advance cursor position
-        iny                             ; contains CURS_X
+        iny     ; contains CURS_X
         cpy     #charsperline
         beq     @L3
 
@@ -90,8 +90,8 @@ soft80mono_cputdirect:
 @L4:
         rts
 @L3:
-        inc     CURS_Y          ; new line
-        ldy     #0              ; + cr
+        inc     CURS_Y  ; new line
+        ldy     #0      ; + cr
         sty     CURS_X
         jmp     soft80mono_plot
 
@@ -119,37 +119,37 @@ soft80mono_newline:
 ; out:  Y: CURS_X
 ;
 soft80mono_putchar:
-        sta     tmp3            ; save charcode
+        sta     tmp3    ; save charcode
 
         sei
         lda     $01
         pha
         lda     #$34
-        sta     $01             ; enable RAM under I/O
+        sta     $01     ; enable RAM under I/O
 
-        ldy     #$00            ; will be $00 from now on
+        ldy     #$00    ; will be $00 from now on
 
         ldx     soft80mono_internal_cursorxlsb
-        lda     chardatal,x
+        lda     chardatal, x
         clc
         adc     tmp3
         sta     ptr2
-        lda     chardatah,x
+        lda     chardatah, x
         adc     #0
         sta     ptr2+1
 
         lda     RVS
         bne     draw_charinvers
 
-        lda     nibble,x
+        lda     nibble, x
         sta     tmp3
 
         ;ldy     #0                      ; is still $00
 @lp1:
-        lda     (SCREEN_PTR),y
+        lda     (SCREEN_PTR), y
         and     tmp3
-        ora     (ptr2),y
-        sta     (SCREEN_PTR),y
+        ora     (ptr2), y
+        sta     (SCREEN_PTR), y
         clc
         lda     ptr2
         adc     #$7f
@@ -171,15 +171,15 @@ draw_back:
 
 ; output inverted character
 draw_charinvers:
-        lda     soft80mono_internal_nibble,x
+        lda     soft80mono_internal_nibble, x
         sta     tmp3
 
         ;ldy     #0                      ; is still $00
 @lp1:
-        lda     (SCREEN_PTR),y
+        lda     (SCREEN_PTR), y
         ora     tmp3
-        eor     (ptr2),y
-        sta     (SCREEN_PTR),y
+        eor     (ptr2), y
+        sta     (SCREEN_PTR), y
         clc
         lda     ptr2
         adc     #$7f
@@ -194,11 +194,10 @@ draw_charinvers:
 
         .rodata
 chardatal:
-        .byte <soft80_hi_charset
-        .byte <soft80_lo_charset
+        .byte   <soft80_hi_charset
+        .byte   <soft80_lo_charset
 chardatah:
-        .byte >soft80_hi_charset
-        .byte >soft80_lo_charset
+        .byte   >soft80_hi_charset
+        .byte   >soft80_lo_charset
 nibble:
-        .byte $0f, $f0
-
+        .byte   $0f, $f0

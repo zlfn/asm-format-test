@@ -9,10 +9,10 @@ EXTERN asm_sms_cxy2saddr
 
 _sms_cxy2saddr:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_sms_cxy2saddr
+        push    hl
+        push    af
+
+        jp      asm_sms_cxy2saddr

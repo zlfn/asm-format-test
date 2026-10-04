@@ -49,79 +49,79 @@ pntr      = $86
 
 ; ------------------------------------------------------------------------
 
-        .segment        "DATA_2000"
+        .segment "DATA_2000"
 
 GET_FILE_INFO_PARAM:
-                .byte   $0A             ;PARAM_COUNT
-                .addr   PATHNAME        ;PATHNAME
-                .byte   $00             ;ACCESS
-                .byte   $00             ;FILE_TYPE
-FILE_INFO_ADDR: .word   $0000           ;AUX_TYPE
-                .byte   $00             ;STORAGE_TYPE
-FILE_BLOCKS:    .word   $0000           ;BLOCKS_USED
-                .word   $0000           ;MOD_DATE
-                .word   $0000           ;MOD_TIME
-                .word   $0000           ;CREATE_DATE
-                .word   $0000           ;CREATE_TIME
+        .byte   $0A             ;PARAM_COUNT
+        .addr   PATHNAME        ;PATHNAME
+        .byte   $00             ;ACCESS
+        .byte   $00             ;FILE_TYPE
+FILE_INFO_ADDR: .word $0000     ;AUX_TYPE
+        .byte   $00             ;STORAGE_TYPE
+FILE_BLOCKS: .word $0000        ;BLOCKS_USED
+        .word   $0000           ;MOD_DATE
+        .word   $0000           ;MOD_TIME
+        .word   $0000           ;CREATE_DATE
+        .word   $0000           ;CREATE_TIME
 
 OPEN_PARAM:
-                .byte   $03             ;PARAM_COUNT
-                .addr   PATHNAME        ;PATHNAME
-                .addr   PRODOS_BUF      ;IO_BUFFER
-OPEN_REF:       .byte   $00             ;REF_NUM
+        .byte   $03             ;PARAM_COUNT
+        .addr   PATHNAME        ;PATHNAME
+        .addr   PRODOS_BUF      ;IO_BUFFER
+OPEN_REF: .byte $00             ;REF_NUM
 
 LOADING:
-                .byte   $0D
-                .asciiz "Loading "
+        .byte   $0D
+        .asciiz "Loading "
 
 ELLIPSES:
-                .byte   " ...", $00
+        .byte   " ...", $00
 
 ; ------------------------------------------------------------------------
 
-        .segment        "DATA_0280"
+        .segment "DATA_0280"
 
 READ_PARAM:
-                .byte   $04             ;PARAM_COUNT
-READ_REF:       .byte   $00             ;REF_NUM
-READ_ADDR:      .addr   $0000           ;DATA_BUFFER
-                .word   $FFFF           ;REQUEST_COUNT
-                .word   $0000           ;TRANS_COUNT
+        .byte   $04     ;PARAM_COUNT
+READ_REF:  .byte $00    ;REF_NUM
+READ_ADDR: .addr $0000  ;DATA_BUFFER
+        .word   $FFFF   ;REQUEST_COUNT
+        .word   $0000   ;TRANS_COUNT
 
 CLOSE_PARAM:
-                .byte   $01             ;PARAM_COUNT
-CLOSE_REF:      .byte   $00             ;REF_NUM
+        .byte   $01     ;PARAM_COUNT
+CLOSE_REF: .byte $00    ;REF_NUM
 
 QUIT_PARAM:
-                .byte   $04             ;PARAM_COUNT
-                .byte   $00             ;QUIT_TYPE
-                .word   $0000           ;RESERVED
-                .byte   $00             ;RESERVED
-                .word   $0000           ;RESERVED
+        .byte   $04     ;PARAM_COUNT
+        .byte   $00     ;QUIT_TYPE
+        .word   $0000   ;RESERVED
+        .byte   $00     ;RESERVED
+        .word   $0000   ;RESERVED
 
 .ifdef ENABLE_DECOMPRESSOR
 FINAL_START_ADDR:
-                .addr   $0000
+        .addr   $0000
 .endif
 
 FILE_NOT_FOUND:
-                .asciiz "... File not found"
+        .asciiz "... File not found"
 
 ERROR_NUMBER:
-                .asciiz "... Error $"
+        .asciiz "... Error $"
 
 PRESS_ANY_KEY:
-                .asciiz " - Press Any Key "
+        .asciiz " - Press Any Key "
 
 ; ------------------------------------------------------------------------
 
-        .segment        "CODE_2000"
+        .segment "CODE_2000"
 
         jmp     :+
         .byte   $EE
         .byte   $EE
         .byte   $7F
-STARTUP:.res    $7F
+STARTUP: .res   $7F
 
         ; Reset stack
 :       ldx     #$FF
@@ -136,7 +136,7 @@ STARTUP:.res    $7F
         ; Add trailing '\0' to pathname
         tax
         lda     #$00
-        sta     PATHNAME+1,x
+        sta     PATHNAME+1, x
 
         ; Handle command-line:
         ; - no parameters at all: go exec bin file
@@ -148,31 +148,31 @@ STARTUP:.res    $7F
         ldx     STARTUP
         beq     load_file
 
-        ldx     #$00            ; Does the first arg start with -?
+        ldx     #$00    ; Does the first arg start with -?
         lda     STARTUP+1
         cmp     #'-'
         bne     copy_parameters
 
 copy_pathname:
-        lda     STARTUP+2,x     ; Yes, so start copying it (minus the dash) to PATHNAME
+        lda     STARTUP+2, x    ; Yes, so start copying it (minus the dash) to PATHNAME
         beq     execname_copied ; We're done on NULL or space.
         cmp     #' '
         beq     execname_copied
-        sta     PATHNAME+1,x
+        sta     PATHNAME+1, x
         inx
         bne     copy_pathname
 
-execname_copied:                ; Terminate PATNAME again and store its length
+execname_copied:        ; Terminate PATNAME again and store its length
         lda     #$00
-        sta     PATHNAME+1,x
+        sta     PATHNAME+1, x
         stx     PATHNAME
 
-        inx                     ; Increment to compensate for the dash,
-        inx                     ; increment to avoid doubling the argument separator
+        inx             ; Increment to compensate for the dash,
+        inx             ; increment to avoid doubling the argument separator
 copy_parameters:
-        ldy     #$00            ; And copy the rest to STACK.
-:       lda     STARTUP+1,x
-        sta     STACK,y
+        ldy     #$00    ; And copy the rest to STACK.
+:       lda     STARTUP+1, x
+        sta     STACK,     y
         beq     load_file
         inx
         iny
@@ -208,8 +208,8 @@ file_opened:
         .assert (__CODE_0280_SIZE__ + __DATA_0280_SIZE__) < $100, error
 .endif
         ldx     #$00
-:       lda     __CODE_0280_LOAD__,x
-        sta     __CODE_0280_RUN__,x
+:       lda     __CODE_0280_LOAD__, x
+        sta     __CODE_0280_RUN__,  x
         dex
         bne     :-
 
@@ -219,8 +219,8 @@ file_opened:
         ; and second page
         ldx     #<(__CODE_0280_SIZE__ + __DATA_0280_SIZE__)
         beq     relocate_done
-:       lda     __CODE_0280_LOAD__+256-1,x
-        sta     __CODE_0280_RUN__+256-1,x
+:       lda     __CODE_0280_LOAD__+256-1, x
+        sta     __CODE_0280_RUN__+256-1,  x
         dex
         bne     :-
 .endif
@@ -237,9 +237,9 @@ relocate_done:
 
         ; Blocks to bytes - caveat: limited to $7F blocks, which will be enough
         ; anyway (65024 bytes...).
-        asl     FILE_BLOCKS   ; Blocks are 512 bytes
+        asl     FILE_BLOCKS     ; Blocks are 512 bytes
 
-        lda     #<MLI  ; Make sure we don't touch ProDOS's zone
+        lda     #<MLI   ; Make sure we don't touch ProDOS's zone
         sta     READ_ADDR
         sta     ZX0_src
 
@@ -260,7 +260,7 @@ relocate_done:
 
 ; ------------------------------------------------------------------------
 
-        .segment        "CODE_0280"
+        .segment "CODE_0280"
 
         ; Read data
         jsr     MLI
@@ -290,11 +290,11 @@ relocate_done:
 
         ; Copy REM and startup filename to BASIC input buffer
         ldx     #$00
-        lda     #$B2            ; REM token
-        bne     :++             ; Branch always
+        lda     #$B2    ; REM token
+        bne     :++     ; Branch always
 :       inx
-        lda     a:STACK-1,x
-:       sta     BUF,x
+        lda     a:STACK-1, x
+:       sta     BUF, x
         bne     :--
 
 .ifdef ENABLE_DECOMPRESSOR
@@ -326,17 +326,17 @@ PRINT:
         stx     A1H
         ldx     VERSION
         ldy     #$00
-:       lda     (A1L),y
+:       lda     (A1L), y
         beq     :++
-        cpx     #$06            ; //e ?
+        cpx     #$06    ; //e ?
         beq     :+
-        cmp     #$60            ; lowercase ?
+        cmp     #$60    ; lowercase ?
         bcc     :+
-        and     #$5F            ; -> uppercase
+        and     #$5F    ; -> uppercase
 :       ora     #$80
         jsr     COUT
         iny
-        bne     :--             ; Branch always
+        bne     :--     ; Branch always
 :       rts
 
 ; Define ERROR_2000 entrypoint for use before relocation
@@ -347,7 +347,7 @@ ERROR:
         lda     #<FILE_NOT_FOUND
         ldx     #>FILE_NOT_FOUND
         jsr     PRINT
-        beq     :++             ; Branch always
+        beq     :++     ; Branch always
 :       pha
         lda     #<ERROR_NUMBER
         ldx     #>ERROR_NUMBER
@@ -369,7 +369,7 @@ progress_cb:
 ; Show decompression progress by animating a character on screen.
 indicator = *+1
         lda     #'-'|$80
-        eor     #%00001100    ; switch between '!' (00100001) and '-' (00101101)
+        eor     #%00001100      ; switch between '!' (00100001) and '-' (00101101)
         sta     indicator
 
         jsr     COUT

@@ -1,4 +1,4 @@
-        #include    "target/aquarius/def/plus.inc"
+        #include "target/aquarius/def/plus.inc"
         SECTION code_clib
 
         PUBLIC  scrollup_TEXT
@@ -8,14 +8,14 @@
         EXTERN  DISPLAY
         EXTERN  COLOUR_MAP
         EXTERN  __aquarius_attr
-	EXTERN  __aquarius_mode
+        EXTERN  __aquarius_mode
 
 scrollup_TEXT:
         push    de
         push    bc
 
-        ld      a, (__aquarius_mode)
-        bit     6, a
+        ld      a,  (__aquarius_mode)
+        bit     6,  a
         jr      nz, col80
 
         ld      hl, DISPLAY+CONSOLE_COLUMNS
@@ -24,7 +24,7 @@ scrollup_TEXT:
         ldir
 
         ex      de, hl
-        ld      b, CONSOLE_COLUMNS
+        ld      b,  CONSOLE_COLUMNS
 generic_console_scrollup_3:
         ld      (hl), 32
         inc     hl
@@ -36,8 +36,8 @@ generic_console_scrollup_3:
         ldir
 
         ex      de, hl
-        ld      b, CONSOLE_COLUMNS
-        ld      a, (__aquarius_attr)
+        ld      b,  CONSOLE_COLUMNS
+        ld      a,  (__aquarius_attr)
 generic_console_scrollup_4:
         ld      (hl), a
         inc     hl
@@ -55,7 +55,7 @@ col80:
         ldir
 
         ex      de, hl
-        ld      b, 80
+        ld      b,  80
 col80LastRow:
         ld      (hl), 32
         inc     hl
@@ -63,17 +63,17 @@ col80LastRow:
 
         ld      hl, DISPLAY+80
         ld      de, DISPLAY
-        ld      b, a
+        ld      b,  a
         or      VCTRL_TEXT_PAGE
         out     (IO_VCTRL), a
-        ld      a, b
+        ld      a,  b
         ld      bc, +(80*(CONSOLE_ROWS-1))
         ldir
 
         ex      de, hl
-        ld      d, a
-        ld      b, 80
-        ld      a, (__aquarius_attr)
+        ld      d,  a
+        ld      b,  80
+        ld      a,  (__aquarius_attr)
 col80LastColorRow:
         ld      (hl), a
         inc     hl
@@ -83,4 +83,3 @@ col80LastColorRow:
         out     (IO_VCTRL), a
 
         jr      textScrollUpDone
-

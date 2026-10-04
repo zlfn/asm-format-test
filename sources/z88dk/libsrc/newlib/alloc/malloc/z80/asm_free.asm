@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; void free(void *p)
 ;
 ; Deallocate memory previously allocated at p from the thread's
@@ -29,23 +29,23 @@ EXTERN asm_heap_free
 
 asm_free:
 
-   ; Return the memory block to the thread's default heap
-   ;
-   ; enter : hl = void *p
-   ;
-   ; exit  : success
-   ;
-   ;            carry reset
-   ;
-   ;         fail on lock acquisition
-   ;
-   ;            de = void *p
-   ;            carry set, errno = ENOLCK
-   ;
-   ; uses  : af, de, hl
+        ; Return the memory block to the thread's default heap
+        ;
+        ; enter : hl = void *p
+        ;
+        ; exit  : success
+        ;
+        ;            carry reset
+        ;
+        ;         fail on lock acquisition
+        ;
+        ;            de = void *p
+        ;            carry set, errno = ENOLCK
+        ;
+        ; uses  : af, de, hl
 
-   ld de,(__malloc_heap)
-   jp asm_heap_free
+        ld      de, (__malloc_heap)
+        jp      asm_heap_free
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

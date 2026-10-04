@@ -2,11 +2,11 @@
 ; IRQ handling (Atari 7800 version)
 ;
 
-        .export         initirq, doneirq, IRQStub
+        .export initirq, doneirq, IRQStub
 
-        .import         __INTERRUPTOR_COUNT__, callirq
+        .import __INTERRUPTOR_COUNT__, callirq
 
-        .include        "atari7800.inc"
+        .include "atari7800.inc"
 
         .code
 ; ------------------------------------------------------------------------
@@ -18,7 +18,7 @@ doneirq:
 ; ------------------------------------------------------------------------
 
 IRQStub:
-        cld                             ; Just to be sure
+        cld             ; Just to be sure
         pha
         lda     #<(__INTERRUPTOR_COUNT__ * 2)
         beq     @L1
@@ -26,11 +26,10 @@ IRQStub:
         pha
         tya
         pha
-        jsr     callirq                 ; Call the functions
+        jsr     callirq ; Call the functions
         pla
         tay
         pla
         tax
 @L1:    pla
         rti
-

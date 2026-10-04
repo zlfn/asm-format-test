@@ -9,10 +9,10 @@ EXTERN asm_sms_memcpy_mem_to_cram
 
 _sms_memcpy_mem_to_cram_callee:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
 
-   jp asm_sms_memcpy_mem_to_cram
+        jp      asm_sms_memcpy_mem_to_cram

@@ -13,7 +13,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT64
@@ -26,17 +26,16 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMathDivRemU64x32)
 ASM_PFX(InternalMathDivRemU64x32):
-    mov     ecx, [esp + 12]         ; ecx <- divisor
-    mov     eax, [esp + 8]          ; eax <- dividend[32..63]
-    xor     edx, edx
-    div     ecx                     ; eax <- quotient[32..63], edx <- remainder
-    push    eax
-    mov     eax, [esp + 8]          ; eax <- dividend[0..31]
-    div     ecx                     ; eax <- quotient[0..31]
-    mov     ecx, [esp + 20]         ; ecx <- Remainder
-    jecxz   .0                      ; abandon remainder if Remainder == NULL
-    mov     [ecx], edx
+        mov     ecx, [esp + 12] ; ecx <- divisor
+        mov     eax, [esp + 8]  ; eax <- dividend[32..63]
+        xor     edx, edx
+        div     ecx             ; eax <- quotient[32..63], edx <- remainder
+        push    eax
+        mov     eax, [esp + 8]  ; eax <- dividend[0..31]
+        div     ecx             ; eax <- quotient[0..31]
+        mov     ecx, [esp + 20] ; ecx <- Remainder
+        jecxz   .0              ; abandon remainder if Remainder == NULL
+        mov     [ecx], edx
 .0:
-    pop     edx                     ; edx <- quotient[32..63]
-    ret
-
+        pop     edx             ; edx <- quotient[32..63]
+        ret

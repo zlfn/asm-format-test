@@ -10,10 +10,10 @@ EXTERN asm_strnchr
 
 _strnchr_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   push af
-   
-   jp asm_strnchr
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_strnchr

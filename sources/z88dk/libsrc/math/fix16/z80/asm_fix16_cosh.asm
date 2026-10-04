@@ -1,7 +1,7 @@
 
-    SECTION code_clib
-    
-    PUBLIC  asm_fix16_cosh
-    EXTERN  _fix16_cosh
+        SECTION code_clib
 
-    defc    asm_fix16_cosh = _fix16_cosh
+        PUBLIC  asm_fix16_cosh
+        EXTERN  _fix16_cosh
+
+        defc    asm_fix16_cosh = _fix16_cosh

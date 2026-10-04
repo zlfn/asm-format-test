@@ -2,17 +2,16 @@
 ; Startup code for cc65 (C128 version)
 ;
 
-        .export         _exit
-        .export         __STARTUP__ : absolute = 1      ; Mark as startup
-        .import         initlib, donelib
-        .import         zerobss
-        .import         push0, callmain
-        .import         RESTOR, BSOUT, CLRCH
-        .import         __MAIN_START__, __MAIN_SIZE__, __STACKSIZE__
+        .export _exit
+        .export __STARTUP__ : absolute = 1      ; Mark as startup
+        .import initlib, donelib
+        .import zerobss
+        .import push0,  callmain
+        .import RESTOR, BSOUT, CLRCH
+        .import __MAIN_START__, __MAIN_SIZE__, __STACKSIZE__
 
-        .include        "zeropage.inc"
-        .include        "c128.inc"
-
+        .include "zeropage.inc"
+        .include "c128.inc"
 
 ; ------------------------------------------------------------------------
 ; Startup code
@@ -38,8 +37,8 @@ Start:
 ; Save the zero-page locations that we need.
 
         ldx     #zpspace-1
-L1:     lda     c_sp,x
-        sta     zpsave,x
+L1:     lda     c_sp,   x
+        sta     zpsave, x
         dex
         bpl     L1
 
@@ -49,16 +48,16 @@ L1:     lda     c_sp,x
 
 ; Save some system stuff; and, set up the stack.
 
-        pla                     ; Get MMU setting
+        pla     ; Get MMU setting
         sta     mmusave
 
         tsx
-        stx     spsave          ; Save the system stack pointer
+        stx     spsave  ; Save the system stack pointer
 
         lda     #<(__MAIN_START__ + __MAIN_SIZE__ + __STACKSIZE__)
         ldx     #>(__MAIN_START__ + __MAIN_SIZE__ + __STACKSIZE__)
         sta     c_sp
-        stx     c_sp+1          ; Set argument stack ptr
+        stx     c_sp+1  ; Set argument stack ptr
 
 ; Call the module constructors.
 
@@ -86,14 +85,14 @@ L1:     lda     c_sp,x
 
 ; Back from main() [this is also the exit() entry]. Run the module destructors.
 
-_exit:  pha                     ; Save the return code on stack
+_exit:  pha     ; Save the return code on stack
         jsr     donelib
 
 ; Copy back the zero-page stuff.
 
         ldx     #zpspace-1
-L2:     lda     zpsave,x
-        sta     c_sp,x
+L2:     lda     zpsave, x
+        sta     c_sp,   x
         dex
         bpl     L2
 
@@ -129,6 +128,6 @@ zpsave: .res    zpspace
 
 .bss
 
-spsave:   .res    1
-mmusave:  .res    1
-initsave: .res    1
+spsave: .res    1
+mmusave:  .res  1
+initsave: .res  1

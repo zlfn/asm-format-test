@@ -9,21 +9,21 @@ EXTERN l0_esxdos_f_seek_callee
 
 _esxdos_f_seek:
 
-   pop af
-   ex af,af'
-   dec sp
-   pop af
-   pop de
-   pop bc
-   dec sp
-   pop hl
-   
-   dec sp
-   push bc
-   push de
-   dec sp
-   ex af,af'
-   push af
-   ex af,af'
+        pop     af
+        ex      af, af'
+        dec     sp
+        pop     af
+        pop     de
+        pop     bc
+        dec     sp
+        pop     hl
 
-   jp l0_esxdos_f_seek_callee
+        dec     sp
+        push    bc
+        push    de
+        dec     sp
+        ex      af, af'
+        push    af
+        ex      af, af'
+
+        jp      l0_esxdos_f_seek_callee

@@ -13,18 +13,18 @@
 ;    stencil_render(unsigned char *stencil, unsigned char intensity)
 ;
 
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
-    SECTION code_graphics
+        SECTION code_graphics
 
-    PUBLIC  __generic_stencil_render
-    EXTERN  dither_pattern
+        PUBLIC  __generic_stencil_render
+        EXTERN  dither_pattern
 
-    EXTERN  plotpixel, respixel
-    EXTERN  __gfx_coords
+        EXTERN  plotpixel, respixel
+        EXTERN  __gfx_coords
 
-    EXTERN  __gfx_vram_page_in
-    EXTERN  __graphics_end
+        EXTERN  __gfx_vram_page_in
+        EXTERN  __graphics_end
 
 ;
 ;    $Id: __generic_stencil_render.asm $
@@ -33,150 +33,148 @@
 __generic_stencil_render:
 
 IF  !__CPU_INTEL__&!__CPU_GBZ80__
-    push    ix                          ;save callers
-    ld      ix, 4
-    add     ix, sp
+        push    ix      ;save callers
+        ld      ix, 4
+        add     ix, sp
 ELSE
-    ld      hl,2
-    add     hl, sp
-    ld      a,(hl)
-    ld      (smc1),a
-    inc     hl
-    inc     hl
-    ld      hl,(hl)
-    ld      (smc2),hl
+        ld      hl, 2
+        add     hl, sp
+        ld      a,  (hl)
+        ld      (smc1), a
+        inc     hl
+        inc     hl
+        ld      hl,     (hl)
+        ld      (smc2), hl
 ENDIF
 
-  IFDEF _GFX_PAGE_VRAM
-    call    __gfx_vram_page_in
-  ENDIF
-    ;ld    bc,__graphics_end
-    ;push bc
+        IFDEF   _GFX_PAGE_VRAM
+                call    __gfx_vram_page_in
+        ENDIF
+        ;ld    bc,__graphics_end
+        ;push bc
 
-    ld      c, _GFX_MAXY%256
-    ld      hl, (__gfx_coords)
-    push    hl
-    push    bc
+        ld      c,  _GFX_MAXY%256
+        ld      hl, (__gfx_coords)
+        push    hl
+        push    bc
 
 yloop:
-    pop     bc
-    dec     c
-    ;jp    z,__gfx_vram_page_out
-    jr      nz, noret
-    pop     hl
-    ld      (__gfx_coords), hl
-  IF    _GFX_PAGE_VRAM
-    jp      __graphics_end
-  ELSE
-    IF  !__CPU_INTEL__&!__CPU_GBZ80__
-    pop     ix
-    ENDIF
-    ret
-  ENDIF
+        pop     bc
+        dec     c
+        ;jp    z,__gfx_vram_page_out
+        jr      nz, noret
+        pop     hl
+        ld      (__gfx_coords), hl
+        IF      _GFX_PAGE_VRAM
+                jp      __graphics_end
+        ELSE
+                IF      !__CPU_INTEL__&!__CPU_GBZ80__
+                        pop     ix
+                ENDIF
+                ret
+        ENDIF
 
 noret:
-    push    bc
+        push    bc
 
-    ld      d, 0
-    ld      e, c
-
-IF  !__CPU_INTEL__&!__CPU_GBZ80__
-    ld      l, (ix+2)                   ; stencil
-    ld      h, (ix+3)
-ELSE
-    ld      hl,(smc2)
-ENDIF
-
-    add     hl, de
-    ld      a, (hl)                     ;X1
-
-  IF    _GFX_MAXY<>256
-    ld      e, _GFX_MAXY
-    add     hl, de
-  ELSE
-    ld      e, 0
-    inc     h
-  ENDIF
-    cp      (hl)                        ; if x1>x2, return
-    jr      nc, yloop
-
-       ; C still holds Y
-    push    af                          ; X1
-    ld      a, (hl)
-    ld      b, a                        ; X2
+        ld      d, 0
+        ld      e, c
 
 IF  !__CPU_INTEL__&!__CPU_GBZ80__
-    ld      a, (ix+0)                   ; intensity
+        ld      l, (ix+2)       ; stencil
+        ld      h, (ix+3)
 ELSE
-    ld      a, (smc1)
+        ld      hl, (smc2)
 ENDIF
 
-    call    dither_pattern
-    ;ld    (pattern2+1),a
-    ld      e, a
+        add     hl, de
+        ld      a,  (hl)        ;X1
 
-    pop     af                          ; X1
-    ld      d, a                        ; X1
+        IF      _GFX_MAXY<>256
+                ld      e,  _GFX_MAXY
+                add     hl, de
+        ELSE
+                ld      e, 0
+                inc     h
+        ENDIF
+        cp      (hl)    ; if x1>x2, return
+        jr      nc, yloop
 
-    ; adjust horizontal pattern position for the current line
-    and     7
+        ; C still holds Y
+        push    af      ; X1
+        ld      a, (hl)
+        ld      b, a    ; X2
+
+IF  !__CPU_INTEL__&!__CPU_GBZ80__
+        ld      a, (ix+0)       ; intensity
+ELSE
+        ld      a, (smc1)
+ENDIF
+
+        call    dither_pattern
+        ;ld    (pattern2+1),a
+        ld      e, a
+
+        pop     af      ; X1
+        ld      d, a    ; X1
+
+        ; adjust horizontal pattern position for the current line
+        and     7
 pattern_shift:
 IF  !__CPU_INTEL__&!__CPU_GBZ80__
-    rrc     e                           ; shifted pattern
+        rrc     e       ; shifted pattern
 ELSE
-    push    af
-    ld      a,e
-    rrca
-    ld      e,a
-    pop     af
+        push    af
+        ld      a, e
+        rrca
+        ld      e, a
+        pop     af
 ENDIF
-    dec     a
-    jr      nz, pattern_shift
+        dec     a
+        jr      nz, pattern_shift
 
-    ld      a, b                        ; X2
-    sub     d                           ; X2-X1 = line lenght in pixels
-    ld      b, d                        ; X1
-    ld      d, a
-    inc     d
+        ld      a, b    ; X2
+        sub     d       ; X2-X1 = line lenght in pixels
+        ld      b, d    ; X1
+        ld      d, a
+        inc     d
 
-
-    ld      l, c                        ; Y
+        ld      l, c    ; Y
 xloop:
-    ;;;ld    h,a    ; X1
+        ;;;ld    h,a    ; X1
 IF  !__CPU_INTEL__&!__CPU_GBZ80__
-    rrc     e                           ; shifted pattern
+        rrc     e       ; shifted pattern
 ELSE
-    push    af
-    ld      a,e
-    rrca
-    ld      e,a
-    pop     af
+        push    af
+        ld      a, e
+        rrca
+        ld      e, a
+        pop     af
 ENDIF
-    push    hl
-    push    de
-    push    bc
-    ;push    af
+        push    hl
+        push    de
+        push    bc
+        ;push    af
 
-    ld      h, b                        ; X1
-    ld      l, c
-    jr      nc, do_unplot
-    call    plotpixel
-    jr      done
+        ld      h,  b   ; X1
+        ld      l,  c
+        jr      nc, do_unplot
+        call    plotpixel
+        jr      done
 do_unplot:
-    call    respixel
+        call    respixel
 done:
-    ;pop    af
-    pop     bc
-    pop     de
-    pop     hl
-    inc     b
-    dec     d
-    jr      nz, xloop
+        ;pop    af
+        pop     bc
+        pop     de
+        pop     hl
+        inc     b
+        dec     d
+        jr      nz, xloop
 
-    jr      yloop
+        jr      yloop
 
-
-    SECTION bss_graphics
+        SECTION bss_graphics
 
 IF  !__CPU_INTEL__&!__CPU_GBZ80__
 
@@ -185,9 +183,9 @@ IF  !__CPU_INTEL__&!__CPU_GBZ80__
 ELSE
 
 smc1:
-    defb    0
+        defb    0
 
 smc2:
-    defw    0
+        defw    0
 
 ENDIF

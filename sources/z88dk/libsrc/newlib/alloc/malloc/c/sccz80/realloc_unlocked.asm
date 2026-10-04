@@ -10,12 +10,12 @@ EXTERN asm_realloc_unlocked
 
 realloc_unlocked:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp asm_realloc_unlocked
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_realloc_unlocked

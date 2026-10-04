@@ -4,11 +4,10 @@
 ; int mkdir (const char* name, ...);    /* May take a mode argument */
 ;
 
-        .export         _mkdir
+        .export _mkdir
 
-        .import         __sysmkdir
-        .import         ___mappederrno
-
+        .import __sysmkdir
+        .import ___mappederrno
 
 ;--------------------------------------------------------------------------
 

@@ -12,9 +12,9 @@ EXTERN _u_free
 .adt_StackDeleteS_callee
 ._adt_StackDeleteS_callee
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 .asm_adt_StackDeleteS
 
@@ -23,63 +23,62 @@ EXTERN _u_free
 ; enter: HL = struct adt_Stack *
 ;        DE = void (*delete)(void *item) with HL,stack=item
 
-   ld a,h
-   or l
-   ret z
-   
-   ld a,d
-   or e
-   jp nz, notzero
-   ld de,justret
-   
+        ld      a, h
+        or      l
+        ret     z
+
+        ld      a, d
+        or      e
+        jp      nz, notzero
+        ld      de, justret
+
 .notzero
-   push  ix				;save callers ix
+        push    ix      ;save callers ix
 IF __CPU_RABBIT__ | __CPU_Z180__ | __CPU_KC160__
-   push  de
-   pop   ix
+        push    de
+        pop     ix
 ELSE
-   ld ixl,e
-   ld ixh,d
+        ld      ixl, e
+        ld      ixh, d
 ENDIF
 
-   inc hl
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   ex de,hl                            ; hl = &adt_StackNode
+        inc     hl
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d,  (hl)
+        ex      de, hl  ; hl = &adt_StackNode
 
 .loop
 
-   ld a,h
-   or l
-   jr z,popandexit
-   
-   push hl                             ; save node address
-   ld c,(hl)
-   inc hl
-   ld b,(hl)                           ; bc = item
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   push de                             ; save next node
-   ld l,c
-   ld h,b
-   push hl
-   call l_jpix                         ; user delete function
-   pop hl
-   pop hl
-   ex (sp),hl                          ; stack = next node, hl = current node
-   push hl
-   call _u_free                        ; free this node
-   pop hl
-   pop hl                              ; do it all again for next node
-   jp loop
+        ld      a, h
+        or      l
+        jr      z, popandexit
+
+        push    hl              ; save node address
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl)         ; bc = item
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        push    de              ; save next node
+        ld      l, c
+        ld      h, b
+        push    hl
+        call    l_jpix          ; user delete function
+        pop     hl
+        pop     hl
+        ex      (sp), hl        ; stack = next node, hl = current node
+        push    hl
+        call    _u_free         ; free this node
+        pop     hl
+        pop     hl              ; do it all again for next node
+        jp      loop
 
 .popandexit
-   pop ix
+        pop     ix
 .justret
 
-   ret
-
+        ret

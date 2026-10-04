@@ -10,9 +10,9 @@ EXTERN asm_dzx7_smart_rcs_back
 
 _dzx7_smart_rcs_back_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
-   jp asm_dzx7_smart_rcs_back
+        jp      asm_dzx7_smart_rcs_back

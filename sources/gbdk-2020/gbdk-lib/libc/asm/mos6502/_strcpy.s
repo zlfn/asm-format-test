@@ -27,47 +27,47 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _strcpy
+        .module _strcpy
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl _strcpy_PARM_2
-	.globl _strcpy
+        .globl  _strcpy_PARM_2
+        .globl  _strcpy
 
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 _strcpy_PARM_2:
-	.ds 2
+        .ds     2
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define _src "_strcpy_PARM_2"
-	.define _dst "DPTR"
-	
+        .define _src "_strcpy_PARM_2"
+        .define _dst "DPTR"
+
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 _strcpy:
-	sta	*_dst+0
-	stx	*_dst+1
+        sta     *_dst+0
+        stx     *_dst+1
 
-	ldy	#0
+        ldy     #0
 cpy_loop:
-	lda	[_src],y
-	sta	[_dst],y
-	beq	end
-	iny
-	bne	cpy_loop
-	inc	*_src+1
-	inc	*_dst+1
-	bne	cpy_loop
+        lda     [_src], y
+        sta     [_dst], y
+        beq     end
+        iny
+        bne     cpy_loop
+        inc     *_src+1
+        inc     *_dst+1
+        bne     cpy_loop
 ;	jmp	cpy_loop
 end:
-	lda	*_dst+0
-	rts
+        lda     *_dst+0
+        rts

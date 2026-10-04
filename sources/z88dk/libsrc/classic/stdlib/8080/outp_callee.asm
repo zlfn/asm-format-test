@@ -14,25 +14,23 @@ EXTERN iotmp
 .outp_callee
 ._outp_callee
 
-   pop hl
-   pop de
-   pop bc
-   push hl
+        pop     hl
+        pop     de
+        pop     bc
+        push    hl
 
 .asm_outp
 
-   ; bc = port
-   ; e = byte
+        ; bc = port
+        ; e = byte
 
-
-   ld l,0xd3  ; out
-   ld h,c     ; port
-   ld (iotmp),hl
-   ld hl,iotmp + 2
-   ld (hl),0xc9  ;ret
-   ld a,e        ; byte
-   jp iotmp
-   ret
+        ld      l, 0xd3         ; out
+        ld      h, c            ; port
+        ld      (iotmp), hl
+        ld      hl,   iotmp + 2
+        ld      (hl), 0xc9      ;ret
+        ld      a,    e         ; byte
+        jp      iotmp
+        ret
 
 ENDIF
-

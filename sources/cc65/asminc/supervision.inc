@@ -34,7 +34,6 @@ SV_IRQ_ENABLE_DMA = 4
 SV_LCD_ON = 8
 SV_TIMER_MODE_240Hz = $10 ; else 15360
 
-
 ; low activ/pressed
 sv_control = $2020
 SV_RIGHT = 1
@@ -58,7 +57,6 @@ sv_audio_left_control = $2016
 ; write activates tone for x/60 sec (0 means 256)
 sv_audio_right_timer = $2013
 sv_audio_left_timer = $2017
-
 
 ;read for irq quitting
 sv_dma_quit = $2025

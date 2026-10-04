@@ -20,35 +20,35 @@ EXTERN l_ini_64, l_ini_32, l_ini_16
 
 l_ini_loop:
 
-   ld a,b
+        ld      a, b
 
-   cp 16
-   jp c, sub_16
+        cp      16
+        jp      c, sub_16
 
-   rla
-   call c, l_ini_128
+        rla
+        call    c, l_ini_128
 
-   rla
-   call c, l_ini_64
-   
-   rla
-   call c, l_ini_32
+        rla
+        call    c, l_ini_64
 
-   rla
-   call c, l_ini_16
+        rla
+        call    c, l_ini_32
 
-   ret z
+        rla
+        call    c, l_ini_16
 
-   inir
-   ret
-   
+        ret     z
+
+        inir
+        ret
+
 sub_16:
 
-   or a
-   jp z, l_ini_256
+        or      a
+        jp      z, l_ini_256
 
-   inir
-   ret
+        inir
+        ret
 
 ENDIF
 ENDIF

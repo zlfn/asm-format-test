@@ -1,8 +1,8 @@
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  respixel
+        PUBLIC  respixel
 
 respixel:
-    defc    NEEDunplot=1
-    INCLUDE "target/hector/graphics/pixel.inc"
+        defc    NEEDunplot=1
+        INCLUDE "target/hector/graphics/pixel.inc"

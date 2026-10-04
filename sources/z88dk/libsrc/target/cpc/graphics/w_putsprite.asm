@@ -9,199 +9,194 @@
 ; $ w_putsprite.asm $
 ;
 
-    SECTION smc_clib
-    PUBLIC  putsprite
-    PUBLIC  _putsprite
-    EXTERN  pixeladdress_MODE2
+        SECTION smc_clib
+        PUBLIC  putsprite
+        PUBLIC  _putsprite
+        EXTERN  pixeladdress_MODE2
 
-    EXTERN  __cpc_mode
-    EXTERN   __gfx_vram_page_in
-    EXTERN  __graphics_end
-    EXTERN  __generic_putsprite
+        EXTERN  __cpc_mode
+        EXTERN  __gfx_vram_page_in
+        EXTERN  __graphics_end
+        EXTERN  __generic_putsprite
 
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
 ; __gfx_coords: d,e (vert-horz)
 ; sprite: (ix)
 
 .putsprite
 ._putsprite
-        ld      a,(__cpc_mode)
+        ld      a, (__cpc_mode)
         cp      2
-        jp      nz,__generic_putsprite
-        push	ix		;save callers
-        ld      hl,4
-        add     hl,sp
-        ld      e,(hl)
+        jp      nz, __generic_putsprite
+        push    ix      ;save callers
+        ld      hl, 4
+        add     hl, sp
+        ld      e,  (hl)
         inc     hl
-        ld      d,(hl)  ; sprite address
+        ld      d, (hl) ; sprite address
         push    de
         pop     ix
 
         inc     hl
-        ld      e,(hl)
+        ld      e, (hl)
         inc     hl
-        ld      d,(hl)
+        ld      d, (hl)
         inc     hl
-        ld      c,(hl)
+        ld      c, (hl)
         inc     hl
-        ld      b,(hl)  ; x and y __gfx_coords
+        ld      b, (hl) ; x and y __gfx_coords
 
         inc     hl
-        ld      a,(hl)  ; and/or/xor mode
-        ld      (ortype+1),a    ; Self modifying code
-        ld      (ortype2+1),a   ; Self modifying code
+        ld      a, (hl)         ; and/or/xor mode
+        ld      (ortype+1),  a  ; Self modifying code
+        ld      (ortype2+1), a  ; Self modifying code
 
         inc     hl
-        ld      a,(hl)
-        ld      (ortype),a      ; Self modifying code
-        ld      (ortype2),a     ; Self modifying code
+        ld      a, (hl)
+        ld      (ortype),  a    ; Self modifying code
+        ld      (ortype2), a    ; Self modifying code
 
         call    __gfx_vram_page_in
         ; @@@@@@@@@@@@
-        ld      h,b
-        ld      l,c
+        ld      h, b
+        ld      l, c
 ;        ld      (oldx),hl
 ;        ld      (cury),de
         call    pixeladdress_MODE2
-        ld      (lineaddr+1),hl
-		ld      (lineaddr1+1),hl
-        ex      de,hl
+        ld      (lineaddr+1),  hl
+        ld      (lineaddr1+1), hl
+        ex      de, hl
         ; ------
         ;ld		a,(hl)
         ; @@@@@@@@@@@@
-         ld       c,a
-         ld       hl,offsets_table
-         ld       c,a
-         ld       b,0
-         add      hl,bc
-         ld       a,(hl)
-         ld       (wsmc1+1),a
-         ld       (wsmc2+1),a
-         ld       (_smc1+1),a
+        ld      c,  a
+        ld      hl, offsets_table
+        ld      c,  a
+        ld      b,  0
+        add     hl, bc
+        ld      a,  (hl)
+        ld      (wsmc1+1), a
+        ld      (wsmc2+1), a
+        ld      (_smc1+1), a
 
-        ld      h,d
-        ld      l,e                 ; display location from pixeladdress
+        ld      h, d
+        ld      l, e    ; display location from pixeladdress
 
-        ld      a,(ix+0)
+        ld      a, (ix+0)
         cp      9
-        jp      nc,putspritew
+        jp      nc, putspritew
 
-         ld       d,a
-         ld       b,(ix+1)
-._oloop  push     bc                ;Save # of rows
-         ld       b,d               ;Load width
-         ld       c,(ix+2)          ;Load one line of image
-         inc      ix
-._smc1   ld       a,1               ;Load pixel mask
-._iloop  sla      c                 ;Test leftmost pixel
-         jp       nc,_noplot        ;See if a plot is needed
-         ld       e,a
+        ld      d, a
+        ld      b, (ix+1)
+._oloop push    bc              ;Save # of rows
+        ld      b, d            ;Load width
+        ld      c, (ix+2)       ;Load one line of image
+        inc     ix
+._smc1  ld      a, 1            ;Load pixel mask
+._iloop sla     c               ;Test leftmost pixel
+        jp      nc, _noplot     ;See if a plot is needed
+        ld      e,  a
 .ortype
-        nop     ; changed into nop / cpl
-         nop    ; changed into and/or/xor (hl)
-         ld       (hl),a
-         ld       a,e
+        nop                     ; changed into nop / cpl
+        nop                     ; changed into and/or/xor (hl)
+        ld      (hl), a
+        ld      a,    e
 ._noplot rrca
 
-         jp       nc,_notedge       ;Test if edge of byte reached
+        jp      nc, _notedge    ;Test if edge of byte reached
 
         ;@@@@@@@@@@
         ;Go to next byte
         ;@@@@@@@@@@
-         inc	hl
+        inc     hl
         ;@@@@@@@@@@
 
-._notedge djnz     _iloop
+._notedge djnz  _iloop
 
         ;@@@@@@@@@@
         ;Go to next line
         ;@@@@@@@@@@
 .lineaddr
-		ld	hl,0
-		LD A,H
-		ADD 8
-		LD H,A
-		JR NC,nowrap
-		LD A,$50
-		ADD L
-		LD L,A
-		LD A,$C0
-		ADC H
-		LD H,A
+        ld      hl, 0
+        LD      A,  H
+        ADD     8
+        LD      H,  A
+        JR      NC, nowrap
+        LD      A,  $50
+        ADD     L
+        LD      L, A
+        LD      A, $C0
+        ADC     H
+        LD      H, A
 .nowrap
-        ld      (lineaddr+1),hl
+        ld      (lineaddr+1), hl
         ;@@@@@@@@@@
-         pop      bc                ;Restore data
-         djnz     _oloop
-         jp       __graphics_end
-
+        pop     bc      ;Restore data
+        djnz    _oloop
+        jp      __graphics_end
 
 .putspritew
-         ld       d,a
-         ld       b,(ix+1)        
-.woloop  push     bc                ;Save # of rows
-         ld       b,d               ;Load width
-         ld       c,(ix+2)          ;Load one line of image
-         inc      ix
-.wsmc1    ld       a,1               ;Load pixel mask
-.wiloop  sla      c                 ;Test leftmost pixel
-         jp       nc,wnoplot         ;See if a plot is needed
-         ld       e,a
+        ld      d, a
+        ld      b, (ix+1)
+.woloop push    bc              ;Save # of rows
+        ld      b, d            ;Load width
+        ld      c, (ix+2)       ;Load one line of image
+        inc     ix
+.wsmc1  ld      a, 1            ;Load pixel mask
+.wiloop sla     c               ;Test leftmost pixel
+        jp      nc, wnoplot     ;See if a plot is needed
+        ld      e,  a
 .ortype2
-        nop     ; changed into nop / cpl
-         nop    ; changed into and/or/xor (hl)
-         ld       (hl),a
-         ld       a,e
+        nop                     ; changed into nop / cpl
+        nop                     ; changed into and/or/xor (hl)
+        ld      (hl), a
+        ld      a,    e
 .wnoplot rrca
-         jp       nc,wnotedge        ;Test if edge of byte reached
+        jp      nc, wnotedge    ;Test if edge of byte reached
 
         ;@@@@@@@@@@
         ;Go to next byte
         ;@@@@@@@@@@
-         inc	hl
+        inc     hl
         ;@@@@@@@@@@
 
 .wnotedge
-.wsmc2   cp       1
-         jp       z,wover_1
+.wsmc2  cp      1
+        jp      z, wover_1
 
-         djnz     wiloop
+        djnz    wiloop
 
 .nextline
         ;@@@@@@@@@@
         ;Go to next line
         ;@@@@@@@@@@
 .lineaddr1
-		ld	hl,0
-		LD A,H
-		ADD 8
-		LD H,A
-		JR NC,nowrap2
-		LD A,$50
-		ADD L
-		LD L,A
-		LD A,$C0
-		ADC H
-		LD H,A
+        ld      hl, 0
+        LD      A,  H
+        ADD     8
+        LD      H,  A
+        JR      NC, nowrap2
+        LD      A,  $50
+        ADD     L
+        LD      L, A
+        LD      A, $C0
+        ADC     H
+        LD      H, A
 .nowrap2
-        ld      (lineaddr1+1),hl
+        ld      (lineaddr1+1), hl
         ;@@@@@@@@@@
 
-         pop      bc                ;Restore data
-         djnz     woloop
-         jp       __graphics_end
-        
+        pop     bc      ;Restore data
+        djnz    woloop
+        jp      __graphics_end
 
-.wover_1 ld       c,(ix+2)
-         inc      ix
-         djnz     wiloop
-         dec      ix
-		 jr nextline
+.wover_1 ld     c, (ix+2)
+        inc     ix
+        djnz    wiloop
+        dec     ix
+        jr      nextline
 
-
-
-	SECTION	rodata_clib
+        SECTION rodata_clib
 .offsets_table
-         defb   1,2,4,8,16,32,64,128
-
+        defb    1, 2, 4, 8, 16, 32, 64, 128

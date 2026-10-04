@@ -5,34 +5,34 @@
 ; int __fastcall__ write (int fd, const void* buf, unsigned count);
 ;
 
-        .export         _write
-        .import         rwprolog, rwcommon, writeepilog
-        .import         putcdirect, consref, setstdioscr, consscrflg
+        .export _write
+        .import rwprolog,   rwcommon, writeepilog
+        .import putcdirect, consref,  setstdioscr, consscrflg
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "sos.inc"
-        .include        "filedes.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "sos.inc"
+        .include "filedes.inc"
 
 _write:
         ; Get parameters
         jsr     rwprolog
         bcs     errno
-        tax                     ; Save fd
+        tax     ; Save fd
 
         ; Check for write access
-        lda     fdtab + FD::FLAGS,y
+        lda     fdtab + FD::FLAGS, y
         and     #O_WRONLY
         beq     einval
 
         ; Check for not device
-        txa                     ; Restore fd
+        txa     ; Restore fd
         cmp     #$80
         beq     device
 
         ; Check for append flag
-        lda     fdtab + FD::FLAGS,y
+        lda     fdtab + FD::FLAGS, y
         and     #O_APPEND
         beq     write
 
@@ -58,10 +58,9 @@ _write:
         bne     oserr
 
         ; Do write
-write:  lda     fdtab + FD::REF_NUM,y
+write:  lda     fdtab + FD::REF_NUM, y
 write2: ldy     #WRITE_CALL
         jmp     rwcommon
-
 
         ; Load errno code
 einval: lda     #EINVAL
@@ -71,7 +70,6 @@ errno:  jmp     ___directerrno
 
         ; Set ___oserror
 oserr:  jmp     ___mappederrno
-
 
         ; Save request count for return
 device: ldx     ptr2
@@ -101,10 +99,10 @@ device: ldx     ptr2
         sta     ptr4+1
 
         ; Check char from buf
-        ldy     #$00            ; y = chunk size low byte
-        sty     ptr2+1          ; zero chunk size high byte
-next:   lda     (ptr4),y
-        cmp     #$0A            ; test for \n = line feed
+        ldy     #$00    ; y = chunk size low byte
+        sty     ptr2+1  ; zero chunk size high byte
+next:   lda     (ptr4), y
+        cmp     #$0A    ; test for \n = line feed
         beq     havelf
 
         ; Increment pointer
@@ -125,7 +123,7 @@ next:   lda     (ptr4),y
         ; Output when we get a lf
 havelf: iny
         jsr     output
-        lda     #$0D            ; send carriage return
+        lda     #$0D    ; send carriage return
         jsr     putcdirect
 
         ; Update ptr1
@@ -161,7 +159,6 @@ havelf: iny
 outdone:
         jsr     output
 
-
         ; Return success
 done:   lda     #$00
         sta     ___oserror      ; A = 0
@@ -170,16 +167,16 @@ done:   lda     #$00
         rts
 
         ; output to console
-output: sty     ptr2           ; save Y
-        stx     ptr3           ; save X
+output: sty     ptr2    ; save Y
+        stx     ptr3    ; save X
 
         ldx     #$03
-:       lda     ptr1,x
-        sta     sosparam + SOS::RW::DATA_BUFFER,x
+:       lda     ptr1, x
+        sta     sosparam + SOS::RW::DATA_BUFFER, x
         dex
         bpl     :-
 
-        bit     consscrflg    ; check if scroll is on
+        bit     consscrflg      ; check if scroll is on
         bne     :+
         jsr     setstdioscr
 :

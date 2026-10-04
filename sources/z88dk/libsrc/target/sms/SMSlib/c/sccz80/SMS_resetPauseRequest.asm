@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_resetPauseRequest
 defc _SMS_resetPauseRequest = SMS_resetPauseRequest
 ENDIF
-

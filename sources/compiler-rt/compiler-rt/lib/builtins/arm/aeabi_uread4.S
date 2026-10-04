@@ -38,7 +38,7 @@ DEFINE_COMPILERRT_FUNCTION(__aeabi_uread4)
         adds    r0, r0, r2
         adds    r0, r0, r1
 #endif
-        bx lr
+        bx      lr
 #else
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
         ldrb    r1, [r0]

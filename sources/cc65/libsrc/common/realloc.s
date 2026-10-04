@@ -4,15 +4,15 @@
 ; void* __fastcall__ realloc (void* block, register size_t size)
 ;
 
-        .importzp       ptr1, ptr2, ptr3, ptr4, tmp1, tmp2, tmp3, tmp4, c_sp
-        .import         _malloc, _memcpy, _free
-        .import         pushax, popptr1, return0
-        .import          incsp2, decsp2
-        .export         _realloc
+        .importzp ptr1, ptr2, ptr3, ptr4, tmp1, tmp2, tmp3, tmp4, c_sp
+        .import _malloc, _memcpy, _free
+        .import pushax,  popptr1, return0
+        .import incsp2,  decsp2
+        .export _realloc
 
-        .include        "_heap.inc"
+        .include "_heap.inc"
 
-        .macpack        generic
+        .macpack generic
 
 ;----------------------------------------------------------------------------
 ; Aliases for clarity
@@ -28,29 +28,29 @@ orgblock  = tmp3                ; (and tmp4)
 ; Code
 
 _realloc:
-        sta     size            ; Store size
+        sta     size    ; Store size
         stx     size+1
 
-        jsr     popptr1         ; Pop block
+        jsr     popptr1 ; Pop block
 
-        lda     block+1         ; Is block null?
+        lda     block+1 ; Is block null?
         tax
         ora     block
         bne     :+
 
-        lda     size            ; Block is null, just malloc
+        lda     size    ; Block is null, just malloc
         ldx     size+1
         jmp     _malloc
 
-:       lda     size            ; Is size 0?
+:       lda     size    ; Is size 0?
         ora     size+1
         bne     :+
 
-        lda     block           ; It is: free block (high byte already in X)
+        lda     block   ; It is: free block (high byte already in X)
         jsr     _free
         jmp     return0
 
-:       clc                     ; Add internal used size
+:       clc     ; Add internal used size
         lda     size
         adc     #HEAP_ADMIN_SPACE
         sta     size
@@ -58,17 +58,17 @@ _realloc:
         inc     size+1
         bne     :+
 
-        lda     #$00            ; Size high byte now 0: We overflowed!
+        lda     #$00    ; Size high byte now 0: We overflowed!
         tax
         rts
 
-:       ldx     size+1          ; Should we round size up?
+:       ldx     size+1  ; Should we round size up?
         bne     :+
         cmp     #.sizeof (freeblock)
         bcs     :+
 
         lda     #.sizeof (freeblock)
-        sta     size            ; (we presuppose that sizeof (freeblock) is < 256)
+        sta     size    ; (we presuppose that sizeof (freeblock) is < 256)
 
 :       lda     block           ; Get pointer to raw memory block
         sta     orgblock        ; Store original pointer
@@ -80,25 +80,25 @@ _realloc:
         sbc     #0
         sta     ublock+1        ; We have our usedblock struct
 
-                                ; Get block start
+        ; Get block start
         ldy     #usedblock::start+1
-        lda     (ublock),y
-        tax                     ; Backup ublock high
+        lda     (ublock), y
+        tax     ; Backup ublock high
         dey
-        lda     (ublock),y
+        lda     (ublock), y
 
-        sta     ublock          ; Store ublock
+        sta     ublock  ; Store ublock
         stx     ublock+1
 
-                                ; Remember oldsize
+        ; Remember oldsize
         ldy     #usedblock::size+1
-        lda     (ublock),y
+        lda     (ublock), y
         sta     oldsize+1
         dey
-        lda     (ublock),y
+        lda     (ublock), y
         sta     oldsize
 
-        clc                     ; Is the block at heap top?
+        clc     ; Is the block at heap top?
         adc     ublock
         tay
         lda     ublock+1
@@ -138,39 +138,39 @@ _realloc:
 
         ldy     #usedblock::start+1
         lda     ublock+1
-        sta     (ublock),y      ; Update block start
+        sta     (ublock), y     ; Update block start
         dey
         lda     ublock
-        sta     (ublock),y
+        sta     (ublock), y
         dey
 
         .assert usedblock::size = usedblock::start-2, error
         lda     size+1
-        sta     (ublock),y      ; Update block size
+        sta     (ublock), y     ; Update block size
         dey
         lda     size
-        sta     (ublock),y
+        sta     (ublock), y
 
         lda     orgblock        ; Return original block
         ldx     orgblock+1
         rts
 
-must_malloc_new:                ; The block is not at heap top, or too big
+must_malloc_new:        ; The block is not at heap top, or too big
         lda     size+1
-        pha                     ; Backup new size (at this point the only ptr
-        tax                     ; we'll need after malloc). tmp* are safe
-        lda     size            ; from malloc, memcpy and free.
+        pha             ; Backup new size (at this point the only ptr
+        tax             ; we'll need after malloc). tmp* are safe
+        lda     size    ; from malloc, memcpy and free.
         pha
         jsr     _malloc
 
-        cmp     #$00            ; Did malloc succeed?
+        cmp     #$00    ; Did malloc succeed?
         bne     :+
         cpx     #$00
         bne     :+
-        pla                     ; Pop size backup and return NULL
+        pla             ; Pop size backup and return NULL
         pla
-        txa                     ; X already 0
-        rts                     ; No
+        txa             ; X already 0
+        rts             ; No
 
 :       sta     newblock        ; Yes, store newblock
         stx     newblock+1
@@ -180,7 +180,7 @@ must_malloc_new:                ; The block is not at heap top, or too big
         ldx     orgblock+1
         jsr     pushax
 
-        sec                     ; Remove admin space from oldsize
+        sec     ; Remove admin space from oldsize
         lda     oldsize
         sbc     #<HEAP_ADMIN_SPACE
         sta     oldsize
@@ -188,13 +188,13 @@ must_malloc_new:                ; The block is not at heap top, or too big
         sbc     #>HEAP_ADMIN_SPACE
         sta     oldsize+1
 
-        pla                     ; Restore new size to AX
+        pla     ; Restore new size to AX
         tay
         pla
         tax
         tya
 
-        cmp     oldsize         ; Find the smallest size
+        cmp     oldsize ; Find the smallest size
         bcc     :+
         cpx     oldsize+1
         bcc     :+
@@ -202,7 +202,7 @@ must_malloc_new:                ; The block is not at heap top, or too big
         lda     oldsize
         ldx     oldsize+1
 
-:       jsr     _memcpy         ; And copy data
+:       jsr     _memcpy ; And copy data
 
         lda     orgblock        ; Free old block
         ldx     orgblock+1

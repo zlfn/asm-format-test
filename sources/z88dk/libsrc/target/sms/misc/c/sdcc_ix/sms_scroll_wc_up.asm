@@ -9,16 +9,16 @@ EXTERN _sms_scroll_wc_up_callee_0
 
 _sms_scroll_wc_up:
 
-   pop af
-   pop bc
-   dec sp
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   inc sp
-   push bc
-   push af
+        pop     af
+        pop     bc
+        dec     sp
+        pop     de
+        pop     hl
 
-   jp _sms_scroll_wc_up_callee_0
+        push    hl
+        push    de
+        inc     sp
+        push    bc
+        push    af
+
+        jp      _sms_scroll_wc_up_callee_0

@@ -10,10 +10,10 @@ EXTERN asm_b_array_back
 
 _b_array_back:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_b_array_back
+        push    hl
+        push    af
+
+        jp      asm_b_array_back

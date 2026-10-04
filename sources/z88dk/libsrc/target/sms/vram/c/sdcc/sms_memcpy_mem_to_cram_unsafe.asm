@@ -9,14 +9,14 @@ EXTERN asm_sms_memcpy_mem_to_cram_unsafe
 
 _sms_memcpy_mem_to_cram_unsafe:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
 
-   jp asm_sms_memcpy_mem_to_cram_unsafe
+        push    bc
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_sms_memcpy_mem_to_cram_unsafe

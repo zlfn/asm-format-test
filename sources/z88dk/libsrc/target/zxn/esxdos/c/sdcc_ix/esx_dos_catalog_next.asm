@@ -8,10 +8,10 @@ EXTERN _esx_dos_catalog_next_fastcall
 
 _esx_dos_catalog_next:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _esx_dos_catalog_next_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _esx_dos_catalog_next_fastcall

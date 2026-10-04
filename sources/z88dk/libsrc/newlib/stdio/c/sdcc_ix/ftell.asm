@@ -16,14 +16,14 @@ EXTERN _ftell_fastcall
 
 _ftell:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _ftell_fastcall
-   
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _ftell_fastcall
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

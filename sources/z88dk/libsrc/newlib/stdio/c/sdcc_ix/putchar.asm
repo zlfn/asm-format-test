@@ -16,13 +16,13 @@ EXTERN _putchar_fastcall
 
 _putchar:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _putchar_fastcall
+        push    hl
+        push    af
+
+        jp      _putchar_fastcall
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

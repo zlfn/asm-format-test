@@ -22,22 +22,21 @@ defc __SMSlib_VDPReg = _GLOBAL_SMS_VDP_R0R1  ; /* the VDP registers #0 and #1 's
 
 __SMSlib_spritesHeight:
 
-   defb 8
+        defb    8
 
-__SMSlib_spritesTileOffset:    ; /* MUST FOLLOW spritesHeight */
+__SMSlib_spritesTileOffset:     ; /* MUST FOLLOW spritesHeight */
 
-   defb 1
+        defb    1
 
 __SMSlib_spritesWidth:
 
-   defb 8
+        defb    8
 
 IFNDEF __CLASSIC
 __SMSlib_theLineInterruptHandler:
 
-   defw l_ret                  ; /* 'empty' line interrupt handler */
+        defw    l_ret   ; /* 'empty' line interrupt handler */
 ENDIF
-
 
 SECTION bss_clib
 SECTION bss_SMSlib
@@ -56,46 +55,46 @@ PUBLIC __SMSlib_SpriteNextFree
 
 __SMSlib_VDPBlank:
 
-   defb 0                      ; /* used by INTerrupt */
+        defb    0       ; /* used by INTerrupt */
 
 IFNDEF __CLASSIC
 __SMSlib_VDPFlags:
 
-   defb 0                      ; /* holds the sprite overflow and sprite collision flags */
+        defb    0       ; /* holds the sprite overflow and sprite collision flags */
 
 __SMSlib_PauseRequested:
 
-   defb 0                      ; /* used by NMI (SMS only) */
+        defb    0       ; /* used by NMI (SMS only) */
 ENDIF
 
 __SMSlib_VDPType:
 
-   defb 0                      ; /* used by NTSC/PAL and VDP type detection (SMS only) */
+        defb    0       ; /* used by NTSC/PAL and VDP type detection (SMS only) */
 
 __SMSlib_KeysStatus:
 
-   defw 0
+        defw    0
 
 __SMSlib_PreviousKeysStatus:
 
-   defw 0
+        defw    0
 
 __SMSlib_SpriteTableY:
 
 IF MAXSPRITES = 64
 
-   defs MAXSPRITES
+        defs    MAXSPRITES
 
 ELSE
 
-   defs MAXSPRITES + 1
+        defs    MAXSPRITES + 1
 
 ENDIF
 
 __SMSlib_SpriteTableXN:
 
-   defs MAXSPRITES * 2
+        defs    MAXSPRITES * 2
 
 __SMSlib_SpriteNextFree:
 
-   defb 0
+        defb    0

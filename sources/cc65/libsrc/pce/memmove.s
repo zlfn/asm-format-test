@@ -11,14 +11,13 @@
 ; NOTE: This function uses entry points from "pce/memcpy.s"!
 ;
 
-        .export         _memmove
+        .export _memmove
 
-        .import         memcpy_getparams, memcpy_increment, memcpy_transfer
-        .importzp       ptr1, ptr2, ptr3
+        .import memcpy_getparams, memcpy_increment, memcpy_transfer
+        .importzp ptr1, ptr2, ptr3
 
-        .macpack        generic
-        .macpack        longbranch
-
+        .macpack generic
+        .macpack longbranch
 
 ; ----------------------------------------------------------------------
 _memmove:
@@ -42,7 +41,7 @@ _memmove:
         adc     ptr3+1
         sta     ptr1+1
 
-        lda     ptr1                    ; point to last byte of source
+        lda     ptr1    ; point to last byte of source
         bne     @L1
         dec     ptr1+1
 @L1:    dec     ptr1
@@ -54,10 +53,10 @@ _memmove:
         adc     ptr3+1
         sta     ptr2+1
 
-        lda     ptr2                    ; point to last byte of target
+        lda     ptr2    ; point to last byte of target
         bne     @L2
         dec     ptr2+1
 @L2:    dec     ptr2
 
-        ldy     #$C3                    ; TDD opcode
+        ldy     #$C3    ; TDD opcode
         jmp     memcpy_transfer

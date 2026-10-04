@@ -8,16 +8,16 @@
 ; be called from an interrupt handler.
 ;
 
-        .constructor    initmcb
-        .export         _mouse_def_callbacks
-        .import         _mouse_def_pointershape
-        .import         _mouse_def_pointercolor
-        .import         vic:zp
+        .constructor initmcb
+        .export _mouse_def_callbacks
+        .import _mouse_def_pointershape
+        .import _mouse_def_pointercolor
+        .import vic:zp
 
-        .include        "mouse-kernel.inc"
-        .include        "cbm510.inc"
+        .include "mouse-kernel.inc"
+        .include "cbm510.inc"
 
-        .macpack        generic
+        .macpack generic
 
 ; Sprite definitions. The first value can be changed to adjust the number
 ; of the sprite used for the mouse. All others depend on that value.
@@ -38,8 +38,8 @@ initmcb:
 ; Copy the mouse sprite data
 
         ldx     #64 - 1
-@L0:    lda     _mouse_def_pointershape,x
-        sta     MOUSE_SPR_MEM,x
+@L0:    lda     _mouse_def_pointershape, x
+        sta     MOUSE_SPR_MEM, x
         dex
         bpl     @L0
 
@@ -56,7 +56,7 @@ initmcb:
 
         lda     _mouse_def_pointercolor
         ldy     #VIC_SPR0_COLOR + MOUSE_SPR
-        sta     (vic),y
+        sta     (vic), y
 
         stx     IndReg
         rts
@@ -71,9 +71,9 @@ hide:
         sty     IndReg
 
         ldy     #VIC_SPR_ENA
-        lda     (vic),y
+        lda     (vic), y
         and     #MOUSE_SPR_NMASK
-        sta     (vic),y
+        sta     (vic), y
 
         ldy     ExecReg
         sty     IndReg
@@ -87,9 +87,9 @@ show:
         sty     IndReg
 
         ldy     #VIC_SPR_ENA
-        lda     (vic),y
+        lda     (vic), y
         ora     #MOUSE_SPR_MASK
-        sta     (vic),y
+        sta     (vic), y
 
         ldy     ExecReg
         sty     IndReg
@@ -117,9 +117,9 @@ movex:
 
 ; Add the x correction; and, set the low byte. That frees .A.
 
-        add     #<24                    ; x correction
+        add     #<24    ; x correction
         ldy     #VIC_SPR_X
-        sta     (vic),y
+        sta     (vic), y
 
 ; Set the high byte
 
@@ -127,18 +127,18 @@ movex:
         txa
         adc     #>24
         bnz     @L1                     ; Branch if high byte not zero
-        lda     (vic),y                 ; Get high x bits of all sprites
+        lda     (vic), y                ; Get high x bits of all sprites
         and     #MOUSE_SPR_NMASK        ; Clear high bit for sprite
-        sta     (vic),y
+        sta     (vic), y
 
 @L0:    ldy     ExecReg
         sty     IndReg
         rts
 
-@L1:    lda     (vic),y                 ; Get high x bits of all sprites
-        ora     #MOUSE_SPR_MASK         ; Set high bit for sprite
-        sta     (vic),y
-        bnz     @L0                     ; Branch always
+@L1:    lda     (vic), y        ; Get high x bits of all sprites
+        ora     #MOUSE_SPR_MASK ; Set high bit for sprite
+        sta     (vic), y
+        bnz     @L0             ; Branch always
 
 ; --------------------------------------------------------------------------
 ; Move the mouse pointer y position to the value in .XA. Always called with
@@ -148,9 +148,9 @@ movey:
         ldy     #15
         sty     IndReg
 
-        add     #50                     ; y correction (first visible line)
+        add     #50             ; y correction (first visible line)
         ldy     #VIC_SPR_Y
-        sta     (vic),y                 ; Set y position
+        sta     (vic), y        ; Set y position
 
         ldy     ExecReg
         sty     IndReg

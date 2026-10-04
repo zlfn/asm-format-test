@@ -56,7 +56,7 @@ EXTERN zx_00_output_rom_rst_ochar_msg_putc_bin, character_00_output
 
 zx_00_output_rom_rst:
 
-   cp OCHAR_MSG_PUTC_BIN
-   jp z, zx_00_output_rom_rst_ochar_msg_putc_bin
+        cp      OCHAR_MSG_PUTC_BIN
+        jp      z, zx_00_output_rom_rst_ochar_msg_putc_bin
 
-   jp character_00_output      ; forward to library
+        jp      character_00_output     ; forward to library

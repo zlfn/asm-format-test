@@ -11,11 +11,11 @@ PUBLIC l_sub
 
 l_sub:
 
-   ; HL = DE - HL
+        ; HL = DE - HL
 
-   ex de,hl
-   
-   or a
-   sbc hl,de
-   
-   ret
+        ex      de, hl
+
+        or      a
+        sbc     hl, de
+
+        ret

@@ -16,29 +16,27 @@ SECTION code_l_sccz80
 PUBLIC  l_long_asl
 PUBLIC  l_long_aslo
 
-
 ; Shift primary left by secondary
 ;
 ; Primary is on the stack, and is 32 bits long therefore we need only
 ; concern ourselves with l (secondary) as our counter
 
 .l_long_asl
-   pop      bc
-   ld       a,l         ; counter
-   pop      hl
-   pop      de
-   push     bc
+        pop     bc
+        ld      a, l    ; counter
+        pop     hl
+        pop     de
+        push    bc
 
 ; Optimised version enters with dehl=long, count = a
 .l_long_aslo
-   and      31
-   ret      Z
+        and     31
+        ret     Z
 
 .loop
-   add      hl,hl
-   rl       de
+        add     hl, hl
+        rl      de
 
-   dec      a
-   jp       NZ,loop
-   ret
-
+        dec     a
+        jp      NZ, loop
+        ret

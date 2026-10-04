@@ -1,6 +1,6 @@
 ; SPDX-License-Identifier: Zlib OR Apache-2.0 WITH LLVM-exception OR MIT
-	.area _CODE
-	.globl __call_hl
+        .area   _CODE
+        .globl  __call_hl
 
 ;===------------------------------------------------------------------------===;
 ; __call_hl - Indirect call trampoline
@@ -12,4 +12,4 @@
 ;===------------------------------------------------------------------------===;
 
 __call_hl:
-	jp	(hl)
+        jp      (hl)

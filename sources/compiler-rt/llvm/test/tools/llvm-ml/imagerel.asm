@@ -1,12 +1,12 @@
 ; RUN: llvm-ml -filetype=s %s /Fo - | FileCheck %s
 
 .data
-sym1 dd 42
-sym2 dd 43
+sym1    dd      42
+sym2    dd      43
 
 ; CHECK-LABEL: rva_data:
 ; CHECK: .long sym1@IMGREL
-rva_data dd IMAGEREL sym1
+rva_data dd     IMAGEREL sym1
 
 ; CHECK-LABEL: rva_data_offset:
 ; CHECK: .long sym1@IMGREL+4
@@ -16,9 +16,9 @@ rva_data_offset dd IMAGEREL sym1 + 4
 ; CHECK: .long sym1@IMGREL+4
 rva_data_paren dd (IMAGEREL sym1) + 4
 
-MY_STRUCT STRUCT
-  field_default dd IMAGEREL sym1
-MY_STRUCT ENDS
+MY_STRUCT     STRUCT
+field_default dd IMAGEREL sym1
+MY_STRUCT     ENDS
 
 ; CHECK-LABEL: struct_inst_default:
 ; CHECK: .long sym1@IMGREL

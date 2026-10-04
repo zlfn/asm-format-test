@@ -16,13 +16,13 @@ EXTERN asm_clearerr
 
 _clearerr_fastcall:
 
-   push hl
-   ex (sp),ix
-   
-   call asm_clearerr
-   
-   pop ix
-   ret
+        push    hl
+        ex      (sp), ix
+
+        call    asm_clearerr
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -10,10 +10,10 @@ EXTERN asm_b_vector_max_size
 
 _b_vector_max_size:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_b_vector_max_size
+        push    hl
+        push    af
+
+        jp      asm_b_vector_max_size

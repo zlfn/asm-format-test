@@ -1,578 +1,578 @@
 %ifidn __OUTPUT_FORMAT__,obj
 section code    use32 class=code align=64
 %elifidn __OUTPUT_FORMAT__,win32
-$@feat.00 equ 1
+$@feat.00 equ   1
 section .text   code align=64
 %else
 section .text   code
 %endif
 align   16
 __x86_AES_encrypt_compact:
-        mov     DWORD [20+esp],edi
-        xor     eax,DWORD [edi]
-        xor     ebx,DWORD [4+edi]
-        xor     ecx,DWORD [8+edi]
-        xor     edx,DWORD [12+edi]
-        mov     esi,DWORD [240+edi]
-        lea     esi,[esi*1+esi-2]
-        lea     esi,[esi*8+edi]
-        mov     DWORD [24+esp],esi
-        mov     edi,DWORD [ebp-128]
-        mov     esi,DWORD [ebp-96]
-        mov     edi,DWORD [ebp-64]
-        mov     esi,DWORD [ebp-32]
-        mov     edi,DWORD [ebp]
-        mov     esi,DWORD [32+ebp]
-        mov     edi,DWORD [64+ebp]
-        mov     esi,DWORD [96+ebp]
+        mov     DWORD [20+esp], edi
+        xor     eax, DWORD [edi]
+        xor     ebx, DWORD [4+edi]
+        xor     ecx, DWORD [8+edi]
+        xor     edx, DWORD [12+edi]
+        mov     esi, DWORD [240+edi]
+        lea     esi, [esi*1+esi-2]
+        lea     esi, [esi*8+edi]
+        mov     DWORD [24+esp], esi
+        mov     edi, DWORD [ebp-128]
+        mov     esi, DWORD [ebp-96]
+        mov     edi, DWORD [ebp-64]
+        mov     esi, DWORD [ebp-32]
+        mov     edi, DWORD [ebp]
+        mov     esi, DWORD [32+ebp]
+        mov     edi, DWORD [64+ebp]
+        mov     esi, DWORD [96+ebp]
 align   16
 L$000loop:
-        mov     esi,eax
-        and     esi,255
-        movzx   esi,BYTE [esi*1+ebp-128]
-        movzx   edi,bh
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,ecx
-        shr     edi,16
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,16
-        xor     esi,edi
-        mov     edi,edx
-        shr     edi,24
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,24
-        xor     esi,edi
-        mov     DWORD [4+esp],esi
-        mov     esi,ebx
-        and     esi,255
-        shr     ebx,16
-        movzx   esi,BYTE [esi*1+ebp-128]
-        movzx   edi,ch
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,edx
-        shr     edi,16
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,16
-        xor     esi,edi
-        mov     edi,eax
-        shr     edi,24
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,24
-        xor     esi,edi
-        mov     DWORD [8+esp],esi
-        mov     esi,ecx
-        and     esi,255
-        shr     ecx,24
-        movzx   esi,BYTE [esi*1+ebp-128]
-        movzx   edi,dh
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,eax
-        shr     edi,16
-        and     edx,255
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,16
-        xor     esi,edi
-        movzx   edi,bh
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,24
-        xor     esi,edi
-        and     edx,255
-        movzx   edx,BYTE [edx*1+ebp-128]
-        movzx   eax,ah
-        movzx   eax,BYTE [eax*1+ebp-128]
-        shl     eax,8
-        xor     edx,eax
-        mov     eax,DWORD [4+esp]
-        and     ebx,255
-        movzx   ebx,BYTE [ebx*1+ebp-128]
-        shl     ebx,16
-        xor     edx,ebx
-        mov     ebx,DWORD [8+esp]
-        movzx   ecx,BYTE [ecx*1+ebp-128]
-        shl     ecx,24
-        xor     edx,ecx
-        mov     ecx,esi
-        mov     ebp,2155905152
-        and     ebp,ecx
-        lea     edi,[ecx*1+ecx]
-        mov     esi,ebp
-        shr     ebp,7
-        and     edi,4278124286
-        sub     esi,ebp
-        mov     ebp,ecx
-        and     esi,454761243
-        ror     ebp,16
-        xor     esi,edi
-        mov     edi,ecx
-        xor     ecx,esi
-        ror     edi,24
-        xor     esi,ebp
-        rol     ecx,24
-        xor     esi,edi
-        mov     ebp,2155905152
-        xor     ecx,esi
-        and     ebp,edx
-        lea     edi,[edx*1+edx]
-        mov     esi,ebp
-        shr     ebp,7
-        and     edi,4278124286
-        sub     esi,ebp
-        mov     ebp,edx
-        and     esi,454761243
-        ror     ebp,16
-        xor     esi,edi
-        mov     edi,edx
-        xor     edx,esi
-        ror     edi,24
-        xor     esi,ebp
-        rol     edx,24
-        xor     esi,edi
-        mov     ebp,2155905152
-        xor     edx,esi
-        and     ebp,eax
-        lea     edi,[eax*1+eax]
-        mov     esi,ebp
-        shr     ebp,7
-        and     edi,4278124286
-        sub     esi,ebp
-        mov     ebp,eax
-        and     esi,454761243
-        ror     ebp,16
-        xor     esi,edi
-        mov     edi,eax
-        xor     eax,esi
-        ror     edi,24
-        xor     esi,ebp
-        rol     eax,24
-        xor     esi,edi
-        mov     ebp,2155905152
-        xor     eax,esi
-        and     ebp,ebx
-        lea     edi,[ebx*1+ebx]
-        mov     esi,ebp
-        shr     ebp,7
-        and     edi,4278124286
-        sub     esi,ebp
-        mov     ebp,ebx
-        and     esi,454761243
-        ror     ebp,16
-        xor     esi,edi
-        mov     edi,ebx
-        xor     ebx,esi
-        ror     edi,24
-        xor     esi,ebp
-        rol     ebx,24
-        xor     esi,edi
-        xor     ebx,esi
-        mov     edi,DWORD [20+esp]
-        mov     ebp,DWORD [28+esp]
-        add     edi,16
-        xor     eax,DWORD [edi]
-        xor     ebx,DWORD [4+edi]
-        xor     ecx,DWORD [8+edi]
-        xor     edx,DWORD [12+edi]
-        cmp     edi,DWORD [24+esp]
-        mov     DWORD [20+esp],edi
+        mov     esi, eax
+        and     esi, 255
+        movzx   esi, BYTE [esi*1+ebp-128]
+        movzx   edi, bh
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, ecx
+        shr     edi, 16
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 16
+        xor     esi, edi
+        mov     edi, edx
+        shr     edi, 24
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 24
+        xor     esi, edi
+        mov     DWORD [4+esp], esi
+        mov     esi, ebx
+        and     esi, 255
+        shr     ebx, 16
+        movzx   esi, BYTE [esi*1+ebp-128]
+        movzx   edi, ch
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, edx
+        shr     edi, 16
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 16
+        xor     esi, edi
+        mov     edi, eax
+        shr     edi, 24
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 24
+        xor     esi, edi
+        mov     DWORD [8+esp], esi
+        mov     esi, ecx
+        and     esi, 255
+        shr     ecx, 24
+        movzx   esi, BYTE [esi*1+ebp-128]
+        movzx   edi, dh
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, eax
+        shr     edi, 16
+        and     edx, 255
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 16
+        xor     esi, edi
+        movzx   edi, bh
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 24
+        xor     esi, edi
+        and     edx, 255
+        movzx   edx, BYTE [edx*1+ebp-128]
+        movzx   eax, ah
+        movzx   eax, BYTE [eax*1+ebp-128]
+        shl     eax, 8
+        xor     edx, eax
+        mov     eax, DWORD [4+esp]
+        and     ebx, 255
+        movzx   ebx, BYTE [ebx*1+ebp-128]
+        shl     ebx, 16
+        xor     edx, ebx
+        mov     ebx, DWORD [8+esp]
+        movzx   ecx, BYTE [ecx*1+ebp-128]
+        shl     ecx, 24
+        xor     edx, ecx
+        mov     ecx, esi
+        mov     ebp, 2155905152
+        and     ebp, ecx
+        lea     edi, [ecx*1+ecx]
+        mov     esi, ebp
+        shr     ebp, 7
+        and     edi, 4278124286
+        sub     esi, ebp
+        mov     ebp, ecx
+        and     esi, 454761243
+        ror     ebp, 16
+        xor     esi, edi
+        mov     edi, ecx
+        xor     ecx, esi
+        ror     edi, 24
+        xor     esi, ebp
+        rol     ecx, 24
+        xor     esi, edi
+        mov     ebp, 2155905152
+        xor     ecx, esi
+        and     ebp, edx
+        lea     edi, [edx*1+edx]
+        mov     esi, ebp
+        shr     ebp, 7
+        and     edi, 4278124286
+        sub     esi, ebp
+        mov     ebp, edx
+        and     esi, 454761243
+        ror     ebp, 16
+        xor     esi, edi
+        mov     edi, edx
+        xor     edx, esi
+        ror     edi, 24
+        xor     esi, ebp
+        rol     edx, 24
+        xor     esi, edi
+        mov     ebp, 2155905152
+        xor     edx, esi
+        and     ebp, eax
+        lea     edi, [eax*1+eax]
+        mov     esi, ebp
+        shr     ebp, 7
+        and     edi, 4278124286
+        sub     esi, ebp
+        mov     ebp, eax
+        and     esi, 454761243
+        ror     ebp, 16
+        xor     esi, edi
+        mov     edi, eax
+        xor     eax, esi
+        ror     edi, 24
+        xor     esi, ebp
+        rol     eax, 24
+        xor     esi, edi
+        mov     ebp, 2155905152
+        xor     eax, esi
+        and     ebp, ebx
+        lea     edi, [ebx*1+ebx]
+        mov     esi, ebp
+        shr     ebp, 7
+        and     edi, 4278124286
+        sub     esi, ebp
+        mov     ebp, ebx
+        and     esi, 454761243
+        ror     ebp, 16
+        xor     esi, edi
+        mov     edi, ebx
+        xor     ebx, esi
+        ror     edi, 24
+        xor     esi, ebp
+        rol     ebx, 24
+        xor     esi, edi
+        xor     ebx, esi
+        mov     edi, DWORD [20+esp]
+        mov     ebp, DWORD [28+esp]
+        add     edi, 16
+        xor     eax, DWORD [edi]
+        xor     ebx, DWORD [4+edi]
+        xor     ecx, DWORD [8+edi]
+        xor     edx, DWORD [12+edi]
+        cmp     edi, DWORD [24+esp]
+        mov     DWORD [20+esp], edi
         jb      NEAR L$000loop
-        mov     esi,eax
-        and     esi,255
-        movzx   esi,BYTE [esi*1+ebp-128]
-        movzx   edi,bh
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,ecx
-        shr     edi,16
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,16
-        xor     esi,edi
-        mov     edi,edx
-        shr     edi,24
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,24
-        xor     esi,edi
-        mov     DWORD [4+esp],esi
-        mov     esi,ebx
-        and     esi,255
-        shr     ebx,16
-        movzx   esi,BYTE [esi*1+ebp-128]
-        movzx   edi,ch
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,edx
-        shr     edi,16
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,16
-        xor     esi,edi
-        mov     edi,eax
-        shr     edi,24
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,24
-        xor     esi,edi
-        mov     DWORD [8+esp],esi
-        mov     esi,ecx
-        and     esi,255
-        shr     ecx,24
-        movzx   esi,BYTE [esi*1+ebp-128]
-        movzx   edi,dh
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,eax
-        shr     edi,16
-        and     edx,255
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,16
-        xor     esi,edi
-        movzx   edi,bh
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,24
-        xor     esi,edi
-        mov     edi,DWORD [20+esp]
-        and     edx,255
-        movzx   edx,BYTE [edx*1+ebp-128]
-        movzx   eax,ah
-        movzx   eax,BYTE [eax*1+ebp-128]
-        shl     eax,8
-        xor     edx,eax
-        mov     eax,DWORD [4+esp]
-        and     ebx,255
-        movzx   ebx,BYTE [ebx*1+ebp-128]
-        shl     ebx,16
-        xor     edx,ebx
-        mov     ebx,DWORD [8+esp]
-        movzx   ecx,BYTE [ecx*1+ebp-128]
-        shl     ecx,24
-        xor     edx,ecx
-        mov     ecx,esi
-        xor     eax,DWORD [16+edi]
-        xor     ebx,DWORD [20+edi]
-        xor     ecx,DWORD [24+edi]
-        xor     edx,DWORD [28+edi]
+        mov     esi, eax
+        and     esi, 255
+        movzx   esi, BYTE [esi*1+ebp-128]
+        movzx   edi, bh
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, ecx
+        shr     edi, 16
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 16
+        xor     esi, edi
+        mov     edi, edx
+        shr     edi, 24
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 24
+        xor     esi, edi
+        mov     DWORD [4+esp], esi
+        mov     esi, ebx
+        and     esi, 255
+        shr     ebx, 16
+        movzx   esi, BYTE [esi*1+ebp-128]
+        movzx   edi, ch
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, edx
+        shr     edi, 16
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 16
+        xor     esi, edi
+        mov     edi, eax
+        shr     edi, 24
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 24
+        xor     esi, edi
+        mov     DWORD [8+esp], esi
+        mov     esi, ecx
+        and     esi, 255
+        shr     ecx, 24
+        movzx   esi, BYTE [esi*1+ebp-128]
+        movzx   edi, dh
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, eax
+        shr     edi, 16
+        and     edx, 255
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 16
+        xor     esi, edi
+        movzx   edi, bh
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 24
+        xor     esi, edi
+        mov     edi, DWORD [20+esp]
+        and     edx, 255
+        movzx   edx, BYTE [edx*1+ebp-128]
+        movzx   eax, ah
+        movzx   eax, BYTE [eax*1+ebp-128]
+        shl     eax, 8
+        xor     edx, eax
+        mov     eax, DWORD [4+esp]
+        and     ebx, 255
+        movzx   ebx, BYTE [ebx*1+ebp-128]
+        shl     ebx, 16
+        xor     edx, ebx
+        mov     ebx, DWORD [8+esp]
+        movzx   ecx, BYTE [ecx*1+ebp-128]
+        shl     ecx, 24
+        xor     edx, ecx
+        mov     ecx, esi
+        xor     eax, DWORD [16+edi]
+        xor     ebx, DWORD [20+edi]
+        xor     ecx, DWORD [24+edi]
+        xor     edx, DWORD [28+edi]
         ret
 align   16
 __sse_AES_encrypt_compact:
-        pxor    mm0,[edi]
-        pxor    mm4,[8+edi]
-        mov     esi,DWORD [240+edi]
-        lea     esi,[esi*1+esi-2]
-        lea     esi,[esi*8+edi]
-        mov     DWORD [24+esp],esi
-        mov     eax,454761243
-        mov     DWORD [8+esp],eax
-        mov     DWORD [12+esp],eax
-        mov     eax,DWORD [ebp-128]
-        mov     ebx,DWORD [ebp-96]
-        mov     ecx,DWORD [ebp-64]
-        mov     edx,DWORD [ebp-32]
-        mov     eax,DWORD [ebp]
-        mov     ebx,DWORD [32+ebp]
-        mov     ecx,DWORD [64+ebp]
-        mov     edx,DWORD [96+ebp]
+        pxor    mm0, [edi]
+        pxor    mm4, [8+edi]
+        mov     esi, DWORD [240+edi]
+        lea     esi, [esi*1+esi-2]
+        lea     esi, [esi*8+edi]
+        mov     DWORD [24+esp], esi
+        mov     eax, 454761243
+        mov     DWORD [8+esp],  eax
+        mov     DWORD [12+esp], eax
+        mov     eax, DWORD [ebp-128]
+        mov     ebx, DWORD [ebp-96]
+        mov     ecx, DWORD [ebp-64]
+        mov     edx, DWORD [ebp-32]
+        mov     eax, DWORD [ebp]
+        mov     ebx, DWORD [32+ebp]
+        mov     ecx, DWORD [64+ebp]
+        mov     edx, DWORD [96+ebp]
 align   16
 L$001loop:
-        pshufw  mm1,mm0,8
-        pshufw  mm5,mm4,13
-        movd    eax,mm1
-        movd    ebx,mm5
-        mov     DWORD [20+esp],edi
-        movzx   esi,al
-        movzx   edx,ah
-        pshufw  mm2,mm0,13
-        movzx   ecx,BYTE [esi*1+ebp-128]
-        movzx   edi,bl
-        movzx   edx,BYTE [edx*1+ebp-128]
-        shr     eax,16
-        shl     edx,8
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,bh
-        shl     esi,16
-        pshufw  mm6,mm4,8
-        or      ecx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,ah
-        shl     esi,24
-        shr     ebx,16
-        or      edx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,bh
-        shl     esi,8
-        or      ecx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,al
-        shl     esi,24
-        or      ecx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,bl
-        movd    eax,mm2
-        movd    mm0,ecx
-        movzx   ecx,BYTE [edi*1+ebp-128]
-        movzx   edi,ah
-        shl     ecx,16
-        movd    ebx,mm6
-        or      ecx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,bh
-        shl     esi,24
-        or      ecx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,bl
-        shl     esi,8
-        shr     ebx,16
-        or      ecx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,al
-        shr     eax,16
-        movd    mm1,ecx
-        movzx   ecx,BYTE [edi*1+ebp-128]
-        movzx   edi,ah
-        shl     ecx,16
-        and     eax,255
-        or      ecx,esi
-        punpckldq       mm0,mm1
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,bh
-        shl     esi,24
-        and     ebx,255
-        movzx   eax,BYTE [eax*1+ebp-128]
-        or      ecx,esi
-        shl     eax,16
-        movzx   esi,BYTE [edi*1+ebp-128]
-        or      edx,eax
-        shl     esi,8
-        movzx   ebx,BYTE [ebx*1+ebp-128]
-        or      ecx,esi
-        or      edx,ebx
-        mov     edi,DWORD [20+esp]
-        movd    mm4,ecx
-        movd    mm5,edx
-        punpckldq       mm4,mm5
-        add     edi,16
-        cmp     edi,DWORD [24+esp]
+        pshufw  mm1, mm0, 8
+        pshufw  mm5, mm4, 13
+        movd    eax, mm1
+        movd    ebx, mm5
+        mov     DWORD [20+esp], edi
+        movzx   esi, al
+        movzx   edx, ah
+        pshufw  mm2, mm0, 13
+        movzx   ecx, BYTE [esi*1+ebp-128]
+        movzx   edi, bl
+        movzx   edx, BYTE [edx*1+ebp-128]
+        shr     eax, 16
+        shl     edx, 8
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, bh
+        shl     esi, 16
+        pshufw  mm6, mm4, 8
+        or      ecx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, ah
+        shl     esi, 24
+        shr     ebx, 16
+        or      edx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, bh
+        shl     esi, 8
+        or      ecx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, al
+        shl     esi, 24
+        or      ecx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, bl
+        movd    eax, mm2
+        movd    mm0, ecx
+        movzx   ecx, BYTE [edi*1+ebp-128]
+        movzx   edi, ah
+        shl     ecx, 16
+        movd    ebx, mm6
+        or      ecx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, bh
+        shl     esi, 24
+        or      ecx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, bl
+        shl     esi, 8
+        shr     ebx, 16
+        or      ecx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, al
+        shr     eax, 16
+        movd    mm1, ecx
+        movzx   ecx, BYTE [edi*1+ebp-128]
+        movzx   edi, ah
+        shl     ecx, 16
+        and     eax, 255
+        or      ecx, esi
+        punpckldq mm0, mm1
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, bh
+        shl     esi, 24
+        and     ebx, 255
+        movzx   eax, BYTE [eax*1+ebp-128]
+        or      ecx, esi
+        shl     eax, 16
+        movzx   esi, BYTE [edi*1+ebp-128]
+        or      edx, eax
+        shl     esi, 8
+        movzx   ebx, BYTE [ebx*1+ebp-128]
+        or      ecx, esi
+        or      edx, ebx
+        mov     edi, DWORD [20+esp]
+        movd    mm4, ecx
+        movd    mm5, edx
+        punpckldq mm4, mm5
+        add     edi, 16
+        cmp     edi, DWORD [24+esp]
         ja      NEAR L$002out
-        movq    mm2,[8+esp]
-        pxor    mm3,mm3
-        pxor    mm7,mm7
-        movq    mm1,mm0
-        movq    mm5,mm4
-        pcmpgtb mm3,mm0
-        pcmpgtb mm7,mm4
-        pand    mm3,mm2
-        pand    mm7,mm2
-        pshufw  mm2,mm0,177
-        pshufw  mm6,mm4,177
-        paddb   mm0,mm0
-        paddb   mm4,mm4
-        pxor    mm0,mm3
-        pxor    mm4,mm7
-        pshufw  mm3,mm2,177
-        pshufw  mm7,mm6,177
-        pxor    mm1,mm0
-        pxor    mm5,mm4
-        pxor    mm0,mm2
-        pxor    mm4,mm6
-        movq    mm2,mm3
-        movq    mm6,mm7
-        pslld   mm3,8
-        pslld   mm7,8
-        psrld   mm2,24
-        psrld   mm6,24
-        pxor    mm0,mm3
-        pxor    mm4,mm7
-        pxor    mm0,mm2
-        pxor    mm4,mm6
-        movq    mm3,mm1
-        movq    mm7,mm5
-        movq    mm2,[edi]
-        movq    mm6,[8+edi]
-        psrld   mm1,8
-        psrld   mm5,8
-        mov     eax,DWORD [ebp-128]
-        pslld   mm3,24
-        pslld   mm7,24
-        mov     ebx,DWORD [ebp-64]
-        pxor    mm0,mm1
-        pxor    mm4,mm5
-        mov     ecx,DWORD [ebp]
-        pxor    mm0,mm3
-        pxor    mm4,mm7
-        mov     edx,DWORD [64+ebp]
-        pxor    mm0,mm2
-        pxor    mm4,mm6
+        movq    mm2, [8+esp]
+        pxor    mm3, mm3
+        pxor    mm7, mm7
+        movq    mm1, mm0
+        movq    mm5, mm4
+        pcmpgtb mm3, mm0
+        pcmpgtb mm7, mm4
+        pand    mm3, mm2
+        pand    mm7, mm2
+        pshufw  mm2, mm0, 177
+        pshufw  mm6, mm4, 177
+        paddb   mm0, mm0
+        paddb   mm4, mm4
+        pxor    mm0, mm3
+        pxor    mm4, mm7
+        pshufw  mm3, mm2, 177
+        pshufw  mm7, mm6, 177
+        pxor    mm1, mm0
+        pxor    mm5, mm4
+        pxor    mm0, mm2
+        pxor    mm4, mm6
+        movq    mm2, mm3
+        movq    mm6, mm7
+        pslld   mm3, 8
+        pslld   mm7, 8
+        psrld   mm2, 24
+        psrld   mm6, 24
+        pxor    mm0, mm3
+        pxor    mm4, mm7
+        pxor    mm0, mm2
+        pxor    mm4, mm6
+        movq    mm3, mm1
+        movq    mm7, mm5
+        movq    mm2, [edi]
+        movq    mm6, [8+edi]
+        psrld   mm1, 8
+        psrld   mm5, 8
+        mov     eax, DWORD [ebp-128]
+        pslld   mm3, 24
+        pslld   mm7, 24
+        mov     ebx, DWORD [ebp-64]
+        pxor    mm0, mm1
+        pxor    mm4, mm5
+        mov     ecx, DWORD [ebp]
+        pxor    mm0, mm3
+        pxor    mm4, mm7
+        mov     edx, DWORD [64+ebp]
+        pxor    mm0, mm2
+        pxor    mm4, mm6
         jmp     NEAR L$001loop
 align   16
 L$002out:
-        pxor    mm0,[edi]
-        pxor    mm4,[8+edi]
+        pxor    mm0, [edi]
+        pxor    mm4, [8+edi]
         ret
 align   16
 __x86_AES_encrypt:
-        mov     DWORD [20+esp],edi
-        xor     eax,DWORD [edi]
-        xor     ebx,DWORD [4+edi]
-        xor     ecx,DWORD [8+edi]
-        xor     edx,DWORD [12+edi]
-        mov     esi,DWORD [240+edi]
-        lea     esi,[esi*1+esi-2]
-        lea     esi,[esi*8+edi]
-        mov     DWORD [24+esp],esi
+        mov     DWORD [20+esp], edi
+        xor     eax, DWORD [edi]
+        xor     ebx, DWORD [4+edi]
+        xor     ecx, DWORD [8+edi]
+        xor     edx, DWORD [12+edi]
+        mov     esi, DWORD [240+edi]
+        lea     esi, [esi*1+esi-2]
+        lea     esi, [esi*8+edi]
+        mov     DWORD [24+esp], esi
 align   16
 L$003loop:
-        mov     esi,eax
-        and     esi,255
-        mov     esi,DWORD [esi*8+ebp]
-        movzx   edi,bh
-        xor     esi,DWORD [3+edi*8+ebp]
-        mov     edi,ecx
-        shr     edi,16
-        and     edi,255
-        xor     esi,DWORD [2+edi*8+ebp]
-        mov     edi,edx
-        shr     edi,24
-        xor     esi,DWORD [1+edi*8+ebp]
-        mov     DWORD [4+esp],esi
-        mov     esi,ebx
-        and     esi,255
-        shr     ebx,16
-        mov     esi,DWORD [esi*8+ebp]
-        movzx   edi,ch
-        xor     esi,DWORD [3+edi*8+ebp]
-        mov     edi,edx
-        shr     edi,16
-        and     edi,255
-        xor     esi,DWORD [2+edi*8+ebp]
-        mov     edi,eax
-        shr     edi,24
-        xor     esi,DWORD [1+edi*8+ebp]
-        mov     DWORD [8+esp],esi
-        mov     esi,ecx
-        and     esi,255
-        shr     ecx,24
-        mov     esi,DWORD [esi*8+ebp]
-        movzx   edi,dh
-        xor     esi,DWORD [3+edi*8+ebp]
-        mov     edi,eax
-        shr     edi,16
-        and     edx,255
-        and     edi,255
-        xor     esi,DWORD [2+edi*8+ebp]
-        movzx   edi,bh
-        xor     esi,DWORD [1+edi*8+ebp]
-        mov     edi,DWORD [20+esp]
-        mov     edx,DWORD [edx*8+ebp]
-        movzx   eax,ah
-        xor     edx,DWORD [3+eax*8+ebp]
-        mov     eax,DWORD [4+esp]
-        and     ebx,255
-        xor     edx,DWORD [2+ebx*8+ebp]
-        mov     ebx,DWORD [8+esp]
-        xor     edx,DWORD [1+ecx*8+ebp]
-        mov     ecx,esi
-        add     edi,16
-        xor     eax,DWORD [edi]
-        xor     ebx,DWORD [4+edi]
-        xor     ecx,DWORD [8+edi]
-        xor     edx,DWORD [12+edi]
-        cmp     edi,DWORD [24+esp]
-        mov     DWORD [20+esp],edi
+        mov     esi, eax
+        and     esi, 255
+        mov     esi, DWORD [esi*8+ebp]
+        movzx   edi, bh
+        xor     esi, DWORD [3+edi*8+ebp]
+        mov     edi, ecx
+        shr     edi, 16
+        and     edi, 255
+        xor     esi, DWORD [2+edi*8+ebp]
+        mov     edi, edx
+        shr     edi, 24
+        xor     esi, DWORD [1+edi*8+ebp]
+        mov     DWORD [4+esp], esi
+        mov     esi, ebx
+        and     esi, 255
+        shr     ebx, 16
+        mov     esi, DWORD [esi*8+ebp]
+        movzx   edi, ch
+        xor     esi, DWORD [3+edi*8+ebp]
+        mov     edi, edx
+        shr     edi, 16
+        and     edi, 255
+        xor     esi, DWORD [2+edi*8+ebp]
+        mov     edi, eax
+        shr     edi, 24
+        xor     esi, DWORD [1+edi*8+ebp]
+        mov     DWORD [8+esp], esi
+        mov     esi, ecx
+        and     esi, 255
+        shr     ecx, 24
+        mov     esi, DWORD [esi*8+ebp]
+        movzx   edi, dh
+        xor     esi, DWORD [3+edi*8+ebp]
+        mov     edi, eax
+        shr     edi, 16
+        and     edx, 255
+        and     edi, 255
+        xor     esi, DWORD [2+edi*8+ebp]
+        movzx   edi, bh
+        xor     esi, DWORD [1+edi*8+ebp]
+        mov     edi, DWORD [20+esp]
+        mov     edx, DWORD [edx*8+ebp]
+        movzx   eax, ah
+        xor     edx, DWORD [3+eax*8+ebp]
+        mov     eax, DWORD [4+esp]
+        and     ebx, 255
+        xor     edx, DWORD [2+ebx*8+ebp]
+        mov     ebx, DWORD [8+esp]
+        xor     edx, DWORD [1+ecx*8+ebp]
+        mov     ecx, esi
+        add     edi, 16
+        xor     eax, DWORD [edi]
+        xor     ebx, DWORD [4+edi]
+        xor     ecx, DWORD [8+edi]
+        xor     edx, DWORD [12+edi]
+        cmp     edi, DWORD [24+esp]
+        mov     DWORD [20+esp], edi
         jb      NEAR L$003loop
-        mov     esi,eax
-        and     esi,255
-        mov     esi,DWORD [2+esi*8+ebp]
-        and     esi,255
-        movzx   edi,bh
-        mov     edi,DWORD [edi*8+ebp]
-        and     edi,65280
-        xor     esi,edi
-        mov     edi,ecx
-        shr     edi,16
-        and     edi,255
-        mov     edi,DWORD [edi*8+ebp]
-        and     edi,16711680
-        xor     esi,edi
-        mov     edi,edx
-        shr     edi,24
-        mov     edi,DWORD [2+edi*8+ebp]
-        and     edi,4278190080
-        xor     esi,edi
-        mov     DWORD [4+esp],esi
-        mov     esi,ebx
-        and     esi,255
-        shr     ebx,16
-        mov     esi,DWORD [2+esi*8+ebp]
-        and     esi,255
-        movzx   edi,ch
-        mov     edi,DWORD [edi*8+ebp]
-        and     edi,65280
-        xor     esi,edi
-        mov     edi,edx
-        shr     edi,16
-        and     edi,255
-        mov     edi,DWORD [edi*8+ebp]
-        and     edi,16711680
-        xor     esi,edi
-        mov     edi,eax
-        shr     edi,24
-        mov     edi,DWORD [2+edi*8+ebp]
-        and     edi,4278190080
-        xor     esi,edi
-        mov     DWORD [8+esp],esi
-        mov     esi,ecx
-        and     esi,255
-        shr     ecx,24
-        mov     esi,DWORD [2+esi*8+ebp]
-        and     esi,255
-        movzx   edi,dh
-        mov     edi,DWORD [edi*8+ebp]
-        and     edi,65280
-        xor     esi,edi
-        mov     edi,eax
-        shr     edi,16
-        and     edx,255
-        and     edi,255
-        mov     edi,DWORD [edi*8+ebp]
-        and     edi,16711680
-        xor     esi,edi
-        movzx   edi,bh
-        mov     edi,DWORD [2+edi*8+ebp]
-        and     edi,4278190080
-        xor     esi,edi
-        mov     edi,DWORD [20+esp]
-        and     edx,255
-        mov     edx,DWORD [2+edx*8+ebp]
-        and     edx,255
-        movzx   eax,ah
-        mov     eax,DWORD [eax*8+ebp]
-        and     eax,65280
-        xor     edx,eax
-        mov     eax,DWORD [4+esp]
-        and     ebx,255
-        mov     ebx,DWORD [ebx*8+ebp]
-        and     ebx,16711680
-        xor     edx,ebx
-        mov     ebx,DWORD [8+esp]
-        mov     ecx,DWORD [2+ecx*8+ebp]
-        and     ecx,4278190080
-        xor     edx,ecx
-        mov     ecx,esi
-        add     edi,16
-        xor     eax,DWORD [edi]
-        xor     ebx,DWORD [4+edi]
-        xor     ecx,DWORD [8+edi]
-        xor     edx,DWORD [12+edi]
+        mov     esi, eax
+        and     esi, 255
+        mov     esi, DWORD [2+esi*8+ebp]
+        and     esi, 255
+        movzx   edi, bh
+        mov     edi, DWORD [edi*8+ebp]
+        and     edi, 65280
+        xor     esi, edi
+        mov     edi, ecx
+        shr     edi, 16
+        and     edi, 255
+        mov     edi, DWORD [edi*8+ebp]
+        and     edi, 16711680
+        xor     esi, edi
+        mov     edi, edx
+        shr     edi, 24
+        mov     edi, DWORD [2+edi*8+ebp]
+        and     edi, 4278190080
+        xor     esi, edi
+        mov     DWORD [4+esp], esi
+        mov     esi, ebx
+        and     esi, 255
+        shr     ebx, 16
+        mov     esi, DWORD [2+esi*8+ebp]
+        and     esi, 255
+        movzx   edi, ch
+        mov     edi, DWORD [edi*8+ebp]
+        and     edi, 65280
+        xor     esi, edi
+        mov     edi, edx
+        shr     edi, 16
+        and     edi, 255
+        mov     edi, DWORD [edi*8+ebp]
+        and     edi, 16711680
+        xor     esi, edi
+        mov     edi, eax
+        shr     edi, 24
+        mov     edi, DWORD [2+edi*8+ebp]
+        and     edi, 4278190080
+        xor     esi, edi
+        mov     DWORD [8+esp], esi
+        mov     esi, ecx
+        and     esi, 255
+        shr     ecx, 24
+        mov     esi, DWORD [2+esi*8+ebp]
+        and     esi, 255
+        movzx   edi, dh
+        mov     edi, DWORD [edi*8+ebp]
+        and     edi, 65280
+        xor     esi, edi
+        mov     edi, eax
+        shr     edi, 16
+        and     edx, 255
+        and     edi, 255
+        mov     edi, DWORD [edi*8+ebp]
+        and     edi, 16711680
+        xor     esi, edi
+        movzx   edi, bh
+        mov     edi, DWORD [2+edi*8+ebp]
+        and     edi, 4278190080
+        xor     esi, edi
+        mov     edi, DWORD [20+esp]
+        and     edx, 255
+        mov     edx, DWORD [2+edx*8+ebp]
+        and     edx, 255
+        movzx   eax, ah
+        mov     eax, DWORD [eax*8+ebp]
+        and     eax, 65280
+        xor     edx, eax
+        mov     eax, DWORD [4+esp]
+        and     ebx, 255
+        mov     ebx, DWORD [ebx*8+ebp]
+        and     ebx, 16711680
+        xor     edx, ebx
+        mov     ebx, DWORD [8+esp]
+        mov     ecx, DWORD [2+ecx*8+ebp]
+        and     ecx, 4278190080
+        xor     edx, ecx
+        mov     ecx, esi
+        add     edi, 16
+        xor     eax, DWORD [edi]
+        xor     ebx, DWORD [4+edi]
+        xor     ecx, DWORD [8+edi]
+        xor     edx, DWORD [12+edi]
         ret
 align   64
 L$AES_Te:
@@ -972,36 +972,36 @@ L$_AES_encrypt_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [20+esp]
-        mov     edi,DWORD [28+esp]
-        mov     eax,esp
-        sub     esp,36
-        and     esp,-64
-        lea     ebx,[edi-127]
-        sub     ebx,esp
+        mov     esi, DWORD [20+esp]
+        mov     edi, DWORD [28+esp]
+        mov     eax, esp
+        sub     esp, 36
+        and     esp, -64
+        lea     ebx, [edi-127]
+        sub     ebx, esp
         neg     ebx
-        and     ebx,960
-        sub     esp,ebx
-        add     esp,4
-        mov     DWORD [28+esp],eax
+        and     ebx, 960
+        sub     esp, ebx
+        add     esp, 4
+        mov     DWORD [28+esp], eax
         call    L$004pic_point
 L$004pic_point:
         pop     ebp
-        lea     eax,[_OPENSSL_ia32cap_P]
-        lea     ebp,[(L$AES_Te-L$004pic_point)+ebp]
-        lea     ebx,[764+esp]
-        sub     ebx,ebp
-        and     ebx,768
-        lea     ebp,[2176+ebx*1+ebp]
-        bt      DWORD [eax],25
+        lea     eax, [_OPENSSL_ia32cap_P]
+        lea     ebp, [(L$AES_Te-L$004pic_point)+ebp]
+        lea     ebx, [764+esp]
+        sub     ebx, ebp
+        and     ebx, 768
+        lea     ebp, [2176+ebx*1+ebp]
+        bt      DWORD [eax], 25
         jnc     NEAR L$005x86
-        movq    mm0,[esi]
-        movq    mm4,[8+esi]
+        movq    mm0, [esi]
+        movq    mm4, [8+esi]
         call    __sse_AES_encrypt_compact
-        mov     esp,DWORD [28+esp]
-        mov     esi,DWORD [24+esp]
-        movq    [esi],mm0
-        movq    [8+esi],mm4
+        mov     esp,     DWORD [28+esp]
+        mov     esi,     DWORD [24+esp]
+        movq    [esi],   mm0
+        movq    [8+esi], mm4
         emms
         pop     edi
         pop     esi
@@ -1010,18 +1010,18 @@ L$004pic_point:
         ret
 align   16
 L$005x86:
-        mov     DWORD [24+esp],ebp
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
+        mov     DWORD [24+esp], ebp
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
         call    __x86_AES_encrypt_compact
-        mov     esp,DWORD [28+esp]
-        mov     esi,DWORD [24+esp]
-        mov     DWORD [esi],eax
-        mov     DWORD [4+esi],ebx
-        mov     DWORD [8+esi],ecx
-        mov     DWORD [12+esi],edx
+        mov     esp, DWORD [28+esp]
+        mov     esi, DWORD [24+esp]
+        mov     DWORD [esi],    eax
+        mov     DWORD [4+esi],  ebx
+        mov     DWORD [8+esi],  ecx
+        mov     DWORD [12+esi], edx
         pop     edi
         pop     esi
         pop     ebx
@@ -1029,734 +1029,734 @@ L$005x86:
         ret
 align   16
 __x86_AES_decrypt_compact:
-        mov     DWORD [20+esp],edi
-        xor     eax,DWORD [edi]
-        xor     ebx,DWORD [4+edi]
-        xor     ecx,DWORD [8+edi]
-        xor     edx,DWORD [12+edi]
-        mov     esi,DWORD [240+edi]
-        lea     esi,[esi*1+esi-2]
-        lea     esi,[esi*8+edi]
-        mov     DWORD [24+esp],esi
-        mov     edi,DWORD [ebp-128]
-        mov     esi,DWORD [ebp-96]
-        mov     edi,DWORD [ebp-64]
-        mov     esi,DWORD [ebp-32]
-        mov     edi,DWORD [ebp]
-        mov     esi,DWORD [32+ebp]
-        mov     edi,DWORD [64+ebp]
-        mov     esi,DWORD [96+ebp]
+        mov     DWORD [20+esp], edi
+        xor     eax, DWORD [edi]
+        xor     ebx, DWORD [4+edi]
+        xor     ecx, DWORD [8+edi]
+        xor     edx, DWORD [12+edi]
+        mov     esi, DWORD [240+edi]
+        lea     esi, [esi*1+esi-2]
+        lea     esi, [esi*8+edi]
+        mov     DWORD [24+esp], esi
+        mov     edi, DWORD [ebp-128]
+        mov     esi, DWORD [ebp-96]
+        mov     edi, DWORD [ebp-64]
+        mov     esi, DWORD [ebp-32]
+        mov     edi, DWORD [ebp]
+        mov     esi, DWORD [32+ebp]
+        mov     edi, DWORD [64+ebp]
+        mov     esi, DWORD [96+ebp]
 align   16
 L$006loop:
-        mov     esi,eax
-        and     esi,255
-        movzx   esi,BYTE [esi*1+ebp-128]
-        movzx   edi,dh
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,ecx
-        shr     edi,16
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,16
-        xor     esi,edi
-        mov     edi,ebx
-        shr     edi,24
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,24
-        xor     esi,edi
-        mov     DWORD [4+esp],esi
-        mov     esi,ebx
-        and     esi,255
-        movzx   esi,BYTE [esi*1+ebp-128]
-        movzx   edi,ah
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,edx
-        shr     edi,16
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,16
-        xor     esi,edi
-        mov     edi,ecx
-        shr     edi,24
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,24
-        xor     esi,edi
-        mov     DWORD [8+esp],esi
-        mov     esi,ecx
-        and     esi,255
-        movzx   esi,BYTE [esi*1+ebp-128]
-        movzx   edi,bh
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,eax
-        shr     edi,16
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,16
-        xor     esi,edi
-        mov     edi,edx
-        shr     edi,24
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,24
-        xor     esi,edi
-        and     edx,255
-        movzx   edx,BYTE [edx*1+ebp-128]
-        movzx   ecx,ch
-        movzx   ecx,BYTE [ecx*1+ebp-128]
-        shl     ecx,8
-        xor     edx,ecx
-        mov     ecx,esi
-        shr     ebx,16
-        and     ebx,255
-        movzx   ebx,BYTE [ebx*1+ebp-128]
-        shl     ebx,16
-        xor     edx,ebx
-        shr     eax,24
-        movzx   eax,BYTE [eax*1+ebp-128]
-        shl     eax,24
-        xor     edx,eax
-        mov     edi,2155905152
-        and     edi,ecx
-        mov     esi,edi
-        shr     edi,7
-        lea     eax,[ecx*1+ecx]
-        sub     esi,edi
-        and     eax,4278124286
-        and     esi,454761243
-        xor     eax,esi
-        mov     edi,2155905152
-        and     edi,eax
-        mov     esi,edi
-        shr     edi,7
-        lea     ebx,[eax*1+eax]
-        sub     esi,edi
-        and     ebx,4278124286
-        and     esi,454761243
-        xor     eax,ecx
-        xor     ebx,esi
-        mov     edi,2155905152
-        and     edi,ebx
-        mov     esi,edi
-        shr     edi,7
-        lea     ebp,[ebx*1+ebx]
-        sub     esi,edi
-        and     ebp,4278124286
-        and     esi,454761243
-        xor     ebx,ecx
-        rol     ecx,8
-        xor     ebp,esi
-        xor     ecx,eax
-        xor     eax,ebp
-        xor     ecx,ebx
-        xor     ebx,ebp
-        rol     eax,24
-        xor     ecx,ebp
-        rol     ebx,16
-        xor     ecx,eax
-        rol     ebp,8
-        xor     ecx,ebx
-        mov     eax,DWORD [4+esp]
-        xor     ecx,ebp
-        mov     DWORD [12+esp],ecx
-        mov     edi,2155905152
-        and     edi,edx
-        mov     esi,edi
-        shr     edi,7
-        lea     ebx,[edx*1+edx]
-        sub     esi,edi
-        and     ebx,4278124286
-        and     esi,454761243
-        xor     ebx,esi
-        mov     edi,2155905152
-        and     edi,ebx
-        mov     esi,edi
-        shr     edi,7
-        lea     ecx,[ebx*1+ebx]
-        sub     esi,edi
-        and     ecx,4278124286
-        and     esi,454761243
-        xor     ebx,edx
-        xor     ecx,esi
-        mov     edi,2155905152
-        and     edi,ecx
-        mov     esi,edi
-        shr     edi,7
-        lea     ebp,[ecx*1+ecx]
-        sub     esi,edi
-        and     ebp,4278124286
-        and     esi,454761243
-        xor     ecx,edx
-        rol     edx,8
-        xor     ebp,esi
-        xor     edx,ebx
-        xor     ebx,ebp
-        xor     edx,ecx
-        xor     ecx,ebp
-        rol     ebx,24
-        xor     edx,ebp
-        rol     ecx,16
-        xor     edx,ebx
-        rol     ebp,8
-        xor     edx,ecx
-        mov     ebx,DWORD [8+esp]
-        xor     edx,ebp
-        mov     DWORD [16+esp],edx
-        mov     edi,2155905152
-        and     edi,eax
-        mov     esi,edi
-        shr     edi,7
-        lea     ecx,[eax*1+eax]
-        sub     esi,edi
-        and     ecx,4278124286
-        and     esi,454761243
-        xor     ecx,esi
-        mov     edi,2155905152
-        and     edi,ecx
-        mov     esi,edi
-        shr     edi,7
-        lea     edx,[ecx*1+ecx]
-        sub     esi,edi
-        and     edx,4278124286
-        and     esi,454761243
-        xor     ecx,eax
-        xor     edx,esi
-        mov     edi,2155905152
-        and     edi,edx
-        mov     esi,edi
-        shr     edi,7
-        lea     ebp,[edx*1+edx]
-        sub     esi,edi
-        and     ebp,4278124286
-        and     esi,454761243
-        xor     edx,eax
-        rol     eax,8
-        xor     ebp,esi
-        xor     eax,ecx
-        xor     ecx,ebp
-        xor     eax,edx
-        xor     edx,ebp
-        rol     ecx,24
-        xor     eax,ebp
-        rol     edx,16
-        xor     eax,ecx
-        rol     ebp,8
-        xor     eax,edx
-        xor     eax,ebp
-        mov     edi,2155905152
-        and     edi,ebx
-        mov     esi,edi
-        shr     edi,7
-        lea     ecx,[ebx*1+ebx]
-        sub     esi,edi
-        and     ecx,4278124286
-        and     esi,454761243
-        xor     ecx,esi
-        mov     edi,2155905152
-        and     edi,ecx
-        mov     esi,edi
-        shr     edi,7
-        lea     edx,[ecx*1+ecx]
-        sub     esi,edi
-        and     edx,4278124286
-        and     esi,454761243
-        xor     ecx,ebx
-        xor     edx,esi
-        mov     edi,2155905152
-        and     edi,edx
-        mov     esi,edi
-        shr     edi,7
-        lea     ebp,[edx*1+edx]
-        sub     esi,edi
-        and     ebp,4278124286
-        and     esi,454761243
-        xor     edx,ebx
-        rol     ebx,8
-        xor     ebp,esi
-        xor     ebx,ecx
-        xor     ecx,ebp
-        xor     ebx,edx
-        xor     edx,ebp
-        rol     ecx,24
-        xor     ebx,ebp
-        rol     edx,16
-        xor     ebx,ecx
-        rol     ebp,8
-        xor     ebx,edx
-        mov     ecx,DWORD [12+esp]
-        xor     ebx,ebp
-        mov     edx,DWORD [16+esp]
-        mov     edi,DWORD [20+esp]
-        mov     ebp,DWORD [28+esp]
-        add     edi,16
-        xor     eax,DWORD [edi]
-        xor     ebx,DWORD [4+edi]
-        xor     ecx,DWORD [8+edi]
-        xor     edx,DWORD [12+edi]
-        cmp     edi,DWORD [24+esp]
-        mov     DWORD [20+esp],edi
+        mov     esi, eax
+        and     esi, 255
+        movzx   esi, BYTE [esi*1+ebp-128]
+        movzx   edi, dh
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, ecx
+        shr     edi, 16
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 16
+        xor     esi, edi
+        mov     edi, ebx
+        shr     edi, 24
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 24
+        xor     esi, edi
+        mov     DWORD [4+esp], esi
+        mov     esi, ebx
+        and     esi, 255
+        movzx   esi, BYTE [esi*1+ebp-128]
+        movzx   edi, ah
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, edx
+        shr     edi, 16
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 16
+        xor     esi, edi
+        mov     edi, ecx
+        shr     edi, 24
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 24
+        xor     esi, edi
+        mov     DWORD [8+esp], esi
+        mov     esi, ecx
+        and     esi, 255
+        movzx   esi, BYTE [esi*1+ebp-128]
+        movzx   edi, bh
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, eax
+        shr     edi, 16
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 16
+        xor     esi, edi
+        mov     edi, edx
+        shr     edi, 24
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 24
+        xor     esi, edi
+        and     edx, 255
+        movzx   edx, BYTE [edx*1+ebp-128]
+        movzx   ecx, ch
+        movzx   ecx, BYTE [ecx*1+ebp-128]
+        shl     ecx, 8
+        xor     edx, ecx
+        mov     ecx, esi
+        shr     ebx, 16
+        and     ebx, 255
+        movzx   ebx, BYTE [ebx*1+ebp-128]
+        shl     ebx, 16
+        xor     edx, ebx
+        shr     eax, 24
+        movzx   eax, BYTE [eax*1+ebp-128]
+        shl     eax, 24
+        xor     edx, eax
+        mov     edi, 2155905152
+        and     edi, ecx
+        mov     esi, edi
+        shr     edi, 7
+        lea     eax, [ecx*1+ecx]
+        sub     esi, edi
+        and     eax, 4278124286
+        and     esi, 454761243
+        xor     eax, esi
+        mov     edi, 2155905152
+        and     edi, eax
+        mov     esi, edi
+        shr     edi, 7
+        lea     ebx, [eax*1+eax]
+        sub     esi, edi
+        and     ebx, 4278124286
+        and     esi, 454761243
+        xor     eax, ecx
+        xor     ebx, esi
+        mov     edi, 2155905152
+        and     edi, ebx
+        mov     esi, edi
+        shr     edi, 7
+        lea     ebp, [ebx*1+ebx]
+        sub     esi, edi
+        and     ebp, 4278124286
+        and     esi, 454761243
+        xor     ebx, ecx
+        rol     ecx, 8
+        xor     ebp, esi
+        xor     ecx, eax
+        xor     eax, ebp
+        xor     ecx, ebx
+        xor     ebx, ebp
+        rol     eax, 24
+        xor     ecx, ebp
+        rol     ebx, 16
+        xor     ecx, eax
+        rol     ebp, 8
+        xor     ecx, ebx
+        mov     eax, DWORD [4+esp]
+        xor     ecx, ebp
+        mov     DWORD [12+esp], ecx
+        mov     edi, 2155905152
+        and     edi, edx
+        mov     esi, edi
+        shr     edi, 7
+        lea     ebx, [edx*1+edx]
+        sub     esi, edi
+        and     ebx, 4278124286
+        and     esi, 454761243
+        xor     ebx, esi
+        mov     edi, 2155905152
+        and     edi, ebx
+        mov     esi, edi
+        shr     edi, 7
+        lea     ecx, [ebx*1+ebx]
+        sub     esi, edi
+        and     ecx, 4278124286
+        and     esi, 454761243
+        xor     ebx, edx
+        xor     ecx, esi
+        mov     edi, 2155905152
+        and     edi, ecx
+        mov     esi, edi
+        shr     edi, 7
+        lea     ebp, [ecx*1+ecx]
+        sub     esi, edi
+        and     ebp, 4278124286
+        and     esi, 454761243
+        xor     ecx, edx
+        rol     edx, 8
+        xor     ebp, esi
+        xor     edx, ebx
+        xor     ebx, ebp
+        xor     edx, ecx
+        xor     ecx, ebp
+        rol     ebx, 24
+        xor     edx, ebp
+        rol     ecx, 16
+        xor     edx, ebx
+        rol     ebp, 8
+        xor     edx, ecx
+        mov     ebx, DWORD [8+esp]
+        xor     edx, ebp
+        mov     DWORD [16+esp], edx
+        mov     edi, 2155905152
+        and     edi, eax
+        mov     esi, edi
+        shr     edi, 7
+        lea     ecx, [eax*1+eax]
+        sub     esi, edi
+        and     ecx, 4278124286
+        and     esi, 454761243
+        xor     ecx, esi
+        mov     edi, 2155905152
+        and     edi, ecx
+        mov     esi, edi
+        shr     edi, 7
+        lea     edx, [ecx*1+ecx]
+        sub     esi, edi
+        and     edx, 4278124286
+        and     esi, 454761243
+        xor     ecx, eax
+        xor     edx, esi
+        mov     edi, 2155905152
+        and     edi, edx
+        mov     esi, edi
+        shr     edi, 7
+        lea     ebp, [edx*1+edx]
+        sub     esi, edi
+        and     ebp, 4278124286
+        and     esi, 454761243
+        xor     edx, eax
+        rol     eax, 8
+        xor     ebp, esi
+        xor     eax, ecx
+        xor     ecx, ebp
+        xor     eax, edx
+        xor     edx, ebp
+        rol     ecx, 24
+        xor     eax, ebp
+        rol     edx, 16
+        xor     eax, ecx
+        rol     ebp, 8
+        xor     eax, edx
+        xor     eax, ebp
+        mov     edi, 2155905152
+        and     edi, ebx
+        mov     esi, edi
+        shr     edi, 7
+        lea     ecx, [ebx*1+ebx]
+        sub     esi, edi
+        and     ecx, 4278124286
+        and     esi, 454761243
+        xor     ecx, esi
+        mov     edi, 2155905152
+        and     edi, ecx
+        mov     esi, edi
+        shr     edi, 7
+        lea     edx, [ecx*1+ecx]
+        sub     esi, edi
+        and     edx, 4278124286
+        and     esi, 454761243
+        xor     ecx, ebx
+        xor     edx, esi
+        mov     edi, 2155905152
+        and     edi, edx
+        mov     esi, edi
+        shr     edi, 7
+        lea     ebp, [edx*1+edx]
+        sub     esi, edi
+        and     ebp, 4278124286
+        and     esi, 454761243
+        xor     edx, ebx
+        rol     ebx, 8
+        xor     ebp, esi
+        xor     ebx, ecx
+        xor     ecx, ebp
+        xor     ebx, edx
+        xor     edx, ebp
+        rol     ecx, 24
+        xor     ebx, ebp
+        rol     edx, 16
+        xor     ebx, ecx
+        rol     ebp, 8
+        xor     ebx, edx
+        mov     ecx, DWORD [12+esp]
+        xor     ebx, ebp
+        mov     edx, DWORD [16+esp]
+        mov     edi, DWORD [20+esp]
+        mov     ebp, DWORD [28+esp]
+        add     edi, 16
+        xor     eax, DWORD [edi]
+        xor     ebx, DWORD [4+edi]
+        xor     ecx, DWORD [8+edi]
+        xor     edx, DWORD [12+edi]
+        cmp     edi, DWORD [24+esp]
+        mov     DWORD [20+esp], edi
         jb      NEAR L$006loop
-        mov     esi,eax
-        and     esi,255
-        movzx   esi,BYTE [esi*1+ebp-128]
-        movzx   edi,dh
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,ecx
-        shr     edi,16
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,16
-        xor     esi,edi
-        mov     edi,ebx
-        shr     edi,24
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,24
-        xor     esi,edi
-        mov     DWORD [4+esp],esi
-        mov     esi,ebx
-        and     esi,255
-        movzx   esi,BYTE [esi*1+ebp-128]
-        movzx   edi,ah
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,edx
-        shr     edi,16
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,16
-        xor     esi,edi
-        mov     edi,ecx
-        shr     edi,24
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,24
-        xor     esi,edi
-        mov     DWORD [8+esp],esi
-        mov     esi,ecx
-        and     esi,255
-        movzx   esi,BYTE [esi*1+ebp-128]
-        movzx   edi,bh
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,eax
-        shr     edi,16
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,16
-        xor     esi,edi
-        mov     edi,edx
-        shr     edi,24
-        movzx   edi,BYTE [edi*1+ebp-128]
-        shl     edi,24
-        xor     esi,edi
-        mov     edi,DWORD [20+esp]
-        and     edx,255
-        movzx   edx,BYTE [edx*1+ebp-128]
-        movzx   ecx,ch
-        movzx   ecx,BYTE [ecx*1+ebp-128]
-        shl     ecx,8
-        xor     edx,ecx
-        mov     ecx,esi
-        shr     ebx,16
-        and     ebx,255
-        movzx   ebx,BYTE [ebx*1+ebp-128]
-        shl     ebx,16
-        xor     edx,ebx
-        mov     ebx,DWORD [8+esp]
-        shr     eax,24
-        movzx   eax,BYTE [eax*1+ebp-128]
-        shl     eax,24
-        xor     edx,eax
-        mov     eax,DWORD [4+esp]
-        xor     eax,DWORD [16+edi]
-        xor     ebx,DWORD [20+edi]
-        xor     ecx,DWORD [24+edi]
-        xor     edx,DWORD [28+edi]
+        mov     esi, eax
+        and     esi, 255
+        movzx   esi, BYTE [esi*1+ebp-128]
+        movzx   edi, dh
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, ecx
+        shr     edi, 16
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 16
+        xor     esi, edi
+        mov     edi, ebx
+        shr     edi, 24
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 24
+        xor     esi, edi
+        mov     DWORD [4+esp], esi
+        mov     esi, ebx
+        and     esi, 255
+        movzx   esi, BYTE [esi*1+ebp-128]
+        movzx   edi, ah
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, edx
+        shr     edi, 16
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 16
+        xor     esi, edi
+        mov     edi, ecx
+        shr     edi, 24
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 24
+        xor     esi, edi
+        mov     DWORD [8+esp], esi
+        mov     esi, ecx
+        and     esi, 255
+        movzx   esi, BYTE [esi*1+ebp-128]
+        movzx   edi, bh
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, eax
+        shr     edi, 16
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 16
+        xor     esi, edi
+        mov     edi, edx
+        shr     edi, 24
+        movzx   edi, BYTE [edi*1+ebp-128]
+        shl     edi, 24
+        xor     esi, edi
+        mov     edi, DWORD [20+esp]
+        and     edx, 255
+        movzx   edx, BYTE [edx*1+ebp-128]
+        movzx   ecx, ch
+        movzx   ecx, BYTE [ecx*1+ebp-128]
+        shl     ecx, 8
+        xor     edx, ecx
+        mov     ecx, esi
+        shr     ebx, 16
+        and     ebx, 255
+        movzx   ebx, BYTE [ebx*1+ebp-128]
+        shl     ebx, 16
+        xor     edx, ebx
+        mov     ebx, DWORD [8+esp]
+        shr     eax, 24
+        movzx   eax, BYTE [eax*1+ebp-128]
+        shl     eax, 24
+        xor     edx, eax
+        mov     eax, DWORD [4+esp]
+        xor     eax, DWORD [16+edi]
+        xor     ebx, DWORD [20+edi]
+        xor     ecx, DWORD [24+edi]
+        xor     edx, DWORD [28+edi]
         ret
 align   16
 __sse_AES_decrypt_compact:
-        pxor    mm0,[edi]
-        pxor    mm4,[8+edi]
-        mov     esi,DWORD [240+edi]
-        lea     esi,[esi*1+esi-2]
-        lea     esi,[esi*8+edi]
-        mov     DWORD [24+esp],esi
-        mov     eax,454761243
-        mov     DWORD [8+esp],eax
-        mov     DWORD [12+esp],eax
-        mov     eax,DWORD [ebp-128]
-        mov     ebx,DWORD [ebp-96]
-        mov     ecx,DWORD [ebp-64]
-        mov     edx,DWORD [ebp-32]
-        mov     eax,DWORD [ebp]
-        mov     ebx,DWORD [32+ebp]
-        mov     ecx,DWORD [64+ebp]
-        mov     edx,DWORD [96+ebp]
+        pxor    mm0, [edi]
+        pxor    mm4, [8+edi]
+        mov     esi, DWORD [240+edi]
+        lea     esi, [esi*1+esi-2]
+        lea     esi, [esi*8+edi]
+        mov     DWORD [24+esp], esi
+        mov     eax, 454761243
+        mov     DWORD [8+esp],  eax
+        mov     DWORD [12+esp], eax
+        mov     eax, DWORD [ebp-128]
+        mov     ebx, DWORD [ebp-96]
+        mov     ecx, DWORD [ebp-64]
+        mov     edx, DWORD [ebp-32]
+        mov     eax, DWORD [ebp]
+        mov     ebx, DWORD [32+ebp]
+        mov     ecx, DWORD [64+ebp]
+        mov     edx, DWORD [96+ebp]
 align   16
 L$007loop:
-        pshufw  mm1,mm0,12
-        pshufw  mm5,mm4,9
-        movd    eax,mm1
-        movd    ebx,mm5
-        mov     DWORD [20+esp],edi
-        movzx   esi,al
-        movzx   edx,ah
-        pshufw  mm2,mm0,6
-        movzx   ecx,BYTE [esi*1+ebp-128]
-        movzx   edi,bl
-        movzx   edx,BYTE [edx*1+ebp-128]
-        shr     eax,16
-        shl     edx,8
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,bh
-        shl     esi,16
-        pshufw  mm6,mm4,3
-        or      ecx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,ah
-        shl     esi,24
-        shr     ebx,16
-        or      edx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,bh
-        shl     esi,24
-        or      ecx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,al
-        shl     esi,8
-        movd    eax,mm2
-        or      ecx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,bl
-        shl     esi,16
-        movd    ebx,mm6
-        movd    mm0,ecx
-        movzx   ecx,BYTE [edi*1+ebp-128]
-        movzx   edi,al
-        or      ecx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,bl
-        or      edx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,ah
-        shl     esi,16
-        shr     eax,16
-        or      edx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,bh
-        shr     ebx,16
-        shl     esi,8
-        movd    mm1,edx
-        movzx   edx,BYTE [edi*1+ebp-128]
-        movzx   edi,bh
-        shl     edx,24
-        and     ebx,255
-        or      edx,esi
-        punpckldq       mm0,mm1
-        movzx   esi,BYTE [edi*1+ebp-128]
-        movzx   edi,al
-        shl     esi,8
-        movzx   eax,ah
-        movzx   ebx,BYTE [ebx*1+ebp-128]
-        or      ecx,esi
-        movzx   esi,BYTE [edi*1+ebp-128]
-        or      edx,ebx
-        shl     esi,16
-        movzx   eax,BYTE [eax*1+ebp-128]
-        or      edx,esi
-        shl     eax,24
-        or      ecx,eax
-        mov     edi,DWORD [20+esp]
-        movd    mm4,edx
-        movd    mm5,ecx
-        punpckldq       mm4,mm5
-        add     edi,16
-        cmp     edi,DWORD [24+esp]
+        pshufw  mm1, mm0, 12
+        pshufw  mm5, mm4, 9
+        movd    eax, mm1
+        movd    ebx, mm5
+        mov     DWORD [20+esp], edi
+        movzx   esi, al
+        movzx   edx, ah
+        pshufw  mm2, mm0, 6
+        movzx   ecx, BYTE [esi*1+ebp-128]
+        movzx   edi, bl
+        movzx   edx, BYTE [edx*1+ebp-128]
+        shr     eax, 16
+        shl     edx, 8
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, bh
+        shl     esi, 16
+        pshufw  mm6, mm4, 3
+        or      ecx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, ah
+        shl     esi, 24
+        shr     ebx, 16
+        or      edx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, bh
+        shl     esi, 24
+        or      ecx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, al
+        shl     esi, 8
+        movd    eax, mm2
+        or      ecx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, bl
+        shl     esi, 16
+        movd    ebx, mm6
+        movd    mm0, ecx
+        movzx   ecx, BYTE [edi*1+ebp-128]
+        movzx   edi, al
+        or      ecx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, bl
+        or      edx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, ah
+        shl     esi, 16
+        shr     eax, 16
+        or      edx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, bh
+        shr     ebx, 16
+        shl     esi, 8
+        movd    mm1, edx
+        movzx   edx, BYTE [edi*1+ebp-128]
+        movzx   edi, bh
+        shl     edx, 24
+        and     ebx, 255
+        or      edx, esi
+        punpckldq mm0, mm1
+        movzx   esi, BYTE [edi*1+ebp-128]
+        movzx   edi, al
+        shl     esi, 8
+        movzx   eax, ah
+        movzx   ebx, BYTE [ebx*1+ebp-128]
+        or      ecx, esi
+        movzx   esi, BYTE [edi*1+ebp-128]
+        or      edx, ebx
+        shl     esi, 16
+        movzx   eax, BYTE [eax*1+ebp-128]
+        or      edx, esi
+        shl     eax, 24
+        or      ecx, eax
+        mov     edi, DWORD [20+esp]
+        movd    mm4, edx
+        movd    mm5, ecx
+        punpckldq mm4, mm5
+        add     edi, 16
+        cmp     edi, DWORD [24+esp]
         ja      NEAR L$008out
-        movq    mm3,mm0
-        movq    mm7,mm4
-        pshufw  mm2,mm0,228
-        pshufw  mm6,mm4,228
-        movq    mm1,mm0
-        movq    mm5,mm4
-        pshufw  mm0,mm0,177
-        pshufw  mm4,mm4,177
-        pslld   mm2,8
-        pslld   mm6,8
-        psrld   mm3,8
-        psrld   mm7,8
-        pxor    mm0,mm2
-        pxor    mm4,mm6
-        pxor    mm0,mm3
-        pxor    mm4,mm7
-        pslld   mm2,16
-        pslld   mm6,16
-        psrld   mm3,16
-        psrld   mm7,16
-        pxor    mm0,mm2
-        pxor    mm4,mm6
-        pxor    mm0,mm3
-        pxor    mm4,mm7
-        movq    mm3,[8+esp]
-        pxor    mm2,mm2
-        pxor    mm6,mm6
-        pcmpgtb mm2,mm1
-        pcmpgtb mm6,mm5
-        pand    mm2,mm3
-        pand    mm6,mm3
-        paddb   mm1,mm1
-        paddb   mm5,mm5
-        pxor    mm1,mm2
-        pxor    mm5,mm6
-        movq    mm3,mm1
-        movq    mm7,mm5
-        movq    mm2,mm1
-        movq    mm6,mm5
-        pxor    mm0,mm1
-        pxor    mm4,mm5
-        pslld   mm3,24
-        pslld   mm7,24
-        psrld   mm2,8
-        psrld   mm6,8
-        pxor    mm0,mm3
-        pxor    mm4,mm7
-        pxor    mm0,mm2
-        pxor    mm4,mm6
-        movq    mm2,[8+esp]
-        pxor    mm3,mm3
-        pxor    mm7,mm7
-        pcmpgtb mm3,mm1
-        pcmpgtb mm7,mm5
-        pand    mm3,mm2
-        pand    mm7,mm2
-        paddb   mm1,mm1
-        paddb   mm5,mm5
-        pxor    mm1,mm3
-        pxor    mm5,mm7
-        pshufw  mm3,mm1,177
-        pshufw  mm7,mm5,177
-        pxor    mm0,mm1
-        pxor    mm4,mm5
-        pxor    mm0,mm3
-        pxor    mm4,mm7
-        pxor    mm3,mm3
-        pxor    mm7,mm7
-        pcmpgtb mm3,mm1
-        pcmpgtb mm7,mm5
-        pand    mm3,mm2
-        pand    mm7,mm2
-        paddb   mm1,mm1
-        paddb   mm5,mm5
-        pxor    mm1,mm3
-        pxor    mm5,mm7
-        pxor    mm0,mm1
-        pxor    mm4,mm5
-        movq    mm3,mm1
-        movq    mm7,mm5
-        pshufw  mm2,mm1,177
-        pshufw  mm6,mm5,177
-        pxor    mm0,mm2
-        pxor    mm4,mm6
-        pslld   mm1,8
-        pslld   mm5,8
-        psrld   mm3,8
-        psrld   mm7,8
-        movq    mm2,[edi]
-        movq    mm6,[8+edi]
-        pxor    mm0,mm1
-        pxor    mm4,mm5
-        pxor    mm0,mm3
-        pxor    mm4,mm7
-        mov     eax,DWORD [ebp-128]
-        pslld   mm1,16
-        pslld   mm5,16
-        mov     ebx,DWORD [ebp-64]
-        psrld   mm3,16
-        psrld   mm7,16
-        mov     ecx,DWORD [ebp]
-        pxor    mm0,mm1
-        pxor    mm4,mm5
-        mov     edx,DWORD [64+ebp]
-        pxor    mm0,mm3
-        pxor    mm4,mm7
-        pxor    mm0,mm2
-        pxor    mm4,mm6
+        movq    mm3, mm0
+        movq    mm7, mm4
+        pshufw  mm2, mm0, 228
+        pshufw  mm6, mm4, 228
+        movq    mm1, mm0
+        movq    mm5, mm4
+        pshufw  mm0, mm0, 177
+        pshufw  mm4, mm4, 177
+        pslld   mm2, 8
+        pslld   mm6, 8
+        psrld   mm3, 8
+        psrld   mm7, 8
+        pxor    mm0, mm2
+        pxor    mm4, mm6
+        pxor    mm0, mm3
+        pxor    mm4, mm7
+        pslld   mm2, 16
+        pslld   mm6, 16
+        psrld   mm3, 16
+        psrld   mm7, 16
+        pxor    mm0, mm2
+        pxor    mm4, mm6
+        pxor    mm0, mm3
+        pxor    mm4, mm7
+        movq    mm3, [8+esp]
+        pxor    mm2, mm2
+        pxor    mm6, mm6
+        pcmpgtb mm2, mm1
+        pcmpgtb mm6, mm5
+        pand    mm2, mm3
+        pand    mm6, mm3
+        paddb   mm1, mm1
+        paddb   mm5, mm5
+        pxor    mm1, mm2
+        pxor    mm5, mm6
+        movq    mm3, mm1
+        movq    mm7, mm5
+        movq    mm2, mm1
+        movq    mm6, mm5
+        pxor    mm0, mm1
+        pxor    mm4, mm5
+        pslld   mm3, 24
+        pslld   mm7, 24
+        psrld   mm2, 8
+        psrld   mm6, 8
+        pxor    mm0, mm3
+        pxor    mm4, mm7
+        pxor    mm0, mm2
+        pxor    mm4, mm6
+        movq    mm2, [8+esp]
+        pxor    mm3, mm3
+        pxor    mm7, mm7
+        pcmpgtb mm3, mm1
+        pcmpgtb mm7, mm5
+        pand    mm3, mm2
+        pand    mm7, mm2
+        paddb   mm1, mm1
+        paddb   mm5, mm5
+        pxor    mm1, mm3
+        pxor    mm5, mm7
+        pshufw  mm3, mm1, 177
+        pshufw  mm7, mm5, 177
+        pxor    mm0, mm1
+        pxor    mm4, mm5
+        pxor    mm0, mm3
+        pxor    mm4, mm7
+        pxor    mm3, mm3
+        pxor    mm7, mm7
+        pcmpgtb mm3, mm1
+        pcmpgtb mm7, mm5
+        pand    mm3, mm2
+        pand    mm7, mm2
+        paddb   mm1, mm1
+        paddb   mm5, mm5
+        pxor    mm1, mm3
+        pxor    mm5, mm7
+        pxor    mm0, mm1
+        pxor    mm4, mm5
+        movq    mm3, mm1
+        movq    mm7, mm5
+        pshufw  mm2, mm1, 177
+        pshufw  mm6, mm5, 177
+        pxor    mm0, mm2
+        pxor    mm4, mm6
+        pslld   mm1, 8
+        pslld   mm5, 8
+        psrld   mm3, 8
+        psrld   mm7, 8
+        movq    mm2, [edi]
+        movq    mm6, [8+edi]
+        pxor    mm0, mm1
+        pxor    mm4, mm5
+        pxor    mm0, mm3
+        pxor    mm4, mm7
+        mov     eax, DWORD [ebp-128]
+        pslld   mm1, 16
+        pslld   mm5, 16
+        mov     ebx, DWORD [ebp-64]
+        psrld   mm3, 16
+        psrld   mm7, 16
+        mov     ecx, DWORD [ebp]
+        pxor    mm0, mm1
+        pxor    mm4, mm5
+        mov     edx, DWORD [64+ebp]
+        pxor    mm0, mm3
+        pxor    mm4, mm7
+        pxor    mm0, mm2
+        pxor    mm4, mm6
         jmp     NEAR L$007loop
 align   16
 L$008out:
-        pxor    mm0,[edi]
-        pxor    mm4,[8+edi]
+        pxor    mm0, [edi]
+        pxor    mm4, [8+edi]
         ret
 align   16
 __x86_AES_decrypt:
-        mov     DWORD [20+esp],edi
-        xor     eax,DWORD [edi]
-        xor     ebx,DWORD [4+edi]
-        xor     ecx,DWORD [8+edi]
-        xor     edx,DWORD [12+edi]
-        mov     esi,DWORD [240+edi]
-        lea     esi,[esi*1+esi-2]
-        lea     esi,[esi*8+edi]
-        mov     DWORD [24+esp],esi
+        mov     DWORD [20+esp], edi
+        xor     eax, DWORD [edi]
+        xor     ebx, DWORD [4+edi]
+        xor     ecx, DWORD [8+edi]
+        xor     edx, DWORD [12+edi]
+        mov     esi, DWORD [240+edi]
+        lea     esi, [esi*1+esi-2]
+        lea     esi, [esi*8+edi]
+        mov     DWORD [24+esp], esi
 align   16
 L$009loop:
-        mov     esi,eax
-        and     esi,255
-        mov     esi,DWORD [esi*8+ebp]
-        movzx   edi,dh
-        xor     esi,DWORD [3+edi*8+ebp]
-        mov     edi,ecx
-        shr     edi,16
-        and     edi,255
-        xor     esi,DWORD [2+edi*8+ebp]
-        mov     edi,ebx
-        shr     edi,24
-        xor     esi,DWORD [1+edi*8+ebp]
-        mov     DWORD [4+esp],esi
-        mov     esi,ebx
-        and     esi,255
-        mov     esi,DWORD [esi*8+ebp]
-        movzx   edi,ah
-        xor     esi,DWORD [3+edi*8+ebp]
-        mov     edi,edx
-        shr     edi,16
-        and     edi,255
-        xor     esi,DWORD [2+edi*8+ebp]
-        mov     edi,ecx
-        shr     edi,24
-        xor     esi,DWORD [1+edi*8+ebp]
-        mov     DWORD [8+esp],esi
-        mov     esi,ecx
-        and     esi,255
-        mov     esi,DWORD [esi*8+ebp]
-        movzx   edi,bh
-        xor     esi,DWORD [3+edi*8+ebp]
-        mov     edi,eax
-        shr     edi,16
-        and     edi,255
-        xor     esi,DWORD [2+edi*8+ebp]
-        mov     edi,edx
-        shr     edi,24
-        xor     esi,DWORD [1+edi*8+ebp]
-        mov     edi,DWORD [20+esp]
-        and     edx,255
-        mov     edx,DWORD [edx*8+ebp]
-        movzx   ecx,ch
-        xor     edx,DWORD [3+ecx*8+ebp]
-        mov     ecx,esi
-        shr     ebx,16
-        and     ebx,255
-        xor     edx,DWORD [2+ebx*8+ebp]
-        mov     ebx,DWORD [8+esp]
-        shr     eax,24
-        xor     edx,DWORD [1+eax*8+ebp]
-        mov     eax,DWORD [4+esp]
-        add     edi,16
-        xor     eax,DWORD [edi]
-        xor     ebx,DWORD [4+edi]
-        xor     ecx,DWORD [8+edi]
-        xor     edx,DWORD [12+edi]
-        cmp     edi,DWORD [24+esp]
-        mov     DWORD [20+esp],edi
+        mov     esi, eax
+        and     esi, 255
+        mov     esi, DWORD [esi*8+ebp]
+        movzx   edi, dh
+        xor     esi, DWORD [3+edi*8+ebp]
+        mov     edi, ecx
+        shr     edi, 16
+        and     edi, 255
+        xor     esi, DWORD [2+edi*8+ebp]
+        mov     edi, ebx
+        shr     edi, 24
+        xor     esi, DWORD [1+edi*8+ebp]
+        mov     DWORD [4+esp], esi
+        mov     esi, ebx
+        and     esi, 255
+        mov     esi, DWORD [esi*8+ebp]
+        movzx   edi, ah
+        xor     esi, DWORD [3+edi*8+ebp]
+        mov     edi, edx
+        shr     edi, 16
+        and     edi, 255
+        xor     esi, DWORD [2+edi*8+ebp]
+        mov     edi, ecx
+        shr     edi, 24
+        xor     esi, DWORD [1+edi*8+ebp]
+        mov     DWORD [8+esp], esi
+        mov     esi, ecx
+        and     esi, 255
+        mov     esi, DWORD [esi*8+ebp]
+        movzx   edi, bh
+        xor     esi, DWORD [3+edi*8+ebp]
+        mov     edi, eax
+        shr     edi, 16
+        and     edi, 255
+        xor     esi, DWORD [2+edi*8+ebp]
+        mov     edi, edx
+        shr     edi, 24
+        xor     esi, DWORD [1+edi*8+ebp]
+        mov     edi, DWORD [20+esp]
+        and     edx, 255
+        mov     edx, DWORD [edx*8+ebp]
+        movzx   ecx, ch
+        xor     edx, DWORD [3+ecx*8+ebp]
+        mov     ecx, esi
+        shr     ebx, 16
+        and     ebx, 255
+        xor     edx, DWORD [2+ebx*8+ebp]
+        mov     ebx, DWORD [8+esp]
+        shr     eax, 24
+        xor     edx, DWORD [1+eax*8+ebp]
+        mov     eax, DWORD [4+esp]
+        add     edi, 16
+        xor     eax, DWORD [edi]
+        xor     ebx, DWORD [4+edi]
+        xor     ecx, DWORD [8+edi]
+        xor     edx, DWORD [12+edi]
+        cmp     edi, DWORD [24+esp]
+        mov     DWORD [20+esp], edi
         jb      NEAR L$009loop
-        lea     ebp,[2176+ebp]
-        mov     edi,DWORD [ebp-128]
-        mov     esi,DWORD [ebp-96]
-        mov     edi,DWORD [ebp-64]
-        mov     esi,DWORD [ebp-32]
-        mov     edi,DWORD [ebp]
-        mov     esi,DWORD [32+ebp]
-        mov     edi,DWORD [64+ebp]
-        mov     esi,DWORD [96+ebp]
-        lea     ebp,[ebp-128]
-        mov     esi,eax
-        and     esi,255
-        movzx   esi,BYTE [esi*1+ebp]
-        movzx   edi,dh
-        movzx   edi,BYTE [edi*1+ebp]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,ecx
-        shr     edi,16
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp]
-        shl     edi,16
-        xor     esi,edi
-        mov     edi,ebx
-        shr     edi,24
-        movzx   edi,BYTE [edi*1+ebp]
-        shl     edi,24
-        xor     esi,edi
-        mov     DWORD [4+esp],esi
-        mov     esi,ebx
-        and     esi,255
-        movzx   esi,BYTE [esi*1+ebp]
-        movzx   edi,ah
-        movzx   edi,BYTE [edi*1+ebp]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,edx
-        shr     edi,16
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp]
-        shl     edi,16
-        xor     esi,edi
-        mov     edi,ecx
-        shr     edi,24
-        movzx   edi,BYTE [edi*1+ebp]
-        shl     edi,24
-        xor     esi,edi
-        mov     DWORD [8+esp],esi
-        mov     esi,ecx
-        and     esi,255
-        movzx   esi,BYTE [esi*1+ebp]
-        movzx   edi,bh
-        movzx   edi,BYTE [edi*1+ebp]
-        shl     edi,8
-        xor     esi,edi
-        mov     edi,eax
-        shr     edi,16
-        and     edi,255
-        movzx   edi,BYTE [edi*1+ebp]
-        shl     edi,16
-        xor     esi,edi
-        mov     edi,edx
-        shr     edi,24
-        movzx   edi,BYTE [edi*1+ebp]
-        shl     edi,24
-        xor     esi,edi
-        mov     edi,DWORD [20+esp]
-        and     edx,255
-        movzx   edx,BYTE [edx*1+ebp]
-        movzx   ecx,ch
-        movzx   ecx,BYTE [ecx*1+ebp]
-        shl     ecx,8
-        xor     edx,ecx
-        mov     ecx,esi
-        shr     ebx,16
-        and     ebx,255
-        movzx   ebx,BYTE [ebx*1+ebp]
-        shl     ebx,16
-        xor     edx,ebx
-        mov     ebx,DWORD [8+esp]
-        shr     eax,24
-        movzx   eax,BYTE [eax*1+ebp]
-        shl     eax,24
-        xor     edx,eax
-        mov     eax,DWORD [4+esp]
-        lea     ebp,[ebp-2048]
-        add     edi,16
-        xor     eax,DWORD [edi]
-        xor     ebx,DWORD [4+edi]
-        xor     ecx,DWORD [8+edi]
-        xor     edx,DWORD [12+edi]
+        lea     ebp, [2176+ebp]
+        mov     edi, DWORD [ebp-128]
+        mov     esi, DWORD [ebp-96]
+        mov     edi, DWORD [ebp-64]
+        mov     esi, DWORD [ebp-32]
+        mov     edi, DWORD [ebp]
+        mov     esi, DWORD [32+ebp]
+        mov     edi, DWORD [64+ebp]
+        mov     esi, DWORD [96+ebp]
+        lea     ebp, [ebp-128]
+        mov     esi, eax
+        and     esi, 255
+        movzx   esi, BYTE [esi*1+ebp]
+        movzx   edi, dh
+        movzx   edi, BYTE [edi*1+ebp]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, ecx
+        shr     edi, 16
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp]
+        shl     edi, 16
+        xor     esi, edi
+        mov     edi, ebx
+        shr     edi, 24
+        movzx   edi, BYTE [edi*1+ebp]
+        shl     edi, 24
+        xor     esi, edi
+        mov     DWORD [4+esp], esi
+        mov     esi, ebx
+        and     esi, 255
+        movzx   esi, BYTE [esi*1+ebp]
+        movzx   edi, ah
+        movzx   edi, BYTE [edi*1+ebp]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, edx
+        shr     edi, 16
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp]
+        shl     edi, 16
+        xor     esi, edi
+        mov     edi, ecx
+        shr     edi, 24
+        movzx   edi, BYTE [edi*1+ebp]
+        shl     edi, 24
+        xor     esi, edi
+        mov     DWORD [8+esp], esi
+        mov     esi, ecx
+        and     esi, 255
+        movzx   esi, BYTE [esi*1+ebp]
+        movzx   edi, bh
+        movzx   edi, BYTE [edi*1+ebp]
+        shl     edi, 8
+        xor     esi, edi
+        mov     edi, eax
+        shr     edi, 16
+        and     edi, 255
+        movzx   edi, BYTE [edi*1+ebp]
+        shl     edi, 16
+        xor     esi, edi
+        mov     edi, edx
+        shr     edi, 24
+        movzx   edi, BYTE [edi*1+ebp]
+        shl     edi, 24
+        xor     esi, edi
+        mov     edi, DWORD [20+esp]
+        and     edx, 255
+        movzx   edx, BYTE [edx*1+ebp]
+        movzx   ecx, ch
+        movzx   ecx, BYTE [ecx*1+ebp]
+        shl     ecx, 8
+        xor     edx, ecx
+        mov     ecx, esi
+        shr     ebx, 16
+        and     ebx, 255
+        movzx   ebx, BYTE [ebx*1+ebp]
+        shl     ebx, 16
+        xor     edx, ebx
+        mov     ebx, DWORD [8+esp]
+        shr     eax, 24
+        movzx   eax, BYTE [eax*1+ebp]
+        shl     eax, 24
+        xor     edx, eax
+        mov     eax, DWORD [4+esp]
+        lea     ebp, [ebp-2048]
+        add     edi, 16
+        xor     eax, DWORD [edi]
+        xor     ebx, DWORD [4+edi]
+        xor     ecx, DWORD [8+edi]
+        xor     edx, DWORD [12+edi]
         ret
 align   64
 L$AES_Td:
@@ -2152,36 +2152,36 @@ L$_AES_decrypt_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [20+esp]
-        mov     edi,DWORD [28+esp]
-        mov     eax,esp
-        sub     esp,36
-        and     esp,-64
-        lea     ebx,[edi-127]
-        sub     ebx,esp
+        mov     esi, DWORD [20+esp]
+        mov     edi, DWORD [28+esp]
+        mov     eax, esp
+        sub     esp, 36
+        and     esp, -64
+        lea     ebx, [edi-127]
+        sub     ebx, esp
         neg     ebx
-        and     ebx,960
-        sub     esp,ebx
-        add     esp,4
-        mov     DWORD [28+esp],eax
+        and     ebx, 960
+        sub     esp, ebx
+        add     esp, 4
+        mov     DWORD [28+esp], eax
         call    L$010pic_point
 L$010pic_point:
         pop     ebp
-        lea     eax,[_OPENSSL_ia32cap_P]
-        lea     ebp,[(L$AES_Td-L$010pic_point)+ebp]
-        lea     ebx,[764+esp]
-        sub     ebx,ebp
-        and     ebx,768
-        lea     ebp,[2176+ebx*1+ebp]
-        bt      DWORD [eax],25
+        lea     eax, [_OPENSSL_ia32cap_P]
+        lea     ebp, [(L$AES_Td-L$010pic_point)+ebp]
+        lea     ebx, [764+esp]
+        sub     ebx, ebp
+        and     ebx, 768
+        lea     ebp, [2176+ebx*1+ebp]
+        bt      DWORD [eax], 25
         jnc     NEAR L$011x86
-        movq    mm0,[esi]
-        movq    mm4,[8+esi]
+        movq    mm0, [esi]
+        movq    mm4, [8+esi]
         call    __sse_AES_decrypt_compact
-        mov     esp,DWORD [28+esp]
-        mov     esi,DWORD [24+esp]
-        movq    [esi],mm0
-        movq    [8+esi],mm4
+        mov     esp,     DWORD [28+esp]
+        mov     esi,     DWORD [24+esp]
+        movq    [esi],   mm0
+        movq    [8+esi], mm4
         emms
         pop     edi
         pop     esi
@@ -2190,18 +2190,18 @@ L$010pic_point:
         ret
 align   16
 L$011x86:
-        mov     DWORD [24+esp],ebp
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
+        mov     DWORD [24+esp], ebp
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
         call    __x86_AES_decrypt_compact
-        mov     esp,DWORD [28+esp]
-        mov     esi,DWORD [24+esp]
-        mov     DWORD [esi],eax
-        mov     DWORD [4+esi],ebx
-        mov     DWORD [8+esi],ecx
-        mov     DWORD [12+esi],edx
+        mov     esp, DWORD [28+esp]
+        mov     esi, DWORD [24+esp]
+        mov     DWORD [esi],    eax
+        mov     DWORD [4+esi],  ebx
+        mov     DWORD [8+esi],  ecx
+        mov     DWORD [12+esi], edx
         pop     edi
         pop     esi
         pop     ebx
@@ -2215,135 +2215,135 @@ L$_AES_cbc_encrypt_begin:
         push    ebx
         push    esi
         push    edi
-        mov     ecx,DWORD [28+esp]
-        cmp     ecx,0
+        mov     ecx, DWORD [28+esp]
+        cmp     ecx, 0
         je      NEAR L$012drop_out
         call    L$013pic_point
 L$013pic_point:
         pop     ebp
-        lea     eax,[_OPENSSL_ia32cap_P]
-        cmp     DWORD [40+esp],0
-        lea     ebp,[(L$AES_Te-L$013pic_point)+ebp]
+        lea     eax, [_OPENSSL_ia32cap_P]
+        cmp     DWORD [40+esp], 0
+        lea     ebp, [(L$AES_Te-L$013pic_point)+ebp]
         jne     NEAR L$014picked_te
-        lea     ebp,[(L$AES_Td-L$AES_Te)+ebp]
+        lea     ebp, [(L$AES_Td-L$AES_Te)+ebp]
 L$014picked_te:
         pushfd
         cld
-        cmp     ecx,512
+        cmp     ecx, 512
         jb      NEAR L$015slow_way
-        test    ecx,15
+        test    ecx, 15
         jnz     NEAR L$015slow_way
-        bt      DWORD [eax],28
+        bt      DWORD [eax], 28
         jc      NEAR L$015slow_way
-        lea     esi,[esp-324]
-        and     esi,-64
-        mov     eax,ebp
-        lea     ebx,[2304+ebp]
-        mov     edx,esi
-        and     eax,4095
-        and     ebx,4095
-        and     edx,4095
-        cmp     edx,ebx
+        lea     esi, [esp-324]
+        and     esi, -64
+        mov     eax, ebp
+        lea     ebx, [2304+ebp]
+        mov     edx, esi
+        and     eax, 4095
+        and     ebx, 4095
+        and     edx, 4095
+        cmp     edx, ebx
         jb      NEAR L$016tbl_break_out
-        sub     edx,ebx
-        sub     esi,edx
+        sub     edx, ebx
+        sub     esi, edx
         jmp     NEAR L$017tbl_ok
 align   4
 L$016tbl_break_out:
-        sub     edx,eax
-        and     edx,4095
-        add     edx,384
-        sub     esi,edx
+        sub     edx, eax
+        and     edx, 4095
+        add     edx, 384
+        sub     esi, edx
 align   4
 L$017tbl_ok:
-        lea     edx,[24+esp]
-        xchg    esp,esi
-        add     esp,4
-        mov     DWORD [24+esp],ebp
-        mov     DWORD [28+esp],esi
-        mov     eax,DWORD [edx]
-        mov     ebx,DWORD [4+edx]
-        mov     edi,DWORD [12+edx]
-        mov     esi,DWORD [16+edx]
-        mov     edx,DWORD [20+edx]
-        mov     DWORD [32+esp],eax
-        mov     DWORD [36+esp],ebx
-        mov     DWORD [40+esp],ecx
-        mov     DWORD [44+esp],edi
-        mov     DWORD [48+esp],esi
-        mov     DWORD [316+esp],0
-        mov     ebx,edi
-        mov     ecx,61
-        sub     ebx,ebp
-        mov     esi,edi
-        and     ebx,4095
-        lea     edi,[76+esp]
-        cmp     ebx,2304
+        lea     edx, [24+esp]
+        xchg    esp, esi
+        add     esp, 4
+        mov     DWORD [24+esp], ebp
+        mov     DWORD [28+esp], esi
+        mov     eax, DWORD [edx]
+        mov     ebx, DWORD [4+edx]
+        mov     edi, DWORD [12+edx]
+        mov     esi, DWORD [16+edx]
+        mov     edx, DWORD [20+edx]
+        mov     DWORD [32+esp],  eax
+        mov     DWORD [36+esp],  ebx
+        mov     DWORD [40+esp],  ecx
+        mov     DWORD [44+esp],  edi
+        mov     DWORD [48+esp],  esi
+        mov     DWORD [316+esp], 0
+        mov     ebx, edi
+        mov     ecx, 61
+        sub     ebx, ebp
+        mov     esi, edi
+        and     ebx, 4095
+        lea     edi, [76+esp]
+        cmp     ebx, 2304
         jb      NEAR L$018do_copy
-        cmp     ebx,3852
+        cmp     ebx, 3852
         jb      NEAR L$019skip_copy
 align   4
 L$018do_copy:
-        mov     DWORD [44+esp],edi
+        mov     DWORD [44+esp], edi
 dd      2784229001
 L$019skip_copy:
-        mov     edi,16
+        mov     edi, 16
 align   4
 L$020prefetch_tbl:
-        mov     eax,DWORD [ebp]
-        mov     ebx,DWORD [32+ebp]
-        mov     ecx,DWORD [64+ebp]
-        mov     esi,DWORD [96+ebp]
-        lea     ebp,[128+ebp]
-        sub     edi,1
+        mov     eax, DWORD [ebp]
+        mov     ebx, DWORD [32+ebp]
+        mov     ecx, DWORD [64+ebp]
+        mov     esi, DWORD [96+ebp]
+        lea     ebp, [128+ebp]
+        sub     edi, 1
         jnz     NEAR L$020prefetch_tbl
-        sub     ebp,2048
-        mov     esi,DWORD [32+esp]
-        mov     edi,DWORD [48+esp]
-        cmp     edx,0
+        sub     ebp, 2048
+        mov     esi, DWORD [32+esp]
+        mov     edi, DWORD [48+esp]
+        cmp     edx, 0
         je      NEAR L$021fast_decrypt
-        mov     eax,DWORD [edi]
-        mov     ebx,DWORD [4+edi]
+        mov     eax, DWORD [edi]
+        mov     ebx, DWORD [4+edi]
 align   16
 L$022fast_enc_loop:
-        mov     ecx,DWORD [8+edi]
-        mov     edx,DWORD [12+edi]
-        xor     eax,DWORD [esi]
-        xor     ebx,DWORD [4+esi]
-        xor     ecx,DWORD [8+esi]
-        xor     edx,DWORD [12+esi]
-        mov     edi,DWORD [44+esp]
+        mov     ecx, DWORD [8+edi]
+        mov     edx, DWORD [12+edi]
+        xor     eax, DWORD [esi]
+        xor     ebx, DWORD [4+esi]
+        xor     ecx, DWORD [8+esi]
+        xor     edx, DWORD [12+esi]
+        mov     edi, DWORD [44+esp]
         call    __x86_AES_encrypt
-        mov     esi,DWORD [32+esp]
-        mov     edi,DWORD [36+esp]
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        lea     esi,[16+esi]
-        mov     ecx,DWORD [40+esp]
-        mov     DWORD [32+esp],esi
-        lea     edx,[16+edi]
-        mov     DWORD [36+esp],edx
-        sub     ecx,16
-        mov     DWORD [40+esp],ecx
+        mov     esi, DWORD [32+esp]
+        mov     edi, DWORD [36+esp]
+        mov     DWORD [edi],    eax
+        mov     DWORD [4+edi],  ebx
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        lea     esi, [16+esi]
+        mov     ecx, DWORD [40+esp]
+        mov     DWORD [32+esp], esi
+        lea     edx, [16+edi]
+        mov     DWORD [36+esp], edx
+        sub     ecx, 16
+        mov     DWORD [40+esp], ecx
         jnz     NEAR L$022fast_enc_loop
-        mov     esi,DWORD [48+esp]
-        mov     ecx,DWORD [8+edi]
-        mov     edx,DWORD [12+edi]
-        mov     DWORD [esi],eax
-        mov     DWORD [4+esi],ebx
-        mov     DWORD [8+esi],ecx
-        mov     DWORD [12+esi],edx
-        cmp     DWORD [316+esp],0
-        mov     edi,DWORD [44+esp]
+        mov     esi, DWORD [48+esp]
+        mov     ecx, DWORD [8+edi]
+        mov     edx, DWORD [12+edi]
+        mov     DWORD [esi],     eax
+        mov     DWORD [4+esi],   ebx
+        mov     DWORD [8+esi],   ecx
+        mov     DWORD [12+esi],  edx
+        cmp     DWORD [316+esp], 0
+        mov     edi, DWORD [44+esp]
         je      NEAR L$023skip_ezero
-        mov     ecx,60
-        xor     eax,eax
+        mov     ecx, 60
+        xor     eax, eax
 align   4
 dd      2884892297
 L$023skip_ezero:
-        mov     esp,DWORD [28+esp]
+        mov     esp, DWORD [28+esp]
         popfd
 L$012drop_out:
         pop     edi
@@ -2354,103 +2354,103 @@ L$012drop_out:
         pushfd
 align   16
 L$021fast_decrypt:
-        cmp     esi,DWORD [36+esp]
+        cmp     esi, DWORD [36+esp]
         je      NEAR L$024fast_dec_in_place
-        mov     DWORD [52+esp],edi
+        mov     DWORD [52+esp], edi
 align   4
 align   16
 L$025fast_dec_loop:
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        mov     edi,DWORD [44+esp]
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        mov     edi, DWORD [44+esp]
         call    __x86_AES_decrypt
-        mov     edi,DWORD [52+esp]
-        mov     esi,DWORD [40+esp]
-        xor     eax,DWORD [edi]
-        xor     ebx,DWORD [4+edi]
-        xor     ecx,DWORD [8+edi]
-        xor     edx,DWORD [12+edi]
-        mov     edi,DWORD [36+esp]
-        mov     esi,DWORD [32+esp]
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     ecx,DWORD [40+esp]
-        mov     DWORD [52+esp],esi
-        lea     esi,[16+esi]
-        mov     DWORD [32+esp],esi
-        lea     edi,[16+edi]
-        mov     DWORD [36+esp],edi
-        sub     ecx,16
-        mov     DWORD [40+esp],ecx
+        mov     edi, DWORD [52+esp]
+        mov     esi, DWORD [40+esp]
+        xor     eax, DWORD [edi]
+        xor     ebx, DWORD [4+edi]
+        xor     ecx, DWORD [8+edi]
+        xor     edx, DWORD [12+edi]
+        mov     edi, DWORD [36+esp]
+        mov     esi, DWORD [32+esp]
+        mov     DWORD [edi],    eax
+        mov     DWORD [4+edi],  ebx
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     ecx, DWORD [40+esp]
+        mov     DWORD [52+esp], esi
+        lea     esi, [16+esi]
+        mov     DWORD [32+esp], esi
+        lea     edi, [16+edi]
+        mov     DWORD [36+esp], edi
+        sub     ecx, 16
+        mov     DWORD [40+esp], ecx
         jnz     NEAR L$025fast_dec_loop
-        mov     edi,DWORD [52+esp]
-        mov     esi,DWORD [48+esp]
-        mov     eax,DWORD [edi]
-        mov     ebx,DWORD [4+edi]
-        mov     ecx,DWORD [8+edi]
-        mov     edx,DWORD [12+edi]
-        mov     DWORD [esi],eax
-        mov     DWORD [4+esi],ebx
-        mov     DWORD [8+esi],ecx
-        mov     DWORD [12+esi],edx
+        mov     edi, DWORD [52+esp]
+        mov     esi, DWORD [48+esp]
+        mov     eax, DWORD [edi]
+        mov     ebx, DWORD [4+edi]
+        mov     ecx, DWORD [8+edi]
+        mov     edx, DWORD [12+edi]
+        mov     DWORD [esi],    eax
+        mov     DWORD [4+esi],  ebx
+        mov     DWORD [8+esi],  ecx
+        mov     DWORD [12+esi], edx
         jmp     NEAR L$026fast_dec_out
 align   16
 L$024fast_dec_in_place:
 L$027fast_dec_in_place_loop:
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        lea     edi,[60+esp]
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     edi,DWORD [44+esp]
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        lea     edi, [60+esp]
+        mov     DWORD [edi],    eax
+        mov     DWORD [4+edi],  ebx
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     edi, DWORD [44+esp]
         call    __x86_AES_decrypt
-        mov     edi,DWORD [48+esp]
-        mov     esi,DWORD [36+esp]
-        xor     eax,DWORD [edi]
-        xor     ebx,DWORD [4+edi]
-        xor     ecx,DWORD [8+edi]
-        xor     edx,DWORD [12+edi]
-        mov     DWORD [esi],eax
-        mov     DWORD [4+esi],ebx
-        mov     DWORD [8+esi],ecx
-        mov     DWORD [12+esi],edx
-        lea     esi,[16+esi]
-        mov     DWORD [36+esp],esi
-        lea     esi,[60+esp]
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     esi,DWORD [32+esp]
-        mov     ecx,DWORD [40+esp]
-        lea     esi,[16+esi]
-        mov     DWORD [32+esp],esi
-        sub     ecx,16
-        mov     DWORD [40+esp],ecx
+        mov     edi, DWORD [48+esp]
+        mov     esi, DWORD [36+esp]
+        xor     eax, DWORD [edi]
+        xor     ebx, DWORD [4+edi]
+        xor     ecx, DWORD [8+edi]
+        xor     edx, DWORD [12+edi]
+        mov     DWORD [esi],    eax
+        mov     DWORD [4+esi],  ebx
+        mov     DWORD [8+esi],  ecx
+        mov     DWORD [12+esi], edx
+        lea     esi, [16+esi]
+        mov     DWORD [36+esp], esi
+        lea     esi, [60+esp]
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        mov     DWORD [edi],    eax
+        mov     DWORD [4+edi],  ebx
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     esi, DWORD [32+esp]
+        mov     ecx, DWORD [40+esp]
+        lea     esi, [16+esi]
+        mov     DWORD [32+esp], esi
+        sub     ecx, 16
+        mov     DWORD [40+esp], ecx
         jnz     NEAR L$027fast_dec_in_place_loop
 align   4
 L$026fast_dec_out:
-        cmp     DWORD [316+esp],0
-        mov     edi,DWORD [44+esp]
+        cmp     DWORD [316+esp], 0
+        mov     edi, DWORD [44+esp]
         je      NEAR L$028skip_dzero
-        mov     ecx,60
-        xor     eax,eax
+        mov     ecx, 60
+        xor     eax, eax
 align   4
 dd      2884892297
 L$028skip_dzero:
-        mov     esp,DWORD [28+esp]
+        mov     esp, DWORD [28+esp]
         popfd
         pop     edi
         pop     esi
@@ -2460,71 +2460,71 @@ L$028skip_dzero:
         pushfd
 align   16
 L$015slow_way:
-        mov     eax,DWORD [eax]
-        mov     edi,DWORD [36+esp]
-        lea     esi,[esp-80]
-        and     esi,-64
-        lea     ebx,[edi-143]
-        sub     ebx,esi
+        mov     eax, DWORD [eax]
+        mov     edi, DWORD [36+esp]
+        lea     esi, [esp-80]
+        and     esi, -64
+        lea     ebx, [edi-143]
+        sub     ebx, esi
         neg     ebx
-        and     ebx,960
-        sub     esi,ebx
-        lea     ebx,[768+esi]
-        sub     ebx,ebp
-        and     ebx,768
-        lea     ebp,[2176+ebx*1+ebp]
-        lea     edx,[24+esp]
-        xchg    esp,esi
-        add     esp,4
-        mov     DWORD [24+esp],ebp
-        mov     DWORD [28+esp],esi
-        mov     DWORD [52+esp],eax
-        mov     eax,DWORD [edx]
-        mov     ebx,DWORD [4+edx]
-        mov     esi,DWORD [16+edx]
-        mov     edx,DWORD [20+edx]
-        mov     DWORD [32+esp],eax
-        mov     DWORD [36+esp],ebx
-        mov     DWORD [40+esp],ecx
-        mov     DWORD [44+esp],edi
-        mov     DWORD [48+esp],esi
-        mov     edi,esi
-        mov     esi,eax
-        cmp     edx,0
+        and     ebx, 960
+        sub     esi, ebx
+        lea     ebx, [768+esi]
+        sub     ebx, ebp
+        and     ebx, 768
+        lea     ebp, [2176+ebx*1+ebp]
+        lea     edx, [24+esp]
+        xchg    esp, esi
+        add     esp, 4
+        mov     DWORD [24+esp], ebp
+        mov     DWORD [28+esp], esi
+        mov     DWORD [52+esp], eax
+        mov     eax, DWORD [edx]
+        mov     ebx, DWORD [4+edx]
+        mov     esi, DWORD [16+edx]
+        mov     edx, DWORD [20+edx]
+        mov     DWORD [32+esp], eax
+        mov     DWORD [36+esp], ebx
+        mov     DWORD [40+esp], ecx
+        mov     DWORD [44+esp], edi
+        mov     DWORD [48+esp], esi
+        mov     edi, esi
+        mov     esi, eax
+        cmp     edx, 0
         je      NEAR L$029slow_decrypt
-        cmp     ecx,16
-        mov     edx,ebx
+        cmp     ecx, 16
+        mov     edx, ebx
         jb      NEAR L$030slow_enc_tail
-        bt      DWORD [52+esp],25
+        bt      DWORD [52+esp], 25
         jnc     NEAR L$031slow_enc_x86
-        movq    mm0,[edi]
-        movq    mm4,[8+edi]
+        movq    mm0, [edi]
+        movq    mm4, [8+edi]
 align   16
 L$032slow_enc_loop_sse:
-        pxor    mm0,[esi]
-        pxor    mm4,[8+esi]
-        mov     edi,DWORD [44+esp]
+        pxor    mm0, [esi]
+        pxor    mm4, [8+esi]
+        mov     edi, DWORD [44+esp]
         call    __sse_AES_encrypt_compact
-        mov     esi,DWORD [32+esp]
-        mov     edi,DWORD [36+esp]
-        mov     ecx,DWORD [40+esp]
-        movq    [edi],mm0
-        movq    [8+edi],mm4
-        lea     esi,[16+esi]
-        mov     DWORD [32+esp],esi
-        lea     edx,[16+edi]
-        mov     DWORD [36+esp],edx
-        sub     ecx,16
-        cmp     ecx,16
-        mov     DWORD [40+esp],ecx
+        mov     esi,     DWORD [32+esp]
+        mov     edi,     DWORD [36+esp]
+        mov     ecx,     DWORD [40+esp]
+        movq    [edi],   mm0
+        movq    [8+edi], mm4
+        lea     esi,     [16+esi]
+        mov     DWORD [32+esp], esi
+        lea     edx, [16+edi]
+        mov     DWORD [36+esp], edx
+        sub     ecx, 16
+        cmp     ecx, 16
+        mov     DWORD [40+esp], ecx
         jae     NEAR L$032slow_enc_loop_sse
-        test    ecx,15
+        test    ecx, 15
         jnz     NEAR L$030slow_enc_tail
-        mov     esi,DWORD [48+esp]
-        movq    [esi],mm0
-        movq    [8+esi],mm4
+        mov     esi,     DWORD [48+esp]
+        movq    [esi],   mm0
+        movq    [8+esi], mm4
         emms
-        mov     esp,DWORD [28+esp]
+        mov     esp, DWORD [28+esp]
         popfd
         pop     edi
         pop     esi
@@ -2534,43 +2534,43 @@ L$032slow_enc_loop_sse:
         pushfd
 align   16
 L$031slow_enc_x86:
-        mov     eax,DWORD [edi]
-        mov     ebx,DWORD [4+edi]
+        mov     eax, DWORD [edi]
+        mov     ebx, DWORD [4+edi]
 align   4
 L$033slow_enc_loop_x86:
-        mov     ecx,DWORD [8+edi]
-        mov     edx,DWORD [12+edi]
-        xor     eax,DWORD [esi]
-        xor     ebx,DWORD [4+esi]
-        xor     ecx,DWORD [8+esi]
-        xor     edx,DWORD [12+esi]
-        mov     edi,DWORD [44+esp]
+        mov     ecx, DWORD [8+edi]
+        mov     edx, DWORD [12+edi]
+        xor     eax, DWORD [esi]
+        xor     ebx, DWORD [4+esi]
+        xor     ecx, DWORD [8+esi]
+        xor     edx, DWORD [12+esi]
+        mov     edi, DWORD [44+esp]
         call    __x86_AES_encrypt_compact
-        mov     esi,DWORD [32+esp]
-        mov     edi,DWORD [36+esp]
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     ecx,DWORD [40+esp]
-        lea     esi,[16+esi]
-        mov     DWORD [32+esp],esi
-        lea     edx,[16+edi]
-        mov     DWORD [36+esp],edx
-        sub     ecx,16
-        cmp     ecx,16
-        mov     DWORD [40+esp],ecx
+        mov     esi, DWORD [32+esp]
+        mov     edi, DWORD [36+esp]
+        mov     DWORD [edi],    eax
+        mov     DWORD [4+edi],  ebx
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     ecx, DWORD [40+esp]
+        lea     esi, [16+esi]
+        mov     DWORD [32+esp], esi
+        lea     edx, [16+edi]
+        mov     DWORD [36+esp], edx
+        sub     ecx, 16
+        cmp     ecx, 16
+        mov     DWORD [40+esp], ecx
         jae     NEAR L$033slow_enc_loop_x86
-        test    ecx,15
+        test    ecx, 15
         jnz     NEAR L$030slow_enc_tail
-        mov     esi,DWORD [48+esp]
-        mov     ecx,DWORD [8+edi]
-        mov     edx,DWORD [12+edi]
-        mov     DWORD [esi],eax
-        mov     DWORD [4+esi],ebx
-        mov     DWORD [8+esi],ecx
-        mov     DWORD [12+esi],edx
-        mov     esp,DWORD [28+esp]
+        mov     esi, DWORD [48+esp]
+        mov     ecx, DWORD [8+edi]
+        mov     edx, DWORD [12+edi]
+        mov     DWORD [esi],    eax
+        mov     DWORD [4+esi],  ebx
+        mov     DWORD [8+esi],  ecx
+        mov     DWORD [12+esi], edx
+        mov     esp, DWORD [28+esp]
         popfd
         pop     edi
         pop     esi
@@ -2581,60 +2581,60 @@ L$033slow_enc_loop_x86:
 align   16
 L$030slow_enc_tail:
         emms
-        mov     edi,edx
-        mov     ebx,16
-        sub     ebx,ecx
-        cmp     edi,esi
+        mov     edi, edx
+        mov     ebx, 16
+        sub     ebx, ecx
+        cmp     edi, esi
         je      NEAR L$034enc_in_place
 align   4
 dd      2767451785
         jmp     NEAR L$035enc_skip_in_place
 L$034enc_in_place:
-        lea     edi,[ecx*1+edi]
+        lea     edi, [ecx*1+edi]
 L$035enc_skip_in_place:
-        mov     ecx,ebx
-        xor     eax,eax
+        mov     ecx, ebx
+        xor     eax, eax
 align   4
 dd      2868115081
-        mov     edi,DWORD [48+esp]
-        mov     esi,edx
-        mov     eax,DWORD [edi]
-        mov     ebx,DWORD [4+edi]
-        mov     DWORD [40+esp],16
+        mov     edi, DWORD [48+esp]
+        mov     esi, edx
+        mov     eax, DWORD [edi]
+        mov     ebx, DWORD [4+edi]
+        mov     DWORD [40+esp], 16
         jmp     NEAR L$033slow_enc_loop_x86
 align   16
 L$029slow_decrypt:
-        bt      DWORD [52+esp],25
+        bt      DWORD [52+esp], 25
         jnc     NEAR L$036slow_dec_loop_x86
 align   4
 L$037slow_dec_loop_sse:
-        movq    mm0,[esi]
-        movq    mm4,[8+esi]
-        mov     edi,DWORD [44+esp]
+        movq    mm0, [esi]
+        movq    mm4, [8+esi]
+        mov     edi, DWORD [44+esp]
         call    __sse_AES_decrypt_compact
-        mov     esi,DWORD [32+esp]
-        lea     eax,[60+esp]
-        mov     ebx,DWORD [36+esp]
-        mov     ecx,DWORD [40+esp]
-        mov     edi,DWORD [48+esp]
-        movq    mm1,[esi]
-        movq    mm5,[8+esi]
-        pxor    mm0,[edi]
-        pxor    mm4,[8+edi]
-        movq    [edi],mm1
-        movq    [8+edi],mm5
-        sub     ecx,16
+        mov     esi,     DWORD [32+esp]
+        lea     eax,     [60+esp]
+        mov     ebx,     DWORD [36+esp]
+        mov     ecx,     DWORD [40+esp]
+        mov     edi,     DWORD [48+esp]
+        movq    mm1,     [esi]
+        movq    mm5,     [8+esi]
+        pxor    mm0,     [edi]
+        pxor    mm4,     [8+edi]
+        movq    [edi],   mm1
+        movq    [8+edi], mm5
+        sub     ecx,     16
         jc      NEAR L$038slow_dec_partial_sse
-        movq    [ebx],mm0
-        movq    [8+ebx],mm4
-        lea     ebx,[16+ebx]
-        mov     DWORD [36+esp],ebx
-        lea     esi,[16+esi]
-        mov     DWORD [32+esp],esi
-        mov     DWORD [40+esp],ecx
+        movq    [ebx],   mm0
+        movq    [8+ebx], mm4
+        lea     ebx,     [16+ebx]
+        mov     DWORD [36+esp], ebx
+        lea     esi, [16+esi]
+        mov     DWORD [32+esp], esi
+        mov     DWORD [40+esp], ecx
         jnz     NEAR L$037slow_dec_loop_sse
         emms
-        mov     esp,DWORD [28+esp]
+        mov     esp, DWORD [28+esp]
         popfd
         pop     edi
         pop     esi
@@ -2644,15 +2644,15 @@ L$037slow_dec_loop_sse:
         pushfd
 align   16
 L$038slow_dec_partial_sse:
-        movq    [eax],mm0
-        movq    [8+eax],mm4
+        movq    [eax],   mm0
+        movq    [8+eax], mm4
         emms
-        add     ecx,16
-        mov     edi,ebx
-        mov     esi,eax
+        add     ecx, 16
+        mov     edi, ebx
+        mov     esi, eax
 align   4
 dd      2767451785
-        mov     esp,DWORD [28+esp]
+        mov     esp, DWORD [28+esp]
         popfd
         pop     edi
         pop     esi
@@ -2662,47 +2662,47 @@ dd      2767451785
         pushfd
 align   16
 L$036slow_dec_loop_x86:
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        lea     edi,[60+esp]
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     edi,DWORD [44+esp]
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        lea     edi, [60+esp]
+        mov     DWORD [edi],    eax
+        mov     DWORD [4+edi],  ebx
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     edi, DWORD [44+esp]
         call    __x86_AES_decrypt_compact
-        mov     edi,DWORD [48+esp]
-        mov     esi,DWORD [40+esp]
-        xor     eax,DWORD [edi]
-        xor     ebx,DWORD [4+edi]
-        xor     ecx,DWORD [8+edi]
-        xor     edx,DWORD [12+edi]
-        sub     esi,16
+        mov     edi, DWORD [48+esp]
+        mov     esi, DWORD [40+esp]
+        xor     eax, DWORD [edi]
+        xor     ebx, DWORD [4+edi]
+        xor     ecx, DWORD [8+edi]
+        xor     edx, DWORD [12+edi]
+        sub     esi, 16
         jc      NEAR L$039slow_dec_partial_x86
-        mov     DWORD [40+esp],esi
-        mov     esi,DWORD [36+esp]
-        mov     DWORD [esi],eax
-        mov     DWORD [4+esi],ebx
-        mov     DWORD [8+esi],ecx
-        mov     DWORD [12+esi],edx
-        lea     esi,[16+esi]
-        mov     DWORD [36+esp],esi
-        lea     esi,[60+esp]
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     esi,DWORD [32+esp]
-        lea     esi,[16+esi]
-        mov     DWORD [32+esp],esi
+        mov     DWORD [40+esp], esi
+        mov     esi, DWORD [36+esp]
+        mov     DWORD [esi],    eax
+        mov     DWORD [4+esi],  ebx
+        mov     DWORD [8+esi],  ecx
+        mov     DWORD [12+esi], edx
+        lea     esi, [16+esi]
+        mov     DWORD [36+esp], esi
+        lea     esi, [60+esp]
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        mov     DWORD [edi],    eax
+        mov     DWORD [4+edi],  ebx
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     esi, DWORD [32+esp]
+        lea     esi, [16+esi]
+        mov     DWORD [32+esp], esi
         jnz     NEAR L$036slow_dec_loop_x86
-        mov     esp,DWORD [28+esp]
+        mov     esp, DWORD [28+esp]
         popfd
         pop     edi
         pop     esi
@@ -2712,26 +2712,26 @@ L$036slow_dec_loop_x86:
         pushfd
 align   16
 L$039slow_dec_partial_x86:
-        lea     esi,[60+esp]
-        mov     DWORD [esi],eax
-        mov     DWORD [4+esi],ebx
-        mov     DWORD [8+esi],ecx
-        mov     DWORD [12+esi],edx
-        mov     esi,DWORD [32+esp]
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     ecx,DWORD [40+esp]
-        mov     edi,DWORD [36+esp]
-        lea     esi,[60+esp]
+        lea     esi, [60+esp]
+        mov     DWORD [esi],    eax
+        mov     DWORD [4+esi],  ebx
+        mov     DWORD [8+esi],  ecx
+        mov     DWORD [12+esi], edx
+        mov     esi, DWORD [32+esp]
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        mov     DWORD [edi],    eax
+        mov     DWORD [4+edi],  ebx
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     ecx, DWORD [40+esp]
+        mov     edi, DWORD [36+esp]
+        lea     esi, [60+esp]
 align   4
 dd      2767451785
-        mov     esp,DWORD [28+esp]
+        mov     esp, DWORD [28+esp]
         popfd
         pop     edi
         pop     esi
@@ -2744,222 +2744,222 @@ __x86_AES_set_encrypt_key:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [24+esp]
-        mov     edi,DWORD [32+esp]
-        test    esi,-1
+        mov     esi, DWORD [24+esp]
+        mov     edi, DWORD [32+esp]
+        test    esi, -1
         jz      NEAR L$040badpointer
-        test    edi,-1
+        test    edi, -1
         jz      NEAR L$040badpointer
         call    L$041pic_point
 L$041pic_point:
         pop     ebp
-        lea     ebp,[(L$AES_Te-L$041pic_point)+ebp]
-        lea     ebp,[2176+ebp]
-        mov     eax,DWORD [ebp-128]
-        mov     ebx,DWORD [ebp-96]
-        mov     ecx,DWORD [ebp-64]
-        mov     edx,DWORD [ebp-32]
-        mov     eax,DWORD [ebp]
-        mov     ebx,DWORD [32+ebp]
-        mov     ecx,DWORD [64+ebp]
-        mov     edx,DWORD [96+ebp]
-        mov     ecx,DWORD [28+esp]
-        cmp     ecx,128
+        lea     ebp, [(L$AES_Te-L$041pic_point)+ebp]
+        lea     ebp, [2176+ebp]
+        mov     eax, DWORD [ebp-128]
+        mov     ebx, DWORD [ebp-96]
+        mov     ecx, DWORD [ebp-64]
+        mov     edx, DWORD [ebp-32]
+        mov     eax, DWORD [ebp]
+        mov     ebx, DWORD [32+ebp]
+        mov     ecx, DWORD [64+ebp]
+        mov     edx, DWORD [96+ebp]
+        mov     ecx, DWORD [28+esp]
+        cmp     ecx, 128
         je      NEAR L$04210rounds
-        cmp     ecx,192
+        cmp     ecx, 192
         je      NEAR L$04312rounds
-        cmp     ecx,256
+        cmp     ecx, 256
         je      NEAR L$04414rounds
-        mov     eax,-2
+        mov     eax, -2
         jmp     NEAR L$045exit
 L$04210rounds:
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        xor     ecx,ecx
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        mov     DWORD [edi],    eax
+        mov     DWORD [4+edi],  ebx
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        xor     ecx, ecx
         jmp     NEAR L$04610shortcut
 align   4
 L$04710loop:
-        mov     eax,DWORD [edi]
-        mov     edx,DWORD [12+edi]
+        mov     eax, DWORD [edi]
+        mov     edx, DWORD [12+edi]
 L$04610shortcut:
-        movzx   esi,dl
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        movzx   esi,dh
-        shl     ebx,24
-        xor     eax,ebx
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        shr     edx,16
-        movzx   esi,dl
-        xor     eax,ebx
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        movzx   esi,dh
-        shl     ebx,8
-        xor     eax,ebx
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        shl     ebx,16
-        xor     eax,ebx
-        xor     eax,DWORD [896+ecx*4+ebp]
-        mov     DWORD [16+edi],eax
-        xor     eax,DWORD [4+edi]
-        mov     DWORD [20+edi],eax
-        xor     eax,DWORD [8+edi]
-        mov     DWORD [24+edi],eax
-        xor     eax,DWORD [12+edi]
-        mov     DWORD [28+edi],eax
+        movzx   esi, dl
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        movzx   esi, dh
+        shl     ebx, 24
+        xor     eax, ebx
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        shr     edx, 16
+        movzx   esi, dl
+        xor     eax, ebx
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        movzx   esi, dh
+        shl     ebx, 8
+        xor     eax, ebx
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        shl     ebx, 16
+        xor     eax, ebx
+        xor     eax, DWORD [896+ecx*4+ebp]
+        mov     DWORD [16+edi], eax
+        xor     eax, DWORD [4+edi]
+        mov     DWORD [20+edi], eax
+        xor     eax, DWORD [8+edi]
+        mov     DWORD [24+edi], eax
+        xor     eax, DWORD [12+edi]
+        mov     DWORD [28+edi], eax
         inc     ecx
-        add     edi,16
-        cmp     ecx,10
+        add     edi, 16
+        cmp     ecx, 10
         jl      NEAR L$04710loop
-        mov     DWORD [80+edi],10
-        xor     eax,eax
+        mov     DWORD [80+edi], 10
+        xor     eax, eax
         jmp     NEAR L$045exit
 L$04312rounds:
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     ecx,DWORD [16+esi]
-        mov     edx,DWORD [20+esi]
-        mov     DWORD [16+edi],ecx
-        mov     DWORD [20+edi],edx
-        xor     ecx,ecx
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        mov     DWORD [edi],    eax
+        mov     DWORD [4+edi],  ebx
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     ecx, DWORD [16+esi]
+        mov     edx, DWORD [20+esi]
+        mov     DWORD [16+edi], ecx
+        mov     DWORD [20+edi], edx
+        xor     ecx, ecx
         jmp     NEAR L$04812shortcut
 align   4
 L$04912loop:
-        mov     eax,DWORD [edi]
-        mov     edx,DWORD [20+edi]
+        mov     eax, DWORD [edi]
+        mov     edx, DWORD [20+edi]
 L$04812shortcut:
-        movzx   esi,dl
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        movzx   esi,dh
-        shl     ebx,24
-        xor     eax,ebx
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        shr     edx,16
-        movzx   esi,dl
-        xor     eax,ebx
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        movzx   esi,dh
-        shl     ebx,8
-        xor     eax,ebx
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        shl     ebx,16
-        xor     eax,ebx
-        xor     eax,DWORD [896+ecx*4+ebp]
-        mov     DWORD [24+edi],eax
-        xor     eax,DWORD [4+edi]
-        mov     DWORD [28+edi],eax
-        xor     eax,DWORD [8+edi]
-        mov     DWORD [32+edi],eax
-        xor     eax,DWORD [12+edi]
-        mov     DWORD [36+edi],eax
-        cmp     ecx,7
+        movzx   esi, dl
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        movzx   esi, dh
+        shl     ebx, 24
+        xor     eax, ebx
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        shr     edx, 16
+        movzx   esi, dl
+        xor     eax, ebx
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        movzx   esi, dh
+        shl     ebx, 8
+        xor     eax, ebx
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        shl     ebx, 16
+        xor     eax, ebx
+        xor     eax, DWORD [896+ecx*4+ebp]
+        mov     DWORD [24+edi], eax
+        xor     eax, DWORD [4+edi]
+        mov     DWORD [28+edi], eax
+        xor     eax, DWORD [8+edi]
+        mov     DWORD [32+edi], eax
+        xor     eax, DWORD [12+edi]
+        mov     DWORD [36+edi], eax
+        cmp     ecx, 7
         je      NEAR L$05012break
         inc     ecx
-        xor     eax,DWORD [16+edi]
-        mov     DWORD [40+edi],eax
-        xor     eax,DWORD [20+edi]
-        mov     DWORD [44+edi],eax
-        add     edi,24
+        xor     eax, DWORD [16+edi]
+        mov     DWORD [40+edi], eax
+        xor     eax, DWORD [20+edi]
+        mov     DWORD [44+edi], eax
+        add     edi, 24
         jmp     NEAR L$04912loop
 L$05012break:
-        mov     DWORD [72+edi],12
-        xor     eax,eax
+        mov     DWORD [72+edi], 12
+        xor     eax, eax
         jmp     NEAR L$045exit
 L$04414rounds:
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [8+esi]
-        mov     edx,DWORD [12+esi]
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [8+edi],ecx
-        mov     DWORD [12+edi],edx
-        mov     eax,DWORD [16+esi]
-        mov     ebx,DWORD [20+esi]
-        mov     ecx,DWORD [24+esi]
-        mov     edx,DWORD [28+esi]
-        mov     DWORD [16+edi],eax
-        mov     DWORD [20+edi],ebx
-        mov     DWORD [24+edi],ecx
-        mov     DWORD [28+edi],edx
-        xor     ecx,ecx
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [8+esi]
+        mov     edx, DWORD [12+esi]
+        mov     DWORD [edi],    eax
+        mov     DWORD [4+edi],  ebx
+        mov     DWORD [8+edi],  ecx
+        mov     DWORD [12+edi], edx
+        mov     eax, DWORD [16+esi]
+        mov     ebx, DWORD [20+esi]
+        mov     ecx, DWORD [24+esi]
+        mov     edx, DWORD [28+esi]
+        mov     DWORD [16+edi], eax
+        mov     DWORD [20+edi], ebx
+        mov     DWORD [24+edi], ecx
+        mov     DWORD [28+edi], edx
+        xor     ecx, ecx
         jmp     NEAR L$05114shortcut
 align   4
 L$05214loop:
-        mov     edx,DWORD [28+edi]
+        mov     edx, DWORD [28+edi]
 L$05114shortcut:
-        mov     eax,DWORD [edi]
-        movzx   esi,dl
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        movzx   esi,dh
-        shl     ebx,24
-        xor     eax,ebx
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        shr     edx,16
-        movzx   esi,dl
-        xor     eax,ebx
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        movzx   esi,dh
-        shl     ebx,8
-        xor     eax,ebx
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        shl     ebx,16
-        xor     eax,ebx
-        xor     eax,DWORD [896+ecx*4+ebp]
-        mov     DWORD [32+edi],eax
-        xor     eax,DWORD [4+edi]
-        mov     DWORD [36+edi],eax
-        xor     eax,DWORD [8+edi]
-        mov     DWORD [40+edi],eax
-        xor     eax,DWORD [12+edi]
-        mov     DWORD [44+edi],eax
-        cmp     ecx,6
+        mov     eax, DWORD [edi]
+        movzx   esi, dl
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        movzx   esi, dh
+        shl     ebx, 24
+        xor     eax, ebx
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        shr     edx, 16
+        movzx   esi, dl
+        xor     eax, ebx
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        movzx   esi, dh
+        shl     ebx, 8
+        xor     eax, ebx
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        shl     ebx, 16
+        xor     eax, ebx
+        xor     eax, DWORD [896+ecx*4+ebp]
+        mov     DWORD [32+edi], eax
+        xor     eax, DWORD [4+edi]
+        mov     DWORD [36+edi], eax
+        xor     eax, DWORD [8+edi]
+        mov     DWORD [40+edi], eax
+        xor     eax, DWORD [12+edi]
+        mov     DWORD [44+edi], eax
+        cmp     ecx, 6
         je      NEAR L$05314break
         inc     ecx
-        mov     edx,eax
-        mov     eax,DWORD [16+edi]
-        movzx   esi,dl
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        movzx   esi,dh
-        xor     eax,ebx
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        shr     edx,16
-        shl     ebx,8
-        movzx   esi,dl
-        xor     eax,ebx
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        movzx   esi,dh
-        shl     ebx,16
-        xor     eax,ebx
-        movzx   ebx,BYTE [esi*1+ebp-128]
-        shl     ebx,24
-        xor     eax,ebx
-        mov     DWORD [48+edi],eax
-        xor     eax,DWORD [20+edi]
-        mov     DWORD [52+edi],eax
-        xor     eax,DWORD [24+edi]
-        mov     DWORD [56+edi],eax
-        xor     eax,DWORD [28+edi]
-        mov     DWORD [60+edi],eax
-        add     edi,32
+        mov     edx, eax
+        mov     eax, DWORD [16+edi]
+        movzx   esi, dl
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        movzx   esi, dh
+        xor     eax, ebx
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        shr     edx, 16
+        shl     ebx, 8
+        movzx   esi, dl
+        xor     eax, ebx
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        movzx   esi, dh
+        shl     ebx, 16
+        xor     eax, ebx
+        movzx   ebx, BYTE [esi*1+ebp-128]
+        shl     ebx, 24
+        xor     eax, ebx
+        mov     DWORD [48+edi], eax
+        xor     eax, DWORD [20+edi]
+        mov     DWORD [52+edi], eax
+        xor     eax, DWORD [24+edi]
+        mov     DWORD [56+edi], eax
+        xor     eax, DWORD [28+edi]
+        mov     DWORD [60+edi], eax
+        add     edi, 32
         jmp     NEAR L$05214loop
 L$05314break:
-        mov     DWORD [48+edi],14
-        xor     eax,eax
+        mov     DWORD [48+edi], 14
+        xor     eax, eax
         jmp     NEAR L$045exit
 L$040badpointer:
-        mov     eax,-1
+        mov     eax, -1
 L$045exit:
         pop     edi
         pop     esi
@@ -2977,7 +2977,7 @@ align   16
 _AES_set_decrypt_key:
 L$_AES_set_decrypt_key_begin:
         call    __x86_AES_set_encrypt_key
-        cmp     eax,0
+        cmp     eax, 0
         je      NEAR L$054proceed
         ret
 L$054proceed:
@@ -2985,220 +2985,220 @@ L$054proceed:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [28+esp]
-        mov     ecx,DWORD [240+esi]
-        lea     ecx,[ecx*4]
-        lea     edi,[ecx*4+esi]
+        mov     esi, DWORD [28+esp]
+        mov     ecx, DWORD [240+esi]
+        lea     ecx, [ecx*4]
+        lea     edi, [ecx*4+esi]
 align   4
 L$055invert:
-        mov     eax,DWORD [esi]
-        mov     ebx,DWORD [4+esi]
-        mov     ecx,DWORD [edi]
-        mov     edx,DWORD [4+edi]
-        mov     DWORD [edi],eax
-        mov     DWORD [4+edi],ebx
-        mov     DWORD [esi],ecx
-        mov     DWORD [4+esi],edx
-        mov     eax,DWORD [8+esi]
-        mov     ebx,DWORD [12+esi]
-        mov     ecx,DWORD [8+edi]
-        mov     edx,DWORD [12+edi]
-        mov     DWORD [8+edi],eax
-        mov     DWORD [12+edi],ebx
-        mov     DWORD [8+esi],ecx
-        mov     DWORD [12+esi],edx
-        add     esi,16
-        sub     edi,16
-        cmp     esi,edi
+        mov     eax, DWORD [esi]
+        mov     ebx, DWORD [4+esi]
+        mov     ecx, DWORD [edi]
+        mov     edx, DWORD [4+edi]
+        mov     DWORD [edi],   eax
+        mov     DWORD [4+edi], ebx
+        mov     DWORD [esi],   ecx
+        mov     DWORD [4+esi], edx
+        mov     eax, DWORD [8+esi]
+        mov     ebx, DWORD [12+esi]
+        mov     ecx, DWORD [8+edi]
+        mov     edx, DWORD [12+edi]
+        mov     DWORD [8+edi],  eax
+        mov     DWORD [12+edi], ebx
+        mov     DWORD [8+esi],  ecx
+        mov     DWORD [12+esi], edx
+        add     esi, 16
+        sub     edi, 16
+        cmp     esi, edi
         jne     NEAR L$055invert
-        mov     edi,DWORD [28+esp]
-        mov     esi,DWORD [240+edi]
-        lea     esi,[esi*1+esi-2]
-        lea     esi,[esi*8+edi]
-        mov     DWORD [28+esp],esi
-        mov     eax,DWORD [16+edi]
+        mov     edi, DWORD [28+esp]
+        mov     esi, DWORD [240+edi]
+        lea     esi, [esi*1+esi-2]
+        lea     esi, [esi*8+edi]
+        mov     DWORD [28+esp], esi
+        mov     eax, DWORD [16+edi]
 align   4
 L$056permute:
-        add     edi,16
-        mov     ebp,2155905152
-        and     ebp,eax
-        lea     ebx,[eax*1+eax]
-        mov     esi,ebp
-        shr     ebp,7
-        sub     esi,ebp
-        and     ebx,4278124286
-        and     esi,454761243
-        xor     ebx,esi
-        mov     ebp,2155905152
-        and     ebp,ebx
-        lea     ecx,[ebx*1+ebx]
-        mov     esi,ebp
-        shr     ebp,7
-        sub     esi,ebp
-        and     ecx,4278124286
-        and     esi,454761243
-        xor     ebx,eax
-        xor     ecx,esi
-        mov     ebp,2155905152
-        and     ebp,ecx
-        lea     edx,[ecx*1+ecx]
-        mov     esi,ebp
-        shr     ebp,7
-        xor     ecx,eax
-        sub     esi,ebp
-        and     edx,4278124286
-        and     esi,454761243
-        rol     eax,8
-        xor     edx,esi
-        mov     ebp,DWORD [4+edi]
-        xor     eax,ebx
-        xor     ebx,edx
-        xor     eax,ecx
-        rol     ebx,24
-        xor     ecx,edx
-        xor     eax,edx
-        rol     ecx,16
-        xor     eax,ebx
-        rol     edx,8
-        xor     eax,ecx
-        mov     ebx,ebp
-        xor     eax,edx
-        mov     DWORD [edi],eax
-        mov     ebp,2155905152
-        and     ebp,ebx
-        lea     ecx,[ebx*1+ebx]
-        mov     esi,ebp
-        shr     ebp,7
-        sub     esi,ebp
-        and     ecx,4278124286
-        and     esi,454761243
-        xor     ecx,esi
-        mov     ebp,2155905152
-        and     ebp,ecx
-        lea     edx,[ecx*1+ecx]
-        mov     esi,ebp
-        shr     ebp,7
-        sub     esi,ebp
-        and     edx,4278124286
-        and     esi,454761243
-        xor     ecx,ebx
-        xor     edx,esi
-        mov     ebp,2155905152
-        and     ebp,edx
-        lea     eax,[edx*1+edx]
-        mov     esi,ebp
-        shr     ebp,7
-        xor     edx,ebx
-        sub     esi,ebp
-        and     eax,4278124286
-        and     esi,454761243
-        rol     ebx,8
-        xor     eax,esi
-        mov     ebp,DWORD [8+edi]
-        xor     ebx,ecx
-        xor     ecx,eax
-        xor     ebx,edx
-        rol     ecx,24
-        xor     edx,eax
-        xor     ebx,eax
-        rol     edx,16
-        xor     ebx,ecx
-        rol     eax,8
-        xor     ebx,edx
-        mov     ecx,ebp
-        xor     ebx,eax
-        mov     DWORD [4+edi],ebx
-        mov     ebp,2155905152
-        and     ebp,ecx
-        lea     edx,[ecx*1+ecx]
-        mov     esi,ebp
-        shr     ebp,7
-        sub     esi,ebp
-        and     edx,4278124286
-        and     esi,454761243
-        xor     edx,esi
-        mov     ebp,2155905152
-        and     ebp,edx
-        lea     eax,[edx*1+edx]
-        mov     esi,ebp
-        shr     ebp,7
-        sub     esi,ebp
-        and     eax,4278124286
-        and     esi,454761243
-        xor     edx,ecx
-        xor     eax,esi
-        mov     ebp,2155905152
-        and     ebp,eax
-        lea     ebx,[eax*1+eax]
-        mov     esi,ebp
-        shr     ebp,7
-        xor     eax,ecx
-        sub     esi,ebp
-        and     ebx,4278124286
-        and     esi,454761243
-        rol     ecx,8
-        xor     ebx,esi
-        mov     ebp,DWORD [12+edi]
-        xor     ecx,edx
-        xor     edx,ebx
-        xor     ecx,eax
-        rol     edx,24
-        xor     eax,ebx
-        xor     ecx,ebx
-        rol     eax,16
-        xor     ecx,edx
-        rol     ebx,8
-        xor     ecx,eax
-        mov     edx,ebp
-        xor     ecx,ebx
-        mov     DWORD [8+edi],ecx
-        mov     ebp,2155905152
-        and     ebp,edx
-        lea     eax,[edx*1+edx]
-        mov     esi,ebp
-        shr     ebp,7
-        sub     esi,ebp
-        and     eax,4278124286
-        and     esi,454761243
-        xor     eax,esi
-        mov     ebp,2155905152
-        and     ebp,eax
-        lea     ebx,[eax*1+eax]
-        mov     esi,ebp
-        shr     ebp,7
-        sub     esi,ebp
-        and     ebx,4278124286
-        and     esi,454761243
-        xor     eax,edx
-        xor     ebx,esi
-        mov     ebp,2155905152
-        and     ebp,ebx
-        lea     ecx,[ebx*1+ebx]
-        mov     esi,ebp
-        shr     ebp,7
-        xor     ebx,edx
-        sub     esi,ebp
-        and     ecx,4278124286
-        and     esi,454761243
-        rol     edx,8
-        xor     ecx,esi
-        mov     ebp,DWORD [16+edi]
-        xor     edx,eax
-        xor     eax,ecx
-        xor     edx,ebx
-        rol     eax,24
-        xor     ebx,ecx
-        xor     edx,ecx
-        rol     ebx,16
-        xor     edx,eax
-        rol     ecx,8
-        xor     edx,ebx
-        mov     eax,ebp
-        xor     edx,ecx
-        mov     DWORD [12+edi],edx
-        cmp     edi,DWORD [28+esp]
+        add     edi, 16
+        mov     ebp, 2155905152
+        and     ebp, eax
+        lea     ebx, [eax*1+eax]
+        mov     esi, ebp
+        shr     ebp, 7
+        sub     esi, ebp
+        and     ebx, 4278124286
+        and     esi, 454761243
+        xor     ebx, esi
+        mov     ebp, 2155905152
+        and     ebp, ebx
+        lea     ecx, [ebx*1+ebx]
+        mov     esi, ebp
+        shr     ebp, 7
+        sub     esi, ebp
+        and     ecx, 4278124286
+        and     esi, 454761243
+        xor     ebx, eax
+        xor     ecx, esi
+        mov     ebp, 2155905152
+        and     ebp, ecx
+        lea     edx, [ecx*1+ecx]
+        mov     esi, ebp
+        shr     ebp, 7
+        xor     ecx, eax
+        sub     esi, ebp
+        and     edx, 4278124286
+        and     esi, 454761243
+        rol     eax, 8
+        xor     edx, esi
+        mov     ebp, DWORD [4+edi]
+        xor     eax, ebx
+        xor     ebx, edx
+        xor     eax, ecx
+        rol     ebx, 24
+        xor     ecx, edx
+        xor     eax, edx
+        rol     ecx, 16
+        xor     eax, ebx
+        rol     edx, 8
+        xor     eax, ecx
+        mov     ebx, ebp
+        xor     eax, edx
+        mov     DWORD [edi], eax
+        mov     ebp, 2155905152
+        and     ebp, ebx
+        lea     ecx, [ebx*1+ebx]
+        mov     esi, ebp
+        shr     ebp, 7
+        sub     esi, ebp
+        and     ecx, 4278124286
+        and     esi, 454761243
+        xor     ecx, esi
+        mov     ebp, 2155905152
+        and     ebp, ecx
+        lea     edx, [ecx*1+ecx]
+        mov     esi, ebp
+        shr     ebp, 7
+        sub     esi, ebp
+        and     edx, 4278124286
+        and     esi, 454761243
+        xor     ecx, ebx
+        xor     edx, esi
+        mov     ebp, 2155905152
+        and     ebp, edx
+        lea     eax, [edx*1+edx]
+        mov     esi, ebp
+        shr     ebp, 7
+        xor     edx, ebx
+        sub     esi, ebp
+        and     eax, 4278124286
+        and     esi, 454761243
+        rol     ebx, 8
+        xor     eax, esi
+        mov     ebp, DWORD [8+edi]
+        xor     ebx, ecx
+        xor     ecx, eax
+        xor     ebx, edx
+        rol     ecx, 24
+        xor     edx, eax
+        xor     ebx, eax
+        rol     edx, 16
+        xor     ebx, ecx
+        rol     eax, 8
+        xor     ebx, edx
+        mov     ecx, ebp
+        xor     ebx, eax
+        mov     DWORD [4+edi], ebx
+        mov     ebp, 2155905152
+        and     ebp, ecx
+        lea     edx, [ecx*1+ecx]
+        mov     esi, ebp
+        shr     ebp, 7
+        sub     esi, ebp
+        and     edx, 4278124286
+        and     esi, 454761243
+        xor     edx, esi
+        mov     ebp, 2155905152
+        and     ebp, edx
+        lea     eax, [edx*1+edx]
+        mov     esi, ebp
+        shr     ebp, 7
+        sub     esi, ebp
+        and     eax, 4278124286
+        and     esi, 454761243
+        xor     edx, ecx
+        xor     eax, esi
+        mov     ebp, 2155905152
+        and     ebp, eax
+        lea     ebx, [eax*1+eax]
+        mov     esi, ebp
+        shr     ebp, 7
+        xor     eax, ecx
+        sub     esi, ebp
+        and     ebx, 4278124286
+        and     esi, 454761243
+        rol     ecx, 8
+        xor     ebx, esi
+        mov     ebp, DWORD [12+edi]
+        xor     ecx, edx
+        xor     edx, ebx
+        xor     ecx, eax
+        rol     edx, 24
+        xor     eax, ebx
+        xor     ecx, ebx
+        rol     eax, 16
+        xor     ecx, edx
+        rol     ebx, 8
+        xor     ecx, eax
+        mov     edx, ebp
+        xor     ecx, ebx
+        mov     DWORD [8+edi], ecx
+        mov     ebp, 2155905152
+        and     ebp, edx
+        lea     eax, [edx*1+edx]
+        mov     esi, ebp
+        shr     ebp, 7
+        sub     esi, ebp
+        and     eax, 4278124286
+        and     esi, 454761243
+        xor     eax, esi
+        mov     ebp, 2155905152
+        and     ebp, eax
+        lea     ebx, [eax*1+eax]
+        mov     esi, ebp
+        shr     ebp, 7
+        sub     esi, ebp
+        and     ebx, 4278124286
+        and     esi, 454761243
+        xor     eax, edx
+        xor     ebx, esi
+        mov     ebp, 2155905152
+        and     ebp, ebx
+        lea     ecx, [ebx*1+ebx]
+        mov     esi, ebp
+        shr     ebp, 7
+        xor     ebx, edx
+        sub     esi, ebp
+        and     ecx, 4278124286
+        and     esi, 454761243
+        rol     edx, 8
+        xor     ecx, esi
+        mov     ebp, DWORD [16+edi]
+        xor     edx, eax
+        xor     eax, ecx
+        xor     edx, ebx
+        rol     eax, 24
+        xor     ebx, ecx
+        xor     edx, ecx
+        rol     ebx, 16
+        xor     edx, eax
+        rol     ecx, 8
+        xor     edx, ebx
+        mov     eax, ebp
+        xor     edx, ecx
+        mov     DWORD [12+edi], edx
+        cmp     edi, DWORD [28+esp]
         jb      NEAR L$056permute
-        xor     eax,eax
+        xor     eax, eax
         pop     edi
         pop     esi
         pop     ebx

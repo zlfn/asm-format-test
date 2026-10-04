@@ -4,15 +4,15 @@
 ; Ullrich von Bassewitz, 2000-10-21
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .export         __printf
+        .export __printf
 
-        .import         popax, pushax, pusheax, decsp6, push1, axlong, axulong
-        .import         _ltoa, _ultoa
-        .import         _strlower, _strlen
+        .import popax,     pushax, pusheax, decsp6, push1, axlong, axulong
+        .import _ltoa,     _ultoa
+        .import _strlower, _strlen
 
-        .macpack        generic
+        .macpack generic
 
 ; ----------------------------------------------------------------------------
 ; We will store variables into the register bank in the zeropage. Define
@@ -37,10 +37,10 @@ FCount          = ptr2
 
 GetFormatChar:
         ldy     #0
-        .if .cap(CPU_HAS_ZPIND)
-        lda     (Format)
+        .if     .cap(CPU_HAS_ZPIND)
+                lda     (Format)
         .else
-        lda     (Format),y
+                lda     (Format), y
         .endif
 IncFormatPtr:
         inc     Format
@@ -81,25 +81,25 @@ DecArgList2:
 ; Get an unsigned int or long argument depending on the IsLong flag.
 
 GetUnsignedArg:
-        lda     IsLong                  ; Check flag
-        bne     GetLongArg              ; Long sets all
-        jsr     GetIntArg               ; Get an integer argument
-        jmp     axulong                 ; Convert to unsigned long
+        lda     IsLong          ; Check flag
+        bne     GetLongArg      ; Long sets all
+        jsr     GetIntArg       ; Get an integer argument
+        jmp     axulong         ; Convert to unsigned long
 
 ; ----------------------------------------------------------------------------
 ; Get an signed int or long argument depending on the IsLong flag.
 
 GetSignedArg:
-        lda     IsLong                  ; Check flag
-        bne     GetLongArg              ; Long sets all
-        jsr     GetIntArg               ; Get an integer argument
-        jmp     axlong                  ; Convert to long
+        lda     IsLong          ; Check flag
+        bne     GetLongArg      ; Long sets all
+        jsr     GetIntArg       ; Get an integer argument
+        jmp     axlong          ; Convert to long
 
 ; ----------------------------------------------------------------------------
 ; Get a long argument from the argument list. Returns 0 in .Y.
 
 GetLongArg:
-        jsr     GetIntArg               ; Get high word
+        jsr     GetIntArg       ; Get high word
         sta     sreg
         stx     sreg+1
 
@@ -111,13 +111,13 @@ GetLongArg:
 GetIntArg:
         jsr     DecArgList2
         ldy     #1
-        lda     (ArgList),y
+        lda     (ArgList), y
         tax
         dey
-        .if .cap(CPU_HAS_ZPIND)
-        lda     (ArgList)
+        .if     .cap(CPU_HAS_ZPIND)
+                lda     (ArgList)
         .else
-        lda     (ArgList),y
+                lda     (ArgList), y
         .endif
         rts
 
@@ -127,12 +127,12 @@ GetIntArg:
 ReadInt:
         ldy     #0
         sty     ptr1
-        sty     ptr1+1                  ; Start with zero
-@Loop:  lda     (Format),y              ; Get format string character
-        sub     #'0'                    ; Make number from ascii digit
-        bcc     @L9                     ; Jump if done
+        sty     ptr1+1          ; Start with zero
+@Loop:  lda     (Format), y     ; Get format string character
+        sub     #'0'            ; Make number from ascii digit
+        bcc     @L9             ; Jump if done
         cmp     #9+1
-        bcs     @L9                     ; Jump if done
+        bcs     @L9             ; Jump if done
 
 ; Skip the digit character
 
@@ -140,40 +140,39 @@ ReadInt:
 
 ; Add the digit to the value we have in ptr1
 
-        pha                             ; Save digit value
+        pha             ; Save digit value
         lda     ptr1
         ldx     ptr1+1
         asl     a
-        rol     ptr1+1                  ; * 2
+        rol     ptr1+1  ; * 2
         asl     a
-        rol     ptr1+1                  ; * 4, assume carry clear
+        rol     ptr1+1  ; * 4, assume carry clear
         adc     ptr1
         sta     ptr1
         txa
         adc     ptr1+1
-        sta     ptr1+1                  ; * 5
+        sta     ptr1+1  ; * 5
         asl     ptr1
-        rol     ptr1+1                  ; * 10, assume carry clear
+        rol     ptr1+1  ; * 10, assume carry clear
         pla
-        adc     ptr1                    ; Add digit value
+        adc     ptr1    ; Add digit value
         sta     ptr1
         bcc     @Loop
         inc     ptr1+1
-        bcs     @Loop                   ; Branch always
+        bcs     @Loop   ; Branch always
 
 ; We're done converting
 
 @L9:    lda     ptr1
-        ldx     ptr1+1                  ; Load result
+        ldx     ptr1+1  ; Load result
         rts
-
 
 ; ----------------------------------------------------------------------------
 ; Put a character into the argument buffer and increment the buffer index
 
 PutBuf: ldy     BufIdx
         inc     BufIdx
-        sta     Buf,y
+        sta     Buf, y
         rts
 
 ; ----------------------------------------------------------------------------
@@ -225,22 +224,20 @@ OutputArg:
 ; ----------------------------------------------------------------------------
 ; ltoa: Wrapper for _ltoa that pushes all arguments
 
-ltoa:   sty     Base                    ; Save base
-        jsr     pusheax                 ; Push value
-        jsr     PushBufPtr              ; Push the buffer pointer...
-        lda     Base                    ; Restore base
-        jmp     _ltoa                   ; ultoa (l, s, base);
-
+ltoa:   sty     Base            ; Save base
+        jsr     pusheax         ; Push value
+        jsr     PushBufPtr      ; Push the buffer pointer...
+        lda     Base            ; Restore base
+        jmp     _ltoa           ; ultoa (l, s, base);
 
 ; ----------------------------------------------------------------------------
 ; ultoa: Wrapper for _ultoa that pushes all arguments
 
-ultoa:  sty     Base                    ; Save base
-        jsr     pusheax                 ; Push value
-        jsr     PushBufPtr              ; Push the buffer pointer...
-        lda     Base                    ; Restore base
-        jmp     _ultoa                  ; ultoa (l, s, base);
-
+ultoa:  sty     Base            ; Save base
+        jsr     pusheax         ; Push value
+        jsr     PushBufPtr      ; Push the buffer pointer...
+        lda     Base            ; Restore base
+        jmp     _ultoa          ; ultoa (l, s, base);
 
 ; ----------------------------------------------------------------------------
 ;
@@ -249,72 +246,72 @@ __printf:
 
 ; Save the register bank variables into the save area
 
-        pha                             ; Save low byte of ap
+        pha     ; Save low byte of ap
         ldy     #5
-Save:   lda     regbank,y
-        sta     RegSave,y
+Save:   lda     regbank, y
+        sta     RegSave, y
         dey
         bpl     Save
-        pla                             ; Restore low byte of ap
+        pla     ; Restore low byte of ap
 
 ; Get the parameters from the stack
 
-        sta     ArgList                 ; Argument list pointer
+        sta     ArgList ; Argument list pointer
         stx     ArgList+1
 
-        jsr     popax                   ; Format string
+        jsr     popax   ; Format string
         sta     Format
         stx     Format+1
 
-        jsr     popax                   ; Output descriptor
+        jsr     popax   ; Output descriptor
         sta     OutData
         stx     OutData+1
 
 ; Initialize the output counter in the output descriptor to zero
 
         lda     #0
-        .if .cap(CPU_HAS_ZPIND)
-        sta     (OutData)
-        ldy     #$01
-        sta     (OutData),y
+        .if     .cap(CPU_HAS_ZPIND)
+                sta     (OutData)
+                ldy     #$01
+                sta     (OutData), y
         .else
-        tay
-        sta     (OutData),y
-        iny
-        sta     (OutData),y
+                tay
+                sta     (OutData), y
+                iny
+                sta     (OutData), y
         .endif
 
 ; Get the output function from the output descriptor and remember it
 
         iny
-        lda     (OutData),y
+        lda     (OutData), y
         sta     CallOutFunc+1
         iny
-        lda     (OutData),y
+        lda     (OutData), y
         sta     CallOutFunc+2
 
 ; Start parsing the format string
 
 MainLoop:
-        lda     Format                  ; Remember current format pointer
+        lda     Format  ; Remember current format pointer
         sta     FSave
         lda     Format+1
         sta     FSave+1
 
-        ldy     #0                      ; Index
-@L1:    lda     (Format),y              ; Get next char
-        beq     @L2                     ; Jump on end of string
-        cmp     #'%'                    ; Format spec?
+        ldy     #0              ; Index
+@L1:    lda     (Format), y     ; Get next char
+        beq     @L2             ; Jump on end of string
+        cmp     #'%'            ; Format spec?
         beq     @L2
-        iny                             ; Bump pointer
+        iny                     ; Bump pointer
         bne     @L1
-        inc     Format+1                ; Bump high byte of pointer
-        bne     @L1                     ; Branch always
+        inc     Format+1        ; Bump high byte of pointer
+        bne     @L1             ; Branch always
 
 ; Found a '%' character or end of string. Update the Format pointer so it is
 ; current (points to this character).
 
-@L2:    tya                             ; Low byte of offset
+@L2:    tya     ; Low byte of offset
         add     Format
         sta     Format
         bcc     @L3
@@ -328,48 +325,48 @@ MainLoop:
         lda     Format+1
         sbc     FSave+1
         sta     FCount+1
-        ora     FCount                  ; Is the result zero?
-        beq     @L4                     ; Jump if yes
+        ora     FCount  ; Is the result zero?
+        beq     @L4     ; Jump if yes
 
 ; Output the characters that we have until now. To make the call to out
 ; faster, build the stack frame by hand (don't use pushax)
 
-        jsr     decsp6                  ; 3 args
+        jsr     decsp6          ; 3 args
         ldy     #5
         lda     OutData+1
-        sta     (c_sp),y
+        sta     (c_sp), y
         dey
         lda     OutData
-        sta     (c_sp),y
+        sta     (c_sp), y
         dey
         lda     FSave+1
-        sta     (c_sp),y
+        sta     (c_sp), y
         dey
         lda     FSave
-        sta     (c_sp),y
+        sta     (c_sp), y
         dey
         lda     FCount+1
-        sta     (c_sp),y
+        sta     (c_sp), y
         dey
         lda     FCount
-        .if .cap(CPU_HAS_ZPIND)
-        sta     (c_sp)
+        .if     .cap(CPU_HAS_ZPIND)
+                sta     (c_sp)
         .else
-        sta     (c_sp),y
+                sta     (c_sp), y
         .endif
-        jsr     CallOutFunc             ; Call the output function
+        jsr     CallOutFunc     ; Call the output function
 
 ; We're back from out(), or we didn't call it. Check for end of string.
 
-@L4:    jsr     GetFormatChar           ; Get one char, zero in .Y
-        tax                             ; End of format string reached?
-        bne     NotDone                 ; End not reached
+@L4:    jsr     GetFormatChar   ; Get one char, zero in .Y
+        tax                     ; End of format string reached?
+        bne     NotDone         ; End not reached
 
 ; End of format string reached. Restore the zeropage registers and return.
 
         ldx     #5
-Rest:   lda     RegSave,x
-        sta     regbank,x
+Rest:   lda     RegSave, x
+        sta     regbank, x
         dex
         bpl     Rest
         rts
@@ -380,12 +377,12 @@ Rest:   lda     RegSave,x
 NotDone:
         cmp     #'%'
         bne     @L1
-        lda     (Format),y              ; Check for "%%"
+        lda     (Format), y     ; Check for "%%"
         cmp     #'%'
-        bne     FormatSpec              ; Jump if really a format specifier
-        jsr     IncFormatPtr            ; Skip the second '%'
-@L1:    jsr     Output1                 ; Output the character...
-        jmp     MainLoop                ; ...and continue
+        bne     FormatSpec      ; Jump if really a format specifier
+        jsr     IncFormatPtr    ; Skip the second '%'
+@L1:    jsr     Output1         ; Output the character...
+        jmp     MainLoop        ; ...and continue
 
 ; We have a real format specifier
 ; Format is: %[flags][width][.precision][mod]type
@@ -397,7 +394,7 @@ FormatSpec:
 
         lda     #0
         ldx     #FormatVarSize-1
-@L1:    sta     FormatVars,x
+@L1:    sta     FormatVars, x
         dex
         bpl     @L1
 
@@ -405,7 +402,7 @@ FormatSpec:
 ; for "true"
 
 ReadFlags:
-        lda     (Format),y              ; Get next char...
+        lda     (Format), y     ; Get next char...
         cmp     #'-'
         bne     @L1
         stx     LeftJust
@@ -426,17 +423,17 @@ ReadFlags:
         stx     AltForm
 
 @L4:    jsr     IncFormatPtr
-        jmp     ReadFlags               ; ...and start over
+        jmp     ReadFlags       ; ...and start over
 
 ; Done with flags, read the pad char. .Y is still zero if we come here.
 
 ReadPadding:
-        ldx     #' '                    ; PadChar
+        ldx     #' '            ; PadChar
         cmp     #'0'
         bne     @L1
-        tax                             ; PadChar is '0'
+        tax                     ; PadChar is '0'
         jsr     IncFormatPtr
-        lda     (Format),y              ; Read current for later
+        lda     (Format), y     ; Read current for later
 @L1:    stx     PadChar
 
 ; Read the width. Even here, .Y is still zero. .A contains the current character
@@ -446,49 +443,49 @@ ReadWidth:
         cmp     #'*'
         bne     @L1
         jsr     IncFormatPtr
-        jsr     GetIntArg               ; Width is an additional argument
+        jsr     GetIntArg       ; Width is an additional argument
         jmp     @L2
 
-@L1:    jsr     ReadInt                 ; Read integer from format string...
+@L1:    jsr     ReadInt ; Read integer from format string...
 @L2:    sta     Width
-        stx     Width+1                 ; ...and remember in Width
+        stx     Width+1 ; ...and remember in Width
 
 ; Read the precision. Even here, .Y is still zero.
 
-        sty     Prec                    ; Assume Precision is zero
+        sty     Prec            ; Assume Precision is zero
         sty     Prec+1
-        lda     (Format),y              ; Load next format string char
-        cmp     #'.'                    ; Precision given?
-        bne     ReadMod                 ; Branch if no precision given
+        lda     (Format), y     ; Load next format string char
+        cmp     #'.'            ; Precision given?
+        bne     ReadMod         ; Branch if no precision given
 
 ReadPrec:
-        jsr     IncFormatPtr            ; Skip the '.'
-        lda     (Format),y
-        cmp     #'*'                    ; Variable precision?
+        jsr     IncFormatPtr    ; Skip the '.'
+        lda     (Format), y
+        cmp     #'*'            ; Variable precision?
         bne     @L1
-        jsr     IncFormatPtr            ; Skip the '*'
-        jsr     GetIntArg               ; Get integer argument
+        jsr     IncFormatPtr    ; Skip the '*'
+        jsr     GetIntArg       ; Get integer argument
         jmp     @L2
 
-@L1:    jsr     ReadInt                 ; Read integer from format string
+@L1:    jsr     ReadInt ; Read integer from format string
 @L2:    sta     Prec
         stx     Prec+1
 
 ; Read the modifiers. .Y is still zero.
 
 ReadMod:
-        lda     (Format),y
-        cmp     #'z'                    ; size_t - same as unsigned
+        lda     (Format), y
+        cmp     #'z'    ; size_t - same as unsigned
         beq     @L2
-        cmp     #'h'                    ; short - same as int
+        cmp     #'h'    ; short - same as int
         beq     @L2
-        cmp     #'t'                    ; ptrdiff_t - same as int
+        cmp     #'t'    ; ptrdiff_t - same as int
         beq     @L2
-        cmp     #'j'                    ; intmax_t/uintmax_t - same as long
+        cmp     #'j'    ; intmax_t/uintmax_t - same as long
         beq     @L1
-        cmp     #'L'                    ; long double
+        cmp     #'L'    ; long double
         beq     @L1
-        cmp     #'l'                    ; long int
+        cmp     #'l'    ; long int
         bne     DoFormat
 @L1:    lda     #$FF
         sta     IsLong
@@ -502,7 +499,7 @@ ReadMod:
 ; .Y is zero when we come here.
 
 DoFormat:
-        sty     BufIdx                  ; Clear BufIdx
+        sty     BufIdx  ; Clear BufIdx
         ldx     #<Buf
         stx     Str
         ldx     #>Buf
@@ -519,10 +516,10 @@ DoFormat:
 
 ; It is a character
 
-        jsr     GetIntArg               ; Get the argument (promoted to int)
-        sta     Buf                     ; Place it into the buffer
+        jsr     GetIntArg       ; Get the argument (promoted to int)
+        sta     Buf             ; Place it into the buffer
         ldx     #0
-        lda     #1                      ; Buffer length is 1
+        lda     #1              ; Buffer length is 1
         jmp     HaveArg1
 
 ; Is it an integer?
@@ -536,26 +533,26 @@ CheckInt:
 ; It is an integer
 
 @L1:    ldx     #0
-        lda     AddBlank                ; Add a blank for positives?
-        beq     @L2                     ; Jump if no
+        lda     AddBlank        ; Add a blank for positives?
+        beq     @L2             ; Jump if no
         ldx     #' '
-@L2:    lda     AddSign                 ; Add a plus for positives (precedence)?
+@L2:    lda     AddSign         ; Add a plus for positives (precedence)?
         beq     @L3
         ldx     #'+'
 @L3:    stx     Leader
 
 ; Integer argument
 
-        jsr     GetSignedArg            ; Get argument as a long
-        ldy     sreg+1                  ; Check sign
+        jsr     GetSignedArg    ; Get argument as a long
+        ldy     sreg+1          ; Check sign
         bmi     @Int1
         ldy     Leader
         beq     @Int1
         sty     Buf
         inc     BufIdx
 
-@Int1:  ldy     #10                     ; Base
-        jsr     ltoa                    ; Push arguments, call _ltoa
+@Int1:  ldy     #10     ; Base
+        jsr     ltoa    ; Push arguments, call _ltoa
         jmp     HaveArg
 
 ; Is it a count pseudo format?
@@ -569,18 +566,18 @@ CheckCount:
         jsr     GetIntArg
         sta     ptr1
         stx     ptr1+1                  ; Get user supplied pointer
-        .if .cap(CPU_HAS_ZPIND)
-        lda     (OutData)             ; Low byte of OutData->ccount
-        sta     (ptr1)
-        ldy     #1
+        .if     .cap(CPU_HAS_ZPIND)
+                lda     (OutData)       ; Low byte of OutData->ccount
+                sta     (ptr1)
+                ldy     #1
         .else
-        ldy     #0
-        lda     (OutData),y             ; Low byte of OutData->ccount
-        sta     (ptr1),y
-        iny
+                ldy     #0
+                lda     (OutData), y    ; Low byte of OutData->ccount
+                sta     (ptr1),    y
+                iny
         .endif
-        lda     (OutData),y             ; High byte of OutData->ccount
-        sta     (ptr1),y
+        lda     (OutData), y            ; High byte of OutData->ccount
+        sta     (ptr1),    y
         jmp     MainLoop                ; Done
 
 ; Check for an octal digit
@@ -591,23 +588,23 @@ CheckOctal:
 
 ; Integer in octal representation
 
-        jsr     GetSignedArg            ; Get argument as a long
-        ldy     AltForm                 ; Alternative form?
-        beq     @Oct1                   ; Jump if no
-        pha                             ; Save low byte of value
+        jsr     GetSignedArg    ; Get argument as a long
+        ldy     AltForm         ; Alternative form?
+        beq     @Oct1           ; Jump if no
+        pha                     ; Save low byte of value
         stx     tmp1
         ora     tmp1
         ora     sreg
         ora     sreg+1
         ora     Prec
-        ora     Prec+1                  ; Check if value or Prec != 0
+        ora     Prec+1          ; Check if value or Prec != 0
         beq     @Oct1
         lda     #'0'
         jsr     PutBuf
-        pla                             ; Restore low byte
+        pla                     ; Restore low byte
 
-@Oct1:  ldy     #8                      ; Load base
-        jsr     ltoa                    ; Push arguments, call _ltoa
+@Oct1:  ldy     #8      ; Load base
+        jsr     ltoa    ; Push arguments, call _ltoa
         jmp     HaveArg
 
 ; Check for a pointer specifier (%p)
@@ -619,11 +616,11 @@ CheckPointer:
 ; It's a pointer. Use %#x conversion
 
         ldx     #0
-        stx     IsLong                  ; IsLong = 0;
+        stx     IsLong  ; IsLong = 0;
         inx
-        stx     AltForm                 ; AltForm = 1;
+        stx     AltForm ; AltForm = 1;
         lda     #'x'
-        bne     IsHex                   ; Branch always
+        bne     IsHex   ; Branch always
 
 ; Check for a string specifier (%s)
 
@@ -633,7 +630,7 @@ CheckString:
 
 ; It's a string
 
-        jsr     GetIntArg               ; Get 16bit argument
+        jsr     GetIntArg       ; Get 16bit argument
         sta     Str
         stx     Str+1
         jmp     HaveArg
@@ -646,9 +643,9 @@ CheckUnsigned:
 
 ; It's an unsigned integer
 
-        jsr     GetUnsignedArg          ; Get argument as unsigned long
-        ldy     #10                     ; Load base
-        jsr     ultoa                   ; Push arguments, call _ultoa
+        jsr     GetUnsignedArg  ; Get argument as unsigned long
+        ldy     #10             ; Load base
+        jsr     ultoa           ; Push arguments, call _ultoa
         jmp     HaveArg
 
 ; Check for a hexadecimal integer (%x)
@@ -661,7 +658,7 @@ CheckHex:
 
 ; Hexadecimal integer
 
-IsHex:  pha                             ; Save the format spec
+IsHex:  pha     ; Save the format spec
         lda     AltForm
         beq     @L1
         lda     #'0'
@@ -669,16 +666,16 @@ IsHex:  pha                             ; Save the format spec
         lda     #'X'
         jsr     PutBuf
 
-@L1:    jsr     GetUnsignedArg          ; Get argument as an unsigned long
-        ldy     #16                     ; Load base
-        jsr     ultoa                   ; Push arguments, call _ultoa
+@L1:    jsr     GetUnsignedArg  ; Get argument as an unsigned long
+        ldy     #16             ; Load base
+        jsr     ultoa           ; Push arguments, call _ultoa
 
-        pla                             ; Get the format spec
-        cmp     #'x'                    ; Lower case?
+        pla                     ; Get the format spec
+        cmp     #'x'            ; Lower case?
         bne     @L2
         lda     Str
         ldx     Str+1
-        jsr     _strlower               ; Make characters lower case
+        jsr     _strlower       ; Make characters lower case
 @L2:    jmp     HaveArg
 
 ; Unknown format character, skip it
@@ -694,8 +691,8 @@ HaveArg:
 
         lda     Str
         ldx     Str+1
-        jsr     _strlen                 ; Get length of argument
-HaveArg1:                               ; Jumped into here from %c handling
+        jsr     _strlen ; Get length of argument
+HaveArg1:               ; Jumped into here from %c handling
         sta     ArgLen
         stx     ArgLen+1
 
@@ -769,38 +766,37 @@ HaveArg1:                               ; Jumped into here from %c handling
 
 @L4:    jmp     MainLoop
 
-
 ; ----------------------------------------------------------------------------
 ; Local data (all static)
 
 .bss
 
 ; Save area for the zero page registers
-RegSave:        .res    regbanksize
+RegSave: .res   regbanksize
 
 ; One character argument for OutFunc
-CharArg:        .byte   0
+CharArg: .byte  0
 
 ; Format variables
 FormatVars:
-LeftJust:       .byte   0
-AddSign:        .byte   0
-AddBlank:       .byte   0
-AltForm:        .byte   0
-PadChar:        .byte   0
-Width:          .word   0
-Prec:           .word   0
-IsLong:         .byte   0
-Leader:         .byte   0
-BufIdx:         .byte   0       ; Argument string pointer
+LeftJust: .byte 0
+AddSign:  .byte 0
+AddBlank: .byte 0
+AltForm:  .byte 0
+PadChar:  .byte 0
+Width:  .word   0
+Prec:   .word   0
+IsLong: .byte   0
+Leader: .byte   0
+BufIdx: .byte   0       ; Argument string pointer
 FormatVarSize   = * - FormatVars
 
 ; Argument buffer and pointer
-Buf:            .res    20
-Str:            .word   0
-ArgLen:         .res    2
+Buf:    .res    20
+Str:    .word   0
+ArgLen: .res    2
 
 .data
 
 ; Stuff from OutData. Is used as a vector
-CallOutFunc:    jmp     $0000
+CallOutFunc: jmp $0000

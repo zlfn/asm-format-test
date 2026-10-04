@@ -14,10 +14,10 @@
 ; extern void __LIB__ playzb4(uchar *SamStart, ushort SamLen);
 ; play 4 bit pulse wave encoded data using sid master volume
 
-	SECTION code_clib
-	
-	PUBLIC	playzb4
-	PUBLIC	_playzb4
+        SECTION code_clib
+
+        PUBLIC  playzb4
+        PUBLIC  _playzb4
 
 playzb4:
 _playzb4:
@@ -35,11 +35,10 @@ push	hl
 push	de
 push	bc
 
-
 rep1:
 ;; delay 1
 ld   b,18			; this should be good for a 2mhz system
-rep1b:                   ;repeat
+rep1b:          ;repeat
 dec b
 jr  nz,rep1b
 
@@ -53,7 +52,7 @@ out		($24),a
 
 ;; delay 2
 ld   b,18
-rep2:                   ;repeat
+rep2:           ;repeat
 dec b
 jr  nz,rep2
 
@@ -76,4 +75,3 @@ dec     d               ; de = de-1
 jr      nz,rep1         ;until de = 0
 
 ret
-

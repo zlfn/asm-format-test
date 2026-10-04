@@ -3,19 +3,19 @@
 ;
 ;	$Id: setpixsave.asm,v 1.3 2015-01-19 01:33:06 pauloscustodio Exp $
 
-    PUBLIC  setpixsave
-    EXTERN  setpix
+        PUBLIC  setpixsave
+        EXTERN  setpix
 
 setpixsave:
 
-    push    hl
-    push    de
-    push    bc
+        push    hl
+        push    de
+        push    bc
 
-    call    setpix
+        call    setpix
 
-    pop     bc
-    pop     de
-    pop     hl
+        pop     bc
+        pop     de
+        pop     hl
 
-    ret
+        ret

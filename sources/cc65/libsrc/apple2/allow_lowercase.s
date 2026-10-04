@@ -6,13 +6,13 @@
 
 .ifndef __APPLE2ENH__
 
-        .export         _allow_lowercase
-        .import         return0
-        .import         uppercasemask, return1
+        .export _allow_lowercase
+        .import return0
+        .import uppercasemask, return1
 
 _allow_lowercase:
         tax
-        lda     values,x
+        lda     values, x
         ldx     uppercasemask
         sta     uppercasemask
         cpx     #$FF
@@ -22,7 +22,7 @@ _allow_lowercase:
 
         .rodata
 
-values: .byte   $DF         ; Force uppercase
-        .byte   $FF         ; Keep lowercase
+values: .byte   $DF     ; Force uppercase
+        .byte   $FF     ; Keep lowercase
 
 .endif

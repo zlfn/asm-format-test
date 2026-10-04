@@ -9,15 +9,14 @@ EXTERN asm_f16_frexp
 
 .cm16_sccz80_frexp
 
-    ; Entry:
-    ; Stack: half_t left, ptr right, ret
-    ; Reverse the stack
-    pop de                      ;my return
-    pop bc                      ;ptr
-    pop hl                      ;half_t
+        ; Entry:
+        ; Stack: half_t left, ptr right, ret
+        ; Reverse the stack
+        pop     de      ;my return
+        pop     bc      ;ptr
+        pop     hl      ;half_t
 
-    push hl                     ;half_t
-    push bc                     ;ptr
-    push de                     ;my return
-    jp asm_f16_frexp
-
+        push    hl      ;half_t
+        push    bc      ;ptr
+        push    de      ;my return
+        jp      asm_f16_frexp

@@ -8,12 +8,12 @@
 ; NOTE: This function uses entry points from memcpy!
 ;
 
-        .export         _memmove
-        .import         memcpy_getparams, memcpy_upwards, popax
-        .importzp       ptr1, ptr2, ptr3, ptr4, tmp1
+        .export _memmove
+        .import memcpy_getparams, memcpy_upwards, popax
+        .importzp ptr1, ptr2, ptr3, ptr4, tmp1
 
-        .macpack        generic
-        .macpack        longbranch
+        .macpack generic
+        .macpack longbranch
 
 ; ----------------------------------------------------------------------
 _memmove:
@@ -45,35 +45,35 @@ _memmove:
         beq     PageSizeCopy    ; here like bra...
 
 @copyByte:
-        lda     (ptr1),y
-        sta     (ptr2),y
+        lda     (ptr1), y
+        sta     (ptr2), y
 @entry:
         dey
         bne     @copyByte
-        lda     (ptr1),y        ; copy remaining byte
-        sta     (ptr2),y
+        lda     (ptr1), y       ; copy remaining byte
+        sta     (ptr2), y
 
-PageSizeCopy:                   ; assert Y = 0
-        ldx     ptr3+1          ; number of pages
-        beq     done            ; none? -> done
+PageSizeCopy:           ; assert Y = 0
+        ldx     ptr3+1  ; number of pages
+        beq     done    ; none? -> done
 
 @initBase:
-        dec     ptr1+1          ; adjust base...
+        dec     ptr1+1                  ; adjust base...
         dec     ptr2+1
-        dey                     ; in entry case: 0 -> FF
+        dey                             ; in entry case: 0 -> FF
 @copyBytes:
-        .repeat 3               ; unroll this a bit to make it faster...
-        lda     (ptr1),y        ; important: unrolling three times gives a nice
-        sta     (ptr2),y        ; 255/3 = 85 loop which ends at 0
-        dey
+        .repeat 3                       ; unroll this a bit to make it faster...
+                lda     (ptr1), y       ; important: unrolling three times gives a nice
+                sta     (ptr2), y       ; 255/3 = 85 loop which ends at 0
+                dey
         .endrepeat
-@copyEntry:                     ; in entry case: 0 -> FF
+@copyEntry:                             ; in entry case: 0 -> FF
         bne     @copyBytes
-        lda     (ptr1),y        ; Y = 0, copy last byte
-        sta     (ptr2),y
-        dex                     ; one page to copy less
-        bne     @initBase       ; still a page to copy?
+        lda     (ptr1), y               ; Y = 0, copy last byte
+        sta     (ptr2), y
+        dex                             ; one page to copy less
+        bne     @initBase               ; still a page to copy?
 
 ; Done, return dest
 
-done:   jmp     popax           ; Pop ptr and return as result
+done:   jmp     popax   ; Pop ptr and return as result

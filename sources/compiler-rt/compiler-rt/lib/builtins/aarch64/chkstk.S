@@ -27,13 +27,13 @@
 
         .p2align 2
 DEFINE_COMPILERRT_FUNCTION(CHKSTK_FUNC)
-        lsl    x16, x15, #4
-        mov    x17, sp
+        lsl     x16, x15, #4
+        mov     x17, sp
 1:
-        sub    x17, x17, #PAGE_SIZE
-        subs   x16, x16, #PAGE_SIZE
-        ldr    xzr, [x17]
-        b.gt   1b
+        sub     x17, x17, #PAGE_SIZE
+        subs    x16, x16, #PAGE_SIZE
+        ldr     xzr, [x17]
+        b.gt    1b
 
         ret
 END_COMPILERRT_FUNCTION(CHKSTK_FUNC)

@@ -4,9 +4,9 @@
 ; Helper function for tgi functions. Moves the current X/Y pos to ptr1/ptr2
 ;
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
-        .importzp       ptr1, ptr2
+        .importzp ptr1, ptr2
 
 tgi_curtoxy:
         ldy     _tgi_curx       ; X1
@@ -19,4 +19,3 @@ tgi_curtoxy:
         ldy     _tgi_cury+1
         sty     ptr2+1
         rts
-

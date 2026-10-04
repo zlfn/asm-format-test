@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINTN
@@ -26,14 +26,13 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmWriteDr4)
 ASM_PFX(AsmWriteDr4):
-    mov     eax, [esp + 4]
-    ;
-    ; DR4 is alias to DR6 only if DE (in CR4) is cleared. Otherwise, writing to
-    ; this register will cause a #UD exception.
-    ;
-    ; MS assembler doesn't support this instruction since no one would use it
-    ; under normal circumstances.
-    ;
-    mov     dr4, eax
-    ret
-
+        mov     eax, [esp + 4]
+        ;
+        ; DR4 is alias to DR6 only if DE (in CR4) is cleared. Otherwise, writing to
+        ; this register will cause a #UD exception.
+        ;
+        ; MS assembler doesn't support this instruction since no one would use it
+        ; under normal circumstances.
+        ;
+        mov     dr4, eax
+        ret

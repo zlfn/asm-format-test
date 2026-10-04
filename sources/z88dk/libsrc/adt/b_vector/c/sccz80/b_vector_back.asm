@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _b_vector_back
 defc _b_vector_back = b_vector_back
 ENDIF
-

@@ -10,17 +10,17 @@ EXTERN l0_fread_unlocked_callee
 
 _fread_unlocked:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   exx
-   pop bc
-   
-   push bc
-   push hl
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
+        exx
+        pop     bc
 
-   jp l0_fread_unlocked_callee
+        push    bc
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        jp      l0_fread_unlocked_callee

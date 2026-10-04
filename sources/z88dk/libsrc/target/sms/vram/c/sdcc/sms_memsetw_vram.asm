@@ -9,14 +9,14 @@ EXTERN asm_sms_memsetw_vram
 
 _sms_memsetw_vram:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push af
-   
-   jp asm_sms_memsetw_vram
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_sms_memsetw_vram

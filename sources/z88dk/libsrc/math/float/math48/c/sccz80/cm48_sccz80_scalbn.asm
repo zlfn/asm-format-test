@@ -10,17 +10,17 @@ EXTERN am48_scalbn, cm48_sccz80p_dload
 
 cm48_sccz80_scalbn:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   exx
-   
-   ld hl,4
-   add hl,sp
-   
-   call cm48_sccz80p_dload
-   
-   jp am48_scalbn
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        exx
+
+        ld      hl, 4
+        add     hl, sp
+
+        call    cm48_sccz80p_dload
+
+        jp      am48_scalbn

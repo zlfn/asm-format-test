@@ -10,10 +10,10 @@ EXTERN asm_fclose_unlocked
 
 _fclose_unlocked_fastcall:
 
-   push hl
-   ex (sp),ix
-   
-   call asm_fclose_unlocked
-   
-   pop ix
-   ret
+        push    hl
+        ex      (sp), ix
+
+        call    asm_fclose_unlocked
+
+        pop     ix
+        ret

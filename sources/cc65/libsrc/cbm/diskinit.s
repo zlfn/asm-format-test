@@ -2,10 +2,10 @@
 ; Oliver Schmidt, 2012-10-17
 ;
 
-        .export         diskinit
-        .import         opencmdchannel, closecmdchannel
-        .import         writefndiskcmd, readdiskerror
-        .import         isdisk, fnunit, fncmd
+        .export diskinit
+        .import opencmdchannel, closecmdchannel
+        .import writefndiskcmd, readdiskerror
+        .import isdisk, fnunit, fncmd
 
 ;------------------------------------------------------------------------------
 ; diskinit
@@ -21,7 +21,7 @@
         tax
         jsr     isdisk
         bcc     open
-        lda     #9              ; "Illegal device"
+        lda     #9      ; "Illegal device"
         rts
 
 ; Open channel
@@ -31,7 +31,7 @@ open:   jsr     opencmdchannel
 
 ; Write command
 
-        lda     #'i'            ; Init command
+        lda     #'i'    ; Init command
         sta     fncmd
         jsr     writefndiskcmd
         bne     close

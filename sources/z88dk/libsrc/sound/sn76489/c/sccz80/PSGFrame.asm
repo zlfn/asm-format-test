@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _PSGFrame
 defc _PSGFrame = PSGFrame
 ENDIF
-

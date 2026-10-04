@@ -10,27 +10,25 @@
 ;	$Id: msx_breakoff.asm,v 1.4 2016-06-16 19:30:25 dom Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  msx_breakoff
-    PUBLIC  _msx_breakoff
+        SECTION code_clib
+        PUBLIC  msx_breakoff
+        PUBLIC  _msx_breakoff
 
-    PUBLIC  brksave
+        PUBLIC  brksave
 
-    INCLUDE "target/msx/def/msxbasic.def"
+        INCLUDE "target/msx/def/msxbasic.def"
 
 msx_breakoff:
 _msx_breakoff:
-    ld      hl, BASROM                  ; disable Control-STOP
-    ld      a, (hl)
-    cp      1
-    ret     z
+        ld      hl, BASROM      ; disable Control-STOP
+        ld      a,  (hl)
+        cp      1
+        ret     z
 
-    ld      (brksave), a
-    ld      (hl), 1
-    ret
+        ld      (brksave), a
+        ld      (hl), 1
+        ret
 
-
-    SECTION bss_clib
+        SECTION bss_clib
 brksave:
-    defb    0
-
+        defb    0

@@ -8,9 +8,9 @@
 
         .export _ser_static_stddrv
         .ifdef  __ATARIXL__
-        .import _atrxrdev_ser
+                .import _atrxrdev_ser
         .else
-        .import _atrrdev_ser
+                .import _atrrdev_ser
         .endif
 
 .rodata

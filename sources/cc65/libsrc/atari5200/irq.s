@@ -2,10 +2,10 @@
 ; IRQ handling (ATARI 5200 version)
 ;
 
-        .export         initirq, doneirq
-        .import         callirq
+        .export initirq, doneirq
+        .import callirq
 
-        .include        "atari5200.inc"
+        .include "atari5200.inc"
 
 ; ------------------------------------------------------------------------
 
@@ -36,9 +36,9 @@ doneirq:
 
 SETVBV: txa
         ldx     #5
-        sta     WSYNC                   ; waste 20 CPU cycles
-@1:     dex                             ; to allow VBLANK to happen
-        bne     @1                      ; if this is line "7C"
+        sta     WSYNC   ; waste 20 CPU cycles
+@1:     dex             ; to allow VBLANK to happen
+        bne     @1      ; if this is line "7C"
         sta     VVBLKD+1
         sty     VVBLKD
         rts
@@ -48,9 +48,9 @@ SETVBV: txa
 .segment        "LOWCODE"
 
 IRQStub:
-        cld                             ; Just to be sure
-        jsr     callirq                 ; Call the functions
-        jmp     IRQInd                  ; Jump to the saved IRQ vector
+        cld             ; Just to be sure
+        jsr     callirq ; Call the functions
+        jmp     IRQInd  ; Jump to the saved IRQ vector
 
 ; ------------------------------------------------------------------------
 

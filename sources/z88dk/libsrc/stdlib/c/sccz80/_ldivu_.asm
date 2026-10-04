@@ -10,27 +10,26 @@ EXTERN asm__ldivu
 
 _ldivu_:
 
-   pop af
-   pop hl
-   pop de
-   exx
-   pop hl
-   pop de
-   exx
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push de
-   push hl
-   push af
-   
-   jp asm__ldivu
+        pop     af
+        pop     hl
+        pop     de
+        exx
+        pop     hl
+        pop     de
+        exx
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+        push    de
+        push    hl
+        push    af
+
+        jp      asm__ldivu
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC __ldivu_
 defc __ldivu_ = _ldivu_
 ENDIF
-

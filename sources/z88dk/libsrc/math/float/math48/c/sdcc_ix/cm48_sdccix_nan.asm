@@ -10,10 +10,10 @@ EXTERN cm48_sdccix_nan_fastcall
 
 cm48_sdccix_nan:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp cm48_sdccix_nan_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      cm48_sdccix_nan_fastcall

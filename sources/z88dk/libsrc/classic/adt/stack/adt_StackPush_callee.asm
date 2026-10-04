@@ -11,9 +11,9 @@ EXTERN _u_malloc
 .adt_StackPush_callee
 ._adt_StackPush_callee
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 .asm_adt_StackPush
 
@@ -24,42 +24,41 @@ EXTERN _u_malloc
 ; exit : HL = 0 and no carry if fail (insufficient memory)
 ;        carry set if successful
 
-   push hl
-   push de
-   ld hl,4             ; sizeof(struct adt_StackNode)
-   push hl
-   call _u_malloc
-   pop bc
-   pop bc              ; bc = item
-   pop de              ; de = adt_Stack *
-   ret nc              ; mem alloc failed, hl = 0
+        push    hl
+        push    de
+        ld      hl, 4   ; sizeof(struct adt_StackNode)
+        push    hl
+        call    _u_malloc
+        pop     bc
+        pop     bc      ; bc = item
+        pop     de      ; de = adt_Stack *
+        ret     nc      ; mem alloc failed, hl = 0
 
-   push hl             ; save adt_StackNode
-   
-   ld (hl),c           ; hl = & new adt_StackNode
-   inc hl
-   ld (hl),b           ; store item
-   inc hl
-   ex de,hl            ; hl = adt_Stack *, de = &adt_StackNode.next
+        push    hl      ; save adt_StackNode
 
-   inc (hl)            ; increase stack count
-   inc hl
-   jr nz, nohi
-   inc (hl)
-   
+        ld      (hl), c ; hl = & new adt_StackNode
+        inc     hl
+        ld      (hl), b ; store item
+        inc     hl
+        ex      de, hl  ; hl = adt_Stack *, de = &adt_StackNode.next
+
+        inc     (hl)    ; increase stack count
+        inc     hl
+        jr      nz, nohi
+        inc     (hl)
+
 .nohi
 
-   inc hl              ; hl = & adt_Stack.next
-   
-   ldi                 ; adt_StackNode.next = adt_Stack.next
-   ldi
+        inc     hl      ; hl = & adt_Stack.next
 
-   pop de              ; de = &adt_StackNode
+        ldi     ; adt_StackNode.next = adt_Stack.next
+        ldi
 
-   dec hl              ; hl = &adt_Stack.next + 1b
-   ld (hl),d
-   dec hl
-   ld (hl),e           ; new adt_StackNode at top of stack
-   scf
-   ret
+        pop     de      ; de = &adt_StackNode
 
+        dec     hl      ; hl = &adt_Stack.next + 1b
+        ld      (hl), d
+        dec     hl
+        ld      (hl), e ; new adt_StackNode at top of stack
+        scf
+        ret

@@ -11,14 +11,13 @@
         .import __AUTORUN__, __PROGFLAG__
         .import __BASHEAD_START__, __MAIN_LAST__
 
-
 ; ------------------------------------------------------------------------
 ; Oric cassette-tape header
 
 .segment        "TAPEHDR"
 
-        .byte   $16, $16, $16           ; Sync bytes
-        .byte   $24                     ; Beginning-of-header marker
+        .byte   $16, $16, $16   ; Sync bytes
+        .byte   $24             ; Beginning-of-header marker
 
         .byte   $00                     ; $2B0
         .byte   $00                     ; $2AF

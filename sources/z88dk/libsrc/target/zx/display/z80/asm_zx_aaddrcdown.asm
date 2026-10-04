@@ -5,7 +5,7 @@
 ;
 ; void *zx_aaddrcdown(void *attraddr)
 ;
-; Modify attribute address to move down one character square 
+; Modify attribute address to move down one character square
 ;
 ; ===============================================================
 
@@ -18,28 +18,28 @@ PUBLIC asm_zx_aaddrcdown
 
 asm_zx_aaddrcdown:
 
-   ; enter : hl = valid attribute address
-   ;
-   ; exit  : hl = new attribute address moved down one char square
-   ;         carry set if new attribute address is off screen
-   ;
-   ; uses  : af, hl
+        ; enter : hl = valid attribute address
+        ;
+        ; exit  : hl = new attribute address moved down one char square
+        ;         carry set if new attribute address is off screen
+        ;
+        ; uses  : af, hl
 
-   ld a,l
-   add a,$20
-   ld l,a
-   
-   ret nc
-   inc h
+        ld      a, l
+        add     a, $20
+        ld      l, a
+
+        ret     nc
+        inc     h
 
 IF __USE_SPECTRUM_128_SECOND_DFILE
-   ld a,$da
+        ld      a, $da
 ELIF __USE_OFFSET_SCREEN
-   EXTERN SCREEN_BASE
-   ld a,+(SCREEN_BASE/256) + $1a
+        EXTERN  SCREEN_BASE
+        ld      a, +(SCREEN_BASE/256) + $1a
 ELSE
-   ld a,$5a
+        ld      a, $5a
 ENDIF
 
-   cp h
-   ret
+        cp      h
+        ret

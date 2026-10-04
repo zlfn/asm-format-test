@@ -5,20 +5,20 @@
 ; int __fastcall__ clock_settime (clockid_t clk_id, const struct timespec *tp);
 ;
 
-        .import         __dos_type
-        .import         incsp1, return0
-        .import         sdxtry
+        .import __dos_type
+        .import incsp1, return0
+        .import sdxtry
 
-        .include        "time.inc"
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "atari.inc"
+        .include "time.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "atari.inc"
 
 _clock_settime:
 
 ; cleanup stack
 
-        jsr     incsp1          ; preserves AX
+        jsr     incsp1  ; preserves AX
 
 ; only supported on SpartaDOS-X >= 4.40
 
@@ -39,32 +39,32 @@ _clock_settime:
 ; set date
 
         ldy     #tm::tm_mday
-        lda     (ptr1),y        ; get day of month
+        lda     (ptr1), y       ; get day of month
         sta     SDX_DATE        ; set day of month
 
         ldy     #tm::tm_mon
-        lda     (ptr1),y        ; get month (0-based)
+        lda     (ptr1), y       ; get month (0-based)
         tax
         inx                     ; move [0..11] to [1..12]
         stx     SDX_DATE+1
 
         ldy     #tm::tm_year
-        lda     (ptr1),y        ; get year (0 = year 1900)
+        lda     (ptr1), y       ; get year (0 = year 1900)
         cmp     #100
         bcc     :+
         sbc     #100
 :       sta     SDX_DATE+2
 
         ldy     #tm::tm_hour
-        lda     (ptr1),y        ; get hour
+        lda     (ptr1), y       ; get hour
         sta     SDX_TIME
 
         ldy     #tm::tm_min
-        lda     (ptr1),y        ; get minutes
+        lda     (ptr1), y       ; get minutes
         sta     SDX_TIME+1
 
         ldy     #tm::tm_sec
-        lda     (ptr1),y        ; get seconds
+        lda     (ptr1), y       ; get seconds
         sta     SDX_TIME+2
 
 ; set new time/date (SD-X call)
@@ -74,10 +74,10 @@ _clock_settime:
 ; It goes on to mention that one should provide an upper limit on the number of calls,
 ; in order not to "hang". We are doing this here...
 
-        lda     #0              ; init loop count (256)
+        lda     #0      ; init loop count (256)
         sta     sdxtry
 
-try_set:lda     #SDX_CLK_DEV    ; CLK device
+try_set: lda    #SDX_CLK_DEV    ; CLK device
         sta     SDX_DEVICE
         ldy     #SDX_KD_SETTD   ; SETTD function
         jsr     SDX_KERNEL      ; do the call
@@ -87,7 +87,7 @@ try_set:lda     #SDX_CLK_DEV    ; CLK device
         bne     try_set
 
         lda     #EBUSY
-        bne     drcter          ; jump always
+        bne     drcter  ; jump always
 
 ; return success
 

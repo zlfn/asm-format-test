@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _sms_vdp_set_read_address
 defc _sms_vdp_set_read_address = sms_vdp_set_read_address
 ENDIF
-

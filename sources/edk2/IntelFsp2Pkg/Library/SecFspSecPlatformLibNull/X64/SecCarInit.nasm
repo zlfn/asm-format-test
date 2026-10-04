@@ -11,8 +11,8 @@
 
 %macro RET_RSI 0
 
-  movd    rsi, mm7                      ; move ReturnAddress from MM7 to RSI
-  jmp     rsi
+        movd    rsi, mm7        ; move ReturnAddress from MM7 to RSI
+        jmp     rsi
 
 %endmacro
 
@@ -28,13 +28,12 @@ SECTION .text
 global ASM_PFX(SecCarInit)
 ASM_PFX(SecCarInit):
 
-  ;
-  ; Set up CAR
-  ;
+        ;
+        ; Set up CAR
+        ;
 
-  xor    rax, rax
+        xor     rax, rax
 
 SecCarInitExit:
 
-  RET_RSI
-
+        RET_RSI

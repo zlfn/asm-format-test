@@ -10,10 +10,10 @@ EXTERN asm_b_array_append_n
 
 _b_array_append_n_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
-   
-   jp asm_b_array_append_n
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
+
+        jp      asm_b_array_append_n

@@ -9,12 +9,12 @@ PUBLIC _bfx_8
 
 _bfx_8:
 
-   ; Grab_2
+        ; Grab_2
 
-   defb 2 ;noise
-   defw 1,1000,20
-   defb 1 ;pause
-   defw 1,1000,0,0,0
-   defb 2 ;noise
-   defw 1,1000,1
-   defb 0
+        defb    2       ;noise
+        defw    1, 1000, 20
+        defb    1       ;pause
+        defw    1, 1000, 0, 0, 0
+        defb    2       ;noise
+        defw    1, 1000, 1
+        defb    0

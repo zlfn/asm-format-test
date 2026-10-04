@@ -10,22 +10,22 @@ EXTERN asm_fwrite_unlocked
 
 _fwrite_unlocked_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   exx
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        exx
+        pop     bc
+        push    af
 
 l0_fwrite_unlocked_callee:
 
-   push bc
-   exx
-   
-   ex (sp),ix
-   
-   call asm_fwrite_unlocked
-   
-   pop ix
-   ret
+        push    bc
+        exx
+
+        ex      (sp), ix
+
+        call    asm_fwrite_unlocked
+
+        pop     ix
+        ret

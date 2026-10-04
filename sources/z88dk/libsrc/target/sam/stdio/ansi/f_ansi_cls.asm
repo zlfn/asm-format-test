@@ -9,11 +9,11 @@
 ;   Frode Tennebø - 29/12/2002
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_cls
+        SECTION code_clib
+        PUBLIC  ansi_cls
 
 ansi_cls:
-    xor     a
-    call    $014E
-    ld      a, 0xfe                     ;screen
-    jp      $0112
+        xor     a
+        call    $014E
+        ld      a, 0xfe ;screen
+        jp      $0112

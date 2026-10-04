@@ -3,11 +3,11 @@
 ; 2018-03-11, Sven Michael Klose
 ;
 
-        .export         em_libref
-        .export         joy_libref
-        .export         tgi_libref
+        .export em_libref
+        .export joy_libref
+        .export tgi_libref
 
-        .import         _exit
+        .import _exit
 
 em_libref       := _exit
 joy_libref      := _exit

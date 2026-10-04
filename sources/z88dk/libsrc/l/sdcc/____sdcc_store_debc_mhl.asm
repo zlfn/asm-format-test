@@ -6,12 +6,12 @@ PUBLIC ____sdcc_store_debc_mhl
 
 ____sdcc_store_debc_mhl:
 
-   ld (hl),c
-   inc hl
-   ld (hl),b
-   inc hl
-   ld (hl),e
-   inc hl
-   ld (hl),d
-   
-   ret
+        ld      (hl), c
+        inc     hl
+        ld      (hl), b
+        inc     hl
+        ld      (hl), e
+        inc     hl
+        ld      (hl), d
+
+        ret

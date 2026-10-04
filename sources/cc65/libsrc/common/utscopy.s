@@ -10,14 +10,12 @@
 ; subroutine on systems where utsdata must be changed at runtime.
 ;
 
-        .export         utscopy
+        .export utscopy
 
-        .import         utsdata
-        .importzp       ptr1, tmp1
+        .import utsdata
+        .importzp ptr1, tmp1
 
-        .include        "utsname.inc"
-
-
+        .include "utsname.inc"
 
 ;--------------------------------------------------------------------------
 ; Data.
@@ -41,29 +39,27 @@ fieldcount = * - fieldoffs
 .proc   utscopy
 
         sta     ptr1
-        stx     ptr1+1          ; Save buf
+        stx     ptr1+1  ; Save buf
 
         ldx     #0
-        stx     tmp1            ; Field number
+        stx     tmp1    ; Field number
 
 next:   ldy     tmp1
         cpy     #fieldcount
         beq     done
         inc     tmp1            ; Bump field counter
-        lda     fieldoffs,y     ; Get next field offset
+        lda     fieldoffs, y    ; Get next field offset
         tay                     ; Field offset -> y
 
-loop:   lda     utsdata,x
-        sta     (ptr1),y
-        inx                     ; Next char in utsdata
-        cmp     #$00            ; Check for end of string
-        beq     next            ; Jump for next field
-        iny                     ; Next char in utsname struct
-        bne     loop            ; Copy string
+loop:   lda     utsdata, x
+        sta     (ptr1),  y
+        inx             ; Next char in utsdata
+        cmp     #$00    ; Check for end of string
+        beq     next    ; Jump for next field
+        iny             ; Next char in utsname struct
+        bne     loop    ; Copy string
 
-done:   lda     #$00            ; Always successful
+done:   lda     #$00    ; Always successful
         rts
 
 .endproc
-
-

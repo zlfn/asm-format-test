@@ -9,18 +9,17 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 sin:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_sinf
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_sinf
 
 ; SDCC bridge for Classic
 PUBLIC _sin
 defc _sin = sin
-
 
 ; Clang bridge for Classic
 PUBLIC _sinf

@@ -16,20 +16,19 @@ SECTION code_fp_math32
 
 PUBLIC m32__dtoa_sgnabs
 
-
 .m32__dtoa_sgnabs
-    ; enter : dehl = x
-    ; exit  : dehl = |x|
-    ;            a = 1 if negative, 0 otherwise
-    ; uses  : af
+        ; enter : dehl = x
+        ; exit  : dehl = |x|
+        ;            a = 1 if negative, 0 otherwise
+        ; uses  : af
 
-    ld a,d
-    rla                             ; C = sign
-    sbc a,a
-    and 1                           ; A = 1 if negative
-    push af
-    ld a,d
-    and 07fh
-    ld d,a
-    pop af
-    ret
+        ld      a, d
+        rla             ; C = sign
+        sbc     a, a
+        and     1       ; A = 1 if negative
+        push    af
+        ld      a, d
+        and     07fh
+        ld      d, a
+        pop     af
+        ret

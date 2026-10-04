@@ -12,14 +12,13 @@ EXTERN asm_sp1_UpdateNow
 
 sp1_UpdateNow:
 
-   push ix
-   call asm_sp1_UpdateNow
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_UpdateNow
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_UpdateNow
 defc _sp1_UpdateNow = sp1_UpdateNow
 ENDIF
-

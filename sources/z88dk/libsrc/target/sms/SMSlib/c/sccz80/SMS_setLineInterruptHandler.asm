@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_setLineInterruptHandler
 defc _SMS_setLineInterruptHandler = SMS_setLineInterruptHandler
 ENDIF
-

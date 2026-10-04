@@ -5,16 +5,15 @@
 ; int __fastcall__ clock_settime (clockid_t clk_id, const struct timespec *tp);
 ;
 
-        .include        "time.inc"
-        .include        "cbm510.inc"
-        .include        "extzp.inc"
+        .include "time.inc"
+        .include "cbm510.inc"
+        .include "extzp.inc"
 
-        .importzp       sreg, ptr1
-        .import         pushax, pusheax, ldax0sp, ldeaxidx
-        .import         sys_bank, restore_bank
-        .import         tosdiveax, incsp3, return0
-        .import         TM, load_tenth
-
+        .importzp sreg, ptr1
+        .import pushax,    pusheax, ldax0sp, ldeaxidx
+        .import sys_bank,  restore_bank
+        .import tosdiveax, incsp3,  return0
+        .import TM, load_tenth
 
 ;----------------------------------------------------------------------------
 .code
@@ -28,34 +27,34 @@
         sta     ptr1
         stx     ptr1+1
         ldy     #.sizeof(tm)-1
-@L1:    lda     (ptr1),y
-        sta     TM,y
+@L1:    lda     (ptr1), y
+        sta     TM,     y
         dey
         bpl     @L1
 
         jsr     sys_bank
         lda     TM + tm::tm_hour
         jsr     dec2BCD
-        tax                     ; Force flags
+        tax             ; Force flags
         bne     @L2
-        lda     #$92            ; 12 AM
+        lda     #$92    ; 12 AM
         bne     @L3
-@L2:    cmp     #$13            ; 1 PM
+@L2:    cmp     #$13    ; 1 PM
         bcc     @L3
         sed
         sbc     #$12
         cld
         ora     #%10000000
 @L3:    ldy     #CIA::TODHR
-        sta     (cia2),y
+        sta     (cia2), y
         lda     TM + tm::tm_min
         jsr     dec2BCD
         ldy     #CIA::TODMIN
-        sta     (cia2),y
+        sta     (cia2), y
         lda     TM + tm::tm_sec
         jsr     dec2BCD
         ldy     #CIA::TODSEC
-        sta     (cia2),y
+        sta     (cia2), y
         jsr     restore_bank
 
         jsr     ldax0sp
@@ -67,7 +66,7 @@
 
         jsr     sys_bank
         ldy     #CIA::TOD10
-        sta     (cia2),y
+        sta     (cia2), y
         jsr     restore_bank
 
         lda     #$00

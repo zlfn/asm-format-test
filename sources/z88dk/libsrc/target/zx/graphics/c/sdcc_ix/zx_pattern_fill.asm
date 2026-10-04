@@ -10,19 +10,19 @@ EXTERN asm_zx_pattern_fill
 
 _zx_pattern_fill:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
 
-   push bc
-   push de
-   push hl
-   push af
+        push    bc
+        push    de
+        push    hl
+        push    af
 
-   push ix
+        push    ix
 
-   call asm_zx_pattern_fill
+        call    asm_zx_pattern_fill
 
-   pop ix
-   ret
+        pop     ix
+        ret

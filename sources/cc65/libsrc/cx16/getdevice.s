@@ -6,14 +6,14 @@
 ; unsigned char __fastcall__ getnextdevice (unsigned char device);
 ;
 
-        .export         _getfirstdevice
-        .export         _getnextdevice
-        .import         isdisk
-        .import         opencmdchannel
-        .import         closecmdchannel
-        .importzp       tmp2
+        .export _getfirstdevice
+        .export _getnextdevice
+        .import isdisk
+        .import opencmdchannel
+        .import closecmdchannel
+        .importzp tmp2
 
-        .include        "cx16.inc"
+        .include "cx16.inc"
 
 ;------------------------------------------------------------------------------
 ; getfirstdevice()

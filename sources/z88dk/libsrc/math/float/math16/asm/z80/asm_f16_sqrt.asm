@@ -50,145 +50,141 @@ PUBLIC asm_f16_invsqrt
 PUBLIC asm_f24_sqrt
 PUBLIC asm_f24_invsqrt
 
-
 .asm_f16_sqrt
-    call asm_f24_f16
-    call asm_f24_sqrt
-    jp asm_f16_f24
-
+        call    asm_f24_f16
+        call    asm_f24_sqrt
+        jp      asm_f16_f24
 
 .asm_f16_invsqrt
-    call asm_f24_f16
-    call asm_f24_invsqrt
-    jp asm_f16_f24
-
+        call    asm_f24_f16
+        call    asm_f24_invsqrt
+        jp      asm_f16_f24
 
 .asm_f24_sqrt
-    inc d                       ; 8-bit inc sets Z, not C: exp==255?
-    jr Z,sqrt_hi
-    dec d
-    jp Z,asm_f24_zero           ; exp was 0
-    bit 7,e
-    jp NZ,asm_f24_nan           ; negative finite
-    pop bc                      ; ret
-    push de                     ; y msw on stack
-    push hl                     ; y lsw on stack
-    push bc                     ; ret
-    call asm_f24_invsqrt_body
-    jp asm_f24_mul_callee
+        inc     d                       ; 8-bit inc sets Z, not C: exp==255?
+        jr      Z, sqrt_hi
+        dec     d
+        jp      Z,  asm_f24_zero        ; exp was 0
+        bit     7,  e
+        jp      NZ, asm_f24_nan         ; negative finite
+        pop     bc                      ; ret
+        push    de                      ; y msw on stack
+        push    hl                      ; y lsw on stack
+        push    bc                      ; ret
+        call    asm_f24_invsqrt_body
+        jp      asm_f24_mul_callee
 
 .sqrt_hi
-    ; D was 255, now 0. +Inf→+Inf, NaN/−Inf→NaN
-    ld a,h
-    or l
-    jp NZ,asm_f24_nan
-    bit 7,e
-    jp NZ,asm_f24_nan
-    jp asm_f24_inf
+        ; D was 255, now 0. +Inf→+Inf, NaN/−Inf→NaN
+        ld      a, h
+        or      l
+        jp      NZ, asm_f24_nan
+        bit     7,  e
+        jp      NZ, asm_f24_nan
+        jp      asm_f24_inf
 
 .invsqrt_hi
-    ; D was 255, now 0. +Inf→0, NaN→NaN
-    ld a,h
-    or l
-    jp NZ,asm_f24_nan
-    jp asm_f24_zero
-
+        ; D was 255, now 0. +Inf→0, NaN→NaN
+        ld      a, h
+        or      l
+        jp      NZ, asm_f24_nan
+        jp      asm_f24_zero
 
 .asm_f24_invsqrt
-    inc d                       ; 8-bit inc sets Z, not C: exp==255?
-    jr Z,invsqrt_hi
-    dec d
-    jp Z,asm_f24_inf            ; exp was 0 → Inf
-    bit 7,e
-    jp NZ,asm_f24_nan           ; negative number?
+        inc     d               ; 8-bit inc sets Z, not C: exp==255?
+        jr      Z, invsqrt_hi
+        dec     d
+        jp      Z,  asm_f24_inf ; exp was 0 → Inf
+        bit     7,  e
+        jp      NZ, asm_f24_nan ; negative number?
 
 .asm_f24_invsqrt_body
-    set 7,e                     ; make y negative
+        set     7, e    ; make y negative
 
-    push de                     ; -y msw on stack for w[2] - remove for 1 iteration
-    push hl                     ; -y lsw on stack for w[2] - remove for 1 iteration
-    push de                     ; -y msw on stack for w[1]
-    push hl                     ; -y lsw on stack for w[1]
+        push    de      ; -y msw on stack for w[2] - remove for 1 iteration
+        push    hl      ; -y lsw on stack for w[2] - remove for 1 iteration
+        push    de      ; -y msw on stack for w[1]
+        push    hl      ; -y lsw on stack for w[1]
 
-    ld bc,hl                    ; original y to debc
+        ld      bc, hl  ; original y to debc
 
-    sla b                       ; remove mantissa leading bit
+        sla     b       ; remove mantissa leading bit
 
-    srl d                       ; y>>1
-    rr b
+        srl     d       ; y>>1
+        rr      b
 
-    xor a                       ; clear carry
-    ld e,a                      ; clear sign in e[7]
+        xor     a       ; clear carry
+        ld      e, a    ; clear sign in e[7]
 
-    ld hl,06EB5h                ; w[0] = 0xBE exponent 0x6EB5 mantissa - (y)
-    sbc hl,bc                   ; subtract mantissa
+        ld      hl, 06EB5h      ; w[0] = 0xBE exponent 0x6EB5 mantissa - (y)
+        sbc     hl, bc          ; subtract mantissa
 
-    ld a,0BEh
-    sbc a,d                     ; subtract exponent plus carry
-    ld d,a
+        ld      a, 0BEh
+        sbc     a, d    ; subtract exponent plus carry
+        ld      d, a
 
-    scf                         ; restore mantissa leading bit
-    rr hl
-                                ; (f24) w[0] in dehl
+        scf     ; restore mantissa leading bit
+        rr      hl
+        ; (f24) w[0] in dehl
 
 ;----------- snip ----------    ; Iteration 1
 
-    exx
-    pop hl                      ; -y lsw
-    pop de                      ; -y msw
+        exx
+        pop     hl      ; -y lsw
+        pop     de      ; -y msw
 
-    exx
-    push de                     ; w[0]
-    push hl
+        exx
+        push    de      ; w[0]
+        push    hl
 
-    exx
-    ld bc,08000h                ; (float) 3 = 0x 80 00
-    push bc
-    ld bc,0C000h                ; 0x C0 00
-    push bc
-    push de                     ; -y msw
-    push hl                     ; -y lsw
+        exx
+        ld      bc, 08000h      ; (float) 3 = 0x 80 00
+        push    bc
+        ld      bc, 0C000h      ; 0x C0 00
+        push    bc
+        push    de              ; -y msw
+        push    hl              ; -y lsw
 
-    exx
-    push de                     ; w[0]
-    push hl
+        exx
+        push    de      ; w[0]
+        push    hl
 
-    call asm_f24_mul_callee     ; (float) w[0]*w[0]
-    call asm_f24_mul_callee     ; (float) w[0]*w[0]*-y
-    call asm_f24_add_callee     ; (float) (3 - w[0]*w[0]*y)
+        call    asm_f24_mul_callee      ; (float) w[0]*w[0]
+        call    asm_f24_mul_callee      ; (float) w[0]*w[0]*-y
+        call    asm_f24_add_callee      ; (float) (3 - w[0]*w[0]*y)
 
-    dec d                       ; (float) (3 - w[0]*w[0]*y) / 2
-    call asm_f24_mul_callee     ; w[1] = (float) w[0]*(3 - w[0]*w[0]*y)/2
+        dec     d                       ; (float) (3 - w[0]*w[0]*y) / 2
+        call    asm_f24_mul_callee      ; w[1] = (float) w[0]*(3 - w[0]*w[0]*y)/2
 
 ;----------- snip ----------    ; Iteration 2
 
-    exx
-    pop hl                      ; -y lsw
-    pop de                      ; -y msw
+        exx
+        pop     hl      ; -y lsw
+        pop     de      ; -y msw
 
-    exx
-    push de                     ; w[1]
-    push hl
+        exx
+        push    de      ; w[1]
+        push    hl
 
-    exx
-    ld bc,08000h                ; (float) 3 = 0x 80 00
-    push bc
-    ld bc,0C000h                ; 0x C0 00
-    push bc
-    push de                     ; -y msw
-    push hl                     ; -y lsw
+        exx
+        ld      bc, 08000h      ; (float) 3 = 0x 80 00
+        push    bc
+        ld      bc, 0C000h      ; 0x C0 00
+        push    bc
+        push    de              ; -y msw
+        push    hl              ; -y lsw
 
-    exx
-    push de                     ; w[1]
-    push hl
+        exx
+        push    de      ; w[1]
+        push    hl
 
-    call asm_f24_mul_callee     ; (float) w[1]*w[1]
-    call asm_f24_mul_callee     ; (float) w[1]*w[1]*-y
-    call asm_f24_add_callee     ; (float) (3 - w[1]*w[1]*y)
+        call    asm_f24_mul_callee      ; (float) w[1]*w[1]
+        call    asm_f24_mul_callee      ; (float) w[1]*w[1]*-y
+        call    asm_f24_add_callee      ; (float) (3 - w[1]*w[1]*y)
 
-    dec d                       ; (float) (3 - w[1]*w[1]*y) / 2
-    call asm_f24_mul_callee     ; w[2] = (float) w[1]*(3 - w[1]*w[1]*y)/2
+        dec     d                       ; (float) (3 - w[1]*w[1]*y) / 2
+        call    asm_f24_mul_callee      ; w[2] = (float) w[1]*(3 - w[1]*w[1]*y)/2
 
 ;---------------------------
 
-    ret                         ; return _f24
+        ret     ; return _f24

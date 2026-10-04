@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_loadBGPaletteHalfBrightness
 defc _SMS_loadBGPaletteHalfBrightness = SMS_loadBGPaletteHalfBrightness
 ENDIF
-

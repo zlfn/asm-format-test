@@ -19,32 +19,32 @@ EXTERN asm_free, _u_free
 
 asm_sp1_DeleteSpr:
 
-   ex de,hl
-   ld hl,15
-   add hl,de                 ; hl = & struct sp1_ss.first
+        ex      de, hl
+        ld      hl, 15
+        add     hl, de  ; hl = & struct sp1_ss.first
 
 loop:
 
-   ld b,(hl)
-   inc hl
-   ld c,(hl)                 ; bc = next struct sp1_cs to delete
-   push bc
-   ex de,hl
-   push hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl) ; bc = next struct sp1_cs to delete
+        push    bc
+        ex      de, hl
+        push    hl
 
 IF __CLASSIC
-   call _u_free
+        call    _u_free
 ELSE
-   call asm_free             ; free current struct sp1_cs
+        call    asm_free        ; free current struct sp1_cs
 ENDIF
 
-   pop hl
-   pop de
-   ld l,e
-   ld h,d                    ; de = hl = next struct sp1_cs to delete
+        pop     hl
+        pop     de
+        ld      l, e
+        ld      h, d    ; de = hl = next struct sp1_cs to delete
 
-   inc h
-   dec h
-   jp nz, loop
+        inc     h
+        dec     h
+        jp      nz, loop
 
-   ret
+        ret

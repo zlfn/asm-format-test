@@ -6,11 +6,11 @@
 
         .include "atari5200.inc"
 
-        .export         gotoxy, _gotoxy
-        .import         popa
+        .export gotoxy, _gotoxy
+        .import popa
 
 gotoxy:
-        jsr     popa            ; Get Y
+        jsr     popa    ; Get Y
 
 _gotoxy:                        ; Set the cursor position
         sta     ROWCRS_5200     ; Set Y

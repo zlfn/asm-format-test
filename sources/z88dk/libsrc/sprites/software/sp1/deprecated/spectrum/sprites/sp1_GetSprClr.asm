@@ -9,13 +9,13 @@ EXTERN ASMDISP_SP1_GETSPRCLR_CALLEE
 
 .sp1_GetSprClr
 
-   pop af
-   pop bc
-   ld b,c
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
-   push af
-   jp sp1_GetSprClr_callee + ASMDISP_SP1_GETSPRCLR_CALLEE
+        pop     af
+        pop     bc
+        ld      b, c
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
+        push    af
+        jp      sp1_GetSprClr_callee + ASMDISP_SP1_GETSPRCLR_CALLEE

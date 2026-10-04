@@ -9,20 +9,20 @@ EXTERN l0_esxdos_disk_write_callee
 
 _esxdos_disk_write:
 
-   pop af
-	ex af,af'
-	dec sp
-	pop af
-	pop de
-	pop bc
-	pop hl
-	
-	push hl
-	push bc
-	push de
-	dec sp
-	ex af,af'
-	push af
-	ex af,af'
+        pop     af
+        ex      af, af'
+        dec     sp
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
 
-   jp l0_esxdos_disk_write_callee
+        push    hl
+        push    bc
+        push    de
+        dec     sp
+        ex      af, af'
+        push    af
+        ex      af, af'
+
+        jp      l0_esxdos_disk_write_callee

@@ -35,39 +35,39 @@
 .global ASM_WRAPPER_NAME(setjmp)
 ASM_TYPE_FUNCTION(ASM_WRAPPER_NAME(setjmp))
 ASM_WRAPPER_NAME(setjmp):
-  CFI_STARTPROC
-  _CET_ENDBR
-  xorl %esi, %esi
-  jmp	.Linterceptor_sigsetjmp
-  CFI_ENDPROC
+        CFI_STARTPROC
+        _CET_ENDBR
+        xorl    %esi, %esi
+        jmp     .Linterceptor_sigsetjmp
+        CFI_ENDPROC
 ASM_SIZE(ASM_WRAPPER_NAME(setjmp))
 
 .global ASM_WRAPPER_NAME(sigsetjmp)
 ASM_TYPE_FUNCTION(ASM_WRAPPER_NAME(sigsetjmp))
 ASM_WRAPPER_NAME(sigsetjmp):
 .Linterceptor_sigsetjmp:
-  CFI_STARTPROC
-  _CET_ENDBR
+        CFI_STARTPROC
+        _CET_ENDBR
 
-  // Save callee save registers.
-  mov %rbx, (0*8)(%rdi)
-  mov %rbp, (1*8)(%rdi)
-  mov %r12, (2*8)(%rdi)
-  mov %r13, (3*8)(%rdi)
-  mov %r14, (4*8)(%rdi)
-  mov %r15, (5*8)(%rdi)
+        // Save callee save registers.
+        mov     %rbx, (0*8)(%rdi)
+        mov     %rbp, (1*8)(%rdi)
+        mov     %r12, (2*8)(%rdi)
+        mov     %r13, (3*8)(%rdi)
+        mov     %r14, (4*8)(%rdi)
+        mov     %r15, (5*8)(%rdi)
 
-  // Save SP as it was in caller's frame.
-  lea 8(%rsp), %rdx
-  mov %rdx, (6*8)(%rdi)
+        // Save SP as it was in caller's frame.
+        lea     8(%rsp), %rdx
+        mov     %rdx,    (6*8)(%rdi)
 
-  // Save return address.
-  mov (%rsp), %rax
-  mov %rax, (7*8)(%rdi)
+        // Save return address.
+        mov     (%rsp), %rax
+        mov     %rax,   (7*8)(%rdi)
 
-  jmp __sigjmp_save
+        jmp     __sigjmp_save
 
-  CFI_ENDPROC
+        CFI_ENDPROC
 ASM_SIZE(ASM_WRAPPER_NAME(sigsetjmp))
 
 ASM_INTERCEPTOR_TRAMPOLINE(sigsetjmp)

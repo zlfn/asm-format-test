@@ -19,6 +19,6 @@ PUBLIC    l_sub
 ; replaces did from its final `sbc a,h`.
 
 .l_sub
-    ex de,hl
-    sub hl,de
-    ret
+        ex      de, hl
+        sub     hl, de
+        ret

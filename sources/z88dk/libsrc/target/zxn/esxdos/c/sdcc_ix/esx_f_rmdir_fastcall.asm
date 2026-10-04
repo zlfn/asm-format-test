@@ -8,9 +8,9 @@ EXTERN asm_esx_f_rmdir
 
 _esx_f_rmdir_fastcall:
 
-   push ix
-   
-   call asm_esx_f_rmdir
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_rmdir
+
+        pop     ix
+        ret

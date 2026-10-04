@@ -19,11 +19,11 @@
 ; }
 ;
 
-        .export         _cbm_open
+        .export _cbm_open
 
-        .import         popa
-        .import         _cbm_k_setlfs, _cbm_k_setnam, _cbm_k_open
-        .import         ___oserror
+        .import popa
+        .import _cbm_k_setlfs, _cbm_k_setnam, _cbm_k_open
+        .import ___oserror
 
 _cbm_open:
         jsr     _cbm_k_setnam

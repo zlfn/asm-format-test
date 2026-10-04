@@ -9,8 +9,7 @@ EXTERN  fa
 ; Load FA from hl
 ;----------------
 dload:
-    ld      de,fa
-    ld      bc,6
-    ldir
-    ret
-
+        ld      de, fa
+        ld      bc, 6
+        ldir
+        ret

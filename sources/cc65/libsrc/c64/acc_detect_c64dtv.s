@@ -11,9 +11,9 @@
 ; * 0x01  : C64DTV present
 ; */
 
-        .export         _detect_c64dtv
+        .export _detect_c64dtv
 
-        .include        "accelerator.inc"
+        .include "accelerator.inc"
 
 _detect_c64dtv:
         ldy     C64DTV_Extended_Regs
@@ -21,7 +21,7 @@ _detect_c64dtv:
         ldx     $D000
 
 ; Make sure the CPU is a 6510
-        .byte   $1A                   ; NOP on 8502, INA on 65(S)C(E)02, 4510 and 65816
+        .byte   $1A     ; NOP on 8502, INA on 65(S)C(E)02, 4510 and 65816
         bne     not_found
         lda     #$01
         sta     C64DTV_Extended_Regs
@@ -41,4 +41,3 @@ not_found:
         ldx     #$00
         sty     C64DTV_Extended_Regs
         rts
-

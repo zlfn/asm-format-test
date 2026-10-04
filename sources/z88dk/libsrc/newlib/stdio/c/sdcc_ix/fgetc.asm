@@ -16,13 +16,13 @@ EXTERN _fgetc_fastcall
 
 _fgetc:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _fgetc_fastcall
+        push    hl
+        push    af
+
+        jp      _fgetc_fastcall
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -16,7 +16,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID
@@ -27,10 +27,9 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmEnableCache)
 ASM_PFX(AsmEnableCache):
-    wbinvd
-    mov     eax, cr0
-    btr     eax, 29
-    btr     eax, 30
-    mov     cr0, eax
-    ret
-
+        wbinvd
+        mov     eax, cr0
+        btr     eax, 29
+        btr     eax, 30
+        mov     cr0, eax
+        ret

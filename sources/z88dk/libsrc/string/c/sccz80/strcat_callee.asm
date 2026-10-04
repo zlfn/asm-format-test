@@ -10,18 +10,18 @@ EXTERN asm_strcat
 
 strcat_callee:
 
-   pop bc
-   pop hl
-   pop de
-   push bc
+        pop     bc
+        pop     hl
+        pop     de
+        push    bc
 
 IF __CLASSIC && __CPU_GBZ80__
-   call asm_strcat
-   ld d,h
-   ld e,l
-   ret
+        call    asm_strcat
+        ld      d, h
+        ld      e, l
+        ret
 ELSE
-   jp asm_strcat
+        jp      asm_strcat
 ENDIF
 
 ; SDCC bridge for Classic
@@ -30,10 +30,8 @@ PUBLIC _strcat_callee
 defc _strcat_callee = strcat_callee
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___strcat_callee
 defc ___strcat_callee = strcat_callee
 ENDIF
-

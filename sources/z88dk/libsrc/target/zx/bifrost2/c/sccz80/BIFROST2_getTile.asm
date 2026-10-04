@@ -15,15 +15,15 @@ EXTERN asm_BIFROST2_getTile
 
 BIFROST2_getTile:
 
-   	ld hl,2
-   	ld b,h          ; B=0
-   	add hl,sp
-   	ld c,(hl)       ; BC=py
-   	inc hl
-   	inc hl
-   	ld l,(hl)       ; L=px
+        ld      hl, 2
+        ld      b,  h           ; B=0
+        add     hl, sp
+        ld      c,  (hl)        ; BC=py
+        inc     hl
+        inc     hl
+        ld      l, (hl)         ; L=px
 
-   	jp asm_BIFROST2_getTile
+        jp      asm_BIFROST2_getTile
 
 ; SDCC bridge for Classic
 IF __CLASSIC

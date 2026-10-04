@@ -4,10 +4,10 @@
 ; CC65 runtime: Decrement ax by value in Y
 ;
 
-        .export         decaxy
-        .importzp       tmp1
+        .export decaxy
+        .importzp tmp1
 
-        .macpack        generic
+        .macpack generic
 
 .proc   decaxy
 
@@ -18,4 +18,3 @@
 @L9:    rts
 
 .endproc
-

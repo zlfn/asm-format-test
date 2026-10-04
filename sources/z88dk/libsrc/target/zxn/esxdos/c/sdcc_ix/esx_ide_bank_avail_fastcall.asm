@@ -8,12 +8,12 @@ EXTERN asm_esx_ide_bank_avail
 
 _esx_ide_bank_avail_fastcall:
 
-   push ix
-   push iy
-   
-   call asm_esx_ide_bank_avail
-   
-   pop iy
-   pop ix
+        push    ix
+        push    iy
 
-   ret
+        call    asm_esx_ide_bank_avail
+
+        pop     iy
+        pop     ix
+
+        ret

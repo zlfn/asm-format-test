@@ -15,15 +15,15 @@ asm_BIFROSTH_getTile:
 
 ; L=px
 ; C=py
-        ld a,l
-        add a,a
-        add a,a
-        add a,a
-        add a,l         ; A=px*9
-        add a,c         ; A=px*9+py
-        inc a           ; instead of: add a,_BIFROST_tilemap%256
-        ld l,a
-        ld h,_BIFROSTH_tilemap/256
-        ld l,(hl)
-        ld h,0
+        ld      a, l
+        add     a, a
+        add     a, a
+        add     a, a
+        add     a, l    ; A=px*9
+        add     a, c    ; A=px*9+py
+        inc     a       ; instead of: add a,_BIFROST_tilemap%256
+        ld      l, a
+        ld      h, _BIFROSTH_tilemap/256
+        ld      l, (hl)
+        ld      h, 0
         ret

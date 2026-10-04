@@ -10,21 +10,21 @@ EXTERN asm__ldiv
 
 __ldiv__callee:
 
-   pop af
-   pop bc
-   exx
-   pop hl
-   pop de
-   exx
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     bc
+        exx
+        pop     hl
+        pop     de
+        exx
+        pop     hl
+        pop     de
+        push    af
 
 l0__ldiv__callee:
 
-   push ix
-   
-   call asm__ldiv
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm__ldiv
+
+        pop     ix
+        ret

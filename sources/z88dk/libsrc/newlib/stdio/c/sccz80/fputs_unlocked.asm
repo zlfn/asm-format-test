@@ -10,12 +10,12 @@ EXTERN asm_fputs_unlocked
 
 fputs_unlocked:
 
-   pop af
-   pop ix
-   pop hl
-   
-   push hl
-   push hl
-   push af
+        pop     af
+        pop     ix
+        pop     hl
 
-   jp asm_fputs_unlocked
+        push    hl
+        push    hl
+        push    af
+
+        jp      asm_fputs_unlocked

@@ -13,28 +13,27 @@ EXTERN __esxdos_error_zc
 
 asm_esx_disk_stream_end:
 
-   ; enter : none
-   ;
-   ; exit  : success
-   ;
-   ;            hl = -1
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = 0
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl
-   
-   ld a,(__esx_stream_card_flags)
-   
-   rst __ESX_RST_SYS
-   defb __ESX_DISK_STRMEND
-   
-   jp nc, error_mnc
-   jp __esxdos_error_zc
+        ; enter : none
+        ;
+        ; exit  : success
+        ;
+        ;            hl = -1
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = 0
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl
 
+        ld      a, (__esx_stream_card_flags)
+
+        rst     __ESX_RST_SYS
+        defb    __ESX_DISK_STRMEND
+
+        jp      nc, error_mnc
+        jp      __esxdos_error_zc
 
 ; ***************************************************************************
 ; * DISK_STRMEND ($87) *

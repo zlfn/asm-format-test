@@ -9,9 +9,9 @@ EXTERN asm_zx_visit_wc_pix
 
 zx_visit_wc_pix_callee:
 
-   pop af
-   pop de
-   pop ix
-   push af
+        pop     af
+        pop     de
+        pop     ix
+        push    af
 
-   jp asm_zx_visit_wc_pix
+        jp      asm_zx_visit_wc_pix

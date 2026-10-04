@@ -14,13 +14,13 @@ EXTERN _heap
 .free
 ._free
 .___free
-   pop de
-   pop hl
-   push hl
-   push de
+        pop     de
+        pop     hl
+        push    hl
+        push    de
 
 .free_fastcall
 ._free_fastcall
 
-   ld de,_heap
-   jp asm_HeapFree
+        ld      de, _heap
+        jp      asm_HeapFree

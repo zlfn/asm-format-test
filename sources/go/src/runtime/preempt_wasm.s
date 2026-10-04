@@ -4,5 +4,5 @@
 #include "textflag.h"
 
 TEXT ·asyncPreempt(SB),NOSPLIT|NOFRAME,$0-0
-	// No async preemption on wasm
-	UNDEF
+        // No async preemption on wasm
+        UNDEF

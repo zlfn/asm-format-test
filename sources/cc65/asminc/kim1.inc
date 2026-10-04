@@ -4,9 +4,7 @@
 ;
 ; ---------------------------------------------------------------------------
 
-
 RAMSTART := $0200     ; Entry point
-
 
 ; ---------------------------------------------------------------------------
 ; Monitor Functions
@@ -19,7 +17,6 @@ START    := $1C4F     ; Enter KIM-1 monitor
 SCANDS   := $1F1F     ; Scan 7-segment display
 KEYIN    := $1F40     ; Open up keyboard channel
 GETKEY   := $1F6A     ; Return key from keyboard
-
 
 ; ---------------------------------------------------------------------------
 ; System Memory

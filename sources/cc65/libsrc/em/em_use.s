@@ -10,8 +10,6 @@
 ; ** use, this call may perform better than em_map.
 ; */
 
+        .include "em-kernel.inc"
 
-        .include        "em-kernel.inc"
-
-        _em_use         = emd_use               ; Use driver entry
-
+        _em_use = emd_use       ; Use driver entry

@@ -28,175 +28,175 @@ PUBLIC asm_f16_poly_callee
 PUBLIC asm_f16_poly
 
 .asm_f16_poly_callee
-    pop bc                      ; uret
-    pop hl                      ; x
-    pop de                      ; d[]
-    ex (sp),hl                  ; HL=n, (sp)=x
-    push bc                     ; [uret][x]
+        pop     bc              ; uret
+        pop     hl              ; x
+        pop     de              ; d[]
+        ex      (sp), hl        ; HL=n, (sp)=x
+        push    bc              ; [uret][x]
 
 .asm_f16_poly
-    ; HL=n, DE=d[], [uret][x]
-    ld c,l                      ; n in C (stack low byte)
-    ld b,0
-    push bc                     ; [n][uret][x]
-    ld l,c
-    ld h,0
-    add hl,hl
-    add hl,hl
-    add hl,de                   ; &d[n]
-    push hl                     ; [coeff][n][uret][x]
+        ; HL=n, DE=d[], [uret][x]
+        ld      c, l    ; n in C (stack low byte)
+        ld      b, 0
+        push    bc      ; [n][uret][x]
+        ld      l,  c
+        ld      h,  0
+        add     hl, hl
+        add     hl, hl
+        add     hl, de  ; &d[n]
+        push    hl      ; [coeff][n][uret][x]
 
-    ;; x half
-    ld hl,sp+6
-    ld a,(hl+)
-    ld h,(hl)
-    ld l,a
-    call asm_f24_f16
-    push de
-    push hl                     ; [x.hl][x.de][coeff][n][uret][xhalf]
+        ;; x half
+        ld      hl, sp+6
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a
+        call    asm_f24_f16
+        push    de
+        push    hl      ; [x.hl][x.de][coeff][n][uret][xhalf]
 
-    ; res = d[n]
-    ;; coeff
-    ld hl,sp+4
-    ld a,(hl+)
-    ld h,(hl)
-    ld l,a
-    call load_f32
-    call asm_f24_f32            ; DEHL = res
+        ; res = d[n]
+        ;; coeff
+        ld      hl, sp+4
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a
+        call    load_f32
+        call    asm_f24_f32     ; DEHL = res
 
 .poly_loop
-    ; DEHL = res — preserve while reading n (u8 at low of word)
-    push de
-    push hl
-    ;; n at +6 +4
-    ld hl,sp+10
-    ld a,(hl)
-    or a
-    jp Z,poly_done
-    dec a
-    ld (hl),a
-    pop hl
-    pop de                      ; DEHL = res
+        ; DEHL = res — preserve while reading n (u8 at low of word)
+        push    de
+        push    hl
+        ;; n at +6 +4
+        ld      hl, sp+10
+        ld      a,  (hl)
+        or      a
+        jp      Z, poly_done
+        dec     a
+        ld      (hl), a
+        pop     hl
+        pop     de      ; DEHL = res
 
-    call poly_mulx              ; res *= stacked x; x stays on frame
+        call    poly_mulx       ; res *= stacked x; x stays on frame
 
-    ; + d[n] (n already decremented; step coeff back first)
-    push de
-    push hl                     ; X=product
-    ;; coeff pointer at sp+8; step back 4 bytes and store
-    ld hl,sp+8
-    ld a,(hl+)
-    ld e,a
-    ld a,(hl)
-    ld d,a                      ; DE = coeff
-    ld hl,-4
-    add hl,de                   ; HL = new coeff
-    ex de,hl                    ; DE = new
-    ld hl,sp+8
-    ld a,e
-    ld (hl+),a
-    ld (hl),d
-    ex de,hl                    ; HL = new coeff
-    call load_f32
-    call asm_f24_f32
-    call asm_f24_add_f24
-    jp poly_loop
+        ; + d[n] (n already decremented; step coeff back first)
+        push    de
+        push    hl      ; X=product
+        ;; coeff pointer at sp+8; step back 4 bytes and store
+        ld      hl,    sp+8
+        ld      a,     (hl+)
+        ld      e,     a
+        ld      a,     (hl)
+        ld      d,     a        ; DE = coeff
+        ld      hl,    -4
+        add     hl,    de       ; HL = new coeff
+        ex      de,    hl       ; DE = new
+        ld      hl,    sp+8
+        ld      a,     e
+        ld      (hl+), a
+        ld      (hl),  d
+        ex      de,    hl       ; HL = new coeff
+        call    load_f32
+        call    asm_f24_f32
+        call    asm_f24_add_f24
+        jp      poly_loop
 
 .poly_done
-    pop hl                      ; res.hl
-    pop de                      ; res.de
-    ; [x.hl][x.de][coeff][n][uret][xhalf]
-    pop bc
-    pop bc
-    pop bc
-    pop bc
-    pop bc                      ; uret
-    pop af                      ; x half
-    push bc
-    jp asm_f16_f24
+        pop     hl      ; res.hl
+        pop     de      ; res.de
+        ; [x.hl][x.de][coeff][n][uret][xhalf]
+        pop     bc
+        pop     bc
+        pop     bc
+        pop     bc
+        pop     bc      ; uret
+        pop     af      ; x half
+        push    bc
+        jp      asm_f16_f24
 
 ; HL=ptr → IEEE float LE into DEHL for asm_f24_f32
 ; DE = b3:b2, HL = b1:b0
 .load_f32
-    ld a,(hl+)
-    ld e,a
-    ld a,(hl+)
-    ld d,a                      ; DE = b1:b0
-    ld a,(hl+)
-    ld c,a
-    ld a,(hl)
-    ld h,a
-    ld l,c                      ; HL = b3:b2
-    ex de,hl                    ; DE = b3:b2, HL = b1:b0
-    ret
+        ld      a,  (hl+)
+        ld      e,  a
+        ld      a,  (hl+)
+        ld      d,  a   ; DE = b1:b0
+        ld      a,  (hl+)
+        ld      c,  a
+        ld      a,  (hl)
+        ld      h,  a
+        ld      l,  c   ; HL = b3:b2
+        ex      de, hl  ; DE = b3:b2, HL = b1:b0
+        ret
 
 ; Finite f24 mul: DEHL = res, stack [ret][x.hl][x.de]...
 .poly_mulx
-    ld bc,de
-    push hl                     ; [rm][ret][x.hl][x.de]
-    ld hl,sp+6
-    ld a,(hl+)
-    ld h,(hl)
-    xor c
-    ld c,a
-    ld a,h                      ; x.exp; ±0 classified by IEEE caller
-    ld d,b
-    sub 07fh
-    jr C,pm_uf
-    add a,d
-    jr C,pm_ov
-    jr pm_ok
+        ld      bc, de
+        push    hl      ; [rm][ret][x.hl][x.de]
+        ld      hl, sp+6
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        xor     c
+        ld      c, a
+        ld      a, h    ; x.exp; ±0 classified by IEEE caller
+        ld      d, b
+        sub     07fh
+        jr      C, pm_uf
+        add     a, d
+        jr      C, pm_ov
+        jr      pm_ok
 .pm_uf
-    add a,d
-    jp NC,pm_zero_pop
+        add     a,  d
+        jp      NC, pm_zero_pop
 .pm_ok
-    or a
-    jp Z,pm_zero_pop
-    ld b,a
-    pop hl
-    push bc                     ; [exp/sign][ret][x.hl][x.de]
-    ld bc,hl
-    ld hl,sp+4
-    ld a,(hl+)
-    ld h,(hl)
-    ld l,a                      ; HL = x.mant
-    ld de,bc                    ; DE = res.mant
-    call f16_8080_mulu_32_16x16
-    pop bc
-    ld a,d
-    rla
-    jr C,pm_ge2
-    add hl,hl
-    ld a,e
-    rla
-    ld e,a
-    ld a,d
-    rla
-    ld d,a
-    jr pm_norm
+        or      a
+        jp      Z, pm_zero_pop
+        ld      b, a
+        pop     hl
+        push    bc      ; [exp/sign][ret][x.hl][x.de]
+        ld      bc, hl
+        ld      hl, sp+4
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a   ; HL = x.mant
+        ld      de, bc  ; DE = res.mant
+        call    f16_8080_mulu_32_16x16
+        pop     bc
+        ld      a, d
+        rla
+        jr      C,  pm_ge2
+        add     hl, hl
+        ld      a,  e
+        rla
+        ld      e, a
+        ld      a, d
+        rla
+        ld      d, a
+        jr      pm_norm
 .pm_ge2
-    inc b
-    jr Z,pm_ov2
+        inc     b
+        jr      Z, pm_ov2
 .pm_norm
-    ex de,hl
-    ld a,d
-    and 0c0h
-    jr Z,pm_rnd
-    ld a,l
-    or 001h
-    ld l,a
+        ex      de, hl
+        ld      a,  d
+        and     0c0h
+        jr      Z, pm_rnd
+        ld      a, l
+        or      001h
+        ld      l, a
 .pm_rnd
-    ld de,bc
-    ret
+        ld      de, bc
+        ret
 
 .pm_zero_pop
-    pop hl
+        pop     hl
 .pm_zero
-    ld e,c
-    jp asm_f24_zero
+        ld      e, c
+        jp      asm_f24_zero
 
 .pm_ov
-    pop hl
+        pop     hl
 .pm_ov2
-    ld e,c
-    jp asm_f24_inf
+        ld      e, c
+        jp      asm_f24_inf

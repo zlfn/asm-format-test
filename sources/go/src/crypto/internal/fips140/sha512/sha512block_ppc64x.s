@@ -83,7 +83,6 @@
 #define R_x100	R29
 #define R_x110	R27
 
-
 // V0-V7 are A-H
 // V8-V23 are used for the message schedule
 #define KI	V24
@@ -270,218 +269,216 @@ DATA  ·kcon+0x518(SB)/8, $0x0001020304050607
 GLOBL ·kcon(SB), RODATA, $1312
 
 #define SHA512ROUND0(a, b, c, d, e, f, g, h, xi, idx) \
-	VSEL		g, f, e, FUNC; \
-	VSHASIGMAD	$15, e, $1, S1; \
-	VADDUDM		xi, h, h; \
-	VSHASIGMAD	$0, a, $1, S0; \
-	VADDUDM		FUNC, h, h; \
-	VXOR		b, a, FUNC; \
-	VADDUDM		S1, h, h; \
-	VSEL		b, c, FUNC, FUNC; \
-	VADDUDM		KI, g, g; \
-	VADDUDM		h, d, d; \
-	VADDUDM		FUNC, S0, S0; \
-	LVX		(TBL)(idx), KI; \
-	VADDUDM		S0, h, h
+        VSEL		g, f, e, FUNC;                \
+        VSHASIGMAD	$15, e, $1, S1;               \
+        VADDUDM		xi, h, h;                     \
+        VSHASIGMAD	$0, a, $1, S0;                \
+        VADDUDM		FUNC, h, h;                   \
+        VXOR		b, a, FUNC;                   \
+        VADDUDM		S1, h, h;                     \
+        VSEL		b, c, FUNC, FUNC;             \
+        VADDUDM		KI, g, g;                     \
+        VADDUDM		h, d, d;                      \
+        VADDUDM		FUNC, S0, S0;                 \
+        LVX		(TBL)(idx), KI;               \
+        VADDUDM		S0, h, h
 
 #define SHA512ROUND1(a, b, c, d, e, f, g, h, xi, xj, xj_1, xj_9, xj_14, idx) \
-	VSHASIGMAD	$0, xj_1, $0, s0; \
-	VSEL		g, f, e, FUNC; \
-	VSHASIGMAD	$15, e, $1, S1; \
-	VADDUDM		xi, h, h; \
-	VSHASIGMAD	$0, a, $1, S0; \
-	VSHASIGMAD	$15, xj_14, $0, s1; \
-	VADDUDM		FUNC, h, h; \
-	VXOR		b, a, FUNC; \
-	VADDUDM		xj_9, xj, xj; \
-	VADDUDM		S1, h, h; \
-	VSEL		b, c, FUNC, FUNC; \
-	VADDUDM		KI, g, g; \
-	VADDUDM		h, d, d; \
-	VADDUDM		FUNC, S0, S0; \
-	VADDUDM		s0, xj, xj; \
-	LVX		(TBL)(idx), KI; \
-	VADDUDM		S0, h, h; \
-	VADDUDM		s1, xj, xj
+        VSHASIGMAD	$0, xj_1, $0, s0;                                    \
+        VSEL		g, f, e, FUNC;                                       \
+        VSHASIGMAD	$15, e, $1, S1;                                      \
+        VADDUDM		xi, h, h;                                            \
+        VSHASIGMAD	$0, a, $1, S0;                                       \
+        VSHASIGMAD	$15, xj_14, $0, s1;                                  \
+        VADDUDM		FUNC, h, h;                                          \
+        VXOR		b, a, FUNC;                                          \
+        VADDUDM		xj_9, xj, xj;                                        \
+        VADDUDM		S1, h, h;                                            \
+        VSEL		b, c, FUNC, FUNC;                                    \
+        VADDUDM		KI, g, g;                                            \
+        VADDUDM		h, d, d;                                             \
+        VADDUDM		FUNC, S0, S0;                                        \
+        VADDUDM		s0, xj, xj;                                          \
+        LVX		(TBL)(idx), KI;                                      \
+        VADDUDM		S0, h, h;                                            \
+        VADDUDM		s1, xj, xj
 
 // func blockPOWER(dig *Digest, p []byte)
 TEXT ·blockPOWER(SB),0,$0-32
-	MOVD	dig+0(FP), CTX
-	MOVD	p_base+8(FP), INP
-	MOVD	p_len+16(FP), LEN
+        MOVD    dig+0(FP),    CTX
+        MOVD    p_base+8(FP), INP
+        MOVD    p_len+16(FP), LEN
 
-	SRD	$6, LEN
-	SLD	$6, LEN
+        SRD     $6, LEN
+        SLD     $6, LEN
 
-	ADD	INP, LEN, END
+        ADD     INP, LEN, END
 
-	CMP	INP, END
-	BEQ	end
+        CMP     INP, END
+        BEQ     end
 
-	MOVD	$·kcon(SB), TBL_STRT
+        MOVD    $·kcon(SB), TBL_STRT
 
-	MOVD	R0, CNT
-	MOVWZ	$0x010, R_x010
-	MOVWZ	$0x020, R_x020
-	MOVWZ	$0x030, R_x030
-	MOVD	$0x040, R_x040
-	MOVD	$0x050, R_x050
-	MOVD	$0x060, R_x060
-	MOVD	$0x070, R_x070
-	MOVD	$0x080, R_x080
-	MOVD	$0x090, R_x090
-	MOVD	$0x0a0, R_x0a0
-	MOVD	$0x0b0, R_x0b0
-	MOVD	$0x0c0, R_x0c0
-	MOVD	$0x0d0, R_x0d0
-	MOVD	$0x0e0, R_x0e0
-	MOVD	$0x0f0, R_x0f0
-	MOVD	$0x100, R_x100
-	MOVD	$0x110, R_x110
-
+        MOVD    R0,     CNT
+        MOVWZ   $0x010, R_x010
+        MOVWZ   $0x020, R_x020
+        MOVWZ   $0x030, R_x030
+        MOVD    $0x040, R_x040
+        MOVD    $0x050, R_x050
+        MOVD    $0x060, R_x060
+        MOVD    $0x070, R_x070
+        MOVD    $0x080, R_x080
+        MOVD    $0x090, R_x090
+        MOVD    $0x0a0, R_x0a0
+        MOVD    $0x0b0, R_x0b0
+        MOVD    $0x0c0, R_x0c0
+        MOVD    $0x0d0, R_x0d0
+        MOVD    $0x0e0, R_x0e0
+        MOVD    $0x0f0, R_x0f0
+        MOVD    $0x100, R_x100
+        MOVD    $0x110, R_x110
 
 #ifdef GOARCH_ppc64le
-	// Generate the mask used with VPERM for LE
-	MOVWZ	$8, TEMP
-	LVSL	(TEMP)(R0), LEMASK
-	VSPLTISB	$0x0F, KI
-	VXOR	KI, LEMASK, LEMASK
+        // Generate the mask used with VPERM for LE
+        MOVWZ   $8, TEMP
+        LVSL    (TEMP)(R0), LEMASK
+        VSPLTISB $0x0F, KI
+        VXOR    KI, LEMASK, LEMASK
 #endif
 
-	LXVD2X	(CTX)(R_x000), VS32	// v0 = vs32
-	LXVD2X	(CTX)(R_x010), VS34	// v2 = vs34
-	LXVD2X	(CTX)(R_x020), VS36	// v4 = vs36
+        LXVD2X  (CTX)(R_x000), VS32     // v0 = vs32
+        LXVD2X  (CTX)(R_x010), VS34     // v2 = vs34
+        LXVD2X  (CTX)(R_x020), VS36     // v4 = vs36
 
-	// unpack the input values into vector registers
-	VSLDOI	$8, V0, V0, V1
-	LXVD2X	(CTX)(R_x030), VS38	// v6 = vs38
-	VSLDOI	$8, V2, V2, V3
-	VSLDOI	$8, V4, V4, V5
-	VSLDOI	$8, V6, V6, V7
+        // unpack the input values into vector registers
+        VSLDOI  $8, V0, V0, V1
+        LXVD2X  (CTX)(R_x030), VS38     // v6 = vs38
+        VSLDOI  $8, V2, V2, V3
+        VSLDOI  $8, V4, V4, V5
+        VSLDOI  $8, V6, V6, V7
 
 loop:
-	MOVD	TBL_STRT, TBL
-	LVX	(TBL)(R_x000), KI
+        MOVD    TBL_STRT, TBL
+        LVX     (TBL)(R_x000), KI
 
-	LXVD2X	(INP)(R0), VS40	// load v8 (=vs40) in advance
-	ADD	$16, INP
+        LXVD2X  (INP)(R0), VS40 // load v8 (=vs40) in advance
+        ADD     $16, INP
 
-	// Copy V0-V7 to VS24-VS31
+        // Copy V0-V7 to VS24-VS31
 
-	XXLOR	V0, V0, VS24
-	XXLOR	V1, V1, VS25
-	XXLOR	V2, V2, VS26
-	XXLOR	V3, V3, VS27
-	XXLOR	V4, V4, VS28
-	XXLOR	V5, V5, VS29
-	XXLOR	V6, V6, VS30
-	XXLOR	V7, V7, VS31
+        XXLOR   V0, V0, VS24
+        XXLOR   V1, V1, VS25
+        XXLOR   V2, V2, VS26
+        XXLOR   V3, V3, VS27
+        XXLOR   V4, V4, VS28
+        XXLOR   V5, V5, VS29
+        XXLOR   V6, V6, VS30
+        XXLOR   V7, V7, VS31
 
-	VADDUDM	KI, V7, V7	// h+K[i]
-	LVX	(TBL)(R_x010), KI
+        VADDUDM KI, V7, V7      // h+K[i]
+        LVX     (TBL)(R_x010), KI
 
-	VPERMLE(V8,V8,LEMASK,V8)
-	SHA512ROUND0(V0, V1, V2, V3, V4, V5, V6, V7, V8, R_x020)
-	LXVD2X	(INP)(R_x000), VS42	// load v10 (=vs42) in advance
-	VSLDOI	$8, V8, V8, V9
-	SHA512ROUND0(V7, V0, V1, V2, V3, V4, V5, V6, V9, R_x030)
-	VPERMLE(V10,V10,LEMASK,V10)
-	SHA512ROUND0(V6, V7, V0, V1, V2, V3, V4, V5, V10, R_x040)
-	LXVD2X	(INP)(R_x010), VS44	// load v12 (=vs44) in advance
-	VSLDOI	$8, V10, V10, V11
-	SHA512ROUND0(V5, V6, V7, V0, V1, V2, V3, V4, V11, R_x050)
-	VPERMLE(V12,V12,LEMASK,V12)
-	SHA512ROUND0(V4, V5, V6, V7, V0, V1, V2, V3, V12, R_x060)
-	LXVD2X	(INP)(R_x020), VS46	// load v14 (=vs46) in advance
-	VSLDOI	$8, V12, V12, V13
-	SHA512ROUND0(V3, V4, V5, V6, V7, V0, V1, V2, V13, R_x070)
-	VPERMLE(V14,V14,LEMASK,V14)
-	SHA512ROUND0(V2, V3, V4, V5, V6, V7, V0, V1, V14, R_x080)
-	LXVD2X	(INP)(R_x030), VS48	// load v16 (=vs48) in advance
-	VSLDOI	$8, V14, V14, V15
-	SHA512ROUND0(V1, V2, V3, V4, V5, V6, V7, V0, V15, R_x090)
-	VPERMLE(V16,V16,LEMASK,V16)
-	SHA512ROUND0(V0, V1, V2, V3, V4, V5, V6, V7, V16, R_x0a0)
-	LXVD2X	(INP)(R_x040), VS50	// load v18 (=vs50) in advance
-	VSLDOI	$8, V16, V16, V17
-	SHA512ROUND0(V7, V0, V1, V2, V3, V4, V5, V6, V17, R_x0b0)
-	VPERMLE(V18,V18,LEMASK,V18)
-	SHA512ROUND0(V6, V7, V0, V1, V2, V3, V4, V5, V18, R_x0c0)
-	LXVD2X	(INP)(R_x050), VS52	// load v20 (=vs52) in advance
-	VSLDOI	$8, V18, V18, V19
-	SHA512ROUND0(V5, V6, V7, V0, V1, V2, V3, V4, V19, R_x0d0)
-	VPERMLE(V20,V20,LEMASK,V20)
-	SHA512ROUND0(V4, V5, V6, V7, V0, V1, V2, V3, V20, R_x0e0)
-	LXVD2X	(INP)(R_x060), VS54	// load v22 (=vs54) in advance
-	VSLDOI	$8, V20, V20, V21
-	SHA512ROUND0(V3, V4, V5, V6, V7, V0, V1, V2, V21, R_x0f0)
-	VPERMLE(V22,V22,LEMASK,V22)
-	SHA512ROUND0(V2, V3, V4, V5, V6, V7, V0, V1, V22, R_x100)
-	VSLDOI	$8, V22, V22, V23
-	SHA512ROUND1(V1, V2, V3, V4, V5, V6, V7, V0, V23, V8, V9, V17, V22, R_x110)
+        VPERMLE(V8,V8,LEMASK,V8)
+        SHA512ROUND0(V0, V1, V2, V3, V4, V5, V6, V7, V8, R_x020)
+        LXVD2X  (INP)(R_x000), VS42     // load v10 (=vs42) in advance
+        VSLDOI  $8, V8, V8, V9
+        SHA512ROUND0(V7, V0, V1, V2, V3, V4, V5, V6, V9, R_x030)
+        VPERMLE(V10,V10,LEMASK,V10)
+        SHA512ROUND0(V6, V7, V0, V1, V2, V3, V4, V5, V10, R_x040)
+        LXVD2X  (INP)(R_x010), VS44     // load v12 (=vs44) in advance
+        VSLDOI  $8, V10, V10, V11
+        SHA512ROUND0(V5, V6, V7, V0, V1, V2, V3, V4, V11, R_x050)
+        VPERMLE(V12,V12,LEMASK,V12)
+        SHA512ROUND0(V4, V5, V6, V7, V0, V1, V2, V3, V12, R_x060)
+        LXVD2X  (INP)(R_x020), VS46     // load v14 (=vs46) in advance
+        VSLDOI  $8, V12, V12, V13
+        SHA512ROUND0(V3, V4, V5, V6, V7, V0, V1, V2, V13, R_x070)
+        VPERMLE(V14,V14,LEMASK,V14)
+        SHA512ROUND0(V2, V3, V4, V5, V6, V7, V0, V1, V14, R_x080)
+        LXVD2X  (INP)(R_x030), VS48     // load v16 (=vs48) in advance
+        VSLDOI  $8, V14, V14, V15
+        SHA512ROUND0(V1, V2, V3, V4, V5, V6, V7, V0, V15, R_x090)
+        VPERMLE(V16,V16,LEMASK,V16)
+        SHA512ROUND0(V0, V1, V2, V3, V4, V5, V6, V7, V16, R_x0a0)
+        LXVD2X  (INP)(R_x040), VS50     // load v18 (=vs50) in advance
+        VSLDOI  $8, V16, V16, V17
+        SHA512ROUND0(V7, V0, V1, V2, V3, V4, V5, V6, V17, R_x0b0)
+        VPERMLE(V18,V18,LEMASK,V18)
+        SHA512ROUND0(V6, V7, V0, V1, V2, V3, V4, V5, V18, R_x0c0)
+        LXVD2X  (INP)(R_x050), VS52     // load v20 (=vs52) in advance
+        VSLDOI  $8, V18, V18, V19
+        SHA512ROUND0(V5, V6, V7, V0, V1, V2, V3, V4, V19, R_x0d0)
+        VPERMLE(V20,V20,LEMASK,V20)
+        SHA512ROUND0(V4, V5, V6, V7, V0, V1, V2, V3, V20, R_x0e0)
+        LXVD2X  (INP)(R_x060), VS54     // load v22 (=vs54) in advance
+        VSLDOI  $8, V20, V20, V21
+        SHA512ROUND0(V3, V4, V5, V6, V7, V0, V1, V2, V21, R_x0f0)
+        VPERMLE(V22,V22,LEMASK,V22)
+        SHA512ROUND0(V2, V3, V4, V5, V6, V7, V0, V1, V22, R_x100)
+        VSLDOI  $8, V22, V22, V23
+        SHA512ROUND1(V1, V2, V3, V4, V5, V6, V7, V0, V23, V8, V9, V17, V22, R_x110)
 
-	MOVWZ	$4, TEMP
-	MOVWZ	TEMP, CTR
-	ADD	$0x120, TBL
-	ADD	$0x70, INP
+        MOVWZ   $4,     TEMP
+        MOVWZ   TEMP,   CTR
+        ADD     $0x120, TBL
+        ADD     $0x70,  INP
 
 L16_xx:
-	SHA512ROUND1(V0, V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V18, V23, R_x000)
-	SHA512ROUND1(V7, V0, V1, V2, V3, V4, V5, V6, V9, V10, V11, V19, V8, R_x010)
-	SHA512ROUND1(V6, V7, V0, V1, V2, V3, V4, V5, V10, V11, V12, V20, V9, R_x020)
-	SHA512ROUND1(V5, V6, V7, V0, V1, V2, V3, V4, V11, V12, V13, V21, V10, R_x030)
-	SHA512ROUND1(V4, V5, V6, V7, V0, V1, V2, V3, V12, V13, V14, V22, V11, R_x040)
-	SHA512ROUND1(V3, V4, V5, V6, V7, V0, V1, V2, V13, V14, V15, V23, V12, R_x050)
-	SHA512ROUND1(V2, V3, V4, V5, V6, V7, V0, V1, V14, V15, V16, V8, V13, R_x060)
-	SHA512ROUND1(V1, V2, V3, V4, V5, V6, V7, V0, V15, V16, V17, V9, V14, R_x070)
-	SHA512ROUND1(V0, V1, V2, V3, V4, V5, V6, V7, V16, V17, V18, V10, V15, R_x080)
-	SHA512ROUND1(V7, V0, V1, V2, V3, V4, V5, V6, V17, V18, V19, V11, V16, R_x090)
-	SHA512ROUND1(V6, V7, V0, V1, V2, V3, V4, V5, V18, V19, V20, V12, V17, R_x0a0)
-	SHA512ROUND1(V5, V6, V7, V0, V1, V2, V3, V4, V19, V20, V21, V13, V18, R_x0b0)
-	SHA512ROUND1(V4, V5, V6, V7, V0, V1, V2, V3, V20, V21, V22, V14, V19, R_x0c0)
-	SHA512ROUND1(V3, V4, V5, V6, V7, V0, V1, V2, V21, V22, V23, V15, V20, R_x0d0)
-	SHA512ROUND1(V2, V3, V4, V5, V6, V7, V0, V1, V22, V23, V8, V16, V21, R_x0e0)
-	SHA512ROUND1(V1, V2, V3, V4, V5, V6, V7, V0, V23, V8, V9, V17, V22, R_x0f0)
-	ADD	$0x100, TBL
+        SHA512ROUND1(V0, V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V18, V23, R_x000)
+        SHA512ROUND1(V7, V0, V1, V2, V3, V4, V5, V6, V9, V10, V11, V19, V8, R_x010)
+        SHA512ROUND1(V6, V7, V0, V1, V2, V3, V4, V5, V10, V11, V12, V20, V9, R_x020)
+        SHA512ROUND1(V5, V6, V7, V0, V1, V2, V3, V4, V11, V12, V13, V21, V10, R_x030)
+        SHA512ROUND1(V4, V5, V6, V7, V0, V1, V2, V3, V12, V13, V14, V22, V11, R_x040)
+        SHA512ROUND1(V3, V4, V5, V6, V7, V0, V1, V2, V13, V14, V15, V23, V12, R_x050)
+        SHA512ROUND1(V2, V3, V4, V5, V6, V7, V0, V1, V14, V15, V16, V8, V13, R_x060)
+        SHA512ROUND1(V1, V2, V3, V4, V5, V6, V7, V0, V15, V16, V17, V9, V14, R_x070)
+        SHA512ROUND1(V0, V1, V2, V3, V4, V5, V6, V7, V16, V17, V18, V10, V15, R_x080)
+        SHA512ROUND1(V7, V0, V1, V2, V3, V4, V5, V6, V17, V18, V19, V11, V16, R_x090)
+        SHA512ROUND1(V6, V7, V0, V1, V2, V3, V4, V5, V18, V19, V20, V12, V17, R_x0a0)
+        SHA512ROUND1(V5, V6, V7, V0, V1, V2, V3, V4, V19, V20, V21, V13, V18, R_x0b0)
+        SHA512ROUND1(V4, V5, V6, V7, V0, V1, V2, V3, V20, V21, V22, V14, V19, R_x0c0)
+        SHA512ROUND1(V3, V4, V5, V6, V7, V0, V1, V2, V21, V22, V23, V15, V20, R_x0d0)
+        SHA512ROUND1(V2, V3, V4, V5, V6, V7, V0, V1, V22, V23, V8, V16, V21, R_x0e0)
+        SHA512ROUND1(V1, V2, V3, V4, V5, V6, V7, V0, V23, V8, V9, V17, V22, R_x0f0)
+        ADD     $0x100, TBL
 
-	BDNZ	L16_xx
+        BDNZ    L16_xx
 
-	XXLOR	VS24, VS24, V10
-	XXLOR	VS25, VS25, V11
-	XXLOR	VS26, VS26, V12
-	XXLOR	VS27, VS27, V13
-	XXLOR	VS28, VS28, V14
-	XXLOR	VS29, VS29, V15
-	XXLOR	VS30, VS30, V16
-	XXLOR	VS31, VS31, V17
-	VADDUDM	V10, V0, V0
-	VADDUDM	V11, V1, V1
-	VADDUDM	V12, V2, V2
-	VADDUDM	V13, V3, V3
-	VADDUDM	V14, V4, V4
-	VADDUDM	V15, V5, V5
-	VADDUDM	V16, V6, V6
-	VADDUDM	V17, V7, V7
+        XXLOR   VS24, VS24, V10
+        XXLOR   VS25, VS25, V11
+        XXLOR   VS26, VS26, V12
+        XXLOR   VS27, VS27, V13
+        XXLOR   VS28, VS28, V14
+        XXLOR   VS29, VS29, V15
+        XXLOR   VS30, VS30, V16
+        XXLOR   VS31, VS31, V17
+        VADDUDM V10,  V0,   V0
+        VADDUDM V11,  V1,   V1
+        VADDUDM V12,  V2,   V2
+        VADDUDM V13,  V3,   V3
+        VADDUDM V14,  V4,   V4
+        VADDUDM V15,  V5,   V5
+        VADDUDM V16,  V6,   V6
+        VADDUDM V17,  V7,   V7
 
-	CMPU	INP, END
-	BLT	loop
+        CMPU    INP, END
+        BLT     loop
 
 #ifdef GOARCH_ppc64le
-	VPERM	V0, V1, KI, V0
-	VPERM	V2, V3, KI, V2
-	VPERM	V4, V5, KI, V4
-	VPERM	V6, V7, KI, V6
+        VPERM   V0, V1, KI, V0
+        VPERM   V2, V3, KI, V2
+        VPERM   V4, V5, KI, V4
+        VPERM   V6, V7, KI, V6
 #else
-	VPERM	V1, V0, KI, V0
-	VPERM	V3, V2, KI, V2
-	VPERM	V5, V4, KI, V4
-	VPERM	V7, V6, KI, V6
+        VPERM   V1, V0, KI, V0
+        VPERM   V3, V2, KI, V2
+        VPERM   V5, V4, KI, V4
+        VPERM   V7, V6, KI, V6
 #endif
-	STXVD2X	VS32, (CTX+R_x000)	// v0 = vs32
-	STXVD2X	VS34, (CTX+R_x010)	// v2 = vs34
-	STXVD2X	VS36, (CTX+R_x020)	// v4 = vs36
-	STXVD2X	VS38, (CTX+R_x030)	// v6 = vs38
+        STXVD2X VS32, (CTX+R_x000)      // v0 = vs32
+        STXVD2X VS34, (CTX+R_x010)      // v2 = vs34
+        STXVD2X VS36, (CTX+R_x020)      // v4 = vs36
+        STXVD2X VS38, (CTX+R_x030)      // v6 = vs38
 
 end:
-	RET
-
+        RET

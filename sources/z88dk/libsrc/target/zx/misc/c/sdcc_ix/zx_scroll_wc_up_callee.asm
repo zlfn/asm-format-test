@@ -11,20 +11,20 @@ EXTERN asm0_zx_scroll_wc_up
 
 _zx_scroll_wc_up_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        ex      (sp), hl
 
 l0_zx_scroll_wc_up_callee:
 
-   ld e,l
-   ld d,0
-   ld l,h
+        ld      e, l
+        ld      d, 0
+        ld      l, h
 
-   push bc
-   ex (sp),ix
-   
-   call asm0_zx_scroll_wc_up
-   
-   pop ix
-   ret
+        push    bc
+        ex      (sp), ix
+
+        call    asm0_zx_scroll_wc_up
+
+        pop     ix
+        ret

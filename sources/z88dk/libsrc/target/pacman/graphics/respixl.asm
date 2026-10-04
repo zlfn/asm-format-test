@@ -11,88 +11,87 @@
 ;	$Id: respixl.asm $
 ;
 
+        INCLUDE "classic/gfx/grafix.inc"
 
-    INCLUDE "classic/gfx/grafix.inc"
+        SECTION code_clib
+        PUBLIC  respixel
 
-    SECTION code_clib
-    PUBLIC  respixel
+        EXTERN  textpixl
+        EXTERN  div3_0
+        EXTERN  __gfx_coords
 
-    EXTERN  textpixl
-    EXTERN  div3_0
-    EXTERN  __gfx_coords
-
-    EXTERN  char_address
+        EXTERN  char_address
 
 respixel:
-    ld      a, h
-    cp      _GFX_MAXX
-    ret     nc
-    ld      a, l
-    cp      _GFX_MAXY
-    ret     nc                          ; y0	out of range
+        ld      a, h
+        cp      _GFX_MAXX
+        ret     nc
+        ld      a, l
+        cp      _GFX_MAXY
+        ret     nc      ; y0	out of range
 
-    ld      (__gfx_coords), hl
+        ld      (__gfx_coords), hl
 
-    push    bc
+        push    bc
 
-    ld      c, a                        ; y
-    ld      b, h                        ; x
+        ld      c, a    ; y
+        ld      b, h    ; x
 
-    push    bc                          ; b=x, c=y
+        push    bc      ; b=x, c=y
 
-    ld      hl, div3_0
-    ld      d, 0
-    ld      e, b
-    add     hl, de
-    ld      a, (hl)
-    ld      b, a                        ; x/3
+        ld      hl, div3_0
+        ld      d,  0
+        ld      e,  b
+        add     hl, de
+        ld      a,  (hl)
+        ld      b,  a   ; x/3
 
-    srl     c                           ; y/2
+        srl     c       ; y/2
 
-    push    bc                          ; b=x/3, c=y/2
-    call    char_address
+        push    bc      ; b=x/3, c=y/2
+        call    char_address
 
-    ld      a, (hl)                     ; get current symbol from screen
+        ld      a, (hl) ; get current symbol from screen
 
-    sub     192
+        sub     192
 
-    pop     bc                          ; restore x/3 in b
+        pop     bc      ; restore x/3 in b
 
-    ex      (sp), hl                    ; save char address <=> restore x,y  (x=h, y=l)
+        ex      (sp), hl        ; save char address <=> restore x,y  (x=h, y=l)
 
-    ld      e, a                        ; keep the symbol
+        ld      e, a    ; keep the symbol
 
-    ld      a, h
+        ld      a, h
 
-    sub     b
-    sub     b
-    sub     b                           ; we get the remainder of x/3
+        sub     b
+        sub     b
+        sub     b       ; we get the remainder of x/3
 
-    ld      b, a
+        ld      b, a
 first_dot:
-    ld      a, 1                        ; the pixel we want to draw
+        ld      a, 1    ; the pixel we want to draw
 second_dot:
-    jr      z, iszero
-    bit     0, b
-    jr      nz, is1
-    add     a, a
-    add     a, a
+        jr      z,  iszero
+        bit     0,  b
+        jr      nz, is1
+        add     a,  a
+        add     a,  a
 is1:
-    add     a, a
-    add     a, a
+        add     a, a
+        add     a, a
 iszero:
 
-    bit     0, l
-    jr      z, evenrow
-    add     a, a                        ; move down the bit
+        bit     0, l
+        jr      z, evenrow
+        add     a, a    ; move down the bit
 evenrow:
-    cpl
-    and     e
+        cpl
+        and     e
 
-    add     192
+        add     192
 
-    pop     hl
-    ld      (hl), a
+        pop     hl
+        ld      (hl), a
 
-    pop     bc
-    ret
+        pop     bc
+        ret

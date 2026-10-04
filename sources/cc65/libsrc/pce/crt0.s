@@ -7,22 +7,22 @@
 ; 2018-02-24, Greg King
 ;
 
-        .export         _exit
-        .export         __STARTUP__ : absolute = 1      ; Mark as start-up
+        .export _exit
+        .export __STARTUP__ : absolute = 1      ; Mark as start-up
 
-        .import         initlib, donelib
-        .import         push0, _main
-        .import         IRQStub, __nmi
-        .importzp       c_sp
+        .import initlib, donelib
+        .import push0,   _main
+        .import IRQStub, __nmi
+        .importzp c_sp
 
         ; Linker-generated
-        .import         __CARTSIZE__
-        .import         __DATA_LOAD__, __DATA_RUN__, __DATA_SIZE__
-        .import         __BSS_RUN__, __BSS_SIZE__
-        .import         __MAIN_START__, __MAIN_SIZE__, __STACKSIZE__
+        .import __CARTSIZE__
+        .import __DATA_LOAD__,  __DATA_RUN__,  __DATA_SIZE__
+        .import __BSS_RUN__,    __BSS_SIZE__
+        .import __MAIN_START__, __MAIN_SIZE__, __STACKSIZE__
 
-        .include        "pce.inc"
-        .include        "extzp.inc"
+        .include "pce.inc"
+        .include "extzp.inc"
 
 ; ------------------------------------------------------------------------
 ; Place the start-up code in a special segment.
@@ -32,11 +32,11 @@
         ; Initialize the CPU.
 start:  sei
         nop
-        csh                     ; Set high-speed CPU mode
+        csh     ; Set high-speed CPU mode
         nop
 
         ; Set up the stack and the memory mapping.
-        ldx     #$FF            ; Stack top ($21FF)
+        ldx     #$FF    ; Stack top ($21FF)
         txs
 
         ; At power-on, most MPRs have random values; so, initiate them.
@@ -96,11 +96,11 @@ start:  sei
         cli                     ; Allow IRQ only after constructors have run
 
         ; Pass an empty command line
-        jsr     push0           ; argc
-        jsr     push0           ; argv
+        jsr     push0   ; argc
+        jsr     push0   ; argv
 
-        ldy     #4              ; Argument size
-        jsr     _main           ; Call the user's code
+        ldy     #4      ; Argument size
+        jsr     _main   ; Call the user's code
 
         ; Call the module destructors. This is also the exit() entry.
 _exit:  jsr     donelib
@@ -117,8 +117,8 @@ initmainargs:
 ; ------------------------------------------------------------------------
 .segment        "VECTORS"
 
-        .word   IRQStub         ; $FFF6 IRQ2 (External IRQ, BRK)
-        .word   IRQStub         ; $FFF8 IRQ1 (VDC)
-        .word   IRQStub         ; $FFFA Timer
-        .word   __nmi           ; $FFFC NMI
-        .word   start           ; $FFFE reset
+        .word   IRQStub ; $FFF6 IRQ2 (External IRQ, BRK)
+        .word   IRQStub ; $FFF8 IRQ1 (VDC)
+        .word   IRQStub ; $FFFA Timer
+        .word   __nmi   ; $FFFC NMI
+        .word   start   ; $FFFE reset

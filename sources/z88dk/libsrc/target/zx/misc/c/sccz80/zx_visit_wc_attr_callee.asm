@@ -9,9 +9,9 @@ EXTERN asm_zx_visit_wc_attr
 
 zx_visit_wc_attr_callee:
 
-   pop af
-   pop de
-   pop ix
-   push af
+        pop     af
+        pop     de
+        pop     ix
+        push    af
 
-   jp asm_zx_visit_wc_attr
+        jp      asm_zx_visit_wc_attr

@@ -8,5 +8,4 @@
 
 // func block(counter uint64, seed *[8]uint32, blocks *[16][4]uint32)
 TEXT ·block(SB), NOSPLIT, $0
-	JMP ·block_generic(SB)
-
+        JMP     ·block_generic(SB)

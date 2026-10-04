@@ -9,18 +9,18 @@ EXTERN asm_esx_f_get_canonical_path
 
 _esx_f_get_canonical_path_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 l_esx_f_get_canonical_path_callee:
 
-   push ix
-   push iy
-   
-   call asm_esx_f_get_canonical_path
-   
-   pop iy
-   pop ix
-   
-   ret
+        push    ix
+        push    iy
+
+        call    asm_esx_f_get_canonical_path
+
+        pop     iy
+        pop     ix
+
+        ret

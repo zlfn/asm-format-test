@@ -8,29 +8,29 @@ ___rand_seed::
 
         .area   _CODE
 
-_rand::	
+_rand::
 _randw::
 
-        ld hl, (.randval)
-        LD d, h
-        ld e, l
+        ld      hl, (.randval)
+        LD      d,  h
+        ld      e,  l
 
-        add hl, hl
-        add hl, hl
-        add hl, hl
-        add hl, hl
-        add hl, de
-        ld de, #0x5C93
-        add hl, de
-        ld (.randval), hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, de
+        ld      de, #0x5C93
+        add     hl, de
+        ld      (.randval), hl
 
-        ld a, h
-        ld h, l
-        ld l, a
+        ld      a, h
+        ld      h, l
+        ld      l, a
 
         RET
 
-_initrand::                     ; Non banked
+_initrand::     ; Non banked
 .initrand::
-        LD (.randval), HL
+        LD      (.randval), HL
         RET

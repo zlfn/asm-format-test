@@ -11,28 +11,26 @@
 ;       $Id: cpc_RLI_callee.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_RLI_callee
-        PUBLIC    _cpc_RLI_callee
-        PUBLIC    asm_cpc_RLI	
-
+        SECTION code_clib
+        PUBLIC  cpc_RLI_callee
+        PUBLIC  _cpc_RLI_callee
+        PUBLIC  asm_cpc_RLI
 
 .cpc_RLI_callee
 ._cpc_RLI_callee
 
-	pop hl
-	pop de	; h
-	pop bc	; w
-	ex	(sp),hl	; pos
-	
+        pop     hl
+        pop     de              ; h
+        pop     bc              ; w
+        ex      (sp), hl        ; pos
 
 .asm_cpc_RLI
-	ld	a,e
-	ld (_ancho+1),a
-	ld	a,c
-	ld (_alto+1),a
+        ld      a, e
+        ld      (_ancho+1), a
+        ld      a, c
+        ld      (_alto+1), a
 
-dec hl	
+dec hl
 ._alto
 ld a,8					;; parametro
 .ciclo0
@@ -65,10 +63,7 @@ ret z
 ld bc,$800
 add hl,bc
 
-
 jp nc,ciclo0 ;sig_linea_2zz		;si no desborda va a la siguiente linea
 ld bc,$c050
 add HL,BC
 jp ciclo0
-
-	

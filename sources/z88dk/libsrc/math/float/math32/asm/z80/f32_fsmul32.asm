@@ -40,120 +40,116 @@ EXTERN m32_mulu_32h_24x24, m32_mulu_32h_32x32
 
 PUBLIC m32_fsmul24x32, m32_fsmul32x32
 
-
 .m32_fsmul32x32
-    ld a,c                      ; put sign bit into A
-    ex af,af
+        ld      a,  c   ; put sign bit into A
+        ex      af, af
 
-    exx                         ; first b' = eeeeeeee c' = s-------
-                                ;   de'hl' = 1mmmmmmm mmmmmmmm mmmmmmmm mmmmmmmm
+        exx     ; first b' = eeeeeeee c' = s-------
+                ;   de'hl' = 1mmmmmmm mmmmmmmm mmmmmmmm mmmmmmmm
 
-    pop af                      ; pop return address
-    pop hl                      ; get second operand off of the stack
-    pop de                      ; second b' = eeeeeeee c' = s-------
-    pop bc                      ;    de'hl' = 1mmmmmmm mmmmmmmm mmmmmmmm mmmmmmmm
-    push af                     ; return address on stack
-    
-    ex af,af
-    xor a,c                     ; xor sign flags
-    ex af,af                    ; save sign flag in a7' and f' reg
-    jr fmrejoin
+        pop     af      ; pop return address
+        pop     hl      ; get second operand off of the stack
+        pop     de      ; second b' = eeeeeeee c' = s-------
+        pop     bc      ;    de'hl' = 1mmmmmmm mmmmmmmm mmmmmmmm mmmmmmmm
+        push    af      ; return address on stack
 
+        ex      af, af
+        xor     a,  c   ; xor sign flags
+        ex      af, af  ; save sign flag in a7' and f' reg
+        jr      fmrejoin
 
 .m32_fsmul24x32
-    ld a,c                      ; put sign bit into A
+        ld      a, c    ; put sign bit into A
 
-    exx                         ; first b' = eeeeeeee c' = s-------
-                                ;   de'hl' = 1mmmmmmm mmmmmmmm mmmmmmmm mmmmmmmm
+        exx     ; first b' = eeeeeeee c' = s-------
+                ;   de'hl' = 1mmmmmmm mmmmmmmm mmmmmmmm mmmmmmmm
 
-    pop hl                      ; pop return address
-    pop de                      ; get second operand off of the stack
-    ex (sp),hl                  ; hlde = seeeeeee emmmmmmm mmmmmmmm mmmmmmmm; ret → stack
+        pop     hl              ; pop return address
+        pop     de              ; get second operand off of the stack
+        ex      (sp), hl        ; hlde = seeeeeee emmmmmmm mmmmmmmm mmmmmmmm; ret → stack
 
-    xor a,h                     ; xor sign flags
-    ex af,af                    ; save sign flag in a[7]' and f' reg
+        xor     a,  h   ; xor sign flags
+        ex      af, af  ; save sign flag in a[7]' and f' reg
 
-    add hl,hl                   ; shift exponent into h
-    scf                         ; set implicit bit
-    rr l                        ; shift msb into mantissa
-    
-    ld b,h                      ; put exponent into B = eeeeeeee
-    ld h,e                      ; put mantissa from LDE0 into DEHL
-    ld e,d
-    ld d,l                      ; second b = eeeeeeee c = s-------
-    ld l,0                      ;    dehl = 1mmmmmmm mmmmmmmm mmmmmmmm 00000000
+        add     hl, hl  ; shift exponent into h
+        scf             ; set implicit bit
+        rr      l       ; shift msb into mantissa
+
+        ld      b, h    ; put exponent into B = eeeeeeee
+        ld      h, e    ; put mantissa from LDE0 into DEHL
+        ld      e, d
+        ld      d, l    ; second b = eeeeeeee c = s-------
+        ld      l, 0    ;    dehl = 1mmmmmmm mmmmmmmm mmmmmmmm 00000000
 
 .fmrejoin
-    ld a,b                      ; calculate the exponent
-    ; ±0 is classified by the IEEE caller (fsmul / inv / sqrt / poly)
-    sub a,07fh                  ; subtract out bias, so when exponents are added only one bias present
-    jr C,fmchkuf
+        ld      a, b    ; calculate the exponent
+        ; ±0 is classified by the IEEE caller (fsmul / inv / sqrt / poly)
+        sub     a, 07fh ; subtract out bias, so when exponents are added only one bias present
+        jr      C, fmchkuf
 
-    exx
+        exx
 
-    add a,b
-    jp C,mulovl
-    cp 0ffh
-    jp Z,mulovl                 ; sum 255, no 8-bit carry (near FLT_MAX)
-    ; fall through to fmnouf (common finite path)
+        add     a, b
+        jp      C, mulovl
+        cp      0ffh
+        jp      Z, mulovl       ; sum 255, no 8-bit carry (near FLT_MAX)
+        ; fall through to fmnouf (common finite path)
 
 .fmnouf
-    ld b,a
-    or a
-    jp Z,mulzero                ; check sum of exponents for zero
+        ld      b, a
+        or      a
+        jp      Z, mulzero      ; check sum of exponents for zero
 
-    ex af,af
-    ld a,b
-    push af                     ; stack: sum of exponents a, and xor sign of exponents in f
+        ex      af, af
+        ld      a,  b
+        push    af      ; stack: sum of exponents a, and xor sign of exponents in f
 
-                                ; first  dehl  = 1mmmmmmm mmmmmmmm mmmmmmmm mmmmmmmm
-                                ; second dehl' = 1mmmmmmm mmmmmmmm mmmmmmmm mmmmmmmm
-                                ; sum of exponents, xor of exponents sign on stack = b,c[7]
-                                ;
-                                ; multiplication of two 32-bit numbers into a 32-bit product
-    call m32_mulu_32h_32x32     ; exit  : dehl  = 32-bit product
+        ; first  dehl  = 1mmmmmmm mmmmmmmm mmmmmmmm mmmmmmmm
+        ; second dehl' = 1mmmmmmm mmmmmmmm mmmmmmmm mmmmmmmm
+        ; sum of exponents, xor of exponents sign on stack = b,c[7]
+        ;
+        ; multiplication of two 32-bit numbers into a 32-bit product
+        call    m32_mulu_32h_32x32      ; exit  : dehl  = 32-bit product
 
-    pop bc                      ; retrieve sign and exponent from stack = b,c[7]
+        pop     bc      ; retrieve sign and exponent from stack = b,c[7]
 
-    bit 7,d                     ; need to shift result left if msb!=1
-    jr NZ,fm0
-    add hl,hl
-    rl de
-    ret                         ; return BC DEHL
+        bit     7,  d   ; need to shift result left if msb!=1
+        jr      NZ, fm0
+        add     hl, hl
+        rl      de
+        ret             ; return BC DEHL
 
 .fm0
-    inc b
-    ret NZ                      ; return BC DEHL
-    ld b,0ffh                   ; wrapped: Inf. C already has xor sign
-    jr mulovl_mant              ; do not reload AF' (mulu clobbers it on z80n/z180)
+        inc     b
+        ret     NZ              ; return BC DEHL
+        ld      b, 0ffh         ; wrapped: Inf. C already has xor sign
+        jr      mulovl_mant     ; do not reload AF' (mulu clobbers it on z80n/z180)
 
 .mulovl
-    ex af,af                    ; xor sign still in AF' (before mulu)
-    ld c,a
-    ld b,0ffh                   ; set Infinity
+        ex      af, af          ; xor sign still in AF' (before mulu)
+        ld      c,  a
+        ld      b,  0ffh        ; set Infinity
 .mulovl_mant
-    ld d,0
-    ld e,d
-    ld h,d
-    ld l,d
-    ret                         ; done overflow
+        ld      d, 0
+        ld      e, d
+        ld      h, d
+        ld      l, d
+        ret                     ; done overflow
 
 .fmchkuf
-    exx
+        exx
 
-    add a,b                     ; add the exponents
-    jp NC,mulzero
-    jp fmnouf
+        add     a,  b   ; add the exponents
+        jp      NC, mulzero
+        jp      fmnouf
 
 .mulzero
-    ex af,af                    ; get sign
-    and a,080h
-    ld c,a
-    ld b,0                      ; set ZERO
-    ld d,b
-    ld e,b
-    ld h,b
-    ld l,b
-    ret                         ; done zero
-
-
+        ex      af, af  ; get sign
+        and     a,  080h
+        ld      c,  a
+        ld      b,  0   ; set ZERO
+        ld      d,  b
+        ld      e,  b
+        ld      h,  b
+        ld      l,  b
+        ret             ; done zero

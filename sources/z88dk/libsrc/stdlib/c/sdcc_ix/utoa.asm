@@ -10,14 +10,14 @@ EXTERN l0_utoa_callee
 
 _utoa:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
 
-   jp l0_utoa_callee
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_utoa_callee

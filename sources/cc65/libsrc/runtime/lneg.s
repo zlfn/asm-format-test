@@ -7,8 +7,8 @@
 ;
 ; eax = -eax
 ;
-        .export         negeax
-        .importzp       sreg
+        .export negeax
+        .importzp sreg
 
 negeax: clc
         eor     #$FF
@@ -28,4 +28,3 @@ negeax: clc
         sta     sreg+1
         pla
         rts
-

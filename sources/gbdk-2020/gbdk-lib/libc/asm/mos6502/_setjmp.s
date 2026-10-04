@@ -27,57 +27,57 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _setjmp
+        .module _setjmp
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl ___setjmp
-        .globl _longjmp
-        .globl _longjmp_PARM_2
-	
+        .globl  ___setjmp
+        .globl  _longjmp
+        .globl  _longjmp_PARM_2
+
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 _longjmp_PARM_2:
-        .ds 2
+        .ds     2
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define ptr "DPTR"
-	.define rv "_longjmp_PARM_2"
+        .define ptr "DPTR"
+        .define rv "_longjmp_PARM_2"
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-        .area _CODE
+        .area   _CODE
 
 ;------------------------------------------------------------
 ; int __setjmp (jmp_buf buf)
 ;------------------------------------------------------------
 
 ___setjmp:
-        stx	*(ptr + 1)		; msb(buf)
-        sta	*(ptr + 0)		; lsb(buf)
+        stx     *(ptr + 1)      ; msb(buf)
+        sta     *(ptr + 0)      ; lsb(buf)
 
         ; save stack pointer
         tsx
-        ldy	#0
+        ldy     #0
         txa
-        sta	[ptr],y
+        sta     [ptr], y
 
         ; save return address
-        lda	0x101,x
+        lda     0x101, x
         iny
-        sta	[ptr],y
-        lda	0x102,x
+        sta     [ptr], y
+        lda     0x102, x
         iny
-        sta	[ptr],y
+        sta     [ptr], y
 
         ; return 0
-        lda	#0
+        lda     #0
         tax
         rts
 
@@ -86,28 +86,28 @@ ___setjmp:
 ;------------------------------------------------------------
 
 _longjmp:
-        stx	*(ptr + 1)		; msb(buf)
-        sta	*(ptr + 0)		; lsb(buf)
+        stx     *(ptr + 1)      ; msb(buf)
+        sta     *(ptr + 0)      ; lsb(buf)
 
         ; restore stack pointer
-        ldy	#0
-        lda	[ptr],y
+        ldy     #0
+        lda     [ptr], y
         tax
         txs
 
         ; set return address
         iny
-        lda	[ptr],y
-        sta	0x101,x
+        lda     [ptr], y
+        sta     0x101, x
         iny
-        lda	[ptr],y
-        sta	0x102,x
+        lda     [ptr], y
+        sta     0x102, x
 
 ; return rv ? rv : 1;
-        lda	*(rv + 0)
-        ldx	*(rv + 1)
-        ora	*(rv + 1)
-        bne	ret
-        lda	#0x01
+        lda     *(rv + 0)
+        ldx     *(rv + 1)
+        ora     *(rv + 1)
+        bne     ret
+        lda     #0x01
 ret:
         rts

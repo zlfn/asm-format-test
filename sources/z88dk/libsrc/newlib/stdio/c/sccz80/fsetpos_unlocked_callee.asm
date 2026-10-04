@@ -10,9 +10,9 @@ EXTERN asm_fsetpos_unlocked
 
 fsetpos_unlocked_callee:
 
-   pop af
-   pop hl
-   pop ix
-   push af
-   
-   jp asm_fsetpos_unlocked
+        pop     af
+        pop     hl
+        pop     ix
+        push    af
+
+        jp      asm_fsetpos_unlocked

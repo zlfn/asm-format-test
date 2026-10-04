@@ -8,10 +8,10 @@ EXTERN asm_esx_m_tapein_flags
 
 _esx_m_tapein_flags:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_esx_m_tapein_flags
+        push    hl
+        push    af
+
+        jp      asm_esx_m_tapein_flags

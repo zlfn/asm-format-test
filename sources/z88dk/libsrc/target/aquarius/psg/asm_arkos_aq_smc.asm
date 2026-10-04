@@ -49,24 +49,24 @@ PLY_AKG_PLAYSOUNDEFFECT:
         dec     a
 PLY_AKG_PTSOUNDEFFECTTABLE:
         ld      hl, 0
-        ld      e, a
-        ld      d, 0
+        ld      e,  a
+        ld      d,  0
         add     hl, de
         add     hl, de
-        ld      e, (hl)
+        ld      e,  (hl)
         inc     hl
         ld      d, (hl)
         ld      a, (de)
         inc     de
         ex      af, af'
-        ld      a, b
+        ld      a,  b
         ld      hl, PLY_AKG_CHANNEL1_SOUNDEFFECTDATA
-        ld      b, 0
+        ld      b,  0
         defc    PLY_AKG_OPCODE_INC_HL=ASMPC+1
         sla     c
         sla     c
         sla     c
-        add     hl, bc
+        add     hl,   bc
         ld      (hl), e
         inc     hl
 PLY_AKG_OPCODE_DEC_HL:
@@ -76,18 +76,18 @@ PLY_AKG_OPCODE_DEC_HL:
         inc     hl
         ld      (hl), 0
         inc     hl
-        ex      af, af'
+        ex      af,   af'
         ld      (hl), a
         ret
 PLY_AKG_STOPSOUNDEFFECTFROMCHANNEL:
         add     a, a
         add     a, a
 PLY_AKG_OPCODE_SCF:
-        add     a, a
-        ld      e, a
-        ld      d, 0
-        ld      hl, PLY_AKG_CHANNEL1_SOUNDEFFECTDATA
-        add     hl, de
+        add     a,    a
+        ld      e,    a
+        ld      d,    0
+        ld      hl,   PLY_AKG_CHANNEL1_SOUNDEFFECTDATA
+        add     hl,   de
         ld      (hl), d
         inc     hl
         ld      (hl), d
@@ -191,8 +191,8 @@ PLY_AKG_PSES_SOFTWAREANDHARDWARE:
 PLY_AKG_PSES_SHARED_READRETRIGHARDWAREENVPERIODNOISE:
         rra
         jr      nc, PLY_AKG_PSES_H_AFTERRETRIG
-        ld      d, a
-        ld      a, 255
+        ld      d,  a
+        ld      a,  255
 PLY_AKG_OPCODE_SBC_HL_BC_MSB:
         ld      (PLY_AKG_PSGREG13_OLDVALUE+1), a
         ld      a, d
@@ -293,14 +293,14 @@ PLY_AKG_INIT:
         inc     hl
         ld      (PLY_AKG_CHANNEL_READEFFECTS_EFFECTBLOCKS1+1), bc
         ld      (PLY_AKG_CHANNEL_READEFFECTS_EFFECTBLOCKS2+1), bc
-        add     a, a
-        ld      e, a
-        ld      d, 0
+        add     a,  a
+        ld      e,  a
+        ld      d,  0
         add     hl, de
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
-        ld      h, (hl)
-        ld      l, a
+        ld      h,  (hl)
+        ld      l,  a
         ld      de, 5
         add     hl, de
         ld      de, PLY_AKG_CHANNEL3_READCELLEND+1
@@ -313,7 +313,7 @@ PLY_AKG_INIT:
         call    PLY_AKG_INIT_READWORDSANDFILL
         inc     c
         ld      hl, PLY_AKG_INITTABLE0_END
-        ld      b, 3
+        ld      b,  3
         call    PLY_AKG_INIT_READWORDSANDFILL
         ld      hl, PLY_AKG_INITTABLE1_END
         ld      bc, 3511
@@ -321,9 +321,9 @@ PLY_AKG_INIT:
         ld      a, 255
         ld      (PLY_AKG_PSGREG13_OLDVALUE+1), a
         ld      hl, (PLY_AKG_INSTRUMENTSTABLE+1)
-        ld      e, (hl)
+        ld      e,  (hl)
         inc     hl
-        ld      d, (hl)
+        ld      d,  (hl)
         ex      de, hl
         inc     hl
         ld      (PLY_AKG_ENDWITHOUTLOOP+1), hl
@@ -340,7 +340,7 @@ PLY_AKG_INIT_READWORDSANDFILL_LOOP:
         inc     hl
         ld      d, (hl)
         inc     hl
-        ld      a, c
+        ld      a,    c
         ld      (de), a
 PLY_AKG_INIT_READWORDSANDFILL:
         djnz    PLY_AKG_INIT_READWORDSANDFILL_LOOP
@@ -452,12 +452,12 @@ PLY_AKG_SPEEDTRACK_WAITCOUNTER:
         jr      nc, PLY_AKG_SPEEDTRACK_MUSTWAIT
 PLY_AKG_SPEEDTRACK_PTTRACK:
         ld      hl, 0
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
         srl     a
-        jr      c, PLY_AKG_SPEEDTRACK_STOREPOINTERANDWAITCOUNTER
+        jr      c,  PLY_AKG_SPEEDTRACK_STOREPOINTERANDWAITCOUNTER
         jr      nz, PLY_AKG_SPEEDTRACK_NORMALVALUE
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
 PLY_AKG_SPEEDTRACK_NORMALVALUE:
         ld      (PLY_AKG_CHANNEL3_READCELLEND+1), a
@@ -474,12 +474,12 @@ PLY_AKG_EVENTTRACK_WAITCOUNTER:
         jr      nc, PLY_AKG_EVENTTRACK_MUSTWAIT
 PLY_AKG_EVENTTRACK_PTTRACK:
         ld      hl, 0
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
         srl     a
-        jr      c, PLY_AKG_EVENTTRACK_STOREPOINTERANDWAITCOUNTER
+        jr      c,  PLY_AKG_EVENTTRACK_STOREPOINTERANDWAITCOUNTER
         jr      nz, PLY_AKG_EVENTTRACK_NORMALVALUE
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
 PLY_AKG_EVENTTRACK_NORMALVALUE:
         ld      (PLY_AKG_EVENT), a
@@ -500,7 +500,7 @@ PLY_AKG_CHANNEL1_WAITCOUNTER:
 PLY_AKG_CHANNEL1_READTRACK:
 PLY_AKG_CHANNEL1_PTTRACK:
         ld      hl, 0
-        ld      c, (hl)
+        ld      c,  (hl)
         inc     hl
         ld      a, c
         and     63
@@ -545,11 +545,11 @@ PLY_AKG_CHANNEL1_TRANSPOSITION:
         ld      (PLY_AKG_CHANNEL1_TRACKNOTE+1), a
         rl      c
         jr      nc, PLY_AKG_CHANNEL1_SAMEINSTRUMENT
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
         exx
-        ld      l, a
-        ld      h, 0
+        ld      l,  a
+        ld      h,  0
         add     hl, hl
 PLY_AKG_INSTRUMENTSTABLE:
         ld      de, 0
@@ -559,7 +559,7 @@ PLY_AKG_INSTRUMENTSTABLE:
         ld      a, (hl)
         inc     hl
         ld      (PLY_AKG_CHANNEL1_INSTRUMENTORIGINALSPEED+1), a
-        ld      (PLY_AKG_CHANNEL1_PTINSTRUMENT+1), hl
+        ld      (PLY_AKG_CHANNEL1_PTINSTRUMENT+1),   hl
         ld      (PLY_AKG_CHANNEL1_SAMEINSTRUMENT+1), hl
         exx
 PLY_AKG_CHANNEL1_AFTERINSTRUMENT:
@@ -569,7 +569,7 @@ PLY_AKG_CHANNEL1_AFTERINSTRUMENT:
         ld      h, a
         ld      (PLY_AKG_CHANNEL1_PITCHTABLE_END+1), hl
         ld      (PLY_AKG_CHANNEL1_ARPEGGIOTABLECURRENTSTEP+1), a
-        ld      (PLY_AKG_CHANNEL1_PITCHTABLECURRENTSTEP+1), a
+        ld      (PLY_AKG_CHANNEL1_PITCHTABLECURRENTSTEP+1),    a
         ld      (PLY_AKG_CHANNEL1_INSTRUMENTSTEP+2), a
 PLY_AKG_CHANNEL1_INSTRUMENTORIGINALSPEED:
         ld      a, 0
@@ -601,7 +601,7 @@ PLY_AKG_CHANNEL2_WAITCOUNTER:
 PLY_AKG_CHANNEL2_READTRACK:
 PLY_AKG_CHANNEL2_PTTRACK:
         ld      hl, 0
-        ld      c, (hl)
+        ld      c,  (hl)
         inc     hl
         ld      a, c
         and     63
@@ -646,11 +646,11 @@ PLY_AKG_CHANNEL2_TRANSPOSITION:
         ld      (PLY_AKG_CHANNEL2_TRACKNOTE+1), a
         rl      c
         jr      nc, PLY_AKG_CHANNEL2_SAMEINSTRUMENT
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
         exx
-        ld      e, a
-        ld      d, 0
+        ld      e,  a
+        ld      d,  0
         ld      hl, (PLY_AKG_INSTRUMENTSTABLE+1)
         add     hl, de
         add     hl, de
@@ -659,7 +659,7 @@ PLY_AKG_CHANNEL2_TRANSPOSITION:
         ld      a, (hl)
         inc     hl
         ld      (PLY_AKG_CHANNEL2_INSTRUMENTORIGINALSPEED+1), a
-        ld      (PLY_AKG_CHANNEL2_PTINSTRUMENT+1), hl
+        ld      (PLY_AKG_CHANNEL2_PTINSTRUMENT+1),   hl
         ld      (PLY_AKG_CHANNEL2_SAMEINSTRUMENT+1), hl
         exx
 PLY_AKG_CHANNEL2_AFTERINSTRUMENT:
@@ -669,7 +669,7 @@ PLY_AKG_CHANNEL2_AFTERINSTRUMENT:
         ld      h, a
         ld      (PLY_AKG_CHANNEL2_PITCHTABLE_END+1), hl
         ld      (PLY_AKG_CHANNEL2_ARPEGGIOTABLECURRENTSTEP+1), a
-        ld      (PLY_AKG_CHANNEL2_PITCHTABLECURRENTSTEP+1), a
+        ld      (PLY_AKG_CHANNEL2_PITCHTABLECURRENTSTEP+1),    a
         ld      (PLY_AKG_CHANNEL2_INSTRUMENTSTEP+2), a
 PLY_AKG_CHANNEL2_INSTRUMENTORIGINALSPEED:
         ld      a, 0
@@ -701,7 +701,7 @@ PLY_AKG_CHANNEL3_WAITCOUNTER:
 PLY_AKG_CHANNEL3_READTRACK:
 PLY_AKG_CHANNEL3_PTTRACK:
         ld      hl, 0
-        ld      c, (hl)
+        ld      c,  (hl)
         inc     hl
         ld      a, c
         and     63
@@ -746,11 +746,11 @@ PLY_AKG_CHANNEL3_TRANSPOSITION:
         ld      (PLY_AKG_CHANNEL3_TRACKNOTE+1), a
         rl      c
         jr      nc, PLY_AKG_CHANNEL3_SAMEINSTRUMENT
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
         exx
-        ld      e, a
-        ld      d, 0
+        ld      e,  a
+        ld      d,  0
         ld      hl, (PLY_AKG_INSTRUMENTSTABLE+1)
         add     hl, de
         add     hl, de
@@ -759,7 +759,7 @@ PLY_AKG_CHANNEL3_TRANSPOSITION:
         ld      a, (hl)
         inc     hl
         ld      (PLY_AKG_CHANNEL3_INSTRUMENTORIGINALSPEED+1), a
-        ld      (PLY_AKG_CHANNEL3_PTINSTRUMENT+1), hl
+        ld      (PLY_AKG_CHANNEL3_PTINSTRUMENT+1),   hl
         ld      (PLY_AKG_CHANNEL3_SAMEINSTRUMENT+1), hl
         exx
 PLY_AKG_CHANNEL3_AFTERINSTRUMENT:
@@ -769,7 +769,7 @@ PLY_AKG_CHANNEL3_AFTERINSTRUMENT:
         ld      h, a
         ld      (PLY_AKG_CHANNEL3_PITCHTABLE_END+1), hl
         ld      (PLY_AKG_CHANNEL3_ARPEGGIOTABLECURRENTSTEP+1), a
-        ld      (PLY_AKG_CHANNEL3_PITCHTABLECURRENTSTEP+1), a
+        ld      (PLY_AKG_CHANNEL3_PITCHTABLECURRENTSTEP+1),    a
         ld      (PLY_AKG_CHANNEL3_INSTRUMENTSTEP+2), a
 PLY_AKG_CHANNEL3_INSTRUMENTORIGINALSPEED:
         ld      a, 0
@@ -804,9 +804,9 @@ PLY_AKG_CHANNEL1_ISVOLUMESLIDE:
 PLY_AKG_CHANNEL1_VOLUMESLIDEVALUE:
         ld      de, 0
         add     hl, de
-        bit     7, h
-        jr      z, PLY_AKG_CHANNEL1_VOLUMENOTOVERFLOW
-        ld      h, 0
+        bit     7,  h
+        jr      z,  PLY_AKG_CHANNEL1_VOLUMENOTOVERFLOW
+        ld      h,  0
         jr      PLY_AKG_CHANNEL1_VOLUMESETAGAIN
 PLY_AKG_CHANNEL1_VOLUMENOTOVERFLOW:
         ld      a, h
@@ -824,7 +824,7 @@ PLY_AKG_CHANNEL1_ISARPEGGIOTABLE:
         jr      nc, PLY_AKG_CHANNEL1_ARPEGGIOTABLE_END
 PLY_AKG_CHANNEL1_ARPEGGIOTABLE:
         ld      hl, 0
-        ld      a, (hl)
+        ld      a,  (hl)
         cp      128
         jr      nz, PLY_AKG_CHANNEL1_ARPEGGIOTABLE_AFTERLOOPTEST
         inc     hl
@@ -900,14 +900,14 @@ PLY_AKG_CHANNEL1_GLIDEDIRECTION:
         or      a
         jr      z, PLY_AKG_CHANNEL1_GLIDE_END
         ld      (PLY_AKG_CHANNEL1_AFTERARPEGGIOPITCHVARIABLES+1), hl
-        ld      c, l
-        ld      b, h
+        ld      c,  l
+        ld      b,  h
         ex      af, af'
-        ld      a, (PLY_AKG_CHANNEL1_TRACKNOTE+1)
-        add     a, a
-        ld      l, a
+        ld      a,  (PLY_AKG_CHANNEL1_TRACKNOTE+1)
+        add     a,  a
+        ld      l,  a
         ex      af, af'
-        ld      h, 0
+        ld      h,  0
         ld      sp, PLY_AKG_PERIODTABLE
         add     hl, sp
         ld      sp, hl
@@ -925,7 +925,7 @@ PLY_AKG_CHANNEL1_GLIDETOREACH:
         jr      PLY_AKG_CHANNEL1_GLIDEOVER
 PLY_AKG_CHANNEL1_GLIDEDOWNCHECK:
         sbc     hl, bc
-        jr      c, PLY_AKG_CHANNEL1_AFTERARPEGGIOPITCHVARIABLES
+        jr      c,  PLY_AKG_CHANNEL1_AFTERARPEGGIOPITCHVARIABLES
 PLY_AKG_CHANNEL1_GLIDEOVER:
         ld      l, c
         ld      h, b
@@ -973,9 +973,9 @@ PLY_AKG_CHANNEL2_ISVOLUMESLIDE:
 PLY_AKG_CHANNEL2_VOLUMESLIDEVALUE:
         ld      de, 0
         add     hl, de
-        bit     7, h
-        jr      z, PLY_AKG_CHANNEL2_VOLUMENOTOVERFLOW
-        ld      h, 0
+        bit     7,  h
+        jr      z,  PLY_AKG_CHANNEL2_VOLUMENOTOVERFLOW
+        ld      h,  0
         jr      PLY_AKG_CHANNEL2_VOLUMESETAGAIN
 PLY_AKG_CHANNEL2_VOLUMENOTOVERFLOW:
         ld      a, h
@@ -993,7 +993,7 @@ PLY_AKG_CHANNEL2_ISARPEGGIOTABLE:
         jr      nc, PLY_AKG_CHANNEL2_ARPEGGIOTABLE_END
 PLY_AKG_CHANNEL2_ARPEGGIOTABLE:
         ld      hl, 0
-        ld      a, (hl)
+        ld      a,  (hl)
         cp      128
         jr      nz, PLY_AKG_CHANNEL2_ARPEGGIOTABLE_AFTERLOOPTEST
         inc     hl
@@ -1069,14 +1069,14 @@ PLY_AKG_CHANNEL2_GLIDEDIRECTION:
         or      a
         jr      z, PLY_AKG_CHANNEL2_GLIDE_END
         ld      (PLY_AKG_CHANNEL2_AFTERARPEGGIOPITCHVARIABLES+1), hl
-        ld      c, l
-        ld      b, h
+        ld      c,  l
+        ld      b,  h
         ex      af, af'
-        ld      a, (PLY_AKG_CHANNEL2_TRACKNOTE+1)
-        add     a, a
-        ld      l, a
+        ld      a,  (PLY_AKG_CHANNEL2_TRACKNOTE+1)
+        add     a,  a
+        ld      l,  a
         ex      af, af'
-        ld      h, 0
+        ld      h,  0
         ld      sp, PLY_AKG_PERIODTABLE
         add     hl, sp
         ld      sp, hl
@@ -1094,7 +1094,7 @@ PLY_AKG_CHANNEL2_GLIDETOREACH:
         jr      PLY_AKG_CHANNEL2_GLIDEOVER
 PLY_AKG_CHANNEL2_GLIDEDOWNCHECK:
         sbc     hl, bc
-        jr      c, PLY_AKG_CHANNEL2_AFTERARPEGGIOPITCHVARIABLES
+        jr      c,  PLY_AKG_CHANNEL2_AFTERARPEGGIOPITCHVARIABLES
 PLY_AKG_CHANNEL2_GLIDEOVER:
         ld      l, c
         ld      h, b
@@ -1142,9 +1142,9 @@ PLY_AKG_CHANNEL3_ISVOLUMESLIDE:
 PLY_AKG_CHANNEL3_VOLUMESLIDEVALUE:
         ld      de, 0
         add     hl, de
-        bit     7, h
-        jr      z, PLY_AKG_CHANNEL3_VOLUMENOTOVERFLOW
-        ld      h, 0
+        bit     7,  h
+        jr      z,  PLY_AKG_CHANNEL3_VOLUMENOTOVERFLOW
+        ld      h,  0
         jr      PLY_AKG_CHANNEL3_VOLUMESETAGAIN
 PLY_AKG_CHANNEL3_VOLUMENOTOVERFLOW:
         ld      a, h
@@ -1162,7 +1162,7 @@ PLY_AKG_CHANNEL3_ISARPEGGIOTABLE:
         jr      nc, PLY_AKG_CHANNEL3_ARPEGGIOTABLE_END
 PLY_AKG_CHANNEL3_ARPEGGIOTABLE:
         ld      hl, 0
-        ld      a, (hl)
+        ld      a,  (hl)
         cp      128
         jr      nz, PLY_AKG_CHANNEL3_ARPEGGIOTABLE_AFTERLOOPTEST
         inc     hl
@@ -1238,14 +1238,14 @@ PLY_AKG_CHANNEL3_GLIDEDIRECTION:
         or      a
         jr      z, PLY_AKG_CHANNEL3_GLIDE_END
         ld      (PLY_AKG_CHANNEL3_AFTERARPEGGIOPITCHVARIABLES+1), hl
-        ld      c, l
-        ld      b, h
+        ld      c,  l
+        ld      b,  h
         ex      af, af'
-        ld      a, (PLY_AKG_CHANNEL3_TRACKNOTE+1)
-        add     a, a
-        ld      l, a
+        ld      a,  (PLY_AKG_CHANNEL3_TRACKNOTE+1)
+        add     a,  a
+        ld      l,  a
         ex      af, af'
-        ld      h, 0
+        ld      h,  0
         ld      sp, PLY_AKG_PERIODTABLE
         add     hl, sp
         ld      sp, hl
@@ -1263,7 +1263,7 @@ PLY_AKG_CHANNEL3_GLIDETOREACH:
         jr      PLY_AKG_CHANNEL3_GLIDEOVER
 PLY_AKG_CHANNEL3_GLIDEDOWNCHECK:
         sbc     hl, bc
-        jr      c, PLY_AKG_CHANNEL3_AFTERARPEGGIOPITCHVARIABLES
+        jr      c,  PLY_AKG_CHANNEL3_AFTERARPEGGIOPITCHVARIABLES
 PLY_AKG_CHANNEL3_GLIDEOVER:
         ld      l, c
         ld      h, b
@@ -1412,76 +1412,76 @@ PLY_AKG_CHANNEL3_SETINSTRUMENTSTEP:
         ld      (PLY_AKG_PSGREG45_INSTR+1), hl
         call    PLY_AKG_PLAYSOUNDEFFECTSSTREAM
 PLY_AKG_SENDPSGREGISTERS:
-        ld      b, a
-        ld      a, 7
+        ld      b,     a
+        ld      a,     7
         out     (247), a
-        ld      a, b
+        ld      a,     b
         out     (246), a
 PLY_AKG_PSGREG01_INSTR:
         ld      hl, 0
         xor     a
         out     (247), a
-        ld      a, l
+        ld      a,     l
         out     (246), a
-        ld      a, 1
+        ld      a,     1
         out     (247), a
-        ld      a, h
+        ld      a,     h
         out     (246), a
 PLY_AKG_PSGREG23_INSTR:
-        ld      hl, 0
-        ld      a, 2
+        ld      hl,    0
+        ld      a,     2
         out     (247), a
-        ld      a, l
+        ld      a,     l
         out     (246), a
-        ld      a, 3
+        ld      a,     3
         out     (247), a
-        ld      a, h
+        ld      a,     h
         out     (246), a
 PLY_AKG_PSGREG45_INSTR:
-        ld      hl, 0
-        ld      a, 4
+        ld      hl,    0
+        ld      a,     4
         out     (247), a
-        ld      a, l
+        ld      a,     l
         out     (246), a
-        ld      a, 5
+        ld      a,     5
         out     (247), a
-        ld      a, h
+        ld      a,     h
         out     (246), a
         defc    PLY_AKG_PSGREG6=ASMPC+1
         defc    PLY_AKG_PSGREG8=ASMPC+2
 PLY_AKG_PSGREG6_8_INSTR:
-        ld      hl, 0
-        ld      a, 6
+        ld      hl,    0
+        ld      a,     6
         out     (247), a
-        ld      a, l
+        ld      a,     l
         out     (246), a
-        ld      a, 8
+        ld      a,     8
         out     (247), a
-        ld      a, h
+        ld      a,     h
         out     (246), a
         defc    PLY_AKG_PSGREG9=ASMPC+1
         defc    PLY_AKG_PSGREG10=ASMPC+2
 PLY_AKG_PSGREG9_10_INSTR:
-        ld      hl, 0
-        ld      a, 9
+        ld      hl,    0
+        ld      a,     9
         out     (247), a
-        ld      a, l
+        ld      a,     l
         out     (246), a
-        ld      a, 10
+        ld      a,     10
         out     (247), a
-        ld      a, h
+        ld      a,     h
         out     (246), a
 PLY_AKG_PSGHARDWAREPERIOD_INSTR:
-        ld      hl, 0
-        ld      a, 11
+        ld      hl,    0
+        ld      a,     11
         out     (247), a
-        ld      a, l
+        ld      a,     l
         out     (246), a
-        ld      a, 12
+        ld      a,     12
         out     (247), a
-        ld      a, h
+        ld      a,     h
         out     (246), a
-        ld      a, 13
+        ld      a,     13
         out     (247), a
 PLY_AKG_PSGREG13_OLDVALUE:
         ld      a, 255
@@ -1536,7 +1536,7 @@ PLY_AKG_CHANNEL3_READEFFECTSEND:
 PLY_AKG_CHANNEL_READEFFECTS:
         ld      (PLY_AKG_CHANNEL_READEFFECTS_ENDJUMP+1), de
         ex      de, hl
-        ld      a, (de)
+        ld      a,  (de)
         inc     de
         sla     a
         jr      c, PLY_AKG_CHANNEL_READEFFECTS_RELATIVEADDRESS
@@ -1546,7 +1546,7 @@ PLY_AKG_CHANNEL_READEFFECTS:
 PLY_AKG_CHANNEL_READEFFECTS_EFFECTBLOCKS1:
         ld      de, 0
         add     hl, de
-        ld      e, (hl)
+        ld      e,  (hl)
         inc     hl
         ld      d, (hl)
 PLY_AKG_CHANNEL_RE_EFFECTADDRESSKNOWN:
@@ -1554,8 +1554,8 @@ PLY_AKG_CHANNEL_RE_EFFECTADDRESSKNOWN:
         inc     de
         ld      (PLY_AKG_CHANNEL_RE_EFFECTRETURN+1), a
         and     254
-        ld      l, a
-        ld      h, 0
+        ld      l,  a
+        ld      h,  0
         ld      sp, PLY_AKG_EFFECTTABLE
         add     hl, sp
         ld      sp, hl
@@ -1602,7 +1602,7 @@ PLY_AKG_NOSOFTNOHARD:
         ld      e, a
         rl      b
         jr      nc, PLY_AKG_NSNH_NONOISE
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
         ld      (PLY_AKG_PSGREG6), a
         set     2, d
@@ -1620,7 +1620,7 @@ PLY_AKG_SOFT:
 PLY_AKG_SOFTONLY_HARDONLY_TESTSIMPLE_COMMON:
         rl      b
         jr      nc, PLY_AKG_S_NOTSIMPLE
-        ld      c, 0
+        ld      c,  0
         jr      PLY_AKG_S_AFTERSIMPLETEST
 PLY_AKG_S_NOTSIMPLE:
         ld      b, (hl)
@@ -1751,12 +1751,12 @@ PLY_AKG_H_OR_ENDWITHLOOP:
         ld      e, 16
         rra
         jr      nc, PLY_AKG_H_AFTERRETRIG
-        ld      c, a
+        ld      c,  a
         db      253
         db      125
         or      a
         jr      nz, PLY_AKG_H_RETRIGEND
-        ld      a, e
+        ld      a,  e
         ld      (PLY_AKG_RETRIG+1), a
 PLY_AKG_H_RETRIGEND:
         ld      a, c
@@ -1783,10 +1783,10 @@ PLY_AKG_S_OR_H_CHECKIFSIMPLEFIRST_CALCULATEPERIOD:
         add     hl, hl
         ld      bc, PLY_AKG_PERIODTABLE
         add     hl, bc
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
-        ld      h, (hl)
-        ld      l, a
+        ld      h,  (hl)
+        ld      l,  a
         add     hl, de
         exx
         rl      b
@@ -1798,7 +1798,7 @@ PLY_AKG_S_OR_H_NEXTBYTE:
         jr      c, PLY_AKG_S_OR_H_FORCEDPERIOD
         rl      b
         jr      nc, PLY_AKG_S_OR_H_AFTERARPEGGIO
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
         exx
         add     a, e
@@ -1807,7 +1807,7 @@ PLY_AKG_S_OR_H_NEXTBYTE:
 PLY_AKG_S_OR_H_AFTERARPEGGIO:
         rl      b
         jr      nc, PLY_AKG_S_OR_H_AFTERPITCH
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
         exx
         add     a, l
@@ -1825,10 +1825,10 @@ PLY_AKG_S_OR_H_AFTERPITCH:
         add     hl, hl
         ld      bc, PLY_AKG_PERIODTABLE
         add     hl, bc
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
-        ld      h, (hl)
-        ld      l, a
+        ld      h,  (hl)
+        ld      l,  a
         add     hl, de
         exx
         ret
@@ -1850,7 +1850,7 @@ PLY_AKG_STOH_HTOS_SANDH_COMMON:
         ld      e, 16
         rra
         jr      nc, PLY_AKG_SHOHS_AFTERRETRIG
-        ld      c, a
+        ld      c,  a
         db      253
         db      125
         or      a
@@ -1865,7 +1865,7 @@ PLY_AKG_SHOHS_AFTERRETRIG:
         ld      (PLY_AKG_PSGREG13_INSTR+1), a
         rl      b
         jr      nc, PLY_AKG_SHOHS_AFTERNOISE
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
         ld      (PLY_AKG_PSGREG6), a
         res     5, d
@@ -1911,9 +1911,9 @@ PLY_AKG_EFFECT_RESETVOLUME_AFTERREADING:
         ld      (iy-26), a
         ld      (iy-25), a
         ld      a, 183
-        ld      (iy-24), a
-        ld      (iy-52), a
-        ld      (iy-91), a
+        ld      (iy-24),  a
+        ld      (iy-52),  a
+        ld      (iy-91),  a
         ld      (iy-122), a
         jp      PLY_AKG_CHANNEL_RE_EFFECTRETURN
 PLY_AKG_EFFECT_VOLUME:
@@ -1925,13 +1925,13 @@ PLY_AKG_EFFECT_VOLUME:
 PLY_AKG_EFFECT_ARPEGGIOTABLE:
         ld      a, (de)
         inc     de
-        ld      l, a
-        ld      h, 0
+        ld      l,  a
+        ld      h,  0
         add     hl, hl
 PLY_AKG_ARPEGGIOSTABLE:
         ld      bc, 0
         add     hl, bc
-        ld      c, (hl)
+        ld      c,  (hl)
         inc     hl
         ld      b, (hl)
         inc     hl
@@ -1953,13 +1953,13 @@ PLY_AKG_EFFECT_ARPEGGIOTABLESTOP:
 PLY_AKG_EFFECT_PITCHTABLE:
         ld      a, (de)
         inc     de
-        ld      l, a
-        ld      h, 0
+        ld      l,  a
+        ld      h,  0
         add     hl, hl
 PLY_AKG_PITCHESTABLE:
         ld      bc, 0
         add     hl, bc
-        ld      c, (hl)
+        ld      c,  (hl)
         inc     hl
         ld      b, (hl)
         inc     hl
@@ -1994,10 +1994,10 @@ PLY_AKG_EFFECT_PITCHDOWN:
         ld      (iy-15), 0
         ld      (iy-14), 9
         ld      (iy-11), 198
-        ld      (iy-4), 35
+        ld      (iy-4),  35
 PLY_AKG_EFFECT_PITCHUPDOWN_COMMON:
         ld      (iy-24), 55
-        ld      (iy+1), 0
+        ld      (iy+1),  0
         ld      a, (de)
         inc     de
         ld      (iy-10), a
@@ -2009,7 +2009,7 @@ PLY_AKG_EFFECT_PITCHUP:
         ld      (iy-15), 237
         ld      (iy-14), 66
         ld      (iy-11), 214
-        ld      (iy-4), 43
+        ld      (iy-4),  43
         jr      PLY_AKG_EFFECT_PITCHUPDOWN_COMMON
 PLY_AKG_EFFECT_PITCHSTOP:
         ld      (iy-24), 183
@@ -2018,35 +2018,35 @@ PLY_AKG_EFFECT_GLIDEWITHNOTE:
         ld      a, (de)
         inc     de
         ld      (PLY_AKG_EFFECT_GLIDEWITHNOTESAVEDE+1), de
-        add     a, a
-        ld      l, a
-        ld      h, 0
+        add     a,  a
+        ld      l,  a
+        ld      h,  0
         ld      bc, PLY_AKG_PERIODTABLE
         add     hl, bc
         ld      sp, hl
         pop     de
         ld      (iy+29), e
         ld      (iy+30), d
-        ld      a, (ix+4)
-        add     a, a
-        ld      l, a
-        ld      h, 0
+        ld      a,  (ix+4)
+        add     a,  a
+        ld      l,  a
+        ld      h,  0
         add     hl, bc
         ld      sp, hl
         pop     hl
-        ld      c, (iy-26)
-        ld      b, (iy-25)
+        ld      c,  (iy-26)
+        ld      b,  (iy-25)
         add     hl, bc
         or      a
         sbc     hl, de
 PLY_AKG_EFFECT_GLIDEWITHNOTESAVEDE:
         ld      de, 0
-        jr      c, PLY_AKG_EFFECT_GLIDE_PITCHDOWN
-        ld      (iy+1), 1
+        jr      c,  PLY_AKG_EFFECT_GLIDE_PITCHDOWN
+        ld      (iy+1),  1
         ld      (iy-15), 237
         ld      (iy-14), 66
         ld      (iy-11), 214
-        ld      (iy-4), 43
+        ld      (iy-4),  43
 
 PLY_AKG_EFFECT_GLIDE_READSPEED:
 PLY_AKG_EFFECT_GLIDESPEED:
@@ -2060,11 +2060,11 @@ PLY_AKG_EFFECT_GLIDESPEED:
         ld      (iy-24), a
         jp      PLY_AKG_CHANNEL_RE_EFFECTRETURN
 PLY_AKG_EFFECT_GLIDE_PITCHDOWN:
-        ld      (iy+1), 2
+        ld      (iy+1),  2
         ld      (iy-15), 0
         ld      (iy-14), 9
         ld      (iy-11), 198
-        ld      (iy-4), 35
+        ld      (iy-4),  35
         jr      PLY_AKG_EFFECT_GLIDE_READSPEED
 PLY_AKG_EFFECT_LEGATO:
         ld      a, (de)
@@ -2226,4 +2226,3 @@ PLY_AKG_PERIODTABLE:
         dw      4
         dw      4
         dw      4
-

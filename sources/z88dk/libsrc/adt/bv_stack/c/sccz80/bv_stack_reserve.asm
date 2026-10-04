@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _bv_stack_reserve
 defc _bv_stack_reserve = bv_stack_reserve
 ENDIF
-

@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _atoi_fastcall
 defc _atoi_fastcall = atoi_fastcall
 ENDIF
-

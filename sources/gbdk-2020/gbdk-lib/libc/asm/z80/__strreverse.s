@@ -13,7 +13,7 @@
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ;  GNU General Public License for more details.
 ;
-;  You should have received a copy of the GNU General Public License 
+;  You should have received a copy of the GNU General Public License
 ;  along with this library; see the file COPYING. If not, write to the
 ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
 ;   MA 02110-1301, USA.
@@ -28,8 +28,8 @@
 
         .area   _CODE
 
-        .globl ___strreverse
-        .globl ___strreverse_reg
+        .globl  ___strreverse
+        .globl  ___strreverse_reg
 ;
 ;char * __reverse(char *beg, char *end);
 ;
@@ -47,16 +47,16 @@ ___strreverse_reg::
         push    de
         jr      110$
 100$:
-        add     hl, de
-        ld      a, (de)
-        ld      c, (hl)
+        add     hl,   de
+        ld      a,    (de)
+        ld      c,    (hl)
         ld      (hl), a
-        ld      a, c
+        ld      a,    c
         ld      (de), a
         inc     de
 110$:
         dec     hl
-        or      a, a
+        or      a,  a
         sbc     hl, de
         jr      NC, 100$
         pop     hl

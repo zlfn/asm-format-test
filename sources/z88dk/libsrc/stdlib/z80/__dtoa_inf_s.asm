@@ -6,5 +6,5 @@ PUBLIC __dtoa_inf_s
 
 __dtoa_inf_s:
 
-   defm "inf"
-   defb 0
+        defm    "inf"
+        defb    0

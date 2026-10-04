@@ -9,18 +9,17 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 log:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_logf
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_logf
 
 ; SDCC bridge for Classic
 PUBLIC _log
 defc _log = log
-
 
 ; Clang bridge for Classic
 PUBLIC _logf

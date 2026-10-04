@@ -20,4 +20,3 @@ IF __CLASSIC
 PUBLIC _BIFROSTH_resetAnim4Frames
 defc _BIFROSTH_resetAnim4Frames = BIFROSTH_resetAnim4Frames
 ENDIF
-

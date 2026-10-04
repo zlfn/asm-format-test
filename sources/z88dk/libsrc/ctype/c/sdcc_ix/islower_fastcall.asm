@@ -10,15 +10,15 @@ EXTERN asm_islower, error_zc
 
 _islower_fastcall:
 
-   inc h
-   dec h
-   jp nz, error_zc
+        inc     h
+        dec     h
+        jp      nz, error_zc
 
-   ld a,l
-   call asm_islower
-   
-   ld l,h
-   ret c
-   
-   inc l
-   ret
+        ld      a, l
+        call    asm_islower
+
+        ld      l, h
+        ret     c
+
+        inc     l
+        ret

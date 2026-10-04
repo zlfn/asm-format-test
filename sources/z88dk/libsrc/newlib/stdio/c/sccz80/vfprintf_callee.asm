@@ -15,14 +15,14 @@ PUBLIC vfprintf_callee
 EXTERN asm_vfprintf
 
 vfprintf_callee:
-   
-   pop af
-   pop bc
-   pop de
-   pop ix
-   push af
 
-   jp asm_vfprintf
+        pop     af
+        pop     bc
+        pop     de
+        pop     ix
+        push    af
+
+        jp      asm_vfprintf
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

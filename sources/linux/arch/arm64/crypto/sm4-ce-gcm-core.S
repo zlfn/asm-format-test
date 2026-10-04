@@ -16,11 +16,11 @@
 .arch	armv8-a+crypto
 
 .irp b, 0, 1, 2, 3, 24, 25, 26, 27, 28, 29, 30, 31
-	.set .Lv\b\().4s, \b
+        .set    .Lv\b\().4s, \b
 .endr
 
 .macro sm4e, vd, vn
-	.inst 0xcec08400 | (.L\vn << 5) | .L\vd
+        .inst   0xcec08400 | (.L\vn << 5) | .L\vd
 .endm
 
 /* Register macros */
@@ -230,7 +230,6 @@
 		rbit		RHASH.16b, RHASH.16b;			\
 		eor		RHASH.16b, RHASH.16b, vctr0.16b;
 
-
 /* Register macros for encrypt and ghash */
 
 /* can be the same as input v0-v3 */
@@ -264,35 +263,35 @@ SYM_FUNC_START(sm4_ce_pmull_ghash_setup)
 	 *   x0: round key array, CTX
 	 *   x1: ghash table
 	 */
-	SM4_PREPARE(x0)
+        SM4_PREPARE(x0)
 
-	adr_l		x2, .Lghash_rconst
-	ld1r		{RRCONST.2d}, [x2]
+        adr_l   x2, .Lghash_rconst
+        ld1r    {RRCONST.2d}, [x2]
 
-	eor		RZERO.16b, RZERO.16b, RZERO.16b
+        eor     RZERO.16b, RZERO.16b, RZERO.16b
 
-	/* H = E(K, 0^128) */
-	rev32		v0.16b, RZERO.16b
-	SM4_CRYPT_BLK_BE(v0)
+        /* H = E(K, 0^128) */
+        rev32   v0.16b, RZERO.16b
+        SM4_CRYPT_BLK_BE(v0)
 
-	/* H ^ 1 */
-	rbit		RH1.16b, v0.16b
+        /* H ^ 1 */
+        rbit    RH1.16b, v0.16b
 
-	/* H ^ 2 */
-	PMUL_128x128(RR0, RR1, RH1, RH1, RTMP0, RTMP1)
-	REDUCTION(RH2, RR0, RR1, RRCONST, RTMP2, RTMP3)
+        /* H ^ 2 */
+        PMUL_128x128(RR0, RR1, RH1, RH1, RTMP0, RTMP1)
+        REDUCTION(RH2, RR0, RR1, RRCONST, RTMP2, RTMP3)
 
-	/* H ^ 3 */
-	PMUL_128x128(RR0, RR1, RH2, RH1, RTMP0, RTMP1)
-	REDUCTION(RH3, RR0, RR1, RRCONST, RTMP2, RTMP3)
+        /* H ^ 3 */
+        PMUL_128x128(RR0, RR1, RH2, RH1, RTMP0, RTMP1)
+        REDUCTION(RH3, RR0, RR1, RRCONST, RTMP2, RTMP3)
 
-	/* H ^ 4 */
-	PMUL_128x128(RR0, RR1, RH2, RH2, RTMP0, RTMP1)
-	REDUCTION(RH4, RR0, RR1, RRCONST, RTMP2, RTMP3)
+        /* H ^ 4 */
+        PMUL_128x128(RR0, RR1, RH2, RH2, RTMP0, RTMP1)
+        REDUCTION(RH4, RR0, RR1, RRCONST, RTMP2, RTMP3)
 
-	st1		{RH1.16b-RH4.16b}, [x1]
+        st1     {RH1.16b-RH4.16b}, [x1]
 
-	ret
+        ret
 SYM_FUNC_END(sm4_ce_pmull_ghash_setup)
 
 .align 3
@@ -303,28 +302,28 @@ SYM_FUNC_START(pmull_ghash_update)
 	 *   x2: src
 	 *   w3: nblocks
 	 */
-	ld1		{RH1.16b-RH4.16b}, [x0]
+        ld1     {RH1.16b-RH4.16b}, [x0]
 
-	ld1		{RHASH.16b}, [x1]
-	rbit		RHASH.16b, RHASH.16b
+        ld1     {RHASH.16b}, [x1]
+        rbit    RHASH.16b,   RHASH.16b
 
-	adr_l		x4, .Lghash_rconst
-	ld1r		{RRCONST.2d}, [x4]
+        adr_l   x4, .Lghash_rconst
+        ld1r    {RRCONST.2d}, [x4]
 
-	eor		RZERO.16b, RZERO.16b, RZERO.16b
+        eor     RZERO.16b, RZERO.16b, RZERO.16b
 
 .Lghash_loop_4x:
-	cmp		w3, #4
-	blt		.Lghash_loop_1x
+        cmp     w3, #4
+        blt     .Lghash_loop_1x
 
-	sub		w3, w3, #4
+        sub     w3, w3, #4
 
-	ld1		{v0.16b-v3.16b}, [x2], #64
+        ld1     {v0.16b-v3.16b}, [x2], #64
 
-	rbit		v0.16b, v0.16b
-	rbit		v1.16b, v1.16b
-	rbit		v2.16b, v2.16b
-	rbit		v3.16b, v3.16b
+        rbit    v0.16b, v0.16b
+        rbit    v1.16b, v1.16b
+        rbit    v2.16b, v2.16b
+        rbit    v3.16b, v3.16b
 
 	/*
 	 * (in0 ^ HASH) * H^4 => rr0:rr1
@@ -332,42 +331,42 @@ SYM_FUNC_START(pmull_ghash_update)
 	 * (in2)        * H^2 => rr4:rr5
 	 * (in3)        * H^1 => rr6:rr7
 	 */
-	eor		RHASH.16b, RHASH.16b, v0.16b
+        eor     RHASH.16b, RHASH.16b, v0.16b
 
-	PMUL_128x128_4x(RR0, RR1, RHASH, RH4, RTMP0, RTMP1,
-			RR2, RR3, v1, RH3, RTMP2, RTMP3,
-			RR4, RR5, v2, RH2, RTMP4, RTMP5,
-			RR6, RR7, v3, RH1, RTMP6, RTMP7)
+        PMUL_128x128_4x(RR0, RR1, RHASH, RH4, RTMP0, RTMP1,
+        RR2,    RR3, v1, RH3, RTMP2, RTMP3,
+        RR4,    RR5, v2, RH2, RTMP4, RTMP5,
+        RR6,    RR7, v3, RH1, RTMP6, RTMP7)
 
-	eor		RR0.16b, RR0.16b, RR2.16b
-	eor		RR1.16b, RR1.16b, RR3.16b
-	eor		RR0.16b, RR0.16b, RR4.16b
-	eor		RR1.16b, RR1.16b, RR5.16b
-	eor		RR0.16b, RR0.16b, RR6.16b
-	eor		RR1.16b, RR1.16b, RR7.16b
+        eor     RR0.16b, RR0.16b, RR2.16b
+        eor     RR1.16b, RR1.16b, RR3.16b
+        eor     RR0.16b, RR0.16b, RR4.16b
+        eor     RR1.16b, RR1.16b, RR5.16b
+        eor     RR0.16b, RR0.16b, RR6.16b
+        eor     RR1.16b, RR1.16b, RR7.16b
 
-	REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP0, RTMP1)
+        REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP0, RTMP1)
 
-	cbz		w3, .Lghash_end
-	b		.Lghash_loop_4x
+        cbz     w3, .Lghash_end
+        b       .Lghash_loop_4x
 
 .Lghash_loop_1x:
-	sub		w3, w3, #1
+        sub     w3, w3, #1
 
-	ld1		{v0.16b}, [x2], #16
-	rbit		v0.16b, v0.16b
-	eor		RHASH.16b, RHASH.16b, v0.16b
+        ld1     {v0.16b},  [x2],      #16
+        rbit    v0.16b,    v0.16b
+        eor     RHASH.16b, RHASH.16b, v0.16b
 
-	PMUL_128x128(RR0, RR1, RHASH, RH1, RTMP0, RTMP1)
-	REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP2, RTMP3)
+        PMUL_128x128(RR0, RR1, RHASH, RH1, RTMP0, RTMP1)
+        REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP2, RTMP3)
 
-	cbnz		w3, .Lghash_loop_1x
+        cbnz    w3, .Lghash_loop_1x
 
 .Lghash_end:
-	rbit		RHASH.16b, RHASH.16b
-	st1		{RHASH.2d}, [x1]
+        rbit    RHASH.16b,  RHASH.16b
+        st1     {RHASH.2d}, [x1]
 
-	ret
+        ret
 SYM_FUNC_END(pmull_ghash_update)
 
 .align 3
@@ -382,52 +381,52 @@ SYM_TYPED_FUNC_START(sm4_ce_pmull_gcm_enc)
 	 *   x6: ghash table
 	 *   x7: lengths (only for last block)
 	 */
-	SM4_PREPARE(x0)
+        SM4_PREPARE(x0)
 
-	ldp		x8, x9, [x3]
-	rev		x8, x8
-	rev		x9, x9
+        ldp     x8, x9, [x3]
+        rev     x8, x8
+        rev     x9, x9
 
-	ld1		{RH1.16b-RH4.16b}, [x6]
+        ld1     {RH1.16b-RH4.16b}, [x6]
 
-	ld1		{RHASH.16b}, [x5]
-	rbit		RHASH.16b, RHASH.16b
+        ld1     {RHASH.16b}, [x5]
+        rbit    RHASH.16b,   RHASH.16b
 
-	adr_l		x6, .Lghash_rconst
-	ld1r		{RRCONST.2d}, [x6]
+        adr_l   x6, .Lghash_rconst
+        ld1r    {RRCONST.2d}, [x6]
 
-	eor		RZERO.16b, RZERO.16b, RZERO.16b
+        eor     RZERO.16b, RZERO.16b, RZERO.16b
 
-	cbz		w4, .Lgcm_enc_hash_len
+        cbz     w4, .Lgcm_enc_hash_len
 
 .Lgcm_enc_loop_4x:
-	cmp		w4, #(4 * 16)
-	blt		.Lgcm_enc_loop_1x
+        cmp     w4, #(4 * 16)
+        blt     .Lgcm_enc_loop_1x
 
-	sub		w4, w4, #(4 * 16)
+        sub     w4, w4, #(4 * 16)
 
-	/* construct CTRs */
-	inc32_le128(v0)			/* +0 */
-	inc32_le128(v1)			/* +1 */
-	inc32_le128(v2)			/* +2 */
-	inc32_le128(v3)			/* +3 */
+        /* construct CTRs */
+        inc32_le128(v0) /* +0 */
+        inc32_le128(v1) /* +1 */
+        inc32_le128(v2) /* +2 */
+        inc32_le128(v3) /* +3 */
 
-	ld1		{RTMP0.16b-RTMP3.16b}, [x2], #64
+        ld1     {RTMP0.16b-RTMP3.16b}, [x2], #64
 
-	SM4_CRYPT_BLK4(v0, v1, v2, v3)
+        SM4_CRYPT_BLK4(v0, v1, v2, v3)
 
-	eor		v0.16b, v0.16b, RTMP0.16b
-	eor		v1.16b, v1.16b, RTMP1.16b
-	eor		v2.16b, v2.16b, RTMP2.16b
-	eor		v3.16b, v3.16b, RTMP3.16b
-	st1		{v0.16b-v3.16b}, [x1], #64
+        eor     v0.16b, v0.16b, RTMP0.16b
+        eor     v1.16b, v1.16b, RTMP1.16b
+        eor     v2.16b, v2.16b, RTMP2.16b
+        eor     v3.16b, v3.16b, RTMP3.16b
+        st1     {v0.16b-v3.16b}, [x1], #64
 
-	/* ghash update */
+        /* ghash update */
 
-	rbit		v0.16b, v0.16b
-	rbit		v1.16b, v1.16b
-	rbit		v2.16b, v2.16b
-	rbit		v3.16b, v3.16b
+        rbit    v0.16b, v0.16b
+        rbit    v1.16b, v1.16b
+        rbit    v2.16b, v2.16b
+        rbit    v3.16b, v3.16b
 
 	/*
 	 * (in0 ^ HASH) * H^4 => rr0:rr1
@@ -435,105 +434,105 @@ SYM_TYPED_FUNC_START(sm4_ce_pmull_gcm_enc)
 	 * (in2)        * H^2 => rr4:rr5
 	 * (in3)        * H^1 => rr6:rr7
 	 */
-	eor		RHASH.16b, RHASH.16b, v0.16b
+        eor     RHASH.16b, RHASH.16b, v0.16b
 
-	PMUL_128x128_4x(RR0, RR1, RHASH, RH4, RTMP0, RTMP1,
-			RR2, RR3, v1, RH3, RTMP2, RTMP3,
-			RR4, RR5, v2, RH2, RTMP4, RTMP5,
-			RR6, RR7, v3, RH1, RTMP6, RTMP7)
+        PMUL_128x128_4x(RR0, RR1, RHASH, RH4, RTMP0, RTMP1,
+        RR2,    RR3, v1, RH3, RTMP2, RTMP3,
+        RR4,    RR5, v2, RH2, RTMP4, RTMP5,
+        RR6,    RR7, v3, RH1, RTMP6, RTMP7)
 
-	eor		RR0.16b, RR0.16b, RR2.16b
-	eor		RR1.16b, RR1.16b, RR3.16b
-	eor		RR0.16b, RR0.16b, RR4.16b
-	eor		RR1.16b, RR1.16b, RR5.16b
-	eor		RR0.16b, RR0.16b, RR6.16b
-	eor		RR1.16b, RR1.16b, RR7.16b
+        eor     RR0.16b, RR0.16b, RR2.16b
+        eor     RR1.16b, RR1.16b, RR3.16b
+        eor     RR0.16b, RR0.16b, RR4.16b
+        eor     RR1.16b, RR1.16b, RR5.16b
+        eor     RR0.16b, RR0.16b, RR6.16b
+        eor     RR1.16b, RR1.16b, RR7.16b
 
-	REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP0, RTMP1)
+        REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP0, RTMP1)
 
-	cbz		w4, .Lgcm_enc_hash_len
-	b		.Lgcm_enc_loop_4x
+        cbz     w4, .Lgcm_enc_hash_len
+        b       .Lgcm_enc_loop_4x
 
 .Lgcm_enc_loop_1x:
-	cmp		w4, #16
-	blt		.Lgcm_enc_tail
+        cmp     w4, #16
+        blt     .Lgcm_enc_tail
 
-	sub		w4, w4, #16
+        sub     w4, w4, #16
 
-	/* construct CTRs */
-	inc32_le128(v0)
+        /* construct CTRs */
+        inc32_le128(v0)
 
-	ld1		{RTMP0.16b}, [x2], #16
+        ld1     {RTMP0.16b}, [x2], #16
 
-	SM4_CRYPT_BLK(v0)
+        SM4_CRYPT_BLK(v0)
 
-	eor		v0.16b, v0.16b, RTMP0.16b
-	st1		{v0.16b}, [x1], #16
+        eor     v0.16b,   v0.16b, RTMP0.16b
+        st1     {v0.16b}, [x1],   #16
 
-	/* ghash update */
-	rbit		v0.16b, v0.16b
-	eor		RHASH.16b, RHASH.16b, v0.16b
-	PMUL_128x128(RR0, RR1, RHASH, RH1, RTMP0, RTMP1)
-	REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP2, RTMP3)
+        /* ghash update */
+        rbit    v0.16b,    v0.16b
+        eor     RHASH.16b, RHASH.16b, v0.16b
+        PMUL_128x128(RR0, RR1, RHASH, RH1, RTMP0, RTMP1)
+        REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP2, RTMP3)
 
-	cbz		w4, .Lgcm_enc_hash_len
-	b		.Lgcm_enc_loop_1x
+        cbz     w4, .Lgcm_enc_hash_len
+        b       .Lgcm_enc_loop_1x
 
 .Lgcm_enc_tail:
-	/* construct CTRs */
-	inc32_le128(v0)
-	SM4_CRYPT_BLK(v0)
+        /* construct CTRs */
+        inc32_le128(v0)
+        SM4_CRYPT_BLK(v0)
 
-	/* load permute table */
-	adr_l		x0, .Lcts_permute_table
-	add		x0, x0, #32
-	sub		x0, x0, w4, uxtw
-	ld1		{v3.16b}, [x0]
+        /* load permute table */
+        adr_l   x0, .Lcts_permute_table
+        add     x0, x0, #32
+        sub     x0, x0, w4, uxtw
+        ld1     {v3.16b}, [x0]
 
 .Lgcm_enc_tail_loop:
-	/* do encrypt */
-	ldrb		w0, [x2], #1	/* get 1 byte from input */
-	umov		w6, v0.b[0]	/* get top crypted byte */
-	eor		w6, w6, w0	/* w6 = CTR ^ input */
-	strb		w6, [x1], #1	/* store out byte */
+        /* do encrypt */
+        ldrb    w0, [x2], #1    /* get 1 byte from input */
+        umov    w6, v0.b[0]     /* get top crypted byte */
+        eor     w6, w6,   w0    /* w6 = CTR ^ input */
+        strb    w6, [x1], #1    /* store out byte */
 
-	/* shift right out one byte */
-	ext		v0.16b, v0.16b, v0.16b, #1
-	/* the last ciphertext is placed in high bytes */
-	ins		v0.b[15], w6
+        /* shift right out one byte */
+        ext     v0.16b, v0.16b, v0.16b, #1
+        /* the last ciphertext is placed in high bytes */
+        ins     v0.b[15], w6
 
-	subs		w4, w4, #1
-	bne		.Lgcm_enc_tail_loop
+        subs    w4, w4, #1
+        bne     .Lgcm_enc_tail_loop
 
-	/* padding last block with zeros */
-	tbl		v0.16b, {v0.16b}, v3.16b
+        /* padding last block with zeros */
+        tbl     v0.16b, {v0.16b}, v3.16b
 
-	/* ghash update */
-	rbit		v0.16b, v0.16b
-	eor		RHASH.16b, RHASH.16b, v0.16b
-	PMUL_128x128(RR0, RR1, RHASH, RH1, RTMP0, RTMP1)
-	REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP2, RTMP3)
+        /* ghash update */
+        rbit    v0.16b,    v0.16b
+        eor     RHASH.16b, RHASH.16b, v0.16b
+        PMUL_128x128(RR0, RR1, RHASH, RH1, RTMP0, RTMP1)
+        REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP2, RTMP3)
 
 .Lgcm_enc_hash_len:
-	cbz		x7, .Lgcm_enc_end
+        cbz     x7, .Lgcm_enc_end
 
-	GTAG_HASH_LENGTHS(v1, v3)
+        GTAG_HASH_LENGTHS(v1, v3)
 
-	b		.Lgcm_enc_ret
+        b       .Lgcm_enc_ret
 
 .Lgcm_enc_end:
-	/* store new CTR */
-	rev		x8, x8
-	rev		x9, x9
-	stp		x8, x9, [x3]
+        /* store new CTR */
+        rev     x8, x8
+        rev     x9, x9
+        stp     x8, x9, [x3]
 
-	rbit		RHASH.16b, RHASH.16b
+        rbit    RHASH.16b, RHASH.16b
 
 .Lgcm_enc_ret:
-	/* store new MAC */
-	st1		{RHASH.2d}, [x5]
+        /* store new MAC */
+        st1     {RHASH.2d}, [x5]
 
-	ret
+        ret
 SYM_FUNC_END(sm4_ce_pmull_gcm_enc)
 
 #undef	RR1
@@ -556,7 +555,6 @@ SYM_FUNC_END(sm4_ce_pmull_gcm_enc)
 #undef	RH2
 #undef	RH3
 #undef	RH4
-
 
 /* Register macros for decrypt */
 
@@ -593,150 +591,150 @@ SYM_TYPED_FUNC_START(sm4_ce_pmull_gcm_dec)
 	 *   x6: ghash table
 	 *   x7: lengths (only for last block)
 	 */
-	SM4_PREPARE(x0)
+        SM4_PREPARE(x0)
 
-	ldp		x8, x9, [x3]
-	rev		x8, x8
-	rev		x9, x9
+        ldp     x8, x9, [x3]
+        rev     x8, x8
+        rev     x9, x9
 
-	ld1		{RH1.16b-RH3.16b}, [x6]
+        ld1     {RH1.16b-RH3.16b}, [x6]
 
-	ld1		{RHASH.16b}, [x5]
-	rbit		RHASH.16b, RHASH.16b
+        ld1     {RHASH.16b}, [x5]
+        rbit    RHASH.16b,   RHASH.16b
 
-	adr_l		x6, .Lghash_rconst
-	ld1r		{RRCONST.2d}, [x6]
+        adr_l   x6, .Lghash_rconst
+        ld1r    {RRCONST.2d}, [x6]
 
-	eor		RZERO.16b, RZERO.16b, RZERO.16b
+        eor     RZERO.16b, RZERO.16b, RZERO.16b
 
-	cbz		w4, .Lgcm_dec_hash_len
+        cbz     w4, .Lgcm_dec_hash_len
 
 .Lgcm_dec_loop_3x:
-	cmp		w4, #(3 * 16)
-	blt		.Lgcm_dec_loop_1x
+        cmp     w4, #(3 * 16)
+        blt     .Lgcm_dec_loop_1x
 
-	sub		w4, w4, #(3 * 16)
+        sub     w4, w4, #(3 * 16)
 
-	ld1		{v3.16b-v5.16b}, [x2], #(3 * 16)
+        ld1     {v3.16b-v5.16b}, [x2], #(3 * 16)
 
-	/* construct CTRs */
-	inc32_le128(v0)			/* +0 */
-	rbit		v6.16b, v3.16b
-	inc32_le128(v1)			/* +1 */
-	rbit		v7.16b, v4.16b
-	inc32_le128(v2)			/* +2 */
-	rbit		v8.16b, v5.16b
+        /* construct CTRs */
+        inc32_le128(v0) /* +0 */
+        rbit    v6.16b, v3.16b
+        inc32_le128(v1) /* +1 */
+        rbit    v7.16b, v4.16b
+        inc32_le128(v2) /* +2 */
+        rbit    v8.16b, v5.16b
 
-	eor		RHASH.16b, RHASH.16b, v6.16b
+        eor     RHASH.16b, RHASH.16b, v6.16b
 
-	/* decrypt & ghash update */
-	SM4_CRYPT_PMUL_128x128_BLK3(v0, v1, v2,
-				    RR0, RR1, RHASH, RH3, RTMP0, RTMP1,
-				    RR2, RR3, v7, RH2, RTMP2, RTMP3,
-				    RR4, RR5, v8, RH1, RTMP4, RTMP5)
+        /* decrypt & ghash update */
+        SM4_CRYPT_PMUL_128x128_BLK3(v0, v1, v2,
+        RR0,    RR1, RHASH, RH3, RTMP0, RTMP1,
+        RR2,    RR3, v7,    RH2, RTMP2, RTMP3,
+        RR4,    RR5, v8, RH1, RTMP4, RTMP5)
 
-	eor		v0.16b, v0.16b, v3.16b
-	eor		v1.16b, v1.16b, v4.16b
-	eor		v2.16b, v2.16b, v5.16b
+        eor     v0.16b, v0.16b, v3.16b
+        eor     v1.16b, v1.16b, v4.16b
+        eor     v2.16b, v2.16b, v5.16b
 
-	REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP0, RTMP1)
+        REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP0, RTMP1)
 
-	st1		{v0.16b-v2.16b}, [x1], #(3 * 16)
+        st1     {v0.16b-v2.16b}, [x1], #(3 * 16)
 
-	cbz		w4, .Lgcm_dec_hash_len
-	b		.Lgcm_dec_loop_3x
+        cbz     w4, .Lgcm_dec_hash_len
+        b       .Lgcm_dec_loop_3x
 
 .Lgcm_dec_loop_1x:
-	cmp		w4, #16
-	blt		.Lgcm_dec_tail
+        cmp     w4, #16
+        blt     .Lgcm_dec_tail
 
-	sub		w4, w4, #16
+        sub     w4, w4, #16
 
-	ld1		{v3.16b}, [x2], #16
+        ld1     {v3.16b}, [x2], #16
 
-	/* construct CTRs */
-	inc32_le128(v0)
-	rbit		v6.16b, v3.16b
+        /* construct CTRs */
+        inc32_le128(v0)
+        rbit    v6.16b, v3.16b
 
-	eor		RHASH.16b, RHASH.16b, v6.16b
+        eor     RHASH.16b, RHASH.16b, v6.16b
 
-	SM4_CRYPT_PMUL_128x128_BLK(v0, RR0, RR1, RHASH, RH1, RTMP0, RTMP1)
+        SM4_CRYPT_PMUL_128x128_BLK(v0, RR0, RR1, RHASH, RH1, RTMP0, RTMP1)
 
-	eor		v0.16b, v0.16b, v3.16b
+        eor     v0.16b, v0.16b, v3.16b
 
-	REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP2, RTMP3)
+        REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP2, RTMP3)
 
-	st1		{v0.16b}, [x1], #16
+        st1     {v0.16b}, [x1], #16
 
-	cbz		w4, .Lgcm_dec_hash_len
-	b		.Lgcm_dec_loop_1x
+        cbz     w4, .Lgcm_dec_hash_len
+        b       .Lgcm_dec_loop_1x
 
 .Lgcm_dec_tail:
-	/* construct CTRs */
-	inc32_le128(v0)
-	SM4_CRYPT_BLK(v0)
+        /* construct CTRs */
+        inc32_le128(v0)
+        SM4_CRYPT_BLK(v0)
 
-	/* load permute table */
-	adr_l		x0, .Lcts_permute_table
-	add		x0, x0, #32
-	sub		x0, x0, w4, uxtw
-	ld1		{v3.16b}, [x0]
+        /* load permute table */
+        adr_l   x0, .Lcts_permute_table
+        add     x0, x0, #32
+        sub     x0, x0, w4, uxtw
+        ld1     {v3.16b}, [x0]
 
 .Lgcm_dec_tail_loop:
-	/* do decrypt */
-	ldrb		w0, [x2], #1	/* get 1 byte from input */
-	umov		w6, v0.b[0]	/* get top crypted byte */
-	eor		w6, w6, w0	/* w6 = CTR ^ input */
-	strb		w6, [x1], #1	/* store out byte */
+        /* do decrypt */
+        ldrb    w0, [x2], #1    /* get 1 byte from input */
+        umov    w6, v0.b[0]     /* get top crypted byte */
+        eor     w6, w6,   w0    /* w6 = CTR ^ input */
+        strb    w6, [x1], #1    /* store out byte */
 
-	/* shift right out one byte */
-	ext		v0.16b, v0.16b, v0.16b, #1
-	/* the last ciphertext is placed in high bytes */
-	ins		v0.b[15], w0
+        /* shift right out one byte */
+        ext     v0.16b, v0.16b, v0.16b, #1
+        /* the last ciphertext is placed in high bytes */
+        ins     v0.b[15], w0
 
-	subs		w4, w4, #1
-	bne		.Lgcm_dec_tail_loop
+        subs    w4, w4, #1
+        bne     .Lgcm_dec_tail_loop
 
-	/* padding last block with zeros */
-	tbl		v0.16b, {v0.16b}, v3.16b
+        /* padding last block with zeros */
+        tbl     v0.16b, {v0.16b}, v3.16b
 
-	/* ghash update */
-	rbit		v0.16b, v0.16b
-	eor		RHASH.16b, RHASH.16b, v0.16b
-	PMUL_128x128(RR0, RR1, RHASH, RH1, RTMP0, RTMP1)
-	REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP2, RTMP3)
+        /* ghash update */
+        rbit    v0.16b,    v0.16b
+        eor     RHASH.16b, RHASH.16b, v0.16b
+        PMUL_128x128(RR0, RR1, RHASH, RH1, RTMP0, RTMP1)
+        REDUCTION(RHASH, RR0, RR1, RRCONST, RTMP2, RTMP3)
 
 .Lgcm_dec_hash_len:
-	cbz		x7, .Lgcm_dec_end
+        cbz     x7, .Lgcm_dec_end
 
-	GTAG_HASH_LENGTHS(v1, v3)
+        GTAG_HASH_LENGTHS(v1, v3)
 
-	b		.Lgcm_dec_ret
+        b       .Lgcm_dec_ret
 
 .Lgcm_dec_end:
-	/* store new CTR */
-	rev		x8, x8
-	rev		x9, x9
-	stp		x8, x9, [x3]
+        /* store new CTR */
+        rev     x8, x8
+        rev     x9, x9
+        stp     x8, x9, [x3]
 
-	rbit		RHASH.16b, RHASH.16b
+        rbit    RHASH.16b, RHASH.16b
 
 .Lgcm_dec_ret:
-	/* store new MAC */
-	st1		{RHASH.2d}, [x5]
+        /* store new MAC */
+        st1     {RHASH.2d}, [x5]
 
-	ret
+        ret
 SYM_FUNC_END(sm4_ce_pmull_gcm_dec)
 
-	.section	".rodata", "a"
-	.align 4
+        .section ".rodata", "a"
+        .align  4
 .Lcts_permute_table:
-	.byte		0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
-	.byte		0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
-	.byte		 0x0,  0x1,  0x2,  0x3,  0x4,  0x5,  0x6,  0x7
-	.byte		 0x8,  0x9,  0xa,  0xb,  0xc,  0xd,  0xe,  0xf
-	.byte		0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
-	.byte		0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
+        .byte   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
+        .byte   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
+        .byte   0x0,  0x1,  0x2,  0x3,  0x4,  0x5,  0x6,  0x7
+        .byte   0x8,  0x9,  0xa,  0xb,  0xc,  0xd,  0xe,  0xf
+        .byte   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
+        .byte   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
 
 .Lghash_rconst:
-	.quad		0x87
+        .quad   0x87

@@ -10,14 +10,14 @@ EXTERN asm__div
 
 __div_:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push bc
-   push af
-   
-   jp asm__div
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm__div

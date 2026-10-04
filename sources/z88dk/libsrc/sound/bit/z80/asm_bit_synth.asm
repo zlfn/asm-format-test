@@ -27,158 +27,158 @@ EXTERN asm_bit_open, asm_bit_close
 
 asm_bit_synth:
 
-   ; enter :  a = duration
-   ;          h = frequency_1 (0 = disable voice)
-   ;          l = frequency_2 (0 = disable voice)
-   ;          d = frequency_3 (0 = disable voice)
-   ;          e = frequency_4 (0 = disable voice)
-   ;
-   ; uses  : af, bc, de, hl, (bc' if port_16)
+        ; enter :  a = duration
+        ;          h = frequency_1 (0 = disable voice)
+        ;          l = frequency_2 (0 = disable voice)
+        ;          d = frequency_3 (0 = disable voice)
+        ;          e = frequency_4 (0 = disable voice)
+        ;
+        ; uses  : af, bc, de, hl, (bc' if port_16)
 
-   ; write parameters into synth code
+        ; write parameters into synth code
 
-   ld c,__SOUND_BIT_TOGGLE
+        ld      c, __SOUND_BIT_TOGGLE
 
 duration:
 
-   ld (LEN + 1),a
+        ld      (LEN + 1), a
 
 fr1:
 
-   ld a,h
-   or a
-   jr z, fr1_blank
+        ld      a, h
+        or      a
+        jr      z, fr1_blank
 
-   ld (FR_1 + 1),a
-   ld a,c
+        ld      (FR_1 + 1), a
+        ld      a, c
 
 fr1_blank:
 
-   ld (FR1_tick + 1),a
+        ld      (FR1_tick + 1), a
 
 fr2:
 
-   ld a,l
-   or a
-   jr z, fr2_blank
-   
-   ld (FR_2 + 1),a
-   ld a,c
+        ld      a, l
+        or      a
+        jr      z, fr2_blank
+
+        ld      (FR_2 + 1), a
+        ld      a, c
 
 fr2_blank:
 
-   ld (FR2_tick + 1),a
-   
+        ld      (FR2_tick + 1), a
+
 fr3:
 
-   ld a,d
-   or a
-   jr z, fr3_blank
-   
-   ld (FR_3 + 1),a
-   ld a,c
+        ld      a, d
+        or      a
+        jr      z, fr3_blank
+
+        ld      (FR_3 + 1), a
+        ld      a, c
 
 fr3_blank:
 
-   ld (FR3_tick + 1),a
+        ld      (FR3_tick + 1), a
 
 fr4:
 
-   ld a,e
-   or a
-   jr z, fr4_blank
+        ld      a, e
+        or      a
+        jr      z, fr4_blank
 
-   ld (FR_4 + 1),a
-   ld a,c
+        ld      (FR_4 + 1), a
+        ld      a, c
 
 fr4_blank:
 
-   ld (FR4_tick + 1),a
-   
-   ; begin synthesis
+        ld      (FR4_tick + 1), a
 
-   IF __SOUND_BIT_METHOD = 2
-   
-      exx
-      ld bc,__SOUND_BIT_PORT
-      exx
-   
-   ENDIF
+        ; begin synthesis
 
-   call asm_bit_open
-   
-   ld h,1
-   ld l,h
-   ld d,h
-   ld e,h
-   
+        IF      __SOUND_BIT_METHOD = 2
+
+                exx
+                ld      bc, __SOUND_BIT_PORT
+                exx
+
+        ENDIF
+
+        call    asm_bit_open
+
+        ld      h, 1
+        ld      l, h
+        ld      d, h
+        ld      e, h
+
 LEN:
 
-   ld b,50
+        ld      b, 50
 
 loop1:
 
-   ld c,4
+        ld      c, 4
 
 loop2:
 
-   dec h
-   jr nz, jump
-   
+        dec     h
+        jr      nz, jump
+
 FR1_tick:
 
-   xor __SOUND_BIT_TOGGLE
-   INCLUDE "sound/bit/z80/output_bit_device_2.inc"
-   
+        xor     __SOUND_BIT_TOGGLE
+        INCLUDE "sound/bit/z80/output_bit_device_2.inc"
+
 FR_1:
 
-   ld h,80
+        ld      h, 80
 
 jump:
 
-   dec l
-   jr nz, jump2
+        dec     l
+        jr      nz, jump2
 
 FR2_tick:
 
-   xor __SOUND_BIT_TOGGLE
-   INCLUDE "sound/bit/z80/output_bit_device_2.inc"
+        xor     __SOUND_BIT_TOGGLE
+        INCLUDE "sound/bit/z80/output_bit_device_2.inc"
 
 FR_2:
 
-   ld l,81
+        ld      l, 81
 
 jump2:
 
-   dec d
-   jr nz, jump3
+        dec     d
+        jr      nz, jump3
 
 FR3_tick:
 
-   xor __SOUND_BIT_TOGGLE
-   INCLUDE "sound/bit/z80/output_bit_device_2.inc"
-   
+        xor     __SOUND_BIT_TOGGLE
+        INCLUDE "sound/bit/z80/output_bit_device_2.inc"
+
 FR_3:
 
-   ld d,162
+        ld      d, 162
 
 jump3:
 
-   dec e
-   jr nz, loop2
+        dec     e
+        jr      nz, loop2
 
 FR4_tick:
 
-   xor __SOUND_BIT_TOGGLE
-   INCLUDE "sound/bit/z80/output_bit_device_2.inc"
+        xor     __SOUND_BIT_TOGGLE
+        INCLUDE "sound/bit/z80/output_bit_device_2.inc"
 
 FR_4:
 
-   ld e,163
-   
-   dec c
-   jr nz, loop2
-   
-   djnz loop1
+        ld      e, 163
 
-   jp asm_bit_close
+        dec     c
+        jr      nz, loop2
+
+        djnz    loop1
+
+        jp      asm_bit_close

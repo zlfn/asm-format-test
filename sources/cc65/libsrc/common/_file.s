@@ -4,11 +4,11 @@
 ; Data for the stdio file stream.
 ;
 
-        .export         __filetab
+        .export __filetab
 
-        .include        "stdio.inc"
-        .include        "fcntl.inc"
-        .include        "_file.inc"
+        .include "stdio.inc"
+        .include "fcntl.inc"
+        .include "_file.inc"
 
 ;----------------------------------------------------------------------------
 ; File data
@@ -23,7 +23,6 @@ __filetab:
         .byte   0, _FCLOSED, 0  ; free slot
 .endrepeat
 
-
 ; Standard file descriptors
 
 _stdin:
@@ -34,5 +33,3 @@ _stdout:
 
 _stderr:
         .word   __filetab + (STDERR_FILENO * .sizeof(_FILE))
-
-

@@ -98,196 +98,196 @@ GLOBL ·erftab12067<> + 0(SB), RODATA, $16
 // with coefficients determined with a Remez exchange algorithm.
 
 TEXT	·erfAsm(SB), NOSPLIT, $0-16
-	FMOVD	x+0(FP), F0
-	MOVD	$·erfrodataL13<>+0(SB), R5
-	LGDR	F0, R1
-	FMOVD	F0, F6
-	SRAD	$48, R1
-	MOVH	$16383, R3
-	RISBGZ	$49, $63, $0, R1, R2
-	MOVW	R2, R6
-	MOVW	R3, R7
-	CMPBGT	R6, R7, L2
-	MOVH	$12287, R1
-	MOVW	R1, R7
-	CMPBLE	R6, R7 ,L12
-	MOVH	$16367, R1
-	MOVW	R1, R7
-	CMPBGT	R6, R7, L5
-	FMOVD	448(R5), F4
-	FMADD	F0, F0, F4
-	FMOVD	440(R5), F3
-	WFMDB	V4, V4, V2
-	FMOVD	432(R5), F0
-	FMOVD	424(R5), F1
-	WFMADB	V2, V0, V3, V0
-	FMOVD	416(R5), F3
-	WFMADB	V2, V1, V3, V1
-	FMOVD	408(R5), F5
-	FMOVD	400(R5), F3
-	WFMADB	V2, V0, V5, V0
-	WFMADB	V2, V1, V3, V1
-	FMOVD	392(R5), F5
-	FMOVD	384(R5), F3
-	WFMADB	V2, V0, V5, V0
-	WFMADB	V2, V1, V3, V1
-	FMOVD	376(R5), F5
-	FMOVD	368(R5), F3
-	WFMADB	V2, V0, V5, V0
-	WFMADB	V2, V1, V3, V1
-	FMOVD	360(R5), F5
-	FMOVD	352(R5), F3
-	WFMADB	V2, V0, V5, V0
-	WFMADB	V2, V1, V3, V2
-	WFMADB	V4, V0, V2, V0
-	WFMADB	V6, V0, V6, V0
+        FMOVD   x+0(FP), F0
+        MOVD    $·erfrodataL13<>+0(SB), R5
+        LGDR    F0,     R1
+        FMOVD   F0,     F6
+        SRAD    $48,    R1
+        MOVH    $16383, R3
+        RISBGZ  $49,    $63, $0, R1, R2
+        MOVW    R2,     R6
+        MOVW    R3,     R7
+        CMPBGT  R6,     R7,  L2
+        MOVH    $12287, R1
+        MOVW    R1,     R7
+        CMPBLE  R6,     R7 , L12
+        MOVH    $16367, R1
+        MOVW    R1,     R7
+        CMPBGT  R6,     R7,  L5
+        FMOVD   448(R5), F4
+        FMADD   F0, F0, F4
+        FMOVD   440(R5), F3
+        WFMDB   V4, V4, V2
+        FMOVD   432(R5), F0
+        FMOVD   424(R5), F1
+        WFMADB  V2, V0, V3, V0
+        FMOVD   416(R5), F3
+        WFMADB  V2, V1, V3, V1
+        FMOVD   408(R5), F5
+        FMOVD   400(R5), F3
+        WFMADB  V2, V0, V5, V0
+        WFMADB  V2, V1, V3, V1
+        FMOVD   392(R5), F5
+        FMOVD   384(R5), F3
+        WFMADB  V2, V0, V5, V0
+        WFMADB  V2, V1, V3, V1
+        FMOVD   376(R5), F5
+        FMOVD   368(R5), F3
+        WFMADB  V2, V0, V5, V0
+        WFMADB  V2, V1, V3, V1
+        FMOVD   360(R5), F5
+        FMOVD   352(R5), F3
+        WFMADB  V2, V0, V5, V0
+        WFMADB  V2, V1, V3, V2
+        WFMADB  V4, V0, V2, V0
+        WFMADB  V6, V0, V6, V0
 L1:
-	FMOVD	F0, ret+8(FP)
-	RET
+        FMOVD   F0, ret+8(FP)
+        RET
 L2:
-	MOVH	R1, R1
-	MOVH	$16407, R3
-	SRW	$31, R1, R1
-	MOVW	R2, R6
-	MOVW	R3, R7
-	CMPBLE	R6, R7, L6
-	MOVW	R1, R1
-	SLD	$3, R1, R1
-	MOVD	$·erftab12067<>+0(SB), R3
-	WORD    $0x68013000     //ld %f0,0(%r1,%r3)
-	MOVH	$32751, R1
-	MOVW	R1, R7
-	CMPBGT	R6, R7, L7
-	FMOVD	344(R5), F2
-	FMADD	F2, F0, F0
+        MOVH    R1,     R1
+        MOVH    $16407, R3
+        SRW     $31,    R1, R1
+        MOVW    R2,     R6
+        MOVW    R3,     R7
+        CMPBLE  R6,     R7, L6
+        MOVW    R1,     R1
+        SLD     $3,     R1, R1
+        MOVD    $·erftab12067<>+0(SB), R3
+        WORD    $0x68013000     //ld %f0,0(%r1,%r3)
+        MOVH    $32751, R1
+        MOVW    R1,     R7
+        CMPBGT  R6,     R7, L7
+        FMOVD   344(R5), F2
+        FMADD   F2, F0, F0
 L7:
-	WFCEDBS	V6, V6, V2
-	BEQ	L1
-	FMOVD	F6, F0
-	FMOVD	F0, ret+8(FP)
-	RET
+        WFCEDBS V6, V6, V2
+        BEQ     L1
+        FMOVD   F6, F0
+        FMOVD   F0, ret+8(FP)
+        RET
 
 L6:
-	MOVW	R1, R1
-	SLD	$3, R1, R1
-	MOVD	$·erftab12067<>+0(SB), R4
-	WFMDB	V0, V0, V1
-	MOVH	$0x0, R3
-	WORD    $0x68014000     //ld %f0,0(%r1,%r4)
-	MOVH	$16399, R1
-	MOVW	R2, R6
-	MOVW	R1, R7
-	CMPBGT	R6, R7, L8
-	FMOVD	336(R5), F3
-	FMOVD	328(R5), F2
-	FMOVD	F1, F4
-	WFMADB	V1, V2, V3, V2
-	WORD	$0xED405140	//adb %f4,.L30-.L13(%r5)
-	BYTE	$0x00
-	BYTE	$0x1A
-	FMOVD	312(R5), F3
-	WFMADB	V1, V2, V3, V2
-	FMOVD	304(R5), F3
-	WFMADB	V1, V4, V3, V4
-	FMOVD	296(R5), F3
-	WFMADB	V1, V2, V3, V2
-	FMOVD	288(R5), F3
-	WFMADB	V1, V4, V3, V4
-	FMOVD	280(R5), F3
-	WFMADB	V1, V2, V3, V2
-	FMOVD	272(R5), F3
-	WFMADB	V1, V4, V3, V4
+        MOVW    R1, R1
+        SLD     $3, R1, R1
+        MOVD    $·erftab12067<>+0(SB), R4
+        WFMDB   V0,   V0, V1
+        MOVH    $0x0, R3
+        WORD    $0x68014000     //ld %f0,0(%r1,%r4)
+        MOVH    $16399, R1
+        MOVW    R2,     R6
+        MOVW    R1,     R7
+        CMPBGT  R6,     R7, L8
+        FMOVD   336(R5), F3
+        FMOVD   328(R5), F2
+        FMOVD   F1, F4
+        WFMADB  V1, V2, V3, V2
+        WORD    $0xED405140     //adb %f4,.L30-.L13(%r5)
+        BYTE    $0x00
+        BYTE    $0x1A
+        FMOVD   312(R5), F3
+        WFMADB  V1, V2, V3, V2
+        FMOVD   304(R5), F3
+        WFMADB  V1, V4, V3, V4
+        FMOVD   296(R5), F3
+        WFMADB  V1, V2, V3, V2
+        FMOVD   288(R5), F3
+        WFMADB  V1, V4, V3, V4
+        FMOVD   280(R5), F3
+        WFMADB  V1, V2, V3, V2
+        FMOVD   272(R5), F3
+        WFMADB  V1, V4, V3, V4
 L9:
-	FMOVD	264(R5), F3
-	FMUL	F4, F6
-	FMOVD	256(R5), F4
-	WFMADB	V1, V4, V3, V4
-	FDIV	F6, F2
-	LGDR	F4, R1
-	FSUB	F3, F4
-	FMOVD	248(R5), F6
-	WFMSDB	V4, V6, V1, V4
-	FMOVD	240(R5), F1
-	FMOVD	232(R5), F6
-	WFMADB	V4, V6, V1, V6
-	FMOVD	224(R5), F1
-	FMOVD	216(R5), F3
-	WFMADB	V4, V3, V1, V3
-	WFMDB	V4, V4, V1
-	FMOVD	208(R5), F5
-	WFMADB	V6, V1, V3, V6
-	FMOVD	200(R5), F3
-	MOVH	R1,R1
-	WFMADB	V4, V3, V5, V3
-	RISBGZ	$57, $60, $3, R1, R2
-	WFMADB	V1, V6, V3, V6
-	RISBGN	$0, $15, $48, R1, R3
-	MOVD	$·erftab2066<>+0(SB), R1
-	FMOVD	192(R5), F1
-	LDGR	R3, F3
-	WORD	$0xED221000	//madb %f2,%f2,0(%r2,%r1)
-	BYTE	$0x20
-	BYTE	$0x1E
-	WFMADB	V4, V6, V1, V4
-	FMUL	F3, F2
-	FMADD	F4, F2, F0
-	FMOVD	F0, ret+8(FP)
-	RET
+        FMOVD   264(R5), F3
+        FMUL    F4, F6
+        FMOVD   256(R5), F4
+        WFMADB  V1, V4, V3, V4
+        FDIV    F6, F2
+        LGDR    F4, R1
+        FSUB    F3, F4
+        FMOVD   248(R5), F6
+        WFMSDB  V4, V6, V1, V4
+        FMOVD   240(R5), F1
+        FMOVD   232(R5), F6
+        WFMADB  V4, V6, V1, V6
+        FMOVD   224(R5), F1
+        FMOVD   216(R5), F3
+        WFMADB  V4, V3, V1, V3
+        WFMDB   V4, V4, V1
+        FMOVD   208(R5), F5
+        WFMADB  V6, V1, V3, V6
+        FMOVD   200(R5), F3
+        MOVH    R1,  R1
+        WFMADB  V4,  V3,  V5,  V3
+        RISBGZ  $57, $60, $3,  R1, R2
+        WFMADB  V1,  V6,  V3,  V6
+        RISBGN  $0,  $15, $48, R1, R3
+        MOVD    $·erftab2066<>+0(SB), R1
+        FMOVD   192(R5), F1
+        LDGR    R3, F3
+        WORD    $0xED221000     //madb %f2,%f2,0(%r2,%r1)
+        BYTE    $0x20
+        BYTE    $0x1E
+        WFMADB  V4, V6, V1, V4
+        FMUL    F3, F2
+        FMADD   F4, F2, F0
+        FMOVD   F0, ret+8(FP)
+        RET
 L12:
-	FMOVD	184(R5), F0
-	WFMADB	V6, V0, V6, V0
-	FMOVD	F0, ret+8(FP)
-	RET
+        FMOVD   184(R5), F0
+        WFMADB  V6, V0, V6, V0
+        FMOVD   F0, ret+8(FP)
+        RET
 L5:
-	FMOVD	176(R5), F1
-	FMADD	F0, F0, F1
-	FMOVD	168(R5), F3
-	WFMDB	V1, V1, V2
-	FMOVD	160(R5), F0
-	FMOVD	152(R5), F4
-	WFMADB	V2, V0, V3, V0
-	FMOVD	144(R5), F3
-	WFMADB	V2, V4, V3, V4
-	FMOVD	136(R5), F5
-	FMOVD	128(R5), F3
-	WFMADB	V2, V0, V5, V0
-	WFMADB	V2, V4, V3, V4
-	FMOVD	120(R5), F5
-	FMOVD	112(R5), F3
-	WFMADB	V2, V0, V5, V0
-	WFMADB	V2, V4, V3, V4
-	FMOVD	104(R5), F5
-	FMOVD	96(R5), F3
-	WFMADB	V2, V0, V5, V0
-	WFMADB	V2, V4, V3, V4
-	FMOVD	88(R5), F5
-	FMOVD	80(R5), F3
-	WFMADB	V2, V0, V5, V0
-	WFMADB	V2, V4, V3, V4
-	FMOVD	72(R5), F5
-	FMOVD	64(R5), F3
-	WFMADB	V2, V0, V5, V0
-	WFMADB	V2, V4, V3, V4
-	FMOVD	56(R5), F5
-	FMOVD	48(R5), F3
-	WFMADB	V2, V0, V5, V0
-	WFMADB	V2, V4, V3, V2
-	FMOVD	40(R5), F4
-	WFMADB	V1, V0, V2, V0
-	FMUL	F6, F0
-	FMADD	F4, F6, F0
-	FMOVD	F0, ret+8(FP)
-	RET
+        FMOVD   176(R5), F1
+        FMADD   F0, F0, F1
+        FMOVD   168(R5), F3
+        WFMDB   V1, V1, V2
+        FMOVD   160(R5), F0
+        FMOVD   152(R5), F4
+        WFMADB  V2, V0, V3, V0
+        FMOVD   144(R5), F3
+        WFMADB  V2, V4, V3, V4
+        FMOVD   136(R5), F5
+        FMOVD   128(R5), F3
+        WFMADB  V2, V0, V5, V0
+        WFMADB  V2, V4, V3, V4
+        FMOVD   120(R5), F5
+        FMOVD   112(R5), F3
+        WFMADB  V2, V0, V5, V0
+        WFMADB  V2, V4, V3, V4
+        FMOVD   104(R5), F5
+        FMOVD   96(R5),  F3
+        WFMADB  V2,     V0, V5, V0
+        WFMADB  V2,     V4, V3, V4
+        FMOVD   88(R5), F5
+        FMOVD   80(R5), F3
+        WFMADB  V2,     V0, V5, V0
+        WFMADB  V2,     V4, V3, V4
+        FMOVD   72(R5), F5
+        FMOVD   64(R5), F3
+        WFMADB  V2,     V0, V5, V0
+        WFMADB  V2,     V4, V3, V4
+        FMOVD   56(R5), F5
+        FMOVD   48(R5), F3
+        WFMADB  V2,     V0, V5, V0
+        WFMADB  V2,     V4, V3, V2
+        FMOVD   40(R5), F4
+        WFMADB  V1,     V0, V2, V0
+        FMUL    F6,     F0
+        FMADD   F4,     F6, F0
+        FMOVD   F0,     ret+8(FP)
+        RET
 L8:
-	FMOVD	32(R5), F3
-	FMOVD	24(R5), F2
-	FMOVD	F1, F4
-	WFMADB	V1, V2, V3, V2
-	WORD	$0xED405010	//adb %f4,.L68-.L13(%r5)
-	BYTE	$0x00
-	BYTE	$0x1A
-	FMOVD	8(R5), F3
-	WFMADB	V1, V2, V3, V2
-	FMOVD	·erfrodataL13<>+0(SB), F3
-	WFMADB	V1, V4, V3, V4
-	BR	L9
+        FMOVD   32(R5), F3
+        FMOVD   24(R5), F2
+        FMOVD   F1,     F4
+        WFMADB  V1,     V2, V3, V2
+        WORD    $0xED405010     //adb %f4,.L68-.L13(%r5)
+        BYTE    $0x00
+        BYTE    $0x1A
+        FMOVD   8(R5), F3
+        WFMADB  V1,    V2, V3, V2
+        FMOVD   ·erfrodataL13<>+0(SB), F3
+        WFMADB  V1, V4, V3, V4
+        BR      L9

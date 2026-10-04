@@ -5,7 +5,7 @@
 
         PUBLIC  pixeladdress
 
-	INCLUDE	"classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
         EXTERN  base_graphics
 
@@ -39,18 +39,18 @@ pixeladdress:
         srl     a
         srl     a
 
-        ld      c, a                    ; c=int(x/8)
+        ld      c, a    ; c=int(x/8)
 
         ld      h, 0
 
         add     hl, hl
-        ld      d, h
-        ld      e, l
+        ld      d,  h
+        ld      e,  l
         add     hl, hl
         add     hl, hl
         add     hl, hl
         add     hl, hl
-        sbc     hl, de                  ; y * 30
+        sbc     hl, de  ; y * 30
 
         ld      de, (base_graphics)
         add     hl, de
@@ -64,7 +64,6 @@ pixeladdress:
         pop     af
         pop     bc
 
-        and     @00000111               ; a = x mod 8
+        and     @00000111       ; a = x mod 8
 
         ret
-

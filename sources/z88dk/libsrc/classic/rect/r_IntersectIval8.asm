@@ -12,43 +12,43 @@ EXTERN RIntersectIval8
 .r_IntersectIval8
 ._r_IntersectIval8
 
-   ld hl,7
-   add hl,sp
-   ld d,(hl)
-   dec hl
-   ld e,(hl)
-   dec hl
-   ex de,hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
-   ex de,hl
-   ld d,(hl)
-   dec hl
-   ld e,(hl)
-   dec hl
-   push hl
-   ex de,hl
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   
-   call RIntersectIval8
-   jr nc, no
-   
-   pop hl
-   ld d,(hl)
-   dec hl
-   ld e,(hl)
-   ex de,hl
-   ld (hl),b
-   inc hl
-   ld (hl),c
-   ld hl,1
-   ret
-   
+        ld      hl, 7
+        add     hl, sp
+        ld      d,  (hl)
+        dec     hl
+        ld      e, (hl)
+        dec     hl
+        ex      de, hl
+        ld      b,  (hl)
+        inc     hl
+        ld      c,  (hl)
+        ex      de, hl
+        ld      d,  (hl)
+        dec     hl
+        ld      e, (hl)
+        dec     hl
+        push    hl
+        ex      de, hl
+        ld      d,  (hl)
+        inc     hl
+        ld      e, (hl)
+
+        call    RIntersectIval8
+        jr      nc, no
+
+        pop     hl
+        ld      d, (hl)
+        dec     hl
+        ld      e,    (hl)
+        ex      de,   hl
+        ld      (hl), b
+        inc     hl
+        ld      (hl), c
+        ld      hl,   1
+        ret
+
 .no
 
-   pop hl
-   ld hl,0
-   ret
+        pop     hl
+        ld      hl, 0
+        ret

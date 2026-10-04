@@ -2,14 +2,14 @@
 ; Oliver Schmidt, 2012-10-15
 ;
 
-        .export         isdevice
+        .export isdevice
 
-        .include        "zeropage.inc"
-        .include        "mli.inc"
+        .include "zeropage.inc"
+        .include "mli.inc"
 
 isdevice:
         ldy     DEVCNT
-:       lda     DEVLST,y
+:       lda     DEVLST, y
         lsr
         lsr
         lsr

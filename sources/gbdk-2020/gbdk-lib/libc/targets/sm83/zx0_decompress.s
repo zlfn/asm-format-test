@@ -6,24 +6,24 @@
         .title  "ZX0 Decompress"
         .module ZX0Decompress
 
-        .area _HRAM
+        .area   _HRAM
 
 dzx0_temp::
-        .ds 0x01
+        .ds     0x01
 
-        .area _CODE
+        .area   _CODE
 
 .macro EX_SP_HL
         push    de
-        ld      a, l
-        ld      d, h
-        ldhl    sp, #2
-        ld      e, (hl)
+        ld      a,     l
+        ld      d,     h
+        ldhl    sp,    #2
+        ld      e,     (hl)
         ld      (hl+), a
-        ld      a, (hl)
-        ld      (hl), d
-        ld      h, a
-        ld      l, e
+        ld      a,     (hl)
+        ld      (hl),  d
+        ld      h,     a
+        ld      l,     e
         pop     de
 .endm
 
@@ -64,8 +64,8 @@ dzx0s_copy:
         call    dzx0_ldir               ; copy from offset
         pop     hl                      ; restore offset
         EX_SP_HL                        ; preserve offset, restore source
-        ldh     a, (dzx0_temp)
-        add     a, a                    ; copy from literals or new offset?
+        ldh     a,  (dzx0_temp)
+        add     a,  a                   ; copy from literals or new offset?
         jr      nc, dzx0s_literals
 dzx0s_new_offset:
         pop     bc                      ; discard last offset
@@ -86,9 +86,9 @@ dzx0s_new_offset:
 dzx0s_elias:
         inc     c                       ; interlaced Elias gamma coding
 dzx0s_elias_loop:
-        add     a, a
+        add     a,  a
         jr      nz, dzx0s_elias_skip
-        ld      a, (hl+)                ; load another group of 8 bits
+        ld      a,  (hl+)               ; load another group of 8 bits
         rla
 dzx0s_elias_skip:
         ret     c
@@ -98,18 +98,18 @@ dzx0s_elias_backtrack:
         rl      b
         jr      dzx0s_elias_loop
 dzx0_ldir:
-	srl	b
-	rr	c
+        srl     b
+        rr      c
         inc     b
         inc     c
         jr      c, 0$
         jr      1$
 2$:
-        ld      a, (hl+)
+        ld      a,    (hl+)
         ld      (de), a
         inc     de
 0$:
-        ld      a, (hl+)
+        ld      a,    (hl+)
         ld      (de), a
         inc     de
 1$:

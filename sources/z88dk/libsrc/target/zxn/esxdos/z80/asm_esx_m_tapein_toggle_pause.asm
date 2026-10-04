@@ -10,31 +10,30 @@ EXTERN __esxdos_error_mc
 
 asm_esx_m_tapein_toggle_pause:
 
-   ; enter : none
-   ;
-   ; exit  : success
-   ;
-   ;            hl = 0 if pause now not enabled, 1 if pause now enabled
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl
-   
-   ld b,5
-   
-   rst __ESX_RST_SYS
-   defb __ESX_M_TAPEIN
-   
-   ld l,a
-   ld h,0
-   
-   ret nc
-   jp __esxdos_error_mc
+        ; enter : none
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0 if pause now not enabled, 1 if pause now enabled
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl
 
+        ld      b, 5
+
+        rst     __ESX_RST_SYS
+        defb    __ESX_M_TAPEIN
+
+        ld      l, a
+        ld      h, 0
+
+        ret     nc
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * M_TAPEIN ($8b) *

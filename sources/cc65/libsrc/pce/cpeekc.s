@@ -5,10 +5,10 @@
 ;
 ; get character from current position, do NOT advance cursor
 
-        .export         _cpeekc
+        .export _cpeekc
 
-        .include        "pce.inc"
-        .include        "extzp.inc"
+        .include "pce.inc"
+        .include "extzp.inc"
 
 _cpeekc:
         st0     #VDC_MARR       ; Memory-Address Read

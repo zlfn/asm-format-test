@@ -10,10 +10,10 @@ EXTERN asm_balloc_firstfit
 
 _balloc_firstfit:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_balloc_firstfit
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_balloc_firstfit

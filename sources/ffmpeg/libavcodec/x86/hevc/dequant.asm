@@ -28,33 +28,33 @@ cglobal hevc_dequant_8, 2, 3+UNIX64, 3
 
 ; coeffs, log2_size (in ecx), tmp/size
 %if WIN64
-    DECLARE_REG_TMP 1,0,2
-    ; r0 is the shift register (ecx) on win64
-    xchg          r0, r1
+        DECLARE_REG_TMP 1, 0, 2
+        ; r0 is the shift register (ecx) on win64
+        xchg    r0, r1
 %elif ARCH_X86_64
-    DECLARE_REG_TMP 0,3,1
-    ; r3 is ecx
-    mov          t1d, r1d
+        DECLARE_REG_TMP 0, 3, 1
+        ; r3 is ecx
+        mov     t1d, r1d
 %else
-    ; r1 is ecx
-    DECLARE_REG_TMP 0,1,2
+        ; r1 is ecx
+        DECLARE_REG_TMP 0, 1, 2
 %endif
 
-    mov          t2d, 256
-    shl          t2d, t1b
-    movd          m0, t2d
-    add          t1d, t1d
-    SPLATW        m0, m0
-    mov          t2d, 1
-    shl          t2d, t1b
+        mov     t2d, 256
+        shl     t2d, t1b
+        movd    m0,  t2d
+        add     t1d, t1d
+        SPLATW  m0,  m0
+        mov     t2d, 1
+        shl     t2d, t1b
 .loop:
-    mova          m1, [t0]
-    mova          m2, [t0+mmsize]
-    pmulhrsw      m1, m0
-    pmulhrsw      m2, m0
-    mova        [t0], m1
-    mova [t0+mmsize], m2
-    add           t0, 2*mmsize
-    sub          t2d, mmsize
-    jg         .loop
-    RET
+        mova    m1, [t0]
+        mova    m2, [t0+mmsize]
+        pmulhrsw m1, m0
+        pmulhrsw m2, m0
+        mova    [t0], m1
+        mova    [t0+mmsize], m2
+        add     t0,  2*mmsize
+        sub     t2d, mmsize
+        jg      .loop
+        RET

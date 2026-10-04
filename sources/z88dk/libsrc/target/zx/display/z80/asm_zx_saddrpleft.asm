@@ -17,23 +17,23 @@ PUBLIC asm_zx_saddrpleft
 
 asm_zx_saddrpleft:
 
-   ; enter : hl = screen address
-   ;          e = bitmask
-   ;
-   ; exit  : hl = screen address moved left one pixel
-   ;          e = bitmask moved left one pixel
-   ;         carry set if pixel at leftmost edge
-   ;
-   ; uses  : af, e, hl
+        ; enter : hl = screen address
+        ;          e = bitmask
+        ;
+        ; exit  : hl = screen address moved left one pixel
+        ;          e = bitmask moved left one pixel
+        ;         carry set if pixel at leftmost edge
+        ;
+        ; uses  : af, e, hl
 
-   rlc e
-   ret nc
+        rlc     e
+        ret     nc
 
-   ld a,l
-   dec l
-   and $1f
-   ret nz
+        ld      a, l
+        dec     l
+        and     $1f
+        ret     nz
 
-   inc l
-   rrc e ; set carry and restore $80 in e
-   ret
+        inc     l
+        rrc     e       ; set carry and restore $80 in e
+        ret

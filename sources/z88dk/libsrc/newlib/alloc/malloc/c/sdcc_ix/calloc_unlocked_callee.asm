@@ -10,9 +10,9 @@ EXTERN asm_calloc_unlocked
 
 _calloc_unlocked_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_calloc_unlocked
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_calloc_unlocked

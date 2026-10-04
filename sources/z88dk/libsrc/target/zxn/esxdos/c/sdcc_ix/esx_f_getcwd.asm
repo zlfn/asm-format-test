@@ -8,10 +8,10 @@ EXTERN _esx_f_getcwd_fastcall
 
 _esx_f_getcwd:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _esx_f_getcwd_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _esx_f_getcwd_fastcall

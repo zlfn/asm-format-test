@@ -11,5 +11,5 @@ EXTERN l_setmem
 .adt_ListCreateS
 ._adt_ListCreateS
 
-   xor a
-   jp l_setmem-17
+        xor     a
+        jp      l_setmem-17

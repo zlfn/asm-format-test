@@ -16,8 +16,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID
@@ -28,10 +28,9 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmEnableCache)
 ASM_PFX(AsmEnableCache):
-    wbinvd
-    mov     rax, cr0
-    btr     rax, 29
-    btr     rax, 30
-    mov     cr0, rax
-    ret
-
+        wbinvd
+        mov     rax, cr0
+        btr     rax, 29
+        btr     rax, 30
+        mov     cr0, rax
+        ret

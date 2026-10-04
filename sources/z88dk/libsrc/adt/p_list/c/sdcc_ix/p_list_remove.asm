@@ -10,12 +10,12 @@ EXTERN asm_p_list_remove
 
 _p_list_remove:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp asm_p_list_remove
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_p_list_remove

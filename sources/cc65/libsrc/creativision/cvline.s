@@ -5,17 +5,17 @@
 ; void cvline (unsigned char length);
 ;
 
-        .export         _cvlinexy, _cvline
-        .import         popa, _gotoxy, putchar, newline
-        .importzp       tmp1
+        .export _cvlinexy, _cvline
+        .import popa, _gotoxy, putchar, newline
+        .importzp tmp1
 
-        .include        "creativision.inc"
+        .include "creativision.inc"
 
 _cvlinexy:
-        pha                     ; Save the length
-        jsr     popa            ; Get y
-        jsr     _gotoxy         ; Call this one, will pop params
-        pla                     ; Restore the length and run into _cvline
+        pha             ; Save the length
+        jsr     popa    ; Get y
+        jsr     _gotoxy ; Call this one, will pop params
+        pla             ; Restore the length and run into _cvline
 
 _cvline:
         cmp     #0              ; Is the length zero?

@@ -1,12 +1,12 @@
 ;   Graphics library for the Amstrad NC
 ;   Stefano - 2017
 
-    SECTION code_clib
-    PUBLIC  w_pixeladdress
+        SECTION code_clib
+        PUBLIC  w_pixeladdress
 
-    EXTERN  NC_VRAM
+        EXTERN  NC_VRAM
 
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 ;
 ;       $Id: w_pixladdr.asm $
 ;
@@ -24,39 +24,39 @@
 
 w_pixeladdress:
 
-    ld      b, h
-    ld      c, l
+        ld      b, h
+        ld      c, l
 
-    ld      l, e                        ;hl = y
-    ld      h, d
+        ld      l, e    ;hl = y
+        ld      h, d
 
-    add     hl, hl                      ;hl = y * 64
-    add     hl, hl
-    add     hl, hl
-    add     hl, hl
-    add     hl, hl
-    add     hl, hl
+        add     hl, hl  ;hl = y * 64
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
 
-    ld      e, c                        ;de = x
-    ld      d, b
+        ld      e, c    ;de = x
+        ld      d, b
 
-    srl     d                           ;de = x / 8
-    rr      e
-    srl     d
-    rr      e
-    srl     d
-    rr      e
+        srl     d       ;de = x / 8
+        rr      e
+        srl     d
+        rr      e
+        srl     d
+        rr      e
 
-    add     hl, de                      ;hl = (y * 64) + (x / 8)
-    ld      de, NC_VRAM
-    add     hl, de
+        add     hl, de  ;hl = (y * 64) + (x / 8)
+        ld      de, NC_VRAM
+        add     hl, de
 
-    ld      a, c                        ;a = x low byte
-    and     07h                         ;a = x mod 8
+        ld      a, c    ;a = x low byte
+        and     07h     ;a = x mod 8
 
-    ld      d, h
-    ld      e, l
+        ld      d, h
+        ld      e, l
 
-    xor     7
+        xor     7
 
-    ret
+        ret

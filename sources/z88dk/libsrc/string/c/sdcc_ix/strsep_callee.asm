@@ -10,9 +10,9 @@ EXTERN asm_strsep
 
 _strsep_callee:
 
-   pop af
-   pop bc
-   pop de
-   push af
-   
-   jp asm_strsep
+        pop     af
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_strsep

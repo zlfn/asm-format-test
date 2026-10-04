@@ -28,48 +28,47 @@
 ; }
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_write
-        .importzp       ptr1, ptr2, ptr3
-        .import         popax, popa, returnFFFF
-        .import         ___oserror
-
+        .export _cbm_write
+        .importzp ptr1, ptr2, ptr3
+        .import popax, popa, returnFFFF
+        .import ___oserror
 
 _cbm_write:
         sta     ptr3
-        stx     ptr3+1          ; Save size
+        stx     ptr3+1  ; Save size
         inx
         stx     ptr1+1
         tax
         inx
-        stx     ptr1            ; Save size with both bytes incremented separately
+        stx     ptr1    ; Save size with both bytes incremented separately
 
         jsr     popax
         sta     ptr2
-        stx     ptr2+1          ; Save buffer
+        stx     ptr2+1  ; Save buffer
 
         jsr     popa
         tax
         jsr     CKOUT
-        bcs     @E2             ; Branch on error
-        bcc     @L3             ; Branch always
+        bcs     @E2     ; Branch on error
+        bcc     @L3     ; Branch always
 
 ; Loop
 
 @L1:    jsr     READST
-        cmp     #0              ; Status ok?
+        cmp     #0      ; Status ok?
         bne     @E1
 
         ldy     #0
-        lda     (ptr2),y        ;
+        lda     (ptr2), y       ;
         inc     ptr2
         bne     @L2
         inc     ptr2+1          ; A = *buffer++;
 
-@L2:    jsr     BSOUT           ; cbm_k_bsout (A);
+@L2:    jsr     BSOUT   ; cbm_k_bsout (A);
 
-@L3:    dec     ptr1            ; --size;
+@L3:    dec     ptr1    ; --size;
         bne     @L1
         dec     ptr1+1
         bne     @L1
@@ -77,7 +76,7 @@ _cbm_write:
         jsr     CLRCH
 
         lda     ptr3
-        ldx     ptr3+1          ; return size;
+        ldx     ptr3+1  ; return size;
 
         rts
 

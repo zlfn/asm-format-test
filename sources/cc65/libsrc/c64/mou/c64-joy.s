@@ -23,18 +23,17 @@
 ; scanner see normally, again, when no buttons/switches are active.
 ;
 
-        .include        "zeropage.inc"
-        .include        "mouse-kernel.inc"
-        .include        "c64.inc"
+        .include "zeropage.inc"
+        .include "mouse-kernel.inc"
+        .include "c64.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c64_joy_mou
+        module_header _c64_joy_mou
 
 HEADER:
 
@@ -68,13 +67,12 @@ HEADER:
 
 ; Callback table, set by the kernel before INSTALL is called
 
-CHIDE:  jmp     $0000                   ; Hide the cursor
-CSHOW:  jmp     $0000                   ; Show the cursor
-CPREP:  jmp     $0000                   ; Prepare to move the cursor
-CDRAW:  jmp     $0000                   ; Draw the cursor
-CMOVEX: jmp     $0000                   ; Move the cursor to X coord
-CMOVEY: jmp     $0000                   ; Move the cursor to Y coord
-
+CHIDE:  jmp     $0000   ; Hide the cursor
+CSHOW:  jmp     $0000   ; Show the cursor
+CPREP:  jmp     $0000   ; Prepare to move the cursor
+CDRAW:  jmp     $0000   ; Draw the cursor
+CMOVEX: jmp     $0000   ; Move the cursor to X coord
+CMOVEY: jmp     $0000   ; Move the cursor to Y coord
 
 ;----------------------------------------------------------------------------
 ; Constants
@@ -98,17 +96,17 @@ SCREEN_WIDTH    = 320
 .bss
 
 Vars:
-YPos:           .res    2               ; Current mouse position, Y
-XPos:           .res    2               ; Current mouse position, X
-XMin:           .res    2               ; X1 value of bounding box
-YMin:           .res    2               ; Y1 value of bounding box
-XMax:           .res    2               ; X2 value of bounding box
-YMax:           .res    2               ; Y2 value of bounding box
-Buttons:        .res    1               ; Button mask
+YPos:   .res    2       ; Current mouse position, Y
+XPos:   .res    2       ; Current mouse position, X
+XMin:   .res    2       ; X1 value of bounding box
+YMin:   .res    2       ; Y1 value of bounding box
+XMax:   .res    2       ; X2 value of bounding box
+YMax:   .res    2       ; Y2 value of bounding box
+Buttons: .res   1       ; Button mask
 
 ; Temporary value used in the int handler
 
-Temp:           .res    1
+Temp:   .res    1
 
 .rodata
 
@@ -137,8 +135,8 @@ INSTALL:
 ; Initialize variables. Just copy the default stuff over
 
         ldx     #.sizeof(DefVars)-1
-@L1:    lda     DefVars,x
-        sta     Vars,x
+@L1:    lda     DefVars, x
+        sta     Vars,    x
         dex
         bpl     @L1
 
@@ -201,13 +199,13 @@ SHOW:   sei
 ; caller and save some code here. No return code required.
 
 SETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX)-1
         sei
 
-@L1:    lda     (ptr1),y
-        sta     XMin,y
+@L1:    lda     (ptr1), y
+        sta     XMin,   y
         dey
         bpl     @L1
 
@@ -219,12 +217,12 @@ SETBOX: sta     ptr1
 ; come from the C program, that is, a pointer to a mouse_box struct in a/x.
 
 GETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX)-1
 
-@L1:    lda     XMin,y
-        sta     (ptr1),y
+@L1:    lda     XMin,   y
+        sta     (ptr1), y
         dey
         bpl     @L1
 
@@ -238,23 +236,23 @@ GETBOX: sta     ptr1
 ; the screen). No return code required.
 ;
 
-MOVE:   sei                             ; No interrupts
+MOVE:   sei     ; No interrupts
 
         sta     YPos
-        stx     YPos+1                  ; New Y position
-        jsr     CMOVEY                  ; Set it
+        stx     YPos+1  ; New Y position
+        jsr     CMOVEY  ; Set it
 
         ldy     #$01
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     XPos+1
         tax
         dey
-        lda     (c_sp),y
-        sta     XPos                    ; New X position
+        lda     (c_sp), y
+        sta     XPos    ; New X position
 
-        jsr     CMOVEX                  ; Move the cursor
+        jsr     CMOVEX  ; Move the cursor
 
-        cli                             ; Allow interrupts
+        cli     ; Allow interrupts
         rts
 
 ;----------------------------------------------------------------------------
@@ -271,22 +269,22 @@ BUTTONS:
 
 POS:    ldy     #MOUSE_POS::XCOORD      ; Structure offset
 
-        sei                             ; Disable interrupts
-        lda     XPos                    ; Transfer the position
-        sta     (ptr1),y
+        sei             ; Disable interrupts
+        lda     XPos    ; Transfer the position
+        sta     (ptr1), y
         lda     XPos+1
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos+1
-        cli                             ; Enable interrupts
+        cli             ; Enable interrupts
 
         iny
-        sta     (ptr1),y                ; Store last byte
+        sta     (ptr1), y       ; Store last byte
 
-        rts                             ; Done
+        rts     ; Done
 
 ;----------------------------------------------------------------------------
 ; INFO: Returns mouse position and current button mask in the MOUSE_INFO
@@ -303,7 +301,7 @@ INFO:   jsr     POS
 
         lda     Buttons
         ldy     #MOUSE_INFO::BUTTONS
-        sta     (ptr1),y
+        sta     (ptr1), y
 
         rts
 
@@ -314,7 +312,7 @@ INFO:   jsr     POS
 ;
 
 IOCTL:  lda     #MOUSE_ERR_INV_IOCTL    ; We don't support ioclts for now
-        ldx     #0 ; return value is char
+        ldx     #0                      ; return value is char
         rts
 
 ;----------------------------------------------------------------------------
@@ -328,46 +326,46 @@ IRQ:    jsr     CPREP
 
 ; Avoid crosstalk between the keyboard and a joystick.
 
-        ldy     #%00000000              ; Set ports A and B to input
+        ldy     #%00000000      ; Set ports A and B to input
         sty     CIA1_DDRB
-        sty     CIA1_DDRA               ; Keyboard won't look like joystick
-        lda     CIA1_PRB                ; Read Control-Port 1
-        dec     CIA1_DDRA               ; Set port A back to output
-        eor     #%11111111              ; Bit goes up when switch goes down
-        beq     @Save                   ;(bze)
-        dec     CIA1_DDRB               ; Joystick won't look like keyboard
-        sty     CIA1_PRB                ; Set "all keys pushed"
+        sty     CIA1_DDRA       ; Keyboard won't look like joystick
+        lda     CIA1_PRB        ; Read Control-Port 1
+        dec     CIA1_DDRA       ; Set port A back to output
+        eor     #%11111111      ; Bit goes up when switch goes down
+        beq     @Save           ;(bze)
+        dec     CIA1_DDRB       ; Joystick won't look like keyboard
+        sty     CIA1_PRB        ; Set "all keys pushed"
 @Save:  sta     Temp
 
 ; Check for a pressed button and place the result into Buttons
 
-        ldx     #$00                    ; Assume no button pressed
-        and     #JOY::FIRE              ; Check fire button
-        beq     @L0                     ; Jump if not pressed
-        ldx     #MOUSE_BTN_LEFT         ; Left (only) button is pressed
+        ldx     #$00            ; Assume no button pressed
+        and     #JOY::FIRE      ; Check fire button
+        beq     @L0             ; Jump if not pressed
+        ldx     #MOUSE_BTN_LEFT ; Left (only) button is pressed
 @L0:    stx     Buttons
 
 ; Check left/right
 
-        lda     Temp                    ; Read joystick #0
+        lda     Temp    ; Read joystick #0
         and     #(JOY::LEFT | JOY::RIGHT)
-        beq     @SkipX                  ;
+        beq     @SkipX  ;
 
 ; We will cheat here and rely on the fact that either the left, OR the right
 ; bit can be active
 
-        and     #JOY::RIGHT             ; Check RIGHT bit
+        and     #JOY::RIGHT     ; Check RIGHT bit
         bne     @Right
         lda     #$FF
         tax
-        bne     @AddX                   ; Branch always
+        bne     @AddX           ; Branch always
 @Right: lda     #$01
         ldx     #$00
 
 ; Calculate the new X coordinate (--> a/y)
 
 @AddX:  add     XPos
-        tay                             ; Remember low byte
+        tay     ; Remember low byte
         txa
         adc     XPos+1
         tax
@@ -404,7 +402,7 @@ IRQ:    jsr     CPREP
 ; We will cheat here and rely on the fact that either the up, OR the down
 ; bit can be active
 
-        lsr     a                       ; Check UP bit
+        lsr     a       ; Check UP bit
         bcc     @Down
         lda     #$FF
         tax
@@ -415,7 +413,7 @@ IRQ:    jsr     CPREP
 ; Calculate the new Y coordinate (--> a/y)
 
 @AddY:  add     YPos
-        tay                             ; Remember low byte
+        tay     ; Remember low byte
         txa
         adc     YPos+1
         tax
@@ -446,6 +444,5 @@ IRQ:    jsr     CPREP
 ; Done
 
 @SkipY: jsr     CDRAW
-        clc                             ; Interrupt not "handled"
+        clc     ; Interrupt not "handled"
         rts
-

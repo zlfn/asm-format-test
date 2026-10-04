@@ -7,22 +7,22 @@ PUBLIC asm_ulap_pent_from_attr_ink
 
 asm_ulap_pent_from_attr_ink:
 
-   ; enter : l = unsigned char attr
-   ;
-   ; exit  : l = palette entry
-   ;
-   ; uses  : af, hl
+        ; enter : l = unsigned char attr
+        ;
+        ; exit  : l = palette entry
+        ;
+        ; uses  : af, hl
 
-   ld a,l
-   and $07
-   ld h,a
-   
-   ld a,l
-   and $c0
-   rra
-   rra
-   
-   or h
-   ld l,a
-   
-   ret
+        ld      a, l
+        and     $07
+        ld      h, a
+
+        ld      a, l
+        and     $c0
+        rra
+        rra
+
+        or      h
+        ld      l, a
+
+        ret

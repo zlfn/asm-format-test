@@ -14,41 +14,41 @@ EXTERN __esxdos_error_mc
 
 asm_esx_m_tapein_open:
 
-   ; enter : hl = char *filename
-	;
-	; exit  : success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-	;
-	; uses  : af, bc, de, hl, ix
+        ; enter : hl = char *filename
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl, ix
 
-	ld b,0
-	
+        ld      b, 0
+
 IF __SDCC_IY
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 ELSE
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 ENDIF
 
 __esx_m_tapein_call_default_drive:
 
-   ld a,'*'
+        ld      a, '*'
 
 __esx_m_tapein_call:
 
-   rst __ESX_RST_SYS
-   defb __ESX_M_TAPEIN
+        rst     __ESX_RST_SYS
+        defb    __ESX_M_TAPEIN
 
-	jp nc, error_znc
-	jp __esxdos_error_mc
+        jp      nc, error_znc
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * M_TAPEIN ($8b) *

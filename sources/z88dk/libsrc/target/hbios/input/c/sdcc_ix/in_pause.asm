@@ -10,10 +10,10 @@ EXTERN asm_in_pause
 
 _in_pause:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_in_pause
+        push    hl
+        push    af
+
+        jp      asm_in_pause

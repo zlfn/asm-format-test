@@ -9,8 +9,8 @@ PUBLIC _bfx_38
 
 _bfx_38:
 
-   ; Clang
+        ; Clang
 
-   defb 1 ;tone
-   defw 3500,10,2,0,25728
-   defb 0
+        defb    1       ;tone
+        defw    3500, 10, 2, 0, 25728
+        defb    0

@@ -19,25 +19,25 @@
 #define STM32_USART_TXE			(1 << 7)	/* Tx data reg empty */
 
 .macro	addruart, rp, rv, tmp
-	ldr	\rp, =CONFIG_DEBUG_UART_PHYS @ physical base
-	ldr	\rv, =CONFIG_DEBUG_UART_VIRT @ virt base
+        ldr     \rp, =CONFIG_DEBUG_UART_PHYS    @ physical base
+        ldr     \rv, =CONFIG_DEBUG_UART_VIRT    @ virt base
 .endm
 
 .macro  senduart,rd,rx
-	strb    \rd, [\rx, #STM32_USART_TDR_OFF]
+        strb    \rd, [\rx, #STM32_USART_TDR_OFF]
 .endm
 
 .macro	waituartcts,rd,rx
 .endm
 
 .macro  waituarttxrdy,rd,rx
-1001:	ldr	\rd, [\rx, #(STM32_USART_SR_OFF)]	@ Read Status Register
-	tst	\rd, #STM32_USART_TXE			@ TXE = 1 = tx empty
-	beq	1001b
+1001:   ldr     \rd, [\rx, #(STM32_USART_SR_OFF)]       @ Read Status Register
+        tst     \rd, #STM32_USART_TXE                   @ TXE = 1 = tx empty
+        beq     1001b
 .endm
 
 .macro  busyuart,rd,rx
-1001:	ldr	\rd, [\rx, #(STM32_USART_SR_OFF)]	@ Read Status Register
-	tst	\rd, #STM32_USART_TC			@ TC = 1 = tx complete
-	beq	1001b
+1001:   ldr     \rd, [\rx, #(STM32_USART_SR_OFF)]       @ Read Status Register
+        tst     \rd, #STM32_USART_TC                    @ TC = 1 = tx complete
+        beq     1001b
 .endm

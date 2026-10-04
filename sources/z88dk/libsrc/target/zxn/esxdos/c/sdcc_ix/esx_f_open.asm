@@ -8,14 +8,14 @@ EXTERN l0_esx_f_open_callee
 
 _esx_f_open:
 
-   pop de
-   pop hl
-   dec sp
-   pop af
-   
-   push af
-   inc sp
-   push hl
-   push de
-   
-   jp l0_esx_f_open_callee
+        pop     de
+        pop     hl
+        dec     sp
+        pop     af
+
+        push    af
+        inc     sp
+        push    hl
+        push    de
+
+        jp      l0_esx_f_open_callee

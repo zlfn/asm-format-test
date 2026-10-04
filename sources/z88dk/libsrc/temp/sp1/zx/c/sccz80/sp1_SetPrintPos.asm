@@ -10,28 +10,27 @@ EXTERN asm_sp1_SetPrintPos
 
 sp1_SetPrintPos:
 
-   ld hl,2
-   add hl,sp
-   ld e,(hl)
-   inc hl
-   inc hl
-   ld d,(hl)
-   inc hl
-   inc hl
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a
-   
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)
+        inc     hl
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
+
 ;   jp asm_sp1_SetPrintPos
-   push ix
-   call asm_sp1_SetPrintPos
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_SetPrintPos
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_SetPrintPos
 defc _sp1_SetPrintPos = sp1_SetPrintPos
 ENDIF
-

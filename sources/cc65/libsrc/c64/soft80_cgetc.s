@@ -6,14 +6,14 @@
 ; char cgetc (void);
 ;
 
-        .export         soft80_cgetc
-        .import         soft80_internal_cellcolor, soft80_internal_cursorxlsb
-        .import         cursor
-        .importzp       tmp1
+        .export soft80_cgetc
+        .import soft80_internal_cellcolor, soft80_internal_cursorxlsb
+        .import cursor
+        .importzp tmp1
 
-        .include        "cbm_kernal.inc"
-        .include        "c64.inc"
-        .include        "soft80.inc"
+        .include "cbm_kernal.inc"
+        .include "c64.inc"
+        .include "soft80.inc"
 
 soft80_cgetc:
         lda     KEY_COUNT       ; Get number of characters
@@ -28,7 +28,7 @@ soft80_cgetc:
         clc
         jsr     invertcursor    ; set cursor on or off accordingly
 
-@L3:    jsr     KBDREAD         ; Read char and return in A
+@L3:    jsr     KBDREAD ; Read char and return in A
         ldx     #0
         rts
 
@@ -41,7 +41,7 @@ invertcursor:
 @invert:
 
         sei
-        lda     $01             ; enable RAM under I/O
+        lda     $01     ; enable RAM under I/O
         pha
         lda     #$34
         sta     $01
@@ -56,27 +56,27 @@ invertcursor:
         bcc     @lp0
 @set:
         ; save old value
-        lda     (CRAM_PTR),y    ; vram
+        lda     (CRAM_PTR), y   ; vram
         sta     tmp1
         lda     soft80_internal_cellcolor
 @lp0:
-        sta     (CRAM_PTR),y    ; vram
+        sta     (CRAM_PTR), y   ; vram
         ldx     soft80_internal_cursorxlsb
         ldy     #7
 @lp1:
-        lda     (SCREEN_PTR),y
-        eor     nibble,x
-        sta     (SCREEN_PTR),y
+        lda     (SCREEN_PTR), y
+        eor     nibble, x
+        sta     (SCREEN_PTR), y
         dey
         bpl     @lp1
 
         pla
-        sta     $01             ; enable I/O
+        sta     $01     ; enable I/O
         cli
         rts
 
         .rodata
-nibble: .byte $f0, $0f
+nibble: .byte   $f0, $0f
 
 ;-------------------------------------------------------------------------------
 ; force the init constructor to be imported

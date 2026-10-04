@@ -9,13 +9,13 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 acos:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_acosf
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_acosf
 
 ; SDCC bridge for Classic
 PUBLIC _acos

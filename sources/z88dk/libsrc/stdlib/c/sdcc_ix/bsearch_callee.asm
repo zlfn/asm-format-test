@@ -12,28 +12,28 @@ EXTERN asm_bsearch
 
 _bsearch_callee:
 
-   pop af
-   exx
-   pop bc
-   exx
-   pop bc
-   pop hl
-   pop de
-   exx
-   pop de
-   push af
-   
+        pop     af
+        exx
+        pop     bc
+        exx
+        pop     bc
+        pop     hl
+        pop     de
+        exx
+        pop     de
+        push    af
+
 l0_bsearch_callee:
-   
-   push de
-   ex (sp),ix
 
-   push bc
-   pop af
+        push    de
+        ex      (sp), ix
 
-   exx
+        push    bc
+        pop     af
 
-   call asm_bsearch
-   
-   pop ix
-   ret
+        exx
+
+        call    asm_bsearch
+
+        pop     ix
+        ret

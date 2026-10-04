@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _zx_cy2aaddr
 defc _zx_cy2aaddr = zx_cy2aaddr
 ENDIF
-

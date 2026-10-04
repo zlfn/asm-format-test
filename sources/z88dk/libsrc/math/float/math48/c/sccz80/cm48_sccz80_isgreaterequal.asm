@@ -10,9 +10,9 @@ EXTERN am48_isgreaterequal, cm48_sccz80p_dread2
 
 cm48_sccz80_isgreaterequal:
 
-   call cm48_sccz80p_dread2
-   
-   ; AC'= y
-   ; AC = x
-   
-   jp am48_isgreaterequal
+        call    cm48_sccz80p_dread2
+
+        ; AC'= y
+        ; AC = x
+
+        jp      am48_isgreaterequal

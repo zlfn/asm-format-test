@@ -9,18 +9,17 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 floor:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_floorf
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_floorf
 
 ; SDCC bridge for Classic
 PUBLIC _floor
 defc _floor = floor
-
 
 ; Clang bridge for Classic
 PUBLIC _floorb

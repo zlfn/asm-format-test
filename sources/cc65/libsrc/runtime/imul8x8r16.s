@@ -6,10 +6,10 @@
 ; CC65 runtime: 8x8 => 16 signed multiplication
 ;
 
-        .export         imul8x8r16, imul8x8r16m
-        .importzp       ptr1, ptr3, tmp1
+        .export imul8x8r16, imul8x8r16m
+        .importzp ptr1, ptr3, tmp1
 
-        .macpack        generic
+        .macpack generic
 
 ;---------------------------------------------------------------------------
 ; 8x8 => 16 signed multiplication routine.
@@ -47,7 +47,7 @@ NegMult:
         bnz     NegStart        ; Branch always
 
 NegAdd:
-        tya                     ; Subtract current multiplicand
+        tya     ; Subtract current multiplicand
 ;       sec
         sbc     ptr3
         tay
@@ -63,13 +63,13 @@ NegStart:
         bcs     NegAdd
         bnz     NegShift        ; Loop if more one-bits in multiplier
 
-        tya                     ; Put result into cc65's accumulator
+        tya     ; Put result into cc65's accumulator
         rts
 
 ; The multiplier is positive.
 
 PosAdd:
-        tya                     ; Add current multiplicand
+        tya     ; Add current multiplicand
         add     ptr3
         tay
         txa
@@ -84,5 +84,5 @@ PosStart:
         bcs     PosAdd
         bnz     PosShift        ; Loop if more one-bits in multiplier
 
-        tya                     ; Put result into cc65's accumulator
+        tya     ; Put result into cc65's accumulator
         rts

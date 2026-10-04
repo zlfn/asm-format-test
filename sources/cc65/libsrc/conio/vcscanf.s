@@ -4,13 +4,12 @@
 ; 2014-09-10, Greg King
 ;
 
-        .export         _vcscanf
+        .export _vcscanf
 
-        .import         _cgetc, _cputc
-        .import         popax, pushax, swapstk
+        .import _cgetc, _cputc
+        .import popax,  pushax, swapstk
 
-        .include        "../common/_scanf.inc"
-
+        .include "../common/_scanf.inc"
 
 ; static bool pushed;
 ; static char back;
@@ -44,7 +43,7 @@ get:    ldx     pushed
 
 ; Return the old, pushed-back character (instead of getting a new one).
 ;
-        dex                     ; ldx #>$0000
+        dex     ; ldx #>$0000
         stx     pushed
         lda     back
         rts
@@ -61,7 +60,6 @@ L1:     jsr     _cgetc
         ldx     #>$0000
         rts
 
-
 ; ----------------------------------------------------------------------------
 ; static int cdecl unget(int c) {
 ;     pushed = true;
@@ -70,10 +68,9 @@ L1:     jsr     _cgetc
 ;
 unget:  ldx     #1
         stx     pushed
-        jsr     popax           ; get the first argument
+        jsr     popax   ; get the first argument
         sta     back
         rts
-
 
 ; ----------------------------------------------------------------------------
 ; int fastcall vcscanf(const char* format, va_list ap) {
@@ -102,14 +99,14 @@ unget:  ldx     #1
 ; Static, constant scanfdata structure for the _vcscanf routine.
 ;
         .rodata
-d:      .addr   get             ; SCANFDATA::GET
-        .addr   unget           ; SCANFDATA::UNGET
+d:      .addr   get     ; SCANFDATA::GET
+        .addr   unget   ; SCANFDATA::UNGET
 ;       .addr   0               ; SCANFDATA::DATA (not used)
 
         .code
-        pha                     ; Save low byte of ap
+        pha     ; Save low byte of ap
         txa
-        pha                     ; Save high byte of ap
+        pha     ; Save high byte of ap
         ldx     #0
         stx     pushed
 
@@ -117,8 +114,8 @@ d:      .addr   get             ; SCANFDATA::GET
 
         lda     #<d
         ldx     #>d
-        jsr     swapstk         ; Swap .XA with top-of-stack
-        jsr     pushax          ; Put format pointer back on stack
+        jsr     swapstk ; Swap .XA with top-of-stack
+        jsr     pushax  ; Put format pointer back on stack
 
 ; Restore ap, and jump to _scanf which will clean up the stack.
 

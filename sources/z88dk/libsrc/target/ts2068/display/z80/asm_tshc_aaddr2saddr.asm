@@ -15,5 +15,5 @@ PUBLIC asm_tshc_aaddr2saddr
 
 asm_tshc_aaddr2saddr:
 
-   res 5,h
-	ret
+        res     5, h
+        ret

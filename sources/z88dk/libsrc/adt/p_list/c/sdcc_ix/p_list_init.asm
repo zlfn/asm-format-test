@@ -10,10 +10,10 @@ EXTERN asm_p_list_init
 
 _p_list_init:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_p_list_init
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_p_list_init

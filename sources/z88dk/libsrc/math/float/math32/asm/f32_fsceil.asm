@@ -22,14 +22,14 @@ PUBLIC _m32_ceilf
 
 ._m32_ceilf
 .m32_ceil_fastcall
-    call m32_discardfraction
-    ret NC
-    ld a,d
-    and 080h
-    ret NZ                      ; negative: trunc is ceil
-    push de
-    push hl
-    ld de,$3f80
-    ld hl,$0000
-    call m32_fsadd_callee
-    ret
+        call    m32_discardfraction
+        ret     NC
+        ld      a, d
+        and     080h
+        ret     NZ      ; negative: trunc is ceil
+        push    de
+        push    hl
+        ld      de, $3f80
+        ld      hl, $0000
+        call    m32_fsadd_callee
+        ret

@@ -13,9 +13,9 @@ EXTERN asm_disk_initialize
 
 _disk_initialize:
 
-    pop af
-    pop hl
-    push hl
-    push af
+        pop     af
+        pop     hl
+        push    hl
+        push    af
 
-    jp asm_disk_initialize
+        jp      asm_disk_initialize

@@ -10,18 +10,18 @@ EXTERN asm_b_vector_write_block
 
 _b_vector_write_block:
 
-   pop af
-   exx
-   pop hl
-   exx
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push hl
-   push af
+        pop     af
+        exx
+        pop     hl
+        exx
+        pop     de
+        pop     hl
+        pop     bc
 
-   jp asm_b_vector_write_block
+        push    bc
+        push    hl
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_b_vector_write_block

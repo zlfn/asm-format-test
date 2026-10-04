@@ -9,7 +9,7 @@
 
 .code
 noop:
-  ret
+        ret
 end
 
 ; CHECK-OBJ:       Symbol {

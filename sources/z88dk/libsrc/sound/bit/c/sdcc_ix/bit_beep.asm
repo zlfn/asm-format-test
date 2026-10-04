@@ -10,12 +10,12 @@ EXTERN l0_bit_beep_callee
 
 _bit_beep:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     hl
 
-   jp l0_bit_beep_callee
+        push    hl
+        push    de
+        push    af
+
+        jp      l0_bit_beep_callee

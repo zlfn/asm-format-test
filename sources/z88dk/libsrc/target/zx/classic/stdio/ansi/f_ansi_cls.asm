@@ -13,24 +13,23 @@
 ;
 
 IFNDEF FORsam
-    SECTION code_clib
-    PUBLIC  ansi_cls
+        SECTION code_clib
+        PUBLIC  ansi_cls
 
-    EXTERN  __zx_console_attr
+        EXTERN  __zx_console_attr
 
 ansi_cls:
-    ld      hl, 16384
-    ld      de, 16385
-    ld      (hl), 0
-    ld      bc, 6143
-    ldir
+        ld      hl,   16384
+        ld      de,   16385
+        ld      (hl), 0
+        ld      bc,   6143
+        ldir
         ; clear attributes
-    ld      a, (__zx_console_attr)
-    ld      hl, 22528
-    ld      (hl), a
-    ld      de, 22529
-    ld      bc, 767
-    ldir
-    ret
+        ld      a,    (__zx_console_attr)
+        ld      hl,   22528
+        ld      (hl), a
+        ld      de,   22529
+        ld      bc,   767
+        ldir
+        ret
 ENDIF
-

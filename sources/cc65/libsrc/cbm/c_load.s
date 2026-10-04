@@ -4,17 +4,17 @@
 ; unsigned int __fastcall__ cbm_k_load (unsigned char flag, unsigned addr);
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_k_load
-        .import         ___oserror
-        .import         popa
-        .importzp       ptr1
+        .export _cbm_k_load
+        .import ___oserror
+        .import popa
+        .importzp ptr1
 
 _cbm_k_load:
         sta     ptr1
         stx     ptr1+1
-        jsr     popa            ; get flag
+        jsr     popa    ; get flag
         ldx     ptr1
         ldy     ptr1+1
         jsr     LOAD

@@ -10,26 +10,25 @@ EXTERN asm_SMSlib_loadPSGaidencompressedTiles
 
 SMS_loadPSGaidencompressedTiles_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
 SMS_loadPSGaidencompressedTiles_callee_0:
 
-   push ix
-   push iy
-   
-   call asm_SMSlib_loadPSGaidencompressedTiles
+        push    ix
+        push    iy
 
-   pop iy
-   pop ix
-   
-   ret
+        call    asm_SMSlib_loadPSGaidencompressedTiles
+
+        pop     iy
+        pop     ix
+
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _SMS_loadPSGaidencompressedTiles_callee
 defc _SMS_loadPSGaidencompressedTiles_callee = SMS_loadPSGaidencompressedTiles_callee
 ENDIF
-

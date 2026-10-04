@@ -27,50 +27,50 @@
 // for more details.
 // No arg size here, runtime pulls arg map out of the func value.
 TEXT ·makeFuncStub(SB),(NOSPLIT|WRAPPER),$432
-	NO_LOCAL_POINTERS
-	ADD	$LOCAL_REGARGS, SP, X25 // spillArgs using X25
-	CALL	runtime·spillArgs(SB)
-	MOV	CTXT, 32(SP) // save CTXT > args of moveMakeFuncArgPtrs < LOCAL_REGARGS
-	MOV	CTXT, 8(SP)
-	MOV	X25, 16(SP)
-	CALL	·moveMakeFuncArgPtrs(SB)
-	MOV	32(SP), CTXT // restore CTXT
+        NO_LOCAL_POINTERS
+        ADD     $LOCAL_REGARGS, SP, X25 // spillArgs using X25
+        CALL    runtime·spillArgs(SB)
+        MOV     CTXT, 32(SP)            // save CTXT > args of moveMakeFuncArgPtrs < LOCAL_REGARGS
+        MOV     CTXT, 8(SP)
+        MOV     X25,  16(SP)
+        CALL    ·moveMakeFuncArgPtrs(SB)
+        MOV     32(SP), CTXT            // restore CTXT
 
-	MOV	CTXT, 8(SP)
-	MOV	$argframe+0(FP), T0
-	MOV	T0, 16(SP)
-	MOV	ZERO, LOCAL_RETVALID(SP)
-	ADD	$LOCAL_RETVALID, SP, T1
-	MOV	T1, 24(SP)
-	ADD	$LOCAL_REGARGS, SP, T1
-	MOV	T1, 32(SP)
-	CALL	·callReflect(SB)
-	ADD	$LOCAL_REGARGS, SP, X25 // unspillArgs using X25
-	CALL	runtime·unspillArgs(SB)
-	RET
+        MOV     CTXT, 8(SP)
+        MOV     $argframe+0(FP), T0
+        MOV     T0,   16(SP)
+        MOV     ZERO, LOCAL_RETVALID(SP)
+        ADD     $LOCAL_RETVALID, SP, T1
+        MOV     T1, 24(SP)
+        ADD     $LOCAL_REGARGS, SP, T1
+        MOV     T1, 32(SP)
+        CALL    ·callReflect(SB)
+        ADD     $LOCAL_REGARGS, SP, X25 // unspillArgs using X25
+        CALL    runtime·unspillArgs(SB)
+        RET
 
 // methodValueCall is the code half of the function returned by makeMethodValue.
 // See the comment on the declaration of methodValueCall in makefunc.go
 // for more details.
 // No arg size here; runtime pulls arg map out of the func value.
 TEXT ·methodValueCall(SB),(NOSPLIT|WRAPPER),$432
-	NO_LOCAL_POINTERS
-	ADD	$LOCAL_REGARGS, SP, X25 // spillArgs using X25
-	CALL	runtime·spillArgs(SB)
-	MOV	CTXT, 32(SP) // save CTXT
-	MOV	CTXT, 8(SP)
-	MOV	X25, 16(SP)
-	CALL	·moveMakeFuncArgPtrs(SB)
-	MOV	32(SP), CTXT // restore CTXT
-	MOV	CTXT, 8(SP)
-	MOV	$argframe+0(FP), T0
-	MOV	T0, 16(SP)
-	MOV	ZERO, LOCAL_RETVALID(SP)
-	ADD	$LOCAL_RETVALID, SP, T1
-	MOV	T1, 24(SP)
-	ADD	$LOCAL_REGARGS, SP, T1
-	MOV	T1, 32(SP) // frame size to 32+SP as callreflect args
-	CALL	·callMethod(SB)
-	ADD	$LOCAL_REGARGS, SP, X25 // unspillArgs using X25
-	CALL	runtime·unspillArgs(SB)
-	RET
+        NO_LOCAL_POINTERS
+        ADD     $LOCAL_REGARGS, SP, X25 // spillArgs using X25
+        CALL    runtime·spillArgs(SB)
+        MOV     CTXT, 32(SP)            // save CTXT
+        MOV     CTXT, 8(SP)
+        MOV     X25,  16(SP)
+        CALL    ·moveMakeFuncArgPtrs(SB)
+        MOV     32(SP), CTXT            // restore CTXT
+        MOV     CTXT,   8(SP)
+        MOV     $argframe+0(FP), T0
+        MOV     T0,   16(SP)
+        MOV     ZERO, LOCAL_RETVALID(SP)
+        ADD     $LOCAL_RETVALID, SP, T1
+        MOV     T1, 24(SP)
+        ADD     $LOCAL_REGARGS, SP, T1
+        MOV     T1, 32(SP)              // frame size to 32+SP as callreflect args
+        CALL    ·callMethod(SB)
+        ADD     $LOCAL_REGARGS, SP, X25 // unspillArgs using X25
+        CALL    runtime·unspillArgs(SB)
+        RET

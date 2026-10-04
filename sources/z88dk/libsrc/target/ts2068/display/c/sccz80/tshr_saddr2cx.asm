@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _tshr_saddr2cx
 defc _tshr_saddr2cx = tshr_saddr2cx
 ENDIF
-

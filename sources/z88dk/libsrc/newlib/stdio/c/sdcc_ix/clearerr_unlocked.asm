@@ -10,10 +10,10 @@ EXTERN _clearerr_unlocked_fastcall
 
 _clearerr_unlocked:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _clearerr_unlocked_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _clearerr_unlocked_fastcall

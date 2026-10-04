@@ -26,16 +26,15 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.area   _CODE
+        .area   _CODE
 
-	.globl ___sdcc_enter_ix
+        .globl  ___sdcc_enter_ix
 
 ; Factor out some start of function code to reduce code size
 
 ___sdcc_enter_ix:
-	pop	hl	; return address
-	push	ix	; save frame pointer
-	ld	ix, #0
-	add	ix, sp	; set ix to the stack frame
-	jp	(hl)	; and return
-
+        pop     hl      ; return address
+        push    ix      ; save frame pointer
+        ld      ix, #0
+        add     ix, sp  ; set ix to the stack frame
+        jp      (hl)    ; and return

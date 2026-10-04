@@ -11,18 +11,18 @@ EXTERN ASMDISP_SP1_GETUPDATESTRUCT_CALLEE, SP1V_DISPWIDTH
 
 .sp1_GetTiles_callee
 
-   pop af
-   pop hl
-   ex (sp),hl
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
-   pop hl
-   push af
+        pop     af
+        pop     hl
+        ex      (sp), hl
+        ld      d,    (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
+        pop     hl
+        push    af
 
 .asmentry
 
@@ -38,41 +38,41 @@ EXTERN ASMDISP_SP1_GETUPDATESTRUCT_CALLEE, SP1V_DISPWIDTH
 
 .SP1GetTiles
 
-   push hl
-   call sp1_GetUpdateStruct_callee + ASMDISP_SP1_GETUPDATESTRUCT_CALLEE  ; hl = & struct sp1_update
-   pop de                         ; de = dest address
-   inc hl
+        push    hl
+        call    sp1_GetUpdateStruct_callee + ASMDISP_SP1_GETUPDATESTRUCT_CALLEE ; hl = & struct sp1_update
+        pop     de      ; de = dest address
+        inc     hl
 
-   ld ixl,c                       ; ixl = height
-   ld c,$ff
+        ld      ixl, c  ; ixl = height
+        ld      c,   $ff
 
 .rowloop
 
-   push bc                        ; save b = width
-   push hl                        ; save update position
+        push    bc      ; save b = width
+        push    hl      ; save update position
 
 .colloop
 
-   ldi
-   ldi
-   ld a,7
-   add a,l
-   ld l,a
-   jp nc, noinc
-   inc h
+        ldi
+        ldi
+        ld      a,  7
+        add     a,  l
+        ld      l,  a
+        jp      nc, noinc
+        inc     h
 
 .noinc
 
-   djnz colloop
+        djnz    colloop
 
-   pop hl                         ; hl = & struct sp1_update in same row leftmost column
-   ld bc,9*SP1V_DISPWIDTH
-   add hl,bc                      ; hl = & struct sp1_update in next row leftmost column
-   pop bc
+        pop     hl      ; hl = & struct sp1_update in same row leftmost column
+        ld      bc, 9*SP1V_DISPWIDTH
+        add     hl, bc  ; hl = & struct sp1_update in next row leftmost column
+        pop     bc
 
-   dec ixl
-   jp nz, rowloop
+        dec     ixl
+        jp      nz, rowloop
 
-   ret
+        ret
 
 DEFC ASMDISP_SP1_GETTILES_CALLEE = asmentry - sp1_GetTiles_callee

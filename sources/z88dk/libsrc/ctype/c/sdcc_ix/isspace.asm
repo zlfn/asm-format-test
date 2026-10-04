@@ -10,10 +10,10 @@ EXTERN _isspace_fastcall
 
 _isspace:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _isspace_fastcall
+        push    hl
+        push    af
+
+        jp      _isspace_fastcall

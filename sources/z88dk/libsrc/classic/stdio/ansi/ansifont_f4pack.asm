@@ -1,8 +1,7 @@
 
+        SECTION rodata_font_ansi
 
-	SECTION	rodata_font_ansi
-
-	PUBLIC	ansifont_f4pack
+        PUBLIC  ansifont_f4pack
 
 ansifont_f4pack:
-	BINARY	"classic/stdio/ansi/F4PACK.BIN"
+        BINARY  "classic/stdio/ansi/F4PACK.BIN"

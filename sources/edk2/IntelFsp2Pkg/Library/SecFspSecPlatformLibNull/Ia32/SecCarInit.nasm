@@ -11,8 +11,8 @@
 
 %macro RET_ESI 0
 
-  movd    esi, mm7                      ; move ReturnAddress from MM7 to ESI
-  jmp     esi
+        movd    esi, mm7        ; move ReturnAddress from MM7 to ESI
+        jmp     esi
 
 %endmacro
 
@@ -28,13 +28,12 @@ SECTION .text
 global ASM_PFX(SecCarInit)
 ASM_PFX(SecCarInit):
 
-  ;
-  ; Set up CAR
-  ;
+        ;
+        ; Set up CAR
+        ;
 
-  xor    eax, eax
+        xor     eax, eax
 
 SecCarInitExit:
 
-  RET_ESI
-
+        RET_ESI

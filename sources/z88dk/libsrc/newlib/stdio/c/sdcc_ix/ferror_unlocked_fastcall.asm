@@ -9,11 +9,11 @@ PUBLIC _ferror_unlocked_fastcall
 EXTERN asm_ferror_unlocked
 
 _ferror_unlocked_fastcall:
-   
-   push hl
-   ex (sp),ix
-   
-   call asm_ferror_unlocked
-   
-   pop ix
-   ret
+
+        push    hl
+        ex      (sp), ix
+
+        call    asm_ferror_unlocked
+
+        pop     ix
+        ret

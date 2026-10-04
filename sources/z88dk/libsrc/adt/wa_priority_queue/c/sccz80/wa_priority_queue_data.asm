@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _wa_priority_queue_data
 defc _wa_priority_queue_data = wa_priority_queue_data
 ENDIF
-

@@ -10,27 +10,25 @@
 ;	$Id: f_ansi_dline.asm,v 1.2 2016-06-12 16:06:43 dom Exp $
 ;
 
-
-    SECTION code_clib
-    PUBLIC  ansi_del_line
-    EXTERN  base_graphics
-
+        SECTION code_clib
+        PUBLIC  ansi_del_line
+        EXTERN  base_graphics
 
 ansi_del_line:
-    ld      de, 32*8
-    ld      b, a
-    ld      hl, $e000
-    and     a
-    jr      z, zline
+        ld      de, 32*8
+        ld      b,  a
+        ld      hl, $e000
+        and     a
+        jr      z, zline
 lloop:
-    add     hl, de
-    djnz    lloop
+        add     hl, de
+        djnz    lloop
 zline:
-    ld      d, h
-    ld      e, l
-    inc     de
-    ld      (hl), 0
-    ld      bc, 32*8
-    ldir
+        ld      d, h
+        ld      e, l
+        inc     de
+        ld      (hl), 0
+        ld      bc,   32*8
+        ldir
 
-    ret
+        ret

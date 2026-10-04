@@ -11,35 +11,33 @@
 ;	$Id: vdp_vfill.asm,v 1.5 2016-06-16 19:30:25 dom Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  vdp_vfill
-    PUBLIC  _vdp_vfill
+        SECTION code_clib
+        PUBLIC  vdp_vfill
+        PUBLIC  _vdp_vfill
 
-    EXTERN  msxbios
+        EXTERN  msxbios
 
-
-  IF    FORmsx
-    INCLUDE "target/msx/def/msxbios.def"
-  ELSE
-    INCLUDE "target/svi/def/svibios.def"
-  ENDIF
-
+        IF      FORmsx
+                INCLUDE "target/msx/def/msxbios.def"
+        ELSE
+                INCLUDE "target/svi/def/svibios.def"
+        ENDIF
 
 vdp_vfill:
 _vdp_vfill:
-    push    ix
-    ld      ix, 4
-    add     ix, sp
+        push    ix
+        ld      ix, 4
+        add     ix, sp
 
-    ld      c, (ix+0)                   ; count
-    ld      b, (ix+1)
+        ld      c, (ix+0)       ; count
+        ld      b, (ix+1)
 
-    ld      a, (ix+2)                   ; value
+        ld      a, (ix+2)       ; value
 
-    ld      l, (ix+4)                   ; addr
-    ld      h, (ix+5)
+        ld      l, (ix+4)       ; addr
+        ld      h, (ix+5)
 
-    ld      ix, FILVRM
-    call    msxbios
-    pop     ix
-    ret
+        ld      ix, FILVRM
+        call    msxbios
+        pop     ix
+        ret

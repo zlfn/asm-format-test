@@ -7,13 +7,13 @@
 ;   $Id: hdos_rename.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  hdos_rename
-    PUBLIC  _hdos_rename
+        SECTION code_clib
+        PUBLIC  hdos_rename
+        PUBLIC  _hdos_rename
 
-    EXTERN    asm_hdos_rename
+        EXTERN  asm_hdos_rename
 
-    INCLUDE "target/hdos/def/hdos.def"
+        INCLUDE "target/hdos/def/hdos.def"
 
 hdos_rename:
 _hdos_rename:

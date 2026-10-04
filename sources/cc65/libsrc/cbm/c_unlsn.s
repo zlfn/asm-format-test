@@ -4,6 +4,6 @@
 ; void cbm_k_unlsn (void);
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_k_unlsn := UNLSN
+        .export _cbm_k_unlsn := UNLSN

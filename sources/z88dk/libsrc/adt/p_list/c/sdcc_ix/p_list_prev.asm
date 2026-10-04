@@ -10,10 +10,10 @@ EXTERN asm_p_list_prev
 
 _p_list_prev:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_p_list_prev
+        push    hl
+        push    af
+
+        jp      asm_p_list_prev

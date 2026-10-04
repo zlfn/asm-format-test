@@ -1,9 +1,8 @@
 
+        SECTION code_fp_math48
 
-	SECTION	code_fp_math48
-
-	PUBLIC	ftoe
-	EXTERN  _ftoe_impl
+        PUBLIC  ftoe
+        EXTERN  _ftoe_impl
 
 ; sccz80 points to the implementation
 

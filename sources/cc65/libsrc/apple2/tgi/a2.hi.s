@@ -5,13 +5,13 @@
 ; Oliver Schmidt <ol.sc@web.de>
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-error.inc"
-        .include        "apple2.inc"
+        .include "tgi-kernel.inc"
+        .include "tgi-error.inc"
+        .include "apple2.inc"
 
-        .macpack        module
+        .macpack module
 
 ; ------------------------------------------------------------------------
 
@@ -30,33 +30,33 @@ HGR2    :=      $F3D8   ; Initialize and clear hi-res page 2.
 HGR     :=      $F3E2   ; Initialize and clear hi-res page 1.
 HCLR    :=      $F3F2   ; Clear the current hi-res screen to black.
 BKGND   :=      $F3F6   ; Clear the current hi-res screen to the
-                        ; last plotted color (from ($1C).
+        ; last plotted color (from ($1C).
 HPOSN   :=      $F411   ; Positions the hi-res cursor without
-                        ; plotting a point.
-                        ; Enter with (A) = Y-coordinate, and
-                        ; (Y,X) = X-coordinate.
+        ; plotting a point.
+        ; Enter with (A) = Y-coordinate, and
+        ; (Y,X) = X-coordinate.
 HPLOT   :=      $F457   ; Calls HPOSN and tries to plot a dot at
-                        ; the cursor's position.  If you are
-                        ; trying to plot a non-white color at
-                        ; a complementary color position, no
-                        ; dot will be plotted.
+        ; the cursor's position.  If you are
+        ; trying to plot a non-white color at
+        ; a complementary color position, no
+        ; dot will be plotted.
 HLIN    :=      $F53A   ; Draws a line from the last plotted
-                        ; point or line destination to:
-                        ; (X,A) = X-coordinate, and
-                        ; (Y) = Y-coordinate.
+        ; point or line destination to:
+        ; (X,A) = X-coordinate, and
+        ; (Y) = Y-coordinate.
 HFIND   :=      $F5CB   ; Converts the hi-res coursor's position
-                        ; back to X- and Y-coordinates; stores
-                        ; X-coordinate at $E0,E1 and Y-coordinate
-                        ; at $E2.
+        ; back to X- and Y-coordinates; stores
+        ; X-coordinate at $E0,E1 and Y-coordinate
+        ; at $E2.
 DRAW    :=      $F601   ; Draws a shape.  Enter with (Y,X) = the
-                        ; address of the shape table, and (A) =
-                        ; the rotation factor.  Uses the current
-                        ; color.
+        ; address of the shape table, and (A) =
+        ; the rotation factor.  Uses the current
+        ; color.
 XDRAW   :=      $F65D   ; Draws a shape by inverting the existing
-                        ; color of the dots the shape draws over.
-                        ; Same entry parameters as DRAW.
+        ; color of the dots the shape draws over.
+        ; Same entry parameters as DRAW.
 SETHCOL :=      $F6EC   ; Set the hi-res color to (X), where (X)
-                        ; must be between 0 and 7.
+        ; must be between 0 and 7.
 
 ; ------------------------------------------------------------------------
 
@@ -71,9 +71,9 @@ Y2      :=      ptr4
 ; ------------------------------------------------------------------------
 
         .ifdef  __APPLE2ENH__
-        module_header   _a2e_hi_tgi
+                module_header _a2e_hi_tgi
         .else
-        module_header   _a2_hi_tgi
+                module_header _a2_hi_tgi
         .endif
 
 ; Header. Includes jump table and constants.
@@ -85,16 +85,16 @@ Y2      :=      ptr4
         .byte   TGI_API_VERSION ; TGI API version number
 
 libref:
-        .addr   $0000           ; Library reference
+        .addr   $0000   ; Library reference
 
-        .word   280             ; X resolution
-        .word   192             ; Y resolution
-        .byte   8               ; Number of drawing colors
-pages:  .byte   2               ; Number of screens available
-        .byte   7               ; System font X size
-        .byte   8               ; System font Y size
-        .word   $00EA           ; Aspect ratio (based on 4/3 display)
-        .byte   0               ; TGI driver flags
+        .word   280     ; X resolution
+        .word   192     ; Y resolution
+        .byte   8       ; Number of drawing colors
+pages:  .byte   2       ; Number of screens available
+        .byte   7       ; System font X size
+        .byte   8       ; System font Y size
+        .word   $00EA   ; Aspect ratio (based on 4/3 display)
+        .byte   0       ; TGI driver flags
 
 ; Next comes the jump table. With the exception of IRQ, all entries must be
 ; valid and may point to an RTS for test versions (function not implemented).
@@ -129,7 +129,7 @@ machinetype: .res 1
 
 ; Absolute variables used in the code
 
-ERROR:  .res    1               ; Error code
+ERROR:  .res    1       ; Error code
 
 ; ------------------------------------------------------------------------
 
@@ -154,14 +154,14 @@ FONT:
 ; Must set an error code: NO
 INSTALL:
         .ifndef __APPLE2ENH__
-        lda     libref
-        ldx     libref+1
-        sta     ptr1
-        stx     ptr1+1
-        ldy     #$0
-        lda     (ptr1),y
-        sta     machinetype
-        bpl     :+
+                lda     libref
+                ldx     libref+1
+                sta     ptr1
+                stx     ptr1+1
+                ldy     #$0
+                lda     (ptr1), y
+                sta     machinetype
+                bpl     :+
         .endif
         ; No page switching if 80 column store is enabled
         bit     RD80COL
@@ -193,8 +193,8 @@ INIT:
         bit     HIRES
 
         .ifndef __APPLE2ENH__
-        bit     machinetype
-        bpl     clr_txt
+                bit     machinetype
+                bpl     clr_txt
         .endif
 
         sta     IOUDISON
@@ -257,11 +257,11 @@ CONTROL:
 
         ; Switch 4 lines of text
         .assert MIXCLR + 1 = MIXSET, error
-        lda     MIXCLR,x        ; No BIT absolute,X available
+        lda     MIXCLR, x       ; No BIT absolute,X available
 
         ; Done, reset the error code
         lda     #TGI_ERR_OK
-        beq     :+              ; Branch always
+        beq     :+      ; Branch always
 
         ; Done, set the error code
 err:    lda     #TGI_ERR_INV_ARG
@@ -271,9 +271,9 @@ err:    lda     #TGI_ERR_INV_ARG
 ; CLEAR: Clears the screen.
 ; Must set an error code: NO
 CLEAR:
-        bit     $C082           ; Switch in ROM
+        bit     $C082   ; Switch in ROM
         jsr     HCLR
-        bit     $C080           ; Switch in LC bank 2 for R/O
+        bit     $C080   ; Switch in LC bank 2 for R/O
         rts
 
 ; SETVIEWPAGE: Set the visible page. Called with the new page in A (0..n).
@@ -282,7 +282,7 @@ CLEAR:
 SETVIEWPAGE:
         tax
         .assert LOWSCR + 1 = HISCR, error
-        lda     LOWSCR,x        ; No BIT absolute,X available
+        lda     LOWSCR, x       ; No BIT absolute,X available
         rts
 
 ; SETDRAWPAGE: Set the drawable page. Called with the new page in A (0..n).
@@ -291,9 +291,9 @@ SETVIEWPAGE:
 SETDRAWPAGE:
         tax
         beq     :+
-        lda     #>$4000         ; Page 2
-        .byte   $2C             ; BIT absolute
-:       lda     #>$2000         ; Page 1
+        lda     #>$4000 ; Page 2
+        .byte   $2C     ; BIT absolute
+:       lda     #>$2000 ; Page 1
         sta     PAGE
         rts
 
@@ -301,10 +301,10 @@ SETDRAWPAGE:
 ; to be in a valid range (0..maxcolor-1).
 ; Must set an error code: NO (will only be called if color ok)
 SETCOLOR:
-        bit     $C082           ; Switch in ROM
+        bit     $C082   ; Switch in ROM
         tax
         jsr     SETHCOL
-        bit     $C080           ; Switch in LC bank 2 for R/O
+        bit     $C080   ; Switch in LC bank 2 for R/O
         rts
 
 ; SETPALETTE: Set the palette (not available with all drivers/hardware).
@@ -338,39 +338,39 @@ GETDEFPALETTE:
 ; visible screen area, so there is no need for clipping inside this function.
 ; Must set an error code: NO
 SETPIXEL:
-        bit     $C082           ; Switch in ROM
+        bit     $C082   ; Switch in ROM
         ldx     X1
         ldy     X1+1
         lda     Y1
         jsr     HPLOT
-        bit     $C080           ; Switch in LC bank 2 for R/O
+        bit     $C080   ; Switch in LC bank 2 for R/O
         rts
 
 ; GETPIXEL: Read the color value of a pixel and return it in A/X. The
 ; coordinates passed to this function are never outside the visible screen
 ; area, so there is no need for clipping inside this function.
 GETPIXEL:
-        bit     $C082           ; Switch in ROM
+        bit     $C082   ; Switch in ROM
         ldx     X1
         ldy     X1+1
         lda     Y1
         jsr     HPOSN
-        lda     (HBASL),y
+        lda     (HBASL), y
         and     HMASK
         asl
-        beq     :+              ; 0 (black)
-        lda     #$03            ; 3 (white)
+        beq     :+      ; 0 (black)
+        lda     #$03    ; 3 (white)
 :       bcc     :+
-        adc     #$03            ; += 4 (black -> black2, white -> white2)
+        adc     #$03    ; += 4 (black -> black2, white -> white2)
 :       ldx     #>$0000
-        bit     $C080           ; Switch in LC bank 2 for R/O
+        bit     $C080   ; Switch in LC bank 2 for R/O
         rts
 
 ; LINE: Draw a line from X1/Y1 to X2/Y2, where X1/Y1 = ptr1/ptr2 and
 ; X2/Y2 = ptr3/ptr4 using the current drawing color.
 ; Must set an error code: NO
 LINE:
-        bit     $C082           ; Switch in ROM
+        bit     $C082   ; Switch in ROM
         ldx     X1
         ldy     X1+1
         lda     Y1
@@ -379,7 +379,7 @@ LINE:
         ldx     X2+1
         ldy     Y2
         jsr     HLIN
-        bit     $C080           ; Switch in LC bank 2 for R/O
+        bit     $C080   ; Switch in LC bank 2 for R/O
         rts
 
 ; BAR: Draw a filled rectangle with the corners X1/Y1, X2/Y2, where
@@ -448,7 +448,7 @@ OUTTEXT:
         adc     #>FONT
         sta     ptr4+1
         ldy     #$00
-:       lda     (ptr3),y
+:       lda     (ptr3), y
         beq     :+
         sty     tmp1            ; Save string index
         sec
@@ -456,10 +456,10 @@ OUTTEXT:
         asl                     ; Offset * 2
         tay
         clc
-        lda     FONT,y
+        lda     FONT, y
         adc     #<FONT
         tax
-        lda     FONT+1,y
+        lda     FONT+1, y
         adc     #>FONT
         tay
         lda     ROT

@@ -53,50 +53,50 @@
 // Also sets vl=4 and vtype=e32,m1,ta,ma.  Clobbers t0 and t1.
 .macro	aes_begin	keyp, label128, label192, key_len
 .ifb \key_len
-	lwu		t0, 480(\keyp)	// t0 = key length in bytes
+        lwu     t0, 480(\keyp)  // t0 = key length in bytes
 .endif
-	li		t1, 24		// t1 = key length for AES-192
-	vsetivli	zero, 4, e32, m1, ta, ma
-	vle32.v		v1, (\keyp)
-	addi		\keyp, \keyp, 16
-	vle32.v		v2, (\keyp)
-	addi		\keyp, \keyp, 16
-	vle32.v		v3, (\keyp)
-	addi		\keyp, \keyp, 16
-	vle32.v		v4, (\keyp)
-	addi		\keyp, \keyp, 16
-	vle32.v		v5, (\keyp)
-	addi		\keyp, \keyp, 16
-	vle32.v		v6, (\keyp)
-	addi		\keyp, \keyp, 16
-	vle32.v		v7, (\keyp)
-	addi		\keyp, \keyp, 16
-	vle32.v		v8, (\keyp)
-	addi		\keyp, \keyp, 16
-	vle32.v		v9, (\keyp)
-	addi		\keyp, \keyp, 16
-	vle32.v		v10, (\keyp)
-	addi		\keyp, \keyp, 16
-	vle32.v		v11, (\keyp)
+        li      t1, 24  // t1 = key length for AES-192
+        vsetivli zero, 4, e32, m1, ta, ma
+        vle32.v v1,    (\keyp)
+        addi    \keyp, \keyp, 16
+        vle32.v v2,    (\keyp)
+        addi    \keyp, \keyp, 16
+        vle32.v v3,    (\keyp)
+        addi    \keyp, \keyp, 16
+        vle32.v v4,    (\keyp)
+        addi    \keyp, \keyp, 16
+        vle32.v v5,    (\keyp)
+        addi    \keyp, \keyp, 16
+        vle32.v v6,    (\keyp)
+        addi    \keyp, \keyp, 16
+        vle32.v v7,    (\keyp)
+        addi    \keyp, \keyp, 16
+        vle32.v v8,    (\keyp)
+        addi    \keyp, \keyp, 16
+        vle32.v v9,    (\keyp)
+        addi    \keyp, \keyp, 16
+        vle32.v v10,   (\keyp)
+        addi    \keyp, \keyp, 16
+        vle32.v v11,   (\keyp)
 .ifb \key_len
-	blt		t0, t1, \label128	// If AES-128, goto label128.
+        blt     t0, t1, \label128       // If AES-128, goto label128.
 .else
-	blt		\key_len, t1, \label128	// If AES-128, goto label128.
+        blt     \key_len, t1, \label128 // If AES-128, goto label128.
 .endif
-	addi		\keyp, \keyp, 16
-	vle32.v		v12, (\keyp)
-	addi		\keyp, \keyp, 16
-	vle32.v		v13, (\keyp)
+        addi    \keyp, \keyp, 16
+        vle32.v v12,   (\keyp)
+        addi    \keyp, \keyp, 16
+        vle32.v v13,   (\keyp)
 .ifb \key_len
-	beq		t0, t1, \label192	// If AES-192, goto label192.
+        beq     t0, t1, \label192       // If AES-192, goto label192.
 .else
-	beq		\key_len, t1, \label192	// If AES-192, goto label192.
+        beq     \key_len, t1, \label192 // If AES-192, goto label192.
 .endif
-	// Else, it's AES-256.
-	addi		\keyp, \keyp, 16
-	vle32.v		v14, (\keyp)
-	addi		\keyp, \keyp, 16
-	vle32.v		v15, (\keyp)
+        // Else, it's AES-256.
+        addi    \keyp, \keyp, 16
+        vle32.v v14,   (\keyp)
+        addi    \keyp, \keyp, 16
+        vle32.v v15,   (\keyp)
 .endm
 
 // Encrypts \data using zvkned instructions, using the round keys loaded into
@@ -104,63 +104,63 @@
 // is the AES key length in bits.  vl and vtype must already be set
 // appropriately.  Note that if vl > 4, multiple blocks are encrypted.
 .macro	aes_encrypt	data, keylen
-	vaesz.vs	\data, v1
-	vaesem.vs	\data, v2
-	vaesem.vs	\data, v3
-	vaesem.vs	\data, v4
-	vaesem.vs	\data, v5
-	vaesem.vs	\data, v6
-	vaesem.vs	\data, v7
-	vaesem.vs	\data, v8
-	vaesem.vs	\data, v9
-	vaesem.vs	\data, v10
+        vaesz.vs \data, v1
+        vaesem.vs \data, v2
+        vaesem.vs \data, v3
+        vaesem.vs \data, v4
+        vaesem.vs \data, v5
+        vaesem.vs \data, v6
+        vaesem.vs \data, v7
+        vaesem.vs \data, v8
+        vaesem.vs \data, v9
+        vaesem.vs \data, v10
 .if \keylen == 128
-	vaesef.vs	\data, v11
+        vaesef.vs \data, v11
 .elseif \keylen == 192
-	vaesem.vs	\data, v11
-	vaesem.vs	\data, v12
-	vaesef.vs	\data, v13
+        vaesem.vs \data, v11
+        vaesem.vs \data, v12
+        vaesef.vs \data, v13
 .else
-	vaesem.vs	\data, v11
-	vaesem.vs	\data, v12
-	vaesem.vs	\data, v13
-	vaesem.vs	\data, v14
-	vaesef.vs	\data, v15
+        vaesem.vs \data, v11
+        vaesem.vs \data, v12
+        vaesem.vs \data, v13
+        vaesem.vs \data, v14
+        vaesef.vs \data, v15
 .endif
 .endm
 
 // Same as aes_encrypt, but decrypts instead of encrypts.
 .macro	aes_decrypt	data, keylen
 .if \keylen == 128
-	vaesz.vs	\data, v11
+        vaesz.vs \data, v11
 .elseif \keylen == 192
-	vaesz.vs	\data, v13
-	vaesdm.vs	\data, v12
-	vaesdm.vs	\data, v11
+        vaesz.vs \data, v13
+        vaesdm.vs \data, v12
+        vaesdm.vs \data, v11
 .else
-	vaesz.vs	\data, v15
-	vaesdm.vs	\data, v14
-	vaesdm.vs	\data, v13
-	vaesdm.vs	\data, v12
-	vaesdm.vs	\data, v11
+        vaesz.vs \data, v15
+        vaesdm.vs \data, v14
+        vaesdm.vs \data, v13
+        vaesdm.vs \data, v12
+        vaesdm.vs \data, v11
 .endif
-	vaesdm.vs	\data, v10
-	vaesdm.vs	\data, v9
-	vaesdm.vs	\data, v8
-	vaesdm.vs	\data, v7
-	vaesdm.vs	\data, v6
-	vaesdm.vs	\data, v5
-	vaesdm.vs	\data, v4
-	vaesdm.vs	\data, v3
-	vaesdm.vs	\data, v2
-	vaesdf.vs	\data, v1
+        vaesdm.vs \data, v10
+        vaesdm.vs \data, v9
+        vaesdm.vs \data, v8
+        vaesdm.vs \data, v7
+        vaesdm.vs \data, v6
+        vaesdm.vs \data, v5
+        vaesdm.vs \data, v4
+        vaesdm.vs \data, v3
+        vaesdm.vs \data, v2
+        vaesdf.vs \data, v1
 .endm
 
 // Expands to aes_encrypt or aes_decrypt according to \enc, which is 1 or 0.
 .macro	aes_crypt	data, enc, keylen
 .if \enc
-	aes_encrypt	\data, \keylen
+        aes_encrypt \data, \keylen
 .else
-	aes_decrypt	\data, \keylen
+        aes_decrypt \data, \keylen
 .endif
 .endm

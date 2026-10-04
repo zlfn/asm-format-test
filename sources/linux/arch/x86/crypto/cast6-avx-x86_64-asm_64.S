@@ -81,7 +81,6 @@
 #define RFS3  %r10
 #define RFS3d %r10d
 
-
 #define lookup_32bit(src, dst, op1, op2, op3, interleave_op, il_reg) \
 	movzbl		src ## bh,     RID1d;    \
 	leaq		s1(%rip),      RID2;     \
@@ -217,34 +216,34 @@
 .section	.rodata.cst16, "aM", @progbits, 16
 .align 16
 .Lbswap_mask:
-	.byte 3, 2, 1, 0, 7, 6, 5, 4, 11, 10, 9, 8, 15, 14, 13, 12
+        .byte   3, 2, 1, 0, 7, 6, 5, 4, 11, 10, 9, 8, 15, 14, 13, 12
 .Lbswap128_mask:
-	.byte 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
+        .byte   15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 .Lrkr_enc_Q_Q_QBAR_QBAR:
-	.byte 0, 1, 2, 3, 4, 5, 6, 7, 11, 10, 9, 8, 15, 14, 13, 12
+        .byte   0, 1, 2, 3, 4, 5, 6, 7, 11, 10, 9, 8, 15, 14, 13, 12
 .Lrkr_enc_QBAR_QBAR_QBAR_QBAR:
-	.byte 3, 2, 1, 0, 7, 6, 5, 4, 11, 10, 9, 8, 15, 14, 13, 12
+        .byte   3, 2, 1, 0, 7, 6, 5, 4, 11, 10, 9, 8, 15, 14, 13, 12
 .Lrkr_dec_Q_Q_Q_Q:
-	.byte 12, 13, 14, 15, 8, 9, 10, 11, 4, 5, 6, 7, 0, 1, 2, 3
+        .byte   12, 13, 14, 15, 8, 9, 10, 11, 4, 5, 6, 7, 0, 1, 2, 3
 .Lrkr_dec_Q_Q_QBAR_QBAR:
-	.byte 12, 13, 14, 15, 8, 9, 10, 11, 7, 6, 5, 4, 3, 2, 1, 0
+        .byte   12, 13, 14, 15, 8, 9, 10, 11, 7, 6, 5, 4, 3, 2, 1, 0
 .Lrkr_dec_QBAR_QBAR_QBAR_QBAR:
-	.byte 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
+        .byte   15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 
 .section	.rodata.cst4.L16_mask, "aM", @progbits, 4
 .align 4
 .L16_mask:
-	.byte 16, 16, 16, 16
+        .byte   16, 16, 16, 16
 
 .section	.rodata.cst4.L32_mask, "aM", @progbits, 4
 .align 4
 .L32_mask:
-	.byte 32, 0, 0, 0
+        .byte   32, 0, 0, 0
 
 .section	.rodata.cst4.first_mask, "aM", @progbits, 4
 .align 4
 .Lfirst_mask:
-	.byte 0x1f, 0, 0, 0
+        .byte   0x1f, 0, 0, 0
 
 .text
 
@@ -257,43 +256,43 @@ SYM_FUNC_START_LOCAL(__cast6_enc_blk8)
 	 *	RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2: encrypted blocks
 	 */
 
-	pushq %r15;
-	pushq %rbx;
+        pushq   %r15;
+        pushq   %rbx;
 
-	movq %rdi, CTX;
+        movq    %rdi, CTX;
 
-	vmovdqa .Lbswap_mask(%rip), RKM;
-	vmovd .Lfirst_mask(%rip), R1ST;
-	vmovd .L32_mask(%rip), R32;
+        vmovdqa .Lbswap_mask(%rip), RKM;
+        vmovd   .Lfirst_mask(%rip), R1ST;
+        vmovd   .L32_mask(%rip),    R32;
 
-	inpack_blocks(RA1, RB1, RC1, RD1, RTMP, RX, RKRF, RKM);
-	inpack_blocks(RA2, RB2, RC2, RD2, RTMP, RX, RKRF, RKM);
+        inpack_blocks(RA1, RB1, RC1, RD1, RTMP, RX, RKRF, RKM);
+        inpack_blocks(RA2, RB2, RC2, RD2, RTMP, RX, RKRF, RKM);
 
-	preload_rkr(0, dummy, none);
-	Q(0);
-	Q(1);
-	Q(2);
-	Q(3);
-	preload_rkr(1, shuffle, .Lrkr_enc_Q_Q_QBAR_QBAR);
-	Q(4);
-	Q(5);
-	QBAR(6);
-	QBAR(7);
-	preload_rkr(2, shuffle, .Lrkr_enc_QBAR_QBAR_QBAR_QBAR);
-	QBAR(8);
-	QBAR(9);
-	QBAR(10);
-	QBAR(11);
+        preload_rkr(0, dummy, none);
+        Q(0);
+        Q(1);
+        Q(2);
+        Q(3);
+        preload_rkr(1, shuffle, .Lrkr_enc_Q_Q_QBAR_QBAR);
+        Q(4);
+        Q(5);
+        QBAR(6);
+        QBAR(7);
+        preload_rkr(2, shuffle, .Lrkr_enc_QBAR_QBAR_QBAR_QBAR);
+        QBAR(8);
+        QBAR(9);
+        QBAR(10);
+        QBAR(11);
 
-	popq %rbx;
-	popq %r15;
+        popq    %rbx;
+        popq    %r15;
 
-	vmovdqa .Lbswap_mask(%rip), RKM;
+        vmovdqa .Lbswap_mask(%rip), RKM;
 
-	outunpack_blocks(RA1, RB1, RC1, RD1, RTMP, RX, RKRF, RKM);
-	outunpack_blocks(RA2, RB2, RC2, RD2, RTMP, RX, RKRF, RKM);
+        outunpack_blocks(RA1, RB1, RC1, RD1, RTMP, RX, RKRF, RKM);
+        outunpack_blocks(RA2, RB2, RC2, RD2, RTMP, RX, RKRF, RKM);
 
-	RET;
+        RET;
 SYM_FUNC_END(__cast6_enc_blk8)
 
 .align 8
@@ -305,42 +304,42 @@ SYM_FUNC_START_LOCAL(__cast6_dec_blk8)
 	 *	RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2: decrypted blocks
 	 */
 
-	pushq %r15;
-	pushq %rbx;
+        pushq   %r15;
+        pushq   %rbx;
 
-	movq %rdi, CTX;
+        movq    %rdi, CTX;
 
-	vmovdqa .Lbswap_mask(%rip), RKM;
-	vmovd .Lfirst_mask(%rip), R1ST;
-	vmovd .L32_mask(%rip), R32;
+        vmovdqa .Lbswap_mask(%rip), RKM;
+        vmovd   .Lfirst_mask(%rip), R1ST;
+        vmovd   .L32_mask(%rip),    R32;
 
-	inpack_blocks(RA1, RB1, RC1, RD1, RTMP, RX, RKRF, RKM);
-	inpack_blocks(RA2, RB2, RC2, RD2, RTMP, RX, RKRF, RKM);
+        inpack_blocks(RA1, RB1, RC1, RD1, RTMP, RX, RKRF, RKM);
+        inpack_blocks(RA2, RB2, RC2, RD2, RTMP, RX, RKRF, RKM);
 
-	preload_rkr(2, shuffle, .Lrkr_dec_Q_Q_Q_Q);
-	Q(11);
-	Q(10);
-	Q(9);
-	Q(8);
-	preload_rkr(1, shuffle, .Lrkr_dec_Q_Q_QBAR_QBAR);
-	Q(7);
-	Q(6);
-	QBAR(5);
-	QBAR(4);
-	preload_rkr(0, shuffle, .Lrkr_dec_QBAR_QBAR_QBAR_QBAR);
-	QBAR(3);
-	QBAR(2);
-	QBAR(1);
-	QBAR(0);
+        preload_rkr(2, shuffle, .Lrkr_dec_Q_Q_Q_Q);
+        Q(11);
+        Q(10);
+        Q(9);
+        Q(8);
+        preload_rkr(1, shuffle, .Lrkr_dec_Q_Q_QBAR_QBAR);
+        Q(7);
+        Q(6);
+        QBAR(5);
+        QBAR(4);
+        preload_rkr(0, shuffle, .Lrkr_dec_QBAR_QBAR_QBAR_QBAR);
+        QBAR(3);
+        QBAR(2);
+        QBAR(1);
+        QBAR(0);
 
-	popq %rbx;
-	popq %r15;
+        popq    %rbx;
+        popq    %r15;
 
-	vmovdqa .Lbswap_mask(%rip), RKM;
-	outunpack_blocks(RA1, RB1, RC1, RD1, RTMP, RX, RKRF, RKM);
-	outunpack_blocks(RA2, RB2, RC2, RD2, RTMP, RX, RKRF, RKM);
+        vmovdqa .Lbswap_mask(%rip), RKM;
+        outunpack_blocks(RA1, RB1, RC1, RD1, RTMP, RX, RKRF, RKM);
+        outunpack_blocks(RA2, RB2, RC2, RD2, RTMP, RX, RKRF, RKM);
 
-	RET;
+        RET;
 SYM_FUNC_END(__cast6_dec_blk8)
 
 SYM_FUNC_START(cast6_ecb_enc_8way)
@@ -349,21 +348,21 @@ SYM_FUNC_START(cast6_ecb_enc_8way)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	FRAME_BEGIN
-	pushq %r15;
+        FRAME_BEGIN
+        pushq   %r15;
 
-	movq %rdi, CTX;
-	movq %rsi, %r11;
+        movq    %rdi, CTX;
+        movq    %rsi, %r11;
 
-	load_8way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
+        load_8way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
 
-	call __cast6_enc_blk8;
+        call    __cast6_enc_blk8;
 
-	store_8way(%r11, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
+        store_8way(%r11, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
 
-	popq %r15;
-	FRAME_END
-	RET;
+        popq    %r15;
+        FRAME_END
+        RET;
 SYM_FUNC_END(cast6_ecb_enc_8way)
 
 SYM_FUNC_START(cast6_ecb_dec_8way)
@@ -372,21 +371,21 @@ SYM_FUNC_START(cast6_ecb_dec_8way)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	FRAME_BEGIN
-	pushq %r15;
+        FRAME_BEGIN
+        pushq   %r15;
 
-	movq %rdi, CTX;
-	movq %rsi, %r11;
+        movq    %rdi, CTX;
+        movq    %rsi, %r11;
 
-	load_8way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
+        load_8way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
 
-	call __cast6_dec_blk8;
+        call    __cast6_dec_blk8;
 
-	store_8way(%r11, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
+        store_8way(%r11, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
 
-	popq %r15;
-	FRAME_END
-	RET;
+        popq    %r15;
+        FRAME_END
+        RET;
 SYM_FUNC_END(cast6_ecb_dec_8way)
 
 SYM_FUNC_START(cast6_cbc_dec_8way)
@@ -395,22 +394,22 @@ SYM_FUNC_START(cast6_cbc_dec_8way)
 	 *	%rsi: dst
 	 *	%rdx: src
 	 */
-	FRAME_BEGIN
-	pushq %r12;
-	pushq %r15;
+        FRAME_BEGIN
+        pushq   %r12;
+        pushq   %r15;
 
-	movq %rdi, CTX;
-	movq %rsi, %r11;
-	movq %rdx, %r12;
+        movq    %rdi, CTX;
+        movq    %rsi, %r11;
+        movq    %rdx, %r12;
 
-	load_8way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
+        load_8way(%rdx, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
 
-	call __cast6_dec_blk8;
+        call    __cast6_dec_blk8;
 
-	store_cbc_8way(%r12, %r11, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
+        store_cbc_8way(%r12, %r11, RA1, RB1, RC1, RD1, RA2, RB2, RC2, RD2);
 
-	popq %r15;
-	popq %r12;
-	FRAME_END
-	RET;
+        popq    %r15;
+        popq    %r12;
+        FRAME_END
+        RET;
 SYM_FUNC_END(cast6_cbc_dec_8way)

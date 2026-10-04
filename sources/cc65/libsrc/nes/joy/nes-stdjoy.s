@@ -6,24 +6,23 @@
 ; Stefan Haubenthal, 2004-10-05
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "nes.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "nes.inc"
 
-        .macpack        module
-
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _nes_stdjoy_joy
+        module_header _nes_stdjoy_joy
 
 ; Driver signature
 
-        .byte   $6A, $6F, $79           ; "joy"
-        .byte   JOY_API_VERSION         ; Driver API version number
+        .byte   $6A, $6F, $79   ; "joy"
+        .byte   JOY_API_VERSION ; Driver API version number
 
 ; Library reference
 
@@ -40,7 +39,6 @@
 ; Constants
 
 JOY_COUNT       = 2             ; Number of joysticks we support
-
 
 .code
 
@@ -65,7 +63,6 @@ INSTALL:
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.
 ;
@@ -80,8 +77,8 @@ COUNT:
 ;
 
 READJOY:
-        and     #$01            ; Fix joystick number
-        tay                     ; Joystick number (0,1) into Y
+        and     #$01    ; Fix joystick number
+        tay             ; Joystick number (0,1) into Y
 
         lda     #1
         sta     APU_PAD1
@@ -91,7 +88,7 @@ READJOY:
 ; Read joystick
 
         ldx     #8
-@Loop:  lda     APU_PAD1,y
+@Loop:  lda     APU_PAD1, y
         ror     a
         ror     tmp1
         dex

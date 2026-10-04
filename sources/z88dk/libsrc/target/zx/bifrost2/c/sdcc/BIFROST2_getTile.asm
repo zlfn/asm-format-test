@@ -15,10 +15,10 @@ EXTERN asm_BIFROST2_getTile
 
 _BIFROST2_getTile:
 
-	ld hl,3
-	add hl,sp
-	ld c,(hl)       ; C = py
-	dec hl
-	ld l,(hl)       ; L = px
+        ld      hl, 3
+        add     hl, sp
+        ld      c,  (hl)        ; C = py
+        dec     hl
+        ld      l, (hl)         ; L = px
 
-	jp asm_BIFROST2_getTile
+        jp      asm_BIFROST2_getTile

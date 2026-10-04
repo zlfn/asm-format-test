@@ -18,19 +18,18 @@ PUBLIC _i2c_write
 ;   B  = mode with buffer/byte [1|0] and boolean stop at conclusion [0x10|0x00]
 
 ._i2c_write
-    pop af                              ;ret
-    pop de                              ;slave addr, device address
-    pop hl                              ;*dp
-    pop bc                              ;stop, length
-    push bc
-    push hl
-    push de
-    push af                             ;ret
+        pop     af      ;ret
+        pop     de      ;slave addr, device address
+        pop     hl      ;*dp
+        pop     bc      ;stop, length
+        push    bc
+        push    hl
+        push    de
+        push    af      ;ret
 
-    ld a,e                              ;device address
-    cp __IO_I2C2_PORT_MSB
-    jp Z,asm_i2c2_write
-    cp __IO_I2C1_PORT_MSB
-    jp Z,asm_i2c1_write
-    ret                                 ;no device address match, so exit
-
+        ld      a, e    ;device address
+        cp      __IO_I2C2_PORT_MSB
+        jp      Z, asm_i2c2_write
+        cp      __IO_I2C1_PORT_MSB
+        jp      Z, asm_i2c1_write
+        ret             ;no device address match, so exit

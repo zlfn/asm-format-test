@@ -4,8 +4,7 @@
 ; unsigned tgi_getxres (void);
 ; /* Return the resolution in X direction */
 
-
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
 .proc   _tgi_getxres
 

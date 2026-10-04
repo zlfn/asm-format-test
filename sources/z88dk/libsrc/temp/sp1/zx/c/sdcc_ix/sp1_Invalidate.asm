@@ -9,10 +9,10 @@ EXTERN _sp1_Invalidate_fastcall
 
 _sp1_Invalidate:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _sp1_Invalidate_fastcall
+        push    hl
+        push    af
+
+        jp      _sp1_Invalidate_fastcall

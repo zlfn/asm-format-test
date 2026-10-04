@@ -6,8 +6,8 @@
 ; Maciej 'YTM/Elysium' Witkowiak, 20.08.2003
 ;
 
-            .export _memset, _bzero, ___bzero
-            .import _ClearRam, _FillRam
+        .export _memset,   _bzero, ___bzero
+        .import _ClearRam, _FillRam
 
 _bzero          = _ClearRam
 ___bzero        = _ClearRam

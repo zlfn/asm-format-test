@@ -9,12 +9,12 @@ EXTERN _SMS_loadPSGaidencompressedTiles_callee_0
 
 _SMS_loadPSGaidencompressedTiles:
 
-   pop af
-	pop de
-	pop hl
-	
-	push hl
-	push de
-	push af
+        pop     af
+        pop     de
+        pop     hl
 
-   jp _SMS_loadPSGaidencompressedTiles_callee_0
+        push    hl
+        push    de
+        push    af
+
+        jp      _SMS_loadPSGaidencompressedTiles_callee_0

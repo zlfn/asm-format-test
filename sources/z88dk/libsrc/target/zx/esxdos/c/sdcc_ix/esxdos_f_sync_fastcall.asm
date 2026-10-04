@@ -9,11 +9,11 @@ EXTERN asm_esxdos_f_sync
 
 _esxdos_f_sync_fastcall:
 
-   push ix
-   push iy
-   
-   call asm_esxdos_f_sync
-   
-   pop iy
-   pop ix
-   ret
+        push    ix
+        push    iy
+
+        call    asm_esxdos_f_sync
+
+        pop     iy
+        pop     ix
+        ret

@@ -10,17 +10,17 @@ EXTERN asm_b_array_insert_n
 
 _b_array_insert_n_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   exx
-   pop bc
-   push af
-   
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        exx
+        pop     bc
+        push    af
+
 l0_b_array_insert_n_callee:
 
-   ld a,c
-   exx
-   
-   jp asm_b_array_insert_n
+        ld      a, c
+        exx
+
+        jp      asm_b_array_insert_n

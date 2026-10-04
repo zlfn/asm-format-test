@@ -3,13 +3,13 @@
 ; 2020-01-06, Greg King
 ;
 
-        .export         em_libref
-        .export         joy_libref
-        .export         mouse_libref
-        .export         ser_libref
-        .export         tgi_libref
+        .export em_libref
+        .export joy_libref
+        .export mouse_libref
+        .export ser_libref
+        .export tgi_libref
 
-        .import         _exit
+        .import _exit
 
 em_libref       := _exit
 joy_libref      := _exit

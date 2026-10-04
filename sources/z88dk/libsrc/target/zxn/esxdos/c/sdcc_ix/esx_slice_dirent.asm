@@ -8,10 +8,10 @@ EXTERN asm_esx_slice_dirent
 
 _esx_slice_dirent:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_esx_slice_dirent
+        push    hl
+        push    af
+
+        jp      asm_esx_slice_dirent

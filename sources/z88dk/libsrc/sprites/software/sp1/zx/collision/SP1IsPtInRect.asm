@@ -21,14 +21,14 @@ EXTERN RIsPtInRect8
 
 .SP1IsPtInRect
 
-   ld d,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
-   inc hl
-   ld l,(hl)
-   ld h,e
-   ld e,l
-   ld l,h
-   jp RIsPtInRect8
+        ld      d, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
+        inc     hl
+        ld      l, (hl)
+        ld      h, e
+        ld      e, l
+        ld      l, h
+        jp      RIsPtInRect8

@@ -11,10 +11,10 @@ EXTERN ADTListSearch, l_jpiy
 .adt_ListSearch_callee
 ._adt_ListSearch_callee
 
-   pop hl
-   pop de
-   pop iy
-   ex (sp),hl
+        pop     hl
+        pop     de
+        pop     iy
+        ex      (sp), hl
 
 .asm_adt_ListSearch
 
@@ -25,28 +25,27 @@ EXTERN ADTListSearch, l_jpiy
 ; exit : no carry = item not found, current points past end of list, hl = 0
 ;        else  hl = item found, current points at found item
 ; uses : af, bc, de, hl
-   push ix    ;save callers ix
-   ld ix,compare
-   call ADTListSearch
-   pop  ix
-   ld l,c
-   ld h,b
-   ret c
-   ld hl,0
-   ret
+        push    ix      ;save callers ix
+        ld      ix, compare
+        call    ADTListSearch
+        pop     ix
+        ld      l, c
+        ld      h, b
+        ret     c
+        ld      hl, 0
+        ret
 
 .compare
 
-   push hl
-   push de
-   push bc
-   call l_jpiy
-   ld a,l
-   pop bc
-   pop de
-   pop hl
-   or a
-   ret nz
-   scf
-   ret
-
+        push    hl
+        push    de
+        push    bc
+        call    l_jpiy
+        ld      a, l
+        pop     bc
+        pop     de
+        pop     hl
+        or      a
+        ret     nz
+        scf
+        ret

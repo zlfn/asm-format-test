@@ -12,33 +12,32 @@
 ;	$Id: f_ansi_bel.asm,v 1.3 2016-06-12 16:06:43 dom Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_BEL
+        SECTION code_clib
+        PUBLIC  ansi_BEL
 
 ; A fine double frequency beep for BEL
 
 ansi_BEL:
-    ld      a, (23624)
-    rra
-    rra
-    rra
+        ld      a, (23624)
+        rra
+        rra
+        rra
 BEL_LENGHT:
-    ld      b, 70
-    ld      c, 254
+        ld      b, 70
+        ld      c, 254
 BEL_loop:
-    dec     h
-    jr      nz, BEL_jump
-    xor     16
-    out     (c), a
+        dec     h
+        jr      nz, BEL_jump
+        xor     16
+        out     (c), a
 BEL_FREQ_1:
-    ld      h, 165
+        ld      h, 165
 BEL_jump:
-    dec     l
-    jr      nz, BEL_loop
-    xor     16
-    out     (c), a
+        dec     l
+        jr      nz, BEL_loop
+        xor     16
+        out     (c), a
 BEL_FR_2:
-    ld      l, 180
-    djnz    BEL_loop
-    ret
-
+        ld      l, 180
+        djnz    BEL_loop
+        ret

@@ -3,5 +3,5 @@
 // license that can be found in the LICENSE file.
 
 TEXT	·newcoro(SB),0,$0-0
-	CALL	runtime·newcoro(SB)
-	RET
+        CALL    runtime·newcoro(SB)
+        RET

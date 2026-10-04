@@ -16,19 +16,19 @@
 
 ;DEBUG   =       1
 
-        .export         __SYSTEM_CHECK__, __SYSCHK_END__
-        .import         __STARTADDRESS__
+        .export __SYSTEM_CHECK__, __SYSCHK_END__
+        .import __STARTADDRESS__
 
         ; the following imports are only needed for the 'atari' target version
-        .import         __BSS_SIZE__, __BSS_RUN__
-        .import         __STACKSIZE__
-        .import         __RESERVED_MEMORY__
+        .import __BSS_SIZE__, __BSS_RUN__
+        .import __STACKSIZE__
+        .import __RESERVED_MEMORY__
 
         ; import our header and trailers
-        .forceimport    __SYSCHKHDR__, __SYSCHKTRL__
+        .forceimport __SYSCHKHDR__, __SYSCHKTRL__
 
-        .include        "zeropage.inc"
-        .include        "atari.inc"
+        .include "zeropage.inc"
+        .include "atari.inc"
 
 .macro print_string text
         .local  start, cont
@@ -36,33 +36,32 @@
 start:  .byte   text, ATEOL
 cont:   ldx     #0              ; channel 0
         lda     #<start
-        sta     ICBAL,x         ; address
+        sta     ICBAL, x        ; address
         lda     #>start
-        sta     ICBAH,x
+        sta     ICBAH, x
         lda     #<(cont - start)
-        sta     ICBLL,x         ; length
+        sta     ICBLL, x        ; length
         lda     #>(cont - start)
-        sta     ICBLH,x
+        sta     ICBLH, x
         lda     #PUTCHR
-        sta     ICCOM,x
+        sta     ICCOM, x
         jsr     CIOV_org
 .endmacro
 
 .macro print_string2 addr, len
         ldx     #0              ; channel 0
         lda     #<addr
-        sta     ICBAL,x         ; address
+        sta     ICBAL, x        ; address
         lda     #>addr
-        sta     ICBAH,x
+        sta     ICBAH, x
         lda     #<len
-        sta     ICBLL,x         ; length
+        sta     ICBLL, x        ; length
         lda     #>len
-        sta     ICBLH,x
+        sta     ICBLH, x
         lda     #PUTCHR
-        sta     ICCOM,x
+        sta     ICCOM, x
         jsr     CIOV_org
 .endmacro
-
 
 ; ------------------------------------------------------------------------
 ; code
@@ -75,37 +74,37 @@ cont:   ldx     #0              ; channel 0
 
 ; check for SpartaDOS and its usage of RAM below ROM
 ; return CF 0/1 for ok/bad
-sdcheck:lda     DOS
+sdcheck: lda    DOS
         cmp     #'S'
-        bne     sdcrts0         ; not SpartaDOS, assume RAM is not used
+        bne     sdcrts0 ; not SpartaDOS, assume RAM is not used
 
 ; check for BW-DOS, which always reports itself as SpartaDOS, but doesn't use memory under the ROM
-        lda     DOS+3           ; 'B' in BW-DOS
+        lda     DOS+3   ; 'B' in BW-DOS
         cmp     #'B'
         bne     sdnobw
-        lda     DOS+4           ; 'W' in BW-DOS
+        lda     DOS+4   ; 'W' in BW-DOS
         cmp     #'W'
-        beq     sdcrts0         ; BW-DOS does not use RAM below ROM
+        beq     sdcrts0 ; BW-DOS does not use RAM below ROM
 
 sdnobw: lda     DOS+1           ; SD version
         cmp     #$40            ; SD-X has $40 or higher
         bcc     sdcrts1         ; older versions (except maybe 1.x) always use the RAM under the ROM
         ldy     #31             ; offset for OSRMFLG
-        lda     (DOSVEC),y      ; get OSRMFLG
+        lda     (DOSVEC), y     ; get OSRMFLG
         bne     sdcrts1
 
-sdcrts0:clc
+sdcrts0: clc
         rts
-sdcrts1:sec
+sdcrts1: sec
         rts
 
 ramrom_txt:
         .byte   "Memory under ROM is in use.", ATEOL
-        .byte   "Cannot run this program.", ATEOL
+        .byte   "Cannot run this program.",    ATEOL
 ramrom_txt_len = * - ramrom_txt
 
 lmemerrxl_txt:
-        .byte   "Not enough memory to move screen", ATEOL
+        .byte   "Not enough memory to move screen",     ATEOL
         .byte   "memory to low memory. Consider using", ATEOL
         .byte   "a higher load address.", ATEOL
 lmemerrxl_txt_len = * - lmemerrxl_txt
@@ -114,10 +113,9 @@ lmemerrxl_txt_len = * - lmemerrxl_txt
 no_xl:  print_string "This program needs an XL machine."
         jmp     fail
 
-
 ; ***** entry point (atarixl) *****
 
-syschk: lda     $fcd8           ; from ostype.s
+syschk: lda     $fcd8   ; from ostype.s
         cmp     #$a2
         beq     no_xl
 
@@ -128,7 +126,7 @@ syschk: lda     $fcd8           ; from ostype.s
 
         jmp     mem_err
 
-sys_ok: jsr     sdcheck         ; check for SpartaDOS-X, and if found, whether it uses the RAM under the ROM
+sys_ok: jsr     sdcheck ; check for SpartaDOS-X, and if found, whether it uses the RAM under the ROM
         bcc     sd_ok
 
         print_string2 ramrom_txt, ramrom_txt_len
@@ -144,7 +142,7 @@ sd_ok:  .include "xlmemchk.inc" ; calculate lowest address we will use when we m
 
 ; load address was too low
         print_string2 lmemerrxl_txt, lmemerrxl_txt_len
-        jsr     delay           ; long text takes longer to read, give user additional time
+        jsr     delay   ; long text takes longer to read, give user additional time
         jmp     fail
 
 .else   ; above 'atarixl', below 'atari'
@@ -155,7 +153,6 @@ lmemerr_txt:
         .byte   "Program would load below MEMLO.", ATEOL
         .byte   "Consider using a higher load address.", ATEOL
 lmemerr_txt_len = * - lmemerr_txt
-
 
 ; ***** entry point (atari) *****
 
@@ -182,7 +179,7 @@ syschk:
         lda     tmp+1
         sbc     #>(__BSS_RUN__ + __BSS_SIZE__)
 
-        bcc     mem_err         ; program doesn't fit into memory
+        bcc     mem_err ; program doesn't fit into memory
 
         lda     #<__STARTADDRESS__
         cmp     MEMLO
@@ -192,7 +189,7 @@ syschk:
 
 ; load address was too low
         print_string2 lmemerr_txt, lmemerr_txt_len
-        jsr     delay           ; long text takes longer to read, give user additional time
+        jsr     delay   ; long text takes longer to read, give user additional time
         jmp     fail
 
 .endif
@@ -206,7 +203,7 @@ memlo_ok:
         rts
 
 ; not enough memory
-mem_err:print_string "Not enough memory."
+mem_err: print_string "Not enough memory."
 fail:   jsr     delay
         jmp     (DOSVEC)
 
@@ -236,4 +233,3 @@ __SYSCHK_END__:
 .ifndef __ATARIXL__
 tmp:            ; outside of the load chunk, some kind of poor man's .bss
 .endif
-

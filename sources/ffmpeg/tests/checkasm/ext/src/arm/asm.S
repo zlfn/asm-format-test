@@ -59,7 +59,6 @@
 DISABLE_SVE
 DISABLE_SME
 
-
 /* Support macros for
  *   - Armv8.3-A Pointer Authentication and
  *   - Armv8.5-A Branch Target Identification
@@ -184,14 +183,14 @@ DISABLE_SME
 #if (GNU_PROPERTY_AARCH64_BTI != 0 || GNU_PROPERTY_AARCH64_PAC != 0 || GNU_PROPERTY_AARCH64_GCS != 0) && defined(__ELF__)
         .pushsection .note.gnu.property, "a"
         .balign 8
-        .long 4
-        .long 0x10
-        .long 0x5
-        .asciz "GNU"
-        .long 0xc0000000 /* GNU_PROPERTY_AARCH64_FEATURE_1_AND */
-        .long 4
-        .long (GNU_PROPERTY_AARCH64_BTI | GNU_PROPERTY_AARCH64_PAC | GNU_PROPERTY_AARCH64_GCS)
-        .long 0
+        .long   4
+        .long   0x10
+        .long   0x5
+        .asciz  "GNU"
+        .long   0xc0000000      /* GNU_PROPERTY_AARCH64_FEATURE_1_AND */
+        .long   4
+        .long   (GNU_PROPERTY_AARCH64_BTI | GNU_PROPERTY_AARCH64_PAC | GNU_PROPERTY_AARCH64_GCS)
+        .long   0
         .popsection
 #endif /* (GNU_PROPERTY_AARCH64_BTI != 0 || GNU_PROPERTY_AARCH64_PAC != 0 || GNU_PROPERTY_AARCH64_GCS != 0) && defined(__ELF__) */
 #endif /* ARCH_AARCH64 */
@@ -199,11 +198,11 @@ DISABLE_SME
 #if ARCH_ARM
         .syntax unified
 #ifdef __ELF__
-        .arch armv7-a
-        .fpu neon
-        .eabi_attribute 10, 0           // suppress Tag_FP_arch
-        .eabi_attribute 12, 0           // suppress Tag_Advanced_SIMD_arch
-        .section .note.GNU-stack,"",%progbits // Mark stack as non-executable
+        .arch   armv7-a
+        .fpu    neon
+        .eabi_attribute 10, 0                   // suppress Tag_FP_arch
+        .eabi_attribute 12, 0                   // suppress Tag_Advanced_SIMD_arch
+        .section .note.GNU-stack, "", %progbits // Mark stack as non-executable
 #endif /* __ELF__ */
 
 #ifdef _WIN32
@@ -247,72 +246,72 @@ DISABLE_SME
 #define QUOTE(x) QUOTE2(x)
 
 .macro function name, export=0, align=2, visible=0
-    .macro endfunc
+        .macro  endfunc
 #ifdef __ELF__
-        .size   \name, . - \name
+                .size   \name, . - \name
 #endif
-        .purgem endfunc
-    .endm
+                .purgem endfunc
+        .endm
 #if defined(_WIN32) && defined(BUILDING_DLL)
-    .if \export && \visible
-        .section .drectve
-        .ascii "-export:"
-        .ascii QUOTE(EXTERN)
-        .ascii "\name "
-    .endif
+        .if     \export && \visible
+                .section .drectve
+                .ascii  "-export:"
+                .ascii  QUOTE(EXTERN)
+                .ascii  "\name "
+        .endif
 #endif
         .text
-        .align \align
-    .if \export
-        .global EXTERN\name
+        .align  \align
+        .if     \export
+                .global EXTERN\name
 #ifdef __ELF__
-        .type   EXTERN\name, %function
-    .if !\visible
-        .hidden EXTERN\name
-    .endif
+                .type   EXTERN\name, %function
+                .if     !\visible
+                        .hidden EXTERN\name
+                .endif
 #elif defined(__MACH__)
-    .if !\visible
-        .private_extern EXTERN\name
-    .endif
+                .if     !\visible
+                        .private_extern EXTERN\name
+                .endif
 #endif
 EXTERN\name:
-    .else
+        .else
 #ifdef __ELF__
-        .type \name, %function
+                .type   \name, %function
 #endif
-    .endif
+        .endif
 \name:
 #if ARCH_AARCH64
-    .if \export
-         AARCH64_VALID_CALL_TARGET
-    .endif
+        .if     \export
+                AARCH64_VALID_CALL_TARGET
+        .endif
 #endif
 .endm
 
 .macro  const   name, export=0, align=2
-    .macro endconst
+        .macro  endconst
 #ifdef __ELF__
-        .size   \name, . - \name
+                .size   \name, . - \name
 #endif
-        .purgem endconst
-    .endm
+                .purgem endconst
+        .endm
 #if defined(_WIN32)
-        .section        .rdata
+        .section .rdata
 #elif !defined(__MACH__)
-        .section        .rodata
+        .section .rodata
 #else
         .const_data
 #endif
-        .align          \align
-    .if \export
-        .global EXTERN\name
+        .align  \align
+        .if     \export
+                .global EXTERN\name
 #ifdef __ELF__
-        .hidden EXTERN\name
+                .hidden EXTERN\name
 #elif defined(__MACH__)
-        .private_extern EXTERN\name
+                .private_extern EXTERN\name
 #endif
 EXTERN\name:
-    .endif
+        .endif
 \name:
 .endm
 

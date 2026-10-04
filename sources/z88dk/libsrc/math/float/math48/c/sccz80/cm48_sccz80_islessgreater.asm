@@ -10,9 +10,9 @@ EXTERN am48_islessgreater, cm48_sccz80p_dread2
 
 cm48_sccz80_islessgreater:
 
-   call cm48_sccz80p_dread2
-   
-   ; AC'= y
-   ; AC = x
-   
-   jp am48_islessgreater
+        call    cm48_sccz80p_dread2
+
+        ; AC'= y
+        ; AC = x
+
+        jp      am48_islessgreater

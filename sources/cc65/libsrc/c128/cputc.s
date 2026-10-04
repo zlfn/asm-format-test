@@ -8,12 +8,12 @@
 ; Important note: The implementation of cputs() relies on the cputc() function
 ; not clobbering ptr1. Beware when rewriting or changing this function!
 
-        .export         _cputcxy, _cputc, cputdirect, putchar
-        .export         newline, plot
-        .import         gotoxy
+        .export _cputcxy, _cputc, cputdirect, putchar
+        .export newline,  plot
+        .import gotoxy
 
-        .include        "cbm_kernal.inc"
-        .include        "c128.inc"
+        .include "cbm_kernal.inc"
+        .include "c128.inc"
 
 newline         = NEWLINE
 
@@ -22,18 +22,18 @@ newline         = NEWLINE
 .code
 
 _cputcxy:
-        pha                     ; Save C
-        jsr      gotoxy         ; Set cursor, drop x and y
-        pla                     ; Restore C
+        pha             ; Save C
+        jsr     gotoxy  ; Set cursor, drop x and y
+        pla             ; Restore C
 
 ; Plot a character - also used as internal function
 
-_cputc: cmp     #$0A            ; CR?
-        beq     cr              ; Output a cr
+_cputc: cmp     #$0A    ; CR?
+        beq     cr      ; Output a cr
 
-        cmp     #$0D            ; LF?
+        cmp     #$0D    ; LF?
         bne     L2
-        jmp     NEWLINE         ; Update cursor position
+        jmp     NEWLINE ; Update cursor position
 
 ; Printable char of some sort
 
@@ -50,15 +50,15 @@ L3:     and     #$3F
 ; Output one character to the screen. We will disable scrolling while doing so
 
 cputdirect:
-        tax                     ; Save output char
+        tax             ; Save output char
         lda     SCROLL
-        pha                     ; Save scroll flag
+        pha             ; Save scroll flag
         lda     #$C0
-        sta     SCROLL          ; Disable scrolling
-        txa                     ; Restore output char
+        sta     SCROLL  ; Disable scrolling
+        txa             ; Restore output char
         jsr     PRINT
         pla
-        sta     SCROLL          ; Restore old scroll flag
+        sta     SCROLL  ; Restore old scroll flag
         rts
 
 ; Handle character if high bit set
@@ -80,7 +80,7 @@ cr:     lda     #0
 plot:   ldy     CURS_X
         ldx     CURS_Y
         clc
-        jmp     PLOT            ; Set the new cursor
+        jmp     PLOT    ; Set the new cursor
 
 ; Write one character to the screen without doing anything else, return X
 ; position in Y

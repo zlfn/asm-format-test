@@ -11,16 +11,16 @@
 //
 // NOTE: mcall() assumes this clobbers only R30 (REGTMP).
 TEXT runtime·save_g(SB),NOSPLIT|NOFRAME,$0-0
-	MOVB	runtime·iscgo(SB), R30
-	BEQ	R30, nocgo
+        MOVB    runtime·iscgo(SB), R30
+        BEQ     R30, nocgo
 
-	MOVV	g, runtime·tls_g(SB)
+        MOVV    g, runtime·tls_g(SB)
 
 nocgo:
-	RET
+        RET
 
 TEXT runtime·load_g(SB),NOSPLIT|NOFRAME,$0-0
-	MOVV	runtime·tls_g(SB), g
-	RET
+        MOVV    runtime·tls_g(SB), g
+        RET
 
 GLOBL runtime·tls_g(SB), TLSBSS, $8

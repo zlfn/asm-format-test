@@ -13,41 +13,40 @@
 
 ;; void stencil_add_point(int x, int y, unsigned char *stencil)
 
-
 IF  !__CPU_INTEL__&!__CPU_GBZ80__
-    SECTION code_graphics
-    PUBLIC  stencil_add_point
-    PUBLIC  _stencil_add_point
+        SECTION code_graphics
+        PUBLIC  stencil_add_point
+        PUBLIC  _stencil_add_point
 
-    EXTERN  stencil_add_pixel
+        EXTERN  stencil_add_pixel
 
-    ;EXTERN    __gfx_vram_page_in
-    ;EXTERN    __gfx_vram_page_out
+        ;EXTERN    __gfx_vram_page_in
+        ;EXTERN    __gfx_vram_page_out
 
-    EXTERN  stencil_ptr
+        EXTERN  stencil_ptr
 
 stencil_add_point:
 _stencil_add_point:
-    push    ix
-    ld      ix, 2
-    add     ix, sp
+        push    ix
+        ld      ix, 2
+        add     ix, sp
 
-    ld      l, (ix+2)                   ;pointer to stencil
-    ld      h, (ix+3)
-    ld      (stencil_ptr), hl
+        ld      l, (ix+2)       ;pointer to stencil
+        ld      h, (ix+3)
+        ld      (stencil_ptr), hl
 
-    ;ld    l,(ix+4)    ;pointer to leftmost vector
-    ;ld    h,(ix+5)
-    ;ld    (gfx_area),hl
+        ;ld    l,(ix+4)    ;pointer to leftmost vector
+        ;ld    h,(ix+5)
+        ;ld    (gfx_area),hl
 
-    ld      e, (ix+4)                   ;y0
-    ld      d, (ix+5)                   ;y0
-    ld      l, (ix+6)                   ;x0
-    ld      h, (ix+7)                   ;x0
-    ; call    __gfx_vram_page_in
-    pop     ix
-    jp      stencil_add_pixel
+        ld      e, (ix+4)       ;y0
+        ld      d, (ix+5)       ;y0
+        ld      l, (ix+6)       ;x0
+        ld      h, (ix+7)       ;x0
+        ; call    __gfx_vram_page_in
+        pop     ix
+        jp      stencil_add_pixel
 
-       ; jp     __gfx_vram_page_out
+        ; jp     __gfx_vram_page_out
 
 ENDIF

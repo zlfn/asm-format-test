@@ -13,8 +13,7 @@
 ; Ullrich von Bassewitz, 2009-10-29
 ;
 
-        .export         __cos, __sin
-
+        .export __cos, __sin
 
 ; ---------------------------------------------------------------------------
 ; Sinus table covering values from 0..86° as 0.8 fixed point values. Values
@@ -33,8 +32,6 @@ _sintab:
         .byte   $DE, $E0, $E2, $E4, $E6, $E8, $EA, $EC, $ED, $EF
         .byte   $F1, $F2, $F3, $F5, $F6, $F7, $F8, $F9, $FA, $FB
         .byte   $FC, $FD, $FE, $FE, $FF, $FF, $FF
-
-
 
 ; ---------------------------------------------------------------------------
 ; Cosine function. Is actually implemented as _cos(x) = _sin(x+90)
@@ -96,7 +93,7 @@ __sin:
 ;
 
         eor     #$FF
-        adc     #180            ; 180-val
+        adc     #180    ; 180-val
 
 ; 0..89°. Values for 87..90° are actually 1.0. Since this format doesn't fit
 ; into the table, we have to check for it manually.
@@ -114,7 +111,7 @@ L1:     cmp     #87
 
 L2:     tay
         ldx     #0
-        lda     _sintab,y
+        lda     _sintab, y
         rts
 
 ; 180..360°. _sin(x) = -_sin(x-180). Since the argument is in range 0..180
@@ -137,7 +134,7 @@ L4:     sbc     #180
 ;
 
         eor     #$FF
-        adc     #180            ; 180-val
+        adc     #180    ; 180-val
 
 ; 180..269°. Values for 267..269° are actually -1.0. Since this format doesn't
 ; fit into the table, we have to check for it manually.
@@ -154,8 +151,8 @@ L5:     ldx     #$FF
 ; 180..266°. Read the value from the table. Carry is clear on entry.
 
 L6:     tay
-        txa                     ; A = $FF
-        eor     _sintab,y
+        txa     ; A = $FF
+        eor     _sintab, y
         adc     #1
         bcc     L7
         inx

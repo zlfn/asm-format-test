@@ -9,10 +9,10 @@ EXTERN SP1V_TILEARRAY
 
 .sp1_TileEntry_callee
 
-   pop hl
-   pop de
-   pop bc
-   push hl
+        pop     hl
+        pop     de
+        pop     bc
+        push    hl
 
 .asmentry
 
@@ -25,18 +25,18 @@ EXTERN SP1V_TILEARRAY
 
 .SP1TileEntry
 
-   ld hl,SP1V_TILEARRAY
-   ld b,0
-   add hl,bc
-   ld a,(hl)
-   ld (hl),e
-   ld e,a
-   inc h
-   ld a,(hl)
-   ld (hl),d
-   ld h,a
-   ld l,e
+        ld      hl,   SP1V_TILEARRAY
+        ld      b,    0
+        add     hl,   bc
+        ld      a,    (hl)
+        ld      (hl), e
+        ld      e,    a
+        inc     h
+        ld      a,    (hl)
+        ld      (hl), d
+        ld      h,    a
+        ld      l,    e
 
-   ret
+        ret
 
 DEFC ASMDISP_SP1_TILEENTRY_CALLEE = asmentry - sp1_TileEntry_callee

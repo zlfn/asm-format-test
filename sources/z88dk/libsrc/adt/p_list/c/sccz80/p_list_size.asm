@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _p_list_size
 defc _p_list_size = p_list_size
 ENDIF
-

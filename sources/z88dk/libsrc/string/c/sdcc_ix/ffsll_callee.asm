@@ -9,13 +9,13 @@ EXTERN asm_ffsll
 
 _ffsll_callee:
 
-   pop af
-   pop hl
-   pop de
-   exx
-   pop hl
-   pop de
-   exx
-   push af
-   
-   jp asm_ffsll
+        pop     af
+        pop     hl
+        pop     de
+        exx
+        pop     hl
+        pop     de
+        exx
+        push    af
+
+        jp      asm_ffsll

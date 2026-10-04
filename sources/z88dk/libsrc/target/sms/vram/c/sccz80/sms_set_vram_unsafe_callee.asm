@@ -9,16 +9,15 @@ EXTERN asm_sms_set_vram_unsafe
 
 sms_set_vram_unsafe_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        ex      (sp), hl
 
-   ld a,l
-   jp asm_sms_set_vram_unsafe
+        ld      a, l
+        jp      asm_sms_set_vram_unsafe
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sms_set_vram_unsafe_callee
 defc _sms_set_vram_unsafe_callee = sms_set_vram_unsafe_callee
 ENDIF
-

@@ -5,17 +5,17 @@
 ; int __fastcall__ exec (const char* progname, const char* cmdline);
 ;
 
-        .export         _exec
-        .import         sos_file_info_direct
-        .import         pushname_tos, popname, popax, done, _exit
+        .export _exec
+        .import sos_file_info_direct
+        .import pushname_tos, popname, popax, done, _exit
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "apple3.inc"
-        .include        "sos.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "apple3.inc"
+        .include "sos.inc"
 
         ; Wrong file type
-typerr: lda     #$4A            ; "Incompatible file format"
+typerr: lda     #$4A    ; "Incompatible file format"
 
         ; Cleanup name
 
@@ -37,19 +37,19 @@ _exec:
         ; Patch SOS 1.3 to allow call from high memory
         lda     E_REG
         tax
-        and     #$F7             ; remove ram write protect
+        and     #$F7    ; remove ram write protect
         sta     E_REG
         lda     #$B9
         sta     $F294
         sta     $F2b3
-        stx     E_REG            ; restore
+        stx     E_REG   ; restore
 
         ; Copy the path to 64 bytes above interp space
         ldy     #$00
-        lda     (c_sp),y
+        lda     (c_sp), y
         tay
-:       lda     (c_sp),y
-        sta     $B8C0,y
+:       lda     (c_sp), y
+        sta     $B8C0,  y
         dey
         bpl     :-
 
@@ -57,15 +57,15 @@ _exec:
         ; the loader stub right now and patch it later to set params
         ; copy the load stub to just below the path
         ldx     #size - 1
-:       lda     source,x
-        sta     target,x
+:       lda     source, x
+        sta     target, x
         dex
         bpl     :-
 
         ; Check program file type
         lda     sosoption + OPTION::FILE_INFO::FILE_TYPE
-        cmp     #$0C            ; SOS file?
-        bne     typerr          ; No, wrong file type
+        cmp     #$0C    ; SOS file?
+        bne     typerr  ; No, wrong file type
 
         ; Reset stack as we already passed
         ; the point of no return anyway
@@ -80,7 +80,6 @@ _exec:
 
         ; Initiate C library shutdown
         jmp     _exit
-
 
         .rodata
 
@@ -107,8 +106,8 @@ source:
 
         ; Check SOS.NTRP header exists
         ldy     #7
-:       lda     interp_h,y
-        cmp     header,y
+:       lda     interp_h, y
+        cmp     header,   y
         bne     error
         dey
         bpl     :-
@@ -134,22 +133,21 @@ source:
         ; Go for it ...
 jump:   jmp     (data_buffer)
 
-
 open_param      = * - source + target
-        .byte   $04             ; PARAM_COUNT
-        .addr   $B8C0           ; PATHNAME
+        .byte   $04     ; PARAM_COUNT
+        .addr   $B8C0   ; PATHNAME
 open_ref        = * - source + target
-        .byte   $00             ; refnum
-        .word   $0              ; no option list
+        .byte   $00     ; refnum
+        .word   $0      ; no option list
         .byte   $0
 
 readh_param     = * - source + target
-        .byte   $04             ; PARAM_COUNT
+        .byte   $04     ; PARAM_COUNT
 readh_ref       = * - source + target
-        .byte   $00             ; REF_NUM
-        .addr   header          ; interp header buffer
-        .word   14              ; REQUEST_COUNT
-        .word   0               ; TRANS_COUNT
+        .byte   $00     ; REF_NUM
+        .addr   header  ; interp header buffer
+        .word   14      ; REQUEST_COUNT
+        .word   0       ; TRANS_COUNT
 
 interp_h        = * - source + target
         .byte   "SOS NTRP"
@@ -162,22 +160,22 @@ load_addr       = * - source + target
         .word   0
 
 read_param      = * - source + target
-        .byte   $04             ; PARAM_COUNT
+        .byte   $04     ; PARAM_COUNT
 read_ref        = * - source + target
-        .byte   $00             ; REF_NUM
+        .byte   $00     ; REF_NUM
 data_buffer     = * - source + target
-        .addr   $2000           ; DATA_BUFFER
-        .word   $FFFF           ; REQUEST_COUNT
-        .word   $0000           ; TRANS_COUNT
+        .addr   $2000   ; DATA_BUFFER
+        .word   $FFFF   ; REQUEST_COUNT
+        .word   $0000   ; TRANS_COUNT
 
 close_param     = * - source + target
-        .byte   $01             ; PARAM_COUNT
+        .byte   $01     ; PARAM_COUNT
 close_ref       = * - source + target
-        .byte   $00             ; REF_NUM
+        .byte   $00     ; REF_NUM
 
         ; Quit to SOS
 error:  brk
-        .byte   $65             ; Terminate
+        .byte   $65     ; Terminate
         .word   error
 
 size            = * - source

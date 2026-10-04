@@ -10,11 +10,11 @@ EXTERN asm_im2_append_generic_callback
 
 _im2_append_generic_callback_callee:
 
-   pop af
-   dec sp
-   pop hl
-   pop de
-   push af
+        pop     af
+        dec     sp
+        pop     hl
+        pop     de
+        push    af
 
-   ld l,h
-   jp asm_im2_append_generic_callback
+        ld      l, h
+        jp      asm_im2_append_generic_callback

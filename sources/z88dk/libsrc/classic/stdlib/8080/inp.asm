@@ -13,16 +13,15 @@ EXTERN iotmp
 .inp
 ._inp
 
-   ; port in l
-   ld h,l         ; port
-   ld l,0xdb      ; in
-   ld (iotmp),hl
-   ld hl,iotmp+2
-   ld (hl),0xc9   ; ret
-   call iotmp
-   ld h,0
-   ld l,a         ; return byte in hl
-   ret
+        ; port in l
+        ld      h, l            ; port
+        ld      l, 0xdb         ; in
+        ld      (iotmp), hl
+        ld      hl,   iotmp+2
+        ld      (hl), 0xc9      ; ret
+        call    iotmp
+        ld      h, 0
+        ld      l, a            ; return byte in hl
+        ret
 
 ENDIF
-

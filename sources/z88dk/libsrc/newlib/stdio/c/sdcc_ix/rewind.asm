@@ -16,13 +16,13 @@ EXTERN _rewind_fastcall
 
 _rewind:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _rewind_fastcall
+        push    hl
+        push    af
+
+        jp      _rewind_fastcall
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ;  VOID *
@@ -28,12 +28,11 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMemSetMem64)
 ASM_PFX(InternalMemSetMem64):
-    push    rdi
-    mov     rdi, rcx
-    mov     rax, r8
-    xchg    rcx, rdx
-    rep     stosq
-    mov     rax, rdx
-    pop     rdi
-    ret
-
+        push    rdi
+        mov     rdi, rcx
+        mov     rax, r8
+        xchg    rcx, rdx
+        rep     stosq
+        mov     rax, rdx
+        pop     rdi
+        ret

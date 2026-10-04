@@ -5,25 +5,24 @@
 ; Ullrich von Bassewitz, 2002-12-04
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "em-kernel.inc"
-        .include        "em-error.inc"
-        .include        "c128.inc"
+        .include "em-kernel.inc"
+        .include "em-error.inc"
+        .include "c128.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c128_ram_emd
+        module_header _c128_ram_emd
 
 ; Driver signature
 
-        .byte   $65, $6d, $64           ; "emd"
-        .byte   EMD_API_VERSION         ; EM API version number
+        .byte   $65, $6d, $64   ; "emd"
+        .byte   EMD_API_VERSION ; EM API version number
 
 ; Library reference
 
@@ -51,9 +50,9 @@ PAGES   = (TOPMEM - BASE) / 256
 ; Data.
 
 .bss
-curpage:        .res    2               ; Current page number
+curpage: .res   2       ; Current page number
 
-window:         .res    256             ; Memory "window"
+window: .res    256     ; Memory "window"
 
 .code
 
@@ -67,7 +66,7 @@ window:         .res    256             ; Memory "window"
 INSTALL:
         ldx     #$FF
         stx     curpage
-        stx     curpage+1               ; Invalidate the current page
+        stx     curpage+1       ; Invalidate the current page
         .assert EM_ERR_OK = 0, error
         inx
         txa
@@ -80,7 +79,6 @@ INSTALL:
 
 UNINSTALL:
         rts
-
 
 ; ------------------------------------------------------------------------
 ; PAGECOUNT: Return the total number of available pages in a/x.
@@ -98,7 +96,7 @@ PAGECOUNT:
 ;
 
 MAP:    sta     curpage
-        stx     curpage+1               ; Remember the new page
+        stx     curpage+1       ; Remember the new page
 
         clc
         adc     #>BASE
@@ -114,7 +112,7 @@ MAP:    sta     curpage
 
 @L1:    ldx     #MMU_CFG_RAM1
         jsr     FETCH
-        sta     window,y
+        sta     window, y
         iny
         bne     @L1
         cli
@@ -122,24 +120,24 @@ MAP:    sta     curpage
 ; Return the memory window
 
         lda     #<window
-        ldx     #>window                ; Return the window address
+        ldx     #>window        ; Return the window address
         rts
 
 ; ------------------------------------------------------------------------
 ; USE: Tell the driver that the window is now associated with a given page.
 
 USE:    sta     curpage
-        stx     curpage+1               ; Remember the page
+        stx     curpage+1       ; Remember the page
         lda     #<window
-        ldx     #>window                ; Return the window
+        ldx     #>window        ; Return the window
         rts
 
 ; ------------------------------------------------------------------------
 ; COMMIT: Commit changes in the memory window to extended storage.
 
-COMMIT: lda     curpage                 ; Get the current page
+COMMIT: lda     curpage ; Get the current page
         ldx     curpage+1
-        bmi     done                    ; Jump if no page mapped
+        bmi     done    ; Jump if no page mapped
 
         clc
         adc     #>BASE
@@ -153,7 +151,7 @@ COMMIT: lda     curpage                 ; Get the current page
 
 ; Transfer one page. Y must be zero on entry
 
-@L1:    lda     window,y
+@L1:    lda     window, y
         ldx     #MMU_CFG_RAM1
         jsr     STASH
         iny
@@ -172,30 +170,30 @@ done:   rts
 
 COPYFROM:
         sta     ptr3
-        stx     ptr3+1                  ; Save the passed em_copy pointer
+        stx     ptr3+1  ; Save the passed em_copy pointer
 
         ldy     #EM_COPY::OFFS
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr1
         ldy     #EM_COPY::PAGE
-        lda     (ptr3),y
+        lda     (ptr3), y
         clc
         adc     #>BASE
-        sta     ptr1+1                  ; From
+        sta     ptr1+1  ; From
 
         ldy     #EM_COPY::BUF
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr2
         iny
-        lda     (ptr3),y
-        sta     ptr2+1                  ; To
+        lda     (ptr3), y
+        sta     ptr2+1  ; To
 
         lda     #<ptr1
         sta     FETVEC
 
         ldy     #EM_COPY::COUNT+1
-        lda     (ptr3),y                ; Get number of pages
-        beq     @L2                     ; Skip if no full pages
+        lda     (ptr3), y       ; Get number of pages
+        beq     @L2             ; Skip if no full pages
         sta     tmp1
 
 ; Copy full pages
@@ -204,7 +202,7 @@ COPYFROM:
         sei
 @L1:    ldx     #MMU_CFG_RAM1
         jsr     FETCH
-        sta     (ptr2),y
+        sta     (ptr2), y
         iny
         bne     @L1
         inc     ptr1+1
@@ -215,14 +213,14 @@ COPYFROM:
 ; Copy the remainder of the page
 
 @L2:    ldy     #EM_COPY::COUNT
-        lda     (ptr3),y                ; Get bytes in last page
+        lda     (ptr3), y       ; Get bytes in last page
         beq     @L4
         sta     tmp1
 
         ldy     #$00
 @L3:    ldx     #MMU_CFG_RAM1
         jsr     FETCH
-        sta     (ptr2),y
+        sta     (ptr2), y
         iny
         dec     tmp1
         bne     @L3
@@ -239,37 +237,37 @@ COPYFROM:
 ;
 
 COPYTO: sta     ptr3
-        stx     ptr3+1                  ; Save the passed em_copy pointer
+        stx     ptr3+1  ; Save the passed em_copy pointer
 
         ldy     #EM_COPY::OFFS
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr1
         ldy     #EM_COPY::PAGE
-        lda     (ptr3),y
+        lda     (ptr3), y
         clc
         adc     #>BASE
-        sta     ptr1+1                  ; To
+        sta     ptr1+1  ; To
 
         ldy     #EM_COPY::BUF
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr2
         iny
-        lda     (ptr3),y
-        sta     ptr2+1                  ; From
+        lda     (ptr3), y
+        sta     ptr2+1  ; From
 
         lda     #<ptr1
         sta     STAVEC
 
         ldy     #EM_COPY::COUNT+1
-        lda     (ptr3),y                ; Get number of pages
-        beq     @L2                     ; Skip if no full pages
+        lda     (ptr3), y       ; Get number of pages
+        beq     @L2             ; Skip if no full pages
         sta     tmp1
 
 ; Copy full pages
 
         ldy     #$00
         sei
-@L1:    lda     (ptr2),y
+@L1:    lda     (ptr2), y
         ldx     #MMU_CFG_RAM1
         jsr     STASH
         iny
@@ -282,12 +280,12 @@ COPYTO: sta     ptr3
 ; Copy the remainder of the page
 
 @L2:    ldy     #EM_COPY::COUNT
-        lda     (ptr3),y                ; Get bytes in last page
+        lda     (ptr3), y       ; Get bytes in last page
         beq     @L4
         sta     tmp1
 
         ldy     #$00
-@L3:    lda     (ptr2),y
+@L3:    lda     (ptr2), y
         ldx     #MMU_CFG_RAM1
         jsr     STASH
         iny

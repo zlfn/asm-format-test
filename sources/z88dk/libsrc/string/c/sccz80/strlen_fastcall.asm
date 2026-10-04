@@ -16,10 +16,8 @@ PUBLIC _strlen_fastcall
 defc _strlen_fastcall = strlen_fastcall
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___strlen_fastcall
 defc ___strlen_fastcall = strlen_fastcall
 ENDIF
-

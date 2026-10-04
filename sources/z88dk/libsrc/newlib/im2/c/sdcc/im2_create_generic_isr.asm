@@ -10,14 +10,14 @@ EXTERN _im2_create_generic_isr_callee
 
 _im2_create_generic_isr:
 
-   pop hl
-   dec sp
-   pop af
-   pop de
+        pop     hl
+        dec     sp
+        pop     af
+        pop     de
 
-   push de
-   push af
-   inc sp
-   push hl
+        push    de
+        push    af
+        inc     sp
+        push    hl
 
-   jp _im2_create_generic_isr_callee
+        jp      _im2_create_generic_isr_callee

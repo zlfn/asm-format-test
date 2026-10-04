@@ -12,10 +12,10 @@
 ;
 ; int __fastcall__ read(int fd,void *buf,int count)
 ;
-        .importzp       _FileDestPtr
-        .import         lynxread0
-        .import         pushax,ldaxysp,ldax0sp,incsp6
-        .export         _read
+        .importzp _FileDestPtr
+        .import lynxread0
+        .import pushax, ldaxysp, ldax0sp, incsp6
+        .export _read
 
 .segment        "CODE"
 
@@ -41,4 +41,3 @@
         jmp     incsp6
 
 .endproc
-

@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _imaxabs
 defc _imaxabs = imaxabs
 ENDIF
-

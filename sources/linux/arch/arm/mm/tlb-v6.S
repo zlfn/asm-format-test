@@ -34,29 +34,29 @@
  *	  both the I and the D TLBs on Harvard-style TLBs
  */
 SYM_TYPED_FUNC_START(v6wbi_flush_user_tlb_range)
-	vma_vm_mm r3, r2			@ get vma->vm_mm
-	mov	ip, #0
-	mmid	r3, r3				@ get vm_mm->context.id
-	mcr	p15, 0, ip, c7, c10, 4		@ drain write buffer
-	mov	r0, r0, lsr #PAGE_SHIFT		@ align address
-	mov	r1, r1, lsr #PAGE_SHIFT
-	asid	r3, r3				@ mask ASID
-	orr	r0, r3, r0, lsl #PAGE_SHIFT	@ Create initial MVA
-	mov	r1, r1, lsl #PAGE_SHIFT
-	vma_vm_flags r2, r2			@ get vma->vm_flags
+        vma_vm_mm r3, r2                        @ get vma->vm_mm
+        mov     ip,  #0
+        mmid    r3,  r3                         @ get vm_mm->context.id
+        mcr     p15, 0,  ip, c7, c10, 4         @ drain write buffer
+        mov     r0,  r0, lsr #PAGE_SHIFT        @ align address
+        mov     r1,  r1, lsr #PAGE_SHIFT
+        asid    r3,  r3                         @ mask ASID
+        orr     r0,  r3, r0, lsl #PAGE_SHIFT    @ Create initial MVA
+        mov     r1,  r1, lsl #PAGE_SHIFT
+        vma_vm_flags r2, r2                     @ get vma->vm_flags
 1:
 #ifdef HARVARD_TLB
-	mcr	p15, 0, r0, c8, c6, 1		@ TLB invalidate D MVA (was 1)
-	tst	r2, #VM_EXEC			@ Executable area ?
-	mcrne	p15, 0, r0, c8, c5, 1		@ TLB invalidate I MVA (was 1)
+        mcr     p15, 0, r0, c8, c6, 1   @ TLB invalidate D MVA (was 1)
+        tst     r2,  #VM_EXEC           @ Executable area ?
+        mcrne   p15, 0, r0, c8, c5, 1   @ TLB invalidate I MVA (was 1)
 #else
-	mcr	p15, 0, r0, c8, c7, 1		@ TLB invalidate MVA (was 1)
+        mcr     p15, 0, r0, c8, c7, 1   @ TLB invalidate MVA (was 1)
 #endif
-	add	r0, r0, #PAGE_SZ
-	cmp	r0, r1
-	blo	1b
-	mcr	p15, 0, ip, c7, c10, 4		@ data synchronization barrier
-	ret	lr
+        add     r0, r0, #PAGE_SZ
+        cmp     r0, r1
+        blo     1b
+        mcr     p15, 0, ip, c7, c10, 4  @ data synchronization barrier
+        ret     lr
 SYM_FUNC_END(v6wbi_flush_user_tlb_range)
 
 /*
@@ -68,23 +68,23 @@ SYM_FUNC_END(v6wbi_flush_user_tlb_range)
  *	- end   - end address (exclusive, may not be aligned)
  */
 SYM_TYPED_FUNC_START(v6wbi_flush_kern_tlb_range)
-	mov	r2, #0
-	mcr	p15, 0, r2, c7, c10, 4		@ drain write buffer
-	mov	r0, r0, lsr #PAGE_SHIFT		@ align address
-	mov	r1, r1, lsr #PAGE_SHIFT
-	mov	r0, r0, lsl #PAGE_SHIFT
-	mov	r1, r1, lsl #PAGE_SHIFT
+        mov     r2,  #0
+        mcr     p15, 0,  r2, c7, c10, 4         @ drain write buffer
+        mov     r0,  r0, lsr #PAGE_SHIFT        @ align address
+        mov     r1,  r1, lsr #PAGE_SHIFT
+        mov     r0,  r0, lsl #PAGE_SHIFT
+        mov     r1,  r1, lsl #PAGE_SHIFT
 1:
 #ifdef HARVARD_TLB
-	mcr	p15, 0, r0, c8, c6, 1		@ TLB invalidate D MVA
-	mcr	p15, 0, r0, c8, c5, 1		@ TLB invalidate I MVA
+        mcr     p15, 0, r0, c8, c6, 1   @ TLB invalidate D MVA
+        mcr     p15, 0, r0, c8, c5, 1   @ TLB invalidate I MVA
 #else
-	mcr	p15, 0, r0, c8, c7, 1		@ TLB invalidate MVA
+        mcr     p15, 0, r0, c8, c7, 1   @ TLB invalidate MVA
 #endif
-	add	r0, r0, #PAGE_SZ
-	cmp	r0, r1
-	blo	1b
-	mcr	p15, 0, r2, c7, c10, 4		@ data synchronization barrier
-	mcr	p15, 0, r2, c7, c5, 4		@ prefetch flush (isb)
-	ret	lr
+        add     r0, r0, #PAGE_SZ
+        cmp     r0, r1
+        blo     1b
+        mcr     p15, 0, r2, c7, c10, 4  @ data synchronization barrier
+        mcr     p15, 0, r2, c7, c5,  4  @ prefetch flush (isb)
+        ret     lr
 SYM_FUNC_END(v6wbi_flush_kern_tlb_range)

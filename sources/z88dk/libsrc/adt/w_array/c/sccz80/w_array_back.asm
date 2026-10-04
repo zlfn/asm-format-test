@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _w_array_back
 defc _w_array_back = w_array_back
 ENDIF
-

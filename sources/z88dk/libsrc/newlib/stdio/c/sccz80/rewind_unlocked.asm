@@ -10,7 +10,7 @@ EXTERN asm_rewind_unlocked
 
 rewind_unlocked:
 
-   push hl
-   pop ix
-   
-   jp asm_rewind_unlocked
+        push    hl
+        pop     ix
+
+        jp      asm_rewind_unlocked

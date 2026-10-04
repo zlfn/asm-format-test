@@ -9,18 +9,18 @@ EXTERN asm_esx_f_read
 
 _esx_f_read_callee:
 
-   pop de
-   dec sp
-   pop af
-   pop hl
-   pop bc
-   push de
+        pop     de
+        dec     sp
+        pop     af
+        pop     hl
+        pop     bc
+        push    de
 
 l0_esx_f_read_callee:
 
-   push ix
-   
-   call asm_esx_f_read
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_read
+
+        pop     ix
+        ret

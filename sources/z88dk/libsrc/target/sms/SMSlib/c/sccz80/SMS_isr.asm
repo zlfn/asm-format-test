@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_isr
 defc _SMS_isr = SMS_isr
 ENDIF
-

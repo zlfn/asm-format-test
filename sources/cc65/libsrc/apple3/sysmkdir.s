@@ -5,12 +5,12 @@
 ; unsigned char _sysmkdir (const char* name, ...);
 ;
 
-        .export         __sysmkdir
-        .import         pushname_tos, popname, sos_set_pathname_tos
-        .import         addysp, popax
+        .export __sysmkdir
+        .import pushname_tos, popname, sos_set_pathname_tos
+        .import addysp, popax
 
-        .include        "zeropage.inc"
-        .include        "sos.inc"
+        .include "zeropage.inc"
+        .include "sos.inc"
 
 __sysmkdir:
         ; Throw away all parameters except the name
@@ -27,10 +27,10 @@ __sysmkdir:
 
         ; Set all other parameters from template
         ldx     #(OPTION::CREATE::STORAGE_TYPE+1) - (OPTION::CREATE::FILE_TYPE)
-        stx     sosparam + SOS::CREATE::LENGTH     ; length in bytes
+        stx     sosparam + SOS::CREATE::LENGTH  ; length in bytes
         dex
-:       lda     CREATE,x
-        sta     sosoption + OPTION::CREATE::FILE_TYPE,x
+:       lda     CREATE, x
+        sta     sosoption + OPTION::CREATE::FILE_TYPE, x
         dex
         bpl     :-
 
@@ -40,12 +40,12 @@ __sysmkdir:
         jsr     callsos
 
         ; Cleanup name
-        jsr     popname         ; Preserves A
+        jsr     popname ; Preserves A
 
 oserr:  rts
 
         .rodata
 
-CREATE: .byte   $0F             ; FILE_TYPE:    Directory file
-        .word   $0000           ; AUX_TYPE:     N/A
-        .byte   $0D             ; STORAGE_TYPE: Linked directory file
+CREATE: .byte   $0F     ; FILE_TYPE:    Directory file
+        .word   $0000   ; AUX_TYPE:     N/A
+        .byte   $0D     ; STORAGE_TYPE: Linked directory file

@@ -4,11 +4,10 @@
 ; int __fastcall__ remove (const char* name);
 ;
 
-        .export         _remove
+        .export _remove
 
-        .import         __sysremove
-        .import         ___mappederrno
-
+        .import __sysremove
+        .import ___mappederrno
 
 ;--------------------------------------------------------------------------
 
@@ -18,7 +17,3 @@
         jmp     ___mappederrno  ; Store into __oserror, set errno, return 0/-1
 
 .endproc
-
-
-
-

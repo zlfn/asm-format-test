@@ -16,11 +16,11 @@ EXTERN asm_BIFROST2_getTile
 
 BIFROST2_getTile_callee:
 
-        pop hl          ; RET address
-        pop bc          ; BC=py
-        ex (sp),hl      ; HL=px
+        pop     hl              ; RET address
+        pop     bc              ; BC=py
+        ex      (sp), hl        ; HL=px
 
-        jp asm_BIFROST2_getTile
+        jp      asm_BIFROST2_getTile
 
 ; SDCC bridge for Classic
 IF __CLASSIC

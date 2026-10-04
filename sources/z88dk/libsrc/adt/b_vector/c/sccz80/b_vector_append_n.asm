@@ -10,21 +10,20 @@ EXTERN asm_b_vector_append_n
 
 b_vector_append_n:
 
-   pop af
-   pop bc
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push bc
-   push af
-   
-   jp asm_b_vector_append_n
+        pop     af
+        pop     bc
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    bc
+        push    af
+
+        jp      asm_b_vector_append_n
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _b_vector_append_n
 defc _b_vector_append_n = b_vector_append_n
 ENDIF
-

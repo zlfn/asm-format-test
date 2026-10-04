@@ -9,17 +9,16 @@ EXTERN asm_sms_memcpy_mem_to_vram
 
 sms_memcpy_mem_to_vram_callee:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        push    af
 
-   jp asm_sms_memcpy_mem_to_vram
+        jp      asm_sms_memcpy_mem_to_vram
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sms_memcpy_mem_to_vram_callee
 defc _sms_memcpy_mem_to_vram_callee = sms_memcpy_mem_to_vram_callee
 ENDIF
-

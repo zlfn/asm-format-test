@@ -17,6 +17,6 @@ EXTERN l_divu_16_16x16
 
 __div16:
 __xcc_divuint:
-   call l_divu_16_16x16    ; hl = quotient, de = remainder
-   ex de,hl                ; xcc returns de = quotient, hl = remainder
-   ret
+        call    l_divu_16_16x16 ; hl = quotient, de = remainder
+        ex      de, hl          ; xcc returns de = quotient, hl = remainder
+        ret

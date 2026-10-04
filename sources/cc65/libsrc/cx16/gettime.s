@@ -4,13 +4,12 @@
 ; int __fastcall__ clock_gettime (clockid_t clk_id, struct timespec *tp);
 ;
 
-        .include        "time.inc"
-        .include        "cx16.inc"
+        .include "time.inc"
+        .include "cx16.inc"
 
-        .import         pushax, pusheax, tosmul0ax, steaxspidx, incsp1, return0
-        .import         TM, load_jiffy
-        .import         CLOCK_GET_DATE_TIME
-
+        .import pushax, pusheax, tosmul0ax, steaxspidx, incsp1, return0
+        .import TM,     load_jiffy
+        .import CLOCK_GET_DATE_TIME
 
 ;----------------------------------------------------------------------------
 
@@ -40,7 +39,7 @@
         ldx     #>TM
         jsr     _mktime
         ldy     #timespec::tv_sec
-        jsr     steaxspidx              ; Pops address pushed by 2. pushax
+        jsr     steaxspidx      ; Pops address pushed by 2. pushax
 
         jsr     load_jiffy
         jsr     pusheax
@@ -48,7 +47,7 @@
         ldx     #>$0000
         jsr     tosmul0ax
         ldy     #timespec::tv_nsec
-        jsr     steaxspidx              ; Pops address pushed by 1. pushax
+        jsr     steaxspidx      ; Pops address pushed by 1. pushax
 
         jsr     incsp1
         jmp     return0

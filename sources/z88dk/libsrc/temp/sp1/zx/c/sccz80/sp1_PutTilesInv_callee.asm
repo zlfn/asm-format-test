@@ -11,28 +11,27 @@ EXTERN asm_sp1_PutTilesInv
 
 sp1_PutTilesInv_callee:
 
-   pop af
-   pop hl
-   ex (sp),hl
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
-   pop hl
-   push af
+        pop     af
+        pop     hl
+        ex      (sp), hl
+        ld      d,    (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
+        pop     hl
+        push    af
 
 ;   jp asm_sp1_PutTilesInv
-   push ix
-   call asm_sp1_PutTilesInv
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_PutTilesInv
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_PutTilesInv_callee
 defc _sp1_PutTilesInv_callee = sp1_PutTilesInv_callee
 ENDIF
-

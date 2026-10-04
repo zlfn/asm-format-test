@@ -12,21 +12,19 @@
 ;
 
         SECTION code_clib
-	PUBLIC	set_psg_callee
-	PUBLIC	_set_psg_callee
+        PUBLIC  set_psg_callee
+        PUBLIC  _set_psg_callee
 
-	PUBLIC asm_set_psg
+        PUBLIC  asm_set_psg
 
-	
 set_psg_callee:
 _set_psg_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-	
-.asm_set_psg
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
+.asm_set_psg
 
 ;;------------------------------------------------
 ;; Write to a AY-3-8912 register
@@ -34,7 +32,7 @@ _set_psg_callee:
 ;; Entry conditions:
 ;;
 ;; L = C = register number
-;; E = data 
+;; E = data
 ;; PPI port A is assumed to be set to output.
 ;; PSG operation is assumed to be "inactive"
 ;;
@@ -44,19 +42,16 @@ _set_psg_callee:
 ;;
 ;; This function is compatible with the CPC+.
 
-
-
 ld	c,l
 ;; ASMENTRY + 1 <- psg_init gets here !!
 
-        ld      a,c
+        ld      a, c
         cp      7
-        jr      nz,not_reg7
-        ld      a,e
+        jr      nz, not_reg7
+        ld      a,  e
         and     @00111111
-        ld      e,a
+        ld      e, a
 not_reg7:
-
 
 ;; step 1 -  select register
 
@@ -72,7 +67,7 @@ out (c),c
 ld bc,$f600
 out (c),c
 
-;; step 2 -  write data to register 
+;; step 2 -  write data to register
 
 ;; write data to PPI port A
 ld b,$f4
@@ -86,5 +81,3 @@ out (c),c
 ld bc,$f600
 out (c),c
 ret
-
-

@@ -3,17 +3,17 @@
 ;
 ; void cpeeks (char* s, unsigned length);
 ;
-        .export         soft80_cpeeks
-        .import         soft80_cpeekc, soft80_kplot, popax
+        .export soft80_cpeeks
+        .import soft80_cpeekc, soft80_kplot, popax
 
-        .importzp       ptr1, ptr2
+        .importzp ptr1, ptr2
 
-        .include        "c64.inc"
-        .include        "soft80.inc"
+        .include "c64.inc"
+        .include "soft80.inc"
 
 soft80_cpeeks:
-        eor     #<$FFFF         ; counting a word upward is faster
-        sta     ptr2            ; so, we use -(length + 1)
+        eor     #<$FFFF ; counting a word upward is faster
+        sta     ptr2    ; so, we use -(length + 1)
         txa
         eor     #>$FFFF
         sta     ptr2+1
@@ -32,7 +32,7 @@ soft80_cpeeks:
 @lp:
         jsr     soft80_cpeekc
         ldy     #0
-        sta     (ptr1),y
+        sta     (ptr1), y
 
         ; advance cursor position
         ldy     CURS_X
@@ -60,7 +60,7 @@ soft80_cpeeks:
         ; terminate the string
         lda     #0
         ldy     #0
-        sta     (ptr1),y
+        sta     (ptr1), y
 
         ; restore the cursor position
         pla

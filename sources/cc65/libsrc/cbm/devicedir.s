@@ -4,12 +4,12 @@
 ; char* __fastcall__ getdevicedir (unsigned char device, char* buf, size_t size);
 ;
 
-        .export         _getdevicedir
-        .import         diskinit, devicestr, fnunit
-        .import         popa, popax
-        .importzp       ptr2, ptr3
+        .export _getdevicedir
+        .import diskinit, devicestr, fnunit
+        .import popa,     popax
+        .importzp ptr2, ptr3
 
-        .include        "errno.inc"
+        .include "errno.inc"
 
 ;------------------------------------------------------------------------------
 ; _getdevicedir
@@ -33,18 +33,18 @@
         jsr     diskinit
         beq     size
         jsr     ___mappederrno
-        bne     fail            ; Branch always
+        bne     fail    ; Branch always
 
 ; Check for sufficient buf size
 
 size:   lda     ptr3+1
-        bne     okay            ; Buf >= 256
+        bne     okay    ; Buf >= 256
         lda     ptr3
         cmp     #3
-        bcs     okay            ; Buf >= 3
+        bcs     okay    ; Buf >= 3
         lda     #<ERANGE
         jsr     ___directerrno
-fail:   lda     #0              ; Return NULL
+fail:   lda     #0      ; Return NULL
         tax
         rts
 

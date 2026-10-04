@@ -26,21 +26,21 @@ _clg:
         ld      a, 0
         ld      (vreg_rasthi), a        ; select y window reg
 
-        ld      e, 90                   ; y display settings for PAL display: 200 lines
-	;ld e,61			; y display settings for PAL display: 240 lines
+        ld      e, 90   ; y display settings for PAL display: 200 lines
+        ;ld e,61			; y display settings for PAL display: 240 lines
         in      a, (sys_vreg_read)
         bit     5, a
         jr      z, paltv
-        ld      e, 56                   ; y display settings for non-PAL display: 200 lines
-	;ld e,27 ; I'm only guessing this one for 240 lines
+        ld      e, 56   ; y display settings for non-PAL display: 200 lines
+        ;ld e,27 ; I'm only guessing this one for 240 lines
 paltv:
         ld      a, e
         ld      (vreg_window), a        ; set y window size/position (200 lines in docs, but I hope to get to 240)
 
-	;ld a,$5a
-	;ld a,$2e
-	;ld a,64
-	;ld (vreg_window),a		; set y window size/position (200 lines)
+        ;ld a,$5a
+        ;ld a,$2e
+        ;ld a,64
+        ;ld (vreg_window),a		; set y window size/position (200 lines)
 
         ld      a, @00000100
         ld      (vreg_rasthi), a        ; select x window reg
@@ -61,11 +61,9 @@ paltv:
         ld      a, 0
         ld      (bitplane0a_loc+2), a   ; start address of video datafetch for window [18:16]
 
-
 ;---------Set up palette -----------------------------------------------------
 
-
-        ld      hl, palette             ; background = black, colour 1 = white
+        ld      hl,   palette   ; background = black, colour 1 = white
         ld      (hl), $ff
         inc     hl
         ld      (hl), $0f
@@ -74,20 +72,18 @@ paltv:
         inc     hl
         ld      (hl), 0
 
-
 ;--------- Clear VRAM --------------------
 
-
-        call    kjt_wait_vrt            ; wait for last line of display
+        call    kjt_wait_vrt    ; wait for last line of display
         call    __gfx_vram_page_in
 
         ld      hl, $2000
         ld      (base_graphics), hl
 
         ld      hl, 0
-        ld      d, h
-        ld      e, h
-        ld      b, h
+        ld      d,  h
+        ld      e,  h
+        ld      b,  h
         di
         add     hl, sp
         ld      sp, $2000+$2000

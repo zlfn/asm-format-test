@@ -11,10 +11,10 @@ EXTERN _esxdos_f_opendir_p3_fastcall
 
 _esxdos_f_opendir_p3:
 
-   pop af
-   pop hl
+        pop     af
+        pop     hl
 
-   push hl
-   push af
+        push    hl
+        push    af
 
-   jp _esxdos_f_opendir_p3_fastcall
+        jp      _esxdos_f_opendir_p3_fastcall

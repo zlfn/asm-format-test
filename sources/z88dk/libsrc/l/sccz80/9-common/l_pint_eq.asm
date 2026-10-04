@@ -13,13 +13,13 @@ PUBLIC l_pint_eq
 
 l_pint_eq:
 
-   ld a,l
-   
-   ld (de),a
-   inc de
-   
-   ld a,h
-   ld (de),a
-   
-   or l
-   ret
+        ld      a, l
+
+        ld      (de), a
+        inc     de
+
+        ld      a,    h
+        ld      (de), a
+
+        or      l
+        ret

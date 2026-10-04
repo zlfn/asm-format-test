@@ -9,17 +9,16 @@ EXTERN asm_tshc_cxy2aaddr
 
 tshc_cxy2aaddr:
 
-   pop af
-   pop hl
+        pop     af
+        pop     hl
 
-   push hl
-   push af
+        push    hl
+        push    af
 
-   jp asm_tshc_cxy2aaddr
+        jp      asm_tshc_cxy2aaddr
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _tshc_cxy2aaddr
 defc _tshc_cxy2aaddr = tshc_cxy2aaddr
 ENDIF
-

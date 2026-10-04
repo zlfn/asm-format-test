@@ -4,9 +4,9 @@
 ; unsigned char cpeekrevers (void);
 ;
 
-        .import         soft80_cpeekchar
+        .import soft80_cpeekchar
 
-        .export         soft80_cpeekrevers
+        .export soft80_cpeekrevers
 
 soft80_cpeekrevers:
         jsr     soft80_cpeekchar

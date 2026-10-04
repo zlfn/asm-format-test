@@ -5,14 +5,14 @@
 ; int __fastcall__ clock_gettime (clockid_t clk_id, struct timespec *tp);
 ;
 
-        .import         pushax, steaxspidx, incsp1, incsp3, return0
-        .import         __dos_type
-        .import         sdxtry
+        .import pushax, steaxspidx, incsp1, incsp3, return0
+        .import __dos_type
+        .import sdxtry
 
-        .include        "time.inc"
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "atari.inc"
+        .include "time.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "atari.inc"
 
 _clock_gettime:
         jsr     pushax
@@ -23,7 +23,7 @@ _clock_gettime:
         stx     ptr1+1
         lda     #$00
         ldy     #.sizeof(timespec)-1
-:       sta     (ptr1),y
+:       sta     (ptr1), y
         dey
         bpl     :-
 
@@ -39,10 +39,10 @@ _clock_gettime:
 ; get date/time from system (SD-X call)
 ; see settime.s for reasons of using sdxtry
 
-        lda     #0              ; init loop count (256)
+        lda     #0      ; init loop count (256)
         sta     sdxtry
 
-try_get:lda     #SDX_CLK_DEV    ; CLK device
+try_get: lda    #SDX_CLK_DEV    ; CLK device
         sta     SDX_DEVICE
         ldy     #SDX_KD_GETTD   ; GETTD function
         jsr     SDX_KERNEL      ; do the call
@@ -97,11 +97,11 @@ done:   lda     SDX_DATE        ; mday
 
 ; load errno code
 
-notsupp:lda     #ENOSYS
+notsupp: lda    #ENOSYS
 
 ; cleanup stack
 
-errexit:jsr     incsp3          ; Preserves A
+errexit: jsr    incsp3  ; Preserves A
 
 ; set __errno
 

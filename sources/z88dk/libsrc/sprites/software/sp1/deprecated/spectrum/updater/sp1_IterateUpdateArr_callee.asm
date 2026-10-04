@@ -10,9 +10,9 @@ EXTERN l_jpix
 
 .sp1_IterateUpdateArr_callee
 
-   pop hl
-   pop ix
-   ex (sp),hl
+        pop     hl
+        pop     ix
+        ex      (sp), hl
 
 .asmentry
 
@@ -26,22 +26,22 @@ EXTERN l_jpix
 
 .SP1IterateUpdateArr
 
-   ld e,(hl)
-   inc hl
-   ld d,(hl)             ; de = struct sp1_update *
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl) ; de = struct sp1_update *
 
-   ld a,d
-   or e
-   ret z
+        ld      a, d
+        or      e
+        ret     z
 
-   inc hl
-   push hl
-   push de
-   ex de,hl
-   call l_jpix           ; call function with hl = struct sp1_update *
-   pop de
-   pop hl
+        inc     hl
+        push    hl
+        push    de
+        ex      de, hl
+        call    l_jpix  ; call function with hl = struct sp1_update *
+        pop     de
+        pop     hl
 
-   jp SP1IterateUpdateArr
+        jp      SP1IterateUpdateArr
 
 DEFC ASMDISP_SP1_ITERATEUPDATEARR_CALLEE = asmentry - sp1_IterateUpdateArr_callee

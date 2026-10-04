@@ -9,13 +9,13 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 atan:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_atanf
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_atanf
 
 ; SDCC bridge for Classic
 PUBLIC _atan

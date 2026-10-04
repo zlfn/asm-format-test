@@ -10,9 +10,9 @@ EXTERN asm_getchar_unlocked
 
 _getchar_unlocked:
 
-   push ix
-   
-   call asm_getchar_unlocked
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_getchar_unlocked
+
+        pop     ix
+        ret

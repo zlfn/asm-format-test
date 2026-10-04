@@ -10,11 +10,11 @@ EXTERN asm_zx_saddrpright
 
 _zx_saddrpright_callee:
 
-   pop af
-   pop hl
-   dec sp
-   pop de
-   push af
+        pop     af
+        pop     hl
+        dec     sp
+        pop     de
+        push    af
 
-   ld e,d
-   jp asm_zx_saddrpright
+        ld      e, d
+        jp      asm_zx_saddrpright

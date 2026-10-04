@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Jan 2014
 ; ===============================================================
-; 
+;
 ; int ftrylockfile (FILE *stream)
 ;
 ; Return 0 if lock successfuly acquired.
@@ -20,34 +20,34 @@ EXTERN __stdio_lock_tryacquire, error_znc, error_mc
 
 asm_ftrylockfile:
 
-   ; enter : ix = FILE *
-   ;
-   ; exit  : ix = FILE *
-   ;
-   ;         success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set
-   ;
-   ; uses  : af, hl
+        ; enter : ix = FILE *
+        ;
+        ; exit  : ix = FILE *
+        ;
+        ;         success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set
+        ;
+        ; uses  : af, hl
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF __CLIB_OPT_STDIO & $01
 
-   EXTERN __stdio_verify_valid
+        EXTERN  __stdio_verify_valid
 
-   call __stdio_verify_valid
-   ret c
+        call    __stdio_verify_valid
+        ret     c
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-   call __stdio_lock_tryacquire
+        call    __stdio_lock_tryacquire
 
-   jp nc, error_znc            ; if successfully acquired lock
-   jp error_mc
+        jp      nc, error_znc   ; if successfully acquired lock
+        jp      error_mc

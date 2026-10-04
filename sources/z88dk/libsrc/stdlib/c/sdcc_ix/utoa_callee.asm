@@ -10,17 +10,17 @@ EXTERN asm_utoa
 
 _utoa_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
 l0_utoa_callee:
 
-   push ix
-   
-   call asm_utoa
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_utoa
+
+        pop     ix
+        ret

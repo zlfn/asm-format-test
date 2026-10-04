@@ -10,12 +10,12 @@ EXTERN asm_memset
 
 memset_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
 
-   jp asm_memset
+        jp      asm_memset
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -23,10 +23,8 @@ PUBLIC _memset_callee
 defc _memset_callee = memset_callee
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___memset_callee
 defc ___memset_callee = memset_callee
 ENDIF
-

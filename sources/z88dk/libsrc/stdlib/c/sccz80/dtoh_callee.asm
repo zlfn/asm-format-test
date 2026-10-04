@@ -10,12 +10,12 @@ EXTERN dcallee1, asm_dtoh
 
 dtoh_callee:
 
-   pop af
-   pop bc
-   pop de
-   pop hl
-   push af
-   
-   call dcallee1
-   
-   jp asm_dtoh
+        pop     af
+        pop     bc
+        pop     de
+        pop     hl
+        push    af
+
+        call    dcallee1
+
+        jp      asm_dtoh

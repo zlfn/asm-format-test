@@ -10,7 +10,7 @@
 ;-------------------------------------------------------------------------
 ;  asm_am9511_pushi - am9511 APU push integer
 ;-------------------------------------------------------------------------
-; 
+;
 ;  Load integer into Am9511 APU stack
 ;
 ;-------------------------------------------------------------------------
@@ -23,56 +23,53 @@ INCLUDE "../../newlib/target/am9511/config_am9511_private.inc"
 PUBLIC asm_am9511_pushi
 PUBLIC asm_am9511_pushi_fastcall
 
-
 .asm_am9511_pushi
 
-    ; float primitive
-    ; push an integer into Am9511 stack.
-    ;
-    ; enter : stack = integer, ret1, ret0
-    ;
-    ; exit  : stack = integer, ret1
-    ; 
-    ; uses  : af, bc
+        ; float primitive
+        ; push an integer into Am9511 stack.
+        ;
+        ; enter : stack = integer, ret1, ret0
+        ;
+        ; exit  : stack = integer, ret1
+        ;
+        ; uses  : af, bc
 
 ;   AM9511_IN_APU_STATUS      ; read the APU status register
 ;   rlca                        ; busy? __IO_APU_STATUS_BUSY
 ;   jp C,asm_am9511_pushi_hl
 
-    ld bc,de                    ; preserve dehl
+        ld      bc, de  ; preserve dehl
 
-    ld de,sp+4
+        ld      de, sp+4
 
-    ld a,(de)                   ; load LSW into APU
-    AM9511_OUT_APU_DATA
-    inc de
-    ld a,(de)
-    AM9511_OUT_APU_DATA
+        ld      a, (de) ; load LSW into APU
+        AM9511_OUT_APU_DATA
+        inc     de
+        ld      a, (de)
+        AM9511_OUT_APU_DATA
 
-    ld de,bc                    ; recover dehl
-    ret
-
+        ld      de, bc  ; recover dehl
+        ret
 
 .asm_am9511_pushi_fastcall
 
-    ; float primitive
-    ; push an integer into Am9511 stack.
-    ;
-    ; enter : stack = ret1, ret0
-    ;       :    hl = integer
-    ;
-    ; exit  : stack = ret1
-    ; 
-    ; uses  : af, hl
+        ; float primitive
+        ; push an integer into Am9511 stack.
+        ;
+        ; enter : stack = ret1, ret0
+        ;       :    hl = integer
+        ;
+        ; exit  : stack = ret1
+        ;
+        ; uses  : af, hl
 
 ;   AM9511_IN_APU_STATUS      ; read the APU status register
 ;   rlca                        ; busy? __IO_APU_STATUS_BUSY
 ;   jp C,asm_am9511_pushi_fastcall
 
-    ld a,l                      ; load LSW into APU
-    AM9511_OUT_APU_DATA
-    ld a,h
-    AM9511_OUT_APU_DATA
+        ld      a, l    ; load LSW into APU
+        AM9511_OUT_APU_DATA
+        ld      a, h
+        AM9511_OUT_APU_DATA
 
-    ret
-
+        ret

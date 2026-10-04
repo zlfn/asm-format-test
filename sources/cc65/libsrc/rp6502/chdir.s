@@ -4,10 +4,9 @@
 ; int __fastcall__ chdir (const char* name);
 ;
 
-        .export         _chdir
+        .export _chdir
 
-        .import         __syschdir
-
+        .import __syschdir
 
 ;--------------------------------------------------------------------------
 

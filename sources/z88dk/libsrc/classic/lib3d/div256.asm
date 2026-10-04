@@ -6,22 +6,22 @@
 ;    divide by 256
 ;
 
-    SECTION code_clib
-    PUBLIC  div256
-    PUBLIC  _div256
+        SECTION code_clib
+        PUBLIC  div256
+        PUBLIC  _div256
 
 div256:
 _div256:
-    ;pop     bc
-    ;pop     hl
-    ;pop     de
-    ;push    de
-    ;push    hl
-    ;push    bc
+        ;pop     bc
+        ;pop     hl
+        ;pop     de
+        ;push    de
+        ;push    hl
+        ;push    bc
 
-    ; DEHL holds value
+        ; DEHL holds value
 
-    ld      l,h
-    ld      h,e
+        ld      l, h
+        ld      h, e
 
-    ret
+        ret

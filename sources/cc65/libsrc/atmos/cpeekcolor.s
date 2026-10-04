@@ -6,5 +6,5 @@
 ; Atmos version
 ;
 
-        .import         return1
-        .export         _cpeekcolor := return1  ; always COLOR_WHITE
+        .import return1
+        .export _cpeekcolor := return1  ; always COLOR_WHITE

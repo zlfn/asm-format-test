@@ -17,131 +17,131 @@
 
 .pushsection .noinstr.text, "ax"
 
-	.align 32
+        .align  32
 SYM_CODE_START(__bhi_args)
 
 #ifdef CONFIG_FINEIBT_BHI
 
-	.align 32
+        .align  32
 SYM_INNER_LABEL(__bhi_args_0, SYM_L_LOCAL)
-	ANNOTATE_NOENDBR
-	UNWIND_HINT_FUNC
-	jne .Lud_1
-	ANNOTATE_UNRET_SAFE
-	ret
-	int3
+        ANNOTATE_NOENDBR
+        UNWIND_HINT_FUNC
+        jne     .Lud_1
+        ANNOTATE_UNRET_SAFE
+        ret
+        int3
 
-	.align 32
+        .align  32
 SYM_INNER_LABEL(__bhi_args_1, SYM_L_LOCAL)
-	ANNOTATE_NOENDBR
-	UNWIND_HINT_FUNC
-	jne .Lud_1
-	cmovne %rax, %rdi
-	ANNOTATE_UNRET_SAFE
-	ret
-	int3
+        ANNOTATE_NOENDBR
+        UNWIND_HINT_FUNC
+        jne     .Lud_1
+        cmovne  %rax, %rdi
+        ANNOTATE_UNRET_SAFE
+        ret
+        int3
 
-	.align 8
-	ANNOTATE_REACHABLE
-.Lud_1:	ud2
-	ANNOTATE_UNRET_SAFE
-	ret
-	int3
+        .align  8
+        ANNOTATE_REACHABLE
+.Lud_1: ud2
+        ANNOTATE_UNRET_SAFE
+        ret
+        int3
 
-	.align 32
+        .align  32
 SYM_INNER_LABEL(__bhi_args_2, SYM_L_LOCAL)
-	ANNOTATE_NOENDBR
-	UNWIND_HINT_FUNC
-	jne .Lud_1
-	cmovne %rax, %rdi
-	cmovne %rax, %rsi
-	ANNOTATE_UNRET_SAFE
-	ret
-	int3
+        ANNOTATE_NOENDBR
+        UNWIND_HINT_FUNC
+        jne     .Lud_1
+        cmovne  %rax, %rdi
+        cmovne  %rax, %rsi
+        ANNOTATE_UNRET_SAFE
+        ret
+        int3
 
-	.align 32
+        .align  32
 SYM_INNER_LABEL(__bhi_args_3, SYM_L_LOCAL)
-	ANNOTATE_NOENDBR
-	UNWIND_HINT_FUNC
-	jne .Lud_1
-	cmovne %rax, %rdi
-	cmovne %rax, %rsi
-	cmovne %rax, %rdx
-	ANNOTATE_UNRET_SAFE
-	ret
-	int3
+        ANNOTATE_NOENDBR
+        UNWIND_HINT_FUNC
+        jne     .Lud_1
+        cmovne  %rax, %rdi
+        cmovne  %rax, %rsi
+        cmovne  %rax, %rdx
+        ANNOTATE_UNRET_SAFE
+        ret
+        int3
 
-	.align 32
+        .align  32
 SYM_INNER_LABEL(__bhi_args_4, SYM_L_LOCAL)
-	ANNOTATE_NOENDBR
-	UNWIND_HINT_FUNC
-	jne .Lud_2
-	cmovne %rax, %rdi
-	cmovne %rax, %rsi
-	cmovne %rax, %rdx
-	cmovne %rax, %rcx
-	ANNOTATE_UNRET_SAFE
-	ret
-	int3
+        ANNOTATE_NOENDBR
+        UNWIND_HINT_FUNC
+        jne     .Lud_2
+        cmovne  %rax, %rdi
+        cmovne  %rax, %rsi
+        cmovne  %rax, %rdx
+        cmovne  %rax, %rcx
+        ANNOTATE_UNRET_SAFE
+        ret
+        int3
 
-	.align 32
+        .align  32
 SYM_INNER_LABEL(__bhi_args_5, SYM_L_LOCAL)
-	ANNOTATE_NOENDBR
-	UNWIND_HINT_FUNC
-	jne .Lud_2
-	cmovne %rax, %rdi
-	cmovne %rax, %rsi
-	cmovne %rax, %rdx
-	cmovne %rax, %rcx
-	cmovne %rax, %r8
-	ANNOTATE_UNRET_SAFE
-	ret
-	int3
+        ANNOTATE_NOENDBR
+        UNWIND_HINT_FUNC
+        jne     .Lud_2
+        cmovne  %rax, %rdi
+        cmovne  %rax, %rsi
+        cmovne  %rax, %rdx
+        cmovne  %rax, %rcx
+        cmovne  %rax, %r8
+        ANNOTATE_UNRET_SAFE
+        ret
+        int3
 
-	.align 8
-	ANNOTATE_REACHABLE
-.Lud_2:	ud2
-	ANNOTATE_UNRET_SAFE
-	ret
-	int3
+        .align  8
+        ANNOTATE_REACHABLE
+.Lud_2: ud2
+        ANNOTATE_UNRET_SAFE
+        ret
+        int3
 
-	.align 32
+        .align  32
 SYM_INNER_LABEL(__bhi_args_6, SYM_L_LOCAL)
-	ANNOTATE_NOENDBR
-	UNWIND_HINT_FUNC
-	jne .Lud_2
-	cmovne %rax, %rdi
-	cmovne %rax, %rsi
-	cmovne %rax, %rdx
-	cmovne %rax, %rcx
-	cmovne %rax, %r8
-	cmovne %rax, %r9
-	ANNOTATE_UNRET_SAFE
-	ret
-	int3
+        ANNOTATE_NOENDBR
+        UNWIND_HINT_FUNC
+        jne     .Lud_2
+        cmovne  %rax, %rdi
+        cmovne  %rax, %rsi
+        cmovne  %rax, %rdx
+        cmovne  %rax, %rcx
+        cmovne  %rax, %r8
+        cmovne  %rax, %r9
+        ANNOTATE_UNRET_SAFE
+        ret
+        int3
 
-	.align 32
+        .align  32
 SYM_INNER_LABEL(__bhi_args_7, SYM_L_LOCAL)
-	ANNOTATE_NOENDBR
-	UNWIND_HINT_FUNC
-	jne .Lud_2
-	cmovne %rax, %rdi
-	cmovne %rax, %rsi
-	cmovne %rax, %rdx
-	cmovne %rax, %rcx
-	cmovne %rax, %r8
-	cmovne %rax, %r9
-	cmovne %rax, %rsp
-	ANNOTATE_UNRET_SAFE
-	ret
-	int3
+        ANNOTATE_NOENDBR
+        UNWIND_HINT_FUNC
+        jne     .Lud_2
+        cmovne  %rax, %rdi
+        cmovne  %rax, %rsi
+        cmovne  %rax, %rdx
+        cmovne  %rax, %rcx
+        cmovne  %rax, %r8
+        cmovne  %rax, %r9
+        cmovne  %rax, %rsp
+        ANNOTATE_UNRET_SAFE
+        ret
+        int3
 
 #endif /* CONFIG_FINEIBT_BHI */
 
-	.align 32
+        .align  32
 SYM_INNER_LABEL(__bhi_args_end, SYM_L_GLOBAL)
-	ANNOTATE_NOENDBR
-	nop /* Work around toolchain+objtool quirk */
+        ANNOTATE_NOENDBR
+        nop     /* Work around toolchain+objtool quirk */
 SYM_CODE_END(__bhi_args)
 
 .popsection

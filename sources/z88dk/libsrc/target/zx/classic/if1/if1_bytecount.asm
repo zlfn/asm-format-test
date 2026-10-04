@@ -12,18 +12,15 @@
 ;       $Id: if1_bytecount.asm $
 ;
 
-
-    SECTION code_clib
-    PUBLIC  if1_bytecount
-    PUBLIC  _if1_bytecount
-
+        SECTION code_clib
+        PUBLIC  if1_bytecount
+        PUBLIC  _if1_bytecount
 
 if1_bytecount:
 _if1_bytecount:
 
 ; __FASTCALL__
-    ld      a, 1
-    and     h
-    ld      h, a
-    ret
-
+        ld      a, 1
+        and     h
+        ld      h, a
+        ret

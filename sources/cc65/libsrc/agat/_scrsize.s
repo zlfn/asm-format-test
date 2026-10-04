@@ -5,19 +5,19 @@
 ; Screen size variables
 ;
 
-        .export         screensize
+        .export screensize
 
-        .include        "agat.inc"
+        .include "agat.inc"
 
 screensize:
-        lda    WNDWDTH
-        bit    TATTR
-        bmi    t64
+        lda     WNDWDTH
+        bit     TATTR
+        bmi     t64
         lsr
 t64:
         tax
-        lda    WNDBTM
+        lda     WNDBTM
         sec
-        sbc    WNDTOP
+        sbc     WNDTOP
         tay
         rts

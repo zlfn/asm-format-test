@@ -1,10 +1,9 @@
 
-    SECTION bss_clib
+        SECTION bss_clib
 
-    PUBLIC  errno
-    PUBLIC  _errno
-
+        PUBLIC  errno
+        PUBLIC  _errno
 
 errno:
 _errno:
-    defb    0
+        defb    0

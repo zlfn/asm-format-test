@@ -13,7 +13,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT64
@@ -25,15 +25,14 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMathLShiftU64)
 ASM_PFX(InternalMathLShiftU64):
-    mov     cl, [esp + 12]
-    xor     eax, eax
-    mov     edx, [esp + 4]
-    test    cl, 32                      ; Count >= 32?
-    jnz     .0
-    mov     eax, edx
-    mov     edx, [esp + 8]
+        mov     cl,  [esp + 12]
+        xor     eax, eax
+        mov     edx, [esp + 4]
+        test    cl,  32 ; Count >= 32?
+        jnz     .0
+        mov     eax, edx
+        mov     edx, [esp + 8]
 .0:
-    shld    edx, eax, cl
-    shl     eax, cl
-    ret
-
+        shld    edx, eax, cl
+        shl     eax, cl
+        ret

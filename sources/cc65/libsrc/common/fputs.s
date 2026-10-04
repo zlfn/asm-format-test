@@ -4,13 +4,13 @@
 ; int __fastcall__ fputs (const char* s, register FILE* f)
 ;
 
-        .export         _fputs
-        .importzp       ptr1, ptr2
-        .import         _write, _strlen, checkferror
-        .import         swapstk, pushax, returnFFFF
+        .export _fputs
+        .importzp ptr1, ptr2
+        .import _write,  _strlen, checkferror
+        .import swapstk, pushax,  returnFFFF
 
-        .include        "stdio.inc"
-        .include        "_file.inc"
+        .include "stdio.inc"
+        .include "_file.inc"
 
 _fputs:
         sta     ptr1
@@ -21,13 +21,13 @@ _fputs:
 
         ; Push _write parameters
         ldy     #_FILE::f_fd
-        lda     (ptr1),y
+        lda     (ptr1), y
         ldx     #$00
-        jsr     swapstk         ; Push fd, get s
+        jsr     swapstk ; Push fd, get s
 
-        jsr     pushax          ; Push s
+        jsr     pushax  ; Push s
 
-        jsr     _strlen         ; Get length
+        jsr     _strlen ; Get length
 
         ; Write
         jmp     _write

@@ -1,7 +1,5 @@
 
+        SECTION bss_fp
+        PUBLIC  extra
 
-		SECTION	bss_fp
-		PUBLIC	extra
-
-extra:		defs	6
-
+extra:  defs    6

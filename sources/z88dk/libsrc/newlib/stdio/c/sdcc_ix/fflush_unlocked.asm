@@ -10,10 +10,10 @@ EXTERN _fflush_unlocked_fastcall
 
 _fflush_unlocked:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _fflush_unlocked_fastcall
+        push    hl
+        push    af
+
+        jp      _fflush_unlocked_fastcall

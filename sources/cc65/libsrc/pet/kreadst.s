@@ -4,9 +4,9 @@
 ; READST replacement function for the PETs
 ;
 
-        .export         READST
+        .export READST
 
-        .include        "pet.inc"
+        .include "pet.inc"
 
 .proc   READST
 

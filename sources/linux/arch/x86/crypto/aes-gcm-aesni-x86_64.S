@@ -129,18 +129,18 @@
 .section .rodata
 .p2align 4
 .Lbswap_mask:
-	.octa   0x000102030405060708090a0b0c0d0e0f
+        .octa   0x000102030405060708090a0b0c0d0e0f
 .Lgfpoly:
-	.quad	0xc200000000000000
+        .quad   0xc200000000000000
 .Lone:
-	.quad	1
+        .quad   1
 .Lgfpoly_and_internal_carrybit:
-	.octa	0xc2000000000000010000000000000001
-	// Loading 16 bytes from '.Lzeropad_mask + 16 - len' produces a mask of
-	// 'len' 0xff bytes and the rest zeroes.
+        .octa   0xc2000000000000010000000000000001
+        // Loading 16 bytes from '.Lzeropad_mask + 16 - len' produces a mask of
+        // 'len' 0xff bytes and the rest zeroes.
 .Lzeropad_mask:
-	.octa	0xffffffffffffffffffffffffffffffff
-	.octa	0
+        .octa   0xffffffffffffffffffffffffffffffff
+        .octa   0
 
 // Offsets in struct aes_gcm_key_aesni
 #define OFFSETOF_AESKEYLEN	0
@@ -155,10 +155,10 @@
 // assumes that all operands are distinct and that any mem operand is aligned.
 .macro	_vpclmulqdq	imm, src1, src2, dst
 .if USE_AVX
-	vpclmulqdq	\imm, \src1, \src2, \dst
+        vpclmulqdq \imm, \src1, \src2, \dst
 .else
-	movdqa		\src2, \dst
-	pclmulqdq	\imm, \src1, \dst
+        movdqa  \src2, \dst
+        pclmulqdq \imm, \src1, \dst
 .endif
 .endm
 
@@ -166,10 +166,10 @@
 // that all operands are distinct and that any mem operand is aligned.
 .macro	_vpshufb	src1, src2, dst
 .if USE_AVX
-	vpshufb		\src1, \src2, \dst
+        vpshufb \src1, \src2, \dst
 .else
-	movdqa		\src2, \dst
-	pshufb		\src1, \dst
+        movdqa  \src2, \dst
+        pshufb  \src1, \dst
 .endif
 .endm
 
@@ -177,10 +177,10 @@
 // all operands are distinct.
 .macro	_vpand		src1, src2, dst
 .if USE_AVX
-	vpand		\src1, \src2, \dst
+        vpand   \src1, \src2, \dst
 .else
-	movdqu		\src1, \dst
-	pand		\src2, \dst
+        movdqu  \src1, \dst
+        pand    \src2, \dst
 .endif
 .endm
 
@@ -188,10 +188,10 @@
 // be a temporary xmm register.
 .macro	_xor_mem_to_reg	mem, reg, tmp
 .if USE_AVX
-	vpxor		\mem, \reg, \reg
+        vpxor   \mem, \reg, \reg
 .else
-	movdqu		\mem, \tmp
-	pxor		\tmp, \reg
+        movdqu  \mem, \tmp
+        pxor    \tmp, \reg
 .endif
 .endm
 
@@ -199,88 +199,88 @@
 // must be a temporary xmm register.
 .macro	_test_mem	mem, reg, tmp
 .if USE_AVX
-	vptest		\mem, \reg
+        vptest  \mem, \reg
 .else
-	movdqu		\mem, \tmp
-	ptest		\tmp, \reg
+        movdqu  \mem, \tmp
+        ptest   \tmp, \reg
 .endif
 .endm
 
 // Load 1 <= %ecx <= 15 bytes from the pointer \src into the xmm register \dst
 // and zeroize any remaining bytes.  Clobbers %rax, %rcx, and \tmp{64,32}.
 .macro	_load_partial_block	src, dst, tmp64, tmp32
-	sub		$8, %ecx		// LEN - 8
-	jle		.Lle8\@
+        sub     $8, %ecx        // LEN - 8
+        jle     .Lle8\@
 
-	// Load 9 <= LEN <= 15 bytes.
-	movq		(\src), \dst		// Load first 8 bytes
-	mov		(\src, %rcx), %rax	// Load last 8 bytes
-	neg		%ecx
-	shl		$3, %ecx
-	shr		%cl, %rax		// Discard overlapping bytes
-	pinsrq		$1, %rax, \dst
-	jmp		.Ldone\@
+        // Load 9 <= LEN <= 15 bytes.
+        movq    (\src), \dst            // Load first 8 bytes
+        mov     (\src, %rcx), %rax      // Load last 8 bytes
+        neg     %ecx
+        shl     $3,  %ecx
+        shr     %cl, %rax               // Discard overlapping bytes
+        pinsrq  $1,  %rax, \dst
+        jmp     .Ldone\@
 
 .Lle8\@:
-	add		$4, %ecx		// LEN - 4
-	jl		.Llt4\@
+        add     $4, %ecx        // LEN - 4
+        jl      .Llt4\@
 
-	// Load 4 <= LEN <= 8 bytes.
-	mov		(\src), %eax		// Load first 4 bytes
-	mov		(\src, %rcx), \tmp32	// Load last 4 bytes
-	jmp		.Lcombine\@
+        // Load 4 <= LEN <= 8 bytes.
+        mov     (\src), %eax            // Load first 4 bytes
+        mov     (\src, %rcx), \tmp32    // Load last 4 bytes
+        jmp     .Lcombine\@
 
 .Llt4\@:
-	// Load 1 <= LEN <= 3 bytes.
-	add		$2, %ecx		// LEN - 2
-	movzbl		(\src), %eax		// Load first byte
-	jl		.Lmovq\@
-	movzwl		(\src, %rcx), \tmp32	// Load last 2 bytes
+        // Load 1 <= LEN <= 3 bytes.
+        add     $2,     %ecx            // LEN - 2
+        movzbl  (\src), %eax            // Load first byte
+        jl      .Lmovq\@
+        movzwl  (\src, %rcx), \tmp32    // Load last 2 bytes
 .Lcombine\@:
-	shl		$3, %ecx
-	shl		%cl, \tmp64
-	or		\tmp64, %rax		// Combine the two parts
+        shl     $3,     %ecx
+        shl     %cl,    \tmp64
+        or      \tmp64, %rax    // Combine the two parts
 .Lmovq\@:
-	movq		%rax, \dst
+        movq    %rax, \dst
 .Ldone\@:
 .endm
 
 // Store 1 <= %ecx <= 15 bytes from the xmm register \src to the pointer \dst.
 // Clobbers %rax, %rcx, and %rsi.
 .macro	_store_partial_block	src, dst
-	sub		$8, %ecx		// LEN - 8
-	jl		.Llt8\@
+        sub     $8, %ecx        // LEN - 8
+        jl      .Llt8\@
 
-	// Store 8 <= LEN <= 15 bytes.
-	pextrq		$1, \src, %rax
-	mov		%ecx, %esi
-	shl		$3, %ecx
-	ror		%cl, %rax
-	mov		%rax, (\dst, %rsi)	// Store last LEN - 8 bytes
-	movq		\src, (\dst)		// Store first 8 bytes
-	jmp		.Ldone\@
+        // Store 8 <= LEN <= 15 bytes.
+        pextrq  $1,   \src, %rax
+        mov     %ecx, %esi
+        shl     $3,   %ecx
+        ror     %cl,  %rax
+        mov     %rax, (\dst, %rsi)      // Store last LEN - 8 bytes
+        movq    \src, (\dst)            // Store first 8 bytes
+        jmp     .Ldone\@
 
 .Llt8\@:
-	add		$4, %ecx		// LEN - 4
-	jl		.Llt4\@
+        add     $4, %ecx        // LEN - 4
+        jl      .Llt4\@
 
-	// Store 4 <= LEN <= 7 bytes.
-	pextrd		$1, \src, %eax
-	mov		%ecx, %esi
-	shl		$3, %ecx
-	ror		%cl, %eax
-	mov		%eax, (\dst, %rsi)	// Store last LEN - 4 bytes
-	movd		\src, (\dst)		// Store first 4 bytes
-	jmp		.Ldone\@
+        // Store 4 <= LEN <= 7 bytes.
+        pextrd  $1,   \src, %eax
+        mov     %ecx, %esi
+        shl     $3,   %ecx
+        ror     %cl,  %eax
+        mov     %eax, (\dst, %rsi)      // Store last LEN - 4 bytes
+        movd    \src, (\dst)            // Store first 4 bytes
+        jmp     .Ldone\@
 
 .Llt4\@:
-	// Store 1 <= LEN <= 3 bytes.
-	pextrb		$0, \src, 0(\dst)
-	cmp		$-2, %ecx		// LEN - 4 == -2, i.e. LEN == 2?
-	jl		.Ldone\@
-	pextrb		$1, \src, 1(\dst)
-	je		.Ldone\@
-	pextrb		$2, \src, 2(\dst)
+        // Store 1 <= LEN <= 3 bytes.
+        pextrb  $0,  \src, 0(\dst)
+        cmp     $-2, %ecx       // LEN - 4 == -2, i.e. LEN == 2?
+        jl      .Ldone\@
+        pextrb  $1, \src, 1(\dst)
+        je      .Ldone\@
+        pextrb  $2, \src, 2(\dst)
 .Ldone\@:
 .endm
 
@@ -290,31 +290,31 @@
 // .Lgfpoly constant, and \t0-\t1 must be temporary registers.
 .macro	_ghash_mul_step	i, a, a_times_x64, b, gfpoly, t0, t1
 
-	// MI = (a_L * b_H) + ((a*x^64)_L * b_L)
+        // MI = (a_L * b_H) + ((a*x^64)_L * b_L)
 .if \i == 0
-	_vpclmulqdq	$0x01, \a, \b, \t0
+        _vpclmulqdq $0x01, \a, \b, \t0
 .elseif \i == 1
-	_vpclmulqdq	$0x00, \a_times_x64, \b, \t1
+        _vpclmulqdq $0x00, \a_times_x64, \b, \t1
 .elseif \i == 2
-	pxor		\t1, \t0
+        pxor    \t1, \t0
 
-	// HI = (a_H * b_H) + ((a*x^64)_H * b_L)
+        // HI = (a_H * b_H) + ((a*x^64)_H * b_L)
 .elseif \i == 3
-	_vpclmulqdq	$0x11, \a, \b, \t1
+        _vpclmulqdq $0x11, \a, \b, \t1
 .elseif \i == 4
-	pclmulqdq	$0x10, \a_times_x64, \b
+        pclmulqdq $0x10, \a_times_x64, \b
 .elseif \i == 5
-	pxor		\t1, \b
+        pxor    \t1, \b
 .elseif \i == 6
 
-	// Fold MI into HI.
-	pshufd		$0x4e, \t0, \t1		// Swap halves of MI
+        // Fold MI into HI.
+        pshufd  $0x4e, \t0, \t1 // Swap halves of MI
 .elseif \i == 7
-	pclmulqdq	$0x00, \gfpoly, \t0	// MI_L*(x^63 + x^62 + x^57)
+        pclmulqdq $0x00, \gfpoly, \t0   // MI_L*(x^63 + x^62 + x^57)
 .elseif \i == 8
-	pxor		\t1, \b
+        pxor    \t1, \b
 .elseif \i == 9
-	pxor		\t0, \b
+        pxor    \t0, \b
 .endif
 .endm
 
@@ -322,7 +322,7 @@
 // See _ghash_mul_step for details.
 .macro	_ghash_mul	a, a_times_x64, b, gfpoly, t0, t1
 .irp i, 0,1,2,3,4,5,6,7,8,9
-	_ghash_mul_step	\i, \a, \a_times_x64, \b, \gfpoly, \t0, \t1
+        _ghash_mul_step \i, \a, \a_times_x64, \b, \gfpoly, \t0, \t1
 .endr
 .endm
 
@@ -332,44 +332,44 @@
 // two halves of \a XOR'd together, i.e. a_L + a_H.  \b is clobbered.
 .macro	_ghash_mul_noreduce	a, a_xored, b, lo, mi, hi, t0
 
-	// LO += a_L * b_L
-	_vpclmulqdq	$0x00, \a, \b, \t0
-	pxor		\t0, \lo
+        // LO += a_L * b_L
+        _vpclmulqdq $0x00, \a, \b, \t0
+        pxor    \t0, \lo
 
-	// b_L + b_H
-	pshufd		$0x4e, \b, \t0
-	pxor		\b, \t0
+        // b_L + b_H
+        pshufd  $0x4e, \b, \t0
+        pxor    \b,    \t0
 
-	// HI += a_H * b_H
-	pclmulqdq	$0x11, \a, \b
-	pxor		\b, \hi
+        // HI += a_H * b_H
+        pclmulqdq $0x11, \a, \b
+        pxor    \b, \hi
 
-	// MI += (a_L + a_H) * (b_L + b_H)
-	pclmulqdq	$0x00, \a_xored, \t0
-	pxor		\t0, \mi
+        // MI += (a_L + a_H) * (b_L + b_H)
+        pclmulqdq $0x00, \a_xored, \t0
+        pxor    \t0, \mi
 .endm
 
 // Reduce the product from \lo, \mi, and \hi, and store the result in \dst.
 // This assumes that _ghash_mul_noreduce was used.
 .macro	_ghash_reduce	lo, mi, hi, dst, t0
 
-	movq		.Lgfpoly(%rip), \t0
+        movq    .Lgfpoly(%rip), \t0
 
-	// MI += LO + HI (needed because we used Karatsuba multiplication)
-	pxor		\lo, \mi
-	pxor		\hi, \mi
+        // MI += LO + HI (needed because we used Karatsuba multiplication)
+        pxor    \lo, \mi
+        pxor    \hi, \mi
 
-	// Fold LO into MI.
-	pshufd		$0x4e, \lo, \dst
-	pclmulqdq	$0x00, \t0, \lo
-	pxor		\dst, \mi
-	pxor		\lo, \mi
+        // Fold LO into MI.
+        pshufd  $0x4e, \lo, \dst
+        pclmulqdq $0x00, \t0, \lo
+        pxor    \dst, \mi
+        pxor    \lo,  \mi
 
-	// Fold MI into HI.
-	pshufd		$0x4e, \mi, \dst
-	pclmulqdq	$0x00, \t0, \mi
-	pxor		\hi, \dst
-	pxor		\mi, \dst
+        // Fold MI into HI.
+        pshufd  $0x4e, \mi, \dst
+        pclmulqdq $0x00, \t0, \mi
+        pxor    \hi, \dst
+        pxor    \mi, \dst
 .endm
 
 // Do the first step of the GHASH update of a set of 8 ciphertext blocks.
@@ -395,71 +395,71 @@
 // pointed to by KEY.  Both macros clobber TMP[0-2].
 .macro	_ghash_update_begin_8x	enc
 
-	// Initialize the inner block counter.
-	xor		%eax, %eax
+        // Initialize the inner block counter.
+        xor     %eax, %eax
 
-	// Load the highest hash key power, H^8.
-	movdqa		OFFSETOF_H_POWERS(KEY), TMP0
+        // Load the highest hash key power, H^8.
+        movdqa  OFFSETOF_H_POWERS(KEY), TMP0
 
-	// Load the first ciphertext block and byte-reflect it.
+        // Load the first ciphertext block and byte-reflect it.
 .if \enc
-	movdqu		(DST), TMP1
+        movdqu  (DST), TMP1
 .else
-	movdqu		(SRC), TMP1
+        movdqu  (SRC), TMP1
 .endif
-	pshufb		BSWAP_MASK, TMP1
+        pshufb  BSWAP_MASK, TMP1
 
-	// Add the GHASH accumulator to the ciphertext block to get the block
-	// 'b' that needs to be multiplied with the hash key power 'a'.
-	pxor		TMP1, GHASH_ACC
+        // Add the GHASH accumulator to the ciphertext block to get the block
+        // 'b' that needs to be multiplied with the hash key power 'a'.
+        pxor    TMP1, GHASH_ACC
 
-	// b_L + b_H
-	pshufd		$0x4e, GHASH_ACC, MI
-	pxor		GHASH_ACC, MI
+        // b_L + b_H
+        pshufd  $0x4e,     GHASH_ACC, MI
+        pxor    GHASH_ACC, MI
 
-	// LO = a_L * b_L
-	_vpclmulqdq	$0x00, TMP0, GHASH_ACC, LO
+        // LO = a_L * b_L
+        _vpclmulqdq $0x00, TMP0, GHASH_ACC, LO
 
-	// HI = a_H * b_H
-	pclmulqdq	$0x11, TMP0, GHASH_ACC
+        // HI = a_H * b_H
+        pclmulqdq $0x11, TMP0, GHASH_ACC
 
-	// MI = (a_L + a_H) * (b_L + b_H)
-	pclmulqdq	$0x00, OFFSETOF_H_POWERS_XORED(KEY), MI
+        // MI = (a_L + a_H) * (b_L + b_H)
+        pclmulqdq $0x00, OFFSETOF_H_POWERS_XORED(KEY), MI
 .endm
 
 // Continue the GHASH update of 8 ciphertext blocks as described above by doing
 // an unreduced multiplication of the next ciphertext block by the next lowest
 // key power and accumulating the result into LO, MI, and GHASH_ACC a.k.a. HI.
 .macro	_ghash_update_continue_8x enc
-	add		$8, %eax
+        add     $8, %eax
 
-	// Load the next lowest key power.
-	movdqa		OFFSETOF_H_POWERS(KEY,%rax,2), TMP0
+        // Load the next lowest key power.
+        movdqa  OFFSETOF_H_POWERS(KEY,%rax,2), TMP0
 
-	// Load the next ciphertext block and byte-reflect it.
+        // Load the next ciphertext block and byte-reflect it.
 .if \enc
-	movdqu		(DST,%rax,2), TMP1
+        movdqu  (DST,%rax,2), TMP1
 .else
-	movdqu		(SRC,%rax,2), TMP1
+        movdqu  (SRC,%rax,2), TMP1
 .endif
-	pshufb		BSWAP_MASK, TMP1
+        pshufb  BSWAP_MASK, TMP1
 
-	// LO += a_L * b_L
-	_vpclmulqdq	$0x00, TMP0, TMP1, TMP2
-	pxor		TMP2, LO
+        // LO += a_L * b_L
+        _vpclmulqdq $0x00, TMP0, TMP1, TMP2
+        pxor    TMP2, LO
 
-	// b_L + b_H
-	pshufd		$0x4e, TMP1, TMP2
-	pxor		TMP1, TMP2
+        // b_L + b_H
+        pshufd  $0x4e, TMP1, TMP2
+        pxor    TMP1,  TMP2
 
-	// HI += a_H * b_H
-	pclmulqdq	$0x11, TMP0, TMP1
-	pxor		TMP1, GHASH_ACC
+        // HI += a_H * b_H
+        pclmulqdq $0x11, TMP0, TMP1
+        pxor    TMP1, GHASH_ACC
 
-	// MI += (a_L + a_H) * (b_L + b_H)
-	movq		OFFSETOF_H_POWERS_XORED(KEY,%rax), TMP1
-	pclmulqdq	$0x00, TMP1, TMP2
-	pxor		TMP2, MI
+        // MI += (a_L + a_H) * (b_L + b_H)
+        movq    OFFSETOF_H_POWERS_XORED(KEY,%rax), TMP1
+        pclmulqdq $0x00, TMP1, TMP2
+        pxor    TMP2, MI
 .endm
 
 // Reduce LO, MI, and GHASH_ACC a.k.a. HI into GHASH_ACC.  This is similar to
@@ -472,18 +472,18 @@
 // increase the critical path length, and it seems to slightly hurt performance.
 .macro	_ghash_update_end_8x_step	i
 .if \i == 0
-	movq		.Lgfpoly(%rip), TMP1
-	pxor		LO, MI
-	pxor		GHASH_ACC, MI
-	pshufd		$0x4e, LO, TMP2
-	pclmulqdq	$0x00, TMP1, LO
-	pxor		TMP2, MI
-	pxor		LO, MI
+        movq    .Lgfpoly(%rip), TMP1
+        pxor    LO, MI
+        pxor    GHASH_ACC, MI
+        pshufd  $0x4e,     LO, TMP2
+        pclmulqdq $0x00, TMP1, LO
+        pxor    TMP2, MI
+        pxor    LO,   MI
 .elseif \i == 1
-	pshufd		$0x4e, MI, TMP2
-	pclmulqdq	$0x00, TMP1, MI
-	pxor		TMP2, GHASH_ACC
-	pxor		MI, GHASH_ACC
+        pshufd  $0x4e, MI, TMP2
+        pclmulqdq $0x00, TMP1, MI
+        pxor    TMP2, GHASH_ACC
+        pxor    MI,   GHASH_ACC
 .endif
 .endm
 
@@ -493,72 +493,72 @@
 // related fields in the key struct.
 .macro	_aes_gcm_precompute
 
-	// Function arguments
-	.set	KEY,		%rdi
+        // Function arguments
+        .set    KEY, %rdi
 
-	// Additional local variables.
-	// %xmm0-%xmm1 and %rax are used as temporaries.
-	.set	RNDKEYLAST_PTR,	%rsi
-	.set	H_CUR,		%xmm2
-	.set	H_POW1,		%xmm3	// H^1
-	.set	H_POW1_X64,	%xmm4	// H^1 * x^64
-	.set	GFPOLY,		%xmm5
+        // Additional local variables.
+        // %xmm0-%xmm1 and %rax are used as temporaries.
+        .set    RNDKEYLAST_PTR, %rsi
+        .set    H_CUR,  %xmm2
+        .set    H_POW1, %xmm3           // H^1
+        .set    H_POW1_X64, %xmm4       // H^1 * x^64
+        .set    GFPOLY,     %xmm5
 
-	// Encrypt an all-zeroes block to get the raw hash subkey.
-	movl		OFFSETOF_AESKEYLEN(KEY), %eax
-	lea		OFFSETOF_AESROUNDKEYS+6*16(KEY,%rax,4), RNDKEYLAST_PTR
-	movdqa		OFFSETOF_AESROUNDKEYS(KEY), H_POW1
-	lea		OFFSETOF_AESROUNDKEYS+16(KEY), %rax
+        // Encrypt an all-zeroes block to get the raw hash subkey.
+        movl    OFFSETOF_AESKEYLEN(KEY), %eax
+        lea     OFFSETOF_AESROUNDKEYS+6*16(KEY,%rax,4), RNDKEYLAST_PTR
+        movdqa  OFFSETOF_AESROUNDKEYS(KEY),    H_POW1
+        lea     OFFSETOF_AESROUNDKEYS+16(KEY), %rax
 1:
-	aesenc		(%rax), H_POW1
-	add		$16, %rax
-	cmp		%rax, RNDKEYLAST_PTR
-	jne		1b
-	aesenclast	(RNDKEYLAST_PTR), H_POW1
+        aesenc  (%rax), H_POW1
+        add     $16,    %rax
+        cmp     %rax,   RNDKEYLAST_PTR
+        jne     1b
+        aesenclast (RNDKEYLAST_PTR), H_POW1
 
-	// Preprocess the raw hash subkey as needed to operate on GHASH's
-	// bit-reflected values directly: reflect its bytes, then multiply it by
-	// x^-1 (using the backwards interpretation of polynomial coefficients
-	// from the GCM spec) or equivalently x^1 (using the alternative,
-	// natural interpretation of polynomial coefficients).
-	pshufb		.Lbswap_mask(%rip), H_POW1
-	movdqa		H_POW1, %xmm0
-	pshufd		$0xd3, %xmm0, %xmm0
-	psrad		$31, %xmm0
-	paddq		H_POW1, H_POW1
-	pand		.Lgfpoly_and_internal_carrybit(%rip), %xmm0
-	pxor		%xmm0, H_POW1
+        // Preprocess the raw hash subkey as needed to operate on GHASH's
+        // bit-reflected values directly: reflect its bytes, then multiply it by
+        // x^-1 (using the backwards interpretation of polynomial coefficients
+        // from the GCM spec) or equivalently x^1 (using the alternative,
+        // natural interpretation of polynomial coefficients).
+        pshufb  .Lbswap_mask(%rip), H_POW1
+        movdqa  H_POW1, %xmm0
+        pshufd  $0xd3,  %xmm0, %xmm0
+        psrad   $31,    %xmm0
+        paddq   H_POW1, H_POW1
+        pand    .Lgfpoly_and_internal_carrybit(%rip), %xmm0
+        pxor    %xmm0, H_POW1
 
-	// Store H^1.
-	movdqa		H_POW1, OFFSETOF_H_POWERS+7*16(KEY)
+        // Store H^1.
+        movdqa  H_POW1, OFFSETOF_H_POWERS+7*16(KEY)
 
-	// Compute and store H^1 * x^64.
-	movq		.Lgfpoly(%rip), GFPOLY
-	pshufd		$0x4e, H_POW1, %xmm0
-	_vpclmulqdq	$0x00, H_POW1, GFPOLY, H_POW1_X64
-	pxor		%xmm0, H_POW1_X64
-	movdqa		H_POW1_X64, OFFSETOF_H_TIMES_X64(KEY)
+        // Compute and store H^1 * x^64.
+        movq    .Lgfpoly(%rip), GFPOLY
+        pshufd  $0x4e, H_POW1, %xmm0
+        _vpclmulqdq $0x00, H_POW1, GFPOLY, H_POW1_X64
+        pxor    %xmm0, H_POW1_X64
+        movdqa  H_POW1_X64, OFFSETOF_H_TIMES_X64(KEY)
 
-	// Compute and store the halves of H^1 XOR'd together.
-	pxor		H_POW1, %xmm0
-	movq		%xmm0, OFFSETOF_H_POWERS_XORED+7*8(KEY)
+        // Compute and store the halves of H^1 XOR'd together.
+        pxor    H_POW1, %xmm0
+        movq    %xmm0,  OFFSETOF_H_POWERS_XORED+7*8(KEY)
 
-	// Compute and store the remaining key powers H^2 through H^8.
-	movdqa		H_POW1, H_CUR
-	mov		$6*8, %eax
+        // Compute and store the remaining key powers H^2 through H^8.
+        movdqa  H_POW1, H_CUR
+        mov     $6*8,   %eax
 .Lprecompute_next\@:
-	// Compute H^i = H^{i-1} * H^1.
-	_ghash_mul	H_POW1, H_POW1_X64, H_CUR, GFPOLY, %xmm0, %xmm1
-	// Store H^i.
-	movdqa		H_CUR, OFFSETOF_H_POWERS(KEY,%rax,2)
-	// Compute and store the halves of H^i XOR'd together.
-	pshufd		$0x4e, H_CUR, %xmm0
-	pxor		H_CUR, %xmm0
-	movq		%xmm0, OFFSETOF_H_POWERS_XORED(KEY,%rax)
-	sub		$8, %eax
-	jge		.Lprecompute_next\@
+        // Compute H^i = H^{i-1} * H^1.
+        _ghash_mul H_POW1, H_POW1_X64, H_CUR, GFPOLY, %xmm0, %xmm1
+        // Store H^i.
+        movdqa  H_CUR, OFFSETOF_H_POWERS(KEY,%rax,2)
+        // Compute and store the halves of H^i XOR'd together.
+        pshufd  $0x4e, H_CUR, %xmm0
+        pxor    H_CUR, %xmm0
+        movq    %xmm0, OFFSETOF_H_POWERS_XORED(KEY,%rax)
+        sub     $8,    %eax
+        jge     .Lprecompute_next\@
 
-	RET
+        RET
 .endm
 
 // void aes_gcm_aad_update_aesni(const struct aes_gcm_key_aesni *key,
@@ -571,79 +571,79 @@
 // can be any length.  The caller must do any buffering needed to ensure this.
 .macro	_aes_gcm_aad_update
 
-	// Function arguments
-	.set	KEY,		%rdi
-	.set	GHASH_ACC_PTR,	%rsi
-	.set	AAD,		%rdx
-	.set	AADLEN,		%ecx
-	// Note: _load_partial_block relies on AADLEN being in %ecx.
+        // Function arguments
+        .set    KEY, %rdi
+        .set    GHASH_ACC_PTR, %rsi
+        .set    AAD,    %rdx
+        .set    AADLEN, %ecx
+        // Note: _load_partial_block relies on AADLEN being in %ecx.
 
-	// Additional local variables.
-	// %rax, %r10, and %xmm0-%xmm1 are used as temporary registers.
-	.set	BSWAP_MASK,	%xmm2
-	.set	GHASH_ACC,	%xmm3
-	.set	H_POW1,		%xmm4	// H^1
-	.set	H_POW1_X64,	%xmm5	// H^1 * x^64
-	.set	GFPOLY,		%xmm6
+        // Additional local variables.
+        // %rax, %r10, and %xmm0-%xmm1 are used as temporary registers.
+        .set    BSWAP_MASK, %xmm2
+        .set    GHASH_ACC,  %xmm3
+        .set    H_POW1,     %xmm4       // H^1
+        .set    H_POW1_X64, %xmm5       // H^1 * x^64
+        .set    GFPOLY,     %xmm6
 
-	movdqa		.Lbswap_mask(%rip), BSWAP_MASK
-	movdqu		(GHASH_ACC_PTR), GHASH_ACC
-	movdqa		OFFSETOF_H_POWERS+7*16(KEY), H_POW1
-	movdqa		OFFSETOF_H_TIMES_X64(KEY), H_POW1_X64
-	movq		.Lgfpoly(%rip), GFPOLY
+        movdqa  .Lbswap_mask(%rip), BSWAP_MASK
+        movdqu  (GHASH_ACC_PTR),    GHASH_ACC
+        movdqa  OFFSETOF_H_POWERS+7*16(KEY), H_POW1
+        movdqa  OFFSETOF_H_TIMES_X64(KEY),   H_POW1_X64
+        movq    .Lgfpoly(%rip), GFPOLY
 
-	// Process the AAD one full block at a time.
-	sub		$16, AADLEN
-	jl		.Laad_loop_1x_done\@
+        // Process the AAD one full block at a time.
+        sub     $16, AADLEN
+        jl      .Laad_loop_1x_done\@
 .Laad_loop_1x\@:
-	movdqu		(AAD), %xmm0
-	pshufb		BSWAP_MASK, %xmm0
-	pxor		%xmm0, GHASH_ACC
-	_ghash_mul	H_POW1, H_POW1_X64, GHASH_ACC, GFPOLY, %xmm0, %xmm1
-	add		$16, AAD
-	sub		$16, AADLEN
-	jge		.Laad_loop_1x\@
+        movdqu  (AAD), %xmm0
+        pshufb  BSWAP_MASK, %xmm0
+        pxor    %xmm0, GHASH_ACC
+        _ghash_mul H_POW1, H_POW1_X64, GHASH_ACC, GFPOLY, %xmm0, %xmm1
+        add     $16, AAD
+        sub     $16, AADLEN
+        jge     .Laad_loop_1x\@
 .Laad_loop_1x_done\@:
-	// Check whether there is a partial block at the end.
-	add		$16, AADLEN
-	jz		.Laad_done\@
+        // Check whether there is a partial block at the end.
+        add     $16, AADLEN
+        jz      .Laad_done\@
 
-	// Process a partial block of length 1 <= AADLEN <= 15.
-	// _load_partial_block assumes that %ecx contains AADLEN.
-	_load_partial_block	AAD, %xmm0, %r10, %r10d
-	pshufb		BSWAP_MASK, %xmm0
-	pxor		%xmm0, GHASH_ACC
-	_ghash_mul	H_POW1, H_POW1_X64, GHASH_ACC, GFPOLY, %xmm0, %xmm1
+        // Process a partial block of length 1 <= AADLEN <= 15.
+        // _load_partial_block assumes that %ecx contains AADLEN.
+        _load_partial_block AAD, %xmm0, %r10, %r10d
+        pshufb  BSWAP_MASK, %xmm0
+        pxor    %xmm0, GHASH_ACC
+        _ghash_mul H_POW1, H_POW1_X64, GHASH_ACC, GFPOLY, %xmm0, %xmm1
 
 .Laad_done\@:
-	movdqu		GHASH_ACC, (GHASH_ACC_PTR)
-	RET
+        movdqu  GHASH_ACC, (GHASH_ACC_PTR)
+        RET
 .endm
 
 // Increment LE_CTR eight times to generate eight little-endian counter blocks,
 // swap each to big-endian, and store them in AESDATA[0-7].  Also XOR them with
 // the zero-th AES round key.  Clobbers TMP0 and TMP1.
 .macro	_ctr_begin_8x
-	movq		.Lone(%rip), TMP0
-	movdqa		OFFSETOF_AESROUNDKEYS(KEY), TMP1 // zero-th round key
+        movq    .Lone(%rip), TMP0
+        movdqa  OFFSETOF_AESROUNDKEYS(KEY), TMP1        // zero-th round key
 .irp i, 0,1,2,3,4,5,6,7
-	_vpshufb	BSWAP_MASK, LE_CTR, AESDATA\i
-	pxor		TMP1, AESDATA\i
-	paddd		TMP0, LE_CTR
+        _vpshufb BSWAP_MASK, LE_CTR, AESDATA\i
+        pxor    TMP1, AESDATA\i
+        paddd   TMP0, LE_CTR
 .endr
 .endm
 
 // Do a non-last round of AES on AESDATA[0-7] using \round_key.
 .macro	_aesenc_8x	round_key
 .irp i, 0,1,2,3,4,5,6,7
-	aesenc		\round_key, AESDATA\i
+        aesenc  \round_key, AESDATA\i
 .endr
 .endm
 
 // Do the last round of AES on AESDATA[0-7] using \round_key.
 .macro	_aesenclast_8x	round_key
 .irp i, 0,1,2,3,4,5,6,7
-	aesenclast	\round_key, AESDATA\i
+        aesenclast \round_key, AESDATA\i
 .endr
 .endm
 
@@ -651,10 +651,10 @@
 // store the result to DST.  Clobbers TMP0.
 .macro	_xor_data_8x
 .irp i, 0,1,2,3,4,5,6,7
-	_xor_mem_to_reg	\i*16(SRC), AESDATA\i, tmp=TMP0
+        _xor_mem_to_reg \i*16(SRC), AESDATA\i, tmp=TMP0
 .endr
 .irp i, 0,1,2,3,4,5,6,7
-	movdqu		AESDATA\i, \i*16(DST)
+        movdqu  AESDATA\i, \i*16(DST)
 .endr
 .endm
 
@@ -682,299 +682,299 @@
 // 32-bit word of the counter is incremented, following the GCM standard.
 .macro	_aes_gcm_update	enc
 
-	// Function arguments
-	.set	KEY,		%rdi
-	.set	LE_CTR_PTR,	%rsi	// Note: overlaps with usage as temp reg
-	.set	GHASH_ACC_PTR,	%rdx
-	.set	SRC,		%rcx
-	.set	DST,		%r8
-	.set	DATALEN,	%r9d
-	.set	DATALEN64,	%r9	// Zero-extend DATALEN before using!
-	// Note: the code setting up for _load_partial_block assumes that SRC is
-	// in %rcx (and that DATALEN is *not* in %rcx).
+        // Function arguments
+        .set    KEY, %rdi
+        .set    LE_CTR_PTR,    %rsi     // Note: overlaps with usage as temp reg
+        .set    GHASH_ACC_PTR, %rdx
+        .set    SRC,     %rcx
+        .set    DST,     %r8
+        .set    DATALEN, %r9d
+        .set    DATALEN64, %r9          // Zero-extend DATALEN before using!
+        // Note: the code setting up for _load_partial_block assumes that SRC is
+        // in %rcx (and that DATALEN is *not* in %rcx).
 
-	// Additional local variables
+        // Additional local variables
 
-	// %rax and %rsi are used as temporary registers.  Note: %rsi overlaps
-	// with LE_CTR_PTR, which is used only at the beginning.
+        // %rax and %rsi are used as temporary registers.  Note: %rsi overlaps
+        // with LE_CTR_PTR, which is used only at the beginning.
 
-	.set	AESKEYLEN,	%r10d	// AES key length in bytes
-	.set	AESKEYLEN64,	%r10
-	.set	RNDKEYLAST_PTR,	%r11	// Pointer to last AES round key
+        .set    AESKEYLEN,   %r10d      // AES key length in bytes
+        .set    AESKEYLEN64, %r10
+        .set    RNDKEYLAST_PTR, %r11    // Pointer to last AES round key
 
-	// Put the most frequently used values in %xmm0-%xmm7 to reduce code
-	// size.  (%xmm0-%xmm7 take fewer bytes to encode than %xmm8-%xmm15.)
-	.set	TMP0,		%xmm0
-	.set	TMP1,		%xmm1
-	.set	TMP2,		%xmm2
-	.set	LO,		%xmm3	// Low part of unreduced product
-	.set	MI,		%xmm4	// Middle part of unreduced product
-	.set	GHASH_ACC,	%xmm5	// GHASH accumulator; in main loop also
-					// the high part of unreduced product
-	.set	BSWAP_MASK,	%xmm6	// Shuffle mask for reflecting bytes
-	.set	LE_CTR,		%xmm7	// Little-endian counter value
-	.set	AESDATA0,	%xmm8
-	.set	AESDATA1,	%xmm9
-	.set	AESDATA2,	%xmm10
-	.set	AESDATA3,	%xmm11
-	.set	AESDATA4,	%xmm12
-	.set	AESDATA5,	%xmm13
-	.set	AESDATA6,	%xmm14
-	.set	AESDATA7,	%xmm15
+        // Put the most frequently used values in %xmm0-%xmm7 to reduce code
+        // size.  (%xmm0-%xmm7 take fewer bytes to encode than %xmm8-%xmm15.)
+        .set    TMP0, %xmm0
+        .set    TMP1, %xmm1
+        .set    TMP2, %xmm2
+        .set    LO,   %xmm3             // Low part of unreduced product
+        .set    MI,   %xmm4             // Middle part of unreduced product
+        .set    GHASH_ACC, %xmm5        // GHASH accumulator; in main loop also
+                                        // the high part of unreduced product
+        .set    BSWAP_MASK, %xmm6       // Shuffle mask for reflecting bytes
+        .set    LE_CTR,     %xmm7       // Little-endian counter value
+        .set    AESDATA0,   %xmm8
+        .set    AESDATA1,   %xmm9
+        .set    AESDATA2,   %xmm10
+        .set    AESDATA3,   %xmm11
+        .set    AESDATA4,   %xmm12
+        .set    AESDATA5,   %xmm13
+        .set    AESDATA6,   %xmm14
+        .set    AESDATA7,   %xmm15
 
-	movdqa		.Lbswap_mask(%rip), BSWAP_MASK
-	movdqu		(GHASH_ACC_PTR), GHASH_ACC
-	movdqu		(LE_CTR_PTR), LE_CTR
+        movdqa  .Lbswap_mask(%rip), BSWAP_MASK
+        movdqu  (GHASH_ACC_PTR),    GHASH_ACC
+        movdqu  (LE_CTR_PTR), LE_CTR
 
-	movl		OFFSETOF_AESKEYLEN(KEY), AESKEYLEN
-	lea		OFFSETOF_AESROUNDKEYS+6*16(KEY,AESKEYLEN64,4), RNDKEYLAST_PTR
+        movl    OFFSETOF_AESKEYLEN(KEY), AESKEYLEN
+        lea     OFFSETOF_AESROUNDKEYS+6*16(KEY,AESKEYLEN64,4), RNDKEYLAST_PTR
 
-	// If there are at least 8*16 bytes of data, then continue into the main
-	// loop, which processes 8*16 bytes of data per iteration.
-	//
-	// The main loop interleaves AES and GHASH to improve performance on
-	// CPUs that can execute these instructions in parallel.  When
-	// decrypting, the GHASH input (the ciphertext) is immediately
-	// available.  When encrypting, we instead encrypt a set of 8 blocks
-	// first and then GHASH those blocks while encrypting the next set of 8,
-	// repeat that as needed, and finally GHASH the last set of 8 blocks.
-	//
-	// Code size optimization: Prefer adding or subtracting -8*16 over 8*16,
-	// as this makes the immediate fit in a signed byte, saving 3 bytes.
-	add		$-8*16, DATALEN
-	jl		.Lcrypt_loop_8x_done\@
+        // If there are at least 8*16 bytes of data, then continue into the main
+        // loop, which processes 8*16 bytes of data per iteration.
+        //
+        // The main loop interleaves AES and GHASH to improve performance on
+        // CPUs that can execute these instructions in parallel.  When
+        // decrypting, the GHASH input (the ciphertext) is immediately
+        // available.  When encrypting, we instead encrypt a set of 8 blocks
+        // first and then GHASH those blocks while encrypting the next set of 8,
+        // repeat that as needed, and finally GHASH the last set of 8 blocks.
+        //
+        // Code size optimization: Prefer adding or subtracting -8*16 over 8*16,
+        // as this makes the immediate fit in a signed byte, saving 3 bytes.
+        add     $-8*16, DATALEN
+        jl      .Lcrypt_loop_8x_done\@
 .if \enc
-	// Encrypt the first 8 plaintext blocks.
-	_ctr_begin_8x
-	lea		OFFSETOF_AESROUNDKEYS+16(KEY), %rsi
-	.p2align 4
+        // Encrypt the first 8 plaintext blocks.
+        _ctr_begin_8x
+        lea     OFFSETOF_AESROUNDKEYS+16(KEY), %rsi
+        .p2align 4
 1:
-	movdqa		(%rsi), TMP0
-	_aesenc_8x	TMP0
-	add		$16, %rsi
-	cmp		%rsi, RNDKEYLAST_PTR
-	jne		1b
-	movdqa		(%rsi), TMP0
-	_aesenclast_8x	TMP0
-	_xor_data_8x
-	// Don't increment DST until the ciphertext blocks have been hashed.
-	sub		$-8*16, SRC
-	add		$-8*16, DATALEN
-	jl		.Lghash_last_ciphertext_8x\@
+        movdqa  (%rsi), TMP0
+        _aesenc_8x TMP0
+        add     $16,  %rsi
+        cmp     %rsi, RNDKEYLAST_PTR
+        jne     1b
+        movdqa  (%rsi), TMP0
+        _aesenclast_8x TMP0
+        _xor_data_8x
+        // Don't increment DST until the ciphertext blocks have been hashed.
+        sub     $-8*16, SRC
+        add     $-8*16, DATALEN
+        jl      .Lghash_last_ciphertext_8x\@
 .endif
 
-	.p2align 4
+        .p2align 4
 .Lcrypt_loop_8x\@:
 
-	// Generate the next set of 8 counter blocks and start encrypting them.
-	_ctr_begin_8x
-	lea		OFFSETOF_AESROUNDKEYS+16(KEY), %rsi
+        // Generate the next set of 8 counter blocks and start encrypting them.
+        _ctr_begin_8x
+        lea     OFFSETOF_AESROUNDKEYS+16(KEY), %rsi
 
-	// Do a round of AES, and start the GHASH update of 8 ciphertext blocks
-	// by doing the unreduced multiplication for the first ciphertext block.
-	movdqa		(%rsi), TMP0
-	add		$16, %rsi
-	_aesenc_8x	TMP0
-	_ghash_update_begin_8x \enc
+        // Do a round of AES, and start the GHASH update of 8 ciphertext blocks
+        // by doing the unreduced multiplication for the first ciphertext block.
+        movdqa  (%rsi), TMP0
+        add     $16,    %rsi
+        _aesenc_8x TMP0
+        _ghash_update_begin_8x \enc
 
-	// Do 7 more rounds of AES, and continue the GHASH update by doing the
-	// unreduced multiplication for the remaining ciphertext blocks.
-	.p2align 4
+        // Do 7 more rounds of AES, and continue the GHASH update by doing the
+        // unreduced multiplication for the remaining ciphertext blocks.
+        .p2align 4
 1:
-	movdqa		(%rsi), TMP0
-	add		$16, %rsi
-	_aesenc_8x	TMP0
-	_ghash_update_continue_8x \enc
-	cmp		$7*8, %eax
-	jne		1b
+        movdqa  (%rsi), TMP0
+        add     $16,    %rsi
+        _aesenc_8x TMP0
+        _ghash_update_continue_8x \enc
+        cmp     $7*8, %eax
+        jne     1b
 
-	// Do the remaining AES rounds.
-	.p2align 4
+        // Do the remaining AES rounds.
+        .p2align 4
 1:
-	movdqa		(%rsi), TMP0
-	add		$16, %rsi
-	_aesenc_8x	TMP0
-	cmp		%rsi, RNDKEYLAST_PTR
-	jne		1b
+        movdqa  (%rsi), TMP0
+        add     $16,    %rsi
+        _aesenc_8x TMP0
+        cmp     %rsi, RNDKEYLAST_PTR
+        jne     1b
 
-	// Do the GHASH reduction and the last round of AES.
-	movdqa		(RNDKEYLAST_PTR), TMP0
-	_ghash_update_end_8x_step	0
-	_aesenclast_8x	TMP0
-	_ghash_update_end_8x_step	1
+        // Do the GHASH reduction and the last round of AES.
+        movdqa  (RNDKEYLAST_PTR), TMP0
+        _ghash_update_end_8x_step 0
+        _aesenclast_8x TMP0
+        _ghash_update_end_8x_step 1
 
-	// XOR the data with the AES-CTR keystream blocks.
+        // XOR the data with the AES-CTR keystream blocks.
 .if \enc
-	sub		$-8*16, DST
+        sub     $-8*16, DST
 .endif
-	_xor_data_8x
-	sub		$-8*16, SRC
+        _xor_data_8x
+        sub     $-8*16, SRC
 .if !\enc
-	sub		$-8*16, DST
+        sub     $-8*16, DST
 .endif
-	add		$-8*16, DATALEN
-	jge		.Lcrypt_loop_8x\@
+        add     $-8*16, DATALEN
+        jge     .Lcrypt_loop_8x\@
 
 .if \enc
 .Lghash_last_ciphertext_8x\@:
-	// Update GHASH with the last set of 8 ciphertext blocks.
-	_ghash_update_begin_8x		\enc
-	.p2align 4
+        // Update GHASH with the last set of 8 ciphertext blocks.
+        _ghash_update_begin_8x \enc
+        .p2align 4
 1:
-	_ghash_update_continue_8x	\enc
-	cmp		$7*8, %eax
-	jne		1b
-	_ghash_update_end_8x_step	0
-	_ghash_update_end_8x_step	1
-	sub		$-8*16, DST
+        _ghash_update_continue_8x \enc
+        cmp     $7*8, %eax
+        jne     1b
+        _ghash_update_end_8x_step 0
+        _ghash_update_end_8x_step 1
+        sub     $-8*16, DST
 .endif
 
 .Lcrypt_loop_8x_done\@:
 
-	sub		$-8*16, DATALEN
-	jz		.Ldone\@
+        sub     $-8*16, DATALEN
+        jz      .Ldone\@
 
-	// Handle the remainder of length 1 <= DATALEN < 8*16 bytes.  We keep
-	// things simple and keep the code size down by just going one block at
-	// a time, again taking advantage of hardware loop unrolling.  Since
-	// there are enough key powers available for all remaining data, we do
-	// the GHASH multiplications unreduced, and only reduce at the very end.
+        // Handle the remainder of length 1 <= DATALEN < 8*16 bytes.  We keep
+        // things simple and keep the code size down by just going one block at
+        // a time, again taking advantage of hardware loop unrolling.  Since
+        // there are enough key powers available for all remaining data, we do
+        // the GHASH multiplications unreduced, and only reduce at the very end.
 
-	.set	HI,		TMP2
-	.set	H_POW,		AESDATA0
-	.set	H_POW_XORED,	AESDATA1
-	.set	ONE,		AESDATA2
+        .set    HI,    TMP2
+        .set    H_POW, AESDATA0
+        .set    H_POW_XORED, AESDATA1
+        .set    ONE, AESDATA2
 
-	movq		.Lone(%rip), ONE
+        movq    .Lone(%rip), ONE
 
-	// Start collecting the unreduced GHASH intermediate value LO, MI, HI.
-	pxor		LO, LO
-	pxor		MI, MI
-	pxor		HI, HI
+        // Start collecting the unreduced GHASH intermediate value LO, MI, HI.
+        pxor    LO, LO
+        pxor    MI, MI
+        pxor    HI, HI
 
-	// Set up a block counter %rax to contain 8*(8-n), where n is the number
-	// of blocks that remain, counting any partial block.  This will be used
-	// to access the key powers H^n through H^1.
-	mov		DATALEN, %eax
-	neg		%eax
-	and		$~15, %eax
-	sar		$1, %eax
-	add		$64, %eax
+        // Set up a block counter %rax to contain 8*(8-n), where n is the number
+        // of blocks that remain, counting any partial block.  This will be used
+        // to access the key powers H^n through H^1.
+        mov     DATALEN, %eax
+        neg     %eax
+        and     $~15, %eax
+        sar     $1,   %eax
+        add     $64,  %eax
 
-	sub		$16, DATALEN
-	jl		.Lcrypt_loop_1x_done\@
+        sub     $16, DATALEN
+        jl      .Lcrypt_loop_1x_done\@
 
-	// Process the data one full block at a time.
+        // Process the data one full block at a time.
 .Lcrypt_loop_1x\@:
 
-	// Encrypt the next counter block.
-	_vpshufb	BSWAP_MASK, LE_CTR, TMP0
-	paddd		ONE, LE_CTR
-	pxor		OFFSETOF_AESROUNDKEYS(KEY), TMP0
-	lea		-6*16(RNDKEYLAST_PTR), %rsi	// Reduce code size
-	cmp		$24, AESKEYLEN
-	jl		128f	// AES-128?
-	je		192f	// AES-192?
-	// AES-256
-	aesenc		-7*16(%rsi), TMP0
-	aesenc		-6*16(%rsi), TMP0
+        // Encrypt the next counter block.
+        _vpshufb BSWAP_MASK, LE_CTR, TMP0
+        paddd   ONE, LE_CTR
+        pxor    OFFSETOF_AESROUNDKEYS(KEY), TMP0
+        lea     -6*16(RNDKEYLAST_PTR), %rsi     // Reduce code size
+        cmp     $24, AESKEYLEN
+        jl      128f                            // AES-128?
+        je      192f                            // AES-192?
+        // AES-256
+        aesenc  -7*16(%rsi), TMP0
+        aesenc  -6*16(%rsi), TMP0
 192:
-	aesenc		-5*16(%rsi), TMP0
-	aesenc		-4*16(%rsi), TMP0
+        aesenc  -5*16(%rsi), TMP0
+        aesenc  -4*16(%rsi), TMP0
 128:
 .irp i, -3,-2,-1,0,1,2,3,4,5
-	aesenc		\i*16(%rsi), TMP0
+        aesenc  \i*16(%rsi), TMP0
 .endr
-	aesenclast	(RNDKEYLAST_PTR), TMP0
+        aesenclast (RNDKEYLAST_PTR), TMP0
 
-	// Load the next key power H^i.
-	movdqa		OFFSETOF_H_POWERS(KEY,%rax,2), H_POW
-	movq		OFFSETOF_H_POWERS_XORED(KEY,%rax), H_POW_XORED
+        // Load the next key power H^i.
+        movdqa  OFFSETOF_H_POWERS(KEY,%rax,2),     H_POW
+        movq    OFFSETOF_H_POWERS_XORED(KEY,%rax), H_POW_XORED
 
-	// XOR the keystream block that was just generated in TMP0 with the next
-	// source data block and store the resulting en/decrypted data to DST.
+        // XOR the keystream block that was just generated in TMP0 with the next
+        // source data block and store the resulting en/decrypted data to DST.
 .if \enc
-	_xor_mem_to_reg	(SRC), TMP0, tmp=TMP1
-	movdqu		TMP0, (DST)
+        _xor_mem_to_reg (SRC), TMP0, tmp=TMP1
+        movdqu  TMP0, (DST)
 .else
-	movdqu		(SRC), TMP1
-	pxor		TMP1, TMP0
-	movdqu		TMP0, (DST)
+        movdqu  (SRC), TMP1
+        pxor    TMP1,  TMP0
+        movdqu  TMP0,  (DST)
 .endif
 
-	// Update GHASH with the ciphertext block.
+        // Update GHASH with the ciphertext block.
 .if \enc
-	pshufb		BSWAP_MASK, TMP0
-	pxor		TMP0, GHASH_ACC
+        pshufb  BSWAP_MASK, TMP0
+        pxor    TMP0, GHASH_ACC
 .else
-	pshufb		BSWAP_MASK, TMP1
-	pxor		TMP1, GHASH_ACC
+        pshufb  BSWAP_MASK, TMP1
+        pxor    TMP1, GHASH_ACC
 .endif
-	_ghash_mul_noreduce	H_POW, H_POW_XORED, GHASH_ACC, LO, MI, HI, TMP0
-	pxor		GHASH_ACC, GHASH_ACC
+        _ghash_mul_noreduce H_POW, H_POW_XORED, GHASH_ACC, LO, MI, HI, TMP0
+        pxor    GHASH_ACC, GHASH_ACC
 
-	add		$8, %eax
-	add		$16, SRC
-	add		$16, DST
-	sub		$16, DATALEN
-	jge		.Lcrypt_loop_1x\@
+        add     $8,  %eax
+        add     $16, SRC
+        add     $16, DST
+        sub     $16, DATALEN
+        jge     .Lcrypt_loop_1x\@
 .Lcrypt_loop_1x_done\@:
-	// Check whether there is a partial block at the end.
-	add		$16, DATALEN
-	jz		.Lghash_reduce\@
+        // Check whether there is a partial block at the end.
+        add     $16, DATALEN
+        jz      .Lghash_reduce\@
 
-	// Process a partial block of length 1 <= DATALEN <= 15.
+        // Process a partial block of length 1 <= DATALEN <= 15.
 
-	// Encrypt a counter block for the last time.
-	pshufb		BSWAP_MASK, LE_CTR
-	pxor		OFFSETOF_AESROUNDKEYS(KEY), LE_CTR
-	lea		OFFSETOF_AESROUNDKEYS+16(KEY), %rsi
+        // Encrypt a counter block for the last time.
+        pshufb  BSWAP_MASK, LE_CTR
+        pxor    OFFSETOF_AESROUNDKEYS(KEY),    LE_CTR
+        lea     OFFSETOF_AESROUNDKEYS+16(KEY), %rsi
 1:
-	aesenc		(%rsi), LE_CTR
-	add		$16, %rsi
-	cmp		%rsi, RNDKEYLAST_PTR
-	jne		1b
-	aesenclast	(RNDKEYLAST_PTR), LE_CTR
+        aesenc  (%rsi), LE_CTR
+        add     $16,    %rsi
+        cmp     %rsi,   RNDKEYLAST_PTR
+        jne     1b
+        aesenclast (RNDKEYLAST_PTR), LE_CTR
 
-	// Load the lowest key power, H^1.
-	movdqa		OFFSETOF_H_POWERS(KEY,%rax,2), H_POW
-	movq		OFFSETOF_H_POWERS_XORED(KEY,%rax), H_POW_XORED
+        // Load the lowest key power, H^1.
+        movdqa  OFFSETOF_H_POWERS(KEY,%rax,2),     H_POW
+        movq    OFFSETOF_H_POWERS_XORED(KEY,%rax), H_POW_XORED
 
-	// Load and zero-pad 1 <= DATALEN <= 15 bytes of data from SRC.  SRC is
-	// in %rcx, but _load_partial_block needs DATALEN in %rcx instead.
-	// RNDKEYLAST_PTR is no longer needed, so reuse it for SRC.
-	mov		SRC, RNDKEYLAST_PTR
-	mov		DATALEN, %ecx
-	_load_partial_block	RNDKEYLAST_PTR, TMP0, %rsi, %esi
+        // Load and zero-pad 1 <= DATALEN <= 15 bytes of data from SRC.  SRC is
+        // in %rcx, but _load_partial_block needs DATALEN in %rcx instead.
+        // RNDKEYLAST_PTR is no longer needed, so reuse it for SRC.
+        mov     SRC,     RNDKEYLAST_PTR
+        mov     DATALEN, %ecx
+        _load_partial_block RNDKEYLAST_PTR, TMP0, %rsi, %esi
 
-	// XOR the keystream block that was just generated in LE_CTR with the
-	// source data block and store the resulting en/decrypted data to DST.
-	pxor		TMP0, LE_CTR
-	mov		DATALEN, %ecx
-	_store_partial_block	LE_CTR, DST
+        // XOR the keystream block that was just generated in LE_CTR with the
+        // source data block and store the resulting en/decrypted data to DST.
+        pxor    TMP0,    LE_CTR
+        mov     DATALEN, %ecx
+        _store_partial_block LE_CTR, DST
 
-	// If encrypting, zero-pad the final ciphertext block for GHASH.  (If
-	// decrypting, this was already done by _load_partial_block.)
+        // If encrypting, zero-pad the final ciphertext block for GHASH.  (If
+        // decrypting, this was already done by _load_partial_block.)
 .if \enc
-	lea		.Lzeropad_mask+16(%rip), %rax
-	sub		DATALEN64, %rax
-	_vpand		(%rax), LE_CTR, TMP0
+        lea     .Lzeropad_mask+16(%rip), %rax
+        sub     DATALEN64, %rax
+        _vpand  (%rax),    LE_CTR, TMP0
 .endif
 
-	// Update GHASH with the final ciphertext block.
-	pshufb		BSWAP_MASK, TMP0
-	pxor		TMP0, GHASH_ACC
-	_ghash_mul_noreduce	H_POW, H_POW_XORED, GHASH_ACC, LO, MI, HI, TMP0
+        // Update GHASH with the final ciphertext block.
+        pshufb  BSWAP_MASK, TMP0
+        pxor    TMP0, GHASH_ACC
+        _ghash_mul_noreduce H_POW, H_POW_XORED, GHASH_ACC, LO, MI, HI, TMP0
 
 .Lghash_reduce\@:
-	// Finally, do the GHASH reduction.
-	_ghash_reduce	LO, MI, HI, GHASH_ACC, TMP0
+        // Finally, do the GHASH reduction.
+        _ghash_reduce LO, MI, HI, GHASH_ACC, TMP0
 
 .Ldone\@:
-	// Store the updated GHASH accumulator back to memory.
-	movdqu		GHASH_ACC, (GHASH_ACC_PTR)
+        // Store the updated GHASH accumulator back to memory.
+        movdqu  GHASH_ACC, (GHASH_ACC_PTR)
 
-	RET
+        RET
 .endm
 
 // void aes_gcm_enc_final_##suffix(const struct aes_gcm_key_aesni *key,
@@ -998,132 +998,132 @@
 // computed tag in constant time, and returns true if and only if they match.
 .macro	_aes_gcm_final	enc
 
-	// Function arguments
-	.set	KEY,		%rdi
-	.set	LE_CTR_PTR,	%rsi
-	.set	GHASH_ACC_PTR,	%rdx
-	.set	TOTAL_AADLEN,	%rcx
-	.set	TOTAL_DATALEN,	%r8
-	.set	TAG,		%r9
-	.set	TAGLEN,		%r10d	// Originally at 8(%rsp)
-	.set	TAGLEN64,	%r10
+        // Function arguments
+        .set    KEY, %rdi
+        .set    LE_CTR_PTR,    %rsi
+        .set    GHASH_ACC_PTR, %rdx
+        .set    TOTAL_AADLEN,  %rcx
+        .set    TOTAL_DATALEN, %r8
+        .set    TAG,    %r9
+        .set    TAGLEN, %r10d   // Originally at 8(%rsp)
+        .set    TAGLEN64, %r10
 
-	// Additional local variables.
-	// %rax and %xmm0-%xmm2 are used as temporary registers.
-	.set	AESKEYLEN,	%r11d
-	.set	AESKEYLEN64,	%r11
-	.set	BSWAP_MASK,	%xmm3
-	.set	GHASH_ACC,	%xmm4
-	.set	H_POW1,		%xmm5	// H^1
-	.set	H_POW1_X64,	%xmm6	// H^1 * x^64
-	.set	GFPOLY,		%xmm7
+        // Additional local variables.
+        // %rax and %xmm0-%xmm2 are used as temporary registers.
+        .set    AESKEYLEN,   %r11d
+        .set    AESKEYLEN64, %r11
+        .set    BSWAP_MASK,  %xmm3
+        .set    GHASH_ACC,   %xmm4
+        .set    H_POW1,     %xmm5       // H^1
+        .set    H_POW1_X64, %xmm6       // H^1 * x^64
+        .set    GFPOLY,     %xmm7
 
-	movdqa		.Lbswap_mask(%rip), BSWAP_MASK
-	movl		OFFSETOF_AESKEYLEN(KEY), AESKEYLEN
+        movdqa  .Lbswap_mask(%rip), BSWAP_MASK
+        movl    OFFSETOF_AESKEYLEN(KEY), AESKEYLEN
 
-	// Set up a counter block with 1 in the low 32-bit word.  This is the
-	// counter that produces the ciphertext needed to encrypt the auth tag.
-	movdqu		(LE_CTR_PTR), %xmm0
-	mov		$1, %eax
-	pinsrd		$0, %eax, %xmm0
+        // Set up a counter block with 1 in the low 32-bit word.  This is the
+        // counter that produces the ciphertext needed to encrypt the auth tag.
+        movdqu  (LE_CTR_PTR), %xmm0
+        mov     $1, %eax
+        pinsrd  $0, %eax, %xmm0
 
-	// Build the lengths block and XOR it into the GHASH accumulator.
-	movq		TOTAL_DATALEN, GHASH_ACC
-	pinsrq		$1, TOTAL_AADLEN, GHASH_ACC
-	psllq		$3, GHASH_ACC	// Bytes to bits
-	_xor_mem_to_reg	(GHASH_ACC_PTR), GHASH_ACC, %xmm1
+        // Build the lengths block and XOR it into the GHASH accumulator.
+        movq    TOTAL_DATALEN, GHASH_ACC
+        pinsrq  $1, TOTAL_AADLEN, GHASH_ACC
+        psllq   $3, GHASH_ACC   // Bytes to bits
+        _xor_mem_to_reg (GHASH_ACC_PTR), GHASH_ACC, %xmm1
 
-	movdqa		OFFSETOF_H_POWERS+7*16(KEY), H_POW1
-	movdqa		OFFSETOF_H_TIMES_X64(KEY), H_POW1_X64
-	movq		.Lgfpoly(%rip), GFPOLY
+        movdqa  OFFSETOF_H_POWERS+7*16(KEY), H_POW1
+        movdqa  OFFSETOF_H_TIMES_X64(KEY),   H_POW1_X64
+        movq    .Lgfpoly(%rip), GFPOLY
 
-	// Make %rax point to the 6th from last AES round key.  (Using signed
-	// byte offsets -7*16 through 6*16 decreases code size.)
-	lea		OFFSETOF_AESROUNDKEYS(KEY,AESKEYLEN64,4), %rax
+        // Make %rax point to the 6th from last AES round key.  (Using signed
+        // byte offsets -7*16 through 6*16 decreases code size.)
+        lea     OFFSETOF_AESROUNDKEYS(KEY,AESKEYLEN64,4), %rax
 
-	// AES-encrypt the counter block and also multiply GHASH_ACC by H^1.
-	// Interleave the AES and GHASH instructions to improve performance.
-	pshufb		BSWAP_MASK, %xmm0
-	pxor		OFFSETOF_AESROUNDKEYS(KEY), %xmm0
-	cmp		$24, AESKEYLEN
-	jl		128f	// AES-128?
-	je		192f	// AES-192?
-	// AES-256
-	aesenc		-7*16(%rax), %xmm0
-	aesenc		-6*16(%rax), %xmm0
+        // AES-encrypt the counter block and also multiply GHASH_ACC by H^1.
+        // Interleave the AES and GHASH instructions to improve performance.
+        pshufb  BSWAP_MASK, %xmm0
+        pxor    OFFSETOF_AESROUNDKEYS(KEY), %xmm0
+        cmp     $24, AESKEYLEN
+        jl      128f    // AES-128?
+        je      192f    // AES-192?
+        // AES-256
+        aesenc  -7*16(%rax), %xmm0
+        aesenc  -6*16(%rax), %xmm0
 192:
-	aesenc		-5*16(%rax), %xmm0
-	aesenc		-4*16(%rax), %xmm0
+        aesenc  -5*16(%rax), %xmm0
+        aesenc  -4*16(%rax), %xmm0
 128:
 .irp i, 0,1,2,3,4,5,6,7,8
-	aesenc		(\i-3)*16(%rax), %xmm0
-	_ghash_mul_step	\i, H_POW1, H_POW1_X64, GHASH_ACC, GFPOLY, %xmm1, %xmm2
+        aesenc  (\i-3)*16(%rax), %xmm0
+        _ghash_mul_step \i, H_POW1, H_POW1_X64, GHASH_ACC, GFPOLY, %xmm1, %xmm2
 .endr
-	aesenclast	6*16(%rax), %xmm0
-	_ghash_mul_step	9, H_POW1, H_POW1_X64, GHASH_ACC, GFPOLY, %xmm1, %xmm2
+        aesenclast 6*16(%rax), %xmm0
+        _ghash_mul_step 9, H_POW1, H_POW1_X64, GHASH_ACC, GFPOLY, %xmm1, %xmm2
 
-	// Undo the byte reflection of the GHASH accumulator.
-	pshufb		BSWAP_MASK, GHASH_ACC
+        // Undo the byte reflection of the GHASH accumulator.
+        pshufb  BSWAP_MASK, GHASH_ACC
 
-	// Encrypt the GHASH accumulator.
-	pxor		%xmm0, GHASH_ACC
+        // Encrypt the GHASH accumulator.
+        pxor    %xmm0, GHASH_ACC
 
 .if \enc
-	// Return the computed auth tag.
-	movdqu		GHASH_ACC, (GHASH_ACC_PTR)
+        // Return the computed auth tag.
+        movdqu  GHASH_ACC, (GHASH_ACC_PTR)
 .else
-	.set		ZEROPAD_MASK_PTR, TOTAL_AADLEN // Reusing TOTAL_AADLEN!
+        .set    ZEROPAD_MASK_PTR, TOTAL_AADLEN  // Reusing TOTAL_AADLEN!
 
-	// Verify the auth tag in constant time by XOR'ing the transmitted and
-	// computed auth tags together and using the ptest instruction to check
-	// whether the first TAGLEN bytes of the result are zero.
-	_xor_mem_to_reg	(TAG), GHASH_ACC, tmp=%xmm0
-	movl		8(%rsp), TAGLEN
-	lea		.Lzeropad_mask+16(%rip), ZEROPAD_MASK_PTR
-	sub		TAGLEN64, ZEROPAD_MASK_PTR
-	xor		%eax, %eax
-	_test_mem	(ZEROPAD_MASK_PTR), GHASH_ACC, tmp=%xmm0
-	sete		%al
+        // Verify the auth tag in constant time by XOR'ing the transmitted and
+        // computed auth tags together and using the ptest instruction to check
+        // whether the first TAGLEN bytes of the result are zero.
+        _xor_mem_to_reg (TAG), GHASH_ACC, tmp=%xmm0
+        movl    8(%rsp), TAGLEN
+        lea     .Lzeropad_mask+16(%rip), ZEROPAD_MASK_PTR
+        sub     TAGLEN64, ZEROPAD_MASK_PTR
+        xor     %eax,     %eax
+        _test_mem (ZEROPAD_MASK_PTR), GHASH_ACC, tmp=%xmm0
+        sete    %al
 .endif
-	RET
+        RET
 .endm
 
 .set	USE_AVX, 0
 SYM_FUNC_START(aes_gcm_precompute_aesni)
-	_aes_gcm_precompute
+        _aes_gcm_precompute
 SYM_FUNC_END(aes_gcm_precompute_aesni)
 SYM_FUNC_START(aes_gcm_aad_update_aesni)
-	_aes_gcm_aad_update
+        _aes_gcm_aad_update
 SYM_FUNC_END(aes_gcm_aad_update_aesni)
 SYM_FUNC_START(aes_gcm_enc_update_aesni)
-	_aes_gcm_update	1
+        _aes_gcm_update 1
 SYM_FUNC_END(aes_gcm_enc_update_aesni)
 SYM_FUNC_START(aes_gcm_dec_update_aesni)
-	_aes_gcm_update	0
+        _aes_gcm_update 0
 SYM_FUNC_END(aes_gcm_dec_update_aesni)
 SYM_FUNC_START(aes_gcm_enc_final_aesni)
-	_aes_gcm_final	1
+        _aes_gcm_final 1
 SYM_FUNC_END(aes_gcm_enc_final_aesni)
 SYM_FUNC_START(aes_gcm_dec_final_aesni)
-	_aes_gcm_final	0
+        _aes_gcm_final 0
 SYM_FUNC_END(aes_gcm_dec_final_aesni)
 
 .set	USE_AVX, 1
 SYM_FUNC_START(aes_gcm_precompute_aesni_avx)
-	_aes_gcm_precompute
+        _aes_gcm_precompute
 SYM_FUNC_END(aes_gcm_precompute_aesni_avx)
 SYM_FUNC_START(aes_gcm_aad_update_aesni_avx)
-	_aes_gcm_aad_update
+        _aes_gcm_aad_update
 SYM_FUNC_END(aes_gcm_aad_update_aesni_avx)
 SYM_FUNC_START(aes_gcm_enc_update_aesni_avx)
-	_aes_gcm_update	1
+        _aes_gcm_update 1
 SYM_FUNC_END(aes_gcm_enc_update_aesni_avx)
 SYM_FUNC_START(aes_gcm_dec_update_aesni_avx)
-	_aes_gcm_update	0
+        _aes_gcm_update 0
 SYM_FUNC_END(aes_gcm_dec_update_aesni_avx)
 SYM_FUNC_START(aes_gcm_enc_final_aesni_avx)
-	_aes_gcm_final	1
+        _aes_gcm_final 1
 SYM_FUNC_END(aes_gcm_enc_final_aesni_avx)
 SYM_FUNC_START(aes_gcm_dec_final_aesni_avx)
-	_aes_gcm_final	0
+        _aes_gcm_final 0
 SYM_FUNC_END(aes_gcm_dec_final_aesni_avx)

@@ -4,8 +4,8 @@
 ; Screen size variables
 ;
 
-        .export         screensize
-        .include        "cbm_kernal.inc"
+        .export screensize
+        .include "cbm_kernal.inc"
 
 .proc   screensize
 

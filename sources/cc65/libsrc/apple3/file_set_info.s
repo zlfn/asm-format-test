@@ -6,12 +6,12 @@
 ; int __fastcall__ file_set_auxtype(const char *pathname, unsigned int auxtype);
 ;
 
-        .export         _file_set_type, _file_set_auxtype
-        .import         pushname_tos, popname, sos_file_info_direct
-        .import         popa, popax
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "sos.inc"
+        .export _file_set_type, _file_set_auxtype
+        .import pushname_tos,   popname, sos_file_info_direct
+        .import popa, popax
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "sos.inc"
 
 new_value      = ptr2     ; ptr1 is used by pushname_tos
 mod_flag       = tmp1
@@ -51,7 +51,7 @@ sos_update:
         sta     sosoption + OPTION::FILE_INFO::FILE_TYPE
         jmp     set_info
 
-:       ; Otherwise update auxtype
+:               ; Otherwise update auxtype
         lda     new_value
         sta     sosoption + OPTION::FILE_INFO::AUX_TYPE
         lda     new_value+1
@@ -64,9 +64,9 @@ set_info:
         jsr     callsos
 
 cleanup:
-        php                     ; Save return status
+        php     ; Save return status
 
-        jsr     popname         ; Preserves A
+        jsr     popname ; Preserves A
 
         plp
         bcs     oserr

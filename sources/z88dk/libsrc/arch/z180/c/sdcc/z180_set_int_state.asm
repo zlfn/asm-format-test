@@ -10,10 +10,10 @@ EXTERN asm_z180_set_int_state
 
 _z180_set_int_state:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_z180_set_int_state
+        push    hl
+        push    af
+
+        jp      asm_z180_set_int_state

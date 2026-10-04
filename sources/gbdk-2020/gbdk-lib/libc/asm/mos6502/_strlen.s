@@ -27,37 +27,37 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _strlen
+        .module _strlen
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl _strlen
+        .globl  _strlen
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define _src "DPTR"
-	
+        .define _src "DPTR"
+
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 _strlen:
-	sta	*_src+0
-	stx	*_src+1
+        sta     *_src+0
+        stx     *_src+1
 
-	ldy	#0x00
-	ldx	#0x00
+        ldy     #0x00
+        ldx     #0x00
 loop:
-	lda	[_src],y
-	beq	end
-	iny
-	bne	loop
-	inc	*_src+1
-	inx
-	bne	loop
+        lda     [_src], y
+        beq     end
+        iny
+        bne     loop
+        inc     *_src+1
+        inx
+        bne     loop
 end:
-	tya
-	rts
+        tya
+        rts

@@ -6,5 +6,5 @@ PUBLIC __cons_state
 
 __cons_state:
 
-   defb 0                      ; state var for console editing in gets() and fgets_cons()
-                               ; non-zero = capslock on
+        defb    0       ; state var for console editing in gets() and fgets_cons()
+                        ; non-zero = capslock on

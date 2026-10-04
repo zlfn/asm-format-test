@@ -10,41 +10,39 @@
 ;	$Id: set_psg_callee.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  set_psg_callee
-    PUBLIC  _set_psg_callee
+        SECTION code_clib
+        PUBLIC  set_psg_callee
+        PUBLIC  _set_psg_callee
 
-    EXTERN  __psg_select_and_read_port
-    EXTERN  __psg_write_port
+        EXTERN  __psg_select_and_read_port
+        EXTERN  __psg_write_port
 
-    PUBLIC  asm_set_psg
-
+        PUBLIC  asm_set_psg
 
 set_psg_callee:
 _set_psg_callee:
 
-    pop     hl
-    pop     de
-    ex      (sp), hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 asm_set_psg:
 
-    ld      bc, (__psg_select_and_read_port)
-	ld      a,b
-    out     (c), l
-    ld      bc, (__psg_write_port)
-    out     (c), e
-	and     a
-	ret     nz
-	; ZON-X
-    ld      a, l
-    out     ($ff), a
-    ld      a, e
-    out     ($7f), a
-	; ZXM and "William Stuart"
-    ld      a, l
-    out     ($9f), a
-    ld      a, e
-    out     ($df), a
-    ret
-
+        ld      bc,  (__psg_select_and_read_port)
+        ld      a,   b
+        out     (c), l
+        ld      bc,  (__psg_write_port)
+        out     (c), e
+        and     a
+        ret     nz
+        ; ZON-X
+        ld      a,     l
+        out     ($ff), a
+        ld      a,     e
+        out     ($7f), a
+        ; ZXM and "William Stuart"
+        ld      a,     l
+        out     ($9f), a
+        ld      a,     e
+        out     ($df), a
+        ret

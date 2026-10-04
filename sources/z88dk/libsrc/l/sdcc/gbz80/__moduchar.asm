@@ -6,13 +6,13 @@
         GLOBAL  l_divu8
 
 __moduchar:
-        ld      hl,sp+3
+        ld      hl, sp+3
 
-        ld      e,(hl)
+        ld      e, (hl)
         dec     hl
-        ld      l,(hl)
+        ld      l, (hl)
 
-        ld      c,l
+        ld      c, l
         call    l_divu8
 
         ;; Already in DE

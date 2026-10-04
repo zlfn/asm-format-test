@@ -14,7 +14,6 @@
 /* register macros */
 #define CTX %rdi
 
-
 #define BV8(a0, a1, a2, a3, a4, a5, a6, a7)		\
 	( (((a0) & 1) << 0) |				\
 	  (((a1) & 1) << 1) |				\
@@ -362,7 +361,6 @@
 	vgf2p8affineinvqb $0, t2, y3, y3;		\
 	vgf2p8affineinvqb $0, t2, y7, y7;
 
-
 #define aria_diff_m(x0, x1, x2, x3,			\
 		    t0, t1, t2, t3)			\
 	/* T = rotr32(X, 8); */				\
@@ -521,100 +519,99 @@
 		       y4, y5, y6, y7,			\
 		       z0, rk, last_round);
 
-
 .section        .rodata.cst64, "aM", @progbits, 64
 .align 64
 .Lcounter0123_lo:
-	.quad 0, 0
-	.quad 1, 0
-	.quad 2, 0
-	.quad 3, 0
+        .quad   0, 0
+        .quad   1, 0
+        .quad   2, 0
+        .quad   3, 0
 
 .section        .rodata.cst32.shufb_16x16b, "aM", @progbits, 32
 .align 32
 #define SHUFB_BYTES(idx) \
 	0 + (idx), 4 + (idx), 8 + (idx), 12 + (idx)
 .Lshufb_16x16b:
-	.byte SHUFB_BYTES(0), SHUFB_BYTES(1), SHUFB_BYTES(2), SHUFB_BYTES(3)
-	.byte SHUFB_BYTES(0), SHUFB_BYTES(1), SHUFB_BYTES(2), SHUFB_BYTES(3)
+        .byte   SHUFB_BYTES(0), SHUFB_BYTES(1), SHUFB_BYTES(2), SHUFB_BYTES(3)
+        .byte   SHUFB_BYTES(0), SHUFB_BYTES(1), SHUFB_BYTES(2), SHUFB_BYTES(3)
 
 .section	.rodata.cst16, "aM", @progbits, 16
 .align 16
 
 .Lcounter4444_lo:
-	.quad 4, 0
+        .quad   4, 0
 .Lcounter8888_lo:
-	.quad 8, 0
+        .quad   8, 0
 .Lcounter16161616_lo:
-	.quad 16, 0
+        .quad   16, 0
 .Lcounter1111_hi:
-	.quad 0, 1
+        .quad   0, 1
 
 /* For CTR-mode IV byteswap */
 .Lbswap128_mask:
-	.byte 0x0f, 0x0e, 0x0d, 0x0c, 0x0b, 0x0a, 0x09, 0x08
-	.byte 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00
+        .byte   0x0f, 0x0e, 0x0d, 0x0c, 0x0b, 0x0a, 0x09, 0x08
+        .byte   0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00
 
 .section	.rodata.cst8, "aM", @progbits, 8
 .align 8
 /* AES affine: */
 #define tf_aff_const BV8(1, 1, 0, 0, 0, 1, 1, 0)
 .Ltf_aff_bitmatrix:
-	.quad BM8X8(BV8(1, 0, 0, 0, 1, 1, 1, 1),
-		    BV8(1, 1, 0, 0, 0, 1, 1, 1),
-		    BV8(1, 1, 1, 0, 0, 0, 1, 1),
-		    BV8(1, 1, 1, 1, 0, 0, 0, 1),
-		    BV8(1, 1, 1, 1, 1, 0, 0, 0),
-		    BV8(0, 1, 1, 1, 1, 1, 0, 0),
-		    BV8(0, 0, 1, 1, 1, 1, 1, 0),
-		    BV8(0, 0, 0, 1, 1, 1, 1, 1))
+        .quad   BM8X8(BV8(1, 0, 0, 0, 1, 1, 1, 1),
+        BV8(1,  1, 0, 0, 0, 1, 1, 1),
+        BV8(1,  1, 1, 0, 0, 0, 1, 1),
+        BV8(1,  1, 1, 1, 0, 0, 0, 1),
+        BV8(1,  1, 1, 1, 1, 0, 0, 0),
+        BV8(0,  1, 1, 1, 1, 1, 0, 0),
+        BV8(0,  0, 1, 1, 1, 1, 1, 0),
+        BV8(0,  0, 0, 1, 1, 1, 1, 1))
 
 /* AES inverse affine: */
 #define tf_inv_const BV8(1, 0, 1, 0, 0, 0, 0, 0)
 .Ltf_inv_bitmatrix:
-	.quad BM8X8(BV8(0, 0, 1, 0, 0, 1, 0, 1),
-		    BV8(1, 0, 0, 1, 0, 0, 1, 0),
-		    BV8(0, 1, 0, 0, 1, 0, 0, 1),
-		    BV8(1, 0, 1, 0, 0, 1, 0, 0),
-		    BV8(0, 1, 0, 1, 0, 0, 1, 0),
-		    BV8(0, 0, 1, 0, 1, 0, 0, 1),
-		    BV8(1, 0, 0, 1, 0, 1, 0, 0),
-		    BV8(0, 1, 0, 0, 1, 0, 1, 0))
+        .quad   BM8X8(BV8(0, 0, 1, 0, 0, 1, 0, 1),
+        BV8(1,  0, 0, 1, 0, 0, 1, 0),
+        BV8(0,  1, 0, 0, 1, 0, 0, 1),
+        BV8(1,  0, 1, 0, 0, 1, 0, 0),
+        BV8(0,  1, 0, 1, 0, 0, 1, 0),
+        BV8(0,  0, 1, 0, 1, 0, 0, 1),
+        BV8(1,  0, 0, 1, 0, 1, 0, 0),
+        BV8(0,  1, 0, 0, 1, 0, 1, 0))
 
 /* S2: */
 #define tf_s2_const BV8(0, 1, 0, 0, 0, 1, 1, 1)
 .Ltf_s2_bitmatrix:
-	.quad BM8X8(BV8(0, 1, 0, 1, 0, 1, 1, 1),
-		    BV8(0, 0, 1, 1, 1, 1, 1, 1),
-		    BV8(1, 1, 1, 0, 1, 1, 0, 1),
-		    BV8(1, 1, 0, 0, 0, 0, 1, 1),
-		    BV8(0, 1, 0, 0, 0, 0, 1, 1),
-		    BV8(1, 1, 0, 0, 1, 1, 1, 0),
-		    BV8(0, 1, 1, 0, 0, 0, 1, 1),
-		    BV8(1, 1, 1, 1, 0, 1, 1, 0))
+        .quad   BM8X8(BV8(0, 1, 0, 1, 0, 1, 1, 1),
+        BV8(0,  0, 1, 1, 1, 1, 1, 1),
+        BV8(1,  1, 1, 0, 1, 1, 0, 1),
+        BV8(1,  1, 0, 0, 0, 0, 1, 1),
+        BV8(0,  1, 0, 0, 0, 0, 1, 1),
+        BV8(1,  1, 0, 0, 1, 1, 1, 0),
+        BV8(0,  1, 1, 0, 0, 0, 1, 1),
+        BV8(1,  1, 1, 1, 0, 1, 1, 0))
 
 /* X2: */
 #define tf_x2_const BV8(0, 0, 1, 1, 0, 1, 0, 0)
 .Ltf_x2_bitmatrix:
-	.quad BM8X8(BV8(0, 0, 0, 1, 1, 0, 0, 0),
-		    BV8(0, 0, 1, 0, 0, 1, 1, 0),
-		    BV8(0, 0, 0, 0, 1, 0, 1, 0),
-		    BV8(1, 1, 1, 0, 0, 0, 1, 1),
-		    BV8(1, 1, 1, 0, 1, 1, 0, 0),
-		    BV8(0, 1, 1, 0, 1, 0, 1, 1),
-		    BV8(1, 0, 1, 1, 1, 1, 0, 1),
-		    BV8(1, 0, 0, 1, 0, 0, 1, 1))
+        .quad   BM8X8(BV8(0, 0, 0, 1, 1, 0, 0, 0),
+        BV8(0,  0, 1, 0, 0, 1, 1, 0),
+        BV8(0,  0, 0, 0, 1, 0, 1, 0),
+        BV8(1,  1, 1, 0, 0, 0, 1, 1),
+        BV8(1,  1, 1, 0, 1, 1, 0, 0),
+        BV8(0,  1, 1, 0, 1, 0, 1, 1),
+        BV8(1,  0, 1, 1, 1, 1, 0, 1),
+        BV8(1,  0, 0, 1, 0, 0, 1, 1))
 
 /* Identity matrix: */
 .Ltf_id_bitmatrix:
-	.quad BM8X8(BV8(1, 0, 0, 0, 0, 0, 0, 0),
-		    BV8(0, 1, 0, 0, 0, 0, 0, 0),
-		    BV8(0, 0, 1, 0, 0, 0, 0, 0),
-		    BV8(0, 0, 0, 1, 0, 0, 0, 0),
-		    BV8(0, 0, 0, 0, 1, 0, 0, 0),
-		    BV8(0, 0, 0, 0, 0, 1, 0, 0),
-		    BV8(0, 0, 0, 0, 0, 0, 1, 0),
-		    BV8(0, 0, 0, 0, 0, 0, 0, 1))
+        .quad   BM8X8(BV8(1, 0, 0, 0, 0, 0, 0, 0),
+        BV8(0,  1, 0, 0, 0, 0, 0, 0),
+        BV8(0,  0, 1, 0, 0, 0, 0, 0),
+        BV8(0,  0, 0, 1, 0, 0, 0, 0),
+        BV8(0,  0, 0, 0, 1, 0, 0, 0),
+        BV8(0,  0, 0, 0, 0, 1, 0, 0),
+        BV8(0,  0, 0, 0, 0, 0, 1, 0),
+        BV8(0,  0, 0, 0, 0, 0, 0, 1))
 
 .text
 SYM_FUNC_START_LOCAL(__aria_gfni_avx512_crypt_64way)
@@ -625,158 +622,158 @@ SYM_FUNC_START_LOCAL(__aria_gfni_avx512_crypt_64way)
 	 *      %zmm0..%zmm15: byte-sliced blocks
 	 */
 
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	movq %rsi, %rax;
-	leaq 8 * 64(%rax), %r8;
+        movq    %rsi, %rax;
+        leaq    8 * 64(%rax), %r8;
 
-	inpack16_post(%zmm0, %zmm1, %zmm2, %zmm3,
-		      %zmm4, %zmm5, %zmm6, %zmm7,
-		      %zmm8, %zmm9, %zmm10, %zmm11,
-		      %zmm12, %zmm13, %zmm14,
-		      %zmm15, %rax, %r8);
-	aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
-		     %zmm4, %zmm5, %zmm6, %zmm7,
-		     %zmm8, %zmm9, %zmm10, %zmm11,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 0);
-	aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
-		     %zmm6, %zmm7, %zmm4, %zmm5,
-		     %zmm9, %zmm8, %zmm11, %zmm10,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 1);
-	aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
-		     %zmm4, %zmm5, %zmm6, %zmm7,
-		     %zmm8, %zmm9, %zmm10, %zmm11,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 2);
-	aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
-		     %zmm6, %zmm7, %zmm4, %zmm5,
-		     %zmm9, %zmm8, %zmm11, %zmm10,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 3);
-	aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
-		     %zmm4, %zmm5, %zmm6, %zmm7,
-		     %zmm8, %zmm9, %zmm10, %zmm11,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 4);
-	aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
-		     %zmm6, %zmm7, %zmm4, %zmm5,
-		     %zmm9, %zmm8, %zmm11, %zmm10,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 5);
-	aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
-		     %zmm4, %zmm5, %zmm6, %zmm7,
-		     %zmm8, %zmm9, %zmm10, %zmm11,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 6);
-	aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
-		     %zmm6, %zmm7, %zmm4, %zmm5,
-		     %zmm9, %zmm8, %zmm11, %zmm10,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 7);
-	aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
-		     %zmm4, %zmm5, %zmm6, %zmm7,
-		     %zmm8, %zmm9, %zmm10, %zmm11,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 8);
-	aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
-		     %zmm6, %zmm7, %zmm4, %zmm5,
-		     %zmm9, %zmm8, %zmm11, %zmm10,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 9);
-	aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
-		     %zmm4, %zmm5, %zmm6, %zmm7,
-		     %zmm8, %zmm9, %zmm10, %zmm11,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 10);
-	cmpl $12, ARIA_CTX_rounds(CTX);
-	jne .Laria_gfni_192;
-	aria_ff_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
-		     %zmm6, %zmm7, %zmm4, %zmm5,
-		     %zmm9, %zmm8, %zmm11, %zmm10,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 11, 12);
-	jmp .Laria_gfni_end;
+        inpack16_post(%zmm0, %zmm1, %zmm2, %zmm3,
+        %zmm4,  %zmm5,  %zmm6,  %zmm7,
+        %zmm8,  %zmm9,  %zmm10, %zmm11,
+        %zmm12, %zmm13, %zmm14,
+        %zmm15, %rax, %r8);
+        aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
+        %zmm4,  %zmm5,  %zmm6,  %zmm7,
+        %zmm8,  %zmm9,  %zmm10, %zmm11,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 0);
+        aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
+        %zmm6,  %zmm7,  %zmm4,  %zmm5,
+        %zmm9,  %zmm8,  %zmm11, %zmm10,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 1);
+        aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
+        %zmm4,  %zmm5,  %zmm6,  %zmm7,
+        %zmm8,  %zmm9,  %zmm10, %zmm11,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 2);
+        aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
+        %zmm6,  %zmm7,  %zmm4,  %zmm5,
+        %zmm9,  %zmm8,  %zmm11, %zmm10,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 3);
+        aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
+        %zmm4,  %zmm5,  %zmm6,  %zmm7,
+        %zmm8,  %zmm9,  %zmm10, %zmm11,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 4);
+        aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
+        %zmm6,  %zmm7,  %zmm4,  %zmm5,
+        %zmm9,  %zmm8,  %zmm11, %zmm10,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 5);
+        aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
+        %zmm4,  %zmm5,  %zmm6,  %zmm7,
+        %zmm8,  %zmm9,  %zmm10, %zmm11,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 6);
+        aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
+        %zmm6,  %zmm7,  %zmm4,  %zmm5,
+        %zmm9,  %zmm8,  %zmm11, %zmm10,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 7);
+        aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
+        %zmm4,  %zmm5,  %zmm6,  %zmm7,
+        %zmm8,  %zmm9,  %zmm10, %zmm11,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 8);
+        aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
+        %zmm6,  %zmm7,  %zmm4,  %zmm5,
+        %zmm9,  %zmm8,  %zmm11, %zmm10,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 9);
+        aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
+        %zmm4,  %zmm5,  %zmm6,  %zmm7,
+        %zmm8,  %zmm9,  %zmm10, %zmm11,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 10);
+        cmpl    $12, ARIA_CTX_rounds(CTX);
+        jne     .Laria_gfni_192;
+        aria_ff_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
+        %zmm6,  %zmm7,  %zmm4,  %zmm5,
+        %zmm9,  %zmm8,  %zmm11, %zmm10,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 11, 12);
+        jmp     .Laria_gfni_end;
 .Laria_gfni_192:
-	aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
-		     %zmm6, %zmm7, %zmm4, %zmm5,
-		     %zmm9, %zmm8, %zmm11, %zmm10,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 11);
-	aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
-		     %zmm4, %zmm5, %zmm6, %zmm7,
-		     %zmm8, %zmm9, %zmm10, %zmm11,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 12);
-	cmpl $14, ARIA_CTX_rounds(CTX);
-	jne .Laria_gfni_256;
-	aria_ff_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
-		     %zmm6, %zmm7, %zmm4, %zmm5,
-		     %zmm9, %zmm8, %zmm11, %zmm10,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 13, 14);
-	jmp .Laria_gfni_end;
+        aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
+        %zmm6,  %zmm7,  %zmm4,  %zmm5,
+        %zmm9,  %zmm8,  %zmm11, %zmm10,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 11);
+        aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
+        %zmm4,  %zmm5,  %zmm6,  %zmm7,
+        %zmm8,  %zmm9,  %zmm10, %zmm11,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 12);
+        cmpl    $14, ARIA_CTX_rounds(CTX);
+        jne     .Laria_gfni_256;
+        aria_ff_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
+        %zmm6,  %zmm7,  %zmm4,  %zmm5,
+        %zmm9,  %zmm8,  %zmm11, %zmm10,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 13, 14);
+        jmp     .Laria_gfni_end;
 .Laria_gfni_256:
-	aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
-		     %zmm6, %zmm7, %zmm4, %zmm5,
-		     %zmm9, %zmm8, %zmm11, %zmm10,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 13);
-	aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
-		     %zmm4, %zmm5, %zmm6, %zmm7,
-		     %zmm8, %zmm9, %zmm10, %zmm11,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 14);
-	aria_ff_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
-		     %zmm6, %zmm7, %zmm4, %zmm5,
-		     %zmm9, %zmm8, %zmm11, %zmm10,
-		     %zmm12, %zmm13, %zmm14, %zmm15,
-		     %zmm24, %zmm25, %zmm26, %zmm27,
-		     %zmm28, %zmm29, %zmm30, %zmm31,
-		     %rax, %r9, 15, 16);
+        aria_fe_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
+        %zmm6,  %zmm7,  %zmm4,  %zmm5,
+        %zmm9,  %zmm8,  %zmm11, %zmm10,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 13);
+        aria_fo_gfni(%zmm0, %zmm1, %zmm2, %zmm3,
+        %zmm4,  %zmm5,  %zmm6,  %zmm7,
+        %zmm8,  %zmm9,  %zmm10, %zmm11,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 14);
+        aria_ff_gfni(%zmm3, %zmm2, %zmm1, %zmm0,
+        %zmm6,  %zmm7,  %zmm4,  %zmm5,
+        %zmm9,  %zmm8,  %zmm11, %zmm10,
+        %zmm12, %zmm13, %zmm14, %zmm15,
+        %zmm24, %zmm25, %zmm26, %zmm27,
+        %zmm28, %zmm29, %zmm30, %zmm31,
+        %rax,   %r9, 15, 16);
 .Laria_gfni_end:
-	debyteslice_16x16b(%zmm9, %zmm12, %zmm3, %zmm6,
-			   %zmm8, %zmm13, %zmm2, %zmm7,
-			   %zmm11, %zmm14, %zmm1, %zmm4,
-			   %zmm10, %zmm15, %zmm0, %zmm5,
-			   (%rax), (%r8));
-	FRAME_END
-	RET;
+        debyteslice_16x16b(%zmm9, %zmm12, %zmm3, %zmm6,
+        %zmm8,  %zmm13, %zmm2, %zmm7,
+        %zmm11, %zmm14, %zmm1, %zmm4,
+        %zmm10, %zmm15, %zmm0, %zmm5,
+        (%rax), (%r8));
+        FRAME_END
+        RET;
 SYM_FUNC_END(__aria_gfni_avx512_crypt_64way)
 
 SYM_TYPED_FUNC_START(aria_gfni_avx512_encrypt_64way)
@@ -786,23 +783,23 @@ SYM_TYPED_FUNC_START(aria_gfni_avx512_encrypt_64way)
 	 *      %rdx: src
 	 */
 
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	leaq ARIA_CTX_enc_key(CTX), %r9;
+        leaq    ARIA_CTX_enc_key(CTX), %r9;
 
-	inpack16_pre(%zmm0, %zmm1, %zmm2, %zmm3, %zmm4, %zmm5, %zmm6, %zmm7,
-		     %zmm8, %zmm9, %zmm10, %zmm11, %zmm12, %zmm13, %zmm14,
-		     %zmm15, %rdx);
+        inpack16_pre(%zmm0, %zmm1, %zmm2, %zmm3, %zmm4, %zmm5, %zmm6, %zmm7,
+        %zmm8,  %zmm9, %zmm10, %zmm11, %zmm12, %zmm13, %zmm14,
+        %zmm15, %rdx);
 
-	call __aria_gfni_avx512_crypt_64way;
+        call    __aria_gfni_avx512_crypt_64way;
 
-	write_output(%zmm3, %zmm2, %zmm1, %zmm0, %zmm6, %zmm7, %zmm4, %zmm5,
-		     %zmm9, %zmm8, %zmm11, %zmm10, %zmm12, %zmm13, %zmm14,
-		     %zmm15, %rax);
+        write_output(%zmm3, %zmm2, %zmm1, %zmm0, %zmm6, %zmm7, %zmm4, %zmm5,
+        %zmm9,  %zmm8, %zmm11, %zmm10, %zmm12, %zmm13, %zmm14,
+        %zmm15, %rax);
 
-	vzeroupper;
-	FRAME_END
-	RET;
+        vzeroupper;
+        FRAME_END
+        RET;
 SYM_FUNC_END(aria_gfni_avx512_encrypt_64way)
 
 SYM_TYPED_FUNC_START(aria_gfni_avx512_decrypt_64way)
@@ -812,23 +809,23 @@ SYM_TYPED_FUNC_START(aria_gfni_avx512_decrypt_64way)
 	 *      %rdx: src
 	 */
 
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	leaq ARIA_CTX_dec_key(CTX), %r9;
+        leaq    ARIA_CTX_dec_key(CTX), %r9;
 
-	inpack16_pre(%zmm0, %zmm1, %zmm2, %zmm3, %zmm4, %zmm5, %zmm6, %zmm7,
-		     %zmm8, %zmm9, %zmm10, %zmm11, %zmm12, %zmm13, %zmm14,
-		     %zmm15, %rdx);
+        inpack16_pre(%zmm0, %zmm1, %zmm2, %zmm3, %zmm4, %zmm5, %zmm6, %zmm7,
+        %zmm8,  %zmm9, %zmm10, %zmm11, %zmm12, %zmm13, %zmm14,
+        %zmm15, %rdx);
 
-	call __aria_gfni_avx512_crypt_64way;
+        call    __aria_gfni_avx512_crypt_64way;
 
-	write_output(%zmm3, %zmm2, %zmm1, %zmm0, %zmm6, %zmm7, %zmm4, %zmm5,
-		     %zmm9, %zmm8, %zmm11, %zmm10, %zmm12, %zmm13, %zmm14,
-		     %zmm15, %rax);
+        write_output(%zmm3, %zmm2, %zmm1, %zmm0, %zmm6, %zmm7, %zmm4, %zmm5,
+        %zmm9,  %zmm8, %zmm11, %zmm10, %zmm12, %zmm13, %zmm14,
+        %zmm15, %rax);
 
-	vzeroupper;
-	FRAME_END
-	RET;
+        vzeroupper;
+        FRAME_END
+        RET;
 SYM_FUNC_END(aria_gfni_avx512_decrypt_64way)
 
 SYM_FUNC_START_LOCAL(__aria_gfni_avx512_ctr_gen_keystream_64way)
@@ -840,92 +837,92 @@ SYM_FUNC_START_LOCAL(__aria_gfni_avx512_ctr_gen_keystream_64way)
 	 *      %r8: iv (big endian, 128bit)
 	 */
 
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	vbroadcasti64x2 .Lbswap128_mask (%rip), %zmm19;
-	vmovdqa64 .Lcounter0123_lo (%rip), %zmm21;
-	vbroadcasti64x2 .Lcounter4444_lo (%rip), %zmm22;
-	vbroadcasti64x2 .Lcounter8888_lo (%rip), %zmm23;
-	vbroadcasti64x2 .Lcounter16161616_lo (%rip), %zmm24;
-	vbroadcasti64x2 .Lcounter1111_hi (%rip), %zmm25;
+        vbroadcasti64x2 .Lbswap128_mask (%rip), %zmm19;
+        vmovdqa64 .Lcounter0123_lo (%rip), %zmm21;
+        vbroadcasti64x2 .Lcounter4444_lo (%rip),     %zmm22;
+        vbroadcasti64x2 .Lcounter8888_lo (%rip),     %zmm23;
+        vbroadcasti64x2 .Lcounter16161616_lo (%rip), %zmm24;
+        vbroadcasti64x2 .Lcounter1111_hi (%rip),     %zmm25;
 
-	/* load IV and byteswap */
-	movq 8(%r8), %r11;
-	movq (%r8), %r10;
-	bswapq %r11;
-	bswapq %r10;
-	vbroadcasti64x2 (%r8), %zmm20;
-	vpshufb %zmm19, %zmm20, %zmm20;
+        /* load IV and byteswap */
+        movq    8(%r8), %r11;
+        movq    (%r8),  %r10;
+        bswapq  %r11;
+        bswapq  %r10;
+        vbroadcasti64x2 (%r8), %zmm20;
+        vpshufb %zmm19, %zmm20, %zmm20;
 
-	/* check need for handling 64-bit overflow and carry */
-	cmpq $(0xffffffffffffffff - 64), %r11;
-	ja .Lload_ctr_carry;
+        /* check need for handling 64-bit overflow and carry */
+        cmpq    $(0xffffffffffffffff - 64), %r11;
+        ja      .Lload_ctr_carry;
 
-	/* construct IVs */
-	vpaddq %zmm21, %zmm20, %zmm0;  /* +0:+1:+2:+3 */
-	vpaddq %zmm22, %zmm0, %zmm1; /* +4:+5:+6:+7 */
-	vpaddq %zmm23, %zmm0, %zmm2; /* +8:+9:+10:+11 */
-	vpaddq %zmm23, %zmm1, %zmm3; /* +12:+13:+14:+15 */
-	vpaddq %zmm24, %zmm0, %zmm4; /* +16... */
-	vpaddq %zmm24, %zmm1, %zmm5; /* +20... */
-	vpaddq %zmm24, %zmm2, %zmm6; /* +24... */
-	vpaddq %zmm24, %zmm3, %zmm7; /* +28... */
-	vpaddq %zmm24, %zmm4, %zmm8; /* +32... */
-	vpaddq %zmm24, %zmm5, %zmm9; /* +36... */
-	vpaddq %zmm24, %zmm6, %zmm10; /* +40... */
-	vpaddq %zmm24, %zmm7, %zmm11; /* +44... */
-	vpaddq %zmm24, %zmm8, %zmm12; /* +48... */
-	vpaddq %zmm24, %zmm9, %zmm13; /* +52... */
-	vpaddq %zmm24, %zmm10, %zmm14; /* +56... */
-	vpaddq %zmm24, %zmm11, %zmm15; /* +60... */
-	jmp .Lload_ctr_done;
+        /* construct IVs */
+        vpaddq  %zmm21, %zmm20, %zmm0;  /* +0:+1:+2:+3 */
+        vpaddq  %zmm22, %zmm0,  %zmm1; /* +4:+5:+6:+7 */
+        vpaddq  %zmm23, %zmm0,  %zmm2; /* +8:+9:+10:+11 */
+        vpaddq  %zmm23, %zmm1,  %zmm3; /* +12:+13:+14:+15 */
+        vpaddq  %zmm24, %zmm0,  %zmm4; /* +16... */
+        vpaddq  %zmm24, %zmm1,  %zmm5; /* +20... */
+        vpaddq  %zmm24, %zmm2,  %zmm6; /* +24... */
+        vpaddq  %zmm24, %zmm3,  %zmm7; /* +28... */
+        vpaddq  %zmm24, %zmm4,  %zmm8; /* +32... */
+        vpaddq  %zmm24, %zmm5,  %zmm9; /* +36... */
+        vpaddq  %zmm24, %zmm6,  %zmm10; /* +40... */
+        vpaddq  %zmm24, %zmm7,  %zmm11; /* +44... */
+        vpaddq  %zmm24, %zmm8,  %zmm12; /* +48... */
+        vpaddq  %zmm24, %zmm9,  %zmm13; /* +52... */
+        vpaddq  %zmm24, %zmm10, %zmm14; /* +56... */
+        vpaddq  %zmm24, %zmm11, %zmm15; /* +60... */
+        jmp     .Lload_ctr_done;
 
 .Lload_ctr_carry:
-	/* construct IVs */
-	add_le128(%zmm0, %zmm20, %zmm21, %zmm25);  /* +0:+1:+2:+3 */
-	add_le128(%zmm1, %zmm0, %zmm22, %zmm25); /* +4:+5:+6:+7 */
-	add_le128(%zmm2, %zmm0, %zmm23, %zmm25); /* +8:+9:+10:+11 */
-	add_le128(%zmm3, %zmm1, %zmm23, %zmm25); /* +12:+13:+14:+15 */
-	add_le128(%zmm4, %zmm0, %zmm24, %zmm25); /* +16... */
-	add_le128(%zmm5, %zmm1, %zmm24, %zmm25); /* +20... */
-	add_le128(%zmm6, %zmm2, %zmm24, %zmm25); /* +24... */
-	add_le128(%zmm7, %zmm3, %zmm24, %zmm25); /* +28... */
-	add_le128(%zmm8, %zmm4, %zmm24, %zmm25); /* +32... */
-	add_le128(%zmm9, %zmm5, %zmm24, %zmm25); /* +36... */
-	add_le128(%zmm10, %zmm6, %zmm24, %zmm25); /* +40... */
-	add_le128(%zmm11, %zmm7, %zmm24, %zmm25); /* +44... */
-	add_le128(%zmm12, %zmm8, %zmm24, %zmm25); /* +48... */
-	add_le128(%zmm13, %zmm9, %zmm24, %zmm25); /* +52... */
-	add_le128(%zmm14, %zmm10, %zmm24, %zmm25); /* +56... */
-	add_le128(%zmm15, %zmm11, %zmm24, %zmm25); /* +60... */
+        /* construct IVs */
+        add_le128(%zmm0, %zmm20, %zmm21, %zmm25);  /* +0:+1:+2:+3 */
+        add_le128(%zmm1, %zmm0, %zmm22, %zmm25); /* +4:+5:+6:+7 */
+        add_le128(%zmm2, %zmm0, %zmm23, %zmm25); /* +8:+9:+10:+11 */
+        add_le128(%zmm3, %zmm1, %zmm23, %zmm25); /* +12:+13:+14:+15 */
+        add_le128(%zmm4, %zmm0, %zmm24, %zmm25); /* +16... */
+        add_le128(%zmm5, %zmm1, %zmm24, %zmm25); /* +20... */
+        add_le128(%zmm6, %zmm2, %zmm24, %zmm25); /* +24... */
+        add_le128(%zmm7, %zmm3, %zmm24, %zmm25); /* +28... */
+        add_le128(%zmm8, %zmm4, %zmm24, %zmm25); /* +32... */
+        add_le128(%zmm9, %zmm5, %zmm24, %zmm25); /* +36... */
+        add_le128(%zmm10, %zmm6, %zmm24, %zmm25); /* +40... */
+        add_le128(%zmm11, %zmm7, %zmm24, %zmm25); /* +44... */
+        add_le128(%zmm12, %zmm8, %zmm24, %zmm25); /* +48... */
+        add_le128(%zmm13, %zmm9, %zmm24, %zmm25); /* +52... */
+        add_le128(%zmm14, %zmm10, %zmm24, %zmm25); /* +56... */
+        add_le128(%zmm15, %zmm11, %zmm24, %zmm25); /* +60... */
 
 .Lload_ctr_done:
-	/* Byte-swap IVs and update counter. */
-	addq $64, %r11;
-	adcq $0, %r10;
-	vpshufb %zmm19, %zmm15, %zmm15;
-	vpshufb %zmm19, %zmm14, %zmm14;
-	vpshufb %zmm19, %zmm13, %zmm13;
-	vpshufb %zmm19, %zmm12, %zmm12;
-	vpshufb %zmm19, %zmm11, %zmm11;
-	vpshufb %zmm19, %zmm10, %zmm10;
-	vpshufb %zmm19, %zmm9, %zmm9;
-	vpshufb %zmm19, %zmm8, %zmm8;
-	bswapq %r11;
-	bswapq %r10;
-	vpshufb %zmm19, %zmm7, %zmm7;
-	vpshufb %zmm19, %zmm6, %zmm6;
-	vpshufb %zmm19, %zmm5, %zmm5;
-	vpshufb %zmm19, %zmm4, %zmm4;
-	vpshufb %zmm19, %zmm3, %zmm3;
-	vpshufb %zmm19, %zmm2, %zmm2;
-	vpshufb %zmm19, %zmm1, %zmm1;
-	vpshufb %zmm19, %zmm0, %zmm0;
-	movq %r11, 8(%r8);
-	movq %r10, (%r8);
+        /* Byte-swap IVs and update counter. */
+        addq    $64,    %r11;
+        adcq    $0,     %r10;
+        vpshufb %zmm19, %zmm15, %zmm15;
+        vpshufb %zmm19, %zmm14, %zmm14;
+        vpshufb %zmm19, %zmm13, %zmm13;
+        vpshufb %zmm19, %zmm12, %zmm12;
+        vpshufb %zmm19, %zmm11, %zmm11;
+        vpshufb %zmm19, %zmm10, %zmm10;
+        vpshufb %zmm19, %zmm9,  %zmm9;
+        vpshufb %zmm19, %zmm8,  %zmm8;
+        bswapq  %r11;
+        bswapq  %r10;
+        vpshufb %zmm19, %zmm7, %zmm7;
+        vpshufb %zmm19, %zmm6, %zmm6;
+        vpshufb %zmm19, %zmm5, %zmm5;
+        vpshufb %zmm19, %zmm4, %zmm4;
+        vpshufb %zmm19, %zmm3, %zmm3;
+        vpshufb %zmm19, %zmm2, %zmm2;
+        vpshufb %zmm19, %zmm1, %zmm1;
+        vpshufb %zmm19, %zmm0, %zmm0;
+        movq    %r11,   8(%r8);
+        movq    %r10,   (%r8);
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(__aria_gfni_avx512_ctr_gen_keystream_64way)
 
 SYM_TYPED_FUNC_START(aria_gfni_avx512_ctr_crypt_64way)
@@ -936,39 +933,39 @@ SYM_TYPED_FUNC_START(aria_gfni_avx512_ctr_crypt_64way)
 	 *      %rcx: keystream
 	 *      %r8: iv (big endian, 128bit)
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	call __aria_gfni_avx512_ctr_gen_keystream_64way
+        call    __aria_gfni_avx512_ctr_gen_keystream_64way
 
-	leaq (%rsi), %r10;
-	leaq (%rdx), %r11;
-	leaq (%rcx), %rsi;
-	leaq (%rcx), %rdx;
-	leaq ARIA_CTX_enc_key(CTX), %r9;
+        leaq    (%rsi), %r10;
+        leaq    (%rdx), %r11;
+        leaq    (%rcx), %rsi;
+        leaq    (%rcx), %rdx;
+        leaq    ARIA_CTX_enc_key(CTX), %r9;
 
-	call __aria_gfni_avx512_crypt_64way;
+        call    __aria_gfni_avx512_crypt_64way;
 
-	vpxorq (0 * 64)(%r11), %zmm3, %zmm3;
-	vpxorq (1 * 64)(%r11), %zmm2, %zmm2;
-	vpxorq (2 * 64)(%r11), %zmm1, %zmm1;
-	vpxorq (3 * 64)(%r11), %zmm0, %zmm0;
-	vpxorq (4 * 64)(%r11), %zmm6, %zmm6;
-	vpxorq (5 * 64)(%r11), %zmm7, %zmm7;
-	vpxorq (6 * 64)(%r11), %zmm4, %zmm4;
-	vpxorq (7 * 64)(%r11), %zmm5, %zmm5;
-	vpxorq (8 * 64)(%r11), %zmm9, %zmm9;
-	vpxorq (9 * 64)(%r11), %zmm8, %zmm8;
-	vpxorq (10 * 64)(%r11), %zmm11, %zmm11;
-	vpxorq (11 * 64)(%r11), %zmm10, %zmm10;
-	vpxorq (12 * 64)(%r11), %zmm12, %zmm12;
-	vpxorq (13 * 64)(%r11), %zmm13, %zmm13;
-	vpxorq (14 * 64)(%r11), %zmm14, %zmm14;
-	vpxorq (15 * 64)(%r11), %zmm15, %zmm15;
-	write_output(%zmm3, %zmm2, %zmm1, %zmm0, %zmm6, %zmm7, %zmm4, %zmm5,
-		     %zmm9, %zmm8, %zmm11, %zmm10, %zmm12, %zmm13, %zmm14,
-		     %zmm15, %r10);
+        vpxorq  (0 * 64)(%r11),  %zmm3,  %zmm3;
+        vpxorq  (1 * 64)(%r11),  %zmm2,  %zmm2;
+        vpxorq  (2 * 64)(%r11),  %zmm1,  %zmm1;
+        vpxorq  (3 * 64)(%r11),  %zmm0,  %zmm0;
+        vpxorq  (4 * 64)(%r11),  %zmm6,  %zmm6;
+        vpxorq  (5 * 64)(%r11),  %zmm7,  %zmm7;
+        vpxorq  (6 * 64)(%r11),  %zmm4,  %zmm4;
+        vpxorq  (7 * 64)(%r11),  %zmm5,  %zmm5;
+        vpxorq  (8 * 64)(%r11),  %zmm9,  %zmm9;
+        vpxorq  (9 * 64)(%r11),  %zmm8,  %zmm8;
+        vpxorq  (10 * 64)(%r11), %zmm11, %zmm11;
+        vpxorq  (11 * 64)(%r11), %zmm10, %zmm10;
+        vpxorq  (12 * 64)(%r11), %zmm12, %zmm12;
+        vpxorq  (13 * 64)(%r11), %zmm13, %zmm13;
+        vpxorq  (14 * 64)(%r11), %zmm14, %zmm14;
+        vpxorq  (15 * 64)(%r11), %zmm15, %zmm15;
+        write_output(%zmm3, %zmm2, %zmm1, %zmm0, %zmm6, %zmm7, %zmm4, %zmm5,
+        %zmm9,  %zmm8, %zmm11, %zmm10, %zmm12, %zmm13, %zmm14,
+        %zmm15, %r10);
 
-	vzeroupper;
-	FRAME_END
-	RET;
+        vzeroupper;
+        FRAME_END
+        RET;
 SYM_FUNC_END(aria_gfni_avx512_ctr_crypt_64way)

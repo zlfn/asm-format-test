@@ -8,10 +8,10 @@ EXTERN asm_check_version_nextzxos
 
 _check_version_nextzxos:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_check_version_nextzxos
+        push    hl
+        push    af
+
+        jp      asm_check_version_nextzxos

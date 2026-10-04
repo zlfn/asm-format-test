@@ -9,19 +9,19 @@
 ;	$Id: pc88_clearkey.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  pc88_clearkey
-    PUBLIC  _pc88_clearkey
-    EXTERN  pc88bios
+        SECTION code_clib
+        PUBLIC  pc88_clearkey
+        PUBLIC  _pc88_clearkey
+        EXTERN  pc88bios
 
 pc88_clearkey:
 _pc88_clearkey:
-    push    ix
+        push    ix
 
-    xor     a
-    ld      ($E6B8), a
-    ld      ix, $69e1
-    call    pc88bios
+        xor     a
+        ld      ($E6B8), a
+        ld      ix, $69e1
+        call    pc88bios
 
-    pop     ix
-    ret
+        pop     ix
+        ret

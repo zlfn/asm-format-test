@@ -1,4 +1,4 @@
-;       Z88 Small C+ Run Time Library 
+;       Z88 Small C+ Run Time Library
 ;       Long functions
 ;
 
@@ -11,17 +11,17 @@ EXTERN error_lznc
 
 l_long_lneg:
 
-   ; deHL = !deHL
-   ; set carry if result true and return val in dehl
+        ; deHL = !deHL
+        ; set carry if result true and return val in dehl
 
-   ld a,h
-   or l
-   or e
-   or d
-   
-   jp nz, error_lznc
+        ld      a, h
+        or      l
+        or      e
+        or      d
 
-   inc l
-   
-   scf
-   ret
+        jp      nz, error_lznc
+
+        inc     l
+
+        scf
+        ret

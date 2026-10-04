@@ -22,11 +22,11 @@
 ; TO-DO:
 ; Add a control-character quoting mechanism.
 
-        .constructor    initmainargs, 24
-        .import         __argc, __argv, __dos_type
+        .constructor initmainargs, 24
+        .import __argc, __argv, __dos_type
 
-        .include        "zeropage.inc"
-        .include        "apple2.inc"
+        .include "zeropage.inc"
+        .include "apple2.inc"
 
 ; Maximum number of arguments allowed in the argument table.
 ; (An argument contains a comma, at least.)
@@ -49,7 +49,7 @@ REM       = $B2                 ; BASIC token-code
 ; Get possible command-line arguments. Goes into the special ONCE segment,
 ; which may be reused after the startup code is run.
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 initmainargs:
 
@@ -63,15 +63,15 @@ initmainargs:
 
         ldx     FNAM_LEN
 :       lda     #$00
-        sta     FNAM,x
+        sta     FNAM, x
 
-        inc     __argc          ; argc always is equal to, at least, 1
+        inc     __argc  ; argc always is equal to, at least, 1
 
 ; Find the "rem" token.
 
         ldx     #$00
-:       lda     BASIC_BUF,x
-        beq     done            ; No "rem" -> no args
+:       lda     BASIC_BUF, x
+        beq     done    ; No "rem" -> no args
         inx
         cmp     #REM
         bne     :-
@@ -84,8 +84,8 @@ initmainargs:
 
         ldy     #$00
         sty     buffer + BUF_LEN - 1
-:       lda     BASIC_BUF,x
-        sta     buffer,y
+:       lda     BASIC_BUF, x
+        sta     buffer,    y
         inx
         iny
         cpy     #BUF_LEN - 1    ; Keep the terminating zero intact
@@ -106,11 +106,11 @@ initmainargs:
 ; for the REM token we stumbled across the first '2' character ($32+$80 = $B2)
 ; and interpreted the rest of the date as a spurious command-line parameter.
 
-next:   lda     buffer,x
+next:   lda     buffer, x
         beq     done
         bmi     done
         inx
-        cmp     #' '            ; Skip leading spaces
+        cmp     #' '    ; Skip leading spaces
         beq     next
 
 ; Found start of next argument. We've incremented the pointer in X already, so
@@ -118,28 +118,28 @@ next:   lda     buffer,x
 ; will check now for a quoted argument, in which case we will have to skip this
 ; first character.
 
-        cmp     #'"'            ; Is the argument quoted?
-        beq     :+              ; Jump if so
-        dex                     ; Reset pointer to first argument character
-        lda     #' '            ; A space ends the argument
-:       sta     tmp1            ; Set end of argument marker
+        cmp     #'"'    ; Is the argument quoted?
+        beq     :+      ; Jump if so
+        dex             ; Reset pointer to first argument character
+        lda     #' '    ; A space ends the argument
+:       sta     tmp1    ; Set end of argument marker
 
 ; Now store a pointer to the argument into the next slot.
 
-        txa                     ; Get low byte
+        txa             ; Get low byte
         clc
         adc     #<buffer
-        sta     argv,y          ; argv[y] = &arg
+        sta     argv, y ; argv[y] = &arg
         iny
         lda     #$00
         adc     #>buffer
-        sta     argv,y
+        sta     argv, y
         iny
-        inc     __argc          ; Found another arg
+        inc     __argc  ; Found another arg
 
 ; Search for the end of the argument.
 
-:       lda     buffer,x
+:       lda     buffer, x
         beq     done
         inx
         cmp     tmp1
@@ -150,7 +150,7 @@ next:   lda     buffer,x
 ; replace the terminating character by a zero.
 
         lda     #$00
-        sta     buffer-1,x
+        sta     buffer-1, x
 
 ; Check if the maximum number of command-line arguments is reached. If not,
 ; parse the next one.
@@ -174,6 +174,6 @@ done:   lda     #<argv
 argv:   .addr   FNAM
         .res    MAXARGS * 2
 
-        .segment        "INIT"
+        .segment "INIT"
 
 buffer: .res    BUF_LEN

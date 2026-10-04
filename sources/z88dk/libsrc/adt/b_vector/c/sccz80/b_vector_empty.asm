@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _b_vector_empty
 defc _b_vector_empty = b_vector_empty
 ENDIF
-

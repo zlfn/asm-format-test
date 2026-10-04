@@ -10,19 +10,18 @@ EXTERN asm_wv_priority_queue_reserve
 
 wv_priority_queue_reserve:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp asm_wv_priority_queue_reserve
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_wv_priority_queue_reserve
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _wv_priority_queue_reserve
 defc _wv_priority_queue_reserve = wv_priority_queue_reserve
 ENDIF
-

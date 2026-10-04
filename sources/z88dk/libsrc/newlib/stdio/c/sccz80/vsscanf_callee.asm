@@ -10,9 +10,9 @@ EXTERN asm_vsscanf
 
 vsscanf_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   
-   jp asm_vsscanf
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_vsscanf

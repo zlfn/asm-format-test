@@ -10,23 +10,22 @@ EXTERN asm_z80_otdr
 
 z80_otdr:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
 
-   ld b,e
-   otdr
-   ret
-   
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        ld      b, e
+        otdr
+        ret
+
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _z80_otdr
 defc _z80_otdr = z80_otdr
 ENDIF
-

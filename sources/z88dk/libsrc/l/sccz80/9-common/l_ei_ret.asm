@@ -7,7 +7,7 @@ PUBLIC l_ei_ret
 
 l_ei_ret:
 
-   ei
-   ret
+        ei
+        ret
 
 ENDIF

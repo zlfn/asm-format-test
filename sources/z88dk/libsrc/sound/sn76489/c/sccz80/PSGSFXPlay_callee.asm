@@ -9,16 +9,15 @@ EXTERN asm_PSGlib_SFXPlay
 
 PSGSFXPlay_callee:
 
-   pop af
-   pop bc
-   pop de
-   push af
+        pop     af
+        pop     bc
+        pop     de
+        push    af
 
-   jp asm_PSGlib_SFXPlay
+        jp      asm_PSGlib_SFXPlay
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _PSGSFXPlay_callee
 defc _PSGSFXPlay_callee = PSGSFXPlay_callee
 ENDIF
-

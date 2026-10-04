@@ -4,8 +4,8 @@
 ; CC65 runtime: long complement
 ;
 
-        .export         compleax
-        .importzp       sreg
+        .export compleax
+        .importzp sreg
 
 ; eax = ~eax
 
@@ -23,4 +23,3 @@ compleax:
         sta     sreg+1
         pla
         rts
-

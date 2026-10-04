@@ -16,10 +16,8 @@ PUBLIC _ffsl
 defc _ffsl = ffsl
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___ffsl
 defc ___ffsl = ffsl
 ENDIF
-

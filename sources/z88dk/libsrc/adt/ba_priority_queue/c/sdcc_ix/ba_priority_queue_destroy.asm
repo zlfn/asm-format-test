@@ -10,10 +10,10 @@ EXTERN asm_ba_priority_queue_destroy
 
 _ba_priority_queue_destroy:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_ba_priority_queue_destroy
+        push    hl
+        push    af
+
+        jp      asm_ba_priority_queue_destroy

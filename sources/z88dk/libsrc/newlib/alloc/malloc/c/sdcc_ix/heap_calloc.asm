@@ -16,17 +16,17 @@ EXTERN asm_heap_calloc
 
 _heap_calloc:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push af
-   
-   jp asm_heap_calloc
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_heap_calloc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -37,7 +37,7 @@ PUBLIC _heap_calloc
 EXTERN _heap_calloc_unlocked
 
 defc _heap_calloc = _heap_calloc_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

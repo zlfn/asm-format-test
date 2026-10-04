@@ -11,84 +11,83 @@ EXTERN l_inc_sp
 
 asm_esx_m_errh:
 
-   ; dot command rom3 error intercept
-   ;
-   ; registers an error handler jumped to on error
-   ; if the error handler resumes, an attempt will be made to resume the program
-   ;
-   ; enter : hl = void (*handler)(uint8_t error)
-   ;
-   ; exit  : hl = old error handler
-   ;
-   ; uses  : af, bc, de, hl, ix
-   
-   ld de,(_esx_errh)
-   ld (_esx_errh),hl         ; store address of error handler
-   
-   ld a,h
-   or l
-   jr z, register_handler      ; if 0, restoring default handler
-   
-   ld hl,intercept
+        ; dot command rom3 error intercept
+        ;
+        ; registers an error handler jumped to on error
+        ; if the error handler resumes, an attempt will be made to resume the program
+        ;
+        ; enter : hl = void (*handler)(uint8_t error)
+        ;
+        ; exit  : hl = old error handler
+        ;
+        ; uses  : af, bc, de, hl, ix
+
+        ld      de, (_esx_errh)
+        ld      (_esx_errh), hl ; store address of error handler
+
+        ld      a, h
+        or      l
+        jr      z, register_handler     ; if 0, restoring default handler
+
+        ld      hl, intercept
 
 register_handler:
-   
-   push de
-   
+
+        push    de
+
 IF __SDCC_IY
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 ELSE
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 ENDIF
 
-   rst __ESX_RST_SYS
-   defb __ESX_M_ERRH
-   
-   pop hl
-   ret
+        rst     __ESX_RST_SYS
+        defb    __ESX_M_ERRH
+
+        pop     hl
+        ret
 
 intercept:
 
-   ; when an error occurs, come here first
-   
-   push de                     ; save return address
+        ; when an error occurs, come here first
 
-   ; push error handler parameter "uint8_t error"
+        push    de      ; save return address
+
+        ; push error handler parameter "uint8_t error"
 
 IF __SDCC
-   ld e,a
-   ld d,a
-   push de
-   inc sp
+        ld      e, a
+        ld      d, a
+        push    de
+        inc     sp
 ENDIF
 
 IF __SCCZ80
-   ld e,a
-   ld d,0
-   push de
+        ld      e, a
+        ld      d, 0
+        push    de
 ENDIF
 
-   ; return address if user error handler returns and wants to resume
-   ; if return simply clear the stack of pushed parameter and then return
-   
+        ; return address if user error handler returns and wants to resume
+        ; if return simply clear the stack of pushed parameter and then return
+
 IF __SDCC
-   ld hl,l_inc_sp - 1
-   push hl
+        ld      hl, l_inc_sp - 1
+        push    hl
 ENDIF
 
 IF __SCCZ80
-   ld hl,l_inc_sp - 2
-   push hl
+        ld      hl, l_inc_sp - 2
+        push    hl
 ENDIF
-   
-   ld hl,(_esx_errh)
-   push hl
-   
-   ex de,hl                    ; l = uint8_t error
-   ret                         ; call user error handler
 
+        ld      hl, (_esx_errh)
+        push    hl
+
+        ex      de, hl  ; l = uint8_t error
+        ret             ; call user error handler
 
 ; ***************************************************************************
 ; * M_ERRH ($95) *

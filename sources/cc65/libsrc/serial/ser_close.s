@@ -4,7 +4,6 @@
 ; unsigned char ser_close (void);
 ; /* "Close" the port. Clear buffers and and disable interrupts. */
 
+        .include "ser-kernel.inc"
 
-        .include        "ser-kernel.inc"
-
-        _ser_close      = ser_close
+        _ser_close = ser_close

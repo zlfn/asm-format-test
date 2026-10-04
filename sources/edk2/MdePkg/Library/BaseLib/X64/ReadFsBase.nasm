@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT64
@@ -27,5 +27,5 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalX86ReadFsBase)
 ASM_PFX(InternalX86ReadFsBase):
-    rdfsbase rax
-    ret
+        rdfsbase rax
+        ret

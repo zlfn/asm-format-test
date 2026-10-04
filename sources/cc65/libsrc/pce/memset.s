@@ -20,20 +20,19 @@
 ; NOTE: This function uses entry points from "pce/memcpy.s"!
 ;
 
-        .export         ___bzero, _bzero, _memset
+        .export ___bzero, _bzero, _memset
 
-        .import         memcpy_getparams, memcpy_increment
-        .import         pushax, popax
-        .importzp       ptr1, ptr2, ptr3
+        .import memcpy_getparams, memcpy_increment
+        .import pushax, popax
+        .importzp ptr1, ptr2, ptr3
 
-        .macpack        longbranch
-
+        .macpack longbranch
 
 ; ----------------------------------------------------------------------
 ___bzero:
 _bzero: pha
-        cla                             ; fill with zeros
-        jsr     pushax                  ; (high byte isn't important)
+        cla             ; fill with zeros
+        jsr     pushax  ; (high byte isn't important)
         pla
 
 _memset:
@@ -45,22 +44,22 @@ _memset:
 ; exploit that overlap, by using memcpy().  Therefore, the fill value is copied
 ; from each byte to the next byte, all the way to the end of the buffer.
 
-        lda     ptr1                    ; get fill value
+        lda     ptr1    ; get fill value
         sta     (ptr2)
 
-        lda     ptr3                    ; count first byte
+        lda     ptr3    ; count first byte
         bne     @L3
         dec     ptr3+1
 @L3:    dec     a
         sta     ptr3
         ora     ptr3+1
-        jeq     popax                   ; return ptr. if no more bytes
+        jeq     popax   ; return ptr. if no more bytes
 
-        lda     ptr2                    ; point to first buffer
+        lda     ptr2    ; point to first buffer
         ldx     ptr2+1
         sta     ptr1
         stx     ptr1+1
-        inc     ptr2                    ; point to second buffer
+        inc     ptr2    ; point to second buffer
         bne     @L2
         inc     ptr2+1
 

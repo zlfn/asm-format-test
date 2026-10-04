@@ -10,22 +10,22 @@ EXTERN am48_double32u, cm48_sdccixp_m482d
 
 cm48_sdccixp_ulong2ds:
 
-   ; unsigned long to double
-   ;
-   ; enter : stack = unsigned long ul, ret
-   ;
-   ; exit  : dehl = sdcc_float(ul)
-   ;
-   ; uses  : af, bc, de, hl, bc', de', hl'
+        ; unsigned long to double
+        ;
+        ; enter : stack = unsigned long ul, ret
+        ;
+        ; exit  : dehl = sdcc_float(ul)
+        ;
+        ; uses  : af, bc, de, hl, bc', de', hl'
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
 
-   call am48_double32u
-   
-   jp cm48_sdccixp_m482d
+        push    de
+        push    hl
+        push    af
+
+        call    am48_double32u
+
+        jp      cm48_sdccixp_m482d

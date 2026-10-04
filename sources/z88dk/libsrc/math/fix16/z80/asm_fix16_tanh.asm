@@ -1,7 +1,7 @@
 
-    SECTION code_clib
-    
-    PUBLIC  asm_fix16_tanh
-    EXTERN  _fix16_tanh
+        SECTION code_clib
 
-    defc    asm_fix16_tanh = _fix16_tanh
+        PUBLIC  asm_fix16_tanh
+        EXTERN  _fix16_tanh
+
+        defc    asm_fix16_tanh = _fix16_tanh

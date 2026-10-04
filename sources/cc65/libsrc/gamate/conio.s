@@ -1,15 +1,15 @@
-        .include        "gamate.inc"
-        .include        "extzp.inc"
+        .include "gamate.inc"
+        .include "extzp.inc"
 
-        .import         fontdata
-        .import         colors
-        .importzp       ptr1, tmp1
+        .import fontdata
+        .import colors
+        .importzp ptr1, tmp1
 
-        .constructor    initconio
+        .constructor initconio
 
-        .macpack        longbranch
+        .macpack longbranch
 
-        .segment        "ONCE"
+        .segment "ONCE"
 initconio:
         lda     #0
         sta     LCD_XPOS
@@ -24,4 +24,3 @@ initconio:
         lda     #COLOR_WHITE
         sta     BGCOLOR
         rts
-

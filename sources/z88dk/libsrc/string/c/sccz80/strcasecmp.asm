@@ -10,20 +10,20 @@ EXTERN asm_strcasecmp
 
 strcasecmp:
 
-   pop bc
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push bc
+        pop     bc
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    bc
 IF __CLASSIC && __CPU_GBZ80__
-   call asm_strcasecmp
-   ld d,h
-   ld e,l
-   ret
+        call    asm_strcasecmp
+        ld      d, h
+        ld      e, l
+        ret
 ELSE
-   jp asm_strcasecmp
+        jp      asm_strcasecmp
 ENDIF
 
 ; SDCC bridge for Classic
@@ -32,10 +32,8 @@ PUBLIC _strcasecmp
 defc _strcasecmp = strcasecmp
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___strcasecmp
 defc ___strcasecmp = strcasecmp
 ENDIF
-

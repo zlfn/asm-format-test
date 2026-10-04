@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Mar 2014
 ; ===============================================================
-; 
+;
 ; void *wv_stack_top(wv_stack_t *s)
 ;
 ; Return word at top of stack without removing it.
@@ -19,17 +19,17 @@ EXTERN asm_w_array_back
 
 defc asm_wv_stack_top = asm_w_array_back
 
-   ; enter : hl = stack *
-   ;
-   ; exit  : success
-   ;
-   ;            de = & last word in stack
-   ;            hl = last word in stack
-   ;            carry reset
-   ;
-   ;         fail if stack is empty
-   ;
-   ;            hl = -1
-   ;            carry set
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : hl = stack *
+        ;
+        ; exit  : success
+        ;
+        ;            de = & last word in stack
+        ;            hl = last word in stack
+        ;            carry reset
+        ;
+        ;         fail if stack is empty
+        ;
+        ;            hl = -1
+        ;            carry set
+        ;
+        ; uses  : af, bc, de, hl

@@ -5,11 +5,10 @@
 ; 2018-04-17, Greg King
 ;
 
-        .export         __TGIHDR__ : abs = 1    ; Mark as TGI housekeeper
+        .export __TGIHDR__ : abs = 1    ; Mark as TGI housekeeper
 
-        .import         __MAIN_LAST__
-        .importzp       ptr1, ptr2, tmp1
-
+        .import __MAIN_LAST__
+        .importzp ptr1, ptr2, tmp1
 
 basic_reset     :=      $C000           ; vector to BASIC's cold-start code
 
@@ -29,36 +28,36 @@ basic_reset     :=      $C000           ; vector to BASIC's cold-start code
         stx     ptr2+1
 
         ldx     #<~prog_size
-        lda     #>~prog_size            ; use -(prog_size + 1)
+        lda     #>~prog_size    ; use -(prog_size + 1)
         sta     tmp1
 
         ldy     #<$0000
 
 ; Copy loop
 
-@L1:    inx                             ; bump counter's low byte
+@L1:    inx     ; bump counter's low byte
         beq     @L4
 
-@L2:    tya                             ; will .Y underflow?
+@L2:    tya             ; will .Y underflow?
         bne     @L3
-        dec     ptr1+1                  ; yes, do next lower page
+        dec     ptr1+1  ; yes, do next lower page
         dec     ptr2+1
 @L3:    dey
 
-        lda     (ptr1),y
-        sta     (ptr2),y
+        lda     (ptr1), y
+        sta     (ptr2), y
         jmp     @L1
 
-@L4:    inc     tmp1                    ; bump counter's high byte
+@L4:    inc     tmp1    ; bump counter's high byte
         bne     @L2
 
-        jmp     tgi2hdr                 ; go to moved program
+        jmp     tgi2hdr ; go to moved program
 tgi1end:
 
 .segment        "TGI2HDR"
 
 tgi2hdr:
-        jsr     tgi2end                 ; run actual program
+        jsr     tgi2end ; run actual program
         jmp     (basic_reset)
 tgi2end:
 

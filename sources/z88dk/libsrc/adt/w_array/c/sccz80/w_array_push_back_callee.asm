@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _w_array_push_back_callee
 defc _w_array_push_back_callee = w_array_push_back_callee
 ENDIF
-

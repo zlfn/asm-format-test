@@ -9,7 +9,7 @@ BYTE 2, 4, 6, 8
 ; CHECK-NEXT: .byte	8
 
 BYTE 2 dup (1, 2 dup (2)),
-     3
+        3
 ; CHECK: .byte	1
 ; CHECK-NEXT: .byte	2
 ; CHECK-NEXT: .byte	2
@@ -23,7 +23,7 @@ REAL4 1, 0
 ; CHECK-NEXT: .long 0
 
 REAL4 2 DUP (2.5, 2 dup (0)),
-      4
+        4
 ; CHECK: .long 1075838976
 ; CHECK-NEXT: .long 0
 ; CHECK-NEXT: .long 0

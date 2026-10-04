@@ -5,10 +5,9 @@
 ; /* Returns 1 if the CPU is in double clock mode. */
 ;
 
-        .export         _isfast
+        .export _isfast
 
-        .include        "plus4.inc"
-
+        .include "plus4.inc"
 
 .proc   _isfast
 
@@ -19,4 +18,3 @@
         rts
 
 .endproc
-

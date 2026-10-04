@@ -17,32 +17,30 @@ EXTERN ide_init
 ; hl = DSTATUS, set carry flag
 ;
 
-
 ; initialize the ide drive
 
 .asm_disk_initialize
-    xor a                       ; clear a
-    or l                        ; check that that it is drive 0
-    jr NZ,sta_nodisk
+        xor     a       ; clear a
+        or      l       ; check that that it is drive 0
+        jr      NZ, sta_nodisk
 
-    call ide_hard_reset         ; hard reset the drive
-    jr NC,sta_noinit
+        call    ide_hard_reset  ; hard reset the drive
+        jr      NC, sta_noinit
 
-    call ide_soft_reset         ; soft reset the drive
-    jr NC,sta_noinit
+        call    ide_soft_reset  ; soft reset the drive
+        jr      NC, sta_noinit
 
-    call ide_init               ; initialize the drive. If there is no drive, this may hang
-    jr NC,sta_noinit
+        call    ide_init        ; initialize the drive. If there is no drive, this may hang
+        jr      NC, sta_noinit
 
-    ld hl,0                     ; set DSTATUS OK
-    scf
-    ret
+        ld      hl, 0   ; set DSTATUS OK
+        scf
+        ret
 
 .sta_noinit
-    ld hl,1                     ; set DSTATUS STA_NOINIT
-    ret
+        ld      hl, 1   ; set DSTATUS STA_NOINIT
+        ret
 
 .sta_nodisk
-    ld hl,2                     ; set DSTATUS STA_NODISK
-    ret
-
+        ld      hl, 2   ; set DSTATUS STA_NODISK
+        ret

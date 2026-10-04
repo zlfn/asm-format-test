@@ -10,18 +10,18 @@ EXTERN l0_memccpy_callee
 
 _memccpy:
 
-   pop af
-   pop de
-   pop hl
-   exx
-   pop bc
-   exx
-   pop bc
-   
-   push bc
-   push bc
-   push hl
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     hl
+        exx
+        pop     bc
+        exx
+        pop     bc
 
-   jp l0_memccpy_callee
+        push    bc
+        push    bc
+        push    hl
+        push    de
+        push    af
+
+        jp      l0_memccpy_callee

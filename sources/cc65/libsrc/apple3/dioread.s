@@ -4,10 +4,10 @@
 ; unsigned char __fastcall__ dio_read (dhandle_t handle, unsigned sect_num, void *buffer);
 ;
 
-        .export         _dio_read
-        .import         dioprolog, diocommon
+        .export _dio_read
+        .import dioprolog, diocommon
 
-        .include        "sos.inc"
+        .include "sos.inc"
 
 _dio_read:
         jsr     dioprolog

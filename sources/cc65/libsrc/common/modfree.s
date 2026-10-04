@@ -31,10 +31,7 @@
 ;*                                                                           */
 ;*****************************************************************************/
 
-
-        .export         _mod_free
-        .import         _free
+        .export _mod_free
+        .import _free
 
 _mod_free       = _free                 ; Just free the memory
-
-

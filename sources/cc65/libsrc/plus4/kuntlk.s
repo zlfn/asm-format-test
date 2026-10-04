@@ -4,17 +4,15 @@
 ; UNTLK replacement function
 ;
 
-        .export         UNTLK
+        .export UNTLK
 
-        .include        "plus4.inc"
+        .include "plus4.inc"
 
 .segment        "LOWCODE"               ; Must go into low memory
 
 .proc   UNTLK
-        sta     ENABLE_ROM              ; Enable the ROM
-        jsr     $FFAB                   ; Call the ROM routine
-        sta     ENABLE_RAM              ; Switch back to RAM
-        rts                             ; Return to caller
+        sta     ENABLE_ROM      ; Enable the ROM
+        jsr     $FFAB           ; Call the ROM routine
+        sta     ENABLE_RAM      ; Switch back to RAM
+        rts                     ; Return to caller
 .endproc
-
-

@@ -18,13 +18,13 @@ PUBLIC asm_cpu_otdr
 asm_z80_otdr:
 asm_cpu_otdr:
 
-   ; enter : hl = void *src
-   ;          c = port
-   ;          b = num
-   ;
-   ; exit  : hl = void *src_prev (address of byte prior to last written)
-   ;
-   ; uses  : f, b, hl
-   
-   otdr
-   ret
+        ; enter : hl = void *src
+        ;          c = port
+        ;          b = num
+        ;
+        ; exit  : hl = void *src_prev (address of byte prior to last written)
+        ;
+        ; uses  : f, b, hl
+
+        otdr
+        ret

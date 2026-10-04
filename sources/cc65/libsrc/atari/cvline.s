@@ -6,16 +6,16 @@
 ;
         .include "atari.inc"
 
-        .export         _cvlinexy, _cvline
-        .import         gotoxy, putchar, setcursor
-        .importzp       tmp1
+        .export _cvlinexy, _cvline
+        .import gotoxy,    putchar, setcursor
+        .importzp tmp1
 
 CHRCODE =       $7C             ; Vertical bar
 
 _cvlinexy:
-        pha                     ; Save the length
-        jsr     gotoxy          ; Call this one, will pop params
-        pla                     ; Restore the length and run into _cvline
+        pha             ; Save the length
+        jsr     gotoxy  ; Call this one, will pop params
+        pla             ; Restore the length and run into _cvline
 
 _cvline:
         cmp     #0              ; Is the length zero?

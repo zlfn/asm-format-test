@@ -9,10 +9,10 @@ PUBLIC _sp1_DrawUpdateStructIfInv_fastcall
 EXTERN asm_sp1_DrawUpdateStructIfInv
 
 _sp1_DrawUpdateStructIfInv_fastcall:
-   
-   push ix
-   
-   call asm_sp1_DrawUpdateStructIfInv
-   
-   pop ix
-   ret
+
+        push    ix
+
+        call    asm_sp1_DrawUpdateStructIfInv
+
+        pop     ix
+        ret

@@ -10,28 +10,28 @@ EXTERN d2mlib, l0_dtog_callee
 
 _dtog:
 
-   pop af
-   
-   pop de
-   pop hl
-   
-   exx
-   
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   
-   exx
-   
-   push hl
-   push de
-   
-   push af
-   
-   call d2mlib
-   
-   jp l0_dtog_callee
+        pop     af
+
+        pop     de
+        pop     hl
+
+        exx
+
+        pop     hl
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+
+        exx
+
+        push    hl
+        push    de
+
+        push    af
+
+        call    d2mlib
+
+        jp      l0_dtog_callee

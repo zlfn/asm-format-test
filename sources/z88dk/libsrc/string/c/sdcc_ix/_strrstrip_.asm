@@ -10,10 +10,10 @@ EXTERN asm__strrstrip
 
 __strrstrip_:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm__strrstrip
+        push    hl
+        push    af
+
+        jp      asm__strrstrip

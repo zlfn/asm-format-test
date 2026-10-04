@@ -10,9 +10,9 @@ EXTERN asm_strndup
 
 _strndup_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_strndup
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_strndup

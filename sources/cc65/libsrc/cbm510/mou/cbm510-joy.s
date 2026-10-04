@@ -5,20 +5,19 @@
 ; 2014-09-10, Greg King
 ;
 
-        .include        "zeropage.inc"
-        .include        "../extzp.inc"
+        .include "zeropage.inc"
+        .include "../extzp.inc"
 
-        .include        "mouse-kernel.inc"
-        .include        "cbm510.inc"
+        .include "mouse-kernel.inc"
+        .include "cbm510.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _cbm510_joy_mou
+        module_header _cbm510_joy_mou
 
 HEADER:
 
@@ -52,13 +51,12 @@ HEADER:
 
 ; Callback table, set by the kernel before INSTALL is called.
 
-CHIDE:  jmp     $0000                   ; Hide the cursor
-CSHOW:  jmp     $0000                   ; Show the cursor
-CPREP:  jmp     $0000                   ; Prepare to move the cursor
-CDRAW:  jmp     $0000                   ; Draw the cursor
-CMOVEX: jmp     $0000                   ; Move the cursor to x co-ord.
-CMOVEY: jmp     $0000                   ; Move the cursor to y co-ord.
-
+CHIDE:  jmp     $0000   ; Hide the cursor
+CSHOW:  jmp     $0000   ; Show the cursor
+CPREP:  jmp     $0000   ; Prepare to move the cursor
+CDRAW:  jmp     $0000   ; Draw the cursor
+CMOVEX: jmp     $0000   ; Move the cursor to x co-ord.
+CMOVEY: jmp     $0000   ; Move the cursor to y co-ord.
 
 ;----------------------------------------------------------------------------
 ; Constants
@@ -82,16 +80,16 @@ SCREEN_WIDTH    = XSIZE * 8
 .bss
 
 Vars:
-YPos:           .res    2               ; Current mouse position, y
-XPos:           .res    2               ; Current mouse position, x
-XMin:           .res    2               ; X1 value of bounding box
-YMin:           .res    2               ; Y1 value of bounding box
-XMax:           .res    2               ; X2 value of bounding box
-YMax:           .res    2               ; Y2 value of bounding box
+YPos:   .res    2       ; Current mouse position, y
+XPos:   .res    2       ; Current mouse position, x
+XMin:   .res    2       ; X1 value of bounding box
+YMin:   .res    2       ; Y1 value of bounding box
+XMax:   .res    2       ; X2 value of bounding box
+YMax:   .res    2       ; Y2 value of bounding box
 
 ; Temporary value used in the interrupt handler
 
-Temp:           .res    1
+Temp:   .res    1
 
 .rodata
 
@@ -119,8 +117,8 @@ INSTALL:
 ; Initiate variables; just copy the default stuff over.
 
         ldx     #.sizeof(DefVars) - 1
-@L1:    lda     DefVars,x
-        sta     Vars,x
+@L1:    lda     DefVars, x
+        sta     Vars,    x
         dex
         bpl     @L1
 
@@ -183,13 +181,13 @@ SHOW:   sei
 ; caller, and save some code here. No return code required.
 
 SETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX) - 1
         sei
 
-@L1:    lda     (ptr1),y
-        sta     XMin,y
+@L1:    lda     (ptr1), y
+        sta     XMin,   y
         dey
         bpl     @L1
 
@@ -201,12 +199,12 @@ SETBOX: sta     ptr1
 ; come from the C program, that is, a pointer to a mouse_box struct in .XA.
 
 GETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX) - 1
 
-@L1:    lda     XMin,y
-        sta     (ptr1),y
+@L1:    lda     XMin,   y
+        sta     (ptr1), y
         dey
         bpl     @L1
 
@@ -220,19 +218,19 @@ GETBOX: sta     ptr1
 ; the screen). No return code required.
 ;
 
-MOVE:   sei                             ; No interrupts
+MOVE:   sei     ; No interrupts
 
-        jsr     MoveY                   ; Set new y position
+        jsr     MoveY   ; Set new y position
 
         ldy     #1
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     XPos+1
         tax
         dey
-        lda     (c_sp),y
-        jsr     MoveX                   ; Move the pointer
+        lda     (c_sp), y
+        jsr     MoveX   ; Move the pointer
 
-        cli                             ; Allow interrupts
+        cli     ; Allow interrupts
         rts
 
 ;----------------------------------------------------------------------------
@@ -241,13 +239,13 @@ MOVE:   sei                             ; No interrupts
 ; Joystick 1's fire button is the right mouse button.
 
 BUTTONS:
-        ldx     #15                    ; Switch to the system bank
+        ldx     #15     ; Switch to the system bank
         stx     IndReg
 
 ; Get the fire-button bits
 
         ldy     #CIA::PRA
-        lda     (cia2),y
+        lda     (cia2), y
 
 ; Switch back to the execution bank.
 
@@ -258,10 +256,10 @@ BUTTONS:
 ; Joystick 1, fire button is in bit 6.
 
         and     #%11000000
-        asl     a                       ; Move bits 7,6 to bits 1,0
+        asl     a               ; Move bits 7,6 to bits 1,0
         rol     a
         rol     a
-        adc     #%00001110              ; Move bit 1 to bit 4
+        adc     #%00001110      ; Move bit 1 to bit 4
         and     #MOUSE_BTN_LEFT | MOUSE_BTN_RIGHT
 
 ; Bits go up when buttons go down.
@@ -283,7 +281,7 @@ INFO:   jsr     BUTTONS
 ; Fill in the button state.
 
         ldy     #MOUSE_INFO::BUTTONS
-        sta     (ptr1),y
+        sta     (ptr1), y
 
 ;       jmp     POS                     ; Fall through
 
@@ -293,22 +291,22 @@ INFO:   jsr     BUTTONS
 
 POS:    ldy     #MOUSE_POS::XCOORD      ; Structure offset
 
-        sei                             ; Disable interrupts
-        lda     XPos                    ; Transfer the position
-        sta     (ptr1),y
+        sei             ; Disable interrupts
+        lda     XPos    ; Transfer the position
+        sta     (ptr1), y
         lda     XPos+1
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos+1
-        cli                             ; Enable interrupts
+        cli             ; Enable interrupts
 
         iny
-        sta     (ptr1),y                ; Store last byte
+        sta     (ptr1), y       ; Store last byte
 
-        rts                             ; Done
+        rts     ; Done
 
 ;----------------------------------------------------------------------------
 ; IOCTL: Driver-defined entry point. The wrapper will pass a pointer to ioctl-
@@ -317,7 +315,7 @@ POS:    ldy     #MOUSE_POS::XCOORD      ; Structure offset
 ;
 
 IOCTL:  lda     #MOUSE_ERR_INV_IOCTL    ; We don't support ioctls, for now
-        ldx     #0 ; return value is char
+        ldx     #0                      ; return value is char
         rts
 
 ;----------------------------------------------------------------------------
@@ -329,13 +327,13 @@ IOCTL:  lda     #MOUSE_ERR_INV_IOCTL    ; We don't support ioctls, for now
 ;
 
 IRQ:    jsr     CPREP
-        ldy     #15                     ; Switch to the system bank
+        ldy     #15     ; Switch to the system bank
         sty     IndReg
 
 ; Get the direction bits.
 
         ldy     #CIA::PRB
-        lda     (cia2),y                ; Read joystick inputs
+        lda     (cia2), y       ; Read joystick inputs
 
 ; Switch back to the execution bank.
 
@@ -346,7 +344,7 @@ IRQ:    jsr     CPREP
 ; Mask the relevant bits.
 
         and     #$F0
-        eor     #$F0                    ; All bits are inverted
+        eor     #$F0    ; All bits are inverted
         sta     Temp
 
 ; Check left/right.
@@ -368,7 +366,7 @@ IRQ:    jsr     CPREP
 ; Calculate the new x co-ordinate (--> .YA).
 
 @AddX:  add     XPos
-        tay                             ; Remember low byte
+        tay     ; Remember low byte
         txa
         adc     XPos+1
         tax
@@ -393,14 +391,14 @@ IRQ:    jsr     CPREP
 
 ; Calculate the y movement vector.
 
-@SkipX: lda     Temp                    ; Get joystick again
-        and     #(JOY::UP | JOY::DOWN) << 4  ; Check up/down
+@SkipX: lda     Temp                            ; Get joystick again
+        and     #(JOY::UP | JOY::DOWN) << 4     ; Check up/down
         bze     @SkipY
 
 ; We will cheat here, and rely on the fact that either the up OR the down
 ; bit can be active.
 
-        and     #JOY::UP << 4           ; Check UP bit
+        and     #JOY::UP << 4   ; Check UP bit
         bze     @Down
         lda     #<-$0001
         tax
@@ -411,7 +409,7 @@ IRQ:    jsr     CPREP
 ; Calculate the new y co-ordinate (--> .YA).
 
 @AddY:  add     YPos
-        tay                             ; Remember low byte
+        tay     ; Remember low byte
         txa
         adc     YPos+1
         tax
@@ -437,7 +435,7 @@ IRQ:    jsr     CPREP
 ; Done
 
 @SkipY: jsr     CDRAW
-        clc                             ; Interrupt not "handled"
+        clc     ; Interrupt not "handled"
         rts
 
 ; Move the mouse pointer to the new x pos.

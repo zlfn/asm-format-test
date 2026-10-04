@@ -9,19 +9,18 @@ EXTERN asm_tshr_scroll_up
 
 tshr_scroll_up:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
 
-   jp asm_tshr_scroll_up
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_tshr_scroll_up
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _tshr_scroll_up
 defc _tshr_scroll_up = tshr_scroll_up
 ENDIF
-

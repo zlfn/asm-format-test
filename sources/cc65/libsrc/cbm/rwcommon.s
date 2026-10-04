@@ -4,14 +4,13 @@
 ; Common stuff for the read/write routines
 ;
 
-        .export         rwcommon
+        .export rwcommon
 
-        .import         popax, popptr1
-        .importzp       ptr1, ptr2, ptr3, tmp2
+        .import popax, popptr1
+        .importzp ptr1, ptr2, ptr3, tmp2
 
-        .include        "errno.inc"
-        .include        "filedes.inc"
-
+        .include "errno.inc"
+        .include "filedes.inc"
 
 ;--------------------------------------------------------------------------
 ; rwcommon: Pop the parameters from stack, preprocess them and place them
@@ -25,12 +24,12 @@
         stx     ptr2+1
         tax
         inx
-        stx     ptr2            ; Save count with each byte incremented separately
+        stx     ptr2    ; Save count with each byte incremented separately
 
-        jsr     popptr1         ; Get buf to ptr1, Y=0 by call
+        jsr     popptr1 ; Get buf to ptr1, Y=0 by call
 
         sty     ptr3
-        sty     ptr3+1          ; Clear ptr3
+        sty     ptr3+1  ; Clear ptr3
 
         jsr     popax           ; Get the handle
         cpx     #$01
@@ -40,5 +39,3 @@
 @L9:    rts                     ; Return with result in carry
 
 .endproc
-
-

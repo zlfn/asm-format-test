@@ -8,22 +8,22 @@ EXTERN __esx_m_tapeout_call
 
 asm_esx_m_tapeout_close:
 
-   ; enter : none
-	;
-	; exit  : success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-	;
-	; uses  : af, bc, de, hl
-	
-	ld b,1
-	jp __esx_m_tapeout_call
+        ; enter : none
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl
+
+        ld      b, 1
+        jp      __esx_m_tapeout_call
 
 ; ***************************************************************************
 ; * M_TAPEOUT ($8c) *

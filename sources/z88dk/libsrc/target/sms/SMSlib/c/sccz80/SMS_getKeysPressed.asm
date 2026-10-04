@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_getKeysPressed
 defc _SMS_getKeysPressed = SMS_getKeysPressed
 ENDIF
-

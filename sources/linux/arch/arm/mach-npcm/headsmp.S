@@ -13,7 +13,7 @@
  * here.
  */
 ENTRY(npcm7xx_secondary_startup)
-	safe_svcmode_maskall r0
+        safe_svcmode_maskall r0
 
-	b	secondary_startup
+        b       secondary_startup
 ENDPROC(npcm7xx_secondary_startup)

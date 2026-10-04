@@ -10,10 +10,10 @@ EXTERN _fclose_unlocked_fastcall
 
 _fclose_unlocked:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _fclose_unlocked_fastcall
+        push    hl
+        push    af
+
+        jp      _fclose_unlocked_fastcall

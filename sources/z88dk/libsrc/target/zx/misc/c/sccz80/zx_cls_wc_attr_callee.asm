@@ -9,9 +9,9 @@ EXTERN asm_zx_cls_wc_attr
 
 zx_cls_wc_attr_callee:
 
-   pop af
-   pop hl
-   pop ix
-   push af
+        pop     af
+        pop     hl
+        pop     ix
+        push    af
 
-   jp asm_zx_cls_wc_attr
+        jp      asm_zx_cls_wc_attr

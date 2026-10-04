@@ -8,12 +8,12 @@ EXTERN asm_mkstemp_ex
 
 _mkstemp_ex_fastcall:
 
-   push ix
-   push iy
-   
-   call asm_mkstemp_ex
-   
-   pop iy
-   pop ix
+        push    ix
+        push    iy
 
-   ret
+        call    asm_mkstemp_ex
+
+        pop     iy
+        pop     ix
+
+        ret

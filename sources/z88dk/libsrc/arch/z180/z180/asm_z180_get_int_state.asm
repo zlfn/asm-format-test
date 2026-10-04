@@ -20,13 +20,13 @@ PUBLIC asm_cpu_get_int_state
 asm_z180_get_int_state:
 asm_cpu_get_int_state:
 
-   ; exit  : l = ei/di status
-   ;
-   ; uses  : af, hl
+        ; exit  : l = ei/di status
+        ;
+        ; uses  : af, hl
 
-   ld a,i
+        ld      a, i
 
-   push af
-   pop hl
+        push    af
+        pop     hl
 
-   ret
+        ret

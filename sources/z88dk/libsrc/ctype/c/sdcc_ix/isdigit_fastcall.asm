@@ -10,15 +10,15 @@ EXTERN asm_isdigit, error_zc
 
 _isdigit_fastcall:
 
-   inc h
-   dec h
-   jp nz, error_zc
+        inc     h
+        dec     h
+        jp      nz, error_zc
 
-   ld a,l
-   call asm_isdigit
-   
-   ld l,h
-   ret c
-   
-   inc l
-   ret
+        ld      a, l
+        call    asm_isdigit
+
+        ld      l, h
+        ret     c
+
+        inc     l
+        ret

@@ -4,34 +4,34 @@
 ; unsigned char __fastcall__ bordercolor (unsigned char color);
 ;
 
-        .export         _textcolor, _bgcolor, _bordercolor
-        .export         colors
+        .export _textcolor, _bgcolor, _bordercolor
+        .export colors
 
-        .import         return0
+        .import return0
 
-        .include        "pce.inc"
-        .include        "extzp.inc"
+        .include "pce.inc"
+        .include "extzp.inc"
 
 _bordercolor    := return0              ; always black
 
 _textcolor:
-        ldx     CHARCOLOR               ; get old value
-        sta     CHARCOLOR               ; set new value
+        ldx     CHARCOLOR       ; get old value
+        sta     CHARCOLOR       ; set new value
         txa
         rts
 
 _bgcolor:
         and     #$0F
-        ldx     BGCOLOR                 ; get old value
-        sta     BGCOLOR                 ; set new value
+        ldx     BGCOLOR ; get old value
+        sta     BGCOLOR ; set new value
         asl     a
         tay
 
         stz     VCE_ADDR_LO
         stz     VCE_ADDR_HI
-        lda     colors,y
+        lda     colors, y
         sta     VCE_DATA_LO
-        lda     colors+1,y
+        lda     colors+1, y
         sta     VCE_DATA_HI
 
         txa

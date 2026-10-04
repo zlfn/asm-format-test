@@ -10,12 +10,12 @@ EXTERN asm_strpbrk
 
 _strpbrk:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   jp asm_strpbrk
+        pop     af
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_strpbrk

@@ -4,8 +4,8 @@
 ; Apple /// SOS call api
 ;
 
-        .include        "apple3.inc"
-        .include        "sos.inc"
+        .include "apple3.inc"
+        .include "sos.inc"
 
         .data
 
@@ -14,7 +14,6 @@ sosparam:
 
 sosoption:
         .tag    OPTION
-
 
         .code
 
@@ -49,7 +48,6 @@ callsos:
         stx     sosparam + SOS::DINFO::OPTION_LIST + 1
 :
 
-
 gosos:
         ; Call SOS
         brk
@@ -57,4 +55,3 @@ call:   .byte   $00
         .addr   sosparam
 
         rts
-

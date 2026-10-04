@@ -4,8 +4,8 @@
 ; CC65 runtime: Increment eax by value in Y
 ;
 
-        .export         inceaxy
-        .importzp       ptr4, sreg
+        .export inceaxy
+        .importzp ptr4, sreg
 
 .proc   inceaxy
 
@@ -21,4 +21,3 @@
 @L9:    rts
 
 .endproc
-

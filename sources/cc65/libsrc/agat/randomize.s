@@ -6,13 +6,12 @@
 ; /* Initialize the random number generator */
 ;
 
-        .export         __randomize
-        .import         _srand
+        .export __randomize
+        .import _srand
 
-        .include        "agat.inc"
+        .include "agat.inc"
 
 __randomize:
-        ldx     RNDH            ; Use random value supplied by ROM
+        ldx     RNDH    ; Use random value supplied by ROM
         lda     RNDL
-        jmp     _srand          ; Initialize generator
-
+        jmp     _srand  ; Initialize generator

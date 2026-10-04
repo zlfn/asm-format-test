@@ -16,12 +16,12 @@ EXTERN asm_fsetpos
 
 fsetpos_callee:
 
-   pop af
-   pop hl
-   pop ix
-   push af
-   
-   jp asm_fsetpos
+        pop     af
+        pop     hl
+        pop     ix
+        push    af
+
+        jp      asm_fsetpos
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

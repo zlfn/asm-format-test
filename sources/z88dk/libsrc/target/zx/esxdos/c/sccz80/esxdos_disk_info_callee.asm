@@ -9,13 +9,13 @@ EXTERN asm_esxdos_disk_info
 
 esxdos_disk_info_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   ld a,c
-   jp asm_esxdos_disk_info
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        ld      a, c
+        jp      asm_esxdos_disk_info
 
 ; SDCC bridge for Classic
 IF __CLASSIC

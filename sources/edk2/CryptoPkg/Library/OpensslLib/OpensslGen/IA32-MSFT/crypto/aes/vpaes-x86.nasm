@@ -1,7 +1,7 @@
 %ifidn __OUTPUT_FORMAT__,obj
 section code    use32 class=code align=64
 %elifidn __OUTPUT_FORMAT__,win32
-$@feat.00 equ 1
+$@feat.00 equ   1
 section .text   code align=64
 %else
 section .text   code
@@ -65,196 +65,196 @@ db      118,101,114,115,105,116,121,41,0
 align   64
 align   16
 __vpaes_preheat:
-        add     ebp,DWORD [esp]
-        movdqa  xmm7,[ebp-48]
-        movdqa  xmm6,[ebp-16]
+        add     ebp,  DWORD [esp]
+        movdqa  xmm7, [ebp-48]
+        movdqa  xmm6, [ebp-16]
         ret
 align   16
 __vpaes_encrypt_core:
-        mov     ecx,16
-        mov     eax,DWORD [240+edx]
-        movdqa  xmm1,xmm6
-        movdqa  xmm2,[ebp]
-        pandn   xmm1,xmm0
-        pand    xmm0,xmm6
-        movdqu  xmm5,[edx]
+        mov     ecx,  16
+        mov     eax,  DWORD [240+edx]
+        movdqa  xmm1, xmm6
+        movdqa  xmm2, [ebp]
+        pandn   xmm1, xmm0
+        pand    xmm0, xmm6
+        movdqu  xmm5, [edx]
 db      102,15,56,0,208
-        movdqa  xmm0,[16+ebp]
-        pxor    xmm2,xmm5
-        psrld   xmm1,4
-        add     edx,16
+        movdqa  xmm0, [16+ebp]
+        pxor    xmm2, xmm5
+        psrld   xmm1, 4
+        add     edx,  16
 db      102,15,56,0,193
-        lea     ebx,[192+ebp]
-        pxor    xmm0,xmm2
+        lea     ebx,  [192+ebp]
+        pxor    xmm0, xmm2
         jmp     NEAR L$000enc_entry
 align   16
 L$001enc_loop:
-        movdqa  xmm4,[32+ebp]
-        movdqa  xmm0,[48+ebp]
+        movdqa  xmm4, [32+ebp]
+        movdqa  xmm0, [48+ebp]
 db      102,15,56,0,226
 db      102,15,56,0,195
-        pxor    xmm4,xmm5
-        movdqa  xmm5,[64+ebp]
-        pxor    xmm0,xmm4
-        movdqa  xmm1,[ecx*1+ebx-64]
+        pxor    xmm4, xmm5
+        movdqa  xmm5, [64+ebp]
+        pxor    xmm0, xmm4
+        movdqa  xmm1, [ecx*1+ebx-64]
 db      102,15,56,0,234
-        movdqa  xmm2,[80+ebp]
-        movdqa  xmm4,[ecx*1+ebx]
+        movdqa  xmm2, [80+ebp]
+        movdqa  xmm4, [ecx*1+ebx]
 db      102,15,56,0,211
-        movdqa  xmm3,xmm0
-        pxor    xmm2,xmm5
+        movdqa  xmm3, xmm0
+        pxor    xmm2, xmm5
 db      102,15,56,0,193
-        add     edx,16
-        pxor    xmm0,xmm2
+        add     edx,  16
+        pxor    xmm0, xmm2
 db      102,15,56,0,220
-        add     ecx,16
-        pxor    xmm3,xmm0
+        add     ecx,  16
+        pxor    xmm3, xmm0
 db      102,15,56,0,193
-        and     ecx,48
-        sub     eax,1
-        pxor    xmm0,xmm3
+        and     ecx,  48
+        sub     eax,  1
+        pxor    xmm0, xmm3
 L$000enc_entry:
-        movdqa  xmm1,xmm6
-        movdqa  xmm5,[ebp-32]
-        pandn   xmm1,xmm0
-        psrld   xmm1,4
-        pand    xmm0,xmm6
+        movdqa  xmm1, xmm6
+        movdqa  xmm5, [ebp-32]
+        pandn   xmm1, xmm0
+        psrld   xmm1, 4
+        pand    xmm0, xmm6
 db      102,15,56,0,232
-        movdqa  xmm3,xmm7
-        pxor    xmm0,xmm1
+        movdqa  xmm3, xmm7
+        pxor    xmm0, xmm1
 db      102,15,56,0,217
-        movdqa  xmm4,xmm7
-        pxor    xmm3,xmm5
+        movdqa  xmm4, xmm7
+        pxor    xmm3, xmm5
 db      102,15,56,0,224
-        movdqa  xmm2,xmm7
-        pxor    xmm4,xmm5
+        movdqa  xmm2, xmm7
+        pxor    xmm4, xmm5
 db      102,15,56,0,211
-        movdqa  xmm3,xmm7
-        pxor    xmm2,xmm0
+        movdqa  xmm3, xmm7
+        pxor    xmm2, xmm0
 db      102,15,56,0,220
-        movdqu  xmm5,[edx]
-        pxor    xmm3,xmm1
+        movdqu  xmm5, [edx]
+        pxor    xmm3, xmm1
         jnz     NEAR L$001enc_loop
-        movdqa  xmm4,[96+ebp]
-        movdqa  xmm0,[112+ebp]
+        movdqa  xmm4, [96+ebp]
+        movdqa  xmm0, [112+ebp]
 db      102,15,56,0,226
-        pxor    xmm4,xmm5
+        pxor    xmm4, xmm5
 db      102,15,56,0,195
-        movdqa  xmm1,[64+ecx*1+ebx]
-        pxor    xmm0,xmm4
+        movdqa  xmm1, [64+ecx*1+ebx]
+        pxor    xmm0, xmm4
 db      102,15,56,0,193
         ret
 align   16
 __vpaes_decrypt_core:
-        lea     ebx,[608+ebp]
-        mov     eax,DWORD [240+edx]
-        movdqa  xmm1,xmm6
-        movdqa  xmm2,[ebx-64]
-        pandn   xmm1,xmm0
-        mov     ecx,eax
-        psrld   xmm1,4
-        movdqu  xmm5,[edx]
-        shl     ecx,4
-        pand    xmm0,xmm6
+        lea     ebx,  [608+ebp]
+        mov     eax,  DWORD [240+edx]
+        movdqa  xmm1, xmm6
+        movdqa  xmm2, [ebx-64]
+        pandn   xmm1, xmm0
+        mov     ecx,  eax
+        psrld   xmm1, 4
+        movdqu  xmm5, [edx]
+        shl     ecx,  4
+        pand    xmm0, xmm6
 db      102,15,56,0,208
-        movdqa  xmm0,[ebx-48]
-        xor     ecx,48
+        movdqa  xmm0, [ebx-48]
+        xor     ecx,  48
 db      102,15,56,0,193
-        and     ecx,48
-        pxor    xmm2,xmm5
-        movdqa  xmm5,[176+ebp]
-        pxor    xmm0,xmm2
-        add     edx,16
-        lea     ecx,[ecx*1+ebx-352]
+        and     ecx,  48
+        pxor    xmm2, xmm5
+        movdqa  xmm5, [176+ebp]
+        pxor    xmm0, xmm2
+        add     edx,  16
+        lea     ecx,  [ecx*1+ebx-352]
         jmp     NEAR L$002dec_entry
 align   16
 L$003dec_loop:
-        movdqa  xmm4,[ebx-32]
-        movdqa  xmm1,[ebx-16]
+        movdqa  xmm4, [ebx-32]
+        movdqa  xmm1, [ebx-16]
 db      102,15,56,0,226
 db      102,15,56,0,203
-        pxor    xmm0,xmm4
-        movdqa  xmm4,[ebx]
-        pxor    xmm0,xmm1
-        movdqa  xmm1,[16+ebx]
-db      102,15,56,0,226
-db      102,15,56,0,197
-db      102,15,56,0,203
-        pxor    xmm0,xmm4
-        movdqa  xmm4,[32+ebx]
-        pxor    xmm0,xmm1
-        movdqa  xmm1,[48+ebx]
+        pxor    xmm0, xmm4
+        movdqa  xmm4, [ebx]
+        pxor    xmm0, xmm1
+        movdqa  xmm1, [16+ebx]
 db      102,15,56,0,226
 db      102,15,56,0,197
 db      102,15,56,0,203
-        pxor    xmm0,xmm4
-        movdqa  xmm4,[64+ebx]
-        pxor    xmm0,xmm1
-        movdqa  xmm1,[80+ebx]
+        pxor    xmm0, xmm4
+        movdqa  xmm4, [32+ebx]
+        pxor    xmm0, xmm1
+        movdqa  xmm1, [48+ebx]
 db      102,15,56,0,226
 db      102,15,56,0,197
 db      102,15,56,0,203
-        pxor    xmm0,xmm4
-        add     edx,16
+        pxor    xmm0, xmm4
+        movdqa  xmm4, [64+ebx]
+        pxor    xmm0, xmm1
+        movdqa  xmm1, [80+ebx]
+db      102,15,56,0,226
+db      102,15,56,0,197
+db      102,15,56,0,203
+        pxor    xmm0, xmm4
+        add     edx,  16
 db      102,15,58,15,237,12
-        pxor    xmm0,xmm1
-        sub     eax,1
+        pxor    xmm0, xmm1
+        sub     eax,  1
 L$002dec_entry:
-        movdqa  xmm1,xmm6
-        movdqa  xmm2,[ebp-32]
-        pandn   xmm1,xmm0
-        pand    xmm0,xmm6
-        psrld   xmm1,4
+        movdqa  xmm1, xmm6
+        movdqa  xmm2, [ebp-32]
+        pandn   xmm1, xmm0
+        pand    xmm0, xmm6
+        psrld   xmm1, 4
 db      102,15,56,0,208
-        movdqa  xmm3,xmm7
-        pxor    xmm0,xmm1
+        movdqa  xmm3, xmm7
+        pxor    xmm0, xmm1
 db      102,15,56,0,217
-        movdqa  xmm4,xmm7
-        pxor    xmm3,xmm2
+        movdqa  xmm4, xmm7
+        pxor    xmm3, xmm2
 db      102,15,56,0,224
-        pxor    xmm4,xmm2
-        movdqa  xmm2,xmm7
+        pxor    xmm4, xmm2
+        movdqa  xmm2, xmm7
 db      102,15,56,0,211
-        movdqa  xmm3,xmm7
-        pxor    xmm2,xmm0
+        movdqa  xmm3, xmm7
+        pxor    xmm2, xmm0
 db      102,15,56,0,220
-        movdqu  xmm0,[edx]
-        pxor    xmm3,xmm1
+        movdqu  xmm0, [edx]
+        pxor    xmm3, xmm1
         jnz     NEAR L$003dec_loop
-        movdqa  xmm4,[96+ebx]
+        movdqa  xmm4, [96+ebx]
 db      102,15,56,0,226
-        pxor    xmm4,xmm0
-        movdqa  xmm0,[112+ebx]
-        movdqa  xmm2,[ecx]
+        pxor    xmm4, xmm0
+        movdqa  xmm0, [112+ebx]
+        movdqa  xmm2, [ecx]
 db      102,15,56,0,195
-        pxor    xmm0,xmm4
+        pxor    xmm0, xmm4
 db      102,15,56,0,194
         ret
 align   16
 __vpaes_schedule_core:
-        add     ebp,DWORD [esp]
-        movdqu  xmm0,[esi]
-        movdqa  xmm2,[320+ebp]
-        movdqa  xmm3,xmm0
-        lea     ebx,[ebp]
-        movdqa  [4+esp],xmm2
+        add     ebp,     DWORD [esp]
+        movdqu  xmm0,    [esi]
+        movdqa  xmm2,    [320+ebp]
+        movdqa  xmm3,    xmm0
+        lea     ebx,     [ebp]
+        movdqa  [4+esp], xmm2
         call    __vpaes_schedule_transform
-        movdqa  xmm7,xmm0
-        test    edi,edi
+        movdqa  xmm7, xmm0
+        test    edi,  edi
         jnz     NEAR L$004schedule_am_decrypting
-        movdqu  [edx],xmm0
+        movdqu  [edx], xmm0
         jmp     NEAR L$005schedule_go
 L$004schedule_am_decrypting:
-        movdqa  xmm1,[256+ecx*1+ebp]
+        movdqa  xmm1, [256+ecx*1+ebp]
 db      102,15,56,0,217
-        movdqu  [edx],xmm3
-        xor     ecx,48
+        movdqu  [edx], xmm3
+        xor     ecx,   48
 L$005schedule_go:
-        cmp     eax,192
+        cmp     eax, 192
         ja      NEAR L$006schedule_256
         je      NEAR L$007schedule_192
 L$008schedule_128:
-        mov     eax,10
+        mov     eax, 10
 L$009loop_schedule_128:
         call    __vpaes_schedule_round
         dec     eax
@@ -263,12 +263,12 @@ L$009loop_schedule_128:
         jmp     NEAR L$009loop_schedule_128
 align   16
 L$007schedule_192:
-        movdqu  xmm0,[8+esi]
+        movdqu  xmm0, [8+esi]
         call    __vpaes_schedule_transform
-        movdqa  xmm6,xmm0
-        pxor    xmm4,xmm4
-        movhlps xmm6,xmm4
-        mov     eax,4
+        movdqa  xmm6, xmm0
+        pxor    xmm4, xmm4
+        movhlps xmm6, xmm4
+        mov     eax,  4
 L$011loop_schedule_192:
         call    __vpaes_schedule_round
 db      102,15,58,15,198,8
@@ -283,171 +283,171 @@ db      102,15,58,15,198,8
         jmp     NEAR L$011loop_schedule_192
 align   16
 L$006schedule_256:
-        movdqu  xmm0,[16+esi]
+        movdqu  xmm0, [16+esi]
         call    __vpaes_schedule_transform
-        mov     eax,7
+        mov     eax, 7
 L$012loop_schedule_256:
         call    __vpaes_schedule_mangle
-        movdqa  xmm6,xmm0
+        movdqa  xmm6, xmm0
         call    __vpaes_schedule_round
         dec     eax
         jz      NEAR L$010schedule_mangle_last
         call    __vpaes_schedule_mangle
-        pshufd  xmm0,xmm0,255
-        movdqa  [20+esp],xmm7
-        movdqa  xmm7,xmm6
+        pshufd  xmm0,     xmm0, 255
+        movdqa  [20+esp], xmm7
+        movdqa  xmm7,     xmm6
         call    L$_vpaes_schedule_low_round
-        movdqa  xmm7,[20+esp]
+        movdqa  xmm7, [20+esp]
         jmp     NEAR L$012loop_schedule_256
 align   16
 L$010schedule_mangle_last:
-        lea     ebx,[384+ebp]
-        test    edi,edi
+        lea     ebx, [384+ebp]
+        test    edi, edi
         jnz     NEAR L$013schedule_mangle_last_dec
-        movdqa  xmm1,[256+ecx*1+ebp]
+        movdqa  xmm1, [256+ecx*1+ebp]
 db      102,15,56,0,193
-        lea     ebx,[352+ebp]
-        add     edx,32
+        lea     ebx, [352+ebp]
+        add     edx, 32
 L$013schedule_mangle_last_dec:
-        add     edx,-16
-        pxor    xmm0,[336+ebp]
+        add     edx,  -16
+        pxor    xmm0, [336+ebp]
         call    __vpaes_schedule_transform
-        movdqu  [edx],xmm0
-        pxor    xmm0,xmm0
-        pxor    xmm1,xmm1
-        pxor    xmm2,xmm2
-        pxor    xmm3,xmm3
-        pxor    xmm4,xmm4
-        pxor    xmm5,xmm5
-        pxor    xmm6,xmm6
-        pxor    xmm7,xmm7
+        movdqu  [edx], xmm0
+        pxor    xmm0,  xmm0
+        pxor    xmm1,  xmm1
+        pxor    xmm2,  xmm2
+        pxor    xmm3,  xmm3
+        pxor    xmm4,  xmm4
+        pxor    xmm5,  xmm5
+        pxor    xmm6,  xmm6
+        pxor    xmm7,  xmm7
         ret
 align   16
 __vpaes_schedule_192_smear:
-        pshufd  xmm1,xmm6,128
-        pshufd  xmm0,xmm7,254
-        pxor    xmm6,xmm1
-        pxor    xmm1,xmm1
-        pxor    xmm6,xmm0
-        movdqa  xmm0,xmm6
-        movhlps xmm6,xmm1
+        pshufd  xmm1, xmm6, 128
+        pshufd  xmm0, xmm7, 254
+        pxor    xmm6, xmm1
+        pxor    xmm1, xmm1
+        pxor    xmm6, xmm0
+        movdqa  xmm0, xmm6
+        movhlps xmm6, xmm1
         ret
 align   16
 __vpaes_schedule_round:
-        movdqa  xmm2,[8+esp]
-        pxor    xmm1,xmm1
+        movdqa  xmm2, [8+esp]
+        pxor    xmm1, xmm1
 db      102,15,58,15,202,15
 db      102,15,58,15,210,15
-        pxor    xmm7,xmm1
-        pshufd  xmm0,xmm0,255
+        pxor    xmm7, xmm1
+        pshufd  xmm0, xmm0, 255
 db      102,15,58,15,192,1
-        movdqa  [8+esp],xmm2
+        movdqa  [8+esp], xmm2
 L$_vpaes_schedule_low_round:
-        movdqa  xmm1,xmm7
-        pslldq  xmm7,4
-        pxor    xmm7,xmm1
-        movdqa  xmm1,xmm7
-        pslldq  xmm7,8
-        pxor    xmm7,xmm1
-        pxor    xmm7,[336+ebp]
-        movdqa  xmm4,[ebp-16]
-        movdqa  xmm5,[ebp-48]
-        movdqa  xmm1,xmm4
-        pandn   xmm1,xmm0
-        psrld   xmm1,4
-        pand    xmm0,xmm4
-        movdqa  xmm2,[ebp-32]
+        movdqa  xmm1, xmm7
+        pslldq  xmm7, 4
+        pxor    xmm7, xmm1
+        movdqa  xmm1, xmm7
+        pslldq  xmm7, 8
+        pxor    xmm7, xmm1
+        pxor    xmm7, [336+ebp]
+        movdqa  xmm4, [ebp-16]
+        movdqa  xmm5, [ebp-48]
+        movdqa  xmm1, xmm4
+        pandn   xmm1, xmm0
+        psrld   xmm1, 4
+        pand    xmm0, xmm4
+        movdqa  xmm2, [ebp-32]
 db      102,15,56,0,208
-        pxor    xmm0,xmm1
-        movdqa  xmm3,xmm5
+        pxor    xmm0, xmm1
+        movdqa  xmm3, xmm5
 db      102,15,56,0,217
-        pxor    xmm3,xmm2
-        movdqa  xmm4,xmm5
+        pxor    xmm3, xmm2
+        movdqa  xmm4, xmm5
 db      102,15,56,0,224
-        pxor    xmm4,xmm2
-        movdqa  xmm2,xmm5
+        pxor    xmm4, xmm2
+        movdqa  xmm2, xmm5
 db      102,15,56,0,211
-        pxor    xmm2,xmm0
-        movdqa  xmm3,xmm5
+        pxor    xmm2, xmm0
+        movdqa  xmm3, xmm5
 db      102,15,56,0,220
-        pxor    xmm3,xmm1
-        movdqa  xmm4,[32+ebp]
+        pxor    xmm3, xmm1
+        movdqa  xmm4, [32+ebp]
 db      102,15,56,0,226
-        movdqa  xmm0,[48+ebp]
+        movdqa  xmm0, [48+ebp]
 db      102,15,56,0,195
-        pxor    xmm0,xmm4
-        pxor    xmm0,xmm7
-        movdqa  xmm7,xmm0
+        pxor    xmm0, xmm4
+        pxor    xmm0, xmm7
+        movdqa  xmm7, xmm0
         ret
 align   16
 __vpaes_schedule_transform:
-        movdqa  xmm2,[ebp-16]
-        movdqa  xmm1,xmm2
-        pandn   xmm1,xmm0
-        psrld   xmm1,4
-        pand    xmm0,xmm2
-        movdqa  xmm2,[ebx]
+        movdqa  xmm2, [ebp-16]
+        movdqa  xmm1, xmm2
+        pandn   xmm1, xmm0
+        psrld   xmm1, 4
+        pand    xmm0, xmm2
+        movdqa  xmm2, [ebx]
 db      102,15,56,0,208
-        movdqa  xmm0,[16+ebx]
+        movdqa  xmm0, [16+ebx]
 db      102,15,56,0,193
-        pxor    xmm0,xmm2
+        pxor    xmm0, xmm2
         ret
 align   16
 __vpaes_schedule_mangle:
-        movdqa  xmm4,xmm0
-        movdqa  xmm5,[128+ebp]
-        test    edi,edi
+        movdqa  xmm4, xmm0
+        movdqa  xmm5, [128+ebp]
+        test    edi,  edi
         jnz     NEAR L$014schedule_mangle_dec
-        add     edx,16
-        pxor    xmm4,[336+ebp]
+        add     edx,  16
+        pxor    xmm4, [336+ebp]
 db      102,15,56,0,229
-        movdqa  xmm3,xmm4
+        movdqa  xmm3, xmm4
 db      102,15,56,0,229
-        pxor    xmm3,xmm4
+        pxor    xmm3, xmm4
 db      102,15,56,0,229
-        pxor    xmm3,xmm4
+        pxor    xmm3, xmm4
         jmp     NEAR L$015schedule_mangle_both
 align   16
 L$014schedule_mangle_dec:
-        movdqa  xmm2,[ebp-16]
-        lea     esi,[416+ebp]
-        movdqa  xmm1,xmm2
-        pandn   xmm1,xmm4
-        psrld   xmm1,4
-        pand    xmm4,xmm2
-        movdqa  xmm2,[esi]
+        movdqa  xmm2, [ebp-16]
+        lea     esi,  [416+ebp]
+        movdqa  xmm1, xmm2
+        pandn   xmm1, xmm4
+        psrld   xmm1, 4
+        pand    xmm4, xmm2
+        movdqa  xmm2, [esi]
 db      102,15,56,0,212
-        movdqa  xmm3,[16+esi]
+        movdqa  xmm3, [16+esi]
 db      102,15,56,0,217
-        pxor    xmm3,xmm2
+        pxor    xmm3, xmm2
 db      102,15,56,0,221
-        movdqa  xmm2,[32+esi]
+        movdqa  xmm2, [32+esi]
 db      102,15,56,0,212
-        pxor    xmm2,xmm3
-        movdqa  xmm3,[48+esi]
+        pxor    xmm2, xmm3
+        movdqa  xmm3, [48+esi]
 db      102,15,56,0,217
-        pxor    xmm3,xmm2
+        pxor    xmm3, xmm2
 db      102,15,56,0,221
-        movdqa  xmm2,[64+esi]
+        movdqa  xmm2, [64+esi]
 db      102,15,56,0,212
-        pxor    xmm2,xmm3
-        movdqa  xmm3,[80+esi]
+        pxor    xmm2, xmm3
+        movdqa  xmm3, [80+esi]
 db      102,15,56,0,217
-        pxor    xmm3,xmm2
+        pxor    xmm3, xmm2
 db      102,15,56,0,221
-        movdqa  xmm2,[96+esi]
+        movdqa  xmm2, [96+esi]
 db      102,15,56,0,212
-        pxor    xmm2,xmm3
-        movdqa  xmm3,[112+esi]
+        pxor    xmm2, xmm3
+        movdqa  xmm3, [112+esi]
 db      102,15,56,0,217
-        pxor    xmm3,xmm2
-        add     edx,-16
+        pxor    xmm3, xmm2
+        add     edx,  -16
 L$015schedule_mangle_both:
-        movdqa  xmm1,[256+ecx*1+ebp]
+        movdqa  xmm1, [256+ecx*1+ebp]
 db      102,15,56,0,217
-        add     ecx,-16
-        and     ecx,48
-        movdqu  [edx],xmm3
+        add     ecx,   -16
+        and     ecx,   48
+        movdqu  [edx], xmm3
         ret
 global  _vpaes_set_encrypt_key
 align   16
@@ -457,24 +457,24 @@ L$_vpaes_set_encrypt_key_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [20+esp]
-        lea     ebx,[esp-56]
-        mov     eax,DWORD [24+esp]
-        and     ebx,-16
-        mov     edx,DWORD [28+esp]
-        xchg    ebx,esp
-        mov     DWORD [48+esp],ebx
-        mov     ebx,eax
-        shr     ebx,5
-        add     ebx,5
-        mov     DWORD [240+edx],ebx
-        mov     ecx,48
-        mov     edi,0
-        lea     ebp,[(L$_vpaes_consts+0x30-L$016pic_point)]
+        mov     esi, DWORD [20+esp]
+        lea     ebx, [esp-56]
+        mov     eax, DWORD [24+esp]
+        and     ebx, -16
+        mov     edx, DWORD [28+esp]
+        xchg    ebx, esp
+        mov     DWORD [48+esp], ebx
+        mov     ebx, eax
+        shr     ebx, 5
+        add     ebx, 5
+        mov     DWORD [240+edx], ebx
+        mov     ecx, 48
+        mov     edi, 0
+        lea     ebp, [(L$_vpaes_consts+0x30-L$016pic_point)]
         call    __vpaes_schedule_core
 L$016pic_point:
-        mov     esp,DWORD [48+esp]
-        xor     eax,eax
+        mov     esp, DWORD [48+esp]
+        xor     eax, eax
         pop     edi
         pop     esi
         pop     ebx
@@ -488,29 +488,29 @@ L$_vpaes_set_decrypt_key_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [20+esp]
-        lea     ebx,[esp-56]
-        mov     eax,DWORD [24+esp]
-        and     ebx,-16
-        mov     edx,DWORD [28+esp]
-        xchg    ebx,esp
-        mov     DWORD [48+esp],ebx
-        mov     ebx,eax
-        shr     ebx,5
-        add     ebx,5
-        mov     DWORD [240+edx],ebx
-        shl     ebx,4
-        lea     edx,[16+ebx*1+edx]
-        mov     edi,1
-        mov     ecx,eax
-        shr     ecx,1
-        and     ecx,32
-        xor     ecx,32
-        lea     ebp,[(L$_vpaes_consts+0x30-L$017pic_point)]
+        mov     esi, DWORD [20+esp]
+        lea     ebx, [esp-56]
+        mov     eax, DWORD [24+esp]
+        and     ebx, -16
+        mov     edx, DWORD [28+esp]
+        xchg    ebx, esp
+        mov     DWORD [48+esp], ebx
+        mov     ebx, eax
+        shr     ebx, 5
+        add     ebx, 5
+        mov     DWORD [240+edx], ebx
+        shl     ebx, 4
+        lea     edx, [16+ebx*1+edx]
+        mov     edi, 1
+        mov     ecx, eax
+        shr     ecx, 1
+        and     ecx, 32
+        xor     ecx, 32
+        lea     ebp, [(L$_vpaes_consts+0x30-L$017pic_point)]
         call    __vpaes_schedule_core
 L$017pic_point:
-        mov     esp,DWORD [48+esp]
-        xor     eax,eax
+        mov     esp, DWORD [48+esp]
+        xor     eax, eax
         pop     edi
         pop     esi
         pop     ebx
@@ -524,20 +524,20 @@ L$_vpaes_encrypt_begin:
         push    ebx
         push    esi
         push    edi
-        lea     ebp,[(L$_vpaes_consts+0x30-L$018pic_point)]
+        lea     ebp, [(L$_vpaes_consts+0x30-L$018pic_point)]
         call    __vpaes_preheat
 L$018pic_point:
-        mov     esi,DWORD [20+esp]
-        lea     ebx,[esp-56]
-        mov     edi,DWORD [24+esp]
-        and     ebx,-16
-        mov     edx,DWORD [28+esp]
-        xchg    ebx,esp
-        mov     DWORD [48+esp],ebx
-        movdqu  xmm0,[esi]
+        mov     esi, DWORD [20+esp]
+        lea     ebx, [esp-56]
+        mov     edi, DWORD [24+esp]
+        and     ebx, -16
+        mov     edx, DWORD [28+esp]
+        xchg    ebx, esp
+        mov     DWORD [48+esp], ebx
+        movdqu  xmm0, [esi]
         call    __vpaes_encrypt_core
-        movdqu  [edi],xmm0
-        mov     esp,DWORD [48+esp]
+        movdqu  [edi], xmm0
+        mov     esp,   DWORD [48+esp]
         pop     edi
         pop     esi
         pop     ebx
@@ -551,20 +551,20 @@ L$_vpaes_decrypt_begin:
         push    ebx
         push    esi
         push    edi
-        lea     ebp,[(L$_vpaes_consts+0x30-L$019pic_point)]
+        lea     ebp, [(L$_vpaes_consts+0x30-L$019pic_point)]
         call    __vpaes_preheat
 L$019pic_point:
-        mov     esi,DWORD [20+esp]
-        lea     ebx,[esp-56]
-        mov     edi,DWORD [24+esp]
-        and     ebx,-16
-        mov     edx,DWORD [28+esp]
-        xchg    ebx,esp
-        mov     DWORD [48+esp],ebx
-        movdqu  xmm0,[esi]
+        mov     esi, DWORD [20+esp]
+        lea     ebx, [esp-56]
+        mov     edi, DWORD [24+esp]
+        and     ebx, -16
+        mov     edx, DWORD [28+esp]
+        xchg    ebx, esp
+        mov     DWORD [48+esp], ebx
+        movdqu  xmm0, [esi]
         call    __vpaes_decrypt_core
-        movdqu  [edi],xmm0
-        mov     esp,DWORD [48+esp]
+        movdqu  [edi], xmm0
+        mov     esp,   DWORD [48+esp]
         pop     edi
         pop     esi
         pop     ebx
@@ -578,61 +578,61 @@ L$_vpaes_cbc_encrypt_begin:
         push    ebx
         push    esi
         push    edi
-        mov     esi,DWORD [20+esp]
-        mov     edi,DWORD [24+esp]
-        mov     eax,DWORD [28+esp]
-        mov     edx,DWORD [32+esp]
-        sub     eax,16
+        mov     esi, DWORD [20+esp]
+        mov     edi, DWORD [24+esp]
+        mov     eax, DWORD [28+esp]
+        mov     edx, DWORD [32+esp]
+        sub     eax, 16
         jc      NEAR L$020cbc_abort
-        lea     ebx,[esp-56]
-        mov     ebp,DWORD [36+esp]
-        and     ebx,-16
-        mov     ecx,DWORD [40+esp]
-        xchg    ebx,esp
-        movdqu  xmm1,[ebp]
-        sub     edi,esi
-        mov     DWORD [48+esp],ebx
-        mov     DWORD [esp],edi
-        mov     DWORD [4+esp],edx
-        mov     DWORD [8+esp],ebp
-        mov     edi,eax
-        lea     ebp,[(L$_vpaes_consts+0x30-L$021pic_point)]
+        lea     ebx,  [esp-56]
+        mov     ebp,  DWORD [36+esp]
+        and     ebx,  -16
+        mov     ecx,  DWORD [40+esp]
+        xchg    ebx,  esp
+        movdqu  xmm1, [ebp]
+        sub     edi,  esi
+        mov     DWORD [48+esp], ebx
+        mov     DWORD [esp],    edi
+        mov     DWORD [4+esp],  edx
+        mov     DWORD [8+esp],  ebp
+        mov     edi, eax
+        lea     ebp, [(L$_vpaes_consts+0x30-L$021pic_point)]
         call    __vpaes_preheat
 L$021pic_point:
-        cmp     ecx,0
+        cmp     ecx, 0
         je      NEAR L$022cbc_dec_loop
         jmp     NEAR L$023cbc_enc_loop
 align   16
 L$023cbc_enc_loop:
-        movdqu  xmm0,[esi]
-        pxor    xmm0,xmm1
+        movdqu  xmm0, [esi]
+        pxor    xmm0, xmm1
         call    __vpaes_encrypt_core
-        mov     ebx,DWORD [esp]
-        mov     edx,DWORD [4+esp]
-        movdqa  xmm1,xmm0
-        movdqu  [esi*1+ebx],xmm0
-        lea     esi,[16+esi]
-        sub     edi,16
+        mov     ebx,  DWORD [esp]
+        mov     edx,  DWORD [4+esp]
+        movdqa  xmm1, xmm0
+        movdqu  [esi*1+ebx], xmm0
+        lea     esi, [16+esi]
+        sub     edi, 16
         jnc     NEAR L$023cbc_enc_loop
         jmp     NEAR L$024cbc_done
 align   16
 L$022cbc_dec_loop:
-        movdqu  xmm0,[esi]
-        movdqa  [16+esp],xmm1
-        movdqa  [32+esp],xmm0
+        movdqu  xmm0,     [esi]
+        movdqa  [16+esp], xmm1
+        movdqa  [32+esp], xmm0
         call    __vpaes_decrypt_core
-        mov     ebx,DWORD [esp]
-        mov     edx,DWORD [4+esp]
-        pxor    xmm0,[16+esp]
-        movdqa  xmm1,[32+esp]
-        movdqu  [esi*1+ebx],xmm0
-        lea     esi,[16+esi]
-        sub     edi,16
+        mov     ebx,  DWORD [esp]
+        mov     edx,  DWORD [4+esp]
+        pxor    xmm0, [16+esp]
+        movdqa  xmm1, [32+esp]
+        movdqu  [esi*1+ebx], xmm0
+        lea     esi, [16+esi]
+        sub     edi, 16
         jnc     NEAR L$022cbc_dec_loop
 L$024cbc_done:
-        mov     ebx,DWORD [8+esp]
-        mov     esp,DWORD [48+esp]
-        movdqu  [ebx],xmm1
+        mov     ebx,   DWORD [8+esp]
+        mov     esp,   DWORD [48+esp]
+        movdqu  [ebx], xmm1
 L$020cbc_abort:
         pop     edi
         pop     esi

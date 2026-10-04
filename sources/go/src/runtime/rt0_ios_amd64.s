@@ -7,8 +7,8 @@
 // internal linking executable entry point.
 // ios/amd64 only supports external linking.
 TEXT _rt0_amd64_ios(SB),NOSPLIT|NOFRAME,$0
-	UNDEF
+        UNDEF
 
 // library entry point.
 TEXT _rt0_amd64_ios_lib(SB),NOSPLIT|NOFRAME,$0
-	JMP	_rt0_amd64_darwin_lib(SB)
+        JMP     _rt0_amd64_darwin_lib(SB)

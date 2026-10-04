@@ -14,16 +14,16 @@ EXTERN __SMSlib_SpriteTableY
 
 asm_SMSlib_hideSprite:
 
-   ; void SMS_hideSprite (signed char sprite)
-   ;
-   ; enter : l = signed char sprite
-   ;
-   ; uses : f, de, hl
+        ; void SMS_hideSprite (signed char sprite)
+        ;
+        ; enter : l = signed char sprite
+        ;
+        ; uses : f, de, hl
 
-   ld h,0
-   
-   ld de,__SMSlib_SpriteTableY
-   add hl,de
-   
-   ld (hl),0xe0
-   ret
+        ld      h, 0
+
+        ld      de, __SMSlib_SpriteTableY
+        add     hl, de
+
+        ld      (hl), 0xe0
+        ret

@@ -10,12 +10,12 @@ EXTERN asm_p_forward_list_insert_after
 
 _p_forward_list_insert_after:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   jp asm_p_forward_list_insert_after
+        pop     af
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_p_forward_list_insert_after

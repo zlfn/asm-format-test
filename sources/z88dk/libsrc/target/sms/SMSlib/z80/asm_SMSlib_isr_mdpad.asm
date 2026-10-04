@@ -18,109 +18,109 @@ EXTERN __SMSlib_PreviousKeysStatus, __SMSlib_KeysStatus
 EXTERN __SMSlib_PreviousMDKeysStatus, __SMSlib_MDKeysStatus
 
 asm_SMSlib_isr_mdpad:
-   
-   push af
-   push hl
-   
-   in a,(VDPStatusPort)        ; acknowledge VDP interrupt
-   ld (__SMSlib_VDPFlags),a
-   
-   rlca
-   jr nc, line_interrupt
-   
+
+        push    af
+        push    hl
+
+        in      a, (VDPStatusPort)      ; acknowledge VDP interrupt
+        ld      (__SMSlib_VDPFlags), a
+
+        rlca
+        jr      nc, line_interrupt
+
 frame_interrupt:
 
-   ld hl,__SMSlib_VDPBlank
-   ld (hl),1
-   
-   ld hl,(__SMSlib_KeysStatus)
-   ld (__SMSlib_PreviousKeysStatus),hl
-   
-   ld hl,(__SMSlib_MDKeysStatus)
-   ld (__SMSlib_PreviousMDKeysStatus),hl
-   
-   ld a,TH_HI
-   out (IOPortCtrl),a
+        ld      hl,   __SMSlib_VDPBlank
+        ld      (hl), 1
 
-   in a,(IOPortL)
-   cpl
-   ld l,a
-   
-   in a,(IOPortH)
-   cpl
-   ld h,a
-   
-   ld (__SMSlib_KeysStatus),hl
-   
-   ld a,TH_LO
-   out (IOPortCtrl),a
-   
-   in a,(IOPortL)
-   
-   ld h,0
-   ld l,a
+        ld      hl, (__SMSlib_KeysStatus)
+        ld      (__SMSlib_PreviousKeysStatus), hl
 
-   ; hl = MDKeysStatus
-   
-   and 0x0c
-   jr z, read
+        ld      hl, (__SMSlib_MDKeysStatus)
+        ld      (__SMSlib_PreviousMDKeysStatus), hl
 
-   ld l,h
-   jr set_MDKeysStatus
+        ld      a, TH_HI
+        out     (IOPortCtrl), a
+
+        in      a, (IOPortL)
+        cpl
+        ld      l, a
+
+        in      a, (IOPortH)
+        cpl
+        ld      h, a
+
+        ld      (__SMSlib_KeysStatus), hl
+
+        ld      a, TH_LO
+        out     (IOPortCtrl), a
+
+        in      a, (IOPortL)
+
+        ld      h, 0
+        ld      l, a
+
+        ; hl = MDKeysStatus
+
+        and     0x0c
+        jr      z, read
+
+        ld      l, h
+        jr      set_MDKeysStatus
 
 read:
-   
-   ld a,l
-   cpl
-   and 0x30
-   ld l,a
-   
-   ld a,TH_HI
-   out (IOPortCtrl),a
-   
-   ld a,TH_LO
-   out (IOPortCtrl),a
-   
-   in a,(IOPortL)
-   and 0x0f
-   jr nz, set_MDKeysStatus
-   
-   ld a,TH_HI
-   out (IOPortCtrl),a
-   
-   in a,(IOPortL)
-   cpl
-   and 0x0f
-   or l
-   ld l,a
-   
-   ld a,TH_LO
-   out (IOPortCtrl),a
+
+        ld      a, l
+        cpl
+        and     0x30
+        ld      l, a
+
+        ld      a, TH_HI
+        out     (IOPortCtrl), a
+
+        ld      a, TH_LO
+        out     (IOPortCtrl), a
+
+        in      a, (IOPortL)
+        and     0x0f
+        jr      nz, set_MDKeysStatus
+
+        ld      a, TH_HI
+        out     (IOPortCtrl), a
+
+        in      a, (IOPortL)
+        cpl
+        and     0x0f
+        or      l
+        ld      l, a
+
+        ld      a, TH_LO
+        out     (IOPortCtrl), a
 
 set_MDKeysStatus:
 
-   ld (__SMSlib_MDKeysStatus),hl
-   jr exit
+        ld      (__SMSlib_MDKeysStatus), hl
+        jr      exit
 
 line_interrupt:
 
-   push bc
-   push de
-   push ix
-   push iy
+        push    bc
+        push    de
+        push    ix
+        push    iy
 
-   ld hl,(__SMSlib_theLineInterruptHandler)
-   call l_jphl
+        ld      hl, (__SMSlib_theLineInterruptHandler)
+        call    l_jphl
 
-   pop iy
-   pop ix
-   pop de
-   pop bc
-   
+        pop     iy
+        pop     ix
+        pop     de
+        pop     bc
+
 exit:
 
-   pop hl
-   pop af
-   
-   ei
-   reti
+        pop     hl
+        pop     af
+
+        ei
+        reti

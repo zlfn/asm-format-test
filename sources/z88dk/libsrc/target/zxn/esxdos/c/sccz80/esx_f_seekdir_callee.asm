@@ -8,17 +8,16 @@ EXTERN asm_esx_f_seekdir
 
 esx_f_seekdir_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   ld a,l
-   jp asm_esx_f_seekdir
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        ld      a, l
+        jp      asm_esx_f_seekdir
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _esx_f_seekdir_callee
 defc _esx_f_seekdir_callee = esx_f_seekdir_callee
 ENDIF
-

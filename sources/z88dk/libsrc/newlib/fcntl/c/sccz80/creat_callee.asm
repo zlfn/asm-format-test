@@ -10,9 +10,9 @@ EXTERN asm_creat
 
 creat_callee:
 
-   pop af
-   pop bc
-   pop de
-   push af
-   
-   jp asm_creat
+        pop     af
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_creat

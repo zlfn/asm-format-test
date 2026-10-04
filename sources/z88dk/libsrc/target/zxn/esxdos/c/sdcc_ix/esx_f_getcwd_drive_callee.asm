@@ -9,19 +9,19 @@ EXTERN asm_esx_f_getcwd_drive
 
 _esx_f_getcwd_drive_callee:
 
-   pop hl
-   dec sp
-   pop af
-   ex (sp),hl
+        pop     hl
+        dec     sp
+        pop     af
+        ex      (sp), hl
 
 l_esx_f_getcwd_drive_callee:
 
-   push ix
-   push iy
-   
-   call asm_esx_f_getcwd_drive
-   
-   pop iy
-   pop ix
+        push    ix
+        push    iy
 
-   ret
+        call    asm_esx_f_getcwd_drive
+
+        pop     iy
+        pop     ix
+
+        ret

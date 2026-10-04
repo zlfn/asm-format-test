@@ -11,27 +11,26 @@ EXTERN __esxdos_error_mc
 
 asm_esx_f_seekdir:
 
-   ; enter :    a = handle
-   ;         bcde = directory position
-   ;
-   ; exit  : success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter :    a = handle
+        ;         bcde = directory position
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl
 
-   rst __ESX_RST_SYS
-   defb __ESX_F_SEEKDIR
+        rst     __ESX_RST_SYS
+        defb    __ESX_F_SEEKDIR
 
-   jp nc, error_znc
-   jp __esxdos_error_mc
-
+        jp      nc, error_znc
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * F_SEEKDIR ($a6) *
@@ -45,4 +44,3 @@ asm_esx_f_seekdir:
 ; Exit (failure):
 ; Fc=1
 ; A=error code
-   

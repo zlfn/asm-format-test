@@ -8,10 +8,10 @@ EXTERN asm_esx_m_getdate
 
 _esx_m_getdate:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_esx_m_getdate
+        push    hl
+        push    af
+
+        jp      asm_esx_m_getdate

@@ -10,9 +10,9 @@ EXTERN asm_getline_unlocked
 
 getline_unlocked_callee:
 
-   pop hl
-   pop ix
-   pop de
-   ex (sp),hl
-   
-   jp asm_getline_unlocked
+        pop     hl
+        pop     ix
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_getline_unlocked

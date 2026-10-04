@@ -9,19 +9,18 @@ EXTERN asm_sms_setw_vram_unsafe
 
 sms_setw_vram_unsafe:
 
-   pop af
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push af
-   
-   jp asm_sms_setw_vram_unsafe
+        pop     af
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    af
+
+        jp      asm_sms_setw_vram_unsafe
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sms_setw_vram_unsafe
 defc _sms_setw_vram_unsafe = sms_setw_vram_unsafe
 ENDIF
-

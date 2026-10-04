@@ -16,10 +16,10 @@ EXTERN asm_NIRVANAM_readC
 
 _NIRVANAM_readC_callee:
 
-   pop hl
-   pop bc          ; bc = attrs
-   ex (sp),hl
-   ld d,l          ; d = lin
-   ld e,h          ; e = col
+        pop     hl
+        pop     bc      ; bc = attrs
+        ex      (sp), hl
+        ld      d,    l ; d = lin
+        ld      e,    h ; e = col
 
-	jp asm_NIRVANAM_readC
+        jp      asm_NIRVANAM_readC

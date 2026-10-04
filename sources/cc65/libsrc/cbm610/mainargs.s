@@ -22,14 +22,13 @@
 ; - The "file-name" might be a path-name; don't copy the directory-components.
 ; - Add a control-character quoting mechanism.
 
-        .constructor    initmainargs, 24
-        .import         __argc, __argv
-        .import         sys_bank, restore_bank
-        .import         sysp0:zp, ptr1:zp
+        .constructor initmainargs, 24
+        .import __argc,   __argv
+        .import sys_bank, restore_bank
+        .import sysp0:zp, ptr1:zp
 
-        .include        "cbm610.inc"
-        .macpack        generic
-
+        .include "cbm610.inc"
+        .macpack generic
 
 MAXARGS  = 10                   ; Maximum number of arguments allowed
 REM      = $8f                  ; BASIC token-code
@@ -47,16 +46,16 @@ initmainargs:
 
         jsr     sys_bank
         ldy     #FNAM
-        lda     (sysp0),y       ; Get file-name pointer from system bank
+        lda     (sysp0), y      ; Get file-name pointer from system bank
         sta     ptr1
         iny
-        lda     (sysp0),y
+        lda     (sysp0), y
         sta     ptr1+1
         iny                     ; FNAM_BANK
-        lda     (sysp0),y
+        lda     (sysp0), y
         tax
         ldy     #FNAM_LEN
-        lda     (sysp0),y
+        lda     (sysp0), y
         tay
         lda     #0              ; The terminating NUL character
         stx     IndReg          ; Look for name in correct bank
@@ -64,8 +63,8 @@ initmainargs:
         blt     L1
         ldy     #NAME_LEN       ; Limit the length
         bne     L1              ; Branch always
-L0:     lda     (ptr1),y
-L1:     sta     name,y
+L0:     lda     (ptr1), y
+L1:     sta     name,   y
         dey
         bpl     L0
         jsr     restore_bank
@@ -74,8 +73,8 @@ L1:     sta     name,y
 ; Find a "rem" token.
 
         ldx     #0
-L2:     lda     BASIC_BUF,x
-        bze     done            ; No "rem," no args.
+L2:     lda     BASIC_BUF, x
+        bze     done    ; No "rem," no args.
         inx
         cmp     #REM
         bne     L2
@@ -83,10 +82,10 @@ L2:     lda     BASIC_BUF,x
 
 ; Find the next argument.
 
-next:   lda     BASIC_BUF,x
-        bze     done            ; End of line reached
+next:   lda     BASIC_BUF, x
+        bze     done    ; End of line reached
         inx
-        cmp     #' '            ; Skip leading spaces
+        cmp     #' '    ; Skip leading spaces
         beq     next
 
 ; Found start of next argument. We've incremented the pointer in X already, so
@@ -94,27 +93,27 @@ next:   lda     BASIC_BUF,x
 ; will check now for a quoted argument; in which case, we will have to skip that
 ; first character.
 
-found:  cmp     #'"'            ; Is the argument quoted?
-        beq     setterm         ; Jump if so
-        dex                     ; Reset pointer to first argument character
-        lda     #' '            ; A space ends the argument
-setterm:sta     term            ; Set end-of-argument marker
+found:  cmp     #'"'    ; Is the argument quoted?
+        beq     setterm ; Jump if so
+        dex             ; Reset pointer to first argument character
+        lda     #' '    ; A space ends the argument
+setterm: sta    term    ; Set end-of-argument marker
 
 ; Now, store a pointer to the argument into the next slot.
 
-        txa                     ; Get low byte
+        txa             ; Get low byte
         add     #<BASIC_BUF
-        sta     argv,y          ; argv[y]= &arg
+        sta     argv, y ; argv[y]= &arg
         lda     #>$0000
         adc     #>BASIC_BUF
-        sta     argv+1,y
+        sta     argv+1, y
         iny
         iny
-        inc     __argc          ; Found another arg
+        inc     __argc  ; Found another arg
 
 ; Search for the end of the argument.
 
-argloop:lda     BASIC_BUF,x
+argloop: lda    BASIC_BUF, x
         bze     done
         inx
         cmp     term
@@ -125,7 +124,7 @@ argloop:lda     BASIC_BUF,x
 ; replace the terminating character by a zero.
 
         lda     #$00
-        sta     BASIC_BUF-1,x
+        sta     BASIC_BUF-1, x
 
 ; Check if the maximum number of command-line arguments is reached. If not,
 ; parse the next one.

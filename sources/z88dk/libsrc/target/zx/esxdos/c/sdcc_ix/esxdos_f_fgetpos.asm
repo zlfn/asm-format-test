@@ -9,10 +9,10 @@ EXTERN _esxdos_f_fgetpos_fastcall
 
 _esxdos_f_fgetpos:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _esxdos_f_fgetpos_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _esxdos_f_fgetpos_fastcall

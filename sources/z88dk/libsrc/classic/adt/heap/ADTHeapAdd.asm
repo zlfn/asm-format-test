@@ -12,12 +12,12 @@ EXTERN ADTHeapSiftUp
 ;              set carry if child < parent (min heap) -- MUST PRESERVE BC,DE,HL,IX
 
 .ADTHeapAdd
-   add hl,hl
-   push hl
-   add hl,bc            ; hl = &array[N+1]
-   ld (hl),e            ; store new item at end of array
-   inc hl
-   ld (hl),d
-   dec hl
-   pop de               ; de = start index * 2
-   jp ADTHeapSiftUp
+        add     hl, hl
+        push    hl
+        add     hl,   bc        ; hl = &array[N+1]
+        ld      (hl), e         ; store new item at end of array
+        inc     hl
+        ld      (hl), d
+        dec     hl
+        pop     de              ; de = start index * 2
+        jp      ADTHeapSiftUp

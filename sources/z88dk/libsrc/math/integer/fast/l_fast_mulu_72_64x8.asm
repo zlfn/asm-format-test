@@ -8,68 +8,68 @@ EXTERN l_fast_mulu_40_32x8
 
 l_fast_mulu_72_64x8:
 
-   ; multiplication of a 64-bit number and an 8-bit number into 72-bit result
-   ;
-   ; enter :   dehl'dehl = 64-bit multiplicand
-   ;                   a = 8-bit multiplicand
-   ;
-   ; exit  : a dehl'dehl = 72-bit product
-   ;         carry reset
-   ;
-   ; uses  : af, bc, de, hl, bc', de', hl'
+        ; multiplication of a 64-bit number and an 8-bit number into 72-bit result
+        ;
+        ; enter :   dehl'dehl = 64-bit multiplicand
+        ;                   a = 8-bit multiplicand
+        ;
+        ; exit  : a dehl'dehl = 72-bit product
+        ;         carry reset
+        ;
+        ; uses  : af, bc, de, hl, bc', de', hl'
 
-   push ix
+        push    ix
 
-   exx
+        exx
 
-   push de
-   push hl                     ; save MS32
-   push af                     ; save M8
+        push    de
+        push    hl      ; save MS32
+        push    af      ; save M8
 
-   exx
+        exx
 
-   call l_fast_mulu_40_32x8    ; adehl = LS32 * M8
+        call    l_fast_mulu_40_32x8     ; adehl = LS32 * M8
 
-   ld c,a
-   ld b,0
+        ld      c, a
+        ld      b, 0
 
-   exx
+        exx
 
-   pop af                      ; a = M8
-   pop hl
-   pop de                      ; dehl = MS32
+        pop     af      ; a = M8
+        pop     hl
+        pop     de      ; dehl = MS32
 
-   exx
+        exx
 
-   push de
-   push hl
-   push bc                     ; save LS32 * M8
+        push    de
+        push    hl
+        push    bc      ; save LS32 * M8
 
-   exx
+        exx
 
-   call l_fast_mulu_40_32x8    ; adehl = MS32 * M8
+        call    l_fast_mulu_40_32x8     ; adehl = MS32 * M8
 
-   pop bc
-   add hl,bc
+        pop     bc
+        add     hl, bc
 
-   jr nc, no_propagate
+        jr      nc, no_propagate
 
-   inc e
-   jr nz, no_propagate
+        inc     e
+        jr      nz, no_propagate
 
-   inc d
-   jr nz, no_propagate
+        inc     d
+        jr      nz, no_propagate
 
-   inc a
+        inc     a
 
 no_propagate:
 
-   exx
+        exx
 
-   pop hl
-   pop de                      ; a dehl'dehl = 72-bit product
+        pop     hl
+        pop     de      ; a dehl'dehl = 72-bit product
 
-   pop ix
+        pop     ix
 
-   or a
-   ret
+        or      a
+        ret

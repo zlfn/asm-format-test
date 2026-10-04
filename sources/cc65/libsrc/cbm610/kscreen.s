@@ -4,13 +4,12 @@
 ; SCREEN kernal call
 ;
 
-        .export         SCREEN
-
+        .export SCREEN
 
 .proc   SCREEN
 
-        ldx     #80             ; Columns
-        ldy     #25             ; Lines
+        ldx     #80     ; Columns
+        ldy     #25     ; Lines
         rts
 
 .endproc

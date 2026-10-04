@@ -17,14 +17,14 @@ PUBLIC asm_cpu_otimr
 asm_z180_otimr:
 asm_cpu_otimr:
 
-   ; enter : hl = void *src
-   ;          c = port
-   ;          b = num
-   ;
-   ; exit  : hl = hl = void *src_nxt (address of byte after last written)
-   ;          c = port_nxt
-   ;
-   ; uses  : f, bc, hl
-   
-   otimr
-   ret
+        ; enter : hl = void *src
+        ;          c = port
+        ;          b = num
+        ;
+        ; exit  : hl = hl = void *src_nxt (address of byte after last written)
+        ;          c = port_nxt
+        ;
+        ; uses  : f, bc, hl
+
+        otimr
+        ret

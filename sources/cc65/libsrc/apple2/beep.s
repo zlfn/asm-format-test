@@ -4,16 +4,16 @@
 ; void beep(void)
 ;
 
-        .export         _beep
+        .export _beep
 
-        .include        "apple2.inc"
+        .include "apple2.inc"
 
-        .segment        "LOWCODE"
+        .segment "LOWCODE"
 
 _beep:
         ; Switch in ROM and call BELL
         bit     $C082
-        jsr     $FF3A           ; BELL
+        jsr     $FF3A   ; BELL
 
         ; Switch in LC bank 2 for R/O and return
         bit     $C080

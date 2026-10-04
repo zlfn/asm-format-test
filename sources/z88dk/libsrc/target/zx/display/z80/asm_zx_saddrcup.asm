@@ -16,22 +16,22 @@ PUBLIC asm_zx_saddrcup
 
 asm_zx_saddrcup:
 
-   ; enter : hl = screen address
-   ;
-   ; exit  : hl = screen address one character up
-   ;         carry set if new screen address is off screen
-   ;
-   ; uses  : af, hl
+        ; enter : hl = screen address
+        ;
+        ; exit  : hl = screen address one character up
+        ;         carry set if new screen address is off screen
+        ;
+        ; uses  : af, hl
 
-   ld a,l
-   sub $20
-   ld l,a
-   ret nc
-   
-   ld a,h
-   sub $08
-   ld h,a
-   
-   and $18
-   add a,$e8
-   ret
+        ld      a, l
+        sub     $20
+        ld      l, a
+        ret     nc
+
+        ld      a, h
+        sub     $08
+        ld      h, a
+
+        and     $18
+        add     a, $e8
+        ret

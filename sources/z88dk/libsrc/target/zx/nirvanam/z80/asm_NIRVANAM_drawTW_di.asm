@@ -7,7 +7,7 @@ EXTERN asm_NIRVANAM_drawTW
 
 asm_NIRVANAM_drawTW_di:
 
-   di
-	call asm_NIRVANAM_drawTW
-	ei
-	ret
+        di
+        call    asm_NIRVANAM_drawTW
+        ei
+        ret

@@ -41,15 +41,13 @@
 ;*
 ;****************
 
+        .export _lynx_eeprom_read
+        .export _lynx_eeprom_write
+        .export _lynx_eeprom_erase
+        .import popa
+        .importzp ptr1
 
-        .export         _lynx_eeprom_read
-        .export         _lynx_eeprom_write
-        .export         _lynx_eeprom_erase
-        .import         popa
-        .importzp       ptr1
-
-        .include        "lynx.inc"
-
+        .include "lynx.inc"
 
 ; ------------------------------------------------------------------------
 ; EEPROM command list
@@ -59,7 +57,6 @@ EE_C_READ       =    $80
 EE_C_ERASE      =    $C0
 EE_C_EWEN       =    $30
 EE_C_EWDS       =    $00
-
 
 ; ------------------------------------------------------------------------
 ; unsigned __fastcall__ lynx_eeprom_read (unsigned char cell);
@@ -72,12 +69,12 @@ _lynx_eeprom_read:
         jsr     EE_Send9Bit
 
         lda     #$a
-        sta     IODIR            ; set AUDIN to Input
+        sta     IODIR   ; set AUDIN to Input
 
         clc
         stz     ptr1
-        stz     ptr1+1          ; Clear result
-        ldy     #16-1           ; Initialize bit counter
+        stz     ptr1+1  ; Clear result
+        ldy     #16-1   ; Initialize bit counter
 @L1:
 ; CLK = 1
         stz     RCART0
@@ -87,15 +84,15 @@ _lynx_eeprom_read:
         stz     RCART0
 
         lda     IODAT
-        and     #$10             ; mask bit
-        adc     #$f0             ; C=1 if A=$10
+        and     #$10    ; mask bit
+        adc     #$f0    ; C=1 if A=$10
         rol     ptr1
-        rol     ptr1+1           ; shifts 0 to Carry
+        rol     ptr1+1  ; shifts 0 to Carry
         dey
         bpl     @L1
 
         ldx     #$1a
-        stx     IODIR            ; set AUDIN for output
+        stx     IODIR   ; set AUDIN for output
 ;EE_SET_CS_LOW
 
         ldx     #3
@@ -104,10 +101,9 @@ _lynx_eeprom_read:
         stx     SYSCTL1
 
         lda     ptr1
-        ldy     ptr1+1          ; Load result
+        ldy     ptr1+1  ; Load result
 
         rts
-
 
 ; ------------------------------------------------------------------------
 ; unsigned __fastcall__ lynx_eeprom_erase (unsigned char cell);
@@ -123,7 +119,6 @@ _lynx_eeprom_erase:
         ora     #EE_C_ERASE     ; clear cell A
         jsr     EE_Send9Bit
         bra     EE_wait
-
 
 ; ------------------------------------------------------------------------
 ; unsigned __fastcall__ lynx_eeprom_write (unsigned char cell, unsigned val);
@@ -152,18 +147,17 @@ EEloop:
         bpl     EEloop
 
         lda     #$0A
-        sta     IODIR           ; AUDIN to input
+        sta     IODIR   ; AUDIN to input
         lda     #$10
 EE_wait1:
-        bit     IODAT           ; 'til ready :D0-read is /D0-written
+        bit     IODAT   ; 'til ready :D0-read is /D0-written
         beq     EE_wait1
-        lda     #$1a            ; AUDIN to output
+        lda     #$1a    ; AUDIN to output
         sta     IODIR
 
         lda     #EE_C_EWDS      ; EWDS
 
 ;       bra     EE_Send9Bit     ; fall into
-
 
 ; ------------------------------------------------------------------------
 ; Send 8 bit value in A to eeprom
@@ -184,11 +178,11 @@ EEloop2:
         bpl     EEloop2
 
         ldy     #8
-        sec                     ; start bit
+        sec             ; start bit
         ror     A
         ror     A
         ror     A
-        ror     A               ; bit 8 at pos. 4
+        ror     A       ; bit 8 at pos. 4
 EEloop3:
         tax
         and     #$10
@@ -205,7 +199,7 @@ EEloop3:
         dey
         bpl     EEloop3
 
-        lda     #$b             ; fnr neue EEPROMs
+        lda     #$b     ; fnr neue EEPROMs
         sta     IODAT
 
         rts
@@ -247,9 +241,7 @@ EEloop4:
         dex
         stx     SYSCTL1
 
-        lda     #$b             ; fnr neue EEPROMs
+        lda     #$b     ; fnr neue EEPROMs
         sta     IODAT
 
         rts
-
-

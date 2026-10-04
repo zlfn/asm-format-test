@@ -5,13 +5,13 @@
 
 ; char ReadByte  (void);
 
-            .import ___oserror
-            .export _ReadByte
+        .import ___oserror
+        .export _ReadByte
 
-            .include "jumptab.inc"
+        .include "jumptab.inc"
 
 _ReadByte:
-        jsr ReadByte
-        stx ___oserror
-        ldx #0
+        jsr     ReadByte
+        stx     ___oserror
+        ldx     #0
         rts

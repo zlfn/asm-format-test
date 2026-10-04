@@ -12,57 +12,55 @@
 ;	e = exp(x) ;
 ;	return (e-1.0/e)/(e+1.0/e) ;
 
-
 IF  FORts2068
-    INCLUDE "target/ts2068/def/ts2068fp.def"
+        INCLUDE "target/ts2068/def/ts2068fp.def"
 ENDIF
 IF  FORzx
-    INCLUDE "target/zx/def/zxfp.def"
+        INCLUDE "target/zx/def/zxfp.def"
 ENDIF
 IF  FORzx81
-    INCLUDE "target/zx81/def/81fp.def"
+        INCLUDE "target/zx81/def/81fp.def"
 ENDIF
 IF  FORlambda
-    INCLUDE "target/lambda/def/lambdafp.def"
+        INCLUDE "target/lambda/def/lambdafp.def"
 ENDIF
 
-    SECTION code_fp
-    PUBLIC  tanh
+        SECTION code_fp
+        PUBLIC  tanh
 
-    EXTERN  fsetup1
-    EXTERN  stkequ
+        EXTERN  fsetup1
+        EXTERN  stkequ
 
 tanh:
 
-    call    fsetup1
+        call    fsetup1
 
-    defb    ZXFP_EXP                    ; and at the beginning exp (x)
-    defb    ZXFP_ST_MEM_0
+        defb    ZXFP_EXP        ; and at the beginning exp (x)
+        defb    ZXFP_ST_MEM_0
 
-    defb    ZXFP_STK_ONE
-    defb    ZXFP_EXCHANGE
-    defb    ZXFP_DIVISION               ; 1/e
+        defb    ZXFP_STK_ONE
+        defb    ZXFP_EXCHANGE
+        defb    ZXFP_DIVISION   ; 1/e
 
-    defb    ZXFP_DUPLICATE
+        defb    ZXFP_DUPLICATE
 
-    defb    ZXFP_GET_MEM_0
-    defb    ZXFP_ADDITION
+        defb    ZXFP_GET_MEM_0
+        defb    ZXFP_ADDITION
 
-    defb    ZXFP_EXCHANGE
-    defb    ZXFP_GET_MEM_0
+        defb    ZXFP_EXCHANGE
+        defb    ZXFP_GET_MEM_0
 
-    defb    ZXFP_EXCHANGE
-    defb    ZXFP_SUBTRACT
+        defb    ZXFP_EXCHANGE
+        defb    ZXFP_SUBTRACT
 
-    defb    ZXFP_EXCHANGE               ; This might be slightly optimized, maybe, but watch out..
-				; test it deeply with positive and negative values !
+        defb    ZXFP_EXCHANGE   ; This might be slightly optimized, maybe, but watch out..
+        ; test it deeply with positive and negative values !
 
 IF  FORlambda
-    defb    ZXFP_DIVISION+128
+        defb    ZXFP_DIVISION+128
 ELSE
-    defb    ZXFP_DIVISION
-    defb    ZXFP_END_CALC
+        defb    ZXFP_DIVISION
+        defb    ZXFP_END_CALC
 ENDIF
 
-    jp      stkequ
-
+        jp      stkequ

@@ -7,11 +7,10 @@
 ; Assembler include file that imports the runtime zero page locations used
 ; by the compiler, ready for usage in asm code.
 
-
-        .globalzp       c_sp, sreg, regsave
-        .globalzp       ptr1, ptr2, ptr3, ptr4
-        .globalzp       tmp1, tmp2, tmp3, tmp4
-        .globalzp       regbank
+        .globalzp c_sp, sreg, regsave
+        .globalzp ptr1, ptr2, ptr3, ptr4
+        .globalzp tmp1, tmp2, tmp3, tmp4
+        .globalzp regbank
 
 ; FIXME: there must be a less ugly way to do this
 .ifp4510
@@ -22,10 +21,9 @@
         ; The following symbol is supplied for compatibility reasons only, it
         ; will get removed in future versions. Using it will cause a linker
         ; warning.
-        .globalzp       sp
+        .globalzp sp
 .endif
 .endif
-
 
 ; The size of the register bank
 regbanksize     = 6
@@ -37,4 +35,3 @@ zpspace         = 26
 ; calls C code (does not include the register bank, which is saved by the
 ; generated C code if required).
 zpsavespace     = zpspace - regbanksize
-

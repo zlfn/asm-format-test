@@ -5,11 +5,11 @@
 ; lowlevel kplot function for the soft80 implementation
 ;
 
-        .export         soft80_kplot
-        .import         soft80_internal_cursorxlsb
+        .export soft80_kplot
+        .import soft80_internal_cursorxlsb
 
-        .include        "c64.inc"
-        .include        "soft80.inc"
+        .include "c64.inc"
+        .include "soft80.inc"
 
 soft80_kplot:
         bcs     @getpos
@@ -20,16 +20,16 @@ soft80_kplot:
         sei
         lda     $01
         pha
-        lda     #$34                            ; enable RAM under I/O
+        lda     #$34    ; enable RAM under I/O
         sta     $01
 
         ; calc pointer to bitmap
-        lda     soft80_bitmapylo,x
+        lda     soft80_bitmapylo, x
         clc
-        adc     soft80_bitmapxlo,y
+        adc     soft80_bitmapxlo, y
         sta     SCREEN_PTR
-        lda     soft80_bitmapyhi,x
-        adc     soft80_bitmapxhi,y
+        lda     soft80_bitmapyhi, x
+        adc     soft80_bitmapxhi, y
         sta     SCREEN_PTR+1
 
         tya
@@ -41,10 +41,10 @@ soft80_kplot:
         lsr     a
 
         clc
-        adc     soft80_vramlo,x
+        adc     soft80_vramlo, x
         sta     CRAM_PTR
         lda     #0
-        adc     soft80_vramhi,x
+        adc     soft80_vramhi, x
         sta     CRAM_PTR+1
 
         pla

@@ -23,7 +23,6 @@ WSYNC   = ANTIC + $0A         ;wait for HBLANK synchronization
 NMIEN   = ANTIC + $0E         ;NMI enable
 NMIRES  = ANTIC + $0F         ;NMI interrupt reset
 
-
 ;-------------------------------------------------------------------------
 ; Antic opcodes
 ;-------------------------------------------------------------------------

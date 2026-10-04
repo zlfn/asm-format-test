@@ -16,10 +16,10 @@ PUBLIC asm_am9511_sigdig
 
 asm_am9511_sigdig:
 
-   ; exit  : b = number of significant hex digits in double representation
-   ;         c = number of significant decimal digits in double representation
-   ;
-   ; uses  : bc
+        ; exit  : b = number of significant hex digits in double representation
+        ;         c = number of significant decimal digits in double representation
+        ;
+        ; uses  : bc
 
-   ld bc,$0607
-   ret
+        ld      bc, $0607
+        ret

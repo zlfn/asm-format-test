@@ -12,33 +12,33 @@ PUBLIC    l_long_asro
 ; Entry:    dehl = long
 ;        c = shift couter
 .l_long_asro
-    ld      a,c
-    jp      entry
+        ld      a, c
+        jp      entry
 
 ; Entry:    l = counter
 ;        sp + 2 = long to shift
 
 .l_long_asr
-    pop     bc
-    ld      a,l     ;temporary store for counter
-    pop     hl
-    pop     de
-    push    bc
+        pop     bc
+        ld      a, l    ;temporary store for counter
+        pop     hl
+        pop     de
+        push    bc
 
 .entry
-    and     31
-    ret     Z
+        and     31
+        ret     Z
 
-    ld      b,a
-    ld      a,e    ; primary = dahl
+        ld      b, a
+        ld      a, e    ; primary = dahl
 
 .loop
-    sra     d
-    rra
-    rr      h
-    rr      l
-    dec     b
-    jp      NZ,loop
+        sra     d
+        rra
+        rr      h
+        rr      l
+        dec     b
+        jp      NZ, loop
 
-    ld    e,a
-    ret
+        ld      e, a
+        ret

@@ -3,22 +3,20 @@
 ;
 ; int open (const char* name, int flags, ...);  /* May take a mode argument */
 
+        .export _open
+        .destructor closeallfiles, 5
 
-        .export         _open
-        .destructor     closeallfiles, 5
+        .import addysp,  popax
+        .import scratch, fnparse, fnaddmode, fncomplete, fnset
+        .import opencmdchannel, closecmdchannel, readdiskerror
+        .import fnunit, fnisfile
+        .import _close
+        .importzp c_sp, tmp2, tmp3
 
-        .import         addysp, popax
-        .import         scratch, fnparse, fnaddmode, fncomplete, fnset
-        .import         opencmdchannel, closecmdchannel, readdiskerror
-        .import         fnunit, fnisfile
-        .import         _close
-        .importzp       c_sp, tmp2, tmp3
-
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "filedes.inc"
-        .include        "cbm.inc"
-
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "filedes.inc"
+        .include "cbm.inc"
 
 ;--------------------------------------------------------------------------
 ; closeallfiles: Close all open files.
@@ -26,13 +24,13 @@
 .proc   closeallfiles
 
         ldx     #MAX_FDS-1
-loop:   lda     fdtab,x
-        beq     next            ; Skip unused entries
+loop:   lda     fdtab, x
+        beq     next    ; Skip unused entries
 
 ; Close this file
 
         txa
-        pha                     ; Save current value of X
+        pha     ; Save current value of X
         ldx     #0
         jsr     _close
         pla
@@ -54,24 +52,24 @@ next:   dex
 
 ; Throw away any additional parameters passed through the ellipsis
 
-        dey                     ; Parm count < 4 shouldn't be needed to be...
-        dey                     ; ...checked (it generates a c compiler warning)
+        dey             ; Parm count < 4 shouldn't be needed to be...
+        dey             ; ...checked (it generates a c compiler warning)
         dey
         dey
-        beq     parmok          ; Branch if parameter count ok
-        jsr     addysp          ; Fix stack, throw away unused parameters
+        beq     parmok  ; Branch if parameter count ok
+        jsr     addysp  ; Fix stack, throw away unused parameters
 
 ; Parameters ok. Pop the flags and save them into tmp3
 
-parmok: jsr     popax           ; Get flags
+parmok: jsr     popax   ; Get flags
         sta     tmp3
 
 ; Get the filename from stack and parse it. Bail out if is not ok
 
-        jsr     popax           ; Get name
-        jsr     fnparse         ; Parse it
+        jsr     popax   ; Get name
+        jsr     fnparse ; Parse it
         tax
-        bne     oserror         ; Bail out if problem with name
+        bne     oserror ; Bail out if problem with name
 
 ; Get a free file handle and remember it in tmp2
 
@@ -85,8 +83,8 @@ parmok: jsr     popax           ; Get flags
 
         lda     tmp3
         and     #(O_RDWR | O_CREAT)
-        cmp     #O_RDONLY       ; Open for reading?
-        beq     doread          ; Yes: Branch
+        cmp     #O_RDONLY               ; Open for reading?
+        beq     doread                  ; Yes: Branch
         cmp     #(O_WRONLY | O_CREAT)   ; Open for writing?
         beq     dowrite
 
@@ -113,7 +111,7 @@ closeandexit:
 
 ; Error entry: Set oserror and errno using error code in A and return -1
 
-oserror:jmp     ___mappederrno
+oserror: jmp    ___mappederrno
 
 ; Read bit is set. Add an 'r' to the name
 
@@ -153,7 +151,7 @@ appendcreate:
 ; Common read/write code. Flags in A, handle in tmp2
 
 common: sta     tmp3
-        jsr     fnset           ; Set the file name
+        jsr     fnset   ; Set the file name
 
         lda     tmp2
         clc
@@ -181,9 +179,9 @@ nofile:                         ; ... else use SA=0 (read)
 
         ldx     tmp2
         lda     tmp3
-        sta     fdtab,x
+        sta     fdtab, x
         lda     fnunit
-        sta     unittab,x       ; Remember
+        sta     unittab, x      ; Remember
 
 ; Done. Return the handle in a/x
 
@@ -193,4 +191,3 @@ nofile:                         ; ... else use SA=0 (read)
         rts
 
 .endproc
-

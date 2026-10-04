@@ -1,11 +1,11 @@
-        .include    "global.s"
+        .include "global.s"
 
         .title  "Metasprites"
         .module Metasprites
 
         .area   _DATA
 
-        .globl ___current_metasprite, ___current_base_tile, ___current_base_prop, ___render_shadow_OAM
+        .globl  ___current_metasprite, ___current_base_tile, ___current_base_prop, ___render_shadow_OAM
 
         .area   _CODE
 
@@ -26,9 +26,9 @@ ___move_metasprite_hflip::
         ld      c, a
 
         ld      hl, #___current_metasprite
-        ld      a, (hl+)
-        ld      h, (hl)
-        ld      l, a
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a
 
         ld      a, (___render_shadow_OAM)
         ld      b, a
@@ -39,24 +39,24 @@ ___move_metasprite_hflip::
         cpl
         inc     a
         add     d
-        ld      d, a
+        ld      d,    a
         ld      (bc), a
         inc     c
 
-        ld      a, (hl+)    ; dx
+        ld      a, (hl+)        ; dx
         add     e
-        ld      e, a
+        ld      e,    a
         ld      (bc), a
         inc     c
 
         ld      a, (___current_base_tile)
-        add     (hl)        ; tile
+        add     (hl)    ; tile
         inc     hl
         ld      (bc), a
         inc     c
 
-	ld      a, (___current_base_prop)
-        add     (hl)        ; props
+        ld      a, (___current_base_prop)
+        add     (hl)    ; props
         inc     hl
         xor     #0x40
         ld      (bc), a
@@ -87,37 +87,37 @@ ___move_metasprite_vflip::
         ld      c, a
 
         ld      hl, #___current_metasprite
-        ld      a, (hl+)
-        ld      h, (hl)
-        ld      l, a
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a
 
         ld      a, (___render_shadow_OAM)
         ld      b, a
 1$:
-        ld      a, (hl+)    ; dy
+        ld      a, (hl+)        ; dy
         cp      #0x80
         jr      z, 2$
         add     d
-        ld      d, a
+        ld      d,    a
         ld      (bc), a
         inc     c
 
-        ld      a, (hl+)    ; dx
+        ld      a, (hl+)        ; dx
         cpl
         inc     a
         add     e
-        ld      e, a
+        ld      e,    a
         ld      (bc), a
         inc     c
 
         ld      a, (___current_base_tile)
-        add     (hl)        ; tile
+        add     (hl)    ; tile
         inc     hl
         ld      (bc), a
         inc     c
 
-	ld      a, (___current_base_prop)
-        add     (hl)        ; props
+        ld      a, (___current_base_prop)
+        add     (hl)    ; props
         inc     hl
         xor     #0x20
         ld      (bc), a
@@ -148,9 +148,9 @@ ___move_metasprite_hvflip::
         ld      c, a
 
         ld      hl, #___current_metasprite
-        ld      a, (hl+)
-        ld      h, (hl)
-        ld      l, a
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a
 
         ld      a, (___render_shadow_OAM)
         ld      b, a
@@ -161,26 +161,26 @@ ___move_metasprite_hvflip::
         cpl
         inc     a
         add     d
-        ld      d, a
+        ld      d,    a
         ld      (bc), a
         inc     c
 
-        ld      a, (hl+)    ; dx
+        ld      a, (hl+)        ; dx
         cpl
         inc     a
         add     e
-        ld      e, a
+        ld      e,    a
         ld      (bc), a
         inc     c
 
         ld      a, (___current_base_tile)
-        add     (hl)        ; tile
+        add     (hl)    ; tile
         inc     hl
         ld      (bc), a
         inc     c
 
-	ld      a, (___current_base_prop)
-        add     (hl)        ; props
+        ld      a, (___current_base_prop)
+        add     (hl)    ; props
         inc     hl
         xor     #0x60
         ld      (bc), a

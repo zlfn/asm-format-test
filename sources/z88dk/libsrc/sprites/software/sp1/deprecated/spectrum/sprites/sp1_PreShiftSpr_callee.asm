@@ -8,18 +8,18 @@ PUBLIC ASMDISP_SP1_PRESHIFTSPR_CALLEE
 
 .sp1_PreShiftSpr_callee
 
-   pop af
-   pop bc
-   pop iy
-   pop de
-   pop hl
-   ld b,l
-   pop hl
-   pop ix
-   push af
-   ld a,ixl
-   ld h,a
-   ld a,c
+        pop     af
+        pop     bc
+        pop     iy
+        pop     de
+        pop     hl
+        ld      b, l
+        pop     hl
+        pop     ix
+        push    af
+        ld      a, ixl
+        ld      h, a
+        ld      a, c
 
 .asmentry
 
@@ -34,72 +34,72 @@ PUBLIC ASMDISP_SP1_PRESHIFTSPR_CALLEE
 
 .SP1PreShiftSpr
 
-   and $07
-   inc a
-   ld c,a                    ; c = right shift amount + 1
-   
-   ld a,l
-   inc h
-   dec h
-   ld hl,dummy1byte          ; point at two 0 bytes if 1-byte def
-   jr z, onebyte
-   add a,a
-   ld hl,dummy2byte          ; point at (255,0) pair if 2-byte def
-   
+        and     $07
+        inc     a
+        ld      c, a    ; c = right shift amount + 1
+
+        ld      a, l
+        inc     h
+        dec     h
+        ld      hl, dummy1byte  ; point at two 0 bytes if 1-byte def
+        jr      z,  onebyte
+        add     a,  a
+        ld      hl, dummy2byte  ; point at (255,0) pair if 2-byte def
+
 .onebyte
 
-   add a,a
-   add a,a
-   add a,a                   ; a = # bytes in graphic definition in each column
-      
-.dofirstcol                  ; first column has no graphics on left, will use dummy bytes for left
+        add     a, a
+        add     a, a
+        add     a, a    ; a = # bytes in graphic definition in each column
 
-   push af                   ; save height of column in bytes
-   push de                   ; save top of first column
+.dofirstcol     ; first column has no graphics on left, will use dummy bytes for left
+
+        push    af      ; save height of column in bytes
+        push    de      ; save top of first column
 
 .firstcolloop
 
-   ex af,af                  ; a' = pixel height
+        ex      af, af  ; a' = pixel height
 
-   push bc                   ; save width and rotation amount
-   ld b,c                    ; b = right shift + 1
-   ld c,(hl)                 ; c = graphic byte from col on left
-   ld a,1
-   xor l
-   ld l,a
-   ld a,(de)                 ; a = graphic byte in current col
-   inc de
-   djnz firstsloop
-   jp firstdoneshift
+        push    bc      ; save width and rotation amount
+        ld      b, c    ; b = right shift + 1
+        ld      c, (hl) ; c = graphic byte from col on left
+        ld      a, 1
+        xor     l
+        ld      l, a
+        ld      a, (de) ; a = graphic byte in current col
+        inc     de
+        djnz    firstsloop
+        jp      firstdoneshift
 
 .firstsloop
 
-   rr c
-   rra
-   djnz firstsloop
+        rr      c
+        rra
+        djnz    firstsloop
 
 .firstdoneshift
 
-   ld (iy+0),a               ; store shifted graphic in destination frame
-   inc iy
-   
-   pop bc
-   ex af,af
-   dec a
-   jr nz, firstcolloop
+        ld      (iy+0), a       ; store shifted graphic in destination frame
+        inc     iy
 
-   pop hl
-   pop af
-   djnz nextcol
-   
-   push iy
-   pop hl
-   ret
+        pop     bc
+        ex      af, af
+        dec     a
+        jr      nz, firstcolloop
 
-.nextcol                     ; do rest of columns
+        pop     hl
+        pop     af
+        djnz    nextcol
 
-   push af
-   push de
+        push    iy
+        pop     hl
+        ret
+
+.nextcol        ; do rest of columns
+
+        push    af
+        push    de
 
 ;  a = height in pixels
 ; de = graphic definition for this column
@@ -109,45 +109,45 @@ PUBLIC ASMDISP_SP1_PRESHIFTSPR_CALLEE
 
 .colloop
 
-   ex af,af
-   
-   push bc
-   ld b,c
-   ld a,(de)
-   inc de
-   ld c,(hl)
-   inc hl
-   djnz sloop
-   jp doneshift
+        ex      af, af
+
+        push    bc
+        ld      b, c
+        ld      a, (de)
+        inc     de
+        ld      c, (hl)
+        inc     hl
+        djnz    sloop
+        jp      doneshift
 
 .sloop
 
-   rr c
-   rra
-   djnz sloop
+        rr      c
+        rra
+        djnz    sloop
 
 .doneshift
 
-   ld (iy+0),a
-   inc iy
-   
-   pop bc
-   ex af,af
-   dec a
-   jr nz, colloop
+        ld      (iy+0), a
+        inc     iy
 
-   pop hl
-   pop af
-   djnz nextcol
+        pop     bc
+        ex      af, af
+        dec     a
+        jr      nz, colloop
 
-   push iy
-   pop hl
-   ret
+        pop     hl
+        pop     af
+        djnz    nextcol
 
-   defb 0
+        push    iy
+        pop     hl
+        ret
+
+        defb    0
 .dummy1byte
-   defb 0,0
+        defb    0, 0
 .dummy2byte
-   defb 255,0
+        defb    255, 0
 
 DEFC ASMDISP_SP1_PRESHIFTSPR_CALLEE = asmentry - sp1_PreShiftSpr_callee

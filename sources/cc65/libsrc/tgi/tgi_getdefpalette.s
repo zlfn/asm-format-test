@@ -7,6 +7,6 @@
 ; */
 ;
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
 _tgi_getdefpalette      =       tgi_getdefpalette       ; Call the driver

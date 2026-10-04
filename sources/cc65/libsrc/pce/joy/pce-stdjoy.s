@@ -2,17 +2,16 @@
 ; Standard joystick driver for the PCEngine
 ;
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "pce.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "pce.inc"
 
-        .macpack        module
-
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _pce_stdjoy_joy
+        module_header _pce_stdjoy_joy
 
 ; Driver signature
 
@@ -35,10 +34,9 @@
 
 JOY_COUNT       = 4             ; Number of joysticks we support
 
-
 .bss
 
-padbuffer:      .res    JOY_COUNT
+padbuffer: .res JOY_COUNT
 
 .code
 
@@ -64,7 +62,6 @@ INSTALL:
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.
 ;
@@ -72,7 +69,7 @@ UNINSTALL:
 
 COUNT:
         lda     #<JOY_COUNT
-        clx                     ; ldx #>JOY_COUNT
+        clx     ; ldx #>JOY_COUNT
         rts
 
 ; ------------------------------------------------------------------------
@@ -84,12 +81,12 @@ READJOY:
         pha
         jsr     read_joy
         pla
-        tax                     ; Joystick number into X
+        tax     ; Joystick number into X
 
         ; return value from buffer
 
 joy1:
-        lda     padbuffer,x
+        lda     padbuffer, x
         rts
 
 read_joy:
@@ -122,20 +119,20 @@ nextpad:
         asl     a
         asl     a
         asl     a
-        sta     padbuffer,y     ; store new value
+        sta     padbuffer, y    ; store new value
 
         stz     JOY_CTRL
         pha
         pla
-        nop                     ; some delay is required
+        nop     ; some delay is required
         nop
 
         lda     JOY_CTRL
         and     #$0F
-        ora     padbuffer,y     ; second half of new value
+        ora     padbuffer, y    ; second half of new value
 
         eor     #$FF
-        sta     padbuffer,y     ; store new value
+        sta     padbuffer, y    ; store new value
 
         iny
         cpy     #.sizeof(padbuffer)

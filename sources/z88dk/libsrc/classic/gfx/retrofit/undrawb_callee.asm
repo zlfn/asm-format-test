@@ -16,7 +16,7 @@
 
 undrawb_callee:
 _undrawb_callee:
-        ld      hl, retaddr
+        ld      hl,   retaddr
         ex      (sp), hl
         ld      (retaddr0+1), hl
         ld      hl, undrawb
@@ -30,4 +30,3 @@ retaddr:
 retaddr0:
         ld      hl, 0
         jp      (hl)
-

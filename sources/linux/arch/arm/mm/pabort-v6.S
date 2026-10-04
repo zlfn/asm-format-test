@@ -14,9 +14,9 @@
  * Purpose : obtain information about current prefetch abort.
  */
 
-	.align	5
+        .align  5
 ENTRY(v6_pabort)
-	mov	r0, r4
-	mrc	p15, 0, r1, c5, c0, 1		@ get IFSR
-	b	do_PrefetchAbort
+        mov     r0,  r4
+        mrc     p15, 0, r1, c5, c0, 1   @ get IFSR
+        b       do_PrefetchAbort
 ENDPROC(v6_pabort)

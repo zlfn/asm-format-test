@@ -5,52 +5,49 @@
 ; Long int compare function - used by the compare operators
 ;
 
-        .export         toslcmp
-        .import         incsp4
-        .importzp       c_sp, sreg, ptr1
-
+        .export toslcmp
+        .import incsp4
+        .importzp c_sp, sreg, ptr1
 
 toslcmp:
         sta     ptr1
-        stx     ptr1+1          ; EAX now in sreg:ptr1
+        stx     ptr1+1  ; EAX now in sreg:ptr1
 
         ldy     #$03
-        lda     (c_sp),y
+        lda     (c_sp), y
         sec
         sbc     sreg+1
         bne     L4
 
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
         cmp     sreg
         bne     L1
 
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
         cmp     ptr1+1
         bne     L1
 
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
         cmp     ptr1
 
-L1:     php                     ; Save flags
-        jsr     incsp4          ; Drop TOS
-        plp                     ; Restore the flags
+L1:     php             ; Save flags
+        jsr     incsp4  ; Drop TOS
+        plp             ; Restore the flags
         beq     L2
         bcs     L3
-        lda     #$FF            ; Set the N flag
+        lda     #$FF    ; Set the N flag
 L2:     rts
 
-L3:     lda     #$01            ; Clear the N flag
+L3:     lda     #$01    ; Clear the N flag
         rts
 
 L4:     bvc     L5
-        eor     #$FF            ; Fix the N flag if overflow
-        ora     #$01            ; Clear the Z flag
-L5:     php                     ; Save flags
-        jsr     incsp4          ; Drop TOS
-        plp                     ; Restore flags
+        eor     #$FF    ; Fix the N flag if overflow
+        ora     #$01    ; Clear the Z flag
+L5:     php             ; Save flags
+        jsr     incsp4  ; Drop TOS
+        plp             ; Restore flags
         rts
-
-

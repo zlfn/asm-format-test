@@ -55,19 +55,19 @@ END_COMPILERRT_FUNCTION(__floatundisf)
 
 CONST_SECTION
 
-	.balign 16
+        .balign 16
 twop52:
-	.quad 0x4330000000000000
-	.quad 0x0000000000000fff
+        .quad   0x4330000000000000
+        .quad   0x0000000000000fff
 
-	.balign 16
+        .balign 16
 sticky:
-	.quad 0x0000000000000000
-	.long 0x00000012
+        .quad   0x0000000000000000
+        .long   0x00000012
 
-	.balign 16
+        .balign 16
 twelve:
-	.long 0x00000000
+        .long   0x00000000
 
 #define			TWOp52			twop52-0b(%ecx)
 #define			STICKY			sticky-0b(%ecx,%eax,8)
@@ -75,35 +75,34 @@ twelve:
 .text
 .balign 4
 DEFINE_COMPILERRT_FUNCTION(__floatundisf)
-	movl		8(%esp),		%eax
-	movd		8(%esp),		%xmm1
-	movd		4(%esp),		%xmm0
-	punpckldq	%xmm1,			%xmm0
+        movl    8(%esp), %eax
+        movd    8(%esp), %xmm1
+        movd    4(%esp), %xmm0
+        punpckldq %xmm1, %xmm0
 
-	calll		0f
-0:	popl		%ecx
-	shrl		%eax					// high 31 bits of input as sint32
-	addl		$0x7ff80000,	%eax
-	sarl		$31,			%eax	// (big input) ? -1 : 0
-	movsd		STICKY,			%xmm1	// (big input) ? 0xfff : 0
-	movl		$12,			%edx
-	andl		%eax,			%edx	// (big input) ? 12 : 0
-	movd		%edx,			%xmm3
-	andpd		%xmm0,			%xmm1	// (big input) ? input & 0xfff : 0
-	movsd		TWOp52,			%xmm2	// 0x1.0p52
-	psrlq		%xmm3,			%xmm0	// (big input) ? input >> 12 : input
-	orpd		%xmm2,			%xmm1	// 0x1.0p52 + ((big input) ? input & 0xfff : input)
-	orpd		%xmm1,			%xmm0	// 0x1.0p52 + ((big input) ? (input >> 12 | input & 0xfff) : input)
-	subsd		%xmm2,			%xmm0	// (double)((big input) ? (input >> 12 | input & 0xfff) : input)
-	cvtsd2ss	%xmm0,			%xmm0	// (float)((big input) ? (input >> 12 | input & 0xfff) : input)
-	pslld		$23,			%xmm3
-	paddd		%xmm3,			%xmm0	// (float)input
-	movd		%xmm0,			4(%esp)
-	flds		4(%esp)
-	ret
+        calll   0f
+0:      popl    %ecx
+        shrl    %eax            // high 31 bits of input as sint32
+        addl    $0x7ff80000, %eax
+        sarl    $31,    %eax    // (big input) ? -1 : 0
+        movsd   STICKY, %xmm1   // (big input) ? 0xfff : 0
+        movl    $12,    %edx
+        andl    %eax,   %edx    // (big input) ? 12 : 0
+        movd    %edx,   %xmm3
+        andpd   %xmm0,  %xmm1   // (big input) ? input & 0xfff : 0
+        movsd   TWOp52, %xmm2   // 0x1.0p52
+        psrlq   %xmm3,  %xmm0   // (big input) ? input >> 12 : input
+        orpd    %xmm2,  %xmm1   // 0x1.0p52 + ((big input) ? input & 0xfff : input)
+        orpd    %xmm1,  %xmm0   // 0x1.0p52 + ((big input) ? (input >> 12 | input & 0xfff) : input)
+        subsd   %xmm2,  %xmm0   // (double)((big input) ? (input >> 12 | input & 0xfff) : input)
+        cvtsd2ss %xmm0, %xmm0   // (float)((big input) ? (input >> 12 | input & 0xfff) : input)
+        pslld   $23,   %xmm3
+        paddd   %xmm3, %xmm0    // (float)input
+        movd    %xmm0, 4(%esp)
+        flds    4(%esp)
+        ret
 END_COMPILERRT_FUNCTION(__floatundisf)
 
 #endif // __i386__
 
 NO_EXEC_STACK_DIRECTIVE
-

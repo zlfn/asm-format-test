@@ -4,10 +4,8 @@
 ; Cursor related variables
 ;
 
-        .export         cursor
+        .export cursor
 
 .bss
 
 cursor: .res    1
-
-

@@ -4,10 +4,10 @@
 ; unsigned char doesclrscrafterexit (void);
 ;
 
-        .export         _doesclrscrafterexit
-        .import         done
+        .export _doesclrscrafterexit
+        .import done
 
-        .include        "apple2.inc"
+        .include "apple2.inc"
 
 _doesclrscrafterexit:
         ; If the page we jump to when done equals the page

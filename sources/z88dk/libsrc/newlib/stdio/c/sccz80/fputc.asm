@@ -16,15 +16,15 @@ EXTERN asm_fputc
 
 fputc:
 
-   pop af
-   pop ix
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   jp asm_fputc
+        pop     af
+        pop     ix
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_fputc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -8,9 +8,9 @@
 
         .export _tgi_static_stddrv
         .ifdef  __ATARIXL__
-        .import _atrx8_tgi
+                .import _atrx8_tgi
         .else
-        .import _atr8_tgi
+                .import _atr8_tgi
         .endif
 
 .rodata

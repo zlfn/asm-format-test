@@ -3,9 +3,9 @@
 ; Robert Justice, 2026
 ;
 
-        .export         sos_set_pathname_tos
-        .include        "zeropage.inc"
-        .include        "sos.inc"
+        .export sos_set_pathname_tos
+        .include "zeropage.inc"
+        .include "sos.inc"
 
         ; Sets SOS PATHNAME parameter from TOS
 sos_set_pathname_tos:

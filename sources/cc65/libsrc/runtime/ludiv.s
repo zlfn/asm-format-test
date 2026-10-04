@@ -5,9 +5,9 @@
 ; CC65 runtime: division for long unsigned ints
 ;
 
-        .export         tosudiv0ax, tosudiveax, getlop, udiv32
-        .import         addysp1
-        .importzp       c_sp, sreg, tmp3, tmp4, ptr1, ptr2, ptr3, ptr4
+        .export tosudiv0ax, tosudiveax, getlop, udiv32
+        .import addysp1
+        .importzp c_sp, sreg, tmp3, tmp4, ptr1, ptr2, ptr3, ptr4
 
 tosudiv0ax:
 .if .cap(CPU_HAS_STZ)
@@ -20,16 +20,16 @@ tosudiv0ax:
 .endif
 
 tosudiveax:
-        jsr     getlop          ; Get the parameters
-        jsr     udiv32          ; Do the division
-        lda     ptr1            ; Result is in ptr1:sreg
+        jsr     getlop  ; Get the parameters
+        jsr     udiv32  ; Do the division
+        lda     ptr1    ; Result is in ptr1:sreg
         ldx     ptr1+1
         rts
 
 ; Pop the parameters for the long division and put it into the relevant
 ; memory cells. Called from the signed divisions also.
 
-getlop: sta     ptr3            ; Put right operand in place
+getlop: sta     ptr3    ; Put right operand in place
         stx     ptr3+1
         lda     sreg
         sta     ptr4
@@ -40,20 +40,20 @@ getlop: sta     ptr3            ; Put right operand in place
         lda     (c_sp)
         ldy     #1
 .else
-        ldy     #0              ; Put left operand in place
-        lda     (c_sp),y
+        ldy     #0      ; Put left operand in place
+        lda     (c_sp), y
         iny
 .endif
         sta     ptr1
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     ptr1+1
         iny
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     sreg
         iny
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     sreg+1
-        jmp     addysp1         ; Drop parameters
+        jmp     addysp1 ; Drop parameters
 
 ; Do (ptr1:sreg) / (ptr3:ptr4) --> (ptr1:sreg), remainder in (ptr2:tmp3:tmp4)
 ; This is also the entry point for the signed division
@@ -88,22 +88,20 @@ L0:     asl     ptr1
 
 ; Overflow, do the subtraction again, this time store the result
 
-        sta     tmp4            ; We have the high byte already
+        sta     tmp4    ; We have the high byte already
         txa
-        sbc     ptr3            ; byte 0
+        sbc     ptr3    ; byte 0
         tax
         lda     ptr2+1
         sbc     ptr3+1
-        sta     ptr2+1          ; byte 1
+        sta     ptr2+1  ; byte 1
         lda     tmp3
         sbc     ptr4
-        sta     tmp3            ; byte 2
-        inc     ptr1            ; Set result bit
+        sta     tmp3    ; byte 2
+        inc     ptr1    ; Set result bit
 
 L1:     txa
         dey
         bne     L0
         sta     ptr2
         rts
-
-

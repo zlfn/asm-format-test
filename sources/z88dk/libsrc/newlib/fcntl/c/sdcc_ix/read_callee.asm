@@ -10,17 +10,17 @@ EXTERN asm_read
 
 _read_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
 l0_read_callee:
 
-   push ix
-   
-   call asm_read
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_read
+
+        pop     ix
+        ret

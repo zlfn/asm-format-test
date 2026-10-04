@@ -14,11 +14,11 @@ EXTERN __SMSlib_PauseRequested
 
 asm_SMSlib_resetPauseRequest:
 
-   ; void SMS_resetPauseRequest (void)
-   ;
-   ; uses : af
-   
-   xor a
-	ld (__SMSlib_PauseRequested),a
-	
-   ret
+        ; void SMS_resetPauseRequest (void)
+        ;
+        ; uses : af
+
+        xor     a
+        ld      (__SMSlib_PauseRequested), a
+
+        ret

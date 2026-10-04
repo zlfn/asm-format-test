@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; char *strstrip(const char *s)
 ;
 ; Return a ptr to the first non-whitespace char in s.
@@ -21,23 +21,23 @@ EXTERN asm_isspace
 
 asm_strstrip:
 
-   ; enter : hl = char *s
-   ;
-   ; exit  : hl = ptr to first non-whitespace char in s
-   ;         carry reset = entire string is whitespace
-   ;
-   ; uses  : af, hl
-      
+        ; enter : hl = char *s
+        ;
+        ; exit  : hl = ptr to first non-whitespace char in s
+        ;         carry reset = entire string is whitespace
+        ;
+        ; uses  : af, hl
+
 loop:
 
-   ld a,(hl)
-   or a                        ; reached end of s?
-   ret Z
+        ld      a, (hl)
+        or      a       ; reached end of s?
+        ret     Z
 
-   inc hl
+        inc     hl
 
-   call asm_isspace
-   jr NC,loop
+        call    asm_isspace
+        jr      NC, loop
 
-   dec hl
-   ret
+        dec     hl
+        ret

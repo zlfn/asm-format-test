@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_waitForVBlank
 defc _SMS_waitForVBlank = SMS_waitForVBlank
 ENDIF
-

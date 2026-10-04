@@ -10,19 +10,19 @@ EXTERN dcallee1, asm_dtoa
 
 _dtoa_callee:
 
-   call dcallee1               ; AC' = x
-   
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        call    dcallee1        ; AC' = x
+
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
 l0_dtoa_callee:
 
-   push ix
-   
-   call asm_dtoa
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_dtoa
+
+        pop     ix
+        ret

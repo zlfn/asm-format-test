@@ -6,10 +6,8 @@
 ; long __fastcall__ telldir (DIR *dir);
 ;
 
-
-        .include        "dir.inc"
-        .include        "zeropage.inc"
-
+        .include "dir.inc"
+        .include "zeropage.inc"
 
 .proc   _telldir
 
@@ -25,11 +23,10 @@
 ; Return dir->off
 
         ldy     #DIR::off+1
-        lda     (ptr1),y
+        lda     (ptr1), y
         tax
         dey
-        lda     (ptr1),y
+        lda     (ptr1), y
         rts
 
 .endproc
-

@@ -10,9 +10,9 @@ EXTERN asm_z180_inir
 
 _z180_inir_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
 
-   jp asm_z180_inir
+        jp      asm_z180_inir

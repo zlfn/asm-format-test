@@ -48,7 +48,6 @@
 #define R3B    %dl
 #define R3H    %dh
 
-
 /* performs input whitening */
 #define input_whitening(src,context,offset)\
 	xor	w+offset(context),	src;
@@ -208,114 +207,113 @@
 	ror	$1,		d ## D;
 
 SYM_FUNC_START(twofish_enc_blk)
-	push	%ebp			/* save registers according to calling convention*/
-	push    %ebx
-	push    %esi
-	push    %edi
+        push    %ebp    /* save registers according to calling convention*/
+        push    %ebx
+        push    %esi
+        push    %edi
 
-	mov	ctx + 16(%esp),	%ebp	/* abuse the base pointer: set new base
+        mov     ctx + 16(%esp), %ebp    /* abuse the base pointer: set new base
 					 * pointer to the ctx address */
-	mov     in_blk+16(%esp),%edi	/* input address in edi */
+        mov     in_blk+16(%esp), %edi   /* input address in edi */
 
-	mov	(%edi),		%eax
-	mov	b_offset(%edi),	%ebx
-	mov	c_offset(%edi),	%ecx
-	mov	d_offset(%edi),	%edx
-	input_whitening(%eax,%ebp,a_offset)
-	ror	$16,	%eax
-	input_whitening(%ebx,%ebp,b_offset)
-	input_whitening(%ecx,%ebp,c_offset)
-	input_whitening(%edx,%ebp,d_offset)
-	rol	$1,	%edx
+        mov     (%edi), %eax
+        mov     b_offset(%edi), %ebx
+        mov     c_offset(%edi), %ecx
+        mov     d_offset(%edi), %edx
+        input_whitening(%eax,%ebp,a_offset)
+        ror     $16, %eax
+        input_whitening(%ebx,%ebp,b_offset)
+        input_whitening(%ecx,%ebp,c_offset)
+        input_whitening(%edx,%ebp,d_offset)
+        rol     $1, %edx
 
-	encrypt_round(R0,R1,R2,R3,0);
-	encrypt_round(R2,R3,R0,R1,8);
-	encrypt_round(R0,R1,R2,R3,2*8);
-	encrypt_round(R2,R3,R0,R1,3*8);
-	encrypt_round(R0,R1,R2,R3,4*8);
-	encrypt_round(R2,R3,R0,R1,5*8);
-	encrypt_round(R0,R1,R2,R3,6*8);
-	encrypt_round(R2,R3,R0,R1,7*8);
-	encrypt_round(R0,R1,R2,R3,8*8);
-	encrypt_round(R2,R3,R0,R1,9*8);
-	encrypt_round(R0,R1,R2,R3,10*8);
-	encrypt_round(R2,R3,R0,R1,11*8);
-	encrypt_round(R0,R1,R2,R3,12*8);
-	encrypt_round(R2,R3,R0,R1,13*8);
-	encrypt_round(R0,R1,R2,R3,14*8);
-	encrypt_last_round(R2,R3,R0,R1,15*8);
+        encrypt_round(R0,R1,R2,R3,0);
+        encrypt_round(R2,R3,R0,R1,8);
+        encrypt_round(R0,R1,R2,R3,2*8);
+        encrypt_round(R2,R3,R0,R1,3*8);
+        encrypt_round(R0,R1,R2,R3,4*8);
+        encrypt_round(R2,R3,R0,R1,5*8);
+        encrypt_round(R0,R1,R2,R3,6*8);
+        encrypt_round(R2,R3,R0,R1,7*8);
+        encrypt_round(R0,R1,R2,R3,8*8);
+        encrypt_round(R2,R3,R0,R1,9*8);
+        encrypt_round(R0,R1,R2,R3,10*8);
+        encrypt_round(R2,R3,R0,R1,11*8);
+        encrypt_round(R0,R1,R2,R3,12*8);
+        encrypt_round(R2,R3,R0,R1,13*8);
+        encrypt_round(R0,R1,R2,R3,14*8);
+        encrypt_last_round(R2,R3,R0,R1,15*8);
 
-	output_whitening(%eax,%ebp,c_offset)
-	output_whitening(%ebx,%ebp,d_offset)
-	output_whitening(%ecx,%ebp,a_offset)
-	output_whitening(%edx,%ebp,b_offset)
-	mov	out_blk+16(%esp),%edi;
-	mov	%eax,		c_offset(%edi)
-	mov	%ebx,		d_offset(%edi)
-	mov	%ecx,		(%edi)
-	mov	%edx,		b_offset(%edi)
+        output_whitening(%eax,%ebp,c_offset)
+        output_whitening(%ebx,%ebp,d_offset)
+        output_whitening(%ecx,%ebp,a_offset)
+        output_whitening(%edx,%ebp,b_offset)
+        mov     out_blk+16(%esp), %edi;
+        mov     %eax, c_offset(%edi)
+        mov     %ebx, d_offset(%edi)
+        mov     %ecx, (%edi)
+        mov     %edx, b_offset(%edi)
 
-	pop	%edi
-	pop	%esi
-	pop	%ebx
-	pop	%ebp
-	mov	$1,	%eax
-	RET
+        pop     %edi
+        pop     %esi
+        pop     %ebx
+        pop     %ebp
+        mov     $1, %eax
+        RET
 SYM_FUNC_END(twofish_enc_blk)
 
 SYM_FUNC_START(twofish_dec_blk)
-	push	%ebp			/* save registers according to calling convention*/
-	push    %ebx
-	push    %esi
-	push    %edi
+        push    %ebp    /* save registers according to calling convention*/
+        push    %ebx
+        push    %esi
+        push    %edi
 
-
-	mov	ctx + 16(%esp),	%ebp	/* abuse the base pointer: set new base
+        mov     ctx + 16(%esp), %ebp    /* abuse the base pointer: set new base
 					 * pointer to the ctx address */
-	mov     in_blk+16(%esp),%edi	/* input address in edi */
+        mov     in_blk+16(%esp), %edi   /* input address in edi */
 
-	mov	(%edi),		%eax
-	mov	b_offset(%edi),	%ebx
-	mov	c_offset(%edi),	%ecx
-	mov	d_offset(%edi),	%edx
-	output_whitening(%eax,%ebp,a_offset)
-	output_whitening(%ebx,%ebp,b_offset)
-	ror	$16,	%ebx
-	output_whitening(%ecx,%ebp,c_offset)
-	output_whitening(%edx,%ebp,d_offset)
-	rol	$1,	%ecx
+        mov     (%edi), %eax
+        mov     b_offset(%edi), %ebx
+        mov     c_offset(%edi), %ecx
+        mov     d_offset(%edi), %edx
+        output_whitening(%eax,%ebp,a_offset)
+        output_whitening(%ebx,%ebp,b_offset)
+        ror     $16, %ebx
+        output_whitening(%ecx,%ebp,c_offset)
+        output_whitening(%edx,%ebp,d_offset)
+        rol     $1, %ecx
 
-	decrypt_round(R0,R1,R2,R3,15*8);
-	decrypt_round(R2,R3,R0,R1,14*8);
-	decrypt_round(R0,R1,R2,R3,13*8);
-	decrypt_round(R2,R3,R0,R1,12*8);
-	decrypt_round(R0,R1,R2,R3,11*8);
-	decrypt_round(R2,R3,R0,R1,10*8);
-	decrypt_round(R0,R1,R2,R3,9*8);
-	decrypt_round(R2,R3,R0,R1,8*8);
-	decrypt_round(R0,R1,R2,R3,7*8);
-	decrypt_round(R2,R3,R0,R1,6*8);
-	decrypt_round(R0,R1,R2,R3,5*8);
-	decrypt_round(R2,R3,R0,R1,4*8);
-	decrypt_round(R0,R1,R2,R3,3*8);
-	decrypt_round(R2,R3,R0,R1,2*8);
-	decrypt_round(R0,R1,R2,R3,1*8);
-	decrypt_last_round(R2,R3,R0,R1,0);
+        decrypt_round(R0,R1,R2,R3,15*8);
+        decrypt_round(R2,R3,R0,R1,14*8);
+        decrypt_round(R0,R1,R2,R3,13*8);
+        decrypt_round(R2,R3,R0,R1,12*8);
+        decrypt_round(R0,R1,R2,R3,11*8);
+        decrypt_round(R2,R3,R0,R1,10*8);
+        decrypt_round(R0,R1,R2,R3,9*8);
+        decrypt_round(R2,R3,R0,R1,8*8);
+        decrypt_round(R0,R1,R2,R3,7*8);
+        decrypt_round(R2,R3,R0,R1,6*8);
+        decrypt_round(R0,R1,R2,R3,5*8);
+        decrypt_round(R2,R3,R0,R1,4*8);
+        decrypt_round(R0,R1,R2,R3,3*8);
+        decrypt_round(R2,R3,R0,R1,2*8);
+        decrypt_round(R0,R1,R2,R3,1*8);
+        decrypt_last_round(R2,R3,R0,R1,0);
 
-	input_whitening(%eax,%ebp,c_offset)
-	input_whitening(%ebx,%ebp,d_offset)
-	input_whitening(%ecx,%ebp,a_offset)
-	input_whitening(%edx,%ebp,b_offset)
-	mov	out_blk+16(%esp),%edi;
-	mov	%eax,		c_offset(%edi)
-	mov	%ebx,		d_offset(%edi)
-	mov	%ecx,		(%edi)
-	mov	%edx,		b_offset(%edi)
+        input_whitening(%eax,%ebp,c_offset)
+        input_whitening(%ebx,%ebp,d_offset)
+        input_whitening(%ecx,%ebp,a_offset)
+        input_whitening(%edx,%ebp,b_offset)
+        mov     out_blk+16(%esp), %edi;
+        mov     %eax, c_offset(%edi)
+        mov     %ebx, d_offset(%edi)
+        mov     %ecx, (%edi)
+        mov     %edx, b_offset(%edi)
 
-	pop	%edi
-	pop	%esi
-	pop	%ebx
-	pop	%ebp
-	mov	$1,	%eax
-	RET
+        pop     %edi
+        pop     %esi
+        pop     %ebx
+        pop     %ebp
+        mov     $1, %eax
+        RET
 SYM_FUNC_END(twofish_dec_blk)

@@ -21,40 +21,40 @@ EXTERN l_ret
 
 asm_dzx7_agile_rcs_back:
 
-   ; enter : hl = void *src
-   ;         de = void *dst
-   ;
-   ; exit  : hl = & previous uncompressed block
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : hl = void *src
+        ;         de = void *dst
+        ;
+        ; exit  : hl = & previous uncompressed block
+        ;
+        ; uses  : af, bc, de, hl
 
         ld      a, $80
 
 dzx7a_copy_byte_loop1_b:
 
-        push af ; ex      af, af'
+        push    af      ; ex      af, af'
 
         call    dzx7a_copy_byte_b       ; copy literal byte
 
 dzx7a_main_loop1_b:
 
-        pop af ; ex      af, af'
+        pop     af      ; ex      af, af'
 
-        add     a, a                    ; check next bit
-        call    z, dzx7a_load_bits_b    ; no more bits left?
-        jr      nc, dzx7a_copy_byte_loop1_b ; next bit indicates either literal or sequence
+        add     a,  a                           ; check next bit
+        call    z,  dzx7a_load_bits_b           ; no more bits left?
+        jr      nc, dzx7a_copy_byte_loop1_b     ; next bit indicates either literal or sequence
 
 ; determine number of bits used for length (Elias gamma coding)
 
         push    de
         ld      bc, 1
-        ld      d, b
+        ld      d,  b
 
 dzx7a_len_size_loop_b:
 
         inc     d
-        add     a, a                    ; check next bit
-        call    z, dzx7a_load_bits_b    ; no more bits left?
+        add     a,  a                   ; check next bit
+        call    z,  dzx7a_load_bits_b   ; no more bits left?
         jr      nc, dzx7a_len_size_loop_b
         jp      dzx7a_len_value_start_b
 
@@ -73,27 +73,27 @@ dzx7a_len_value_start_b:
 
         dec     d
         jr      nz, dzx7a_len_value_loop_b
-        inc     bc                      ; adjust length
+        inc     bc      ; adjust length
 
 ; determine offset
 
-        ld      e, (hl)                 ; load offset flag (1 bit) + offset value (7 bits)
+        ld      e, (hl) ; load offset flag (1 bit) + offset value (7 bits)
         dec     hl
 
 IF __z80_cpu_info & $02
 
-        defb $cb, $33                   ; opcode for undocumented instruction "SLL E" aka "SLS E"
+        defb    $cb, $33        ; opcode for undocumented instruction "SLL E" aka "SLS E"
 
 ELSE
 
-        sla e
-        inc e
+        sla     e
+        inc     e
 
 ENDIF
 
         jr      nc, dzx7a_offset_end_b  ; if offset flag is set, load 4 extra bits
-        add     a, a                    ; check next bit
-        call    z, dzx7a_load_bits_b    ; no more bits left?
+        add     a,  a                   ; check next bit
+        call    z,  dzx7a_load_bits_b   ; no more bits left?
         rl      d                       ; insert first bit into D
         add     a, a                    ; check next bit
         call    z, dzx7a_load_bits_b    ; no more bits left?
@@ -109,16 +109,16 @@ ENDIF
 
 dzx7a_offset_end_b:
 
-        rr      e                       ; insert inverted fourth bit into E
+        rr      e       ; insert inverted fourth bit into E
 
 ; copy previous sequence
 
-        ex      (sp), hl                ; store source, restore destination
-        push    hl                      ; store destination
-        adc     hl, de                  ; HL = destination + offset + 1
-        pop     de                      ; DE = destination
+        ex      (sp), hl        ; store source, restore destination
+        push    hl              ; store destination
+        adc     hl, de          ; HL = destination + offset + 1
+        pop     de              ; DE = destination
 
-        push af  ; ex      af, af'
+        push    af      ; ex      af, af'
 
 dzx7a_copy_bytes_b:
 
@@ -131,15 +131,15 @@ dzx7a_copy_bytes_b:
         dec     hl
         jp      pe, dzx7a_copy_bytes_b
 
-        pop af  ;
+        pop     af      ;
 
-        pop     hl                      ; restore source address (compressed data)
+        pop     hl      ; restore source address (compressed data)
 ;;        jr      dzx7a_main_loop1_b
         jr      dzx7a_main_loop1_b+1
 
 dzx7a_load_bits_b:
 
-        ld      a, (hl)                 ; load another group of 8 bits
+        ld      a, (hl) ; load another group of 8 bits
         dec     hl
         rla
         ret
@@ -160,18 +160,18 @@ dzx7a_exit_b:
 
 dzx7a_convert_b:
 
-        ld      a, d                    ; A = 010RRccc
+        ld      a, d    ; A = 010RRccc
         cp      $58
         ret     nc
         xor     e
         and     $f8
-        xor     e                       ; A = 010RRppp
+        xor     e       ; A = 010RRppp
         push    af
         xor     d
-        xor     e                       ; A = ccrrrccc
+        xor     e       ; A = ccrrrccc
         rlca
-        rlca                            ; A = rrrccccc
-        pop     de                      ; D = 010RRppp
-        ld      e, a                    ; E = rrrccccc
+        rlca            ; A = rrrccccc
+        pop     de      ; D = 010RRppp
+        ld      e, a    ; E = rrrccccc
         ret
 ENDIF

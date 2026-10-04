@@ -8,87 +8,86 @@
 
 ; ----- void __CALLEE__ vz_brick_callee(void *addr, char byte)
 
-    SECTION code_clib
-    PUBLIC  vz_brick_callee
-    PUBLIC  _vz_brick_callee
-    PUBLIC  asm_vz_brick
+        SECTION code_clib
+        PUBLIC  vz_brick_callee
+        PUBLIC  _vz_brick_callee
+        PUBLIC  asm_vz_brick
 
 vz_brick_callee:
 _vz_brick_callee:
 
-    pop     hl
-    pop     bc
-    pop     de
-    push    hl
+        pop     hl
+        pop     bc
+        pop     de
+        push    hl
 
-   ;  c = byte
-   ; de = addr
+        ;  c = byte
+        ; de = addr
 
 asm_vz_brick:
 
-    ld      a, c                        ; bc = 6*c
-    add     a, a
-    ld      c, a
-    add     a, a
-    add     a, c
-    ld      c, a
-    ld      b, 0
+        ld      a, c    ; bc = 6*c
+        add     a, a
+        ld      c, a
+        add     a, a
+        add     a, c
+        ld      c, a
+        ld      b, 0
 
-    ld      hl, bricks
-    add     hl, bc
+        ld      hl, bricks
+        add     hl, bc
 
-    ld      c, 6
+        ld      c, 6
 
 showit:
 
-    ldi
-    ret     po
-    ld      a, 31
-    add     a, e
-    ld      e, a
-    jp      nc, showit
-    inc     d
-    jp      showit
+        ldi
+        ret     po
+        ld      a,  31
+        add     a,  e
+        ld      e,  a
+        jp      nc, showit
+        inc     d
+        jp      showit
 
 bricks:
 
-   ; 0
+        ; 0
 
-    defb    000, 000, 000, 000, 000, 000
+        defb    000, 000, 000, 000, 000, 000
 
-   ; 1
+        ; 1
 
-    defb    085, 084, 085, 084, 085, 084
+        defb    085, 084, 085, 084, 085, 084
 
-   ; 2
+        ; 2
 
-    defb    255, 252, 255, 252, 255, 252
+        defb    255, 252, 255, 252, 255, 252
 
-   ; 3
+        ; 3
 
-    defb    087, 084, 087, 084, 087, 084
+        defb    087, 084, 087, 084, 087, 084
 
-   ; 4
+        ; 4
 
-    defb    253, 252, 253, 252, 253, 252
+        defb    253, 252, 253, 252, 253, 252
 
-   ; 5
+        ; 5
 
-    defb    085, 084, 255, 252, 085, 084
+        defb    085, 084, 255, 252, 085, 084
 
-   ; 6
+        ; 6
 
-    defb    255, 252, 085, 084, 255, 252
+        defb    255, 252, 085, 084, 255, 252
 
-   ; 7
+        ; 7
 
-    defb    245, 124, 245, 124, 245, 124
+        defb    245, 124, 245, 124, 245, 124
 
-   ; 8
+        ; 8
 
-    defb    170, 168, 165, 104, 170, 168
+        defb    170, 168, 165, 104, 170, 168
 
-   ; 9
+        ; 9
 
-    defb    170, 168, 175, 232, 170, 168
-
+        defb    170, 168, 175, 232, 170, 168

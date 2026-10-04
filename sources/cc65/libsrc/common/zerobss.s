@@ -4,10 +4,9 @@
 ; Zero the bss segment.
 ;
 
-        .export         zerobss
-        .import         __BSS_RUN__, __BSS_SIZE__
-        .importzp       ptr1
-
+        .export zerobss
+        .import __BSS_RUN__, __BSS_SIZE__
+        .importzp ptr1
 
 .code
 
@@ -23,7 +22,7 @@ zerobss:
 
 L1:     ldx     #>__BSS_SIZE__
         beq     L3
-L2:     sta     (ptr1),y
+L2:     sta     (ptr1), y
         iny
         bne     L2
         inc     ptr1+1
@@ -34,7 +33,7 @@ L2:     sta     (ptr1),y
 
 L3:     cpy     #<__BSS_SIZE__
         beq     L4
-        sta     (ptr1),y
+        sta     (ptr1), y
         iny
         bne     L3
 

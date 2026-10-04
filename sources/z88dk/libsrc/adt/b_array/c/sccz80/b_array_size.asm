@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _b_array_size
 defc _b_array_size = b_array_size
 ENDIF
-

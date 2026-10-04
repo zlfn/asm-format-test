@@ -15,10 +15,10 @@ EXTERN SP1RETSPRDRAW
 
 ; following data segment copied into struct sp1_cs
 
-   ld de,0
-   nop
-   ld hl,0
-   call _SP1_DRAW_XOR2RB
+        ld      de, 0
+        nop
+        ld      hl, 0
+        call    _SP1_DRAW_XOR2RB
 
 ; following draw code called by way of SP1UpdateNow
 ;
@@ -31,16 +31,16 @@ EXTERN SP1RETSPRDRAW
 
 _SP1_DRAW_XOR2RB:
 
-   cp SP1V_ROTTBL/256
-   jp z, SP1RETSPRDRAW
+        cp      SP1V_ROTTBL/256
+        jp      z, SP1RETSPRDRAW
 
-   add hl,bc
-   ld d,a
-   inc d
+        add     hl, bc
+        ld      d,  a
+        inc     d
 
-   ;  d = shift table
-   ; hl = left sprite def (mask,graph) pairs
+        ;  d = shift table
+        ; hl = left sprite def (mask,graph) pairs
 
 _SP1Xor2RBRotate:
 
-   jp _SP1_DRAW_XOR2LB + 7
+        jp      _SP1_DRAW_XOR2LB + 7

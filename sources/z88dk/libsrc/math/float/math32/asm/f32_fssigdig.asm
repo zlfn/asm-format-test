@@ -16,10 +16,10 @@ PUBLIC m32_fssigdig
 
 m32_fssigdig:
 
-   ; exit  : b = number of significant hex digits in double representation
-   ;         c = number of significant decimal digits in double representation
-   ;
-   ; uses  : bc
+        ; exit  : b = number of significant hex digits in double representation
+        ;         c = number of significant decimal digits in double representation
+        ;
+        ; uses  : bc
 
-   ld bc,$0608
-   ret
+        ld      bc, $0608
+        ret

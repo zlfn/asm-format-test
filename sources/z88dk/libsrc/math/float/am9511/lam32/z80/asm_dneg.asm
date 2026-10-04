@@ -8,17 +8,17 @@ PUBLIC asm_dneg
 
 EXTERN asm_am9511_neg
 
-   ; negate  DEHL'
-   ;
-   ; enter : DEHL'= double x
-   ;
-   ; exit  : DEHL'= -x
-   ;
-   ; uses  :
+        ; negate  DEHL'
+        ;
+        ; enter : DEHL'= double x
+        ;
+        ; exit  : DEHL'= -x
+        ;
+        ; uses  :
 
 .asm_dneg
-    exx
-    call asm_am9511_neg
+        exx
+        call    asm_am9511_neg
 
-    exx
-    ret
+        exx
+        ret

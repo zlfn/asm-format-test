@@ -56,7 +56,7 @@ EXTERN cpm_00_output_list_ochar_msg_putc, character_00_output
 
 cpm_00_output_list:
 
-   cp OCHAR_MSG_PUTC
-   jp z, cpm_00_output_list_ochar_msg_putc
+        cp      OCHAR_MSG_PUTC
+        jp      z, cpm_00_output_list_ochar_msg_putc
 
-   jp character_00_output      ; forward to library
+        jp      character_00_output     ; forward to library

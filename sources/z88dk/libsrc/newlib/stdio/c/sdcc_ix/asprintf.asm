@@ -1,4 +1,4 @@
- 
+
 ; int asprintf (char **ptr, const char *format, ...)
 
 SECTION code_clib
@@ -10,9 +10,9 @@ EXTERN asm_asprintf
 
 _asprintf:
 
-   push ix
-   
-   call asm_asprintf
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_asprintf
+
+        pop     ix
+        ret

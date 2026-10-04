@@ -7,17 +7,17 @@
 ; unsigned char __fastcall__ dio_read (dhandle_t handle, unsigned sect_num, void *buffer);
 ;
 
-            .export _dio_read
-            .import dio_params, ___oserror
+        .export _dio_read
+        .import dio_params, ___oserror
 
-            .include "geossym.inc"
-            .include "jumptab.inc"
+        .include "geossym.inc"
+        .include "jumptab.inc"
 
 _dio_read:
-        jsr dio_params
+        jsr     dio_params
         tay
-        bne err
-        jsr ReadBlock
-        stx ___oserror
+        bne     err
+        jsr     ReadBlock
+        stx     ___oserror
         txa
 err:    rts

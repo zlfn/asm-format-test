@@ -10,10 +10,9 @@
 ;	$Id: f_ansi_cls.asm,v 1.5 2016-04-04 18:31:22 dom Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_cls
-    EXTERN  cleargraphics
+        SECTION code_clib
+        PUBLIC  ansi_cls
+        EXTERN  cleargraphics
 
 ansi_cls:
-    jp      cleargraphics
-
+        jp      cleargraphics

@@ -11,33 +11,31 @@
 ;
 
 IF  !__CPU_INTEL__&!__CPU_RABBIT__&!__CPU_GBZ80__
-    SECTION code_clib
-    PUBLIC  set_psg_callee
-    PUBLIC  _set_psg_callee
+        SECTION code_clib
+        PUBLIC  set_psg_callee
+        PUBLIC  _set_psg_callee
 
-    PUBLIC  asm_set_psg
+        PUBLIC  asm_set_psg
 
-
-    INCLUDE "../../sn76489.inc"
-
+        INCLUDE "../../sn76489.inc"
 
 set_psg_callee:
 _set_psg_callee:
 
-    pop     hl
-    pop     de
-    ex      (sp), hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 asm_set_psg:
 
-    LD      BC, PSGPort
-    OUT     (C), L
-  IF    SN76489_HAS_LATCH_PORT
-    in      a, (PSGLatchPort)
-  ENDIF
-    OUT     (C), E
-  IF    SN76489_HAS_LATCH_PORT
-    in      a, (PSGLatchPort)
-  ENDIF
-    ret
+        LD      BC,  PSGPort
+        OUT     (C), L
+        IF      SN76489_HAS_LATCH_PORT
+                in      a, (PSGLatchPort)
+        ENDIF
+        OUT     (C), E
+        IF      SN76489_HAS_LATCH_PORT
+                in      a, (PSGLatchPort)
+        ENDIF
+        ret
 
 ENDIF

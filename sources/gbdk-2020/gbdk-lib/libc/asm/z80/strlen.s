@@ -13,7 +13,7 @@
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ;  GNU General Public License for more details.
 ;
-;  You should have received a copy of the GNU General Public License 
+;  You should have received a copy of the GNU General Public License
 ;  along with this library; see the file COPYING. If not, write to the
 ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
 ;   MA 02110-1301, USA.
@@ -26,22 +26,21 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.area   _CODE
+        .area   _CODE
 
-	.globl _strlen
+        .globl  _strlen
 
 ; The Z80 has the cpir instruction, which is perfect for implementing strlen().
 
 _strlen:
-	pop	bc
-	pop	hl
-	push	hl
-	push	bc
-	xor	a, a
-	ld	b, a
-	ld	c, a
-	cpir
-	ld	hl, #-1
-	sbc	hl, bc	; C flag still cleared from xor above.
-	ret
-
+        pop     bc
+        pop     hl
+        push    hl
+        push    bc
+        xor     a, a
+        ld      b, a
+        ld      c, a
+        cpir
+        ld      hl, #-1
+        sbc     hl, bc  ; C flag still cleared from xor above.
+        ret

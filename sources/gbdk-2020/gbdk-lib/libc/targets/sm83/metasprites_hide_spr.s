@@ -1,4 +1,4 @@
-        .include    "global.s"
+        .include "global.s"
 
         .title  "Metasprites"
         .module Metasprites
@@ -26,8 +26,8 @@ _hide_sprites_range::
         ret     z
 
         ld      hl, #___render_shadow_OAM
-        ld      h, (hl)
-        ld      l, c
+        ld      h,  (hl)
+        ld      l,  c
 
         ld      de, #4
 
@@ -35,34 +35,34 @@ _hide_sprites_range::
         jr      nc, 0$
 
         ld      (hl), d
-        add     hl, de
+        add     hl,   de
 
-        ret     z               ; z is not affected by 16-bit add
+        ret     z       ; z is not affected by 16-bit add
 
 0$:
         srl     a
         jr      nc, 1$
 
         ld      (hl), d
-        add     hl, de
+        add     hl,   de
 
         ld      (hl), d
-        add     hl, de
+        add     hl,   de
 
-        ret     z               ; z is not affected by 16-bit add
+        ret     z       ; z is not affected by 16-bit add
 
 1$:
         ld      (hl), d
-        add     hl, de
+        add     hl,   de
 
         ld      (hl), d
-        add     hl, de
+        add     hl,   de
 
         ld      (hl), d
-        add     hl, de
+        add     hl,   de
 
         ld      (hl), d
-        add     hl, de
+        add     hl,   de
 
         dec     a
         jr      nz, 1$

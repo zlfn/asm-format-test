@@ -7,7 +7,7 @@
 ;
 ;**/
 
-    SECTION .text
+        SECTION .text
 
 ;
 ;------------------------------------------------------------------------------
@@ -20,26 +20,26 @@ global ASM_PFX(AsmGetVectorTemplatInfo)
 global ASM_PFX(AsmVectorFixup)
 
 @VectorTemplateBase:
-        push  eax
-        db    0x6a       ; push #VectorNumber
+        push    eax
+        db      0x6a    ; push #VectorNumber
 @VectorNum:
-        db    0
-        mov   eax, CommonInterruptEntry
-        jmp   eax
+        db      0
+        mov     eax, CommonInterruptEntry
+        jmp     eax
 @VectorTemplateEnd:
 
 global ASM_PFX(AsmGetVectorTemplatInfo)
 ASM_PFX(AsmGetVectorTemplatInfo):
-        mov   ecx, [esp + 4]
-        mov   dword [ecx], @VectorTemplateBase
-        mov   eax, (@VectorTemplateEnd - @VectorTemplateBase)
+        mov     ecx, [esp + 4]
+        mov     dword [ecx], @VectorTemplateBase
+        mov     eax, (@VectorTemplateEnd - @VectorTemplateBase)
         ret
 
 global ASM_PFX(AsmVectorFixup)
 ASM_PFX(AsmVectorFixup):
-        mov   eax, dword [esp + 8]
-        mov   ecx, [esp + 4]
-        mov   [ecx + (@VectorNum - @VectorTemplateBase)], al
+        mov     eax, dword [esp + 8]
+        mov     ecx, [esp + 4]
+        mov     [ecx + (@VectorNum - @VectorTemplateBase)], al
         ret
 
 ;---------------------------------------;
@@ -65,7 +65,6 @@ ASM_PFX(AsmVectorFixup):
 ; +---------------------+
 
 CommonInterruptEntry:
-  cli
+        cli
 
-  jmp $
-
+        jmp     $

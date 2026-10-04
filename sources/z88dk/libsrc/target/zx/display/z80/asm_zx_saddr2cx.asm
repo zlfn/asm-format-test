@@ -16,12 +16,12 @@ PUBLIC asm_zx_saddr2cx
 
 asm_zx_saddr2cx:
 
-   ld a,l
-   and $1f
-   ld l,a
+        ld      a, l
+        and     $1f
+        ld      l, a
 
 IF __SCCZ80
-   ld h,0
+        ld      h, 0
 ENDIF
 
-   ret
+        ret

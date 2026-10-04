@@ -12,16 +12,15 @@
 ; used in: 'MMC_SEND_COMMAND', 'MMC_INIT', 'MMC_SEND_BLOCKSIZE'
 ;------------------------------------------------------------------------------------
 
-    SECTION code_clib
-    PUBLIC  cs_low
-    EXTERN  __mmc_card_select
+        SECTION code_clib
+        PUBLIC  cs_low
+        EXTERN  __mmc_card_select
 
-    INCLUDE "target/zx/def/zxmmc.def"
-
+        INCLUDE "target/zx/def/zxmmc.def"
 
 cs_low:
-    push    af
-    ld      a, (__mmc_card_select)
-    out     (OUT_PORT), a
-    pop     af
-    ret
+        push    af
+        ld      a, (__mmc_card_select)
+        out     (OUT_PORT), a
+        pop     af
+        ret

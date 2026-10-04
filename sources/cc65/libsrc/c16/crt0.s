@@ -5,14 +5,14 @@
 ; things are similar here; and, we even use the plus4.inc include file.
 ;
 
-        .export         _exit
-        .export         __STARTUP__ : absolute = 1      ; Mark as startup
-        .import         initlib, donelib
-        .import         callmain, zerobss
-        .import         MEMTOP, RESTOR, BSOUT, CLRCH
+        .export _exit
+        .export __STARTUP__ : absolute = 1      ; Mark as startup
+        .import initlib,  donelib
+        .import callmain, zerobss
+        .import MEMTOP,   RESTOR, BSOUT, CLRCH
 
-        .include        "zeropage.inc"
-        .include        "c16.inc"
+        .include "zeropage.inc"
+        .include "c16.inc"
 
 ; ------------------------------------------------------------------------
 ; Startup code
@@ -24,8 +24,8 @@ Start:
 ; Save the zero-page locations that we need.
 
         ldx     #zpspace-1
-L1:     lda     c_sp,x
-        sta     zpsave,x
+L1:     lda     c_sp,   x
+        sta     zpsave, x
         dex
         bpl     L1
 
@@ -41,16 +41,16 @@ L1:     lda     c_sp,x
 ; Save some system stuff; and, set up the stack.
 
         tsx
-        stx     spsave          ; save system stk ptr
+        stx     spsave  ; save system stk ptr
 
         sec
-        jsr     MEMTOP          ; Get top memory
-        cpy     #$80            ; We can only use the low 32K :-(
+        jsr     MEMTOP  ; Get top memory
+        cpy     #$80    ; We can only use the low 32K :-(
         bcc     MemOk
         ldy     #$80
         ldx     #$00
 MemOk:  stx     c_sp
-        sty     c_sp+1          ; set argument stack ptr
+        sty     c_sp+1  ; set argument stack ptr
 
 ; Call the module constructors.
 
@@ -62,14 +62,14 @@ MemOk:  stx     c_sp
 
 ; Call the module destructors. This is also the exit() entry.
 
-_exit:  pha                     ; Save the return code on stack
-        jsr     donelib         ; Run module destructors
+_exit:  pha             ; Save the return code on stack
+        jsr     donelib ; Run module destructors
 
 ; Copy back the zero-page stuff.
 
         ldx     #zpspace-1
-L2:     lda     zpsave,x
-        sta     c_sp,x
+L2:     lda     zpsave, x
+        sta     c_sp,   x
         dex
         bpl     L2
 

@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _bv_stack_pop
 defc _bv_stack_pop = bv_stack_pop
 ENDIF
-

@@ -9,21 +9,19 @@
 ;
 
         SECTION code_clib
-	PUBLIC    exos_create_channel
-	PUBLIC    _exos_create_channel
+        PUBLIC  exos_create_channel
+        PUBLIC  _exos_create_channel
 
-	EXTERN     asm_exos_create_channel
-
+        EXTERN  asm_exos_create_channel
 
 exos_create_channel:
 _exos_create_channel:
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
-   
-   jp asm_exos_create_channel
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
 
+        jp      asm_exos_create_channel

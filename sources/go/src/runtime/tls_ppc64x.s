@@ -25,16 +25,16 @@
 TEXT runtime·save_g(SB),NOSPLIT|NOFRAME,$0-0
 #ifndef GOOS_aix
 #ifndef GOOS_openbsd
-	MOVBZ	runtime·iscgo(SB), R31
-	CMP	R31, $0
-	BEQ	nocgo
+        MOVBZ   runtime·iscgo(SB), R31
+        CMP     R31, $0
+        BEQ     nocgo
 #endif
 #endif
-	MOVD	runtime·tls_g(SB), R31
-	MOVD	g, 0(R31)
+        MOVD    runtime·tls_g(SB), R31
+        MOVD    g, 0(R31)
 
 nocgo:
-	RET
+        RET
 
 // load_g loads the g register from pthread-provided
 // thread-local memory, for use after calling externally compiled
@@ -46,8 +46,8 @@ nocgo:
 //
 // NOTE: _cgo_topofstack assumes this only clobbers g (R30), and R31.
 TEXT runtime·load_g(SB),NOSPLIT|NOFRAME,$0-0
-	MOVD	runtime·tls_g(SB), R31
-	MOVD	0(R31), g
-	RET
+        MOVD    runtime·tls_g(SB), R31
+        MOVD    0(R31), g
+        RET
 
 GLOBL runtime·tls_g+0(SB), TLSBSS+DUPOK, $8

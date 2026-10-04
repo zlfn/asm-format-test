@@ -10,13 +10,13 @@ EXTERN asm__fmemopen
 
 _fmemopen__callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
 
 l0_fmemopen__callee:
 
-   ld a,$0c                    ; only disallow undefined bits in mode
-   
-   jp asm__fmemopen
+        ld      a, $0c  ; only disallow undefined bits in mode
+
+        jp      asm__fmemopen

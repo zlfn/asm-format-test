@@ -27,44 +27,44 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _muluchar
+        .module _muluchar
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __muluchar   ; arguments in A and X, result in AX
-	.globl ___umul8     ; arguments in ret0 and ret1, result in AX
+        .globl  __muluchar      ; arguments in A and X, result in AX
+        .globl  ___umul8        ; arguments in ret0 and ret1, result in AX
 
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define arg1 "___SDCC_m6502_ret0"
-	.define arg2 "___SDCC_m6502_ret2"
+        .define arg1 "___SDCC_m6502_ret0"
+        .define arg2 "___SDCC_m6502_ret2"
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 __muluchar:
-	sta     *arg1
-	stx	*arg2
+        sta     *arg1
+        stx     *arg2
 ___umul8:
-        lda     #0              ; Clear byte 1
-        ldy     #8              ; Number of bits
-        lsr     *arg2           ; Get first bit of RHS into carry
-L0:    	bcc	L1
+        lda     #0      ; Clear byte 1
+        ldy     #8      ; Number of bits
+        lsr     *arg2   ; Get first bit of RHS into carry
+L0:     bcc     L1
         clc
         adc     *arg1
-L1:    	ror
+L1:     ror
         ror     *arg2
         dey
-        bne    	L0
-        tax                     ; Load the result MSB
-        lda     *arg2           ; Load the result LSB
-        rts                     ; Done
+        bne     L0
+        tax             ; Load the result MSB
+        lda     *arg2   ; Load the result LSB
+        rts             ; Done

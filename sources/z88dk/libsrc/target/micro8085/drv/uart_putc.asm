@@ -12,10 +12,10 @@
 ;-------------------------------------------------------------------------
 ; extern void uart_putc(uint8 data);
 _uart_putc:
-        in      a,(puartc)      ;uart status reg
+        in      a, (puartc)     ;uart status reg
         and     01H             ;tx data ready bit
-        jp      z,_uart_putc    ;wait for ready
-        ld      de,sp+2         ;retreive the argument
-        ld      a,(de)          ;from behind return addr
-        out     (puartd),a      ;write to uart
+        jp      z,  _uart_putc  ;wait for ready
+        ld      de, sp+2        ;retreive the argument
+        ld      a,  (de)        ;from behind return addr
+        out     (puartd), a     ;write to uart
         ret

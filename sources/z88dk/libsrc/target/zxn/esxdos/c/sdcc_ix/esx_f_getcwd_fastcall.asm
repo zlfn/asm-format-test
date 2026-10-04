@@ -8,9 +8,9 @@ EXTERN asm_esx_f_getcwd
 
 _esx_f_getcwd_fastcall:
 
-   push ix
-   
-   call asm_esx_f_getcwd
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_getcwd
+
+        pop     ix
+        ret

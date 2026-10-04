@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _zxn_addr_from_page
 defc _zxn_addr_from_page = zxn_addr_from_page
 ENDIF
-

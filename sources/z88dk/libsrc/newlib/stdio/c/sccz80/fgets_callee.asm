@@ -16,13 +16,13 @@ EXTERN asm_fgets
 
 fgets_callee:
 
-   pop af
-   pop ix
-   pop bc
-   pop de
-   push af
-   
-   jp asm_fgets
+        pop     af
+        pop     ix
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_fgets
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -16,20 +16,20 @@ EXTERN l0_getdelim_callee
 
 _getdelim:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   exx
-   pop bc
-   
-   push bc
-   push bc
-   push de
-   push hl
-   push af
-   
-   jp l0_getdelim_callee
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        exx
+        pop     bc
+
+        push    bc
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_getdelim_callee
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -40,7 +40,7 @@ PUBLIC _getdelim
 EXTERN _getdelim_unlocked
 
 defc _getdelim = _getdelim_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

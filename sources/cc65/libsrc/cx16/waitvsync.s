@@ -9,16 +9,16 @@
 ; Updated by ZeroByteOrg to use Kernal API RDTIM to retrieve the TIMER variable
 ;
 
-        .export         _waitvsync
-        .importzp       tmp1
-        .import         RDTIM
+        .export _waitvsync
+        .importzp tmp1
+        .import RDTIM
 
 .proc _waitvsync: near
-      jsr RDTIM
-      sta tmp1
+        jsr     RDTIM
+        sta     tmp1
 keep_waiting:
-      jsr RDTIM
-      cmp tmp1
-      beq keep_waiting
-      rts
+        jsr     RDTIM
+        cmp     tmp1
+        beq     keep_waiting
+        rts
 .endproc

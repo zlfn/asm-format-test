@@ -14,38 +14,38 @@ PUBLIC _adt_ListFirst
 ;        IF FAIL: carry reset, hl = 0
 ; uses : af, bc, de, hl
 
-   ld a,(hl)
-   inc hl
-   or (hl)
-   jr z, fail
-   
-   inc hl
-   ld (hl),1                 ; list ptr is inlist
-   
-   inc hl
-   ld e,l
-   ld d,h                    ; de = list.current
-   inc hl
-   inc hl                    ; hl = list.head
-   ldi
-   ldi                       ; list.current = list.head
-   
-   ex de,hl                  ; hl = list.head
-   ld a,(hl)
-   inc hl
-   ld l,(hl)
-   ld h,a                    ; hl = headnode
-   
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a                    ; hl = item
-   
-   scf
-   ret
+        ld      a, (hl)
+        inc     hl
+        or      (hl)
+        jr      z, fail
+
+        inc     hl
+        ld      (hl), 1 ; list ptr is inlist
+
+        inc     hl
+        ld      e, l
+        ld      d, h    ; de = list.current
+        inc     hl
+        inc     hl      ; hl = list.head
+        ldi
+        ldi             ; list.current = list.head
+
+        ex      de, hl  ; hl = list.head
+        ld      a,  (hl)
+        inc     hl
+        ld      l, (hl)
+        ld      h, a    ; hl = headnode
+
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a    ; hl = item
+
+        scf
+        ret
 
 .fail
 
-   ld l,a
-   ld h,a
-   ret
+        ld      l, a
+        ld      h, a
+        ret

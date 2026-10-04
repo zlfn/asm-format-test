@@ -10,17 +10,17 @@ EXTERN l0__quicksort__callee
 
 __quicksort_:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   exx
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push bc
-   push af
-   
-   jp l0__quicksort__callee
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        exx
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        jp      l0__quicksort__callee

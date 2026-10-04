@@ -3,14 +3,14 @@
 ; Robert Justice, 2026
 ;
 
-        .export         rwprolog, rwcommon, readepilog, writeepilog
-        .import         popax, popptr1
+        .export rwprolog, rwcommon, readepilog, writeepilog
+        .import popax,    popptr1
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "sos.inc"
-        .include        "filedes.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "sos.inc"
+        .include "filedes.inc"
 
 rwprolog:
         ; Save count
@@ -22,7 +22,7 @@ rwprolog:
 
         ; Get and process fd
         jsr     popax
-        jmp     getfd           ; Returns A, Y and C
+        jmp     getfd   ; Returns A, Y and C
 
 rwcommon:
         ; Set fd
@@ -37,8 +37,8 @@ rwcommon:
         .assert SOS::RW::REQUEST_COUNT = SOS::RW::DATA_BUFFER + 2, error
 
         ldx     #$03
-:       lda     ptr1,x
-        sta     sosparam + SOS::RW::DATA_BUFFER,x
+:       lda     ptr1, x
+        sta     sosparam + SOS::RW::DATA_BUFFER, x
         dex
         bpl     :-
 
@@ -56,7 +56,7 @@ rwcommon:
         ldx     #READ_COUNT
         jsr     callsos
         beq     readepilog
-        cmp     #$4C            ; "End of file encountered"
+        cmp     #$4C    ; "End of file encountered"
         bne     oserr
 
 readepilog:

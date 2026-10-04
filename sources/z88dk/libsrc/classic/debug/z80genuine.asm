@@ -15,12 +15,12 @@
 
 z80genuine:
 _z80genuine:
-        ld      h, @00001000            ; test bit 3
+        ld      h, @00001000    ; test bit 3
         call    test
         cp      @00001000
         ret     nz
 
-        ld      h, @00100000            ; test bit 5
+        ld      h, @00100000    ; test bit 5
         call    test
         cp      @00100000
         ret     nz
@@ -30,10 +30,10 @@ _z80genuine:
 
 test:
         add     hl, de
-        bit     0, (hl)
+        bit     0,  (hl)
         push    af
         pop     bc
-        ld      a, c
+        ld      a,  c
         ld      hl, 0
         and     @00101000
         ret

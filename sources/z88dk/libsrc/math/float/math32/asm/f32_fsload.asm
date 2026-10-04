@@ -17,9 +17,9 @@ SECTION code_fp_math32
 PUBLIC m32_fsload
 
 .m32_fsload
-    ld c,(hl+)
-    ld b,(hl+)
-    ld e,(hl+)
-    ld d,(hl)                   ; last byte: no post-inc (HL → bc next)
-    ld hl,bc
-    ret
+        ld      c,  (hl+)
+        ld      b,  (hl+)
+        ld      e,  (hl+)
+        ld      d,  (hl)        ; last byte: no post-inc (HL → bc next)
+        ld      hl, bc
+        ret

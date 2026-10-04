@@ -8,25 +8,24 @@
 ; Marco van den Heuvel, 2010-01-21
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "em-kernel.inc"
-        .include        "em-error.inc"
-        .include        "c128.inc"
+        .include "em-kernel.inc"
+        .include "em-error.inc"
+        .include "c128.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c128_ram2_emd
+        module_header _c128_ram2_emd
 
 ; Driver signature
 
-        .byte   $65, $6d, $64           ; "emd"
-        .byte   EMD_API_VERSION         ; EM API version number
+        .byte   $65, $6d, $64   ; "emd"
+        .byte   EMD_API_VERSION ; EM API version number
 
 ; Library reference
 
@@ -52,13 +51,13 @@ BASE    = $400
 ; Data.
 
 .bss
-curpage:        .res    2               ; Current page number
-curbank:        .res    1               ; Current bank number
-copybank:       .res    2               ; temp bank number
+curpage:  .res  2       ; Current page number
+curbank:  .res  1       ; Current bank number
+copybank: .res  2       ; temp bank number
 
-window:         .res    256             ; Memory "window"
+window: .res    256     ; Memory "window"
 
-pagecount:      .res    2               ; Number of available pages
+pagecount: .res 2       ; Number of available pages
 
 .code
 
@@ -120,7 +119,6 @@ INSTALL:
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; PAGECOUNT: Return the total number of available pages in a/x.
 ;
@@ -138,7 +136,7 @@ PAGECOUNT:
 
 MAP:    sei
         sta     curpage
-        stx     curpage+1               ; Remember the new page
+        stx     curpage+1       ; Remember the new page
 
         jsr     calculate_bank_and_correct_page
         stx     curbank
@@ -156,14 +154,14 @@ MAP:    sei
 @L1:    ldx     curbank
         jsr     getcurbankmmu
         jsr     FETCH
-        sta     window,y
+        sta     window, y
         iny
         bne     @L1
 
 ; Return the memory window
 
         lda     #<window
-        ldx     #>window                ; Return the window address
+        ldx     #>window        ; Return the window address
         cli
         rts
 
@@ -171,18 +169,18 @@ MAP:    sei
 ; USE: Tell the driver that the window is now associated with a given page.
 
 USE:    sta     curpage
-        stx     curpage+1               ; Remember the page
+        stx     curpage+1       ; Remember the page
         lda     #<window
-        ldx     #>window                ; Return the window
+        ldx     #>window        ; Return the window
         rts
 
 ; ------------------------------------------------------------------------
 ; COMMIT: Commit changes in the memory window to extended storage.
 
 COMMIT: sei
-        lda     curpage                 ; Get the current page
+        lda     curpage ; Get the current page
         ldx     curpage+1
-        bmi     done                    ; Jump if no page mapped
+        bmi     done    ; Jump if no page mapped
 
         jsr     calculate_bank_and_correct_page
         stx     curbank
@@ -198,7 +196,7 @@ COMMIT: sei
 
 ; Transfer one page. Y must be zero on entry
 
-@L1:    lda     window,y
+@L1:    lda     window, y
         ldx     curbank
         jsr     getcurbankmmu
         jsr     STASH
@@ -238,7 +236,7 @@ COPYFROM:
         ldy     #0
         jsr     FETCH
         ldy     tmp2
-        sta     (ptr2),y
+        sta     (ptr2), y
         inc     tmp2
         bne     @L2
         inc     ptr2+1
@@ -266,7 +264,6 @@ COPYFROM:
 @L5:
         jmp     @L3
 
-
 ; ------------------------------------------------------------------------
 ; COPYTO: Copy from linear into extended memory. A pointer to a structure
 ; describing the request is passed in a/x.
@@ -292,7 +289,7 @@ COPYTO:
 
 @L1:
         ldy     tmp2
-        lda     (ptr2),y
+        lda     (ptr2), y
         ldx     tmp1
         jsr     getcurbankmmu
         ldy     #0
@@ -381,16 +378,16 @@ getcurbankmmu:
 ; structure and prepare data for the copy
 
 setup:  sta     ptr1
-        stx     ptr1+1          ; Save passed pointer
+        stx     ptr1+1  ; Save passed pointer
 
 ; Get the page number from the struct and adjust it so that it may be used
 ; with the hardware. That is: page pointer in ptr4 and bank in tmp1
 
         ldy     #EM_COPY::PAGE+1
-        lda     (ptr1),y
+        lda     (ptr1), y
         tax
         dey
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     curpage
         jsr     calculate_bank_and_correct_page
         clc
@@ -401,27 +398,27 @@ setup:  sta     ptr1
 ; Get the buffer pointer into ptr2
 
         ldy     #EM_COPY::BUF
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     ptr2
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     ptr2+1
 
 ; Get the count, calculate -(count-1) and store it into ptr3
 
         ldy     #EM_COPY::COUNT
-        lda     (ptr1),y
+        lda     (ptr1), y
         eor     #$FF
         sta     ptr3
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         eor     #$FF
         sta     ptr3+1
 
 ; Get the page offset into the low byte of ptr4 clear tmp2
 
         ldy     #EM_COPY::OFFS
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     ptr4
         lda     #0
         sta     tmp2

@@ -4,9 +4,9 @@
 ; Helper function for tgi_line and tgi_lineto. Pops/stores X2/Y2.
 ;
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
-        .import         popax
+        .import popax
 
 .proc   tgi_linepop
 
@@ -24,4 +24,3 @@
         rts
 
 .endproc
-

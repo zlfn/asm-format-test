@@ -8,34 +8,33 @@ SECTION code_l_sccz80
 
 PUBLIC  l_long_add_mhl
 
-
 ;primary = primary + secondary
 ;enter with secondary in (hl), primary in (de)
 
 .l_long_add_mhl
-    ld      a,(de)
-    add     a,(hl)
-    ld      (de),a
+        ld      a,    (de)
+        add     a,    (hl)
+        ld      (de), a
 
-    inc     de
-    inc     hl
+        inc     de
+        inc     hl
 
-    ld      a,(de)
-    adc     a,(hl)
-    ld      (de),a
+        ld      a,    (de)
+        adc     a,    (hl)
+        ld      (de), a
 
-    inc     de
-    inc     hl
+        inc     de
+        inc     hl
 
-    ld      a,(de)
-    adc     a,(hl)
-    ld      (de),a
+        ld      a,    (de)
+        adc     a,    (hl)
+        ld      (de), a
 
-    inc     de
-    inc     hl
+        inc     de
+        inc     hl
 
-    ld      a,(de)
-    adc     a,(hl)
-    ld      (de),a
+        ld      a,    (de)
+        adc     a,    (hl)
+        ld      (de), a
 
-    ret
+        ret

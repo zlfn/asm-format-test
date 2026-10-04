@@ -9,11 +9,11 @@ EXTERN asm_SMSlib_updateSpritePosition
 
 _SMS_updateSpritePosition_callee:
 
-   pop hl
-   pop de
-   ld c,d
-   dec sp
-   ex (sp),hl
-   ld a,h
-   
-   jp asm_SMSlib_updateSpritePosition
+        pop     hl
+        pop     de
+        ld      c, d
+        dec     sp
+        ex      (sp), hl
+        ld      a,    h
+
+        jp      asm_SMSlib_updateSpritePosition

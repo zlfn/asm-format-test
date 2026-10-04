@@ -11,13 +11,13 @@ EXTERN asm_rawmemchr
 
 _rawmemchr_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
 
 l0_rawmemchr_callee:
 
-   ld a,c
-   
-   jp asm_rawmemchr
+        ld      a, c
+
+        jp      asm_rawmemchr

@@ -8,21 +8,20 @@
 ;	$Id: exos_capture_channel.asm,v 1.3 2016-06-19 20:17:32 dom Exp $
 ;
 
-	SECTION	code_clib
-	PUBLIC    exos_capture_channel
-	PUBLIC    _exos_capture_channel
+        SECTION code_clib
+        PUBLIC  exos_capture_channel
+        PUBLIC  _exos_capture_channel
 
-
-    EXTERN asm_exos_capture_channel
+        EXTERN  asm_exos_capture_channel
 
 exos_capture_channel:
 _exos_capture_channel:
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
-   
-   jp asm_exos_capture_channel
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
+
+        jp      asm_exos_capture_channel

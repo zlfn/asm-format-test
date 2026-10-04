@@ -8,14 +8,14 @@ EXTERN l0_esx_f_trunc_callee
 
 _esx_f_trunc:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
-   
-   jp l0_esx_f_trunc_callee
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_esx_f_trunc_callee

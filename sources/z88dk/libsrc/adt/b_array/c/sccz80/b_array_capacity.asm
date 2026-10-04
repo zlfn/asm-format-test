@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _b_array_capacity
 defc _b_array_capacity = b_array_capacity
 ENDIF
-

@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Nov 2013
 ; ===============================================================
-; 
+;
 ; long labs(long j)
 ;
 ; Return absolute value of j.
@@ -18,19 +18,19 @@ EXTERN l_neg_dehl
 
 asm_labs:
 
-   ; enter : dehl = long
-   ;
-   ; exit  : dehl = abs(dehl)
-   ;
-   ; uses  : af, de, hl, carry unaffected (not 808x)
-  
+        ; enter : dehl = long
+        ;
+        ; exit  : dehl = abs(dehl)
+        ;
+        ; uses  : af, de, hl, carry unaffected (not 808x)
+
 IF __CPU_INTEL__
-   ld a,d
-   rla
-   ret nc
-ELSE 
-   bit 7,d
-   ret z
+        ld      a, d
+        rla
+        ret     nc
+ELSE
+        bit     7, d
+        ret     z
 ENDIF
-   
-   jp l_neg_dehl
+
+        jp      l_neg_dehl

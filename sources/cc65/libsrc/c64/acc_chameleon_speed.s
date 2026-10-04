@@ -42,10 +42,10 @@
 ; * make sure you use 'detect_chameleon();' before using.
 ; */
 
-        .export         _set_chameleon_speed
-        .export         _get_chameleon_speed
+        .export _set_chameleon_speed
+        .export _get_chameleon_speed
 
-        .include        "accelerator.inc"
+        .include "accelerator.inc"
 
 _set_chameleon_speed:
         cmp     #SPEED_7X
@@ -97,4 +97,3 @@ activate_regs:
         ldy     #CHAMELEON_ENABLE_REGS
         sty     CHAMELEON_CFGENA
         rts
-

@@ -15,25 +15,24 @@ EXTERN asm_NIRVANAM_printC
 
 NIRVANAM_printC:
 
-   	ld hl,2
-   	add hl,sp
-   	ld e,(hl)       ; col
-   	inc hl
-   	inc hl
-   	ld d,(hl)       ; lin
-   	inc hl
-   	inc hl
-   	ld c,(hl)
-   	inc hl
-   	ld b,(hl)       ; attrs
-   	inc hl
-   	ld a,(hl)       ; ch
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)        ; col
+        inc     hl
+        inc     hl
+        ld      d, (hl)         ; lin
+        inc     hl
+        inc     hl
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl)         ; attrs
+        inc     hl
+        ld      a, (hl)         ; ch
 
-   	jp asm_NIRVANAM_printC
+        jp      asm_NIRVANAM_printC
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _NIRVANAM_printC
 defc _NIRVANAM_printC = NIRVANAM_printC
 ENDIF
-

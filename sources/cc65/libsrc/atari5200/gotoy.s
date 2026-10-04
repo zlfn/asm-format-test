@@ -4,8 +4,8 @@
 ; void gotoy (unsigned char y);
 ;
 
-        .include        "atari5200.inc"
-        .export         _gotoy
+        .include "atari5200.inc"
+        .export _gotoy
 
 _gotoy:
         sta     ROWCRS_5200     ; Set Y

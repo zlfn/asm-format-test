@@ -11,8 +11,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; Routine Description:
@@ -33,13 +33,12 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalSwitchStack)
 ASM_PFX(InternalSwitchStack):
-    mov     rax, rcx
-    mov     rcx, rdx
-    mov     rdx, r8
-    ;
-    ; Reserve space for register parameters (rcx, rdx, r8 & r9) on the stack,
-    ; in case the callee wishes to spill them.
-    ;
-    lea     rsp, [r9 - 0x20]
-    call    rax
-
+        mov     rax, rcx
+        mov     rcx, rdx
+        mov     rdx, r8
+        ;
+        ; Reserve space for register parameters (rcx, rdx, r8 & r9) on the stack,
+        ; in case the callee wishes to spill them.
+        ;
+        lea     rsp, [r9 - 0x20]
+        call    rax

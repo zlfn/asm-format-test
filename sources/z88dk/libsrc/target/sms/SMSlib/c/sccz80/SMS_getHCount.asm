@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_getHCount
 defc _SMS_getHCount = SMS_getHCount
 ENDIF
-

@@ -16,15 +16,15 @@ EXTERN l0_heap_info_callee
 
 _heap_info:
 
-   pop af
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push af
-   
-   jp l0_heap_info_callee
+        pop     af
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    af
+
+        jp      l0_heap_info_callee
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -35,7 +35,7 @@ PUBLIC _heap_info
 EXTERN _heap_info_unlocked
 
 defc _heap_info = _heap_info_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

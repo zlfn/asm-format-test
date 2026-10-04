@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _PSGSetMusicVolumeAttenuation
 defc _PSGSetMusicVolumeAttenuation = PSGSetMusicVolumeAttenuation
 ENDIF
-

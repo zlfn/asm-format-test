@@ -4,10 +4,9 @@
 ; SETNAM replacement function for the PETs
 ;
 
-        .export         SETNAM
+        .export SETNAM
 
-        .include        "pet.inc"
-
+        .include "pet.inc"
 
 .proc   SETNAM
 
@@ -17,4 +16,3 @@
         rts
 
 .endproc
-

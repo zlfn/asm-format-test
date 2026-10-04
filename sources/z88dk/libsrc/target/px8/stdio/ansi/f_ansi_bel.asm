@@ -8,13 +8,11 @@
 ;	$Id: f_ansi_bel.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_BEL
+        SECTION code_clib
+        PUBLIC  ansi_BEL
 
-    EXTERN  px8_conout
-
+        EXTERN  px8_conout
 
 ansi_BEL:
-    ld      c, 7                        ; BEL
-    jp      px8_conout
-
+        ld      c, 7    ; BEL
+        jp      px8_conout

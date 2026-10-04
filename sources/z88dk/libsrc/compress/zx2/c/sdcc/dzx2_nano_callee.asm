@@ -10,9 +10,9 @@ EXTERN asm_dzx2_nano
 
 _dzx2_nano_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_dzx2_nano
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_dzx2_nano

@@ -18,9 +18,9 @@
  */
 
 ENTRY(v7_cpu_resume)
-	bl	v7_invalidate_l1
+        bl      v7_invalidate_l1
 #ifdef CONFIG_CACHE_L2X0
-	bl	l2c310_early_resume
+        bl      l2c310_early_resume
 #endif
-	b	cpu_resume
+        b       cpu_resume
 ENDPROC(v7_cpu_resume)

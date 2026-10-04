@@ -7,39 +7,39 @@ ____sdcc_4_xor_src_dehl_dst_bcix:
 
 IFDEF __SDCC_IX
 
-   push ix
+        push    ix
 
 ELSE
 
-   push iy
-   
+        push    iy
+
 ENDIF
 
-   ex (sp),hl
-   
-   add hl,bc
-   ld c,l
-   ld b,h
-   
-   pop hl
-   
-   ld a,(bc)
-   xor l
-   ld (bc),a
-   inc bc
-   
-   ld a,(bc)
-   xor h
-   ld (bc),a
-   inc bc
-   
-   ld a,(bc)
-   xor e
-   ld (bc),a
-   inc bc
-   
-   ld a,(bc)
-   xor d
-   ld (bc),a
+        ex      (sp), hl
 
-   ret
+        add     hl, bc
+        ld      c,  l
+        ld      b,  h
+
+        pop     hl
+
+        ld      a, (bc)
+        xor     l
+        ld      (bc), a
+        inc     bc
+
+        ld      a, (bc)
+        xor     h
+        ld      (bc), a
+        inc     bc
+
+        ld      a, (bc)
+        xor     e
+        ld      (bc), a
+        inc     bc
+
+        ld      a, (bc)
+        xor     d
+        ld      (bc), a
+
+        ret

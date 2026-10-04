@@ -9,8 +9,8 @@
 #include <asm/page.h>
 #include <asm/assembler.h>
 
-	.arch	armv7-a
-	.arm
+        .arch   armv7-a
+        .arm
 
 ENTRY(secondary_trampoline)
 	/* CPU1 will always fetch from 0x0 when it is brought out of reset.
@@ -19,15 +19,15 @@ ENTRY(secondary_trampoline)
 	 * where the physical memory does not start at 0x0.
 	*/
 ARM_BE8(setend	be)
-	adr	r0, 1f
-	ldmia	r0, {r1, r2}
-	sub	r2, r2, #PAGE_OFFSET
-	ldr	r3, [r2]
-	ldr	r4, [r3]
+        adr     r0, 1f
+        ldmia   r0, {r1, r2}
+        sub     r2, r2, #PAGE_OFFSET
+        ldr     r3, [r2]
+        ldr     r4, [r3]
 ARM_BE8(rev	r4, r4)
-	bx	r4
+        bx      r4
 
-	.align
-1:	.long	.
-	.long	socfpga_cpu1start_addr
+        .align
+1:      .long   .
+        .long   socfpga_cpu1start_addr
 ENTRY(secondary_trampoline_end)

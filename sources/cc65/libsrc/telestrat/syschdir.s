@@ -4,14 +4,13 @@
 ; unsigned char _syschdir (const char* name, ...);
 ;
 
-        .export         __syschdir
-        .import         addysp, popax
-        .importzp       tmp1
-        .import         initcwd
+        .export __syschdir
+        .import addysp, popax
+        .importzp tmp1
+        .import initcwd
 
-        .include        "telestrat.inc"
-        .include        "zeropage.inc"
-
+        .include "telestrat.inc"
+        .include "zeropage.inc"
 
 __syschdir:
         ; Throw away all parameters except the name
@@ -29,4 +28,4 @@ __syschdir:
 
         BRK_TELEMON(XPUTCWD)
 
-        jmp     initcwd      ; Update cwd
+        jmp     initcwd ; Update cwd

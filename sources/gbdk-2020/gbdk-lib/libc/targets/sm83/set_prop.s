@@ -1,15 +1,15 @@
-	.include	"global.s"
+        .include "global.s"
 
-	.area	_HOME
+        .area   _HOME
 
-	;; Set properties of sprite number C to D
+        ;; Set properties of sprite number C to D
 .set_sprite_prop::
-	LD	HL,#_shadow_OAM+3	; Calculate origin of sprite info
+        LD      HL, #_shadow_OAM+3      ; Calculate origin of sprite info
 
-	SLA	C		; Multiply C by 4
-	SLA	C
-	LD	B,#0x00
-	ADD	HL,BC
+        SLA     C       ; Multiply C by 4
+        SLA     C
+        LD      B,  #0x00
+        ADD     HL, BC
 
-	LD	(HL),D	; Set sprite properties
-	RET
+        LD      (HL), D ; Set sprite properties
+        RET

@@ -10,10 +10,10 @@ EXTERN _feof_unlocked_fastcall
 
 _feof_unlocked:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _feof_unlocked_fastcall
+        push    hl
+        push    af
+
+        jp      _feof_unlocked_fastcall

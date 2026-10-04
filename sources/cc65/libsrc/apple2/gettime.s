@@ -4,13 +4,13 @@
 ; int __fastcall__ clock_gettime (clockid_t clk_id, struct timespec *tp);
 ;
 
-        .import         pushax, incsp1, incsp3, steaxspidx, return0
-        .import         _mktime_dt
+        .import pushax, incsp1, incsp3, steaxspidx, return0
+        .import _mktime_dt
 
-        .include        "time.inc"
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "mli.inc"
+        .include "time.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "mli.inc"
 
 _clock_gettime:
         jsr     pushax
@@ -20,7 +20,7 @@ _clock_gettime:
         stx     ptr1+1
         lda     #$00
         ldy     #.sizeof(timespec)-1
-:       sta     (ptr1),y
+:       sta     (ptr1), y
         dey
         bpl     :-
 
@@ -46,7 +46,7 @@ _clock_gettime:
         jmp     return0
 
         ; Cleanup stack
-oserr:  jsr     incsp3          ; Preserves A
+oserr:  jsr     incsp3  ; Preserves A
 
         ; Set ___oserror
         jmp     ___mappederrno

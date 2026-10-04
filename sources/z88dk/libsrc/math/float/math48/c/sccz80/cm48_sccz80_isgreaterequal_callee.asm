@@ -10,9 +10,9 @@ EXTERN am48_isgreaterequal, cm48_sccz80p_dcallee2
 
 cm48_sccz80_isgreaterequal_callee:
 
-   call cm48_sccz80p_dcallee2
-   
-   ; AC'= y
-   ; AC = x
-   
-   jp am48_isgreaterequal
+        call    cm48_sccz80p_dcallee2
+
+        ; AC'= y
+        ; AC = x
+
+        jp      am48_isgreaterequal

@@ -10,8 +10,8 @@ EXTERN asm_realloc_unlocked
 
 realloc_unlocked_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   jp asm_realloc_unlocked
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_realloc_unlocked

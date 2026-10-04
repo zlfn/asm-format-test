@@ -10,7 +10,7 @@
 ;-------------------------------------------------------------------------
 ;  asm_am9511_2_pushi - am9511 APU push integer
 ;-------------------------------------------------------------------------
-; 
+;
 ;  Load integer into Am9511 APU stack
 ;
 ;-------------------------------------------------------------------------
@@ -27,53 +27,52 @@ PUBLIC asm_am9511_2_pushi_hl
 PUBLIC asm_am9511_2_pushi_fastcall
 
 .am9511_2_pushi_hl_wait
-    ex (sp),hl
-    ex (sp),hl
+        ex      (sp), hl
+        ex      (sp), hl
 
 .asm_am9511_2_pushi_hl
 
-    ; float primitive
-    ; push an integer into Am9511 stack.
-    ;
-    ; enter : stack = integer, ret1, ret0
-    ;       :    hl = pointer to integer
-    ;
-    ; exit  : stack = integer, ret1
-    ; 
-    ; uses  : af, bc, hl
+        ; float primitive
+        ; push an integer into Am9511 stack.
+        ;
+        ; enter : stack = integer, ret1, ret0
+        ;       :    hl = pointer to integer
+        ;
+        ; exit  : stack = integer, ret1
+        ;
+        ; uses  : af, bc, hl
 
-    in a,(__IO_APU2_STATUS)     ; read the APU status register
-    rlca                        ; busy? __IO_APU_STATUS_BUSY
-    jr C,am9511_2_pushi_hl_wait
+        in      a, (__IO_APU2_STATUS)   ; read the APU status register
+        rlca                            ; busy? __IO_APU_STATUS_BUSY
+        jr      C, am9511_2_pushi_hl_wait
 
-    ld bc,__IO_APU2_DATA        ; the address of the APU data port in bc
-    outi                        ; load LSW into APU
-    inc b
-    outi
-    ret
+        ld      bc, __IO_APU2_DATA      ; the address of the APU data port in bc
+        outi                            ; load LSW into APU
+        inc     b
+        outi
+        ret
 
 .am9511_2_pushi_fastcall_wait
-    ex (sp),hl
-    ex (sp),hl
+        ex      (sp), hl
+        ex      (sp), hl
 
 .asm_am9511_2_pushi_fastcall
 
-    ; float primitive
-    ; push an integer into Am9511 stack.
-    ;
-    ; enter : stack = ret1, ret0
-    ;       :    hl = integer
-    ;
-    ; exit  : stack = ret1
-    ; 
-    ; uses  : af, bc, hl
+        ; float primitive
+        ; push an integer into Am9511 stack.
+        ;
+        ; enter : stack = ret1, ret0
+        ;       :    hl = integer
+        ;
+        ; exit  : stack = ret1
+        ;
+        ; uses  : af, bc, hl
 
-    in a,(__IO_APU2_STATUS)     ; read the APU status register
-    rlca                        ; busy? __IO_APU_STATUS_BUSY
-    jr C,am9511_2_pushi_fastcall_wait
+        in      a, (__IO_APU2_STATUS)   ; read the APU status register
+        rlca                            ; busy? __IO_APU_STATUS_BUSY
+        jr      C, am9511_2_pushi_fastcall_wait
 
-    ld bc,__IO_APU2_DATA        ; the address of the APU data port in bc
-    out (c),l                   ; load LSW into APU
-    out (c),h
-    ret
-
+        ld      bc,  __IO_APU2_DATA     ; the address of the APU data port in bc
+        out     (c), l                  ; load LSW into APU
+        out     (c), h
+        ret

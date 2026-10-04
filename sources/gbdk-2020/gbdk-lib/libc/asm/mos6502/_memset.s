@@ -28,66 +28,66 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _memset
+        .module _memset
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl _memset_PARM_2
-	.globl _memset_PARM_3
-	.globl _memset
-	
+        .globl  _memset_PARM_2
+        .globl  _memset_PARM_3
+        .globl  _memset
+
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 _memset_PARM_2:
-	.ds 1
+        .ds     1
 _memset_PARM_3:
-	.ds 2
+        .ds     2
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define save  "REGTEMP+0"
-	.define dst   "DPTR"
-	.define val   "_memset_PARM_2"
-	.define count "_memset_PARM_3"
+        .define save  "REGTEMP+0"
+        .define dst   "DPTR"
+        .define val   "_memset_PARM_2"
+        .define count "_memset_PARM_3"
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 _memset:
-	sta	*dst+0
-	stx	*dst+1
-	stx	*save
+        sta     *dst+0
+        stx     *dst+1
+        stx     *save
 
-	ldy	#0
-	lda	*val
-	ldx	*count+1
-	beq	last_bytes
+        ldy     #0
+        lda     *val
+        ldx     *count+1
+        beq     last_bytes
 
 page_loop:
-	sta	[dst],y
-	iny
+        sta     [dst], y
+        iny
 ;	sta	[dst],y
 ;	iny
-	bne	page_loop
-	inc	*dst+1
-	dex
-	bne	page_loop
+        bne     page_loop
+        inc     *dst+1
+        dex
+        bne     page_loop
 
 last_bytes:
-	ldx	*count+0
-	beq	end
+        ldx     *count+0
+        beq     end
 byte_loop:
-	sta	[dst],y
-	iny
-	dex
-	bne	byte_loop
+        sta     [dst], y
+        iny
+        dex
+        bne     byte_loop
 end:
-	lda	*dst+0
-	ldx	*save
-	rts
+        lda     *dst+0
+        ldx     *save
+        rts

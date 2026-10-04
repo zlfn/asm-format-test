@@ -10,15 +10,15 @@ EXTERN asm_isxdigit, error_zc
 
 _isxdigit_fastcall:
 
-   inc h
-   dec h
-   jp nz, error_zc
+        inc     h
+        dec     h
+        jp      nz, error_zc
 
-   ld a,l
-   call asm_isxdigit
-   
-   ld l,h
-   ret c
-   
-   inc l
-   ret
+        ld      a, l
+        call    asm_isxdigit
+
+        ld      l, h
+        ret     c
+
+        inc     l
+        ret

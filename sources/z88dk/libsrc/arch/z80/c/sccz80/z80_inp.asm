@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _z80_inp
 defc _z80_inp = z80_inp
 ENDIF
-

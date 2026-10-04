@@ -9,15 +9,15 @@ EXTERN asm_SMSlib_addSprite
 
 _SMS_addSprite:
 
-   pop af
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push af
-   
-   ld b,c
-   ld c,e
-   
-   jp asm_SMSlib_addSprite
+        pop     af
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    af
+
+        ld      b, c
+        ld      c, e
+
+        jp      asm_SMSlib_addSprite

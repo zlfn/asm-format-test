@@ -1,4 +1,4 @@
-        .include    "global.s"
+        .include "global.s"
 
         .title  "Metasprites"
         .module Metasprites
@@ -29,7 +29,7 @@ ___move_metasprite::
         ld      iyl, a
 
         pop     hl
-        pop     bc              ; de = x, bc = y
+        pop     bc      ; de = x, bc = y
         push    hl
 
         push    af
@@ -37,7 +37,7 @@ ___move_metasprite::
 
         ld      ix, (___current_metasprite)
 
-        ld      a, (___render_shadow_OAM)
+        ld      a,   (___render_shadow_OAM)
         ld      iyh, a
 1$:
         ld      a, 0(ix)        ; dy
@@ -50,8 +50,8 @@ ___move_metasprite::
         ld      l, 0(ix)
         inc     ix
         add     hl, bc
-        ld      b, h
-        ld      c, l
+        ld      b,  h
+        ld      c,  l
 
         ld      a, #0x20
         add     l
@@ -59,7 +59,7 @@ ___move_metasprite::
         adc     h
         sub     l
         jp      nz, 5$
-        ld      a, l
+        ld      a,  l
         cp      #(0x20 + 0xC0)
         jp      c, 6$
 5$:
@@ -76,7 +76,7 @@ ___move_metasprite::
         inc     ix
         add     hl, de
         ex      de, hl
-        ld      a, d
+        ld      a,  d
         or      a
         jp      nz, 4$
 
@@ -87,7 +87,7 @@ ___move_metasprite::
         ld      0x40(iy), e
 
         ld      a, (___current_base_tile)
-        add     0(ix)           ; tile
+        add     0(ix)   ; tile
         inc     ix
         ld      0x41(iy), a
 

@@ -13,7 +13,7 @@
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ;  GNU General Public License for more details.
 ;
-;  You should have received a copy of the GNU General Public License 
+;  You should have received a copy of the GNU General Public License
 ;  along with this library; see the file COPYING. If not, write to the
 ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
 ;   MA 02110-1301, USA.
@@ -32,32 +32,32 @@
 
 _ultoa::
         push    BC
-        
+
         lda     HL, 8(SP)
-        ld      A, (HL+)
-        ld      C, A
-        ld      B, (HL)         ; BC: dest
+        ld      A,  (HL+)
+        ld      C,  A
+        ld      B,  (HL)        ; BC: dest
 
         lda     HL, 4(SP)
-        ld      E, L
-        ld      D, H            ; DE : ulong *
-        
+        ld      E,  L
+        ld      D,  H   ; DE : ulong *
+
         call    .ultoa
-        
+
         pop     BC
         ret
 
 _ltoa::
         push    BC
-        
+
         lda     HL, 8(SP)
-        ld      A, (HL+)
-        ld      C, A
-        ld      B, (HL)         ; BC: dest
+        ld      A,  (HL+)
+        ld      C,  A
+        ld      B,  (HL)        ; BC: dest
 
         lda     HL, 4(SP)
-        ld      E, L
-        ld      D, H            ; DE : ulong *
+        ld      E,  L
+        ld      D,  H   ; DE : ulong *
 
         call    .ltoa
 
@@ -66,14 +66,14 @@ _ltoa::
 
 .ltoa::
         push    DE
-        
+
         ld      A, #3
         add     E
         ld      E, A
         adc     D
         sub     E
         ld      D, A
-        
+
         ld      A, (DE)
         add     A, A
         pop     DE
@@ -103,10 +103,10 @@ _ltoa::
         cpl
         adc     #0
         ld      (DE), A
-        
+
         pop     DE
-        
-        ld      A, #'-'
+
+        ld      A,    #'-'
         ld      (BC), A
         inc     BC
 
@@ -114,16 +114,16 @@ _ltoa::
         dec     DE
         ret
 
-.ultoa::                        ; convert unsigned int into ascii
+.ultoa::        ; convert unsigned int into ascii
         add     SP, #-5
         lda     HL, 4(SP)
-        
-        xor     A               ; clear value
+
+        xor     A       ; clear value
         ld      (HL-), A
         ld      (HL-), A
         ld      (HL-), A
         ld      (HL-), A
-        ld      (HL), A
+        ld      (HL),  A
 
         push    BC
         ld      B, #32
@@ -147,19 +147,19 @@ _ltoa::
         adc     A
         daa
         ld      (HL+), A        ; #0
-        ld      A, (HL)
+        ld      A,     (HL)
         adc     A
         daa
         ld      (HL+), A        ; #1
-        ld      A, (HL)
+        ld      A,     (HL)
         adc     A
         daa
         ld      (HL+), A        ; #2
-        ld      A, (HL)
+        ld      A,     (HL)
         adc     A
         daa
         ld      (HL+), A        ; #3
-        ld      A, (HL)
+        ld      A,     (HL)
         adc     A
         daa
         ld      (HL), A         ; #4
@@ -181,34 +181,34 @@ _ltoa::
         ld      A, (HL)
         swap    A
         and     #0x0f
-        bit     0, D
+        bit     0,  D
         jr      NZ, 6$
         or      A
         jr      Z, 4$
 6$:
-        add     A, E
+        add     A,    E
         ld      (BC), A
-        set     0, D
+        set     0,    D
         inc     BC
 4$:
         ld      A, (HL-)
         and     #0x0f
-        bit     0, D
+        bit     0,  D
         jr      NZ, 7$
         or      A
         jr      Z, 5$
-7$:     
-        add     A, E
+7$:
+        add     A,    E
         ld      (BC), A
-        set     0, D
+        set     0,    D
         inc     BC
 5$:
         rr      D
         dec     D
         jr      NZ, 3$
-        jr      C, 8$
+        jr      C,  8$
 
-        ld      A, #'0'         ; n == 0
+        ld      A,    #'0'      ; n == 0
         ld      (BC), A
         inc     BC
 8$:

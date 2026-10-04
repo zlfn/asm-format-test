@@ -3,47 +3,47 @@
 ;       Stefano - 11/2017
 ;
 
-    SECTION code_clib
-    PUBLIC  fwd
-    PUBLIC  _fwd
+        SECTION code_clib
+        PUBLIC  fwd
+        PUBLIC  _fwd
 
-    EXTERN  l_mult
-    EXTERN  l_div
-    EXTERN  icos
-    EXTERN  isin
-    EXTERN  move
+        EXTERN  l_mult
+        EXTERN  l_div
+        EXTERN  icos
+        EXTERN  isin
+        EXTERN  move
 
-    EXTERN  __direction
+        EXTERN  __direction
 
 .fwd
 ._fwd
-    ; __FASTCALL
+        ; __FASTCALL
 
-    push    hl
-    ld      hl,(__direction)
-    call    icos
-    pop     de
-    push    de
-    call    l_mult
-    ld      de,256
-    ex      de,hl
-    call    l_div
+        push    hl
+        ld      hl, (__direction)
+        call    icos
+        pop     de
+        push    de
+        call    l_mult
+        ld      de, 256
+        ex      de, hl
+        call    l_div
 
-    pop     de
-    push    hl
-    push    de
+        pop     de
+        push    hl
+        push    de
 
-    ld      hl,(__direction)
-    call    isin
-    pop     de
-    call    l_mult
-    ld      de,256
-    ex      de,hl
-    call    l_div
+        ld      hl, (__direction)
+        call    isin
+        pop     de
+        call    l_mult
+        ld      de, 256
+        ex      de, hl
+        call    l_div
 
-    push    hl
+        push    hl
 
-    call    move
-    pop     hl
-    pop     hl
-    ret
+        call    move
+        pop     hl
+        pop     hl
+        ret

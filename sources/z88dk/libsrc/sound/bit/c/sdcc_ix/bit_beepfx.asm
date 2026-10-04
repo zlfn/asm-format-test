@@ -10,10 +10,10 @@ EXTERN _bit_beepfx_fastcall
 
 _bit_beepfx:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _bit_beepfx_fastcall
+        push    hl
+        push    af
+
+        jp      _bit_beepfx_fastcall

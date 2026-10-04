@@ -8,8 +8,8 @@ SECTION code_l_sccz80
 PUBLIC l_gint7sp
 
 l_gint7sp:
-   ld hl,9
-   add hl,sp
-   ld  hl,(hl)
+        ld      hl, 9
+        add     hl, sp
+        ld      hl, (hl)
 
-   ret
+        ret

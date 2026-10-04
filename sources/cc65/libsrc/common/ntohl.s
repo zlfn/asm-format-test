@@ -15,18 +15,18 @@ _ntohl:
         ; are in sreg+1, sreg, X, A.
 
         ; Save A and X
-        stx tmp1
-        sta tmp2
+        stx     tmp1
+        sta     tmp2
 
         ; Invert high word
-        lda sreg+1
-        ldx sreg
+        lda     sreg+1
+        ldx     sreg
 
         ; Invert low word
-        ldy tmp1
-        sty sreg
+        ldy     tmp1
+        sty     sreg
 
-        ldy tmp2
-        sty sreg+1
+        ldy     tmp2
+        sty     sreg+1
 
         rts

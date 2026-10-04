@@ -10,10 +10,10 @@ EXTERN asm_strxfrm
 
 _strxfrm_callee:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_strxfrm
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_strxfrm

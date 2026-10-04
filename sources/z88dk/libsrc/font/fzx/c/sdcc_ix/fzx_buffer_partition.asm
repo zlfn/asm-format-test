@@ -10,18 +10,18 @@ EXTERN l0_fzx_buffer_partition_callee
 
 _fzx_buffer_partition:
 
-   pop af
-   exx
-   pop bc
-   exx
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push bc
-   push af
+        pop     af
+        exx
+        pop     bc
+        exx
+        pop     de
+        pop     bc
+        pop     hl
 
-   jp l0_fzx_buffer_partition_callee
+        push    hl
+        push    bc
+        push    de
+        push    bc
+        push    af
+
+        jp      l0_fzx_buffer_partition_callee

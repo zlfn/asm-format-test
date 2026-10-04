@@ -10,7 +10,7 @@
 ;-------------------------------------------------------------------------
 ;  asm_am9511_popi - am9511 APU pop integer
 ;-------------------------------------------------------------------------
-; 
+;
 ;  Load integer from Am9511 APU stack
 ;
 ;-------------------------------------------------------------------------
@@ -25,30 +25,28 @@ ENDIF
 
 PUBLIC asm_am9511_popi
 
-
 .am9511_popi_wait
-    ex (sp),hl
-    ex (sp),hl
+        ex      (sp), hl
+        ex      (sp), hl
 
 .asm_am9511_popi
 
-    ; float primitive
-    ; pop an integer from the Am9511 stack.
-    ;
-    ; enter : stack = ret0
-    ;
-    ; exit  :  dehl = integer
-    ; 
-    ; uses  : af, bc, hl
+        ; float primitive
+        ; pop an integer from the Am9511 stack.
+        ;
+        ; enter : stack = ret0
+        ;
+        ; exit  :  dehl = integer
+        ;
+        ; uses  : af, bc, hl
 
-    AM9511_IN_APU_STATUS      ; read the APU status register
-    rlca                        ; busy? and __IO_APU_STATUS_BUSY
-    jr C,am9511_popi_wait
+        AM9511_IN_APU_STATUS    ; read the APU status register
+        rlca                    ; busy? and __IO_APU_STATUS_BUSY
+        jr      C, am9511_popi_wait
 
 IFNDEF __AM9511_HELPER_FUNC
-    ld bc,__IO_APU_DATA         ; the address of the APU data port in bc
+        ld      bc, __IO_APU_DATA       ; the address of the APU data port in bc
 ENDIF
-    AM9511_INI h                ; load LSW from APU
-    AM9511_INI l
-    ret
-
+        AM9511_INI h    ; load LSW from APU
+        AM9511_INI l
+        ret

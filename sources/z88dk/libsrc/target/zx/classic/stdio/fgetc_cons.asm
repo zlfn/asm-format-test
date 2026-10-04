@@ -13,25 +13,25 @@
 ;
 
 IFNDEF FORsam
-    SECTION code_clib
-    PUBLIC  fgetc_cons
-    PUBLIC  _fgetc_cons
+        SECTION code_clib
+        PUBLIC  fgetc_cons
+        PUBLIC  _fgetc_cons
 
 fgetc_cons:
 _fgetc_cons:
-    xor     a
-    ld      (23560), a
+        xor     a
+        ld      (23560), a
 getkey1:
-    ld      a, (23560)
-    and     a
-    jr      z, getkey1
-  IF    STANDARDESCAPECHARS
-    cp      13
-    jr      nz, not_return
-    ld      a, 10
+        ld      a, (23560)
+        and     a
+        jr      z, getkey1
+        IF      STANDARDESCAPECHARS
+                cp      13
+                jr      nz, not_return
+                ld      a,  10
 not_return:
-  ENDIF
-    ld      l, a
-    ld      h, 0
-    ret
+        ENDIF
+        ld      l, a
+        ld      h, 0
+        ret
 ENDIF

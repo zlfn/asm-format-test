@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; char *strtok(char * restrict s1, const char * restrict s2)
 ;
 ; Return the next token from the string being traversed.
@@ -34,22 +34,22 @@ EXTERN asm_strtok_r
 
 asm_strtok:
 
-   ; enter : de = char *s2 = delimiters
-   ;         hl = char *s1 = string to tokenize
-   ;
-   ; exit  : de = char *s2 = delimiters
-   ;
-   ;         found
-   ; 
-   ;           carry set
-   ;           hl = ptr to token
-   ;
-   ;         not found
-   ;
-   ;           carry reset
-   ;           hl = 0
-   ;
-   ; uses  : af, bc, hl
+        ; enter : de = char *s2 = delimiters
+        ;         hl = char *s1 = string to tokenize
+        ;
+        ; exit  : de = char *s2 = delimiters
+        ;
+        ;         found
+        ;
+        ;           carry set
+        ;           hl = ptr to token
+        ;
+        ;         not found
+        ;
+        ;           carry reset
+        ;           hl = 0
+        ;
+        ; uses  : af, bc, hl
 
-   ld bc,__string_strtok_p
-   jp asm_strtok_r
+        ld      bc, __string_strtok_p
+        jp      asm_strtok_r

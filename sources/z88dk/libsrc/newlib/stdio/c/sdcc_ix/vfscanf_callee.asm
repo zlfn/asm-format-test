@@ -16,21 +16,21 @@ EXTERN asm_vfscanf
 
 _vfscanf_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
 l0_vfscanf_callee:
 
-   push hl
-   ex (sp),ix
-   
-   call asm_vfscanf
-   
-   pop ix
-   ret
+        push    hl
+        ex      (sp), ix
+
+        call    asm_vfscanf
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

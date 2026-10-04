@@ -10,10 +10,10 @@ EXTERN asm_obstack_base
 
 _obstack_base:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_obstack_base
+        push    hl
+        push    af
+
+        jp      asm_obstack_base

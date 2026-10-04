@@ -11,26 +11,25 @@ EXTERN asm_sp1_IterateSprChar
 
 sp1_IterateSprChar_callee:
 
-   push ix	; save IX to BC'
-   exx
-   pop bc
-   exx
+        push    ix      ; save IX to BC'
+        exx
+        pop     bc
+        exx
 
-   pop hl
-   pop ix
-   ex (sp),hl
+        pop     hl
+        pop     ix
+        ex      (sp), hl
 
 ;   jp asm_sp1_IterateSprChar
-   exx
-   push bc	; save old IX
-   exx
-   call asm_sp1_IterateSprChar
-   pop ix	; restore it
-   ret
+        exx
+        push    bc      ; save old IX
+        exx
+        call    asm_sp1_IterateSprChar
+        pop     ix      ; restore it
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_IterateSprChar_callee
 defc _sp1_IterateSprChar_callee = sp1_IterateSprChar_callee
 ENDIF
-

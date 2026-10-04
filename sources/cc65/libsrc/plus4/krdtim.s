@@ -4,19 +4,17 @@
 ; RDTIM replacement function
 ;
 
-        .export         RDTIM
+        .export RDTIM
 
-        .include        "plus4.inc"
+        .include "plus4.inc"
 
 ; Read the clock from the zero page to avoid banking in the ROM
 
 .proc   RDTIM
-        sei                             ; No interrupts
+        sei             ; No interrupts
         lda     TIME+2
         ldx     TIME+1
-        ldy     TIME                    ; Read the time
-        cli                             ; Allow interrupts
-        rts                             ; Return to caller
+        ldy     TIME    ; Read the time
+        cli             ; Allow interrupts
+        rts             ; Return to caller
 .endproc
-
-

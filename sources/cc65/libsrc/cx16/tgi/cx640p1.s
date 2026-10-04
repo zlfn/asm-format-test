@@ -6,37 +6,36 @@
 ; Based on code by Greg King
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-error.inc"
+        .include "tgi-kernel.inc"
+        .include "tgi-error.inc"
 
-        .include        "cbm_kernal.inc"
-        .include        "cx16.inc"
+        .include "cbm_kernal.inc"
+        .include "cx16.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table and constants.
 
-        module_header   _cx640p1_tgi    ; 640 pixels across, 1 pixel per bit
+        module_header _cx640p1_tgi      ; 640 pixels across, 1 pixel per bit
 
 ; First part of the header is a structure that has a signature,
 ; and defines the capabilities of the driver.
 
-        .byte   $74, $67, $69           ; ASCII "tgi"
-        .byte   TGI_API_VERSION         ; TGI API version number
-        .addr   $0000                   ; Library reference
-        .word   640                     ; X resolution
-        .word   480                     ; Y resolution
-        .byte   2                       ; Number of drawing colors
-        .byte   0                       ; Number of screens available
-        .byte   8                       ; System font X size
-        .byte   8                       ; System font Y size
-        .word   $0100                   ; Aspect ratio (based on VGA display)
-        .byte   0                       ; TGI driver flags
+        .byte   $74, $67, $69   ; ASCII "tgi"
+        .byte   TGI_API_VERSION ; TGI API version number
+        .addr   $0000           ; Library reference
+        .word   640             ; X resolution
+        .word   480             ; Y resolution
+        .byte   2               ; Number of drawing colors
+        .byte   0               ; Number of screens available
+        .byte   8               ; System font X size
+        .byte   8               ; System font Y size
+        .word   $0100           ; Aspect ratio (based on VGA display)
+        .byte   0               ; TGI driver flags
 
 ; Next, comes the jump table. Currently, all entries must be valid,
 ; and may point to an RTS for test versions (function not implemented).
@@ -61,11 +60,8 @@
         .addr   TEXTSTYLE
         .addr   OUTTEXT
 
-
 ; ------------------------------------------------------------------------
 ; Constant
-
-
 
 ; ------------------------------------------------------------------------
 ; Data.
@@ -84,7 +80,6 @@ TEMP            = tmp3
 TEMP2           = tmp4          ; HORLINE
 TEMP3           = sreg          ; HORLINE
 
-
 ; Absolute variables used in the code
 
 .bss
@@ -93,30 +88,29 @@ TEMP3           = sreg          ; HORLINE
 ; VERA's palette.  Vera's palette is a table of Red, Green, and Blue levels.
 ; The first 16 RGB elements mimic the Commodore 64's colors.
 
-SCRBASE:        .res    1           ; High byte of screen base
-BITMASK:        .res    1           ; $00 = clear, $FF = set pixels
+SCRBASE: .res   1       ; High byte of screen base
+BITMASK: .res   1       ; $00 = clear, $FF = set pixels
 
-defpalette:     .res    2
-palette:        .res    2
+defpalette: .res 2
+palette:    .res 2
 
-color:          .res    1           ; Stroke and fill index
-text_mode:      .res    1           ; Old text mode
+color:  .res    1       ; Stroke and fill index
+text_mode: .res 1       ; Old text mode
 
-tempX:          .res    2
-tempY:          .res    2
-ERR2:           .res    1
-ERR:            .res    1
-SY:             .res    1
-SX:             .res    1
-DY:             .res    1
-DX:             .res    1
-CURRENT_Y:      .res    2
-CURRENT_X:      .res    2
+tempX:  .res    2
+tempY:  .res    2
+ERR2:   .res    1
+ERR:    .res    1
+SY:     .res    1
+SX:     .res    1
+DY:     .res    1
+DX:     .res    1
+CURRENT_Y: .res 2
+CURRENT_X: .res 2
 
 .data
 
-ERROR:          .byte   TGI_ERR_OK  ; Error code
-
+ERROR:  .byte   TGI_ERR_OK      ; Error code
 
 ; Constants and tables
 
@@ -142,12 +136,11 @@ col_gray3:  .byte %10111011, %00001011
 
 ; Bit masks for setting pixels
 bitMasks1:
-    .byte %10000000, %01000000, %00100000, %00010000
-    .byte %00001000, %00000100, %00000010, %00000001
+        .byte   %10000000, %01000000, %00100000, %00010000
+        .byte   %00001000, %00000100, %00000010, %00000001
 bitMasks2:
-    .byte %01111111, %10111111, %11011111, %11101111
-    .byte %11110111, %11111011, %11111101, %11111110
-
+        .byte   %01111111, %10111111, %11011111, %11101111
+        .byte   %11110111, %11111011, %11111101, %11111110
 
 .code
 
@@ -160,10 +153,10 @@ bitMasks2:
 
 INSTALL:
 ; Create the default palette.
-        lda #$00
-        sta defpalette
-        lda #$01
-        sta defpalette+1
+        lda     #$00
+        sta     defpalette
+        lda     #$01
+        sta     defpalette+1
 
         ; Fall through.
 
@@ -188,7 +181,7 @@ UNINSTALL:
 ;
 ; Must set an error code: YES
 
-INIT:   stz     ERROR           ; #TGI_ERR_OK
+INIT:   stz     ERROR   ; #TGI_ERR_OK
 
 ; Save the current text mode.
 
@@ -198,13 +191,13 @@ INIT:   stz     ERROR           ; #TGI_ERR_OK
 
 ; Switch into (640 x 480 x 2 bpp) graphics mode.
 
-        lda     #%00000000          ; DCSEL = 0, VRAM port 1
+        lda     #%00000000      ; DCSEL = 0, VRAM port 1
         sta     VERA::CTRL
-        lda     #%00100001          ; Disable sprites, layer 1 enable, VGA
+        lda     #%00100001      ; Disable sprites, layer 1 enable, VGA
         sta     VERA::DISP::VIDEO
-        lda     #%00000100          ; Bitmap mode enable
+        lda     #%00000100      ; Bitmap mode enable
         sta     VERA::L1::CONFIG
-        lda     #%00000001          ; Tile width 640
+        lda     #%00000001      ; Tile width 640
         sta     VERA::L1::TILE_BASE
         rts
 
@@ -245,7 +238,7 @@ CONTROL:
 ; Must set an error code: NO
 
 CLEAR:
-        .scope inner
+        .scope  inner
 
         ; set up DCSEL=2
         lda     #(2 << 1)
@@ -253,7 +246,7 @@ CLEAR:
 
         ; set cache writes
         lda     #$40
-        tsb     VERA::DISP::VIDEO        ; VERA_FX_CTRL when DCSEL=2
+        tsb     VERA::DISP::VIDEO       ; VERA_FX_CTRL when DCSEL=2
 
         ; set FX cache to all zeroes
         lda     #(6 << 1)
@@ -269,7 +262,7 @@ CLEAR:
         ; set address and increment for bitmap area
         stz     VERA::ADDR
         stz     VERA::ADDR + 1
-        lda     #$30                    ; increment +4
+        lda     #$30    ; increment +4
         sta     VERA::ADDR + 2
 
         ldy     #$F0
@@ -278,7 +271,7 @@ CLEAR:
 @blank_loop:
 
         .repeat 8
-        stz VERA::DATA0
+                stz     VERA::DATA0
         .endrep
 
         dex
@@ -291,12 +284,11 @@ CLEAR:
         sta     VERA::CTRL
 
         ; set FX off (cache write bit 1 -> 0)
-        stz     VERA::DISP::VIDEO        ; VERA_FX_CTRL when DCSEL=2
+        stz     VERA::DISP::VIDEO       ; VERA_FX_CTRL when DCSEL=2
         stz     VERA::CTRL
 
         .endscope
         rts
-
 
 ; ------------------------------------------------------------------------
 ; SETVIEWPAGE: Set the visible page. Called with the new page in .A (0..n-1).
@@ -327,8 +319,8 @@ SETDRAWPAGE:
 SETPALETTE:
         stz     ERROR           ; #TGI_ERR_OK
         ldy     #$01            ; Palette size of 2 colors
-@L1:    lda     (ptr1),y        ; Copy the palette
-        sta     palette,y
+@L1:    lda     (ptr1),  y      ; Copy the palette
+        sta     palette, y
         dey
         bpl     @L1
 
@@ -343,7 +335,7 @@ SETPALETTE:
         lda     palette
         asl
         tay
-        lda     veracolors,y
+        lda     veracolors, y
         sta     VERA::DATA0
 
         inc     VERA::ADDR      ; $1FA01
@@ -352,7 +344,7 @@ SETPALETTE:
         asl
         tay
         iny     ; second byte of color
-        lda     veracolors,y
+        lda     veracolors, y
         sta     VERA::DATA0
 
         ; set foreground color from palette color 1
@@ -361,7 +353,7 @@ SETPALETTE:
         lda     palette+1
         asl
         tay
-        lda     veracolors,y
+        lda     veracolors, y
         sta     VERA::DATA0
 
         inc     VERA::ADDR      ; $1FA03
@@ -370,7 +362,7 @@ SETPALETTE:
         asl
         tay
         iny     ; second byte of color
-        lda     veracolors,y
+        lda     veracolors, y
         sta     VERA::DATA0
         rts
 
@@ -421,35 +413,35 @@ GETDEFPALETTE:
 ; Must set an error code: NO
 
 SETPIXEL:
-        jsr CALC
+        jsr     CALC
 
-        stx TEMP
+        stx     TEMP
 
-        lda ADDR
-        ldy ADDR+1
-        ldx #$00
+        lda     ADDR
+        ldy     ADDR+1
+        ldx     #$00
 
-        sta VERA::ADDR
-        sty VERA::ADDR + 1
-        stx VERA::ADDR + 2
+        sta     VERA::ADDR
+        sty     VERA::ADDR + 1
+        stx     VERA::ADDR + 2
 
-        ldx TEMP
+        ldx     TEMP
 
-        lda BITMASK
-        beq @ahead
+        lda     BITMASK
+        beq     @ahead
 
         ; if BITMASK = $00, white is line color
         ; Set the bit in the byte at VERA_DATA0
-        lda VERA::DATA0      ; Load the byte at memory address
-        ora bitMasks1,X      ; OR with the bit mask
-        sta VERA::DATA0      ; Store back the modified byte
+        lda     VERA::DATA0     ; Load the byte at memory address
+        ora     bitMasks1, X    ; OR with the bit mask
+        sta     VERA::DATA0     ; Store back the modified byte
         rts
 
 @ahead:
         ; if BITMASK = $FF, black is line color
-        lda VERA::DATA0      ; Load the byte at memory address
-        and bitMasks2,X      ; OR with the bit mask
-        sta VERA::DATA0      ; Store back the modified byte
+        lda     VERA::DATA0     ; Load the byte at memory address
+        and     bitMasks2, X    ; OR with the bit mask
+        sta     VERA::DATA0     ; Store back the modified byte
         rts
 
 ; ------------------------------------------------------------------------
@@ -458,31 +450,31 @@ SETPIXEL:
 ; area, so there is no need for clipping inside this function.
 
 GETPIXEL:
-        jsr CALC
+        jsr     CALC
 
-        stx TEMP
+        stx     TEMP
 
-        lda ADDR
-        ldy ADDR+1
-        ldx #$00
+        lda     ADDR
+        ldy     ADDR+1
+        ldx     #$00
 
-        sta VERA::ADDR
-        sty VERA::ADDR + 1
-        stx VERA::ADDR + 2
+        sta     VERA::ADDR
+        sty     VERA::ADDR + 1
+        stx     VERA::ADDR + 2
 
-        ldx TEMP
-        lda VERA::DATA0      ; Load the byte at memory address
-        and bitMasks1,X
+        ldx     TEMP
+        lda     VERA::DATA0     ; Load the byte at memory address
+        and     bitMasks1, X
 
-        bne @ahead
+        bne     @ahead
 
-        ldx #$00
-        lda #$00
+        ldx     #$00
+        lda     #$00
         rts
 
 @ahead:
-        ldx #$00
-        lda #$01
+        ldx     #$00
+        lda     #$01
         rts
 
 ; ------------------------------------------------------------------------
@@ -502,100 +494,100 @@ GETPIXEL:
 
 BAR:
         ; Initialize tempY with Y1
-        lda Y1
-        sta tempY
-        lda Y1+1
-        sta tempY+1
+        lda     Y1
+        sta     tempY
+        lda     Y1+1
+        sta     tempY+1
 
 @outer_loop:
         ; Compare tempY with Y2
-        lda tempY+1
-        cmp Y2+1
-        bcc @outer_continue   ; If tempY high byte < Y2 high byte, continue
-        bne @outer_end        ; If tempY high byte > Y2 high byte, end
-        lda tempY
-        cmp Y2
-        bcc @outer_continue   ; If tempY low byte < Y2 low byte, continue
-        beq @outer_end        ; If tempY low byte = Y2 low byte, end
+        lda     tempY+1
+        cmp     Y2+1
+        bcc     @outer_continue ; If tempY high byte < Y2 high byte, continue
+        bne     @outer_end      ; If tempY high byte > Y2 high byte, end
+        lda     tempY
+        cmp     Y2
+        bcc     @outer_continue ; If tempY low byte < Y2 low byte, continue
+        beq     @outer_end      ; If tempY low byte = Y2 low byte, end
 
 @outer_continue:
         ; Initialize tempX with X1
-        lda X1
-        sta tempX
-        lda X1+1
-        sta tempX+1
+        lda     X1
+        sta     tempX
+        lda     X1+1
+        sta     tempX+1
 
 @inner_loop:
         ; Compare tempX with X2
-        lda tempX+1
-        cmp X2+1
-        bcc @inner_continue   ; If tempX high byte < X2 high byte, continue
-        bne @inner_end        ; If tempX high byte > X2 high byte, end
-        lda tempX
-        cmp X2
-        bcc @inner_continue   ; If tempX low byte < X2 low byte, continue
+        lda     tempX+1
+        cmp     X2+1
+        bcc     @inner_continue ; If tempX high byte < X2 high byte, continue
+        bne     @inner_end      ; If tempX high byte > X2 high byte, end
+        lda     tempX
+        cmp     X2
+        bcc     @inner_continue ; If tempX low byte < X2 low byte, continue
 
 @inner_end:
         ; Increment tempY
-        inc tempY
-        bne @outer_loop       ; If no overflow, continue outer loop
-        inc tempY+1           ; If overflow, increment high byte
+        inc     tempY
+        bne     @outer_loop     ; If no overflow, continue outer loop
+        inc     tempY+1         ; If overflow, increment high byte
 
 @inner_continue:
         ; Call setpixel(tempX, tempY)
-        lda X1
+        lda     X1
         pha
-        lda X1+1
+        lda     X1+1
         pha
-        lda Y1
+        lda     Y1
         pha
-        lda Y1+1
+        lda     Y1+1
         pha
 
-        lda tempX
-        ldx tempX+1
-        sta X1
-        stx X1+1
+        lda     tempX
+        ldx     tempX+1
+        sta     X1
+        stx     X1+1
 
-        lda tempY
-        ldx tempY+1
-        sta Y1
-        stx Y1+1
+        lda     tempY
+        ldx     tempY+1
+        sta     Y1
+        stx     Y1+1
 
-        jsr SETPIXEL
+        jsr     SETPIXEL
 
         pla
-        sta Y1+1
+        sta     Y1+1
         pla
-        sta Y1
+        sta     Y1
         pla
-        sta X1+1
+        sta     X1+1
         pla
-        sta X1
+        sta     X1
 
-    ; Increment tempX
-        inc tempX
-        bne @inner_loop_check ; If no overflow, continue
-        inc tempX+1           ; If overflow, increment high byte
+        ; Increment tempX
+        inc     tempX
+        bne     @inner_loop_check       ; If no overflow, continue
+        inc     tempX+1                 ; If overflow, increment high byte
 
 @inner_loop_check:
         ; Compare tempX with X2 again after increment
-        lda tempX+1
-        cmp X2+1
-        bcc @inner_continue   ; If tempX high byte < X2 high byte, continue
-        bne @outer_increment  ; If tempX high byte > X2 high byte, increment tempY
-        lda tempX
-        cmp X2
-        bcc @inner_continue   ; If tempX low byte < X2 low byte, continue
+        lda     tempX+1
+        cmp     X2+1
+        bcc     @inner_continue         ; If tempX high byte < X2 high byte, continue
+        bne     @outer_increment        ; If tempX high byte > X2 high byte, increment tempY
+        lda     tempX
+        cmp     X2
+        bcc     @inner_continue         ; If tempX low byte < X2 low byte, continue
 
 @outer_increment:
         ; Increment tempY
-        inc tempY
-        bne @outer_loop       ; If no overflow, continue outer loop
-        inc tempY+1           ; If overflow, increment high byte
+        inc     tempY
+        bne     @outer_loop     ; If no overflow, continue outer loop
+        inc     tempY+1         ; If overflow, increment high byte
 
 @outer_end:
-        jmp @done
+        jmp     @done
 
 @done:
         rts
@@ -619,7 +611,6 @@ TEXTSTYLE:
 OUTTEXT:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; Calculate all variables to plot the pixel at X1/Y1.
 ;------------------------
@@ -633,13 +624,13 @@ CALC:
         asl
         rol     ADDR+1
         asl
-        rol     ADDR+1          ; Y*4
+        rol     ADDR+1  ; Y*4
         clc
         adc     Y1
         sta     ADDR
         lda     Y1+1
         adc     ADDR+1
-        sta     ADDR+1          ; Y*4+Y=Y*5
+        sta     ADDR+1  ; Y*4+Y=Y*5
         lda     ADDR
         asl
         rol     ADDR+1
@@ -649,7 +640,7 @@ CALC:
         rol     ADDR+1
         asl
         rol     ADDR+1
-        sta     ADDR            ; Y*5*16=Y*80
+        sta     ADDR    ; Y*5*16=Y*80
         lda     X1+1
         sta     TEMP
         lda     X1
@@ -662,7 +653,7 @@ CALC:
         clc
         adc     ADDR
         sta     ADDR
-        lda     ADDR+1          ; ADDR = Y*80+x/8
+        lda     ADDR+1  ; ADDR = Y*80+x/8
         adc     TEMP
         sta     ADDR+1
         lda     ADDR+1
@@ -670,6 +661,5 @@ CALC:
         and     #7
         tax
         rts
-
 
 .include        "../../tgi/tgidrv_line.inc"

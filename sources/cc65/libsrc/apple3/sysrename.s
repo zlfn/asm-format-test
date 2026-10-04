@@ -5,12 +5,12 @@
 ; unsigned char __fastcall__ _sysrename (const char* oldname, const char* newname);
 ;
 
-        .export         __sysrename
-        .import         pushname, pushname_tos, sos_set_pathname_tos, popname
-        .import         popax
+        .export __sysrename
+        .import pushname, pushname_tos, sos_set_pathname_tos, popname
+        .import popax
 
-        .include        "zeropage.inc"
-        .include        "sos.inc"
+        .include "zeropage.inc"
+        .include "sos.inc"
 
 __sysrename:
         ; Save newname
@@ -51,9 +51,9 @@ __sysrename:
         jsr     callsos
 
         ; Cleanup newname
-        jsr     popname         ; Preserves A
+        jsr     popname ; Preserves A
 
         ; Cleanup oldname
-oserr2: jmp     popname         ; Preserves A
+oserr2: jmp     popname ; Preserves A
 
 oserr1: rts

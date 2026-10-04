@@ -10,20 +10,20 @@ EXTERN l0_bit_synth_callee
 
 _bit_synth:
 
-   pop af
-   pop de
-   pop bc
-   ld d,c
-   pop hl
-   pop bc
-   ld h,c
-   pop bc
-   
-   push bc
-   push bc
-   push hl
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        ld      d, c
+        pop     hl
+        pop     bc
+        ld      h, c
+        pop     bc
 
-   jp l0_bit_synth_callee
+        push    bc
+        push    bc
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        jp      l0_bit_synth_callee

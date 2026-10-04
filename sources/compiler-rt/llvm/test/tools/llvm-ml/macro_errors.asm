@@ -17,7 +17,6 @@ ENDM
 missing_qualifier_macro MACRO param:
 ENDM
 
-
 ; CHECK: error: no matching 'endm' in definition
 missing_end_macro MACRO
 

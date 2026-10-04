@@ -10,9 +10,9 @@ EXTERN asm_zx_cls_wc
 
 zx_cls_wc_callee:
 
-   pop af
-   pop hl
-   pop ix
-   push af
-   
-   jp asm_zx_cls_wc
+        pop     af
+        pop     hl
+        pop     ix
+        push    af
+
+        jp      asm_zx_cls_wc

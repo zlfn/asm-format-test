@@ -19,22 +19,22 @@ asm_sp1_IterateUpdateArr:
 ;         ix = function to call for each stuct sp1_update in array (stack, hl = parameter)
 ; uses  : af, de, hl + whatever user function uses
 
-   ld e,(hl)
-   inc hl
-   ld d,(hl)             ; de = struct sp1_update *
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl) ; de = struct sp1_update *
 
-   ld a,d
-   or e
-   ret z
+        ld      a, d
+        or      e
+        ret     z
 
-   inc hl
-   push ix
-   push hl
-   push de
-   ex de,hl
-   call l_jpix           ; call function with hl = struct sp1_update *
-   pop de
-   pop hl
-   pop ix
+        inc     hl
+        push    ix
+        push    hl
+        push    de
+        ex      de, hl
+        call    l_jpix  ; call function with hl = struct sp1_update *
+        pop     de
+        pop     hl
+        pop     ix
 
-   jp asm_sp1_IterateUpdateArr
+        jp      asm_sp1_IterateUpdateArr

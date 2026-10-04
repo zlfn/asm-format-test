@@ -11,17 +11,17 @@ EXTERN l0_ba_priority_queue_init_callee
 
 _ba_priority_queue_init:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   exx
-   pop bc
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        exx
+        pop     bc
 
-   push bc
-   push bc
-   push de
-   push hl
-   push af
+        push    bc
+        push    bc
+        push    de
+        push    hl
+        push    af
 
-   jp l0_ba_priority_queue_init_callee
+        jp      l0_ba_priority_queue_init_callee

@@ -18,13 +18,13 @@ asm_sp1_ScreenStr:
 ; exit  : hl = tile
 ; uses  : af, de, hl
 
-   call asm_sp1_GetUpdateStruct
+        call    asm_sp1_GetUpdateStruct
 
-   inc hl
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   ex de,hl
+        inc     hl
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d,  (hl)
+        ex      de, hl
 
-   ret
+        ret

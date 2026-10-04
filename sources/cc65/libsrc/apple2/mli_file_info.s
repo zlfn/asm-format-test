@@ -2,12 +2,12 @@
 ; Colin Leroy-Mira, 2023 <colin@colino.net>
 ;
 
-        .export         mli_file_info
-        .import         pushname_tos, popname, mli_file_info_direct
-        .import         popax
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "mli.inc"
+        .export mli_file_info
+        .import pushname_tos, popname, mli_file_info_direct
+        .import popax
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "mli.inc"
 
         ; Calls ProDOS MLI GET_FILE_INFO on the filename
         ; stored as C string in AX at top of stack
@@ -18,9 +18,9 @@ mli_file_info:
         bne     oserr
 
         jsr     mli_file_info_direct
-        php                     ; Save return status
+        php     ; Save return status
 
-        jsr     popname         ; Preserves A
+        jsr     popname ; Preserves A
 
         plp
         bcs     oserr

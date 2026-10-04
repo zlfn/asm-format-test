@@ -6,37 +6,33 @@
 ;
 ;       30/1/20001 djm
 
-
 ;double atof(char *)     - convert string to number, leave in fa
 
-    SECTION code_fp
+        SECTION code_fp
 IF  FORz88
-    INCLUDE "target/z88/def/fpp.def"
+        INCLUDE "target/z88/def/fpp.def"
 ELSE
-    INCLUDE "fpp.def"
+        INCLUDE "fpp.def"
 ENDIF
 
-    PUBLIC  atof
+        PUBLIC  atof
 
-    EXTERN  stkequ2
+        EXTERN  stkequ2
 
 atof:
-    pop     de
+        pop     de
 IF  FORz88
-    pop     hl                          ;the string
-    push    hl
+        pop     hl      ;the string
+        push    hl
 ELSE
-    pop     ix
-    push    ix
+        pop     ix
+        push    ix
 ENDIF
-    push    de
+        push    de
 IF  FORz88
-    fpp     (FP_VAL)
+        fpp     (FP_VAL)
 ELSE
-    ld      a, +(FP_VAL)
-    call    FPP
+        ld      a, +(FP_VAL)
+        call    FPP
 ENDIF
-    jp      stkequ2
-
-
-
+        jp      stkequ2

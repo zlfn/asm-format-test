@@ -10,8 +10,8 @@ EXTERN asm_heap_init
 
 heap_init_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   jp asm_heap_init
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_heap_init

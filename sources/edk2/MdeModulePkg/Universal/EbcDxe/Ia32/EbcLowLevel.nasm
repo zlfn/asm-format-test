@@ -36,43 +36,43 @@ extern ASM_PFX(ExecuteEbcImageEntryPoint)
 ; INT64 EbcLLCALLEXNative(UINTN FuncAddr, UINTN NewStackPointer, VOID *FramePtr)
 global ASM_PFX(EbcLLCALLEXNative)
 ASM_PFX(EbcLLCALLEXNative):
-      push   ebp
-      push   ebx
-      mov    ebp, esp              ; standard function prolog
+        push    ebp
+        push    ebx
+        mov     ebp, esp        ; standard function prolog
 
-      ; Get function address in a register
-      ; mov ecx, FuncAddr => mov ecx, dword ptr [FuncAddr]
-      mov    ecx, dword [esp + 0xC]
+        ; Get function address in a register
+        ; mov ecx, FuncAddr => mov ecx, dword ptr [FuncAddr]
+        mov     ecx, dword [esp + 0xC]
 
-      ; Set stack pointer to new value
-      ; mov eax, NewStackPointer => mov eax, dword ptr [NewSp]
-      mov    eax, dword [esp + 0x14]
-      mov    edx, dword [esp + 0x10]
-      sub    eax, edx
-      sub    esp, eax
-      mov    ebx, esp
-      push   ecx
-      push   eax
-      push   edx
-      push   ebx
-      call   ASM_PFX(CopyMem)
-      pop    eax
-      pop    eax
-      pop    eax
-      pop    ecx
+        ; Set stack pointer to new value
+        ; mov eax, NewStackPointer => mov eax, dword ptr [NewSp]
+        mov     eax, dword [esp + 0x14]
+        mov     edx, dword [esp + 0x10]
+        sub     eax, edx
+        sub     esp, eax
+        mov     ebx, esp
+        push    ecx
+        push    eax
+        push    edx
+        push    ebx
+        call    ASM_PFX(CopyMem)
+        pop     eax
+        pop     eax
+        pop     eax
+        pop     ecx
 
-      ; Now call the external routine
-      call  ecx
+        ; Now call the external routine
+        call    ecx
 
-      ; ebp is preserved by the callee. In this function it
-      ; equals the original esp, so set them equal
-      mov    esp, ebp
+        ; ebp is preserved by the callee. In this function it
+        ; equals the original esp, so set them equal
+        mov     esp, ebp
 
-      ; Standard function epilog
-      mov      esp, ebp
-      pop      ebx
-      pop      ebp
-      ret
+        ; Standard function epilog
+        mov     esp, ebp
+        pop     ebx
+        pop     ebp
+        ret
 
 ;****************************************************************************
 ; EbcLLEbcInterpret
@@ -82,66 +82,66 @@ ASM_PFX(EbcLLCALLEXNative):
 ; UINT64 EbcLLEbcInterpret(VOID)
 global ASM_PFX(EbcLLEbcInterpret)
 ASM_PFX(EbcLLEbcInterpret):
-    ;
-    ;; mov eax, 0xca112ebc
-    ;; mov eax, EbcEntryPoint
-    ;; mov ecx, EbcLLEbcInterpret
-    ;; jmp ecx
-    ;
-    ; Caller uses above instruction to jump here
-    ; The stack is below:
-    ; +-----------+
-    ; |  RetAddr  |
-    ; +-----------+
-    ; |EntryPoint | (EAX)
-    ; +-----------+
-    ; |   Arg1    | <- EDI
-    ; +-----------+
-    ; |   Arg2    |
-    ; +-----------+
-    ; |   ...     |
-    ; +-----------+
-    ; |   Arg16   |
-    ; +-----------+
-    ; |   EDI     |
-    ; +-----------+
-    ; |   ESI     |
-    ; +-----------+
-    ; |   EBP     | <- EBP
-    ; +-----------+
-    ; |  RetAddr  | <- ESP is here
-    ; +-----------+
-    ; |   Arg1    | <- ESI
-    ; +-----------+
-    ; |   Arg2    |
-    ; +-----------+
-    ; |   ...     |
-    ; +-----------+
-    ; |   Arg16   |
-    ; +-----------+
-    ;
+        ;
+        ;; mov eax, 0xca112ebc
+        ;; mov eax, EbcEntryPoint
+        ;; mov ecx, EbcLLEbcInterpret
+        ;; jmp ecx
+        ;
+        ; Caller uses above instruction to jump here
+        ; The stack is below:
+        ; +-----------+
+        ; |  RetAddr  |
+        ; +-----------+
+        ; |EntryPoint | (EAX)
+        ; +-----------+
+        ; |   Arg1    | <- EDI
+        ; +-----------+
+        ; |   Arg2    |
+        ; +-----------+
+        ; |   ...     |
+        ; +-----------+
+        ; |   Arg16   |
+        ; +-----------+
+        ; |   EDI     |
+        ; +-----------+
+        ; |   ESI     |
+        ; +-----------+
+        ; |   EBP     | <- EBP
+        ; +-----------+
+        ; |  RetAddr  | <- ESP is here
+        ; +-----------+
+        ; |   Arg1    | <- ESI
+        ; +-----------+
+        ; |   Arg2    |
+        ; +-----------+
+        ; |   ...     |
+        ; +-----------+
+        ; |   Arg16   |
+        ; +-----------+
+        ;
 
-    ; Construct new stack
-    push ebp
-    mov  ebp, esp
-    push esi
-    push edi
-    sub  esp, 0x40
-    push eax
-    mov  esi, ebp
-    add  esi, 8
-    mov  edi, esp
-    add  edi, 4
-    mov  ecx, 16
-    rep  movsd
+        ; Construct new stack
+        push    ebp
+        mov     ebp, esp
+        push    esi
+        push    edi
+        sub     esp, 0x40
+        push    eax
+        mov     esi, ebp
+        add     esi, 8
+        mov     edi, esp
+        add     edi, 4
+        mov     ecx, 16
+        rep  movsd
 
-    ; call C-code
-    call ASM_PFX(EbcInterpret)
-    add  esp, 0x44
-    pop  edi
-    pop  esi
-    pop  ebp
-    ret
+        ; call C-code
+        call    ASM_PFX(EbcInterpret)
+        add     esp, 0x44
+        pop     edi
+        pop     esi
+        pop     ebp
+        ret
 
 ;****************************************************************************
 ; EbcLLExecuteEbcImageEntryPoint
@@ -151,41 +151,40 @@ ASM_PFX(EbcLLEbcInterpret):
 ; UINT64 EbcLLExecuteEbcImageEntryPoint(VOID)
 global ASM_PFX(EbcLLExecuteEbcImageEntryPoint)
 ASM_PFX(EbcLLExecuteEbcImageEntryPoint):
-    ;
-    ;; mov eax, 0xca112ebc
-    ;; mov eax, EbcEntryPoint
-    ;; mov ecx, EbcLLExecuteEbcImageEntryPoint
-    ;; jmp ecx
-    ;
-    ; Caller uses above instruction to jump here
-    ; The stack is below:
-    ; +-----------+
-    ; |  RetAddr  |
-    ; +-----------+
-    ; |EntryPoint | (EAX)
-    ; +-----------+
-    ; |ImageHandle|
-    ; +-----------+
-    ; |SystemTable|
-    ; +-----------+
-    ; |  RetAddr  | <- ESP is here
-    ; +-----------+
-    ; |ImageHandle|
-    ; +-----------+
-    ; |SystemTable|
-    ; +-----------+
-    ;
+        ;
+        ;; mov eax, 0xca112ebc
+        ;; mov eax, EbcEntryPoint
+        ;; mov ecx, EbcLLExecuteEbcImageEntryPoint
+        ;; jmp ecx
+        ;
+        ; Caller uses above instruction to jump here
+        ; The stack is below:
+        ; +-----------+
+        ; |  RetAddr  |
+        ; +-----------+
+        ; |EntryPoint | (EAX)
+        ; +-----------+
+        ; |ImageHandle|
+        ; +-----------+
+        ; |SystemTable|
+        ; +-----------+
+        ; |  RetAddr  | <- ESP is here
+        ; +-----------+
+        ; |ImageHandle|
+        ; +-----------+
+        ; |SystemTable|
+        ; +-----------+
+        ;
 
-    ; Construct new stack
-    mov  [esp - 0xC], eax
-    mov  eax, [esp + 0x4]
-    mov  [esp - 0x8], eax
-    mov  eax, [esp + 0x8]
-    mov  [esp - 0x4], eax
+        ; Construct new stack
+        mov     [esp - 0xC], eax
+        mov     eax, [esp + 0x4]
+        mov     [esp - 0x8], eax
+        mov     eax, [esp + 0x8]
+        mov     [esp - 0x4], eax
 
-    ; call C-code
-    sub  esp, 0xC
-    call ASM_PFX(ExecuteEbcImageEntryPoint)
-    add  esp, 0xC
-    ret
-
+        ; call C-code
+        sub     esp, 0xC
+        call    ASM_PFX(ExecuteEbcImageEntryPoint)
+        add     esp, 0xC
+        ret

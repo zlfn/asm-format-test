@@ -2,10 +2,10 @@
 ; IRQ handling (Oric version)
 ;
 
-        .export         initirq, doneirq
-        .import         callirq
+        .export initirq, doneirq
+        .import callirq
 
-        .include        "telestrat.inc"
+        .include "telestrat.inc"
 
 ; ------------------------------------------------------------------------
 
@@ -38,19 +38,19 @@ setvec: sei
 .segment        "LOWCODE"
 
 IRQStub:
-        cld                             ; Just to be sure
+        cld             ; Just to be sure
         pha
         txa
         pha
         tya
         pha
-        jsr     callirq                 ; Call the functions
+        jsr     callirq ; Call the functions
         pla
         tay
         pla
         tax
         pla
-        jmp     IRQInd                  ; Jump to the saved IRQ vector
+        jmp     IRQInd  ; Jump to the saved IRQ vector
 
 ; ------------------------------------------------------------------------
 

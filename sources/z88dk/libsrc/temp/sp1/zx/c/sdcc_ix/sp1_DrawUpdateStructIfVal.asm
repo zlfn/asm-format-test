@@ -10,10 +10,10 @@ EXTERN _sp1_DrawUpdateStructIfVal_fastcall
 
 _sp1_DrawUpdateStructIfVal:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _sp1_DrawUpdateStructIfVal_fastcall
+        push    hl
+        push    af
+
+        jp      _sp1_DrawUpdateStructIfVal_fastcall

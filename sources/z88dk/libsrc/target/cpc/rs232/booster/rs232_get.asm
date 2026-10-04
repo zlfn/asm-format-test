@@ -9,23 +9,22 @@
 
 ;       fastcall so implicit push
 
-    SECTION code_clib
-    PUBLIC  rs232_get
-    PUBLIC  _rs232_get
+        SECTION code_clib
+        PUBLIC  rs232_get
+        PUBLIC  _rs232_get
 
 rs232_get:
 _rs232_get:
-    ld      bc, $FF1C
+        ld      bc, $FF1C
 nowort:
-    in      a, (c)
-    or      a
-    jr      z, nowort
+        in      a, (c)
+        or      a
+        jr      z, nowort
 
-		;read data word
-    inc     c                           ;&FF1D
-    in      a, (c)
-    ld      (hl), a                     ;put data into the pointer supplied
+        ;read data word
+        inc     c       ;&FF1D
+        in      a,    (c)
+        ld      (hl), a ;put data into the pointer supplied
 
-    ld      hl, 0                       ; RS_ERR_OK
-    ret
-
+        ld      hl, 0   ; RS_ERR_OK
+        ret

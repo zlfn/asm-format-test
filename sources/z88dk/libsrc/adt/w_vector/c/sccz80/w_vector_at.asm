@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _w_vector_at
 defc _w_vector_at = w_vector_at
 ENDIF
-

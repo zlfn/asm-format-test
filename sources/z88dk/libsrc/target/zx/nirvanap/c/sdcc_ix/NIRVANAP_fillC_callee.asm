@@ -16,11 +16,11 @@ EXTERN asm_NIRVANAP_fillC
 
 _NIRVANAP_fillC_callee:
 
-   pop hl
-   pop de          ; d = lin
-   ld c,e          ; c = attr
-   dec sp
-   ex (sp),hl
-   ld e,h          ; e = col
+        pop     hl
+        pop     de      ; d = lin
+        ld      c, e    ; c = attr
+        dec     sp
+        ex      (sp), hl
+        ld      e,    h ; e = col
 
-	jp asm_NIRVANAP_fillC
+        jp      asm_NIRVANAP_fillC

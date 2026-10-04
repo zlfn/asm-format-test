@@ -15,8 +15,8 @@ EXTERN asm_BIFROSTL_getAnimGroup
 
 _BIFROSTL_getAnimGroup:
 
-   ld hl,2
-	add hl,sp
-	ld l,(hl)
-	
-	jp asm_BIFROSTL_getAnimGroup
+        ld      hl, 2
+        add     hl, sp
+        ld      l,  (hl)
+
+        jp      asm_BIFROSTL_getAnimGroup

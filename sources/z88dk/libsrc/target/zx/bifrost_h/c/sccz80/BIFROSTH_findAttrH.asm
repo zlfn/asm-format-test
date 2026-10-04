@@ -15,18 +15,17 @@ EXTERN asm_BIFROSTH_findAttrH
 
 BIFROSTH_findAttrH:
 
-        ld hl,2
-        add hl,sp
-        ld c,(hl)       ; C=col
-        inc hl
-        inc hl
-        ld l,(hl)       ; L=lin
+        ld      hl, 2
+        add     hl, sp
+        ld      c,  (hl)        ; C=col
+        inc     hl
+        inc     hl
+        ld      l, (hl)         ; L=lin
 
-   	  jp asm_BIFROSTH_findAttrH
+        jp      asm_BIFROSTH_findAttrH
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _BIFROSTH_findAttrH
 defc _BIFROSTH_findAttrH = BIFROSTH_findAttrH
 ENDIF
-

@@ -3,25 +3,23 @@
 ; Marco van den Heuvel, 2010-01-27
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "em-kernel.inc"
-        .include        "em-error.inc"
+        .include "em-kernel.inc"
+        .include "em-error.inc"
 
-
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c64_dqbb_emd
+        module_header _c64_dqbb_emd
 
 ; Driver signature
 
-        .byte   $65, $6d, $64           ; "emd"
-        .byte   EMD_API_VERSION         ; EM API version number
+        .byte   $65, $6d, $64   ; "emd"
+        .byte   EMD_API_VERSION ; EM API version number
 
 ; Library reference
 
@@ -83,7 +81,6 @@ present:
 .reloc
 .endproc
 
-
 .proc   copy
 template:
 .org    ::TARGETLOC             ; Assemble for target location
@@ -94,7 +91,7 @@ entry:
         lda     #$37
         sta     $01
 address         := *+1          ; Patched at runtime
-        lda     ($00),y
+        lda     ($00), y
         stx     $01
         ldx     #$90
         stx     CONTROL
@@ -108,7 +105,7 @@ address         := *+1          ; Patched at runtime
         sty     $01
         ldy     #$00
 address         := *+1          ; Patched at runtime
-        sta     ($00),y
+        sta     ($00), y
         stx     $01
         ldx     #$90
         stx     CONTROL
@@ -117,17 +114,14 @@ address         := *+1          ; Patched at runtime
 .reloc
 .endproc
 
-
 .bss
 
-curpage:        .res    1               ; Current page number
-window:         .res    256             ; Memory "window"
+curpage: .res   1       ; Current page number
+window: .res    256     ; Memory "window"
 
 ; Since the functions above are copied to $200, the current contents of this
 ; memory area must be saved into backup storage. Allocate enough space.
-backup:         .res    .max (.sizeof (copy), .sizeof (check))
-
-
+backup: .res    .max (.sizeof (copy), .sizeof (check))
 
 .code
 
@@ -148,7 +142,7 @@ INSTALL:
         cpy     #$01
         beq     @present
         lda     #EM_ERR_NO_DEVICE
-        ldx     #0 ; return value is char
+        ldx     #0      ; return value is char
         rts
 
 @present:
@@ -164,7 +158,6 @@ INSTALL:
 
 UNINSTALL:
         rts
-
 
 ; ------------------------------------------------------------------------
 ; PAGECOUNT: Return the total number of available pages in a/x.
@@ -183,7 +176,7 @@ PAGECOUNT:
 
 MAP:
         sei
-        sta     curpage         ; Remember the new page
+        sta     curpage ; Remember the new page
         clc
         adc     #>BASE
         sta     ptr1+1
@@ -196,7 +189,7 @@ MAP:
         ldx     #$14
         jsr     copy::fetch
         ldx     ptr1
-        sta     window,x
+        sta     window, x
         inc     ptr1
         bne     @L1
 
@@ -204,7 +197,7 @@ MAP:
 
         jsr     restore_copy_routine
         lda     #<window
-        ldx     #>window                ; Return the window address
+        ldx     #>window        ; Return the window address
         cli
         rts
 
@@ -213,7 +206,7 @@ MAP:
 
 USE:    sta     curpage         ; Remember the page
         lda     #<window
-        ldx     #>window                ; Return the window
+        ldx     #>window        ; Return the window
         rts
 
 ; ------------------------------------------------------------------------
@@ -221,7 +214,7 @@ USE:    sta     curpage         ; Remember the page
 
 COMMIT:
         sei
-        lda     curpage         ; Get the current page
+        lda     curpage ; Get the current page
         clc
         adc     #>BASE
         sta     ptr1+1
@@ -232,7 +225,7 @@ COMMIT:
         stx     copy::stash::address
 @L1:
         ldx     ptr1
-        lda     window,x
+        lda     window, x
         ldx     #$14
         jsr     copy::stash
         inc     ptr1
@@ -249,7 +242,6 @@ COMMIT:
 ; describing the request is passed in a/x.
 ; The function must not return anything.
 ;
-
 
 COPYFROM:
         sei
@@ -279,7 +271,7 @@ COPYFROM:
         ldy     #0
         jsr     copy::fetch
         ldy     tmp1
-        sta     (ptr2),y
+        sta     (ptr2), y
         inc     tmp1
         bne     @L2
         inc     ptr2+1
@@ -335,7 +327,7 @@ COPYTO:
 
 @L1:
         ldy     tmp1
-        lda     (ptr2),y
+        lda     (ptr2), y
         ldx     #$14
         ldy     #0
         jsr     copy::stash
@@ -369,14 +361,14 @@ COPYTO:
 
 setup:
         sta     ptr1
-        stx     ptr1+1          ; Save passed pointer
+        stx     ptr1+1  ; Save passed pointer
 
 ; Get the page number from the struct and adjust it so that it may be used
 ; with the hardware. That is: ptr4 has the page address and page offset
 ; tmp2 will hold the bank value
 
         ldy     #EM_COPY::PAGE
-        lda     (ptr1),y
+        lda     (ptr1), y
         clc
         adc     #>BASE
         sta     ptr4+1
@@ -384,27 +376,27 @@ setup:
 ; Get the buffer pointer into ptr2
 
         ldy     #EM_COPY::BUF
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     ptr2
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     ptr2+1
 
 ; Get the count, calculate -(count-1) and store it into ptr3
 
         ldy     #EM_COPY::COUNT
-        lda     (ptr1),y
+        lda     (ptr1), y
         eor     #$FF
         sta     ptr3
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         eor     #$FF
         sta     ptr3+1
 
 ; Get the page offset into ptr4 and clear tmp1
 
         ldy     #EM_COPY::OFFS
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     ptr4
         lda     #0
         sta     tmp1
@@ -418,10 +410,10 @@ setup:
 backup_and_setup_copy_routine:
         ldx     #.sizeof (copy) - 1
 @L1:
-        lda     copy::entry,x
-        sta     backup,x
-        lda     copy::template,x
-        sta     copy::entry,x
+        lda     copy::entry, x
+        sta     backup, x
+        lda     copy::template, x
+        sta     copy::entry,    x
         dex
         bpl     @L1
         rts
@@ -429,10 +421,10 @@ backup_and_setup_copy_routine:
 backup_and_setup_check_routine:
         ldx     #.sizeof (check) - 1
 @L1:
-        lda     check::entry,x
-        sta     backup,x
-        lda     check::template,x
-        sta     check::entry,x
+        lda     check::entry, x
+        sta     backup, x
+        lda     check::template, x
+        sta     check::entry,    x
         dex
         bpl     @L1
         rts
@@ -440,8 +432,8 @@ backup_and_setup_check_routine:
 restore_copy_routine:
         ldx     #.sizeof (copy) - 1
 restore_data:
-        lda     backup,x
-        sta     TARGETLOC,x
+        lda     backup,    x
+        sta     TARGETLOC, x
         dex
         bpl     restore_data
         rts

@@ -5,9 +5,8 @@
 ;
 ; "color" value is a palette index (0..3) or COLOR_xxx value (0..3)
 
-        .export         _textcolor
-        .import         conio_color
-
+        .export _textcolor
+        .import conio_color
 
 _textcolor:
         ; move bits #0 and #1 to bits #6 and #7

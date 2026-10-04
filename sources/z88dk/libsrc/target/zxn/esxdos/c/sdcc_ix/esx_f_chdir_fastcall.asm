@@ -8,9 +8,9 @@ EXTERN asm_esx_f_chdir
 
 _esx_f_chdir_fastcall:
 
-   push ix
-   
-   call asm_esx_f_chdir
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_chdir
+
+        pop     ix
+        ret

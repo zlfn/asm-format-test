@@ -12,7 +12,7 @@
 ;  Einar Saukas and optimized for speed by spke. This decompressor is
 ;  about 5% faster than the "Turbo" decompressor, which is 128 bytes long.
 ;  It has about the same speed as the 412 bytes version of the "Mega" decompressor.
-;  
+;
 ;  The decompressor uses AF, AF', BC, DE, HL and IX and relies upon self-modified code.
 ;
 ;  The decompression is done in the standard way:
@@ -43,7 +43,7 @@
 ;  3. This notice may not be removed or altered from any source distribution.
 
 DecompressZX0:
-        scf 
+        scf
         ex      af, af'
         ld      ix, CopyMatch1
         ld      bc, $ffff
@@ -55,7 +55,7 @@ DecompressZX0:
         ; 7-bit offsets allow additional optimizations, based on the facts that C==0 and AF' has C ON!
 ShorterOffsets:
         ex      af, af'
-        sbc     a, a
+        sbc     a,  a
         ld      (PrevOffset+2), a       ; the top byte of the offset is always $FF
         ld      a, (hl)
         inc     hl
@@ -63,33 +63,33 @@ ShorterOffsets:
         ld      (PrevOffset+1), a       ; note that AF' always has flag C ON
         jr      nc, LongerMatch
 
-CopyMatch2:                             ; the case of matches with len=2
+CopyMatch2:     ; the case of matches with len=2
         ex      af, af'
-        ld      c, 2
+        ld      c,  2
 
         ; the faster match copying code
 CopyMatch1:
-        push    hl                      ; preserve source
+        push    hl      ; preserve source
 
 PrevOffset:
-        ld      hl, $ffff               ; restore offset (default offset is -1)
-        add     hl, de                  ; HL = dest - offset
+        ld      hl, $ffff       ; restore offset (default offset is -1)
+        add     hl, de          ; HL = dest - offset
         ldir
-        pop     hl                      ; restore source
+        pop     hl              ; restore source
 
         ; after a match you can have either
         ; 0 + <elias length> = run of literals, or
         ; 1 + <elias offset msb> + [7-bits of offset lsb + 1-bit of length] + <elias length> = another match
 AfterMatch1:
-        add     a, a
+        add     a,  a
         jr      nc, RunOfLiterals
 
 UsualMatch:                             ; this is the case of usual match+offset
-        add     a, a
+        add     a,  a
         jr      nc, LongerOffets
         jr      nz, ShorterOffsets      ; NZ after NC == "confirmed C"
-        
-        ld      a, (hl)                 ; reload bits
+
+        ld      a, (hl) ; reload bits
         inc     hl
         rla
 
@@ -98,9 +98,9 @@ UsualMatch:                             ; this is the case of usual match+offset
 LongerOffets:
         inc     c
 
-        add     a, a                    ; inline read gamma
+        add     a, a    ; inline read gamma
         rl      c
-        add     a, a
+        add     a,  a
         jr      nc, $-4
 
         call    z, ReloadReadGamma
@@ -109,9 +109,9 @@ ProcessOffset:
         ex      af, af'
         xor     a
         sub     c
-        ret     z                       ; end-of-data marker (only checked for longer offsets)
+        ret     z       ; end-of-data marker (only checked for longer offsets)
         rra
-        ld      (PrevOffset+2),a
+        ld      (PrevOffset+2), a
         ld      a, (hl)
         inc     hl
         rra
@@ -130,12 +130,12 @@ LongerMatch:
         scf
         ex      af, af'
 
-        add     a, a                    ; inline read gamma
+        add     a, a    ; inline read gamma
         rl      c
-        add     a, a
+        add     a,  a
         jr      nc, $-4
 
-        call    z,ReloadReadGamma
+        call    z, ReloadReadGamma
 
 CopyMatch3:
         push    hl                      ; preserve source
@@ -147,7 +147,7 @@ CopyMatch3:
         ldir
         inc     c
         ldi
-        pop     hl                      ; restore source
+        pop     hl      ; restore source
 
         ; after a match you can have either
         ; 0 + <elias length> = run of literals, or
@@ -158,25 +158,25 @@ AfterMatch3:
 
 RunOfLiterals:
         inc     c
-        add     a, a
+        add     a,  a
         jr      nc, LongerRun
-        jr      nz, CopyLiteral         ; NZ after NC == "confirmed C"
-        
-        ld      a, (hl)                 ; reload bits
+        jr      nz, CopyLiteral ; NZ after NC == "confirmed C"
+
+        ld      a, (hl) ; reload bits
         inc     hl
         rla
 
         jr      c, CopyLiteral
 
 LongerRun:
-        add     a, a                    ; inline read gamma
+        add     a, a    ; inline read gamma
         rl      c
-        add     a, a
+        add     a,  a
         jr      nc, $-4
 
         jr      nz, CopyLiterals
-        
-        ld      a, (hl)                 ; reload bits
+
+        ld      a, (hl) ; reload bits
         inc     hl
         rla
 
@@ -196,15 +196,15 @@ CopyLiteral:
 
 RepMatch:
         inc     c
-        add     a, a
+        add     a,  a
         jr      nc, LongerRepMatch
 IF __CPU_R4K__ | __CPU_R5K__
-        jp      nz, CopyMatch1          ; NZ after NC == "confirmed C"
+        jp      nz, CopyMatch1  ; NZ after NC == "confirmed C"
 ELSE
-        jr      nz, CopyMatch1          ; NZ after NC == "confirmed C"
+        jr      nz, CopyMatch1  ; NZ after NC == "confirmed C"
 ENDIF
-        
-        ld      a, (hl)                 ; reload bits
+
+        ld      a, (hl) ; reload bits
         inc     hl
         rla
 
@@ -215,9 +215,9 @@ ELSE
 ENDIF
 
 LongerRepMatch:
-        add     a, a                    ; inline read gamma
+        add     a, a    ; inline read gamma
         rl      c
-        add     a, a
+        add     a,  a
         jr      nc, $-4
 
         jp      nz, CopyMatch1
@@ -229,7 +229,7 @@ LongerRepMatch:
         ;  it has two entry points: ReloadReadGamma first refills the bit reservoir in A,
         ;  while ReadGammaAligned assumes that the bit reservoir has just been refilled.
 ReloadReadGamma:
-        ld      a, (hl)                 ; reload bits
+        ld      a, (hl) ; reload bits
         inc     hl
         rla
 
@@ -243,15 +243,15 @@ ReadGammaAligned:
         rl      c
         add     a, a
 
-ReadingLongGamma:                       ; this loop does not need unrolling, as it does not get much use anyway
+ReadingLongGamma:       ; this loop does not need unrolling, as it does not get much use anyway
         ret     c
         add     a, a
         rl      c
         rl      b
-        add     a, a
+        add     a,  a
         jr      nz, ReadingLongGamma
 
-        ld      a, (hl)                 ; reload bits
+        ld      a, (hl) ; reload bits
         inc     hl
         rla
 

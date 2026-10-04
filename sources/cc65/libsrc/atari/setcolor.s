@@ -8,15 +8,14 @@
 ; unsigned char __fastcall__ _getcolor (unsigned char color_reg);
 ;
 
-
-        .export         __setcolor, __setcolor_low, __getcolor
-        .import         popa
-        .include        "atari.inc"
+        .export __setcolor, __setcolor_low, __getcolor
+        .import popa
+        .include "atari.inc"
 
 .proc   __getcolor
 
         tax
-        lda     COLOR0,x        ; get current value
+        lda     COLOR0, x       ; get current value
         ldx     #0
         rts
 
@@ -25,8 +24,8 @@
 .proc   __setcolor
 
 ;       asl     a               ; not -> BASIC compatible
-        sta     lum             ; remember luminance
-        jsr     popa            ; get hue
+        sta     lum     ; remember luminance
+        jsr     popa    ; get hue
         asl     a
         asl     a
         asl     a
@@ -42,7 +41,7 @@
         jsr     popa
         tax
         pla
-        sta     COLOR0,x
+        sta     COLOR0, x
         rts
 
 .endproc

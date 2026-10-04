@@ -9,36 +9,36 @@ EXTERN l0_sp1_MoveSprAbs_callee
 
 _sp1_MoveSprAbs:
 
-   ld hl,2
-   add hl,sp
-   
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   push de
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   push de
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   push de
-   ld d,(hl)
-   inc hl
-   inc hl
-   ld e,(hl)
-   inc hl
-   inc hl
-   ld c,(hl)
-   inc hl
-   inc hl
-   ld b,(hl)
-   
-   pop hl
-   pop iy
+        ld      hl, 2
+        add     hl, sp
 
-   jp l0_sp1_MoveSprAbs_callee
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        push    de
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        push    de
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        push    de
+        ld      d, (hl)
+        inc     hl
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        inc     hl
+        ld      c, (hl)
+        inc     hl
+        inc     hl
+        ld      b, (hl)
+
+        pop     hl
+        pop     iy
+
+        jp      l0_sp1_MoveSprAbs_callee

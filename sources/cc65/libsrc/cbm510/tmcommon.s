@@ -4,12 +4,11 @@
 ; Common stuff for the clock routines
 ;
 
-        .include        "cbm510.inc"
+        .include "cbm510.inc"
 
-        .export         TM, load_tenth
+        .export TM, load_tenth
 
-        .importzp       sreg
-
+        .importzp sreg
 
 ;----------------------------------------------------------------------------
 .code
@@ -30,12 +29,12 @@
 ; TM struct with date set to 1970-01-01
 .data
 
-TM:     .word           0       ; tm_sec
-        .word           0       ; tm_min
-        .word           0       ; tm_hour
-        .word           1       ; tm_mday
-        .word           0       ; tm_mon
-        .word           70      ; tm_year
-        .word           0       ; tm_wday
-        .word           0       ; tm_yday
-        .word           0       ; tm_isdst
+TM:     .word   0       ; tm_sec
+        .word   0       ; tm_min
+        .word   0       ; tm_hour
+        .word   1       ; tm_mday
+        .word   0       ; tm_mon
+        .word   70      ; tm_year
+        .word   0       ; tm_wday
+        .word   0       ; tm_yday
+        .word   0       ; tm_isdst

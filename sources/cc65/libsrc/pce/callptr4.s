@@ -4,8 +4,8 @@
 ; 2018-02-28, Greg King
 ;
 
-        .export         callptr4
-        .importzp       ptr4
+        .export callptr4
+        .importzp ptr4
 
 callptr4:
 

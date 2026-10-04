@@ -4,8 +4,8 @@
 ; CC65 runtime: Scale the 32 bit primary register by 4
 ;
 
-        .export         shreax2
-        .importzp       sreg, tmp1
+        .export shreax2
+        .importzp sreg, tmp1
 
 shreax2:
         stx     tmp1
@@ -19,4 +19,3 @@ shreax2:
         ror     a
         ldx     tmp1
         rts
-

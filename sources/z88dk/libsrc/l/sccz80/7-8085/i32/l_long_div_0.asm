@@ -36,182 +36,182 @@ PUBLIC  l_long_div_0
 defc DIV16_FASTPATH = 1
 
 .l_long_div_0
-    ;----- compute skip = bitlen(divisor) - 1; B = 32 - skip -----
-    ld      de,sp+10
-    ld      a,(de+)
-    ld      c,a
-    ld      a,(de)
-    ld      b,a                 ; BC = div MSW
-    or      c
-    ld      e,16                ; E = 16 if MSW half, else 0
-    jp      nz,half_ready
-    IF DIV16_FASTPATH
-    jp      div16               ; MSW == 0 -> the 16-bit-divisor fast path
-    ENDIF
-    ld      de,sp+8
-    ld      a,(de+)
-    ld      c,a
-    ld      a,(de)
-    ld      b,a                 ; BC = div LSW
-    or      c
-    jp      z,full_32           ; div 0 → full width
-    ld      e,0
+        ;----- compute skip = bitlen(divisor) - 1; B = 32 - skip -----
+        ld      de, sp+10
+        ld      a,  (de+)
+        ld      c,  a
+        ld      a,  (de)
+        ld      b,  a           ; BC = div MSW
+        or      c
+        ld      e,  16          ; E = 16 if MSW half, else 0
+        jp      nz, half_ready
+        IF      DIV16_FASTPATH
+                jp      div16   ; MSW == 0 -> the 16-bit-divisor fast path
+        ENDIF
+        ld      de, sp+8
+        ld      a,  (de+)
+        ld      c,  a
+        ld      a,  (de)
+        ld      b,  a           ; BC = div LSW
+        or      c
+        jp      z, full_32      ; div 0 → full width
+        ld      e, 0
 .half_ready
-    ; BC = nonzero half; E = 0 or 16
-    ; Find bitlen within half using left shifts into Carry.
-    ; Counter in D (1..16). 8085 has no rl b — shift B via A.
-    ld      d,16
+        ; BC = nonzero half; E = 0 or 16
+        ; Find bitlen within half using left shifts into Carry.
+        ; Counter in D (1..16). 8085 has no rl b — shift B via A.
+        ld      d, 16
 .scan
-    ld      a,c
-    add     a,a                 ; sla c (8085: no CB-prefix sla)
-    ld      c,a
-    ld      a,b
-    adc     a,a                 ; rl b
-    ld      b,a
-    jp      c,scan_hit
-    dec     d
-    jp      nz,scan
-    ld      d,1                 ; should not happen
+        ld      a, c
+        add     a, a    ; sla c (8085: no CB-prefix sla)
+        ld      c, a
+        ld      a, b
+        adc     a, a    ; rl b
+        ld      b, a
+        jp      c, scan_hit
+        dec     d
+        jp      nz, scan
+        ld      d,  1   ; should not happen
 .scan_hit
-    ; D = bitlen in half (1..16); total bitlen = D + E
-    ld      a,d
-    add     e                   ; A = bitlen (1..32)
-    ld      c,a                 ; C = bitlen
-    ld      a,32
-    sub     c                   ; A = 32 - bitlen
-    inc     a                   ; A = remaining iterations = 33 - bitlen
-    ld      b,a                 ; B = remaining full iterations
-    ld      a,c
-    dec     a                   ; A = skip
-    jp      z,pre_loop          ; bitlen==1 → no batch
-    ld      c,a                 ; C = skip count
-    or      a                   ; clear Carry (first qbit in = 0)
+        ; D = bitlen in half (1..16); total bitlen = D + E
+        ld      a, d
+        add     e               ; A = bitlen (1..32)
+        ld      c, a            ; C = bitlen
+        ld      a, 32
+        sub     c               ; A = 32 - bitlen
+        inc     a               ; A = remaining iterations = 33 - bitlen
+        ld      b, a            ; B = remaining full iterations
+        ld      a, c
+        dec     a               ; A = skip
+        jp      z, pre_loop     ; bitlen==1 → no batch
+        ld      c, a            ; C = skip count
+        or      a               ; clear Carry (first qbit in = 0)
 
-    ;----- batch skip shift-only steps (qbit always 0) -----
+        ;----- batch skip shift-only steps (qbit always 0) -----
 .batch
-    ld      de,sp+14
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de),a
+        ld      de, sp+14
+        ld      a,  (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de), a
 
-    ld      de,sp+4
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de),a
+        ld      de, sp+4
+        ld      a,  (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de), a
 
-    xor     a                   ; C flag = 0 for next qbit
-    dec     c
-    jp      nz,batch
-    jp      div_loop            ; B = remaining; C flag = 0
+        xor     a               ; C flag = 0 for next qbit
+        dec     c
+        jp      nz, batch
+        jp      div_loop        ; B = remaining; C flag = 0
 
 .full_32
-    ld      b,32
+        ld      b, 32
 .pre_loop
-    or      a                   ; clear Carry
+        or      a       ; clear Carry
 
-    ;----- main restoring loop (original body) -----
+        ;----- main restoring loop (original body) -----
 .div_loop
-    ld      de,sp+14
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de),a
+        ld      de, sp+14
+        ld      a,  (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de), a
 
-    ld      de,sp+4
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de),a
+        ld      de, sp+4
+        ld      a,  (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de), a
 
-    ld      de,sp+8
-    ex      de,hl
-    ld      de,sp+4
+        ld      de, sp+8
+        ex      de, hl
+        ld      de, sp+4
 
-    ld      a,(de+)
-    sub     a,(hl+)
-    ld      a,(de+)
-    sbc     a,(hl+)
-    ld      a,(de+)
-    sbc     a,(hl+)
-    ld      a,(de)
-    sbc     a,(hl)
+        ld      a, (de+)
+        sub     a, (hl+)
+        ld      a, (de+)
+        sbc     a, (hl+)
+        ld      a, (de+)
+        sbc     a, (hl+)
+        ld      a, (de)
+        sbc     a, (hl)
 
-    jp      c,skip_subtract
+        jp      c, skip_subtract
 
-    ld      de,sp+8
-    ex      de,hl
-    ld      de,sp+4
+        ld      de, sp+8
+        ex      de, hl
+        ld      de, sp+4
 
-    ld      a,(de)
-    sub     a,(hl+)
-    ld      (de+),a
-    ld      a,(de)
-    sbc     a,(hl+)
-    ld      (de+),a
-    ld      a,(de)
-    sbc     a,(hl+)
-    ld      (de+),a
-    ld      a,(de)
-    sbc     a,(hl)
-    ld      (de),a
+        ld      a,     (de)
+        sub     a,     (hl+)
+        ld      (de+), a
+        ld      a,     (de)
+        sbc     a,     (hl+)
+        ld      (de+), a
+        ld      a,     (de)
+        sbc     a,     (hl+)
+        ld      (de+), a
+        ld      a,     (de)
+        sbc     a,     (hl)
+        ld      (de),  a
 
 .skip_subtract
-    ccf
-    dec     b
-    jp      nz,div_loop
+        ccf
+        dec     b
+        jp      nz, div_loop
 
-    ;----- final quotient bit into dividend -----
-    ld      de,sp+14
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de+),a
-    ld      a,(de)
-    rla
-    ld      (de),a
+        ;----- final quotient bit into dividend -----
+        ld      de, sp+14
+        ld      a,  (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de+), a
+        ld      a,     (de)
+        rla
+        ld      (de), a
 
-    ret
+        ret
 
-    IF DIV16_FASTPATH
+        IF      DIV16_FASTPATH
 ;===============================================================================
 ; 16-bit-divisor fast path.  Taken whenever the divisor's MSW is zero, which is
 ; the common case in C (dividing a long by an int or a small constant).
@@ -234,76 +234,76 @@ defc DIV16_FASTPATH = 1
 ; R17-D, because R17-D < D <= 0xFFFF.
 ;===============================================================================
 .div16
-    ld      de,sp+8
-    ld      hl,(de)
-    ld      a,h
-    or      l
-    jp      z,full_32           ; divisor 0 -> generic path handles it
-    ld      bc,hl               ; BC = divisor (MSW known zero)
+                ld      de, sp+8
+                ld      hl, (de)
+                ld      a,  h
+                or      l
+                jp      z,  full_32     ; divisor 0 -> generic path handles it
+                ld      bc, hl          ; BC = divisor (MSW known zero)
 
-    ld      de,sp+16
-    ld      hl,(de)             ; HL = dividend MSW
-    ld      de,hl               ; rem candidate = MSW
-    sub     hl,bc
-    jp      nc,d16_msw_ge       ; MSW >= D: need a real first pass
-    ld      hl,0                ; MSW < D: quot MSW = 0, DE = rem = MSW
+                ld      de, sp+16
+                ld      hl, (de)        ; HL = dividend MSW
+                ld      de, hl          ; rem candidate = MSW
+                sub     hl, bc
+                jp      nc, d16_msw_ge  ; MSW >= D: need a real first pass
+                ld      hl, 0           ; MSW < D: quot MSW = 0, DE = rem = MSW
 .d16_have_msw
-    ; HL = quot MSW, DE = rem.  Write MSW now so the second pass sits
-    ; on the original frame (no stacked quot).
-    push    de                  ; rem                              (sp +2)
-    ld      de,sp+18            ; quot MSW slot (16 + 2)
-    ld      (de),hl
-    ld      de,sp+16            ; dividend LSW (14 + 2)
-    ld      hl,(de)
-    pop     de                  ; rem
-    call    d16_pass            ; -> HL = quot LSW, DE = rem
+                ; HL = quot MSW, DE = rem.  Write MSW now so the second pass sits
+                ; on the original frame (no stacked quot).
+                push    de              ; rem                              (sp +2)
+                ld      de,   sp+18     ; quot MSW slot (16 + 2)
+                ld      (de), hl
+                ld      de,   sp+16     ; dividend LSW (14 + 2)
+                ld      hl,   (de)
+                pop     de              ; rem
+                call    d16_pass        ; -> HL = quot LSW, DE = rem
 
-    ld      bc,hl               ; park quot LSW (divisor dead)
-    ld      hl,de
-    ld      de,sp+4             ; remainder LSW
-    ld      (de),hl
-    ld      hl,0
-    ld      de,sp+6             ; remainder MSW - always zero
-    ld      (de),hl
-    ld      hl,bc
-    ld      de,sp+14            ; quot LSW
-    ld      (de),hl
-    ret
+                ld      bc,   hl        ; park quot LSW (divisor dead)
+                ld      hl,   de
+                ld      de,   sp+4      ; remainder LSW
+                ld      (de), hl
+                ld      hl,   0
+                ld      de,   sp+6      ; remainder MSW - always zero
+                ld      (de), hl
+                ld      hl,   bc
+                ld      de,   sp+14     ; quot LSW
+                ld      (de), hl
+                ret
 
 .d16_msw_ge
-    ld      hl,de               ; restore MSW
-    ld      de,0                ; rem = 0
-    call    d16_pass            ; -> HL = quot MSW, DE = rem
-    jp      d16_have_msw
+                ld      hl, de          ; restore MSW
+                ld      de, 0           ; rem = 0
+                call    d16_pass        ; -> HL = quot MSW, DE = rem
+                jp      d16_have_msw
 
 ; One 16-bit pass.  HL = dividend half in, quotient half out; DE = remainder in
 ; and out; BC = divisor; A destroyed.  NB no sp-relative access in here - the
 ; call has shifted sp by 2.  add hl,hl ignores carry in, so the entry C is
 ; irrelevant.
 .d16_pass
-    ld      a,16
+                ld      a, 16
 .d16_loop
-    add     hl,hl               ; Q <<= 1 (bit 0 clear), CF = dividend MSB
-    rl      de                  ; R = (R<<1)|CF, CF = R bit 16
-    jp      c,d16_force
-    ex      de,hl               ; HL = R, DE = Q
-    sub     hl,bc               ; R - D
-    jp      c,d16_restore       ; borrow: R < D, quotient bit 0
-    ex      de,hl               ; DE = R', HL = Q
-    inc     hl                  ; quotient bit 1
+                add     hl, hl          ; Q <<= 1 (bit 0 clear), CF = dividend MSB
+                rl      de              ; R = (R<<1)|CF, CF = R bit 16
+                jp      c,  d16_force
+                ex      de, hl          ; HL = R, DE = Q
+                sub     hl, bc          ; R - D
+                jp      c,  d16_restore ; borrow: R < D, quotient bit 0
+                ex      de, hl          ; DE = R', HL = Q
+                inc     hl              ; quotient bit 1
 .d16_next
-    dec     a
-    jp      nz,d16_loop
-    ret
+                dec     a
+                jp      nz, d16_loop
+                ret
 .d16_restore
-    add     hl,bc               ; undo the trial subtract
-    ex      de,hl
-    jp      d16_next
+                add     hl, bc          ; undo the trial subtract
+                ex      de, hl
+                jp      d16_next
 .d16_force
-    ex      de,hl               ; R had bit 16: subtract unconditionally
-    sub     hl,bc
-    ex      de,hl
-    inc     hl
-    jp      d16_next
+                ex      de, hl          ; R had bit 16: subtract unconditionally
+                sub     hl, bc
+                ex      de, hl
+                inc     hl
+                jp      d16_next
 
-    ENDIF
+        ENDIF

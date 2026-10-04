@@ -8,8 +8,8 @@ SECTION code_l_sccz80
 PUBLIC l_gint4
 
 l_gint4:
-   ld bc,4
-   add hl,bc
-   ld hl,(hl)
+        ld      bc, 4
+        add     hl, bc
+        ld      hl, (hl)
 
-   ret
+        ret

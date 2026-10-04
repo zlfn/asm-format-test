@@ -10,7 +10,7 @@
 ;-------------------------------------------------------------------------
 ;  asm_am9511_popl - am9511 APU pop long
 ;-------------------------------------------------------------------------
-; 
+;
 ;  Load long from Am9511 APU stack
 ;
 ;-------------------------------------------------------------------------
@@ -22,35 +22,33 @@ INCLUDE "../../newlib/target/am9511/config_am9511_private.inc"
 
 PUBLIC asm_am9511_popl
 
-
 .am9511_popl_wait
-    ex (sp),hl
-    ex (sp),hl
+        ex      (sp), hl
+        ex      (sp), hl
 
 .asm_am9511_popl
 
-    ; float primitive
-    ; pop a long from the Am9511 stack.
-    ;
-    ; enter : stack = ret0
-    ;
-    ; exit  :  dehl = long
-    ; 
-    ; uses  : af, de, hl
+        ; float primitive
+        ; pop a long from the Am9511 stack.
+        ;
+        ; enter : stack = ret0
+        ;
+        ; exit  :  dehl = long
+        ;
+        ; uses  : af, de, hl
 
-    AM9511_IN_APU_STATUS      ; read the APU status register
-    rlca                        ; busy? and __IO_APU_STATUS_BUSY
-    jp C,am9511_popl_wait
+        AM9511_IN_APU_STATUS    ; read the APU status register
+        rlca                    ; busy? and __IO_APU_STATUS_BUSY
+        jp      C, am9511_popl_wait
 
-    AM9511_IN_APU_DATA        ; load MSW from APU
-    ld d,a
-    AM9511_IN_APU_DATA
-    ld e,a
+        AM9511_IN_APU_DATA      ; load MSW from APU
+        ld      d, a
+        AM9511_IN_APU_DATA
+        ld      e, a
 
-    AM9511_IN_APU_DATA        ; load LSW from APU
-    ld h,a
-    AM9511_IN_APU_DATA
-    ld l,a
+        AM9511_IN_APU_DATA      ; load LSW from APU
+        ld      h, a
+        AM9511_IN_APU_DATA
+        ld      l, a
 
-    ret
-
+        ret

@@ -27,54 +27,54 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _strcmp
+        .module _strcmp
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl _strcmp_PARM_2
-	.globl _strcmp
+        .globl  _strcmp_PARM_2
+        .globl  _strcmp
 
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 _strcmp_PARM_2:
-	.ds 2
+        .ds     2
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define _str2 "_strcmp_PARM_2"
-	.define _str1 "DPTR"
+        .define _str2 "_strcmp_PARM_2"
+        .define _str1 "DPTR"
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 _strcmp:
-	sta	*_str1+0
-	stx	*_str1+1
+        sta     *_str1+0
+        stx     *_str1+1
 
-	ldy	#0
+        ldy     #0
 loop:
-	lda	[_str1],y
-	cmp	[_str2],y
-	bne	L1
-	tax
-	beq	end
-	iny
-	bne	loop
-	inc	*_str1+1
-	inc	*_str2+1
-	bne	loop
+        lda     [_str1], y
+        cmp     [_str2], y
+        bne     L1
+        tax
+        beq     end
+        iny
+        bne     loop
+        inc     *_str1+1
+        inc     *_str2+1
+        bne     loop
 L1:
 ; return the exact difference - common behavior but not required by the standard
 ;	sec
 ;	sbc	[_str2],y
 
-	ldx	#0x00
-	bcs	end
-	dex
+        ldx     #0x00
+        bcs     end
+        dex
 end:
-	rts
+        rts

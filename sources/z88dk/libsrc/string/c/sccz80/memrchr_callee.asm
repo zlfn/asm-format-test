@@ -10,15 +10,15 @@ EXTERN asm_memrchr
 
 memrchr_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
 
 l0_memrchr_callee:
-   ld a,e
+        ld      a, e
 
-   jp asm_memrchr
+        jp      asm_memrchr
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -26,10 +26,8 @@ PUBLIC _memrchr_callee
 defc _memrchr_callee = memrchr_callee
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___memrchr_callee
 defc ___memrchr_callee = memrchr_callee
 ENDIF
-

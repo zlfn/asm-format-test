@@ -9,11 +9,11 @@ PUBLIC atoi
 EXTERN asm_atoi
 
 atoi:
-   pop de
-   pop hl
-   push hl
-   push de
-   jp asm_atoi
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        jp      asm_atoi
 
 ; SDCC bridge for Classic
 IF __CLASSIC

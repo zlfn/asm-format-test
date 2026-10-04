@@ -5,13 +5,13 @@
 ; Oliver Schmidt <ol.sc@web.de>
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-error.inc"
-        .include        "apple2.inc"
+        .include "tgi-kernel.inc"
+        .include "tgi-error.inc"
+        .include "apple2.inc"
 
-        .macpack        module
+        .macpack module
 
 ; ------------------------------------------------------------------------
 
@@ -41,9 +41,9 @@ Y2      :=      ptr4
 ; ------------------------------------------------------------------------
 
         .ifdef  __APPLE2ENH__
-        module_header   _a2e_lo_tgi
+                module_header _a2e_lo_tgi
         .else
-        module_header   _a2_lo_tgi
+                module_header _a2_lo_tgi
         .endif
 
 ; Header. Includes jump table and constants.
@@ -90,8 +90,8 @@ libref: .addr   $0000           ; Library reference
 
         .bss
 
-ERROR:  .res    1               ; Error code
-MIX:    .res    1               ; 4 lines of text
+ERROR:  .res    1       ; Error code
+MIX:    .res    1       ; 4 lines of text
 
 .ifndef __APPLE2ENH__
 machinetype: .res 1
@@ -102,15 +102,15 @@ machinetype: .res 1
         .rodata
 
 DEFPALETTE: .byte $00, $01, $02, $03, $04, $05, $06, $07
-            .byte $08, $09, $0A, $0B, $0C, $0D, $0E, $0F
+        .byte   $08, $09, $0A, $0B, $0C, $0D, $0E, $0F
 
-TGI2COL:    .byte $00, $0C, $03, $0F, $01, $09, $06, $02
-            .byte $04, $05, $07, $08, $0A, $0B, $0D, $0E
+TGI2COL: .byte  $00, $0C, $03, $0F, $01, $09, $06, $02
+        .byte   $04, $05, $07, $08, $0A, $0B, $0D, $0E
 
-COL2TGI:    .byte $00, $04, $07, $02, $08, $09, $06, $0A
-            .byte $0B, $05, $0C, $0D, $01, $0E, $0F, $03
+COL2TGI: .byte  $00, $04, $07, $02, $08, $09, $06, $0A
+        .byte   $0B, $05, $0C, $0D, $01, $0E, $0F, $03
 
-MAXY:   .byte 47, 39
+MAXY:   .byte   47, 39
 
 ; ------------------------------------------------------------------------
 
@@ -127,18 +127,18 @@ MAXY:   .byte 47, 39
 ; Must set an error code: YES
 INIT:
         ; Switch into graphics mode
-        bit     $C082           ; Switch in ROM
+        bit     $C082   ; Switch in ROM
         jsr     SETGR
         bit     MIXCLR
 
-        .ifndef  __APPLE2ENH__
-        bit     machinetype
-        bpl     lc_in
+        .ifndef __APPLE2ENH__
+                bit     machinetype
+                bpl     lc_in
         .endif
 
         sta     IOUDISON
         bit     DHIRESOFF
-lc_in:  bit     $C080           ; Switch in LC bank 2 for R/O
+lc_in:  bit     $C080   ; Switch in LC bank 2 for R/O
 
         ; Done, reset the error code
         lda     #TGI_ERR_OK
@@ -153,14 +153,14 @@ lc_in:  bit     $C080           ; Switch in LC bank 2 for R/O
 ; Must set an error code: NO
 INSTALL:
         .ifndef __APPLE2ENH__
-        lda     libref
-        ldx     libref+1
-        sta     ptr1
-        stx     ptr1+1
-        ldy     #$0
-        lda     (ptr1),y
-        sta     machinetype
-        bpl     :+
+                lda     libref
+                ldx     libref+1
+                sta     ptr1
+                stx     ptr1+1
+                ldy     #$0
+                lda     (ptr1), y
+                sta     machinetype
+                bpl     :+
         .endif
         ; Fall through
 
@@ -200,10 +200,10 @@ OUTTEXT:
 ; so there is no need to protect against that.
 ; Must set an error code: NO
 DONE:
-        bit     $C082           ; Switch in ROM
+        bit     $C082   ; Switch in ROM
         jsr     TEXT
         jsr     HOME
-        bit     $C080           ; Switch in LC bank 2 for R/O
+        bit     $C080   ; Switch in LC bank 2 for R/O
         rts
 
 ; GETERROR: Return the error code in A and clear it.
@@ -216,26 +216,26 @@ GETERROR:
 ; CLEAR: Clears the screen.
 ; Must set an error code: NO
 CLEAR:
-        bit     $C082           ; Switch in ROM
-        lda     COLOR           ; Save current drawing color
+        bit     $C082   ; Switch in ROM
+        lda     COLOR   ; Save current drawing color
         pha
         ldx     MIX
-        ldy     MAXY,x          ; Max Y depends on 4 lines of text
+        ldy     MAXY, x ; Max Y depends on 4 lines of text
         jsr     CLRSC2
         pla
-        sta     COLOR           ; Restore current drawing color
-        bit     $C080           ; Switch in LC bank 2 for R/O
+        sta     COLOR   ; Restore current drawing color
+        bit     $C080   ; Switch in LC bank 2 for R/O
         rts
 
 ; SETCOLOR: Set the drawing color (in A). The new color is already checked
 ; to be in a valid range (0..maxcolor-1).
 ; Must set an error code: NO (will only be called if color ok)
 SETCOLOR:
-        bit     $C082           ; Switch in ROM
+        bit     $C082   ; Switch in ROM
         tax
-        lda     TGI2COL,x
+        lda     TGI2COL, x
         jsr     SETCOL
-        bit     $C080           ; Switch in LC bank 2 for R/O
+        bit     $C080   ; Switch in LC bank 2 for R/O
         rts
 
 ; CONTROL: Platform/driver specific entry point.
@@ -249,12 +249,12 @@ CONTROL:
         lda     ptr1
         cmp     #1+1
         bcs     err
-        bit     $C082           ; Switch in ROM
+        bit     $C082   ; Switch in ROM
 
         ; Switch 4 lines of text
         tax
         .assert MIXCLR + 1 = MIXSET, error
-        lda     MIXCLR,x        ; No BIT absolute,X available
+        lda     MIXCLR, x       ; No BIT absolute,X available
 
         ; Save current switch setting
         txa
@@ -262,29 +262,29 @@ CONTROL:
         bne     text
 
         ; Clear 8 lines of graphics
-        lda     COLOR           ; Save current drawing color
+        lda     COLOR   ; Save current drawing color
         pha
-        lda     #39             ; Rightmost column
+        lda     #39     ; Rightmost column
         sta     H2
-        ldx     #40             ; First line
+        ldx     #40     ; First line
 :       txa
-        ldy     #$00            ; Leftmost column
-        sty     COLOR           ; Black
-        jsr     HLINE           ; Preserves X
+        ldy     #$00    ; Leftmost column
+        sty     COLOR   ; Black
+        jsr     HLINE   ; Preserves X
         inx
-        cpx     #47+1           ; Last line
+        cpx     #47+1   ; Last line
         bcc     :-
         pla
-        sta     COLOR           ; Restore current drawing color
-        bcs     :+              ; Branch always
+        sta     COLOR   ; Restore current drawing color
+        bcs     :+      ; Branch always
 
         ; Clear 4 lines of text
 text:   jsr     HOME
-:       bit     $C080           ; Switch in LC bank 2 for R/O
+:       bit     $C080   ; Switch in LC bank 2 for R/O
 
         ; Done, reset the error code
         lda     #TGI_ERR_OK
-        beq     :+              ; Branch always
+        beq     :+      ; Branch always
 
         ; Done, set the error code
 err:    lda     #TGI_ERR_INV_ARG
@@ -322,25 +322,25 @@ GETDEFPALETTE:
 ; visible screen area, so there is no need for clipping inside this function.
 ; Must set an error code: NO
 SETPIXEL:
-        bit     $C082           ; Switch in ROM
+        bit     $C082   ; Switch in ROM
         ldy     X1
         lda     Y1
         jsr     PLOT
-        bit     $C080           ; Switch in LC bank 2 for R/O
+        bit     $C080   ; Switch in LC bank 2 for R/O
         rts
 
 ; GETPIXEL: Read the color value of a pixel and return it in A/X. The
 ; coordinates passed to this function are never outside the visible screen
 ; area, so there is no need for clipping inside this function.
 GETPIXEL:
-        bit     $C082           ; Switch in ROM
+        bit     $C082   ; Switch in ROM
         ldy     X1
         lda     Y1
         jsr     SCRN
         tax
-        lda     COL2TGI,x
+        lda     COL2TGI, x
         ldx     #>$0000
-        bit     $C080           ; Switch in LC bank 2 for R/O
+        bit     $C080   ; Switch in LC bank 2 for R/O
         rts
 
 ; BAR: Draw a filled rectangle with the corners X1/Y1, X2/Y2, where
@@ -356,18 +356,18 @@ GETPIXEL:
 ;       (Y2 >= 0) && (Y2 < YRES)
 ; Must set an error code: NO
 BAR:
-        bit     $C082           ; Switch in ROM
+        bit     $C082   ; Switch in ROM
         lda     X2
         sta     H2
         inc     Y2
         ldx     Y1
 :       txa
         ldy     X1
-        jsr     HLINE           ; Preserves X
+        jsr     HLINE   ; Preserves X
         inx
         cpx     Y2
         bcc     :-
-        bit     $C080           ; Switch in LC bank 2 for R/O
+        bit     $C080   ; Switch in LC bank 2 for R/O
         rts
 
 ; ------------------------------------------------------------------------

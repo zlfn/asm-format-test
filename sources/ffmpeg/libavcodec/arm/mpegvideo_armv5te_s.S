@@ -37,78 +37,78 @@
  */
 
 .macro  dequant_t       dst, src, mul, add, tmp
-        rsbs            \tmp, ip, \src, asr #16
-        it              gt
-        addgt           \tmp, \add, #0
-        it              lt
-        rsblt           \tmp, \add, #0
-        it              ne
-        smlatbne        \dst, \src, \mul, \tmp
+        rsbs    \tmp, ip, \src, asr #16
+        it      gt
+        addgt   \tmp, \add, #0
+        it      lt
+        rsblt   \tmp, \add, #0
+        it      ne
+        smlatbne \dst, \src, \mul, \tmp
 .endm
 
 .macro  dequant_b       dst, src, mul, add, tmp
-        rsbs            \tmp, ip, \src, lsl #16
-        it              gt
-        addgt           \tmp, \add, #0
-        it              lt
-        rsblt           \tmp, \add, #0
-        it              ne
-        smlabbne        \dst, \src, \mul, \tmp
+        rsbs    \tmp, ip, \src, lsl #16
+        it      gt
+        addgt   \tmp, \add, #0
+        it      lt
+        rsblt   \tmp, \add, #0
+        it      ne
+        smlabbne \dst, \src, \mul, \tmp
 .endm
 
 function ff_dct_unquantize_h263_armv5te, export=1
-        push            {r4-r9,lr}
-        mov             ip, #0
-        subs            r3, r3, #2
-        ble             2f
-        ldrd            r4, r5, [r0, #0]
+        push    {r4-r9,lr}
+        mov     ip, #0
+        subs    r3, r3, #2
+        ble     2f
+        ldrd    r4, r5, [r0, #0]
 1:
-        ldrd            r6, r7, [r0, #8]
+        ldrd    r6, r7, [r0, #8]
 
-        dequant_t       r9, r4, r1, r2, r9
-        dequant_t       lr, r5, r1, r2, lr
-        dequant_b       r4, r4, r1, r2, r8
-        dequant_b       r5, r5, r1, r2, r8
+        dequant_t r9, r4, r1, r2, r9
+        dequant_t lr, r5, r1, r2, lr
+        dequant_b r4, r4, r1, r2, r8
+        dequant_b r5, r5, r1, r2, r8
 
-        strh            r4, [r0], #2
-        strh            r9, [r0], #2
-        strh            r5, [r0], #2
-        strh            lr, [r0], #2
+        strh    r4, [r0], #2
+        strh    r9, [r0], #2
+        strh    r5, [r0], #2
+        strh    lr, [r0], #2
 
-        dequant_t       r9, r6, r1, r2, r9
-        dequant_t       lr, r7, r1, r2, lr
-        dequant_b       r6, r6, r1, r2, r8
-        dequant_b       r7, r7, r1, r2, r8
+        dequant_t r9, r6, r1, r2, r9
+        dequant_t lr, r7, r1, r2, lr
+        dequant_b r6, r6, r1, r2, r8
+        dequant_b r7, r7, r1, r2, r8
 
-        strh            r6, [r0], #2
-        strh            r9, [r0], #2
-        strh            r7, [r0], #2
-        strh            lr, [r0], #2
+        strh    r6, [r0], #2
+        strh    r9, [r0], #2
+        strh    r7, [r0], #2
+        strh    lr, [r0], #2
 
-        subs            r3, r3, #8
-        it              gt
-        ldrdgt          r4, r5, [r0, #0] /* load data early to avoid load/use pipeline stall */
-        bgt             1b
+        subs    r3, r3, #8
+        it      gt
+        ldrdgt  r4, r5, [r0, #0]        /* load data early to avoid load/use pipeline stall */
+        bgt     1b
 
-        adds            r3, r3, #2
-        it              le
-        pople           {r4-r9,pc}
+        adds    r3, r3, #2
+        it      le
+        pople   {r4-r9,pc}
 2:
-        ldrsh           r9, [r0, #0]
-        ldrsh           lr, [r0, #2]
-        mov             r8, r2
-        cmp             r9, #0
-        it              lt
-        rsblt           r8, r2, #0
-        it              ne
-        smlabbne        r9, r9, r1, r8
-        mov             r8, r2
-        cmp             lr, #0
-        it              lt
-        rsblt           r8, r2, #0
-        it              ne
-        smlabbne        lr, lr, r1, r8
-        strh            r9, [r0], #2
-        strh            lr, [r0], #2
-        pop             {r4-r9,pc}
+        ldrsh   r9, [r0, #0]
+        ldrsh   lr, [r0, #2]
+        mov     r8, r2
+        cmp     r9, #0
+        it      lt
+        rsblt   r8, r2, #0
+        it      ne
+        smlabbne r9, r9, r1, r8
+        mov     r8, r2
+        cmp     lr, #0
+        it      lt
+        rsblt   r8, r2, #0
+        it      ne
+        smlabbne lr, lr, r1, r8
+        strh    r9, [r0], #2
+        strh    lr, [r0], #2
+        pop     {r4-r9,pc}
 endfunc

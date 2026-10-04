@@ -14,22 +14,22 @@ EXTERN __SMSlib_MDKeysStatus, __SMSlib_PreviousMDKeysStatus
 
 asm_SMSlib_getMDKeysPressed:
 
-   ; unsigned int SMS_getMDKeysPressed (void)
-   ;
-   ; exit : hl = MD keys pressed
-   ;
-   ; uses : af, hl
+        ; unsigned int SMS_getMDKeysPressed (void)
+        ;
+        ; exit : hl = MD keys pressed
+        ;
+        ; uses : af, hl
 
-   ld hl,(__SMSlib_MDKeysStatus)
-   
-   ld a,(__SMSlib_PreviousMDKeysStatus)
-   cpl
-   and l
-   ld l,a
-   
-   ld a,(__SMSlib_PreviousMDKeysStatus+1)
-   cpl
-   and h
-   ld h,a
-   
-   ret
+        ld      hl, (__SMSlib_MDKeysStatus)
+
+        ld      a, (__SMSlib_PreviousMDKeysStatus)
+        cpl
+        and     l
+        ld      l, a
+
+        ld      a, (__SMSlib_PreviousMDKeysStatus+1)
+        cpl
+        and     h
+        ld      h, a
+
+        ret

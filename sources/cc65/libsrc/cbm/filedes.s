@@ -4,9 +4,8 @@
 ; File descriptor management for the POSIX I/O routines
 ;
 
-
-        .include        "cbm.inc"
-        .include        "filedes.inc"
+        .include "cbm.inc"
+        .include "filedes.inc"
 
 .code
 
@@ -18,7 +17,7 @@
 
         ldx     #0
         clc
-loop:   lda     fdtab,x
+loop:   lda     fdtab, x
         beq     found
         inx
         cpx     #MAX_FDS
@@ -37,7 +36,7 @@ fdtab:  .byte   LFN_READ
         .byte   LFN_WRITE
         .res    MAX_FDS-3
 
-unittab:.byte   CBMDEV_KBD
+unittab: .byte  CBMDEV_KBD
         .byte   CBMDEV_SCREEN
         .byte   CBMDEV_SCREEN
         .res    MAX_FDS-3

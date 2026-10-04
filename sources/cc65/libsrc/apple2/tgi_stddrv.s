@@ -12,7 +12,7 @@
 
 _tgi_stddrv:
         .ifdef  __APPLE2ENH__
-        .asciiz "A2E.HI.TGI"
+                .asciiz "A2E.HI.TGI"
         .else
-        .asciiz "A2.HI.TGI"
+                .asciiz "A2.HI.TGI"
         .endif

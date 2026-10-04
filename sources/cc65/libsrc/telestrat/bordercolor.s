@@ -4,11 +4,10 @@
 ; unsigned char __fastcall__ bordercolor (unsigned char color);
 ;
 
-        .export         _bordercolor
+        .export _bordercolor
 
-        .import         return0
+        .import return0
 
-        .include        "telestrat.inc"
+        .include "telestrat.inc"
 
 _bordercolor    := return0
-

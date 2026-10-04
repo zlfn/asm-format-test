@@ -5,9 +5,9 @@
 ; /* Return the video mode the machine is using */
 ;
 
-        .include        "nes.inc"
-        .include        "get_tv.inc"
-        .importzp       tmp1, tmp2
+        .include "nes.inc"
+        .include "get_tv.inc"
+        .importzp tmp1, tmp2
 
 ;--------------------------------------------------------------------------
 ; _get_tv

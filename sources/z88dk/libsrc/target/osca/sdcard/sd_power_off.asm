@@ -9,21 +9,19 @@
 ;	$Id: sd_power_off.asm,v 1.2 2015-01-19 01:33:07 pauloscustodio Exp $
 ;
 
-
-	PUBLIC	sd_power_off
-    INCLUDE "target/osca/def/osca.def"
-
+        PUBLIC  sd_power_off
+        INCLUDE "target/osca/def/osca.def"
 
 sd_power_off:
-	
-	push af
-	in a,(sys_sdcard_ctrl2)
-	set sd_power,a			; set power control hi: inactive - no power to SD
-	res sd_cs,a			; ensure /CS is low	- no power to this pin		; 			
-	out (sys_sdcard_ctrl2),a		
 
-	xor a
+        push    af
+        in      a, (sys_sdcard_ctrl2)
+        set     sd_power, a     ; set power control hi: inactive - no power to SD
+        res     sd_cs,    a     ; ensure /CS is low	- no power to this pin		;
+        out     (sys_sdcard_ctrl2), a
 
-	out (sys_sdcard_ctrl1),a
-	pop af
-	ret
+        xor     a
+
+        out     (sys_sdcard_ctrl1), a
+        pop     af
+        ret

@@ -14,43 +14,42 @@ SECTION code_fp_math32
 
 PUBLIC m32__dtoa_special
 
-
 .m32__dtoa_special
-    ; enter : a = fpclassify (1 zero, 2 nan, 3 inf)
-    ;        hl = buffer_dst *
-    ;
-    ; exit  : carry set if inf/nan (buffer holds a NUL-terminated string)
-    ;         carry reset if zero: buffer is "0." and HL points after '.'
-    ;
-    ; uses  : af, de, hl
+        ; enter : a = fpclassify (1 zero, 2 nan, 3 inf)
+        ;        hl = buffer_dst *
+        ;
+        ; exit  : carry set if inf/nan (buffer holds a NUL-terminated string)
+        ;         carry reset if zero: buffer is "0." and HL points after '.'
+        ;
+        ; uses  : af, de, hl
 
-    dec a
-    jp Z,zero
+        dec     a
+        jp      Z, zero
 
-    ld de,nan_s
-    dec a
-    jp Z,string
-    ld de,inf_s
+        ld      de, nan_s
+        dec     a
+        jp      Z,  string
+        ld      de, inf_s
 
 .string
-    ld a,(de+)
-    ld (hl+),a                      ; *p++
-    or a
-    jp NZ,string
-    dec hl
-    scf
-    ret
+        ld      a,     (de+)
+        ld      (hl+), a        ; *p++
+        or      a
+        jp      NZ, string
+        dec     hl
+        scf
+        ret
 
 .zero
-    ld (hl+),'0'
-    ld (hl+),'.'
-    or a                            ; NC
-    ret
+        ld      (hl+), '0'
+        ld      (hl+), '.'
+        or      a       ; NC
+        ret
 
 .nan_s
-    defm "nan"
-    defb 0
+        defm    "nan"
+        defb    0
 
 .inf_s
-    defm "inf"
-    defb 0
+        defm    "inf"
+        defb    0

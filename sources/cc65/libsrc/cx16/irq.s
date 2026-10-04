@@ -2,10 +2,10 @@
 ; IRQ handling (CX16 version)
 ;
 
-        .export         initirq, doneirq
-        .import         callirq
+        .export initirq, doneirq
+        .import callirq
 
-        .include        "cx16.inc"
+        .include "cx16.inc"
 
 ; ------------------------------------------------------------------------
 
@@ -38,8 +38,8 @@ setvec: sei
 .segment        "LOWCODE"
 
 IRQStub:
-        jsr     callirq                 ; Call the functions
-        jmp     IRQInd                  ; Jump to the saved IRQ vector
+        jsr     callirq ; Call the functions
+        jmp     IRQInd  ; Jump to the saved IRQ vector
 
 ; ------------------------------------------------------------------------
 

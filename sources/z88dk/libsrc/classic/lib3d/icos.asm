@@ -6,24 +6,22 @@
 ;    input must be between 0 and 360
 ;
 
+        SECTION code_clib
+        PUBLIC  icos
+        PUBLIC  _icos
 
-    SECTION code_clib
-    PUBLIC  icos
-    PUBLIC  _icos
-
-    EXTERN  isin
+        EXTERN  isin
 
 icos:
 _icos:
-    ; __FASTCALL__
-    ld      b,h
-    ld      c,l
+        ; __FASTCALL__
+        ld      b, h
+        ld      c, l
 
-    ld      hl,90
-    or      a
-    sbc     hl,bc
-    jp      nc,isin
-    ld      bc,360
-    add     hl,bc
-    jp      isin
-
+        ld      hl, 90
+        or      a
+        sbc     hl, bc
+        jp      nc, isin
+        ld      bc, 360
+        add     hl, bc
+        jp      isin

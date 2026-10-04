@@ -2,7 +2,7 @@
 ; IRQ handling (NES version)
 ;
 
-        .export         initirq, doneirq
+        .export initirq, doneirq
 
 ; ------------------------------------------------------------------------
 

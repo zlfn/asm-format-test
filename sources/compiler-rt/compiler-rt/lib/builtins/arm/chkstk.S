@@ -20,16 +20,16 @@
 
         .p2align 2
 DEFINE_COMPILERRT_FUNCTION(__chkstk)
-        lsl    r4,  r4,  #2
-        mov    r12, sp
-        push   {r5, r6}
-        mov    r5,  r4
+        lsl     r4,  r4, #2
+        mov     r12, sp
+        push    {r5, r6}
+        mov     r5, r4
 1:
-        sub    r12, r12, #PAGE_SIZE
-        subs   r5,  r5,  #PAGE_SIZE
-        ldr    r6,  [r12]
-        bgt    1b
+        sub     r12, r12, #PAGE_SIZE
+        subs    r5,  r5,  #PAGE_SIZE
+        ldr     r6,  [r12]
+        bgt     1b
 
-        pop    {r5, r6}
-        bx     lr
+        pop     {r5, r6}
+        bx      lr
 END_COMPILERRT_FUNCTION(__chkstk)

@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _p_queue_size
 defc _p_queue_size = p_queue_size
 ENDIF
-

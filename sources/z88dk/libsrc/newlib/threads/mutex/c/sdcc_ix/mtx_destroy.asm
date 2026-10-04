@@ -10,10 +10,10 @@ EXTERN asm_mtx_destroy
 
 _mtx_destroy:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_mtx_destroy
+        push    hl
+        push    af
+
+        jp      asm_mtx_destroy

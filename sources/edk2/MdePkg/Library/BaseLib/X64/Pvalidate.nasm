@@ -7,7 +7,7 @@
 
 %include "Nasm.inc"
 
-    SECTION .text
+        SECTION .text
 
 ;-----------------------------------------------------------------------------
 ;  UINT32
@@ -20,23 +20,23 @@
 ;-----------------------------------------------------------------------------
 global ASM_PFX(AsmPvalidate)
 ASM_PFX(AsmPvalidate):
-  mov     rax, r8
+        mov     rax, r8
 
-  PVALIDATE
+        PVALIDATE
 
-  ; Save the carry flag.
-  setc    dl
+        ; Save the carry flag.
+        setc    dl
 
-  ; The PVALIDATE instruction returns the status in rax register.
-  cmp     rax, 0
-  jne     PvalidateExit
+        ; The PVALIDATE instruction returns the status in rax register.
+        cmp     rax, 0
+        jne     PvalidateExit
 
-  ; Check the carry flag to determine if RMP entry was updated.
-  cmp     dl, 0
-  je      PvalidateExit
+        ; Check the carry flag to determine if RMP entry was updated.
+        cmp     dl, 0
+        je      PvalidateExit
 
-  ; Return the PVALIDATE_RET_NO_RMPUPDATE.
-  mov     rax, 255
+        ; Return the PVALIDATE_RET_NO_RMPUPDATE.
+        mov     rax, 255
 
 PvalidateExit:
-  ret
+        ret

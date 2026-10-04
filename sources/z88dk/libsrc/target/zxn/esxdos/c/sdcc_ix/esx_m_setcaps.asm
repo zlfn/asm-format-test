@@ -8,10 +8,10 @@ EXTERN asm_esx_m_setcaps
 
 _esx_m_setcaps:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_esx_m_setcaps
+        push    hl
+        push    af
+
+        jp      asm_esx_m_setcaps

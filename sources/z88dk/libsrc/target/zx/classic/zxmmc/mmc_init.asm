@@ -22,83 +22,80 @@
 ;-----------------------------------------------------------------------------------------
 ;
 
-    SECTION code_clib
-    PUBLIC  mmc_init
-    PUBLIC  _mmc_init
+        SECTION code_clib
+        PUBLIC  mmc_init
+        PUBLIC  _mmc_init
 
-    EXTERN  cs_high
-    EXTERN  cs_low
-    EXTERN  mmc_wait_response
-    EXTERN  mmc_write_command
+        EXTERN  cs_high
+        EXTERN  cs_low
+        EXTERN  mmc_wait_response
+        EXTERN  mmc_write_command
 
-    INCLUDE "target/zx/def/zxmmc.def"
-
+        INCLUDE "target/zx/def/zxmmc.def"
 
 mmc_init:
 _mmc_init:
-    call    cs_high                     ; set cs high
-    ld      b, 10                       ; sends 80 clocks
-    ld      a, $FF
+        call    cs_high ; set cs high
+        ld      b, 10   ; sends 80 clocks
+        ld      a, $FF
 l_init:
-    out     (SPI_PORT), a
-    djnz    l_init
-    nop
+        out     (SPI_PORT), a
+        djnz    l_init
+        nop
 
-    call    cs_low                      ; set cs low
+        call    cs_low  ; set cs low
 
-    ld      a, MMC_GO_IDLE_STATE
-    call    mmc_write_command
-    call    mmc_wait_response
+        ld      a, MMC_GO_IDLE_STATE
+        call    mmc_write_command
+        call    mmc_wait_response
 
-    cp      $01                         ; MMC should respond 01 to this command
-    jr      nz, mmc_reset_failed        ; fail to reset
+        cp      $01                     ; MMC should respond 01 to this command
+        jr      nz, mmc_reset_failed    ; fail to reset
 
-    ld      bc, 120                     ; retry counter*256 (about five seconds @3.5MHz)
+        ld      bc, 120         ; retry counter*256 (about five seconds @3.5MHz)
 mmc_reset_ok:
-    call    cs_high                     ; set cs high
-    ld      a, $FF
-    out     (SPI_PORT), a               ; 8 extra clock cycles
-    nop
-    nop
+        call    cs_high         ; set cs high
+        ld      a, $FF
+        out     (SPI_PORT), a   ; 8 extra clock cycles
+        nop
+        nop
 
-    call    cs_low                      ; set cs low
+        call    cs_low  ; set cs low
 
-    ld      a, MMC_SEND_OP_COND         ; Sends OP_COND command
-    call    mmc_write_command
-    call    mmc_wait_response           ; MMC_WAIT_RESPONSE tries to receive a response reading an SPI
+        ld      a, MMC_SEND_OP_COND     ; Sends OP_COND command
+        call    mmc_write_command
+        call    mmc_wait_response       ; MMC_WAIT_RESPONSE tries to receive a response reading an SPI
 
-    bit     0, a                        ; D0 SET = initialization still in progress...
-    jr      z, mmc_init_ok
+        bit     0, a    ; D0 SET = initialization still in progress...
+        jr      z, mmc_init_ok
 
-    djnz    mmc_reset_ok                ; if no response, tries to send the entire block 254 more times
-    dec     c
-    jr      nz, mmc_reset_ok
+        djnz    mmc_reset_ok    ; if no response, tries to send the entire block 254 more times
+        dec     c
+        jr      nz, mmc_reset_ok
 
-    ld      a, 2                        ; error code for INIT ERROR
-    jr      mmc_errorx
+        ld      a, 2    ; error code for INIT ERROR
+        jr      mmc_errorx
 
 mmc_init_ok:
-    call    cs_high                     ; set cs high
-    in      a, (SPI_PORT)               ; some extra clock cycles
-    call    pause1
-    xor     a
-    ret
+        call    cs_high         ; set cs high
+        in      a, (SPI_PORT)   ; some extra clock cycles
+        call    pause1
+        xor     a
+        ret
 
-mmc_reset_failed:                       ; MMC Reset error
-    ld      a, 1
+mmc_reset_failed:       ; MMC Reset error
+        ld      a, 1
 mmc_errorx:
-    call    cs_high
-    ret
-
+        call    cs_high
+        ret
 
 pause1:
-    push    hl
-    ld      hl, $8000                   ; OK for 3.5MHz ONLY (7MHz requires two calls or ld hl,0 and so on)
+        push    hl
+        ld      hl, $8000       ; OK for 3.5MHz ONLY (7MHz requires two calls or ld hl,0 and so on)
 loop3:
-    dec     hl
-    ld      a, h
-    or      l
-    jr      nz, loop3
-    pop     hl
-    ret
-
+        dec     hl
+        ld      a, h
+        or      l
+        jr      nz, loop3
+        pop     hl
+        ret

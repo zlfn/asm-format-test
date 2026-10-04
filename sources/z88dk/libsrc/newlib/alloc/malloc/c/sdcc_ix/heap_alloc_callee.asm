@@ -16,11 +16,11 @@ EXTERN asm_heap_alloc
 
 _heap_alloc_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_heap_alloc
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_heap_alloc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

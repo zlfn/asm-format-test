@@ -2,9 +2,9 @@
 // : Igor Pavlov : Public domain
 
 #if defined(__clang_major__) && __clang_major__ >= 20
-  // clang21 : error: identifier 'and' conflicts with a C++ keyword [-Wc++-keyword]
-  // #pragma GCC diagnostic ignored "-Wc++-keyword" // clang 21
-  #pragma GCC diagnostic ignored "-Wc++-compat"  // clang 12+
+        // clang21 : error: identifier 'and' conflicts with a C++ keyword [-Wc++-keyword]
+        // #pragma GCC diagnostic ignored "-Wc++-keyword" // clang 21
+        #pragma GCC diagnostic ignored "-Wc++-compat"   // clang 12+
 #endif
 
 #define  r0 x0
@@ -42,7 +42,6 @@
 #define  REG_ABI_PARAM_0 r0
 #define  REG_ABI_PARAM_1 r1
 #define  REG_ABI_PARAM_2 r2
-
 
 .macro p2_add reg:req, param:req
         add     \reg, \reg, \param
@@ -100,7 +99,6 @@
         adds    \reg, \reg, 1
 .endm
 
-
 .macro imul reg:req, param:req
         mul     \reg, \reg, \param
 .endm
@@ -148,7 +146,6 @@ arm64 and arm use reverted c flag after subs/cmp instructions:
         b.hs    \lab
 .endm
 
-
 .macro cmove dest:req, srcTrue:req
         csel    \dest, \srcTrue, \dest, eq
 .endm
@@ -173,15 +170,14 @@ arm64 and arm use reverted c flag after subs/cmp instructions:
         csel    \dest, \srcTrue, \dest, hs
 .endm
 
-
 .macro MY_ALIGN_16 macro
-	.p2align 4,, (1 << 4) - 1
+        .p2align 4, , (1 << 4) - 1
 .endm
 
 .macro MY_ALIGN_32 macro
-        .p2align 5,, (1 << 5) - 1
+        .p2align 5, , (1 << 5) - 1
 .endm
 
 .macro MY_ALIGN_64 macro
-        .p2align 6,, (1 << 6) - 1
+        .p2align 6, , (1 << 6) - 1
 .endm

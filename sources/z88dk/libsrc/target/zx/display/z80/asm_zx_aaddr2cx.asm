@@ -5,7 +5,7 @@
 ;
 ; uchar zx_aaddr2cx(void *attraddr)
 ;
-; Attribute address to character x coordinate. 
+; Attribute address to character x coordinate.
 ;
 ; ===============================================================
 
@@ -16,18 +16,18 @@ PUBLIC asm_zx_aaddr2cx
 
 asm_zx_aaddr2cx:
 
-   ; enter : hl = valid attribute address
-   ;
-   ; exit  : l = character x coordinate of attr square
-   ;
-   ; uses  : af, l
+        ; enter : hl = valid attribute address
+        ;
+        ; exit  : l = character x coordinate of attr square
+        ;
+        ; uses  : af, l
 
-   ld a,l
-   and $1f
-   ld l,a
+        ld      a, l
+        and     $1f
+        ld      l, a
 
 IF __SCCZ80
-   ld h,0
+        ld      h, 0
 ENDIF
 
-   ret
+        ret

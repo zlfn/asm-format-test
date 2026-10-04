@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _PSGSFXGetStatus
 defc _PSGSFXGetStatus = PSGSFXGetStatus
 ENDIF
-

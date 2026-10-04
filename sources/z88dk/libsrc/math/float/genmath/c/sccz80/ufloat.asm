@@ -1,12 +1,10 @@
 ;       Generic Small C+ Floating point library
 ;       Converts integer in hl to fp number
 
+        SECTION code_fp
+        PUBLIC  ufloat
 
-    SECTION code_fp
-    PUBLIC  ufloat
-
-    EXTERN  float1
-
+        EXTERN  float1
 
 ;
 ;       convert the integer in hl to    (unsigned routine)
@@ -14,5 +12,5 @@
 ;
 
 ufloat:
-    xor     a                           ;signify no sign
-    jp      float1
+        xor     a       ;signify no sign
+        jp      float1

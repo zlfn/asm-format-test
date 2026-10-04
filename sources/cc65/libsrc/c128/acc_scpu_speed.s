@@ -31,10 +31,10 @@
 ; * make sure you use 'detect_scpu();' before using.
 ; */
 
-        .export         _set_scpu_speed
-        .export         _get_scpu_speed
+        .export _set_scpu_speed
+        .export _get_scpu_speed
 
-        .include        "accelerator.inc"
+        .include "accelerator.inc"
 
 _set_scpu_speed:
         cmp     #SPEED_20X

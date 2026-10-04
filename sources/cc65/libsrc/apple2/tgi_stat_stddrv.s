@@ -8,9 +8,9 @@
 
         .export _tgi_static_stddrv
         .ifdef  __APPLE2ENH__
-        .import _a2e_hi_tgi
+                .import _a2e_hi_tgi
         .else
-        .import _a2_hi_tgi
+                .import _a2_hi_tgi
         .endif
 
 .rodata

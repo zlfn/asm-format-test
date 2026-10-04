@@ -1,11 +1,8 @@
 
-    SECTION code_clib
-    PUBLIC  heapmaxfree
-    PUBLIC  _heapmaxfree
+        SECTION code_clib
+        PUBLIC  heapmaxfree
+        PUBLIC  _heapmaxfree
 
 heapmaxfree:
 _heapmaxfree:
-    jp      0xb88a
-
-
-
+        jp      0xb88a

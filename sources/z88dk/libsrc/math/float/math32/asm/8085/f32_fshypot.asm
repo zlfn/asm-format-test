@@ -21,50 +21,47 @@ EXTERN m32_fsadd_callee
 PUBLIC m32_fshypot
 PUBLIC m32_fshypot_callee
 
-
 ; enter: stack = float x, ret; DEHL = float y
 ; exit:  stack = float x, ret; DEHL = hypot
 .m32_fshypot
-    call m32_fssqr_fastcall         ; DEHL = sqr(y)
-    ; SP: ret, x
-    push de
-    push hl                         ; SP: sqr(y), ret, x
-    ; x at SP+6
-    ld de,sp+6
-    call load_float_de              ; DEHL = x
-    call m32_fssqr_fastcall         ; DEHL = sqr(x)
-    call m32_fsadd_callee           ; drops sqr(y); DEHL = sum; SP: ret, x
-    call m32_fssqrt_fastcall        ; DEHL = hypot
-    or a
-    ret                             ; leave x under ret
-
+        call    m32_fssqr_fastcall      ; DEHL = sqr(y)
+        ; SP: ret, x
+        push    de
+        push    hl      ; SP: sqr(y), ret, x
+        ; x at SP+6
+        ld      de, sp+6
+        call    load_float_de           ; DEHL = x
+        call    m32_fssqr_fastcall      ; DEHL = sqr(x)
+        call    m32_fsadd_callee        ; drops sqr(y); DEHL = sum; SP: ret, x
+        call    m32_fssqrt_fastcall     ; DEHL = hypot
+        or      a
+        ret                             ; leave x under ret
 
 ; enter: stack = float x, ret; DEHL = float y
 ; exit:  DEHL = hypot (x consumed)
 .m32_fshypot_callee
-    call m32_fssqr_fastcall         ; DEHL = sqr(y)
-    ; SP: ret, x
-    push de
-    push hl                         ; SP: sqr(y), ret, x
-    ld de,sp+6
-    call load_float_de              ; DEHL = x
-    call m32_fssqr_fastcall         ; DEHL = sqr(x)
-    call m32_fsadd_callee           ; DEHL = sum; SP: ret, x
-    call m32_fssqrt_fastcall
-    ; drop x under ret: pop ret, drop x, push ret
-    pop bc                          ; ret
-    pop af
-    pop af                          ; drop x
-    push bc
-    or a
-    ret
-
+        call    m32_fssqr_fastcall      ; DEHL = sqr(y)
+        ; SP: ret, x
+        push    de
+        push    hl                      ; SP: sqr(y), ret, x
+        ld      de, sp+6
+        call    load_float_de           ; DEHL = x
+        call    m32_fssqr_fastcall      ; DEHL = sqr(x)
+        call    m32_fsadd_callee        ; DEHL = sum; SP: ret, x
+        call    m32_fssqrt_fastcall
+        ; drop x under ret: pop ret, drop x, push ret
+        pop     bc      ; ret
+        pop     af
+        pop     af      ; drop x
+        push    bc
+        or      a
+        ret
 
 .load_float_de
-    ex de,hl
-    ld c,(hl+)
-    ld b,(hl+)
-    ld e,(hl+)
-    ld d,(hl)                   ; last byte: no post-inc (HL → bc next)
-    ld hl,bc
-    ret
+        ex      de, hl
+        ld      c,  (hl+)
+        ld      b,  (hl+)
+        ld      e,  (hl+)
+        ld      d,  (hl)        ; last byte: no post-inc (HL → bc next)
+        ld      hl, bc
+        ret

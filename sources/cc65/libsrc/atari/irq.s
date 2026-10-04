@@ -2,13 +2,13 @@
 ; IRQ handling (ATARI version)
 ;
 
-        .export         initirq, doneirq
-        .import         callirq
+        .export initirq, doneirq
+        .import callirq
 
-        .include        "atari.inc"
+        .include "atari.inc"
 .ifdef __ATARIXL__
-        .import         __CHARGEN_START__
-        .include        "romswitch.inc"
+        .import __CHARGEN_START__
+        .include "romswitch.inc"
 .endif
 
 ; ------------------------------------------------------------------------
@@ -16,7 +16,7 @@
 .segment        "ONCE"
 
 initirq:
-        lda     #$4C                    ; JMP opcode
+        lda     #$4C    ; JMP opcode
         sta     IRQInd
         lda     VVBLKD
         ldx     VVBLKD+1
@@ -42,7 +42,7 @@ doneirq:
 .segment        "LOWCODE"
 
 IRQStub:
-        cld                             ; Just to be sure
+        cld     ; Just to be sure
 .ifdef __ATARIXL__
 .ifdef CHARGEN_RELOC
         lda     CHBAS
@@ -52,16 +52,16 @@ IRQStub:
         lda     PORTB
         pha
 .ifdef __ATARIXL__
-        and     #$FE                    ; disable ROM
+        and     #$FE    ; disable ROM
 .endif
-        ora     #$10                    ; map main memory into $4000..$7FFF area
+        ora     #$10    ; map main memory into $4000..$7FFF area
         sta     PORTB
 .ifdef __ATARIXL__
         set_chbase >__CHARGEN_START__
 .endif
-        jsr     callirq                 ; Call the functions
+        jsr     callirq ; Call the functions
         pla
-        sta     PORTB                   ; restore old memory settings
+        sta     PORTB   ; restore old memory settings
 .ifdef __ATARIXL__
 .ifdef CHARGEN_RELOC
         pla
@@ -69,7 +69,7 @@ IRQStub:
         sta     CHBASE
 .endif
 .endif
-        jmp     IRQInd                  ; Jump to the saved IRQ vector
+        jmp     IRQInd  ; Jump to the saved IRQ vector
 
 ; ------------------------------------------------------------------------
 

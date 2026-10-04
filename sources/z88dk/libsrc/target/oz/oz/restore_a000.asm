@@ -13,11 +13,11 @@
 ;
 
         SECTION code_clib
-	PUBLIC	restore_a000
-	
+        PUBLIC  restore_a000
+
 restore_a000:
-        ld      a,7
-        out     (3),a
-        ld      a,4
-        out     (4),a
+        ld      a,   7
+        out     (3), a
+        ld      a,   4
+        out     (4), a
         ret

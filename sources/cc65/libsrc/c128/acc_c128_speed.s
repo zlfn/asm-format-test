@@ -33,15 +33,15 @@
 ; * For C128 programs, no detect function call is needed.
 ; */
 
-        .export         _set_c128_speed
-        .export         _get_c128_speed
+        .export _set_c128_speed
+        .export _get_c128_speed
 
-        .include        "accelerator.inc"
+        .include "accelerator.inc"
 
 _set_c128_speed:
         cmp     #SPEED_2X
-        lda     #$00                    ; clear VIC-IIe test bit
-        rol     a                       ; carry flag is speed bit
+        lda     #$00    ; clear VIC-IIe test bit
+        rol     a       ; carry flag is speed bit
         sta     C128_VICIIE_CLK
 
 _get_c128_speed:

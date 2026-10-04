@@ -13,19 +13,19 @@ EXTERN _m32_modff
 IF __CPU_INTEL__ | __CPU_GBZ80__
 
 .cm32_sccz80_modf
-    jp _m32_modff
+        jp      _m32_modff
 
 ELSE
 
 .cm32_sccz80_modf
-    pop af                      ; ret
-    pop bc                      ; y
-    pop hl                      ; x LSW
-    pop de                      ; x MSW
-    push bc                     ; y (deep)
-    push de                     ; x MSW
-    push hl                     ; x LSW
-    push af                     ; ret
-    jp _m32_modff
+        pop     af      ; ret
+        pop     bc      ; y
+        pop     hl      ; x LSW
+        pop     de      ; x MSW
+        push    bc      ; y (deep)
+        push    de      ; x MSW
+        push    hl      ; x LSW
+        push    af      ; ret
+        jp      _m32_modff
 
 ENDIF

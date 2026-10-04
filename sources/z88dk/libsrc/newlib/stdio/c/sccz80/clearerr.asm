@@ -16,10 +16,10 @@ EXTERN asm_clearerr
 
 clearerr:
 
-   push hl
-   pop ix
-   
-   jp asm_clearerr
+        push    hl
+        pop     ix
+
+        jp      asm_clearerr
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -30,7 +30,7 @@ PUBLIC clearerr
 EXTERN clearerr_unlocked
 
 defc clearerr = clearerr_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

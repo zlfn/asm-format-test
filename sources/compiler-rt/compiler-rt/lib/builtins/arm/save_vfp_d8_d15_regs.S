@@ -18,17 +18,16 @@
 // must also add a call to __restore_vfp_d8_d15_regs to restore those registers.
 //
 
-	.text
-	.syntax unified
+        .text
+        .syntax unified
 
 //
 // Save registers d8-d15 onto stack
 //
-	.p2align 2
+        .p2align 2
 DEFINE_COMPILERRT_PRIVATE_FUNCTION(__save_vfp_d8_d15_regs)
-	vstmdb	sp!, {d8-d15}           // push registers d8-d15 onto stack
-	bx      lr                      // return to prolog
+        vstmdb  sp!, {d8-d15}   // push registers d8-d15 onto stack
+        bx      lr              // return to prolog
 END_COMPILERRT_FUNCTION(__save_vfp_d8_d15_regs)
 
 NO_EXEC_STACK_DIRECTIVE
-

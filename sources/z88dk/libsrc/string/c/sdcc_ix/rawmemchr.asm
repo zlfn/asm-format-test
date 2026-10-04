@@ -11,12 +11,12 @@ EXTERN l0_rawmemchr_callee
 
 _rawmemchr:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     bc
 
-   jp l0_rawmemchr_callee
+        push    bc
+        push    hl
+        push    af
+
+        jp      l0_rawmemchr_callee

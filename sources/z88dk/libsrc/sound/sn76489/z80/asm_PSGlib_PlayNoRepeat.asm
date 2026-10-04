@@ -14,16 +14,16 @@ EXTERN asm_PSGlib_Play, __PSGlib_LoopFlag
 
 asm_PSGlib_PlayNoRepeat:
 
-   ; void PSGPlayNoRepeat (void *song)
-   ; receives the address of the PSG to start playing (once)
-   ;
-   ; enter : hl = void *song
-   ;
-   ; uses  : af
+        ; void PSGPlayNoRepeat (void *song)
+        ; receives the address of the PSG to start playing (once)
+        ;
+        ; enter : hl = void *song
+        ;
+        ; uses  : af
 
-   call asm_PSGlib_Play
+        call    asm_PSGlib_Play
 
-   xor a
-   ld (__PSGlib_LoopFlag),a
-   
-   ret
+        xor     a
+        ld      (__PSGlib_LoopFlag), a
+
+        ret

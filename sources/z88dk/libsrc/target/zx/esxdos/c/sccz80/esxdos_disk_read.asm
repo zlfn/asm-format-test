@@ -9,23 +9,23 @@ EXTERN asm_esxdos_disk_read
 
 esxdos_disk_read:
 
-   pop hl
-   pop ix
-   pop de
-   pop bc
-   dec sp
-   pop af
-   
-   dec sp
-   push bc
-   push de
-   push hl
-   push hl
-   
-   push ix
-   pop hl
-   
-   jp asm_esxdos_disk_read
+        pop     hl
+        pop     ix
+        pop     de
+        pop     bc
+        dec     sp
+        pop     af
+
+        dec     sp
+        push    bc
+        push    de
+        push    hl
+        push    hl
+
+        push    ix
+        pop     hl
+
+        jp      asm_esxdos_disk_read
 
 ; SDCC bridge for Classic
 IF __CLASSIC

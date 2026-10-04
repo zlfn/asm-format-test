@@ -5,9 +5,9 @@
 ; Helper function for several high-level file functions.
 ;
 
-        .include        "errno.inc"
+        .include "errno.inc"
 
-        .macpack        generic
+        .macpack generic
 
 ; ----------------------------------------------------------------------------
 ; int __fastcall__ __mappederrno (unsigned char code);
@@ -18,15 +18,15 @@
 ; */
 
 ___mappederrno:
-        sta     ___oserror              ; Store the error code
-        tax                             ; Did we have an error?
-        bze     ok                      ; Branch if no
-        jsr     ___osmaperrno           ; Map OS error into errno code
-        jsr     ___seterrno             ; Save in errno (returns with .A = 0)
+        sta     ___oserror      ; Store the error code
+        tax                     ; Did we have an error?
+        bze     ok              ; Branch if no
+        jsr     ___osmaperrno   ; Map OS error into errno code
+        jsr     ___seterrno     ; Save in errno (returns with .A = 0)
 .if .cap(CPU_HAS_INA)
         dec     a
 .else
-        lda     #$FF                    ; Return -1 if error
+        lda     #$FF    ; Return -1 if error
 .endif
         tax
 ok:     rts

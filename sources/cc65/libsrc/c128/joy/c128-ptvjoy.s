@@ -15,16 +15,15 @@
         .macpack generic
         .macpack module
 
-
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c128_ptvjoy_joy
+        module_header _c128_ptvjoy_joy
 
 ; Driver signature
 
-        .byte   $6A, $6F, $79           ; "joy"
-        .byte   JOY_API_VERSION         ; Driver API version number
+        .byte   $6A, $6F, $79   ; "joy"
+        .byte   JOY_API_VERSION ; Driver API version number
 
 ; Library reference
 
@@ -41,7 +40,6 @@
 ; Constants
 
 JOY_COUNT       = 4             ; Number of joysticks we support
-
 
 .code
 
@@ -66,7 +64,6 @@ INSTALL:
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.
 ;
@@ -80,7 +77,7 @@ COUNT:
 ; READ: Read a particular joystick passed in A.
 ;
 
-READ:   tax                     ; Joystick number into X
+READ:   tax     ; Joystick number into X
         bne     joy2
 
 ; Read joystick 1
@@ -143,5 +140,5 @@ joy4:
         ora     tmp1
         eor     #$1f
 
-        ldx #0
+        ldx     #0
         rts

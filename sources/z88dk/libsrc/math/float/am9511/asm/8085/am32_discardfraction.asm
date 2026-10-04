@@ -23,92 +23,92 @@ PUBLIC asm_am9511_discardfraction
 ; DEHL stays packed until a mask is required.
 
 .asm_am9511_discardfraction
-    ld a,e
-    rla
-    ld a,d
-    adc a,a                     ; A = exp, C = sign, Z iff exp=0
-    jp Z,zero_legal
+        ld      a, e
+        rla
+        ld      a, d
+        adc     a, a    ; A = exp, C = sign, Z iff exp=0
+        jp      Z, zero_legal
 
-    sub $7f                     ; exponent value of 127 is 1.xx
-    jp C,return_zero            ; |x| < 1 -> signed zero, C
+        sub     $7f             ; exponent value of 127 is 1.xx
+        jp      C, return_zero  ; |x| < 1 -> signed zero, C
 
-    inc a
-    cp 24
-    jp NC,shift_none            ; |x| >= 2^23: already integer, NC
+        inc     a
+        cp      24
+        jp      NC, shift_none  ; |x| >= 2^23: already integer, NC
 
-    push de                     ; original packed
-    push hl
+        push    de      ; original packed
+        push    hl
 
-    ld hl,0
-    ld e,l
-    ld d,a                      ; bits to keep
+        ld      hl, 0
+        ld      e,  l
+        ld      d,  a   ; bits to keep
 
-.shift_right                    ; shift mantissa mask right
-    scf                         ; by setting 1s as we go
-    ld a,e
-    rra
-    ld e,a
-    ld a,h
-    rra
-    ld h,a
-    ld a,l
-    rra
-    ld l,a
-    dec d
-    jp NZ,shift_right
+.shift_right    ; shift mantissa mask right
+        scf     ; by setting 1s as we go
+        ld      a, e
+        rra
+        ld      e, a
+        ld      a, h
+        rra
+        ld      h, a
+        ld      a, l
+        rra
+        ld      l, a
+        dec     d
+        jp      NZ, shift_right
 
-    pop bc                      ; orig HL
-    ld a,c
-    and l
-    ld l,a
-    cp c
-    jp NZ,frac_pop_de
-    ld a,b
-    and h
-    ld h,a
-    cp b
-    jp NZ,frac_pop_de
+        pop     bc      ; orig HL
+        ld      a, c
+        and     l
+        ld      l, a
+        cp      c
+        jp      NZ, frac_pop_de
+        ld      a,  b
+        and     h
+        ld      h, a
+        cp      b
+        jp      NZ, frac_pop_de
 
-    pop bc                      ; orig DE
-    ld a,c
-    and e
-    ld e,a
-    cp c
-    jp NZ,frac_done
-    ld d,b                      ; original sign and exponent
-    or a                        ; NC: unchanged
-    ret
+        pop     bc      ; orig DE
+        ld      a, c
+        and     e
+        ld      e, a
+        cp      c
+        jp      NZ, frac_done
+        ld      d,  b   ; original sign and exponent
+        or      a       ; NC: unchanged
+        ret
 
 .frac_pop_de
-    pop bc                      ; orig DE
-    ld a,c
-    and e
-    ld e,a
+        pop     bc      ; orig DE
+        ld      a, c
+        and     e
+        ld      e, a
 .frac_done
-    ld d,b
-    scf                         ; C: fraction discarded
-    ret
+        ld      d, b
+        scf             ; C: fraction discarded
+        ret
 
 .shift_none
-    or a                        ; NC, DEHL original
-    ret
+        or      a       ; NC, DEHL original
+        ret
 
 .return_zero
-    ld a,d                      ; sign from original
-    rla
-    ld de,0
-    ld hl,de
-    rra
-    ld d,a
-    scf                         ; C: discarded fraction
-    ret
+        ld      a, d    ; sign from original
+        rla
+        ld      de, 0
+        ld      hl, de
+        rra
+        ld      d, a
+        scf             ; C: discarded fraction
+        ret
 
 .zero_legal
-    ld a,d
-    rla
-    ld de,0
-    ld hl,de
-    rra
-    ld d,a
-    or a                        ; NC: already integer zero
-    ret                         ; return IEEE signed ZERO in DEHL
+        ld      a, d
+        rla
+        ld      de, 0
+        ld      hl, de
+        rra
+        ld      d, a
+        or      a       ; NC: already integer zero
+        ret             ; return IEEE signed ZERO in DEHL

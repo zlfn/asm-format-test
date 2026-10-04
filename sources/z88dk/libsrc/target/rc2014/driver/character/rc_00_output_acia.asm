@@ -22,7 +22,7 @@ EXTERN rc_00_output_acia_ochar_msg_putc, character_00_output
 
 rc_00_output_acia:
 
-   cp OCHAR_MSG_PUTC
-   jp z, rc_00_output_acia_ochar_msg_putc
+        cp      OCHAR_MSG_PUTC
+        jp      z, rc_00_output_acia_ochar_msg_putc
 
-   jp character_00_output
+        jp      character_00_output

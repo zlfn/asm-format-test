@@ -25,25 +25,25 @@
 
 #define UART_VADDR	IMX_IO_P2V(UART_PADDR)
 
-		.macro	addruart, rp, rv, tmp
-		ldr	\rp, =UART_PADDR	@ physical
-		ldr	\rv, =UART_VADDR	@ virtual
-		.endm
+        .macro  addruart, rp, rv, tmp
+                ldr     \rp, =UART_PADDR        @ physical
+                ldr     \rv, =UART_VADDR        @ virtual
+        .endm
 
-		.macro	senduart,rd,rx
-		ARM_BE8(rev \rd, \rd)
-		str	\rd, [\rx, #0x40]	@ TXDATA
-		.endm
+        .macro  senduart, rd, rx
+                ARM_BE8(rev \rd, \rd)
+                str     \rd, [\rx, #0x40]       @ TXDATA
+        .endm
 
-		.macro	waituartcts,rd,rx
-		.endm
+        .macro  waituartcts, rd, rx
+        .endm
 
-		.macro	waituarttxrdy,rd,rx
-		.endm
+        .macro  waituarttxrdy, rd, rx
+        .endm
 
-		.macro	busyuart,rd,rx
-1002:		ldr	\rd, [\rx, #0x98]	@ SR2
-		ARM_BE8(rev \rd, \rd)
-		tst	\rd, #1 << 3		@ TXDC
-		beq	1002b			@ wait until transmit done
-		.endm
+        .macro  busyuart, rd, rx
+1002:           ldr     \rd, [\rx, #0x98]       @ SR2
+                ARM_BE8(rev \rd, \rd)
+                tst     \rd, #1 << 3            @ TXDC
+                beq     1002b                   @ wait until transmit done
+        .endm

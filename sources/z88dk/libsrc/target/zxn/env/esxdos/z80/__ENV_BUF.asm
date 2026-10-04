@@ -6,4 +6,4 @@ PUBLIC __ENV_BUF
 
 __ENV_BUF:
 
-   defs __ENV_BUFSZ
+        defs    __ENV_BUFSZ

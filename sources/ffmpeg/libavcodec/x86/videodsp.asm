@@ -27,22 +27,22 @@ SECTION .text
 ; does per-line reading/writing of source data
 
 %macro V_COPY_ROW 2 ; type (top/body/bottom), h
-.%1_y_loop:                                     ; do {
-    mov              wq, r7mp                   ;   initialize w (r7mp = wmp)
-.%1_x_loop:                                     ;   do {
-    movu             m0, [srcq+wq]              ;     m0 = read($mmsize)
-    movu      [dstq+wq], m0                     ;     write(m0, $mmsize)
-    add              wq, mmsize                 ;     w -= $mmsize
-    cmp              wq, -mmsize                ;   } while (w > $mmsize);
-    jl .%1_x_loop
-    movu             m0, [srcq-mmsize]          ;     m0 = read($mmsize)
-    movu  [dstq-mmsize], m0                     ;     write(m0, $mmsize)
+.%1_y_loop:                             ; do {
+        mov     wq, r7mp                ;   initialize w (r7mp = wmp)
+.%1_x_loop:                             ;   do {
+        movu    m0, [srcq+wq]           ;     m0 = read($mmsize)
+        movu    [dstq+wq], m0           ;     write(m0, $mmsize)
+        add     wq, mmsize              ;     w -= $mmsize
+        cmp     wq, -mmsize             ;   } while (w > $mmsize);
+        jl      .%1_x_loop
+        movu    m0, [srcq-mmsize]       ;     m0 = read($mmsize)
+        movu    [dstq-mmsize], m0       ;     write(m0, $mmsize)
 %ifidn %1, body                                 ;   if ($type == body) {
-    add            srcq, src_strideq            ;     src += src_stride
+        add     srcq, src_strideq       ;     src += src_stride
 %endif                                          ;   }
-    add            dstq, dst_strideq            ;   dst += dst_stride
-    dec              %2                         ; } while (--$h);
-    jnz .%1_y_loop
+        add     dstq, dst_strideq       ;   dst += dst_stride
+        dec     %2                      ; } while (--$h);
+        jnz     .%1_y_loop
 %endmacro
 
 ; .----. <- zero
@@ -55,59 +55,59 @@ SECTION .text
 INIT_XMM sse
 %if ARCH_X86_64
 cglobal emu_edge_vvar, 7, 8, 1, dst, dst_stride, src, src_stride, \
-                                start_y, end_y, bh, w
+        start_y, end_y, bh, w
 %else ; x86-32
 cglobal emu_edge_vvar, 1, 6, 1, dst, src, start_y, end_y, bh, w
 %define src_strideq r3mp
 %define dst_strideq r1mp
-    mov            srcq, r2mp
-    mov        start_yq, r4mp
-    mov          end_yq, r5mp
-    mov             bhq, r6mp
+        mov     srcq,     r2mp
+        mov     start_yq, r4mp
+        mov     end_yq,   r5mp
+        mov     bhq, r6mp
 %endif
-    sub             bhq, end_yq                 ; bh    -= end_q
-    sub          end_yq, start_yq               ; end_q -= start_q
-    add            srcq, r7mp                   ; (r7mp = wmp)
-    add            dstq, r7mp                   ; (r7mp = wmp)
-    neg            r7mp                         ; (r7mp = wmp)
-    test       start_yq, start_yq               ; if (start_q) {
-    jz .body
-    V_COPY_ROW      top, start_yq               ;   v_copy_row(top, start_yq)
-.body:                                          ; }
-    V_COPY_ROW     body, end_yq                 ; v_copy_row(body, end_yq)
-    test            bhq, bhq                    ; if (bh) {
-    jz .end
-    sub            srcq, src_strideq            ;   src -= src_stride
-    V_COPY_ROW   bottom, bhq                    ;   v_copy_row(bottom, bh)
-.end:                                           ; }
-    RET
+        sub     bhq,    end_yq          ; bh    -= end_q
+        sub     end_yq, start_yq        ; end_q -= start_q
+        add     srcq,   r7mp            ; (r7mp = wmp)
+        add     dstq,   r7mp            ; (r7mp = wmp)
+        neg     r7mp                    ; (r7mp = wmp)
+        test    start_yq, start_yq      ; if (start_q) {
+        jz      .body
+        V_COPY_ROW top, start_yq        ;   v_copy_row(top, start_yq)
+.body:                                  ; }
+        V_COPY_ROW body, end_yq         ; v_copy_row(body, end_yq)
+        test    bhq, bhq                ; if (bh) {
+        jz      .end
+        sub     srcq, src_strideq       ;   src -= src_stride
+        V_COPY_ROW bottom, bhq          ;   v_copy_row(bottom, bh)
+.end:                                   ; }
+        RET
 
 %macro hvar_fn 0
 cglobal emu_edge_hvar, 5, 6, 1, dst, dst_stride, start_x, n_words, h, w
-    lea            dstq, [dstq+n_wordsq*2]
-    neg        n_wordsq
-    lea        start_xq, [start_xq+n_wordsq*2]
-.y_loop:                                        ; do {
+        lea     dstq, [dstq+n_wordsq*2]
+        neg     n_wordsq
+        lea     start_xq, [start_xq+n_wordsq*2]
+.y_loop:        ; do {
 %if cpuflag(avx2)
-    vpbroadcastb     m0, [dstq+start_xq]
-    mov              wq, n_wordsq               ;   initialize w
+        vpbroadcastb m0, [dstq+start_xq]
+        mov     wq, n_wordsq    ;   initialize w
 %else
-    movzx            wd, byte [dstq+start_xq]   ;   w = read(1)
-    imul             wd, 0x01010101             ;   w *= 0x01010101
-    movd             m0, wd
-    mov              wq, n_wordsq               ;   initialize w
-    pshufd           m0, m0, q0000              ;   splat
+        movzx   wd, byte [dstq+start_xq]        ;   w = read(1)
+        imul    wd, 0x01010101                  ;   w *= 0x01010101
+        movd    m0, wd
+        mov     wq, n_wordsq                    ;   initialize w
+        pshufd  m0, m0, q0000                   ;   splat
 %endif ; avx2
-.x_loop:                                        ;   do {
-    movu    [dstq+wq*2], m0                     ;     write($reg, $mmsize)
-    add              wq, mmsize/2               ;     w -= $mmsize/2
-    cmp              wq, -(mmsize/2)            ;   } while (w > $mmsize/2)
-    jl .x_loop
-    movu  [dstq-mmsize], m0                     ;   write($reg, $mmsize)
-    add            dstq, dst_strideq            ;   dst += dst_stride
-    dec              hq                         ; } while (h--)
-    jnz .y_loop
-    RET
+.x_loop:                                ;   do {
+        movu    [dstq+wq*2], m0         ;     write($reg, $mmsize)
+        add     wq, mmsize/2            ;     w -= $mmsize/2
+        cmp     wq, -(mmsize/2)         ;   } while (w > $mmsize/2)
+        jl      .x_loop
+        movu    [dstq-mmsize], m0       ;   write($reg, $mmsize)
+        add     dstq, dst_strideq       ;   dst += dst_stride
+        dec     hq                      ; } while (h--)
+        jnz     .y_loop
+        RET
 %endmacro
 
 INIT_XMM sse2
@@ -129,18 +129,18 @@ hvar_fn
 %assign %%xmm_idx 0 ; xmm register index
 
 %rep %2/mmsize
-    movu   xmm %+ %%xmm_idx, [srcq+%%off]
+        movu    xmm %+ %%xmm_idx, [srcq+%%off]
 %assign %%xmm_idx %%xmm_idx+1
 %assign %%off %%off+mmsize
 %endrep ; %2/mmsize
 
 %if (%2-%%off) >= 8
 %if %2 > 16 && (%2-%%off) > 8
-    movu   xmm %+ %%xmm_idx, [srcq+%2-16]
+        movu    xmm %+ %%xmm_idx, [srcq+%2-16]
 %assign %%xmm_idx %%xmm_idx+1
 %assign %%off %2
 %else
-    movq   xmm %+ %%xmm_idx, [srcq+%%off]
+        movq    xmm %+ %%xmm_idx, [srcq+%%off]
 %assign %%xmm_idx %%xmm_idx+1
 %assign %%off %%off+8
 %endif
@@ -148,10 +148,10 @@ hvar_fn
 
 %if (%2-%%off) >= 4
 %if %2 > 8 && (%2-%%off) > 4
-    movq   xmm %+ %%xmm_idx, [srcq+%2-8]
+        movq    xmm %+ %%xmm_idx, [srcq+%2-8]
 %assign %%off %2
 %else
-    movd   xmm %+ %%xmm_idx, [srcq+%%off]
+        movd    xmm %+ %%xmm_idx, [srcq+%%off]
 %assign %%off %%off+4
 %endif
 %assign %%xmm_idx %%xmm_idx+1
@@ -159,15 +159,15 @@ hvar_fn
 
 %if (%2-%%off) >= 1
 %if %2 >= 4
-    movd xmm %+ %%xmm_idx, [srcq+%2-4]
+        movd    xmm %+ %%xmm_idx, [srcq+%2-4]
 %elif (%2-%%off) == 1
-    mov            valb, [srcq+%2-1]
+        mov     valb, [srcq+%2-1]
 %elif (%2-%%off) == 2
-    mov            valw, [srcq+%2-2]
+        mov     valw, [srcq+%2-2]
 %else
-    mov            valb, [srcq+%2-1]
-    ror            vald, 16
-    mov            valw, [srcq+%2-3]
+        mov     valb, [srcq+%2-1]
+        ror     vald, 16
+        mov     valw, [srcq+%2-3]
 %endif
 %endif ; (%2-%%off) >= 1
 %endmacro ; READ_NUM_BYTES
@@ -177,18 +177,18 @@ hvar_fn
 %assign %%xmm_idx 0 ; xmm register index
 
 %rep %2/mmsize
-    movu   [dstq+%%off], xmm %+ %%xmm_idx
+        movu    [dstq+%%off], xmm %+ %%xmm_idx
 %assign %%xmm_idx %%xmm_idx+1
 %assign %%off %%off+mmsize
 %endrep ; %2/mmsize
 
 %if (%2-%%off) >= 8
 %if %2 > 16 && (%2-%%off) > 8
-    movu   [dstq+%2-16], xmm %+ %%xmm_idx
+        movu    [dstq+%2-16], xmm %+ %%xmm_idx
 %assign %%xmm_idx %%xmm_idx+1
 %assign %%off %2
 %else
-    movq   [dstq+%%off], xmm %+ %%xmm_idx
+        movq    [dstq+%%off], xmm %+ %%xmm_idx
 %assign %%xmm_idx %%xmm_idx+1
 %assign %%off %%off+8
 %endif
@@ -196,10 +196,10 @@ hvar_fn
 
 %if (%2-%%off) >= 4
 %if %2 > 8 && (%2-%%off) > 4
-    movq    [dstq+%2-8], xmm %+ %%xmm_idx
+        movq    [dstq+%2-8], xmm %+ %%xmm_idx
 %assign %%off %2
 %else
-    movd   [dstq+%%off], xmm %+ %%xmm_idx
+        movd    [dstq+%%off], xmm %+ %%xmm_idx
 %assign %%off %%off+4
 %endif
 %assign %%xmm_idx %%xmm_idx+1
@@ -207,17 +207,17 @@ hvar_fn
 
 %if (%2-%%off) >= 1
 %if %2 >= 4
-    movd    [dstq+%2-4], xmm %+ %%xmm_idx
+        movd    [dstq+%2-4], xmm %+ %%xmm_idx
 %elif (%2-%%off) == 1
-    mov     [dstq+%2-1], valb
+        mov     [dstq+%2-1], valb
 %elif (%2-%%off) == 2
-    mov     [dstq+%2-2], valw
+        mov     [dstq+%2-2], valw
 %else
-    mov     [dstq+%2-3], valw
-    ror            vald, 16
-    mov     [dstq+%2-1], valb
+        mov     [dstq+%2-3], valw
+        ror     vald, 16
+        mov     [dstq+%2-1], valb
 %ifnidn %1, body
-    ror            vald, 16
+        ror     vald, 16
 %endif
 %endif
 %endif ; (%2-%%off) >= 1
@@ -233,68 +233,68 @@ hvar_fn
 %if %%n <= 3
 %if ARCH_X86_64
 cglobal emu_edge_vfix %+ %%n, 6, 8, 0, dst, dst_stride, src, src_stride, \
-                                       start_y, end_y, val, bh
-    mov             bhq, r6mp                   ; r6mp = bhmp
+        start_y, end_y, val, bh
+        mov     bhq, r6mp       ; r6mp = bhmp
 %else ; x86-32
 cglobal emu_edge_vfix %+ %%n, 0, 6, 0, val, dst, src, start_y, end_y, bh
-    mov            dstq, r0mp
-    mov            srcq, r2mp
-    mov        start_yq, r4mp
-    mov          end_yq, r5mp
-    mov             bhq, r6mp
+        mov     dstq,     r0mp
+        mov     srcq,     r2mp
+        mov     start_yq, r4mp
+        mov     end_yq,   r5mp
+        mov     bhq, r6mp
 %define dst_strideq r1mp
 %define src_strideq r3mp
 %endif ; x86-64/32
 %else
 %if ARCH_X86_64
 cglobal emu_edge_vfix %+ %%n, 7, 7, 1, dst, dst_stride, src, src_stride, \
-                                       start_y, end_y, bh
+        start_y, end_y, bh
 %else ; x86-32
 cglobal emu_edge_vfix %+ %%n, 1, 5, 1, dst, src, start_y, end_y, bh
-    mov            srcq, r2mp
-    mov        start_yq, r4mp
-    mov          end_yq, r5mp
-    mov             bhq, r6mp
+        mov     srcq,     r2mp
+        mov     start_yq, r4mp
+        mov     end_yq,   r5mp
+        mov     bhq, r6mp
 %define dst_strideq r1mp
 %define src_strideq r3mp
 %endif ; x86-64/32
 %endif
-    ; FIXME move this to c wrapper?
-    sub             bhq, end_yq                 ; bh    -= end_y
-    sub          end_yq, start_yq               ; end_y -= start_y
+        ; FIXME move this to c wrapper?
+        sub     bhq,    end_yq          ; bh    -= end_y
+        sub     end_yq, start_yq        ; end_y -= start_y
 
-    ; extend pixels above body
-    test       start_yq, start_yq               ; if (start_y) {
-    jz .body_loop
-    READ_NUM_BYTES  top, %%n                    ;   $variable_regs = read($n)
-.top_loop:                                      ;   do {
-    WRITE_NUM_BYTES top, %%n                    ;     write($variable_regs, $n)
-    add            dstq, dst_strideq            ;     dst += linesize
-    dec        start_yq                         ;   } while (--start_y)
-    jnz .top_loop                               ; }
+        ; extend pixels above body
+        test    start_yq, start_yq      ; if (start_y) {
+        jz      .body_loop
+        READ_NUM_BYTES top, %%n         ;   $variable_regs = read($n)
+.top_loop:                              ;   do {
+        WRITE_NUM_BYTES top, %%n        ;     write($variable_regs, $n)
+        add     dstq, dst_strideq       ;     dst += linesize
+        dec     start_yq                ;   } while (--start_y)
+        jnz     .top_loop               ; }
 
-    ; copy body pixels
-.body_loop:                                     ; do {
-    READ_NUM_BYTES  body, %%n                   ;   $variable_regs = read($n)
-    WRITE_NUM_BYTES body, %%n                   ;   write($variable_regs, $n)
-    add            dstq, dst_strideq            ;   dst += dst_stride
-    add            srcq, src_strideq            ;   src += src_stride
-    dec          end_yq                         ; } while (--end_y)
-    jnz .body_loop
+        ; copy body pixels
+.body_loop:                             ; do {
+        READ_NUM_BYTES body, %%n        ;   $variable_regs = read($n)
+        WRITE_NUM_BYTES body, %%n       ;   write($variable_regs, $n)
+        add     dstq, dst_strideq       ;   dst += dst_stride
+        add     srcq, src_strideq       ;   src += src_stride
+        dec     end_yq                  ; } while (--end_y)
+        jnz     .body_loop
 
-    ; copy bottom pixels
-    test            bhq, bhq                    ; if (block_h) {
-    jz .end
-    sub            srcq, src_strideq            ;   src -= linesize
-    READ_NUM_BYTES  bottom, %%n                 ;   $variable_regs = read($n)
-.bottom_loop:                                   ;   do {
-    WRITE_NUM_BYTES bottom, %%n                 ;     write($variable_regs, $n)
-    add            dstq, dst_strideq            ;     dst += linesize
-    dec             bhq                         ;   } while (--bh)
-    jnz .bottom_loop                            ; }
+        ; copy bottom pixels
+        test    bhq, bhq                ; if (block_h) {
+        jz      .end
+        sub     srcq, src_strideq       ;   src -= linesize
+        READ_NUM_BYTES bottom, %%n      ;   $variable_regs = read($n)
+.bottom_loop:                           ;   do {
+        WRITE_NUM_BYTES bottom, %%n     ;     write($variable_regs, $n)
+        add     dstq, dst_strideq       ;     dst += linesize
+        dec     bhq                     ;   } while (--bh)
+        jnz     .bottom_loop            ; }
 
 .end:
-    RET
+        RET
 %assign %%n %%n+1
 %endrep ; 1+%2-%1
 %endmacro ; VERTICAL_EXTEND
@@ -309,13 +309,13 @@ VERTICAL_EXTEND 1, 22
 
 %macro READ_V_PIXEL 2
 %if cpuflag(avx2)
-    vpbroadcastb     m0, %2
+        vpbroadcastb m0, %2
 %else
-    movzx          vald, byte %2
-    imul           vald, 0x01010101
+        movzx   vald, byte %2
+        imul    vald, 0x01010101
 %if %1 >= 8
-    movd             m0, vald
-    pshufd           m0, m0, q0000
+        movd    m0, vald
+        pshufd  m0, m0, q0000
 %endif ; %1 > 16
 %endif ; avx2
 %endmacro ; READ_V_PIXEL
@@ -326,26 +326,26 @@ VERTICAL_EXTEND 1, 22
 %if %1 >= 8
 
 %rep %1/mmsize
-    movu     [%2+%%off], m0
+        movu    [%2+%%off], m0
 %assign %%off %%off+mmsize
 %endrep ; %1/mmsize
 
 %if %1-%%off >= 8
 %if %1 > 16 && %1-%%off > 8
-    movu     [%2+%1-16], m0
+        movu    [%2+%1-16], m0
 %assign %%off %1
 %else
-    movq     [%2+%%off], m0
+        movq    [%2+%%off], m0
 %assign %%off %%off+8
 %endif
 %endif ; %1-%%off >= 8
 
 %if %1-%%off >= 4
 %if %1 > 8 && %1-%%off > 4
-    movq      [%2+%1-8], m0
+        movq    [%2+%1-8], m0
 %assign %%off %1
 %else
-    movd     [%2+%%off], m0
+        movd    [%2+%%off], m0
 %assign %%off %%off+4
 %endif
 %endif ; %1-%%off >= 4
@@ -353,7 +353,7 @@ VERTICAL_EXTEND 1, 22
 %else ; %1 < 8
 
 %rep %1/4
-    mov      [%2+%%off], vald
+        mov     [%2+%%off], vald
 %assign %%off %%off+4
 %endrep ; %1/4
 
@@ -361,9 +361,9 @@ VERTICAL_EXTEND 1, 22
 
 %if %1-%%off == 2
 %if cpuflag(avx2)
-    movd     [%2+%%off-2], m0
+        movd    [%2+%%off-2], m0
 %else
-    mov      [%2+%%off], valw
+        mov     [%2+%%off], valw
 %endif ; avx2
 %endif ; (%1-%%off)/2
 %endmacro ; WRITE_V_PIXEL
@@ -377,12 +377,12 @@ cglobal emu_edge_hfix %+ %%n, 4, 4, 1, dst, dst_stride, start_x, bh
 cglobal emu_edge_hfix %+ %%n, 4, 5, 1, dst, dst_stride, start_x, bh, val
 %endif
 .loop_y:                                        ; do {
-    READ_V_PIXEL    %%n, [dstq+start_xq]        ;   $variable_regs = read($n)
-    WRITE_V_PIXEL   %%n, dstq                   ;   write($variable_regs, $n)
-    add            dstq, dst_strideq            ;   dst += dst_stride
-    dec             bhq                         ; } while (--bh)
-    jnz .loop_y
-    RET
+        READ_V_PIXEL %%n, [dstq+start_xq]       ;   $variable_regs = read($n)
+        WRITE_V_PIXEL %%n, dstq                 ;   write($variable_regs, $n)
+        add     dstq, dst_strideq               ;   dst += dst_stride
+        dec     bhq                             ; } while (--bh)
+        jnz     .loop_y
+        RET
 %assign %%n %%n+2
 %endrep ; 1+(%2-%1)/2
 %endmacro ; H_EXTEND
@@ -398,8 +398,8 @@ H_EXTEND 8, 22
 INIT_MMX mmxext
 cglobal prefetch, 3, 3, 0, buf, stride, h
 .loop:
-    prefetcht0 [bufq]
-    add      bufq, strideq
-    dec        hd
-    jg .loop
-    RET
+        prefetcht0 [bufq]
+        add     bufq, strideq
+        dec     hd
+        jg      .loop
+        RET

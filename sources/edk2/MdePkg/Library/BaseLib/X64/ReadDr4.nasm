@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINTN
@@ -27,10 +27,9 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmReadDr4)
 ASM_PFX(AsmReadDr4):
-    ;
-    ; There's no obvious reason to access this register, since it's aliased to
-    ; DR7 when DE=0 or an exception generated when DE=1
-    ;
-    mov     rax, dr4
-    ret
-
+        ;
+        ; There's no obvious reason to access this register, since it's aliased to
+        ; DR7 when DE=0 or an exception generated when DE=1
+        ;
+        mov     rax, dr4
+        ret

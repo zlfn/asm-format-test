@@ -4,11 +4,10 @@
 ; CC65 library: 16x16 => 32 unsigned multiplication
 ;
 
-        .export         _umul16x16r32
-        .import         umul16x16r32, popax
+        .export _umul16x16r32
+        .import umul16x16r32, popax
 
-        .include        "zeropage.inc"
-
+        .include "zeropage.inc"
 
 ;---------------------------------------------------------------------------
 ; 16x16 => 32 unsigned multiplication routine.
@@ -21,5 +20,3 @@
         jmp     umul16x16r32
 
 .endproc
-
-

@@ -10,9 +10,9 @@ EXTERN l_jpix
 
 .sp1_IterateSprChar_callee
 
-   pop hl
-   pop ix
-   ex (sp),hl
+        pop     hl
+        pop     ix
+        ex      (sp), hl
 
 .asmentry
 
@@ -25,26 +25,26 @@ EXTERN l_jpix
 
 .SP1IterateSprChar
 
-   ld bc,15
-   add hl,bc              ; hl = & struct sp1_ss.first
+        ld      bc, 15
+        add     hl, bc  ; hl = & struct sp1_ss.first
 
-   ld c,b                 ; bc = sprite char counter = 0
+        ld      c, b    ; bc = sprite char counter = 0
 
 .iterloop
 
-   ld a,(hl)
-   or a
-   ret z
+        ld      a, (hl)
+        or      a
+        ret     z
 
-   inc hl
-   ld l,(hl)
-   ld h,a                 ; hl = & next struct sp1_cs
-   push bc
-   push hl
-   call l_jpix            ; call userfunc(uint count, struct sp1_cs *c)
-   pop hl
-   pop bc
-   inc bc
-   jp iterloop
+        inc     hl
+        ld      l, (hl)
+        ld      h, a    ; hl = & next struct sp1_cs
+        push    bc
+        push    hl
+        call    l_jpix  ; call userfunc(uint count, struct sp1_cs *c)
+        pop     hl
+        pop     bc
+        inc     bc
+        jp      iterloop
 
 DEFC ASMDISP_SP1_ITERATESPRCHAR_CALLEE = asmentry - sp1_IterateSprChar_callee

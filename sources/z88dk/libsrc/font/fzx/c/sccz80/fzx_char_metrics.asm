@@ -10,14 +10,14 @@ EXTERN fzx0_char_metrics_callee
 
 fzx_char_metrics:
 
-   pop af
-   pop bc
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push bc
-   push af
-   
-   jp fzx0_char_metrics_callee
+        pop     af
+        pop     bc
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    bc
+        push    af
+
+        jp      fzx0_char_metrics_callee

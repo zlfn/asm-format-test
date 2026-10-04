@@ -35,15 +35,15 @@
  * Output: %rax
  */
 SYM_FUNC_START(xen_hypercall_pv)
-	ANNOTATE_NOENDBR
-	push %rcx
-	push %r11
-	UNWIND_HINT_SAVE
-	syscall
-	UNWIND_HINT_RESTORE
-	pop %r11
-	pop %rcx
-	RET
+        ANNOTATE_NOENDBR
+        push    %rcx
+        push    %r11
+        UNWIND_HINT_SAVE
+        syscall
+        UNWIND_HINT_RESTORE
+        pop     %r11
+        pop     %rcx
+        RET
 SYM_FUNC_END(xen_hypercall_pv)
 
 /*
@@ -51,9 +51,9 @@ SYM_FUNC_END(xen_hypercall_pv)
  * non-zero.
  */
 SYM_FUNC_START(xen_irq_disable_direct)
-	ENDBR
-	movb $1, PER_CPU_VAR(xen_vcpu_info + XEN_vcpu_info_mask)
-	RET
+        ENDBR
+        movb    $1, PER_CPU_VAR(xen_vcpu_info + XEN_vcpu_info_mask)
+        RET
 SYM_FUNC_END(xen_irq_disable_direct)
 
 /*
@@ -61,28 +61,28 @@ SYM_FUNC_END(xen_irq_disable_direct)
  * before making the call.
  */
 SYM_FUNC_START(check_events)
-	FRAME_BEGIN
-	push %rax
-	push %rcx
-	push %rdx
-	push %rsi
-	push %rdi
-	push %r8
-	push %r9
-	push %r10
-	push %r11
-	call xen_force_evtchn_callback
-	pop %r11
-	pop %r10
-	pop %r9
-	pop %r8
-	pop %rdi
-	pop %rsi
-	pop %rdx
-	pop %rcx
-	pop %rax
-	FRAME_END
-	RET
+        FRAME_BEGIN
+        push    %rax
+        push    %rcx
+        push    %rdx
+        push    %rsi
+        push    %rdi
+        push    %r8
+        push    %r9
+        push    %r10
+        push    %r11
+        call    xen_force_evtchn_callback
+        pop     %r11
+        pop     %r10
+        pop     %r9
+        pop     %r8
+        pop     %rdi
+        pop     %rsi
+        pop     %rdx
+        pop     %rcx
+        pop     %rax
+        FRAME_END
+        RET
 SYM_FUNC_END(check_events)
 
 /*
@@ -91,10 +91,10 @@ SYM_FUNC_END(check_events)
  * then enter the hypervisor to get them handled.
  */
 SYM_FUNC_START(xen_irq_enable_direct)
-	ENDBR
-	FRAME_BEGIN
-	/* Unmask events */
-	movb $0, PER_CPU_VAR(xen_vcpu_info + XEN_vcpu_info_mask)
+        ENDBR
+        FRAME_BEGIN
+        /* Unmask events */
+        movb    $0, PER_CPU_VAR(xen_vcpu_info + XEN_vcpu_info_mask)
 
 	/*
 	 * Preempt here doesn't matter because that will deal with any
@@ -102,14 +102,14 @@ SYM_FUNC_START(xen_irq_enable_direct)
 	 * on the wrong CPU, but that doesn't hurt.
 	 */
 
-	/* Test for pending */
-	testb $0xff, PER_CPU_VAR(xen_vcpu_info + XEN_vcpu_info_pending)
-	jz 1f
+        /* Test for pending */
+        testb   $0xff, PER_CPU_VAR(xen_vcpu_info + XEN_vcpu_info_pending)
+        jz      1f
 
-	call check_events
+        call    check_events
 1:
-	FRAME_END
-	RET
+        FRAME_END
+        RET
 SYM_FUNC_END(xen_irq_enable_direct)
 
 /*
@@ -122,38 +122,38 @@ SYM_FUNC_END(xen_irq_enable_direct)
  * x86 use opposite senses (mask vs enable).
  */
 SYM_FUNC_START(xen_save_fl_direct)
-	ENDBR
-	testb $0xff, PER_CPU_VAR(xen_vcpu_info + XEN_vcpu_info_mask)
-	setz %ah
-	addb %ah, %ah
-	RET
+        ENDBR
+        testb   $0xff, PER_CPU_VAR(xen_vcpu_info + XEN_vcpu_info_mask)
+        setz    %ah
+        addb    %ah, %ah
+        RET
 SYM_FUNC_END(xen_save_fl_direct)
 
 SYM_FUNC_START(xen_read_cr2)
-	ENDBR
-	FRAME_BEGIN
-	_ASM_MOV PER_CPU_VAR(xen_vcpu), %_ASM_AX
-	_ASM_MOV XEN_vcpu_info_arch_cr2(%_ASM_AX), %_ASM_AX
-	FRAME_END
-	RET
+        ENDBR
+        FRAME_BEGIN
+        _ASM_MOV PER_CPU_VAR(xen_vcpu), %_ASM_AX
+        _ASM_MOV XEN_vcpu_info_arch_cr2(%_ASM_AX), %_ASM_AX
+        FRAME_END
+        RET
 SYM_FUNC_END(xen_read_cr2);
 
 SYM_FUNC_START(xen_read_cr2_direct)
-	ENDBR
-	FRAME_BEGIN
-	_ASM_MOV PER_CPU_VAR(xen_vcpu_info + XEN_vcpu_info_arch_cr2), %_ASM_AX
-	FRAME_END
-	RET
+        ENDBR
+        FRAME_BEGIN
+        _ASM_MOV PER_CPU_VAR(xen_vcpu_info + XEN_vcpu_info_arch_cr2), %_ASM_AX
+        FRAME_END
+        RET
 SYM_FUNC_END(xen_read_cr2_direct);
 .popsection
 
 .macro xen_pv_trap name
 SYM_CODE_START(xen_\name)
-	UNWIND_HINT_ENTRY
-	ENDBR
-	pop %rcx
-	pop %r11
-	jmp  \name
+        UNWIND_HINT_ENTRY
+        ENDBR
+        pop     %rcx
+        pop     %r11
+        jmp     \name
 SYM_CODE_END(xen_\name)
 _ASM_NOKPROBE(xen_\name)
 .endm
@@ -189,20 +189,20 @@ xen_pv_trap asm_int80_emulation
 xen_pv_trap asm_exc_xen_unknown_trap
 xen_pv_trap asm_exc_xen_hypervisor_callback
 
-	__INIT
+        __INIT
 SYM_CODE_START(xen_early_idt_handler_array)
-	i = 0
-	.rept NUM_EXCEPTION_VECTORS
-	UNWIND_HINT_UNDEFINED
-	ENDBR
-	pop %rcx
-	pop %r11
-	jmp early_idt_handler_array + i*EARLY_IDT_HANDLER_SIZE
-	i = i + 1
-	.fill xen_early_idt_handler_array + i*XEN_EARLY_IDT_HANDLER_SIZE - ., 1, 0xcc
-	.endr
+        i       = 0
+        .rept   NUM_EXCEPTION_VECTORS
+                UNWIND_HINT_UNDEFINED
+                ENDBR
+                pop     %rcx
+                pop     %r11
+                jmp     early_idt_handler_array + i*EARLY_IDT_HANDLER_SIZE
+                i       = i + 1
+                .fill   xen_early_idt_handler_array + i*XEN_EARLY_IDT_HANDLER_SIZE - ., 1, 0xcc
+        .endr
 SYM_CODE_END(xen_early_idt_handler_array)
-	__FINIT
+        __FINIT
 
 /*
  * Xen64 iret frame:
@@ -220,19 +220,19 @@ SYM_CODE_END(xen_early_idt_handler_array)
  * rsp->rax
  */
 .macro xen_hypercall_iret
-	pushq $0	/* Flags */
-	push %rcx
-	push %r11
-	push %rax
-	mov  $__HYPERVISOR_iret, %eax
-	syscall		/* Do the IRET. */
-	ud2		/* The SYSCALL should never return. */
+        pushq   $0      /* Flags */
+        push    %rcx
+        push    %r11
+        push    %rax
+        mov     $__HYPERVISOR_iret, %eax
+        syscall         /* Do the IRET. */
+        ud2             /* The SYSCALL should never return. */
 .endm
 
 SYM_CODE_START(xen_iret)
-	UNWIND_HINT_UNDEFINED
-	ANNOTATE_NOENDBR
-	xen_hypercall_iret
+        UNWIND_HINT_UNDEFINED
+        ANNOTATE_NOENDBR
+        xen_hypercall_iret
 SYM_CODE_END(xen_iret)
 
 /*
@@ -244,14 +244,14 @@ SYM_CODE_END(xen_iret)
  * frame at the same address is useless.
  */
 SYM_CODE_START(xenpv_restore_regs_and_return_to_usermode)
-	UNWIND_HINT_REGS
-	POP_REGS
+        UNWIND_HINT_REGS
+        POP_REGS
 
-	/* stackleak_erase() can work safely on the kernel stack. */
-	STACKLEAK_ERASE_NOCLOBBER
+        /* stackleak_erase() can work safely on the kernel stack. */
+        STACKLEAK_ERASE_NOCLOBBER
 
-	addq	$8, %rsp	/* skip regs->orig_ax */
-	jmp xen_iret
+        addq    $8, %rsp        /* skip regs->orig_ax */
+        jmp     xen_iret
 SYM_CODE_END(xenpv_restore_regs_and_return_to_usermode)
 
 /*
@@ -271,73 +271,73 @@ SYM_CODE_END(xenpv_restore_regs_and_return_to_usermode)
 
 /* Normal 64-bit system call target */
 SYM_CODE_START(xen_entry_SYSCALL_64)
-	UNWIND_HINT_ENTRY
-	ENDBR
-	popq %rcx
-	popq %r11
+        UNWIND_HINT_ENTRY
+        ENDBR
+        popq    %rcx
+        popq    %r11
 
 	/*
 	 * Neither Xen nor the kernel really knows what the old SS and
 	 * CS were.  The kernel expects __USER_DS and __USER_CS, so
 	 * report those values even though Xen will guess its own values.
 	 */
-	movq $__USER_DS, 4*8(%rsp)
-	movq $__USER_CS, 1*8(%rsp)
+        movq    $__USER_DS, 4*8(%rsp)
+        movq    $__USER_CS, 1*8(%rsp)
 
-	jmp entry_SYSCALL_64_after_hwframe
+        jmp     entry_SYSCALL_64_after_hwframe
 SYM_CODE_END(xen_entry_SYSCALL_64)
 
 #ifdef CONFIG_IA32_EMULATION
 
 /* 32-bit compat syscall target */
 SYM_CODE_START(xen_entry_SYSCALL_compat)
-	UNWIND_HINT_ENTRY
-	ENDBR
-	popq %rcx
-	popq %r11
+        UNWIND_HINT_ENTRY
+        ENDBR
+        popq    %rcx
+        popq    %r11
 
 	/*
 	 * Neither Xen nor the kernel really knows what the old SS and
 	 * CS were.  The kernel expects __USER_DS and __USER32_CS, so
 	 * report those values even though Xen will guess its own values.
 	 */
-	movq $__USER_DS, 4*8(%rsp)
-	movq $__USER32_CS, 1*8(%rsp)
+        movq    $__USER_DS,   4*8(%rsp)
+        movq    $__USER32_CS, 1*8(%rsp)
 
-	jmp entry_SYSCALL_compat_after_hwframe
+        jmp     entry_SYSCALL_compat_after_hwframe
 SYM_CODE_END(xen_entry_SYSCALL_compat)
 
 /* 32-bit compat sysenter target */
 SYM_CODE_START(xen_entry_SYSENTER_compat)
-	UNWIND_HINT_ENTRY
-	ENDBR
+        UNWIND_HINT_ENTRY
+        ENDBR
 	/*
 	 * NB: Xen is polite and clears TF from EFLAGS for us.  This means
 	 * that we don't need to guard against single step exceptions here.
 	 */
-	popq %rcx
-	popq %r11
+        popq    %rcx
+        popq    %r11
 
 	/*
 	 * Neither Xen nor the kernel really knows what the old SS and
 	 * CS were.  The kernel expects __USER_DS and __USER32_CS, so
 	 * report those values even though Xen will guess its own values.
 	 */
-	movq $__USER_DS, 4*8(%rsp)
-	movq $__USER32_CS, 1*8(%rsp)
+        movq    $__USER_DS,   4*8(%rsp)
+        movq    $__USER32_CS, 1*8(%rsp)
 
-	jmp entry_SYSENTER_compat_after_hwframe
+        jmp     entry_SYSENTER_compat_after_hwframe
 SYM_CODE_END(xen_entry_SYSENTER_compat)
 
 #else /* !CONFIG_IA32_EMULATION */
 
 SYM_CODE_START(xen_entry_SYSCALL_compat)
 SYM_CODE_START(xen_entry_SYSENTER_compat)
-	UNWIND_HINT_ENTRY
-	ENDBR
-	lea 16(%rsp), %rsp	/* strip %rcx, %r11 */
-	mov $-ENOSYS, %rax
-	xen_hypercall_iret
+        UNWIND_HINT_ENTRY
+        ENDBR
+        lea     16(%rsp), %rsp  /* strip %rcx, %r11 */
+        mov     $-ENOSYS, %rax
+        xen_hypercall_iret
 SYM_CODE_END(xen_entry_SYSENTER_compat)
 SYM_CODE_END(xen_entry_SYSCALL_compat)
 

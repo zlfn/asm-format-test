@@ -3,27 +3,26 @@
 ; void chline (unsigned char length);
 ;
 
-        .export         _chlinexy, _chline
+        .export _chlinexy, _chline
 
-        .import         rvs, display_conio, update_adscr
-        .import         popax
+        .import rvs, display_conio, update_adscr
+        .import popax
 
-        .include        "telestrat.inc"
-
+        .include "telestrat.inc"
 
 _chlinexy:
-        pha                     ; Save the length
-        jsr     popax           ; Get X and Y
-        sta     SCRY            ; Store Y
-        stx     SCRX            ; Store X
+        pha             ; Save the length
+        jsr     popax   ; Get X and Y
+        sta     SCRY    ; Store Y
+        stx     SCRX    ; Store X
         jsr     update_adscr
-        pla                     ; Restore the length and run into _chline
+        pla             ; Restore the length and run into _chline
 
 _chline:
-        tax                     ; Is the length zero?
-        beq     @L9             ; Jump if done
+        tax             ; Is the length zero?
+        beq     @L9     ; Jump if done
 @L1:
-        lda     #'-'            ; Horizontal line screen code
+        lda     #'-'    ; Horizontal line screen code
         ora     rvs
 
         jsr     display_conio
@@ -31,4 +30,3 @@ _chline:
 @L2:    dex
         bne     @L1
 @L9:    rts
-

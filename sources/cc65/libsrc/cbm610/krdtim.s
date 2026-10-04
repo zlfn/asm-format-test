@@ -4,9 +4,8 @@
 ; RDTIM kernal call
 ;
 
-        .export         RDTIM
-        .import         time : zeropage
-
+        .export RDTIM
+        .import time : zeropage
 
 .proc   RDTIM
 
@@ -18,4 +17,3 @@
         rts
 
 .endproc
-

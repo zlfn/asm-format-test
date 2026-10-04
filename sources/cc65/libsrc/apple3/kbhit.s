@@ -31,7 +31,7 @@ statcons:
 ;status param list
 statlist:
         .byte   3
-        .byte   0             ; dev_num
+        .byte   0       ; dev_num
         .byte   0
         .addr   statresult
 

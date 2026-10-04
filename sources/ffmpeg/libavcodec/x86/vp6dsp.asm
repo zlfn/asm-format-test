@@ -28,78 +28,78 @@ SECTION .text
 
 %macro DIAG4 7
 %if %7
-    mova          m0, [%1+%2]
-    mova          m1, [%1+%3]
+        mova    m0, [%1+%2]
+        mova    m1, [%1+%3]
 %else
-    movq          m0, [%1+%2]
-    movq          m1, [%1+%3]
-    punpcklbw     m0, m7
-    punpcklbw     m1, m7
+        movq    m0, [%1+%2]
+        movq    m1, [%1+%3]
+        punpcklbw m0, m7
+        punpcklbw m1, m7
 %endif
-    pmullw        m0, m4         ; src[x-8 ] * biweight [0]
-    pmullw        m1, m5         ; src[x   ] * biweight [1]
-    paddw         m0, m1
+        pmullw  m0, m4  ; src[x-8 ] * biweight [0]
+        pmullw  m1, m5  ; src[x   ] * biweight [1]
+        paddw   m0, m1
 %if %7
-    mova          m1, [%1+%4]
-    mova          m2, [%1+%5]
+        mova    m1, [%1+%4]
+        mova    m2, [%1+%5]
 %else
-    movq          m1, [%1+%4]
-    movq          m2, [%1+%5]
-    punpcklbw     m1, m7
-    punpcklbw     m2, m7
+        movq    m1, [%1+%4]
+        movq    m2, [%1+%5]
+        punpcklbw m1, m7
+        punpcklbw m2, m7
 %endif
-    paddw         m0, [pw_64]    ; Add 64
-    pmullw        m1, m6         ; src[x+8 ] * biweight [2]
-    pmullw        m2, m3         ; src[x+16] * biweight [3]
-    paddw         m1, m2
-    paddsw        m0, m1
-    psraw         m0, 7
+        paddw   m0, [pw_64]     ; Add 64
+        pmullw  m1, m6          ; src[x+8 ] * biweight [2]
+        pmullw  m2, m3          ; src[x+16] * biweight [3]
+        paddw   m1, m2
+        paddsw  m0, m1
+        psraw   m0, 7
 %if %7
-    packuswb      m0, m0
-    movq        [%6], m0
+        packuswb m0, m0
+        movq    [%6], m0
 %else
-    pmaxsw        m0, m7         ; clip to 0-255 range
-    mova        [%6], m0
+        pmaxsw  m0,   m7        ; clip to 0-255 range
+        mova    [%6], m0
 %endif
 %endmacro
 
 %macro SPLAT4REGS 0
-    punpcklwd    m3, m3
-    pshufd       m4, m3, 0x0
-    pshufd       m5, m3, 0x55
-    pshufd       m6, m3, 0xAA
-    pshufd       m3, m3, 0xFF
+        punpcklwd m3, m3
+        pshufd  m4, m3, 0x0
+        pshufd  m5, m3, 0x55
+        pshufd  m6, m3, 0xAA
+        pshufd  m3, m3, 0xFF
 %endmacro
 
 ; void ff_vp6_filter_diag4_<opt>(uint8_t *dst, uint8_t *src, ptrdiff_t stride,
 ;                                const int16_t h_weight[4], const int16_t v_weights[4])
 INIT_XMM sse2
 cglobal vp6_filter_diag4, 5, 6, 8, -16*11
-    sub          r1, r2
+        sub     r1, r2
 
-    pxor         m7, m7
-    movq         m3, [r3]
-    SPLAT4REGS
+        pxor    m7, m7
+        movq    m3, [r3]
+        SPLAT4REGS
 
-    mov          r3, rsp
-    mov         r5d, 11
+        mov     r3,  rsp
+        mov     r5d, 11
 .nextrow:
-    DIAG4        r1, -1, 0, 1, 2, r3, 0
-    add          r3, 16
-    add          r1, r2
-    dec         r5d
-    jnz .nextrow
+        DIAG4   r1, -1, 0, 1, 2, r3, 0
+        add     r3, 16
+        add     r1, r2
+        dec     r5d
+        jnz     .nextrow
 
-    movq         m3, [r4]
-    SPLAT4REGS
+        movq    m3, [r4]
+        SPLAT4REGS
 
-    lea          r3, [rsp+16]
-    mov         r1d, 8
+        lea     r3,  [rsp+16]
+        mov     r1d, 8
 .nextcol:
-    DIAG4        r3, -16, 0, 16, 32, r0, 1
-    add          r3, 16
-    add          r0, r2
-    dec         r1d
-    jnz .nextcol
+        DIAG4   r3, -16, 0, 16, 32, r0, 1
+        add     r3, 16
+        add     r0, r2
+        dec     r1d
+        jnz     .nextcol
 
-    RET
+        RET

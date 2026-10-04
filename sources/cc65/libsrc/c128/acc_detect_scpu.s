@@ -11,17 +11,17 @@
 ; * 0x01  : SuperCPU cartridge present
 ; */
 
-        .export         _detect_scpu
+        .export _detect_scpu
 
-        .include        "accelerator.inc"
+        .include "accelerator.inc"
 _detect_scpu:
         ldx     #$00
         txa
 
 ; Make sure the current CPU is a 65816
         clc
-        .byte   $E2,$01                ; NOP #$01 on 6510 and 65(S)C02, LDA $(01,S),Y on 65CE02 and 4510, SEP #$01 on 65816
-        bcc     not_found              ; carry will be set on 65816
+        .byte   $E2, $01        ; NOP #$01 on 6510 and 65(S)C02, LDA $(01,S),Y on 65CE02 and 4510, SEP #$01 on 65816
+        bcc     not_found       ; carry will be set on 65816
 
 ; 65816 has been detected, make sure it's the SuperCPU cartridge
 

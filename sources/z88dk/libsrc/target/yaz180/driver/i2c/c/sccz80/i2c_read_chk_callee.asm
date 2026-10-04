@@ -15,20 +15,18 @@ PUBLIC i2c_read_chk_callee
 ;   B  = length of data sentence expected, uint8_t length
 ;   C  = 7 bit address of slave device, uint8_t addr
 
-
 .i2c_read_chk_callee
-    pop af                              ;ret
-    pop de                              ;length
-    pop bc                              ;slave address
-    ld b,e                              ;length
-    pop de                              ;device
-    push af                             ;ret
+        pop     af      ;ret
+        pop     de      ;length
+        pop     bc      ;slave address
+        ld      b, e    ;length
+        pop     de      ;device
+        push    af      ;ret
 
-    ld a,e                              ;device address
-    cp __IO_I2C2_PORT_MSB
-    jp Z,asm_i2c2_read_chk
-    cp __IO_I2C1_PORT_MSB
-    jp Z,asm_i2c1_read_chk
-    ld hl,0                             ;return 0 in HL
-    ret                                 ;no device address match, so exit
-
+        ld      a, e    ;device address
+        cp      __IO_I2C2_PORT_MSB
+        jp      Z, asm_i2c2_read_chk
+        cp      __IO_I2C1_PORT_MSB
+        jp      Z,  asm_i2c1_read_chk
+        ld      hl, 0   ;return 0 in HL
+        ret             ;no device address match, so exit

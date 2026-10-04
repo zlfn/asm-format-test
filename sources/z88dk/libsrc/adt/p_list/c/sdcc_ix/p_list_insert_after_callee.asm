@@ -10,10 +10,10 @@ EXTERN asm_p_list_insert_after
 
 _p_list_insert_after_callee:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   push af
-   
-   jp asm_p_list_insert_after
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_p_list_insert_after

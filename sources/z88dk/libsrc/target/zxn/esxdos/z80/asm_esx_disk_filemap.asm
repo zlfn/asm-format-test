@@ -11,62 +11,61 @@ EXTERN __esx_stream_card_flags
 
 asm_esx_disk_filemap:
 
-   ; enter :  a = handle
-   ;         hl = struct esx_filemap *fmap, fmap->mapsz filled in
-   ;
-   ; exit  : success
-   ;
-   ;            hl = fmap->mapsz (modified) = number of entries filled in
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = fmap->mapsz = 0
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl, ix
-   
-   push hl
-   
-   ld e,(hl)
-   ld (hl),0                   ; set number of entries returned to zero
-   
-   inc hl
+        ; enter :  a = handle
+        ;         hl = struct esx_filemap *fmap, fmap->mapsz filled in
+        ;
+        ; exit  : success
+        ;
+        ;            hl = fmap->mapsz (modified) = number of entries filled in
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = fmap->mapsz = 0
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl, ix
 
-   ld d,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,d                      ; hl = buffer
-   
-   ld d,0                      ; de = max entries
-   push de                     ; save max entries
-   
+        push    hl
+
+        ld      e,    (hl)
+        ld      (hl), 0 ; set number of entries returned to zero
+
+        inc     hl
+
+        ld      d, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, d    ; hl = buffer
+
+        ld      d, 0    ; de = max entries
+        push    de      ; save max entries
+
 IF __SDCC_IY
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 ELSE
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 ENDIF
 
-   rst __ESX_RST_SYS
-   defb __ESX_DISK_FILEMAP
+        rst     __ESX_RST_SYS
+        defb    __ESX_DISK_FILEMAP
 
-   pop bc
-   pop hl
-   jp c, __esxdos_error_zc
+        pop     bc
+        pop     hl
+        jp      c, __esxdos_error_zc
 
-   ld (__esx_stream_card_flags),a
+        ld      (__esx_stream_card_flags), a
 
-   ld a,c
-   sub e
-   ld e,a
+        ld      a, c
+        sub     e
+        ld      e, a
 
-   ld (hl),e                   ; store number of entries returned
-   
-   ex de,hl
-   ret
+        ld      (hl), e ; store number of entries returned
 
+        ex      de, hl
+        ret
 
 ; ***************************************************************************
 ; * DISK_FILEMAP ($85) *

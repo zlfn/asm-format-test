@@ -10,10 +10,10 @@ EXTERN _isgraph_fastcall
 
 _isgraph:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _isgraph_fastcall
+        push    hl
+        push    af
+
+        jp      _isgraph_fastcall

@@ -10,6 +10,6 @@ EXTERN in_Inkey
 
 .in_WaitForNoKey
 ._in_WaitForNoKey
-	call	in_Inkey
-	jr	nc,in_WaitForNoKey
-	ret
+        call    in_Inkey
+        jr      nc, in_WaitForNoKey
+        ret

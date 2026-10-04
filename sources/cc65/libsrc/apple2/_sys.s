@@ -2,22 +2,22 @@
 ; void __fastcall__ _sys (struct regs* r);
 ;
 
-        .export         __sys
-        .import         jmpvec
+        .export __sys
+        .import jmpvec
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .segment        "LOWCODE"
+        .segment "LOWCODE"
 
 __sys:  sta     ptr1
-        stx     ptr1+1          ; Save the pointer to r
+        stx     ptr1+1  ; Save the pointer to r
 
         ; Fetch the PC and store it into the jump vector
         ldy     #5
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     jmpvec+2
         dey
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     jmpvec+1
 
         ; Remember the flags so we can restore them to a known state after calling the
@@ -28,21 +28,21 @@ __sys:  sta     ptr1
         ; the flags value passed by the caller. Push the new flags and push A.
         dey
         php
-        pla                     ; Current flags -> A
-        eor     (ptr1),y
+        pla     ; Current flags -> A
+        eor     (ptr1), y
         and     #%00110000
-        eor     (ptr1),y
-        pha                     ; Push new flags value
+        eor     (ptr1), y
+        pha     ; Push new flags value
         ldy     #0
-        lda     (ptr1),y
+        lda     (ptr1), y
         pha
 
         ; Get and assign X and Y
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         tax
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         tay
 
         ; Switch in ROM
@@ -63,16 +63,16 @@ __sys:  sta     ptr1
         ; Put the register values into the regs structure
         tya
         ldy     #2
-        sta     (ptr1),y
+        sta     (ptr1), y
         dey
         txa
-        sta     (ptr1),y
+        sta     (ptr1), y
         dey
         pla
-        sta     (ptr1),y
+        sta     (ptr1), y
         ldy     #3
         pla
-        sta     (ptr1),y
+        sta     (ptr1), y
 
         ; Restore the old flags value
         plp

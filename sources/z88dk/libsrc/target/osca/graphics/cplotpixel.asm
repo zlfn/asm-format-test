@@ -37,11 +37,11 @@ cplotpixel:
         add     hl, hl
         add     hl, hl
         add     hl, hl
-        add     hl, hl                  ; y+*64
-        ld      d, e                    ; ..+y*256
-        ld      e, 0
+        add     hl, hl  ; y+*64
+        ld      d,  e   ; ..+y*256
+        ld      e,  0
         add     hl, de
-        adc     a, 0                    ;a = carry
+        adc     a,  0   ;a = carry
 
         pop     de                      ;divide x coord by 2 as there are two pixels at each byte location
         ld      c, 0                    ;c = left (0), right (1) nybble select
@@ -49,8 +49,8 @@ cplotpixel:
         rr      e
         rr      c
         add     hl, de                  ;hl = address in VRAM where pixel is to go [15:0]
-        adc     a, 0                    ;a = carry
-        ld      b, h                    ;convert linear address to 8KB page and offset 0-8191 byte offset
+        adc     a,  0                   ;a = carry
+        ld      b,  h                   ;convert linear address to 8KB page and offset 0-8191 byte offset
         sla     b
         rl      a
         sla     b
@@ -63,12 +63,12 @@ cplotpixel:
         or      $20
         ld      h, a                    ;adjust
 
-        ex      af, af'                 ;pixel colour
-        bit     7, c
-        jr      z, leftnyb
+        ex      af, af' ;pixel colour
+        bit     7,  c
+        jr      z,  leftnyb
 
         and     $0f
-        ld      c, a                    ;do right pixel
+        ld      c, a    ;do right pixel
         ld      a, (hl)
         and     $f0
         or      c
@@ -76,7 +76,7 @@ cplotpixel:
         ret
 
 leftnyb:
-        rrca                            ;do left pixel
+        rrca    ;do left pixel
         rrca
         rrca
         rrca
@@ -87,4 +87,3 @@ leftnyb:
         or      c
         ld      (hl), a
         ret
-

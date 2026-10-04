@@ -10,12 +10,12 @@ EXTERN asm_tolower
 
 _tolower_fastcall:
 
-   inc h
-   dec h
-   ret nz
+        inc     h
+        dec     h
+        ret     nz
 
-   ld a,l
-   call asm_tolower
-   
-   ld l,a
-   ret
+        ld      a, l
+        call    asm_tolower
+
+        ld      l, a
+        ret

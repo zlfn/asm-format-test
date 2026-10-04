@@ -7,9 +7,9 @@
 ; dhandle_t - 16bit (ptr)
 ;
 
-        .import         __sio_call,pushax
-        .export         _dio_write
-        .include        "atari.inc"
+        .import __sio_call, pushax
+        .export _dio_write
+        .include "atari.inc"
 
 .proc   _dio_write
 
@@ -19,4 +19,3 @@
         jmp     __sio_call      ; do the call and return to the user
 
 .endproc
-

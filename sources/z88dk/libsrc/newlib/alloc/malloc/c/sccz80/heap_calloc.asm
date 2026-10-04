@@ -16,17 +16,17 @@ EXTERN asm_heap_calloc
 
 heap_calloc:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push bc
-   push af
-   
-   jp asm_heap_calloc
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_heap_calloc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -10,5 +10,5 @@ PUBLIC l_int2long_u_float
 EXTERN float
 
 l_int2long_u_float:
-   ld de,0
-   jp float
+        ld      de, 0
+        jp      float

@@ -6,11 +6,11 @@
 ; int __fastcall__ strncasecmp (const char* s1, const char* s2, size_t count);
 ;
 
-        .export         _strnicmp, _strncasecmp
-        .import         popax, popptr1
-        .importzp       ptr1, ptr2, ptr3, tmp1, tmp2
-        .import         ctypemaskdirect
-        .include        "ctype.inc"
+        .export _strnicmp, _strncasecmp
+        .import popax,     popptr1
+        .importzp ptr1, ptr2, ptr3, tmp1, tmp2
+        .import ctypemaskdirect
+        .include "ctype.inc"
 
 _strnicmp:
 _strncasecmp:
@@ -19,14 +19,14 @@ _strncasecmp:
         stx     ptr3+1
         tax
         inx
-        stx     ptr3        ; save count with each byte incremented separately
+        stx     ptr3    ; save count with each byte incremented separately
 
 ; Get the remaining arguments
 
-        jsr     popax           ; get s2
+        jsr     popax   ; get s2
         sta     ptr2
         stx     ptr2+1
-        jsr     popptr1         ; get s1
+        jsr     popptr1 ; get s1
 
 ; Loop setup
 
@@ -34,12 +34,12 @@ _strncasecmp:
 
 ; Start of compare loop. Check the counter.
 
-Loop:   dec     ptr3            ; decrement high byte
+Loop:   dec     ptr3    ; decrement high byte
         beq     IncHi
 
 ; Compare a byte from the strings
 
-Comp:   lda     (ptr2),y
+Comp:   lda     (ptr2), y
         sta     tmp2            ; remember original char
         jsr     ctypemaskdirect ; get character classification
         and     #CT_LOWER       ; lower case char?
@@ -48,7 +48,7 @@ Comp:   lda     (ptr2),y
         adc     tmp2            ; ctypemaskdirect ensures carry clear!
         sta     tmp2            ; remember upper case equivalent
 
-L1:     lda     (ptr1),y        ; get character from first string
+L1:     lda     (ptr1), y       ; get character from first string
         sta     tmp1            ; remember original char
         jsr     ctypemaskdirect ; get character classification
         and     #CT_LOWER       ; lower case char?
@@ -69,12 +69,12 @@ L2:     ldx     tmp1
         bne     Loop
         inc     ptr1+1
         inc     ptr2+1
-        bne     Loop            ; branch always
+        bne     Loop    ; branch always
 
 ; Increment hi byte
 
 IncHi:  dec     ptr3+1
-        bne     Comp            ; jump if counter not zero
+        bne     Comp    ; jump if counter not zero
 
 ; Exit code if strings are equal. a/x not set
 
@@ -86,8 +86,8 @@ Equal1: rts
 
 NotEqual:
         bcs     L3
-        ldx     #$FF            ; make result negative
+        ldx     #$FF    ; make result negative
         rts
 
-L3:     ldx     #$01            ; make result positive
+L3:     ldx     #$01    ; make result positive
         rts

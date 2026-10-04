@@ -7,28 +7,28 @@ PUBLIC ____sdcc_store_debc_hlix
 ____sdcc_store_debc_hlix:
 
 IFDEF __SDCC_IX
-   
-   push ix
-   
+
+        push    ix
+
 ELSE
 
-   push iy
+        push    iy
 
 ENDIF
 
-   ex de,hl
-   
-   ex (sp),hl
-   add hl,de
-   
-   pop de
-   
-   ld (hl),d
-   dec hl
-   ld (hl),e
-   dec hl
-   ld (hl),b
-   dec hl
-   ld (hl),c
-   
-   ret
+        ex      de, hl
+
+        ex      (sp), hl
+        add     hl,   de
+
+        pop     de
+
+        ld      (hl), d
+        dec     hl
+        ld      (hl), e
+        dec     hl
+        ld      (hl), b
+        dec     hl
+        ld      (hl), c
+
+        ret

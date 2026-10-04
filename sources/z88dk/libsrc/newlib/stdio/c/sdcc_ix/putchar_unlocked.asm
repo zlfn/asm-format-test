@@ -10,10 +10,10 @@ EXTERN _putchar_unlocked_fastcall
 
 _putchar_unlocked:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _putchar_unlocked_fastcall
+        push    hl
+        push    af
+
+        jp      _putchar_unlocked_fastcall

@@ -71,227 +71,227 @@ GLOBL ·atan2xpim<> + 0(SB), RODATA, $8
 // with coefficients determined with a Remez exchange algorithm.
 
 TEXT	·atan2Asm(SB), NOSPLIT, $0-24
-	// special case
-	MOVD	x+0(FP), R1
-	MOVD	y+8(FP), R2
+        // special case
+        MOVD    x+0(FP), R1
+        MOVD    y+8(FP), R2
 
-	// special case Atan2(NaN, y) = NaN
-	MOVD	$~(1<<63), R5
-	AND	R1, R5		// x = |x|
-	MOVD	$PosInf, R3
-	CMPUBLT	R3, R5, returnX
+        // special case Atan2(NaN, y) = NaN
+        MOVD    $~(1<<63), R5
+        AND     R1, R5  // x = |x|
+        MOVD    $PosInf, R3
+        CMPUBLT R3, R5, returnX
 
-	// special case Atan2(x, NaN) = NaN
-	MOVD	$~(1<<63), R5
-	AND	R2, R5
-	CMPUBLT R3, R5, returnY
+        // special case Atan2(x, NaN) = NaN
+        MOVD    $~(1<<63), R5
+        AND     R2, R5
+        CMPUBLT R3, R5, returnY
 
-	MOVD	$NegZero, R3
-	CMPUBEQ	R3, R1, xIsNegZero
+        MOVD    $NegZero, R3
+        CMPUBEQ R3, R1, xIsNegZero
 
-	MOVD	$0, R3
-	CMPUBEQ	R3, R1, xIsPosZero
+        MOVD    $0, R3
+        CMPUBEQ R3, R1, xIsPosZero
 
-	MOVD	$PosInf, R4
-	CMPUBEQ	R4, R2, yIsPosInf
+        MOVD    $PosInf, R4
+        CMPUBEQ R4, R2, yIsPosInf
 
-	MOVD	$NegInf, R4
-	CMPUBEQ	R4, R2, yIsNegInf
-	BR	Normal
+        MOVD    $NegInf, R4
+        CMPUBEQ R4, R2, yIsNegInf
+        BR      Normal
 xIsNegZero:
-	// special case Atan(-0, y>=0) = -0
-	MOVD	$0, R4
-	CMPBLE	R4, R2, returnX
+        // special case Atan(-0, y>=0) = -0
+        MOVD    $0, R4
+        CMPBLE  R4, R2, returnX
 
-	//special case Atan2(-0, y<=-0) = -Pi
-	MOVD	$NegZero, R4
-	CMPBGE	R4, R2, returnNegPi
-	BR	Normal
+        //special case Atan2(-0, y<=-0) = -Pi
+        MOVD    $NegZero, R4
+        CMPBGE  R4, R2, returnNegPi
+        BR      Normal
 xIsPosZero:
-	//special case Atan2(0, 0) = 0
-	MOVD	$0, R4
-	CMPUBEQ	R4, R2, returnX
+        //special case Atan2(0, 0) = 0
+        MOVD    $0, R4
+        CMPUBEQ R4, R2, returnX
 
-	//special case Atan2(0, y<=-0) = Pi
-	MOVD	$NegZero, R4
-	CMPBGE	R4, R2, returnPi
-	BR Normal
+        //special case Atan2(0, y<=-0) = Pi
+        MOVD    $NegZero, R4
+        CMPBGE  R4, R2, returnPi
+        BR      Normal
 yIsNegInf:
-	//special case Atan2(+Inf, -Inf) = 3Pi/4
-	MOVD	$PosInf, R3
-	CMPUBEQ	R3, R1, posInfNegInf
+        //special case Atan2(+Inf, -Inf) = 3Pi/4
+        MOVD    $PosInf, R3
+        CMPUBEQ R3, R1, posInfNegInf
 
-	//special case Atan2(-Inf, -Inf) = -3Pi/4
-	MOVD	$NegInf, R3
-	CMPUBEQ	R3, R1, negInfNegInf
-	BR Normal
+        //special case Atan2(-Inf, -Inf) = -3Pi/4
+        MOVD    $NegInf, R3
+        CMPUBEQ R3, R1, negInfNegInf
+        BR      Normal
 yIsPosInf:
-	//special case Atan2(+Inf, +Inf) = Pi/4
-	MOVD	$PosInf, R3
-	CMPUBEQ	R3, R1, posInfPosInf
+        //special case Atan2(+Inf, +Inf) = Pi/4
+        MOVD    $PosInf, R3
+        CMPUBEQ R3, R1, posInfPosInf
 
-	//special case Atan2(-Inf, +Inf) = -Pi/4
-	MOVD	$NegInf, R3
-	CMPUBEQ	R3, R1, negInfPosInf
+        //special case Atan2(-Inf, +Inf) = -Pi/4
+        MOVD    $NegInf, R3
+        CMPUBEQ R3, R1, negInfPosInf
 
-	//special case Atan2(x, +Inf) = Copysign(0, x)
-	CMPBLT	R1, $0, returnNegZero
-	BR returnPosZero
+        //special case Atan2(x, +Inf) = Copysign(0, x)
+        CMPBLT  R1, $0, returnNegZero
+        BR      returnPosZero
 
 Normal:
-	FMOVD	x+0(FP), F0
-	FMOVD	y+8(FP), F2
-	MOVD	$·atan2rodataL25<>+0(SB), R9
-	LGDR	F0, R2
-	LGDR	F2, R1
-	RISBGNZ	$32, $63, $32, R2, R2
-	RISBGNZ	$32, $63, $32, R1, R1
-	WORD	$0xB9170032	//llgtr	%r3,%r2
-	RISBGZ	$63, $63, $33, R2, R5
-	WORD	$0xB9170041	//llgtr	%r4,%r1
-	WFLCDB	V0, V20
-	MOVW	R4, R6
-	MOVW	R3, R7
-	CMPUBLT	R6, R7, L17
-	WFDDB	V2, V0, V3
-	ADDW	$2, R5, R2
-	MOVW	R4, R6
-	MOVW	R3, R7
-	CMPUBLE	R6, R7, L20
+        FMOVD   x+0(FP), F0
+        FMOVD   y+8(FP), F2
+        MOVD    $·atan2rodataL25<>+0(SB), R9
+        LGDR    F0,  R2
+        LGDR    F2,  R1
+        RISBGNZ $32, $63, $32, R2, R2
+        RISBGNZ $32, $63, $32, R1, R1
+        WORD    $0xB9170032     //llgtr	%r3,%r2
+        RISBGZ  $63, $63, $33, R2, R5
+        WORD    $0xB9170041     //llgtr	%r4,%r1
+        WFLCDB  V0, V20
+        MOVW    R4, R6
+        MOVW    R3, R7
+        CMPUBLT R6, R7, L17
+        WFDDB   V2, V0, V3
+        ADDW    $2, R5, R2
+        MOVW    R4, R6
+        MOVW    R3, R7
+        CMPUBLE R6, R7, L20
 L3:
-	WFMDB	V3, V3, V4
-	VLEG	$0, 152(R9), V18
-	VLEG	$0, 144(R9), V16
-	FMOVD	136(R9), F1
-	FMOVD	128(R9), F5
-	FMOVD	120(R9), F6
-	WFMADB	V4, V16, V5, V16
-	WFMADB	V4, V6, V1, V6
-	FMOVD	112(R9), F7
-	WFMDB	V4, V4, V1
-	WFMADB	V4, V7, V18, V7
-	VLEG	$0, 104(R9), V18
-	WFMADB	V1, V6, V16, V6
-	CMPWU	R4, R3
-	FMOVD	96(R9), F5
-	VLEG	$0, 88(R9), V16
-	WFMADB	V4, V5, V18, V5
-	VLEG	$0, 80(R9), V18
-	VLEG	$0, 72(R9), V22
-	WFMADB	V4, V16, V18, V16
-	VLEG	$0, 64(R9), V18
-	WFMADB	V1, V7, V5, V7
-	WFMADB	V4, V18, V22, V18
-	WFMDB	V1, V1, V5
-	WFMADB	V1, V16, V18, V16
-	VLEG	$0, 56(R9), V18
-	WFMADB	V5, V6, V7, V6
-	VLEG	$0, 48(R9), V22
-	FMOVD	40(R9), F7
-	WFMADB	V4, V7, V18, V7
-	VLEG	$0, 32(R9), V18
-	WFMADB	V5, V6, V16, V6
-	WFMADB	V4, V18, V22, V18
-	VLEG	$0, 24(R9), V16
-	WFMADB	V1, V7, V18, V7
-	VLEG	$0, 16(R9), V18
-	VLEG	$0, 8(R9), V22
-	WFMADB	V4, V18, V16, V18
-	VLEG	$0, 0(R9), V16
-	WFMADB	V5, V6, V7, V6
-	WFMADB	V4, V16, V22, V16
-	FMUL	F3, F4
-	WFMADB	V1, V18, V16, V1
-	FMADD	F6, F5, F1
-	WFMADB	V4, V1, V3, V4
-	BLT	L18
-	BGT	L7
-	LTDBR	F2, F2
-	BLTU	L21
+        WFMDB   V3, V3,      V4
+        VLEG    $0, 152(R9), V18
+        VLEG    $0, 144(R9), V16
+        FMOVD   136(R9), F1
+        FMOVD   128(R9), F5
+        FMOVD   120(R9), F6
+        WFMADB  V4, V16, V5, V16
+        WFMADB  V4, V6,  V1, V6
+        FMOVD   112(R9), F7
+        WFMDB   V4,     V4,      V1
+        WFMADB  V4,     V7,      V18, V7
+        VLEG    $0,     104(R9), V18
+        WFMADB  V1,     V6,      V16, V6
+        CMPWU   R4,     R3
+        FMOVD   96(R9), F5
+        VLEG    $0,     88(R9),  V16
+        WFMADB  V4,     V5,      V18, V5
+        VLEG    $0,     80(R9),  V18
+        VLEG    $0,     72(R9),  V22
+        WFMADB  V4,     V16,     V18, V16
+        VLEG    $0,     64(R9),  V18
+        WFMADB  V1,     V7,      V5,  V7
+        WFMADB  V4,     V18,     V22, V18
+        WFMDB   V1,     V1,      V5
+        WFMADB  V1,     V16,     V18, V16
+        VLEG    $0,     56(R9),  V18
+        WFMADB  V5,     V6,      V7,  V6
+        VLEG    $0,     48(R9),  V22
+        FMOVD   40(R9), F7
+        WFMADB  V4,     V7,      V18, V7
+        VLEG    $0,     32(R9),  V18
+        WFMADB  V5,     V6,      V16, V6
+        WFMADB  V4,     V18,     V22, V18
+        VLEG    $0,     24(R9),  V16
+        WFMADB  V1,     V7,      V18, V7
+        VLEG    $0,     16(R9),  V18
+        VLEG    $0,     8(R9),   V22
+        WFMADB  V4,     V18,     V16, V18
+        VLEG    $0,     0(R9),   V16
+        WFMADB  V5,     V6,      V7,  V6
+        WFMADB  V4,     V16,     V22, V16
+        FMUL    F3,     F4
+        WFMADB  V1,     V18,     V16, V1
+        FMADD   F6,     F5,      F1
+        WFMADB  V4,     V1,      V3,  V4
+        BLT     L18
+        BGT     L7
+        LTDBR   F2, F2
+        BLTU    L21
 L8:
-	LTDBR	F0, F0
-	BLTU	L22
+        LTDBR   F0, F0
+        BLTU    L22
 L9:
-	WFCHDBS	V2, V0, V0
-	BNE	L18
+        WFCHDBS V2, V0, V0
+        BNE     L18
 L7:
-	MOVW	R1, R6
-	CMPBGE	R6, $0, L1
+        MOVW    R1, R6
+        CMPBGE  R6, $0, L1
 L18:
-	RISBGZ	$58, $60, $3, R2, R2
-	MOVD	$·atan2xpi2h<>+0(SB), R1
-	MOVD	·atan2xpim<>+0(SB), R3
-	LDGR	R3, F0
-	WORD	$0xED021000	//madb	%f4,%f0,0(%r2,%r1)
-	BYTE	$0x40
-	BYTE	$0x1E
+        RISBGZ  $58, $60, $3, R2, R2
+        MOVD    $·atan2xpi2h<>+0(SB), R1
+        MOVD    ·atan2xpim<>+0(SB),   R3
+        LDGR    R3, F0
+        WORD    $0xED021000     //madb	%f4,%f0,0(%r2,%r1)
+        BYTE    $0x40
+        BYTE    $0x1E
 L1:
-	FMOVD	F4, ret+16(FP)
-	RET
+        FMOVD   F4, ret+16(FP)
+        RET
 
 L20:
-	LTDBR	F2, F2
-	BLTU	L23
-	FMOVD	F2, F6
+        LTDBR   F2, F2
+        BLTU    L23
+        FMOVD   F2, F6
 L4:
-	LTDBR	F0, F0
-	BLTU	L24
-	FMOVD	F0, F4
+        LTDBR   F0, F0
+        BLTU    L24
+        FMOVD   F0, F4
 L5:
-	WFCHDBS	V6, V4, V4
-	BEQ	L3
+        WFCHDBS V6, V4, V4
+        BEQ     L3
 L17:
-	WFDDB	V0, V2, V4
-	BYTE	$0x18	//lr	%r2,%r5
-	BYTE	$0x25
-	LCDBR	F4, F3
-	BR	L3
+        WFDDB   V0, V2, V4
+        BYTE    $0x18   //lr	%r2,%r5
+        BYTE    $0x25
+        LCDBR   F4, F3
+        BR      L3
 L23:
-	LCDBR   F2, F6
-	BR	L4
+        LCDBR   F2, F6
+        BR      L4
 L22:
-	VLR	V20, V0
-	BR	L9
+        VLR     V20, V0
+        BR      L9
 L21:
-	LCDBR   F2, F2
-	BR	L8
+        LCDBR   F2, F2
+        BR      L8
 L24:
-	VLR	V20, V4
-	BR	L5
-returnX:	//the result is same as the first argument
-	MOVD	R1, ret+16(FP)
-	RET
-returnY:	//the result is same as the second argument
-	MOVD	R2, ret+16(FP)
-	RET
+        VLR     V20, V4
+        BR      L5
+returnX:                //the result is same as the first argument
+        MOVD    R1, ret+16(FP)
+        RET
+returnY:                //the result is same as the second argument
+        MOVD    R2, ret+16(FP)
+        RET
 returnPi:
-	MOVD	$Pi, R1
-	MOVD	R1, ret+16(FP)
-	RET
+        MOVD    $Pi, R1
+        MOVD    R1,  ret+16(FP)
+        RET
 returnNegPi:
-	MOVD	$NegPi, R1
-	MOVD	R1, ret+16(FP)
-	RET
+        MOVD    $NegPi, R1
+        MOVD    R1,     ret+16(FP)
+        RET
 posInfNegInf:
-	MOVD	$Pi3Div4, R1
-	MOVD	R1, ret+16(FP)
-	RET
+        MOVD    $Pi3Div4, R1
+        MOVD    R1, ret+16(FP)
+        RET
 negInfNegInf:
-	MOVD	$NegPi3Div4, R1
-	MOVD	R1, ret+16(FP)
-	RET
+        MOVD    $NegPi3Div4, R1
+        MOVD    R1, ret+16(FP)
+        RET
 posInfPosInf:
-	MOVD	$PiDiv4, R1
-	MOVD	R1, ret+16(FP)
-	RET
+        MOVD    $PiDiv4, R1
+        MOVD    R1, ret+16(FP)
+        RET
 negInfPosInf:
-	MOVD	$NegPiDiv4, R1
-	MOVD	R1, ret+16(FP)
-	RET
+        MOVD    $NegPiDiv4, R1
+        MOVD    R1, ret+16(FP)
+        RET
 returnNegZero:
-	MOVD	$NegZero, R1
-	MOVD	R1, ret+16(FP)
-	RET
+        MOVD    $NegZero, R1
+        MOVD    R1, ret+16(FP)
+        RET
 returnPosZero:
-	MOVD	$0, ret+16(FP)
-	RET
+        MOVD    $0, ret+16(FP)
+        RET

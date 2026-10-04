@@ -15,36 +15,36 @@ SECTION code_fp_math16
 PUBLIC asm_f16_mul2
 
 .asm_f16_mul2
-    ld a,$7c
-    and h
-    jr Z,zero_legal
+        ld      a, $7c
+        and     h
+        jr      Z, zero_legal
 
-    cp $7c
-    ret Z
+        cp      $7c
+        ret     Z
 
-    ld a,h
-    add 00000100b
-    ld h,a
-    cpl
-    and $7c
-    jr Z,infinity
-    ret
+        ld      a, h
+        add     00000100b
+        ld      h, a
+        cpl
+        and     $7c
+        jr      Z, infinity
+        ret
 
 .zero_legal
-    ld a,h
-    add a,a                     ; sign in C
-    ld hl,0
-    ld a,h
-    rra                         ; restore sign
-    ld h,a
-    ret
+        ld      a,  h
+        add     a,  a   ; sign in C
+        ld      hl, 0
+        ld      a,  h
+        rra             ; restore sign
+        ld      h, a
+        ret
 
 .infinity
-    ld a,h
-    add a,a                     ; sign in C
-    ld hl,$f800
-    ld a,h
-    rra
-    ld h,a
-    scf
-    ret
+        ld      a,  h
+        add     a,  a   ; sign in C
+        ld      hl, $f800
+        ld      a,  h
+        rra
+        ld      h, a
+        scf
+        ret

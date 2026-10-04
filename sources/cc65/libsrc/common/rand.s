@@ -36,19 +36,19 @@
 ;  multiplication, adding only 1 additional adc instruction.
 ;
 
-        .export         _rand, _srand
+        .export _rand, _srand
 
 .data
 
 ; The seed. When srand() is not called, the C standard says that that rand()
 ; should behave as if srand() was called with an argument of 1 before.
-rand:   .dword $B5B5B4B4
+rand:   .dword  $B5B5B4B4
 
 .code
 
-_srand: sta     rand+0          ; Store the seed
+_srand: sta     rand+0  ; Store the seed
         stx     rand+1
-        sta     rand+2          ; argument << 16 is convenient fill for MSW
+        sta     rand+2  ; argument << 16 is convenient fill for MSW
         stx     rand+3
         ; fall through to rand() to sufficiently "shuffle" first rand() result
 
@@ -61,10 +61,10 @@ _rand:  clc
         adc     rand+2
         sta     rand+2
         eor     rand+0
-        and     #$7f            ; Suppress sign bit (make it positive)
+        and     #$7f    ; Suppress sign bit (make it positive)
         tax
         lda     rand+2
         adc     rand+3
         sta     rand+3
         eor     rand+1
-        rts                     ; return bit (16-22,24-31) in (X,A)
+        rts             ; return bit (16-22,24-31) in (X,A)

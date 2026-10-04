@@ -5,13 +5,12 @@
 ; char cpeekrevers (void);
 ;
 
-        .export         _cpeekrevers
+        .export _cpeekrevers
 
-        .import         ppubuf_waitempty
-        .forceimport    initconio
+        .import ppubuf_waitempty
+        .forceimport initconio
 
-        .include        "nes.inc"
-
+        .include "nes.inc"
 
 _cpeekrevers:
         ; wait until all console data has been written
@@ -33,5 +32,5 @@ vwait:
         stx     PPU_VRAM_ADDR2
         stx     PPU_VRAM_ADDR2
 
-        and     #<$80           ; get reverse bit
+        and     #<$80   ; get reverse bit
         rts

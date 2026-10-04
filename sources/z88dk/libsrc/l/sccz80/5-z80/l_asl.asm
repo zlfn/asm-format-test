@@ -13,9 +13,9 @@ EXTERN l_lsl_hl
 
 l_asl:
 
-   ; shift DE left arithmetically by HL, move to HL
+        ; shift DE left arithmetically by HL, move to HL
 
-   ld a,l
-   ex de,hl
-   
-   jp l_lsl_hl
+        ld      a,  l
+        ex      de, hl
+
+        jp      l_lsl_hl

@@ -5,10 +5,9 @@
 ; /* Returns 1 if the CPU is in 2MHz mode. */
 ;
 
-        .export         _isfast
+        .export _isfast
 
-        .include        "c128.inc"
-
+        .include "c128.inc"
 
 .proc   _isfast
 
@@ -18,4 +17,3 @@
         rts
 
 .endproc
-

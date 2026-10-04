@@ -12,11 +12,11 @@ EXTERN l_compare_true
 EXTERN l_compare_false
 
 .l_uge
-    ; DE >= HL [unsigned]
-    ; set carry if true
+        ; DE >= HL [unsigned]
+        ; set carry if true
 
-    cp hl,de
+        cp      hl, de
 
-    jp c,l_compare_true
-    jp z,l_compare_true
-    jp l_compare_false
+        jp      c, l_compare_true
+        jp      z, l_compare_true
+        jp      l_compare_false

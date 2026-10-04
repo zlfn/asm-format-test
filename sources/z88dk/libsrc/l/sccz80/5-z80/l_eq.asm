@@ -12,17 +12,17 @@ PUBLIC l_eq
 
 .l_eq
 
-    ; de == hl
-    ; carry set if true
+        ; de == hl
+        ; carry set if true
 
-    or a
-    sbc hl,de
+        or      a
+        sbc     hl, de
 
-    scf
-    inc hl
-    ret z
+        scf
+        inc     hl
+        ret     z
 
-    xor a
-    ld l,a
-    ld h,a
-    ret
+        xor     a
+        ld      l, a
+        ld      h, a
+        ret

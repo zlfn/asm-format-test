@@ -10,20 +10,20 @@ EXTERN asm_strcmp
 
 strcmp:
 
-   pop bc
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push bc
+        pop     bc
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    bc
 IF __CLASSIC && __CPU_GBZ80__
-   call asm_strcmp
-   ld d,h
-   ld e,l
-   ret
-ELSE   
-   jp asm_strcmp
+        call    asm_strcmp
+        ld      d, h
+        ld      e, l
+        ret
+ELSE
+        jp      asm_strcmp
 ENDIF
 
 ; SDCC bridge for Classic
@@ -32,10 +32,8 @@ PUBLIC _strcmp
 defc _strcmp = strcmp
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___strcmp
 defc ___strcmp = strcmp
 ENDIF
-

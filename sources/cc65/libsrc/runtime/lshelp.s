@@ -7,21 +7,21 @@
 ; When negating values, we will ignore the possibility here, that one of the
 ; values if $80000000, in which case the negate will fail.
 
-        .export         poplsargs
-        .import         getlop
-        .importzp       sreg, tmp1, tmp2, ptr1, ptr3, ptr4
+        .export poplsargs
+        .import getlop
+        .importzp sreg, tmp1, tmp2, ptr1, ptr3, ptr4
 
 poplsargs:
-        jsr     getlop          ; Get the operands
+        jsr     getlop  ; Get the operands
 
 ; Remember the signs of the operands (that is, the high bytes) in tmp1 and
 ; tmp2. Make both operands positive.
 
-        lda     sreg+1          ; Is the left operand negative?
-        sta     tmp1            ; Remember the sign for later
-        bpl     L1              ; Jump if not
+        lda     sreg+1  ; Is the left operand negative?
+        sta     tmp1    ; Remember the sign for later
+        bpl     L1      ; Jump if not
 
-        clc                     ; Make it positive
+        clc     ; Make it positive
         lda     ptr1
         eor     #$FF
         adc     #$01
@@ -39,11 +39,11 @@ poplsargs:
         adc     #$00
         sta     sreg+1
 
-L1:     lda     ptr4+1          ; Is the right operand negative?
-        sta     tmp2            ; Remember the sign for later
-        bpl     L2              ; Jump if not
+L1:     lda     ptr4+1  ; Is the right operand negative?
+        sta     tmp2    ; Remember the sign for later
+        bpl     L2      ; Jump if not
 
-        clc                     ; Make it positive
+        clc     ; Make it positive
         lda     ptr3
         eor     #$FF
         adc     #$01
@@ -62,4 +62,3 @@ L1:     lda     ptr4+1          ; Is the right operand negative?
         sta     ptr4+1
 
 L2:     rts
-

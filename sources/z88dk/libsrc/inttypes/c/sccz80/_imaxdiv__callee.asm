@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC __imaxdiv__callee
 defc __imaxdiv__callee = _imaxdiv__callee
 ENDIF
-

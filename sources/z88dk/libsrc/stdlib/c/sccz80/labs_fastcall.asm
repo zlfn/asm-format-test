@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _labs_fastcall
 defc _labs_fastcall = labs_fastcall
 ENDIF
-

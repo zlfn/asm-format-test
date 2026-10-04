@@ -9,12 +9,12 @@ EXTERN asm_SMSlib_UNSAFE_VRAMmemcpy32
 
 _UNSAFE_SMS_VRAMmemcpy32:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
 
-   jp asm_SMSlib_UNSAFE_VRAMmemcpy32
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_SMSlib_UNSAFE_VRAMmemcpy32

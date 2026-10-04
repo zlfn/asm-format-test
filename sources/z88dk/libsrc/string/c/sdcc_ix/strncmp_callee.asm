@@ -10,10 +10,10 @@ EXTERN asm_strncmp
 
 _strncmp_callee:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_strncmp
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_strncmp

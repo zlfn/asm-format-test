@@ -25,74 +25,73 @@
 ; DESTROYS AF, HL
 ;-----------------------------------------------------------------------------------------
 
-    SECTION code_clib
-    PUBLIC  mmc_read_block
-    PUBLIC  _mmc_read_block
+        SECTION code_clib
+        PUBLIC  mmc_read_block
+        PUBLIC  _mmc_read_block
 
-    EXTERN  mmc_send_command
-    EXTERN  mmc_waitdata_token
-    EXTERN  clock32
-    EXTERN  cs_high
+        EXTERN  mmc_send_command
+        EXTERN  mmc_waitdata_token
+        EXTERN  clock32
+        EXTERN  cs_high
 
-    EXTERN  __mmc_card_select
+        EXTERN  __mmc_card_select
 
-    INCLUDE "target/zx/def/zxmmc.def"
-
+        INCLUDE "target/zx/def/zxmmc.def"
 
 mmc_read_block:
 _mmc_read_block:
 
-    ld      ix, 0
-    add     ix, sp
+        ld      ix, 0
+        add     ix, sp
 
-    ld      l, (ix+8)
-    ld      h, (ix+9)                   ; MMC struct
-    ld      a, (hl)
-    inc     hl                          ; ptr to MMC mask to be used to select port
-    ld      a, (hl)
-    ld      (__mmc_card_select), a
+        ld      l, (ix+8)
+        ld      h, (ix+9)       ; MMC struct
+        ld      a, (hl)
+        inc     hl              ; ptr to MMC mask to be used to select port
+        ld      a, (hl)
+        ld      (__mmc_card_select), a
 
-    ld      l, (ix+2)
-    ld      h, (ix+3)                   ; RAM ptr
-    push    hl
-    ld      e, (ix+4)                   ; LSB
-    ld      d, (ix+5)                   ; .
-    ld      l, (ix+6)                   ; .
-    ld      h, (ix+7)                   ; MSB
+        ld      l, (ix+2)
+        ld      h, (ix+3)       ; RAM ptr
+        push    hl
+        ld      e, (ix+4)       ; LSB
+        ld      d, (ix+5)       ; .
+        ld      l, (ix+6)       ; .
+        ld      h, (ix+7)       ; MSB
 
-    ld      a, MMC_READ_SINGLE_BLOCK    ; Command code for block read
-    call    mmc_send_command
-    and     a
-    jr      z, noerror
-    ld      l, a
-    ld      h, 0
+        ld      a, MMC_READ_SINGLE_BLOCK        ; Command code for block read
+        call    mmc_send_command
+        and     a
+        jr      z, noerror
+        ld      l, a
+        ld      h, 0
 noerror:
-    call    mmc_waitdata_token
-    cp      $FE
-    jr      z, read_mmc_block           ; OK
-    pop     hl
-    ld      hl, 2                       ; no data token from MMC
-    ret
+        call    mmc_waitdata_token
+        cp      $FE
+        jr      z, read_mmc_block               ; OK
+        pop     hl
+        ld      hl, 2                           ; no data token from MMC
+        ret
 
 read_mmc_block:
-    pop     hl                          ; HL = INIR write pointer
+        pop     hl      ; HL = INIR write pointer
 
-    ld      bc, SPI_PORT                ; B = 0 = 256 bytes for the first INIR; C = I/O port
+        ld      bc, SPI_PORT    ; B = 0 = 256 bytes for the first INIR; C = I/O port
 
-    inir
-    nop
-    inir
+        inir
+        nop
+        inir
 
-    nop
-    nop
+        nop
+        nop
 
-    in      a, (SPI_PORT)               ; CRC
-    nop
-    nop
-    in      a, (SPI_PORT)               ; CRC
+        in      a, (SPI_PORT)   ; CRC
+        nop
+        nop
+        in      a, (SPI_PORT)   ; CRC
 
-    call    cs_high                     ; set cs high
-    call    clock32                     ; 32 more clock cycles
+        call    cs_high ; set cs high
+        call    clock32 ; 32 more clock cycles
 
-    ld      hl, 0
-    ret
+        ld      hl, 0
+        ret

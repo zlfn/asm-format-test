@@ -20,19 +20,19 @@ PUBLIC asm_cpu_set_int_state
 asm_z180_set_int_state:
 asm_cpu_set_int_state:
 
-   ; enter : l = ei/di status
-   ;
-   ; uses  : f
+        ; enter : l = ei/di status
+        ;
+        ; uses  : f
 
-   bit 2,l                  ; check p/v flag
-   jr z, di_state
-   
+        bit     2, l    ; check p/v flag
+        jr      z, di_state
+
 ei_state:
 
-   ei
-   ret
+        ei
+        ret
 
 di_state:
 
-   di
-   ret
+        di
+        ret

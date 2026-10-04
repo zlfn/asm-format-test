@@ -10,32 +10,32 @@ EXTERN asm_strtoll, l_store_64_dehldehl_mbc
 
 _strtoll:
 
-   pop af
-   pop bc
-   
-   exx
-   
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   
-   exx
-   
-   push bc
-   push af
-   
-   push ix
-   push bc                     ; save result *
-   
-   exx
-   
-   call asm_strtoll
-   
-   pop bc                      ; bc = result *
-   pop ix
-   
-   jp l_store_64_dehldehl_mbc  ; store result
+        pop     af
+        pop     bc
+
+        exx
+
+        pop     hl
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+
+        exx
+
+        push    bc
+        push    af
+
+        push    ix
+        push    bc      ; save result *
+
+        exx
+
+        call    asm_strtoll
+
+        pop     bc      ; bc = result *
+        pop     ix
+
+        jp      l_store_64_dehldehl_mbc ; store result

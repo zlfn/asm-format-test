@@ -9,8 +9,8 @@
 
         .export _adler32
 
-        .import         incsp2, incsp4, popptr1, popeax
-        .importzp       sreg, ptr1, ptr2, tmp1
+        .import incsp2, incsp4, popptr1, popeax
+        .importzp sreg, ptr1, ptr2, tmp1
 
 BASE    =       65521   ; largest prime smaller than 65536
 
@@ -36,7 +36,7 @@ _adler32:
 @L2:    ldy     #0
 ; s1 += *ptr++; if (s1 >= BASE) s1 -= BASE;
 @L3:    clc
-        adc     (ptr1),y
+        adc     (ptr1), y
         bcc     @L4
         inx
         beq     @L5     ; C flag is set
@@ -80,7 +80,7 @@ _adler32:
 ; return 1L
 @L0:    sta     sreg
         sta     sreg+1
-        tax             ; (popptr1 doesn't set .X)
+        tax     ; (popptr1 doesn't set .X)
         lda     #1
 ; ignore adler
         jmp     incsp4

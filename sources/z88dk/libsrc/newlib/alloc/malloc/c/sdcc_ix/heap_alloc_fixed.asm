@@ -16,17 +16,17 @@ EXTERN asm_heap_alloc_fixed
 
 _heap_alloc_fixed:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push af
-   
-   jp asm_heap_alloc_fixed
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        jp      asm_heap_alloc_fixed
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -37,7 +37,7 @@ PUBLIC _heap_alloc_fixed
 EXTERN _heap_alloc_fixed_unlocked
 
 defc _heap_alloc_fixed = _heap_alloc_fixed_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -10,18 +10,17 @@ EXTERN asm_z80_inir
 
 z80_inir_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
 
-   ld b,e
-   inir
-   ret
+        ld      b, e
+        inir
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _z80_inir_callee
 defc _z80_inir_callee = z80_inir_callee
 ENDIF
-

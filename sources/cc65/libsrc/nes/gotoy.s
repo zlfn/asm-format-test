@@ -4,10 +4,10 @@
 ; void gotoy (unsigned char y);
 ;
 
-        .export         _gotoy
-        .import         setcursor
+        .export _gotoy
+        .import setcursor
 
-        .include        "nes.inc"
+        .include "nes.inc"
 
 .proc   _gotoy
 
@@ -17,6 +17,3 @@
         jmp     setcursor       ; Set the cursor to the new position
 
 .endproc
-
-
-

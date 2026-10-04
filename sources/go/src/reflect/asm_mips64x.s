@@ -14,29 +14,29 @@
 // for more details.
 // No arg size here, runtime pulls arg map out of the func value.
 TEXT ·makeFuncStub(SB),(NOSPLIT|WRAPPER),$40
-	NO_LOCAL_POINTERS
-	MOVV	REGCTXT, 8(R29)
-	MOVV	$argframe+0(FP), R1
-	MOVV	R1, 16(R29)
-	MOVB	R0, 40(R29)
-	ADDV	$40, R29, R1
-	MOVV	R1, 24(R29)
-	MOVV	R0, 32(R29)
-	JAL	·callReflect(SB)
-	RET
+        NO_LOCAL_POINTERS
+        MOVV    REGCTXT, 8(R29)
+        MOVV    $argframe+0(FP), R1
+        MOVV    R1,  16(R29)
+        MOVB    R0,  40(R29)
+        ADDV    $40, R29, R1
+        MOVV    R1,  24(R29)
+        MOVV    R0,  32(R29)
+        JAL     ·callReflect(SB)
+        RET
 
 // methodValueCall is the code half of the function returned by makeMethodValue.
 // See the comment on the declaration of methodValueCall in makefunc.go
 // for more details.
 // No arg size here; runtime pulls arg map out of the func value.
 TEXT ·methodValueCall(SB),(NOSPLIT|WRAPPER),$40
-	NO_LOCAL_POINTERS
-	MOVV	REGCTXT, 8(R29)
-	MOVV	$argframe+0(FP), R1
-	MOVV	R1, 16(R29)
-	MOVB	R0, 40(R29)
-	ADDV	$40, R29, R1
-	MOVV	R1, 24(R29)
-	MOVV	R0, 32(R29)
-	JAL	·callMethod(SB)
-	RET
+        NO_LOCAL_POINTERS
+        MOVV    REGCTXT, 8(R29)
+        MOVV    $argframe+0(FP), R1
+        MOVV    R1,  16(R29)
+        MOVB    R0,  40(R29)
+        ADDV    $40, R29, R1
+        MOVV    R1,  24(R29)
+        MOVV    R0,  32(R29)
+        JAL     ·callMethod(SB)
+        RET

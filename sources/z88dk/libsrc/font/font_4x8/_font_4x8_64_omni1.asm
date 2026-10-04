@@ -11,6 +11,6 @@ PUBLIC  _font_4x8_64_omni1_end
 
 _font_4x8_64_omni1:
 
-   BINARY "font_4x8_64_omni1.bin"
+        BINARY  "font_4x8_64_omni1.bin"
 
 _font_4x8_64_omni1_end:

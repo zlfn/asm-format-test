@@ -10,12 +10,12 @@ EXTERN asm_cpm_bdos
 
 cpm_bdos:
 
-   pop af
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push af
-   
-   jp asm_cpm_bdos
+        pop     af
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    af
+
+        jp      asm_cpm_bdos

@@ -16,15 +16,14 @@ EXTERN asm_BIFROSTL_getTile
 
 BIFROSTL_getTile_callee:
 
-        pop hl          ; RET address
-        pop bc          ; BC=py
-        ex (sp),hl      ; HL=px
+        pop     hl              ; RET address
+        pop     bc              ; BC=py
+        ex      (sp), hl        ; HL=px
 
-        jp asm_BIFROSTL_getTile
+        jp      asm_BIFROSTL_getTile
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _BIFROSTL_getTile_callee
 defc _BIFROSTL_getTile_callee = BIFROSTL_getTile_callee
 ENDIF
-

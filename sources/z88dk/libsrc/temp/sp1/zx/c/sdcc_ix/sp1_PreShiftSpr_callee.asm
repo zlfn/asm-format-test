@@ -9,24 +9,24 @@ EXTERN asm_sp1_PreShiftSpr
 
 _sp1_PreShiftSpr_callee:
 
-   exx
-   pop bc
-   exx
-   
-   pop hl
-   ld h,l
-   pop bc
-   ld l,c
-   pop bc
-   ld a,c
-   pop de
-   pop iy
-   pop bc
-   ld b,a
-   ld a,c
-   
-   exx
-   push bc
-   exx
+        exx
+        pop     bc
+        exx
 
-   jp asm_sp1_PreShiftSpr
+        pop     hl
+        ld      h, l
+        pop     bc
+        ld      l, c
+        pop     bc
+        ld      a, c
+        pop     de
+        pop     iy
+        pop     bc
+        ld      b, a
+        ld      a, c
+
+        exx
+        push    bc
+        exx
+
+        jp      asm_sp1_PreShiftSpr

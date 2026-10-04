@@ -5,9 +5,9 @@
 ; CC65 runtime: multiplication for long (unsigned) ints
 ;
 
-        .export         tosumul0ax, tosumuleax, tosmul0ax, tosmuleax
-        .import         addysp1
-        .importzp       c_sp, sreg, tmp1, tmp2, tmp3, tmp4, ptr1, ptr3, ptr4
+        .export tosumul0ax, tosumuleax, tosmul0ax, tosmuleax
+        .import addysp1
+        .importzp c_sp, sreg, tmp1, tmp2, tmp3, tmp4, ptr1, ptr3, ptr4
 
 tosmul0ax:
 tosumul0ax:
@@ -23,25 +23,25 @@ tosumul0ax:
 tosmuleax:
 tosumuleax:
 mul32:  sta     ptr1
-        stx     ptr1+1          ; op2 now in ptr1/sreg
+        stx     ptr1+1  ; op2 now in ptr1/sreg
 .if .cap(CPU_HAS_ZPIND)
         lda     (c_sp)
         ldy     #1
 .else
         ldy     #0
-        lda     (c_sp),y
+        lda     (c_sp), y
         iny
 .endif
         sta     ptr3
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     ptr3+1
         iny
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     ptr4
         iny
-        lda     (c_sp),y
-        sta     ptr4+1          ; op1 in pre3/ptr4
-        jsr     addysp1         ; Drop TOS
+        lda     (c_sp), y
+        sta     ptr4+1  ; op1 in pre3/ptr4
+        jsr     addysp1 ; Drop TOS
 
 ; Do (ptr1:sreg)*(ptr3:ptr4) --> EAX.
 
@@ -74,7 +74,6 @@ L0:     lsr     tmp4
         txa
 L1:     dey
         bpl     L0
-        lda     ptr1            ; Load the low result word
+        lda     ptr1    ; Load the low result word
         ldx     ptr1+1
         rts
-

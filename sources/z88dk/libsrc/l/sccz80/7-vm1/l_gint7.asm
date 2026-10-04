@@ -10,8 +10,8 @@ PUBLIC l_gint7
 ; HL = (HL + 7)
 
 .l_gint7
-    ld bc,7
-    add hl,bc
-    ex de,hl
-    ld hl,(de)
-    ret
+        ld      bc, 7
+        add     hl, bc
+        ex      de, hl
+        ld      hl, (de)
+        ret

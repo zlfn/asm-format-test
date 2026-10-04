@@ -10,7 +10,7 @@ EXTERN asm_hbios
 
 ._hbios_fastcall
 
-    ld b,h
-    ld c,l
+        ld      b, h
+        ld      c, l
 
-    jp asm_hbios
+        jp      asm_hbios

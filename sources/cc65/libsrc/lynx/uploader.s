@@ -1,7 +1,7 @@
-        .include        "lynx.inc"
-        .include        "extzp.inc"
-        .interruptor    _UpLoaderIRQ
-        .export         __UPLOADER__: absolute = 1
+        .include "lynx.inc"
+        .include "extzp.inc"
+        .interruptor _UpLoaderIRQ
+        .export __UPLOADER__: absolute = 1
 
 load_len=_FileDestAddr
 load_ptr=_FileFileLen
@@ -13,10 +13,10 @@ ComLynxReadAndExec:
         ldy     #4
 loop0:
         jsr     read_byte
-        sta     load_len-1,y
+        sta     load_len-1, y
         dey
-        bne     loop0       ; get destination and length
-        tax                 ; lowbyte of length
+        bne     loop0   ; get destination and length
+        tax             ; lowbyte of length
 
         lda     load_ptr
         sta     load_ptr2
@@ -32,15 +32,15 @@ loop1:
 
 cont1:
         jsr     read_byte
-        sta     (load_ptr2),y
-        sta     PALETTE + 1         ; feedback ;-)
+        sta     (load_ptr2), y
+        sta     PALETTE + 1     ; feedback ;-)
         iny
         bne     loop1
         inc     load_ptr2+1
         bra     loop1
 
 read_byte:
-        bit     SERCTL         ; Check for RXRDY ($40)
+        bit     SERCTL  ; Check for RXRDY ($40)
         bvc     read_byte
         lda     SERDAT
         rts
@@ -52,11 +52,11 @@ _UpLoaderIRQ:
         clc
         rts
 @L0:
-        lda     SERDAT          ; wait for the start sequence
-        bit     flag            ; already seen $81 ?
-        bpl     again           ; >= 0 => no
-        cmp     #$50            ; "P" ?
-        bne     again           ; not correct, so clear flag
+        lda     SERDAT  ; wait for the start sequence
+        bit     flag    ; already seen $81 ?
+        bpl     again   ; >= 0 => no
+        cmp     #$50    ; "P" ?
+        bne     again   ; not correct, so clear flag
         sei
         jmp     ComLynxReadAndExec
 
@@ -78,4 +78,3 @@ exit:
 
 flag:
         .byte   0
-

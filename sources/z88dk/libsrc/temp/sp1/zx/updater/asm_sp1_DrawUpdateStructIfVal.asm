@@ -21,8 +21,8 @@ EXTERN SP1DrawUpdateStruct
 
 asm_sp1_DrawUpdateStructIfVal:
 
-   ld a,(hl)
-   ld b,a
-   and $c0                   ; keep bits 7 (invalidated) and 6 (removed)
-   ret nz                    ; do not draw if invalidated or removed
-   jp SP1DrawUpdateStruct
+        ld      a, (hl)
+        ld      b, a
+        and     $c0     ; keep bits 7 (invalidated) and 6 (removed)
+        ret     nz      ; do not draw if invalidated or removed
+        jp      SP1DrawUpdateStruct

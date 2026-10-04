@@ -26,52 +26,50 @@ EXTERN asm_am9511_popl
 
 PUBLIC asm_am9511_lmod, asm_am9511_lmod_callee
 
-
 ; enter here for long modulus, x%y, x on stack, y in dehl
 .asm_am9511_lmod
-    call asm_am9511_pushl           ; x
+        call    asm_am9511_pushl        ; x
 
-    ld a,__IO_APU_OP_PTOD
-    AM9511_OUT_APU_CONTROL        ; push x
+        ld      a, __IO_APU_OP_PTOD
+        AM9511_OUT_APU_CONTROL  ; push x
 
-    call asm_am9511_pushl_fastcall  ; y
+        call    asm_am9511_pushl_fastcall       ; y
 
-    ld a,__IO_APU_OP_DDIV
-    AM9511_OUT_APU_CONTROL
+        ld      a, __IO_APU_OP_DDIV
+        AM9511_OUT_APU_CONTROL
 
-    call asm_am9511_pushl_fastcall  ; y
+        call    asm_am9511_pushl_fastcall       ; y
 
-    ld a,__IO_APU_OP_DMUL
-    AM9511_OUT_APU_CONTROL
+        ld      a, __IO_APU_OP_DMUL
+        AM9511_OUT_APU_CONTROL
 
-    ld a,__IO_APU_OP_DSUB
-    AM9511_OUT_APU_CONTROL        ; x%y
+        ld      a, __IO_APU_OP_DSUB
+        AM9511_OUT_APU_CONTROL  ; x%y
 
-    jp asm_am9511_popl              ; remainder in dehl
-
+        jp      asm_am9511_popl ; remainder in dehl
 
 ; enter here for long modulus callee, x%y, x on stack, y in dehl
 .asm_am9511_lmod_callee
-    call asm_am9511_pushl           ; x
+        call    asm_am9511_pushl        ; x
 
-    ld a,__IO_APU_OP_PTOD
-    AM9511_OUT_APU_CONTROL        ; push x
+        ld      a, __IO_APU_OP_PTOD
+        AM9511_OUT_APU_CONTROL  ; push x
 
-    call asm_am9511_pushl_fastcall  ; y
+        call    asm_am9511_pushl_fastcall       ; y
 
-    ld a,__IO_APU_OP_DDIV
-    AM9511_OUT_APU_CONTROL
+        ld      a, __IO_APU_OP_DDIV
+        AM9511_OUT_APU_CONTROL
 
-    call asm_am9511_pushl_fastcall  ; y
+        call    asm_am9511_pushl_fastcall       ; y
 
-    ld a,__IO_APU_OP_DMUL
-    AM9511_OUT_APU_CONTROL
+        ld      a, __IO_APU_OP_DMUL
+        AM9511_OUT_APU_CONTROL
 
-    ld a,__IO_APU_OP_DSUB
-    AM9511_OUT_APU_CONTROL        ; x%y
+        ld      a, __IO_APU_OP_DSUB
+        AM9511_OUT_APU_CONTROL  ; x%y
 
-    pop hl                          ; ret
-    pop de
-    ex (sp),hl                      ; ret back on stack
+        pop     hl              ; ret
+        pop     de
+        ex      (sp), hl        ; ret back on stack
 
-    jp asm_am9511_popl              ; remainder in dehl
+        jp      asm_am9511_popl ; remainder in dehl

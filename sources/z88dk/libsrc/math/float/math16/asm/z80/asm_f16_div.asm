@@ -41,163 +41,161 @@ PUBLIC asm_f16_div_callee
 PUBLIC asm_f24_div_callee
 PUBLIC asm_f24_div_f24
 
-
 ;=========================================================================
 ; half: y in DEHL path via expand; x under ret
 ;=========================================================================
 
 .asm_f16_div_callee
-    call asm_f24_f16            ; y → f24 DEHL
-    exx
-    pop hl
-    ex (sp),hl                  ; x half; ret on stack
-    call asm_f24_f16            ; x → f24
-    call asm_f24_div_f24
-    jp asm_f16_f24
-
+        call    asm_f24_f16     ; y → f24 DEHL
+        exx
+        pop     hl
+        ex      (sp), hl        ; x half; ret on stack
+        call    asm_f24_f16     ; x → f24
+        call    asm_f24_div_f24
+        jp      asm_f16_f24
 
 ;=========================================================================
 ; f24: main = x after setup; alt = y
 ;=========================================================================
 
 .asm_f24_div_callee
-    exx                         ; y (divisor) → alt
-    pop bc                      ; ret
-    pop hl
-    pop de                      ; x (dividend) → main
-    push bc
+        exx             ; y (divisor) → alt
+        pop     bc      ; ret
+        pop     hl
+        pop     de      ; x (dividend) → main
+        push    bc
 
 ; main = x, alt = y
 .asm_f24_div_f24
 .div_body
-    ld a,e
-    exx
-    xor e
-    and 080h
-    exx
-    ex af,af                    ; A' = sign
+        ld      a, e
+        exx
+        xor     e
+        and     080h
+        exx
+        ex      af, af  ; A' = sign
 
-    ld a,d
-    or a
-    jp Z,div_x_zero             ; 0 / y
-    cp 255
-    jp Z,div_x_hi
-    exx                         ; → y
-    ld a,d
-    or a
-    jp Z,div_y_zero             ; x / 0
-    cp 255
-    jp Z,div_y_hi
-    ; finite: park y then x
-    push hl                     ; mant_y
-    ld a,d
-    push af                     ; exp_y
-    exx
-    push hl                     ; mant_x
-    ld a,d
-    push af                     ; exp_x
-    ; stack: exp_x, mant_x, exp_y, mant_y
-    pop af                      ; exp_x
-    ld d,a
-    pop hl                      ; mant_x
-    pop af                      ; exp_y
-    ld e,a
-    pop bc                      ; mant_y
-    ; D=exp_x E=exp_y HL=mant_x BC=mant_y
+        ld      a, d
+        or      a
+        jp      Z, div_x_zero   ; 0 / y
+        cp      255
+        jp      Z, div_x_hi
+        exx                     ; → y
+        ld      a, d
+        or      a
+        jp      Z, div_y_zero   ; x / 0
+        cp      255
+        jp      Z, div_y_hi
+        ; finite: park y then x
+        push    hl      ; mant_y
+        ld      a, d
+        push    af      ; exp_y
+        exx
+        push    hl      ; mant_x
+        ld      a, d
+        push    af      ; exp_x
+        ; stack: exp_x, mant_x, exp_y, mant_y
+        pop     af      ; exp_x
+        ld      d, a
+        pop     hl      ; mant_x
+        pop     af      ; exp_y
+        ld      e, a
+        pop     bc      ; mant_y
+        ; D=exp_x E=exp_y HL=mant_x BC=mant_y
 
-    ld a,d
-    sub e
-    ld e,a
-    ld d,0
-    bit 7,a
-    jr Z,div_exp_sx
-    ld d,0ffh
+        ld      a, d
+        sub     e
+        ld      e, a
+        ld      d, 0
+        bit     7, a
+        jr      Z, div_exp_sx
+        ld      d, 0ffh
 .div_exp_sx
-    push hl                     ; mant_x
-    ld hl,127
-    add hl,de
-    bit 7,h
-    jp NZ,div_underflow
-    ld a,h
-    or a
-    jp NZ,div_overflow
-    ld a,l
-    cp 255
-    jp NC,div_overflow
-    or a
-    jp Z,div_underflow          ; exp 0 → signed zero
-    ld e,a                      ; E = expR
-    pop hl                      ; mant_x = rem
+        push    hl                      ; mant_x
+        ld      hl, 127
+        add     hl, de
+        bit     7,  h
+        jp      NZ, div_underflow
+        ld      a,  h
+        or      a
+        jp      NZ, div_overflow
+        ld      a,  l
+        cp      255
+        jp      NC, div_overflow
+        or      a
+        jp      Z, div_underflow        ; exp 0 → signed zero
+        ld      e, a                    ; E = expR
+        pop     hl                      ; mant_x = rem
 
 ;----- prenorm -----------------------------------------------------------
-    xor a
-    push hl
-    or a
-    sbc hl,bc
-    pop hl
-    jr NC,div_prenorm_ok
-    add hl,hl
-    rla
-    dec e
+        xor     a
+        push    hl
+        or      a
+        sbc     hl, bc
+        pop     hl
+        jr      NC, div_prenorm_ok
+        add     hl, hl
+        rla
+        dec     e
 .div_prenorm_ok
-    ld d,e                      ; D = expR
-    push de                     ; save expR in D (E unused)
-    ld de,0                     ; quot
-    exx
-    ld b,16
-    exx
+        ld      d, e    ; D = expR
+        push    de      ; save expR in D (E unused)
+        ld      de, 0   ; quot
+        exx
+        ld      b, 16
+        exx
 
 ;=========================================================================
 ; Hot path — 16 bits.  BC=div, A:HL=rem, DE=quot, B'=count
 ;=========================================================================
 
 .div_bit_loop
-    or a                        ; C=0: Z80 sbc hl,bc uses C-in
-    sbc hl,bc
-    sbc a,0
-    jr C,div_bit_fail
-    scf
-    jr div_quot_shift
+        or      a       ; C=0: Z80 sbc hl,bc uses C-in
+        sbc     hl, bc
+        sbc     a,  0
+        jr      C,  div_bit_fail
+        scf
+        jr      div_quot_shift
 
 .div_bit_fail
-    add hl,bc
-    adc a,0
-    or a                        ; C=0 for rl de (qbit already 0)
+        add     hl, bc
+        adc     a,  0
+        or      a       ; C=0 for rl de (qbit already 0)
 .div_quot_shift
-    rl de
-    exx
-    djnz div_bit_next
-    exx
-    jr div_pack
+        rl      de
+        exx
+        djnz    div_bit_next
+        exx
+        jr      div_pack
 
 .div_bit_next
-    exx
-    add hl,hl                   ; rem << 1 for the next trial
-    rla
-    jr div_bit_loop
+        exx
+        add     hl, hl  ; rem << 1 for the next trial
+        rla
+        jr      div_bit_loop
 
 ;=========================================================================
 ; Pack
 ;=========================================================================
 
 .div_pack
-    pop bc                      ; B = expR
-    bit 7,d
-    jr NZ,div_normed
-    sla e
-    rl d
-    dec b
+        pop     bc      ; B = expR
+        bit     7,  d
+        jr      NZ, div_normed
+        sla     e
+        rl      d
+        dec     b
 .div_normed
-    ld a,b
-    or a
-    jp Z,div_zero
-    cp 255
-    jp NC,div_inf
-    ex de,hl                    ; HL = quot
-    ld d,b
-    ex af,af
-    ld e,a                      ; sign
-    ret
+        ld      a, b
+        or      a
+        jp      Z, div_zero
+        cp      255
+        jp      NC, div_inf
+        ex      de, hl  ; HL = quot
+        ld      d,  b
+        ex      af, af
+        ld      e,  a   ; sign
+        ret
 
 ;=========================================================================
 ; Specials — result sign in A'
@@ -207,70 +205,70 @@ PUBLIC asm_f24_div_f24
 ;   NaN/* → NaN
 
 .div_underflow
-    pop hl                      ; drop mant_x if parked
-    jp div_zero
+        pop     hl      ; drop mant_x if parked
+        jp      div_zero
 
 .div_overflow
-    pop hl
-    jp div_inf
+        pop     hl
+        jp      div_inf
 
 ; x.exp == 0 (main = x; y on alt)
 .div_x_zero
-    exx
-    ld a,d
-    or a
-    jp Z,div_nan_sw             ; 0/0
-    cp 255
-    jr NZ,div_zero_sw           ; 0/finite → ±0
-    ld a,h
-    or l
-    jp NZ,div_nan_sw            ; 0/NaN
-    ; 0/Inf → ±0
+        exx
+        ld      a, d
+        or      a
+        jp      Z, div_nan_sw   ; 0/0
+        cp      255
+        jr      NZ, div_zero_sw ; 0/finite → ±0
+        ld      a,  h
+        or      l
+        jp      NZ, div_nan_sw  ; 0/NaN
+        ; 0/Inf → ±0
 .div_zero_sw
-    exx
-    jp div_zero
+        exx
+        jp      div_zero
 
 ; x.exp == 255
 .div_x_hi
-    ld a,h
-    or l
-    jp NZ,div_nan               ; x NaN
-    exx                         ; y
-    ld a,d
-    cp 255
-    jr NZ,div_inf_sw            ; Inf / finite → Inf
-    ld a,h
-    or l
-    jp Z,div_nan_sw             ; Inf/Inf → NaN
-    jp div_nan_sw               ; Inf/NaN → NaN
+        ld      a, h
+        or      l
+        jp      NZ, div_nan     ; x NaN
+        exx                     ; y
+        ld      a, d
+        cp      255
+        jr      NZ, div_inf_sw  ; Inf / finite → Inf
+        ld      a,  h
+        or      l
+        jp      Z, div_nan_sw   ; Inf/Inf → NaN
+        jp      div_nan_sw      ; Inf/NaN → NaN
 
 ; y.exp == 0; x already finite nonzero
 .div_y_zero
-    jp div_inf_sw               ; finite / 0 → Inf
+        jp      div_inf_sw      ; finite / 0 → Inf
 
 ; y.exp == 255; x finite
 .div_y_hi
-    ld a,h
-    or l
-    jp NZ,div_nan               ; y NaN
-    exx
-    jp div_zero                 ; finite / Inf → ±0
+        ld      a, h
+        or      l
+        jp      NZ, div_nan     ; y NaN
+        exx
+        jp      div_zero        ; finite / Inf → ±0
 
 .div_nan_sw
-    exx
-    jp div_nan
+        exx
+        jp      div_nan
 
 .div_zero
-    ex af,af
-    ld e,a
-    jp asm_f24_zero
+        ex      af, af
+        ld      e,  a
+        jp      asm_f24_zero
 
 .div_inf_sw
-    exx
+        exx
 .div_inf
-    ex af,af
-    ld e,a
-    jp asm_f24_inf
+        ex      af, af
+        ld      e,  a
+        jp      asm_f24_inf
 
 .div_nan
-    jp asm_f24_nan
+        jp      asm_f24_nan

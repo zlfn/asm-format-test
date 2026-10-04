@@ -14,8 +14,8 @@ PUBLIC _adt_ListCount
 .adt_ListCount
 ._adt_ListCount
 
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   ex de,hl
-   ret
+        ld      e, (hl)
+        inc     hl
+        ld      d,  (hl)
+        ex      de, hl
+        ret

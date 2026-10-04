@@ -14,16 +14,16 @@
 ;DEBUG           =       1
 
 DISABLE_TIMEOUT =       30              ; # of vertical blank interrupts after which, if
-                                        ; no mouse motion occurred, the polling IRQ gets
-                                        ; disabled.
-                                        ; VBI frequency is 50Hz for PAL and 60Hz for NTSC
+        ; no mouse motion occurred, the polling IRQ gets
+        ; disabled.
+        ; VBI frequency is 50Hz for PAL and 60Hz for NTSC
 
-        .include        "zeropage.inc"
-        .include        "mouse-kernel.inc"
-        .include        "atari.inc"
+        .include "zeropage.inc"
+        .include "mouse-kernel.inc"
+        .include "atari.inc"
 
-        .macpack        generic
-        .macpack        module
+        .macpack generic
+        .macpack module
 
 .if .not ( .defined (AMIGA_MOUSE) .or .defined (TRAK_MOUSE))
         ST_MOUSE = 1
@@ -35,25 +35,25 @@ DISABLE_TIMEOUT =       30              ; # of vertical blank interrupts after w
 .if .defined (ST_MOUSE)
 
 .ifdef __ATARIXL__
-        module_header   _atrxst_mou
+        module_header _atrxst_mou
 .else
-        module_header   _atrst_mou
+        module_header _atrst_mou
 .endif
 
 .elseif .defined (AMIGA_MOUSE)
 
 .ifdef __ATARIXL__
-        module_header   _atrxami_mou
+        module_header _atrxami_mou
 .else
-        module_header   _atrami_mou
+        module_header _atrami_mou
 .endif
 
 .elseif .defined (TRAK_MOUSE)
 
 .ifdef __ATARIXL__
-        module_header   _atrxtrk_mou
+        module_header _atrxtrk_mou
 .else
-        module_header   _atrtrk_mou
+        module_header _atrtrk_mou
 .endif
 
 .endif
@@ -90,13 +90,12 @@ libref: .addr   $0000
 
 ; Callback table, set by the kernel before INSTALL is called
 
-CHIDE:  jmp     $0000                   ; Hide the cursor
-CSHOW:  jmp     $0000                   ; Show the cursor
-CPREP:  jmp     $0000                   ; Prepare to move the cursor
-CDRAW:  jmp     $0000                   ; Draw the cursor
-CMOVEX: jmp     $0000                   ; Move the cursor to X coord
-CMOVEY: jmp     $0000                   ; Move the cursor to Y coord
-
+CHIDE:  jmp     $0000   ; Hide the cursor
+CSHOW:  jmp     $0000   ; Show the cursor
+CPREP:  jmp     $0000   ; Prepare to move the cursor
+CDRAW:  jmp     $0000   ; Draw the cursor
+CMOVEX: jmp     $0000   ; Move the cursor to X coord
+CMOVEY: jmp     $0000   ; Move the cursor to Y coord
 
 ;----------------------------------------------------------------------------
 ; Constants
@@ -119,39 +118,39 @@ SCREEN_WIDTH    = 319
 .bss
 
 Vars:
-YPos:           .res    2               ; Current mouse position, Y
-XPos:           .res    2               ; Current mouse position, X
-XMin:           .res    2               ; X1 value of bounding box
-YMin:           .res    2               ; Y1 value of bounding box
-XMax:           .res    2               ; X2 value of bounding box
-YMax:           .res    2               ; Y2 value of bounding box
-Buttons:        .res    1               ; Button mask
-OldButton:      .res    1               ; previous buttons
+YPos:   .res    2       ; Current mouse position, Y
+XPos:   .res    2       ; Current mouse position, X
+XMin:   .res    2       ; X1 value of bounding box
+YMin:   .res    2       ; Y1 value of bounding box
+XMax:   .res    2       ; X2 value of bounding box
+YMax:   .res    2       ; Y2 value of bounding box
+Buttons:   .res 1       ; Button mask
+OldButton: .res 1       ; previous buttons
 
-XPosWrk:        .res    2
-YPosWrk:        .res    2
+XPosWrk: .res   2
+YPosWrk: .res   2
 
-irq_enabled:    .res    1               ; flag indicating that the high frequency polling interrupt is enabled
-old_porta_vbi:  .res    1               ; previous PORTA value of the VBI interrupt (IRQ)
-how_long:       .res    1               ; counter for how many VBI interrupts the mouse hasn't been moved
-in_irq:         .res    1               ; flag indicating high-frequency polling interrupt is active
+irq_enabled:   .res 1   ; flag indicating that the high frequency polling interrupt is enabled
+old_porta_vbi: .res 1   ; previous PORTA value of the VBI interrupt (IRQ)
+how_long:      .res 1   ; counter for how many VBI interrupts the mouse hasn't been moved
+in_irq: .res    1       ; flag indicating high-frequency polling interrupt is active
 
 .if .defined (AMIGA_MOUSE) .or .defined (ST_MOUSE)
-dumx:           .res    1
-dumy:           .res    1
+dumx:   .res    1
+dumy:   .res    1
 .endif
 
 .ifdef TRAK_MOUSE
-oldval:         .res    1
+oldval: .res    1
 .endif
 
 .ifndef __ATARIXL__
-OldT2:          .res    2
+OldT2:  .res    2
 .else
 
 .data
 set_VTIMR2_handler:
-                .byte   $4C, 0, 0
+        .byte   $4C, 0, 0
 .endif
 
 .rodata
@@ -173,10 +172,10 @@ set_VTIMR2_handler:
 
 ; ST mouse lookup table
 
-STTab:  .byte $FF,$01,$00,$01
-        .byte $00,$FF,$00,$01
-        .byte $01,$00,$FF,$00
-        .byte $01,$00,$01,$FF
+STTab:  .byte   $FF, $01, $00, $01
+        .byte   $00, $FF, $00, $01
+        .byte   $01, $00, $FF, $00
+        .byte   $01, $00, $01, $FF
 
 .endif
 
@@ -184,10 +183,10 @@ STTab:  .byte $FF,$01,$00,$01
 
 ; Amiga mouse lookup table
 
-AmiTab: .byte $FF,$01,$00,$FF
-        .byte $00,$FF,$FF,$01
-        .byte $01,$FF,$FF,$00
-        .byte $FF,$00,$01,$FF
+AmiTab: .byte   $FF, $01, $00, $FF
+        .byte   $00, $FF, $FF, $01
+        .byte   $01, $FF, $FF, $00
+        .byte   $FF, $00, $01, $FF
 
 .endif
 
@@ -203,8 +202,8 @@ INSTALL:
 ; Initialize variables. Just copy the default stuff over
 
         ldx     #.sizeof(DefVars)-1
-@L1:    lda     DefVars,x
-        sta     Vars,x
+@L1:    lda     DefVars, x
+        sta     Vars,    x
         dex
         bpl     @L1
 
@@ -284,7 +283,7 @@ UNINSTALL:
 ; uninstall timer irq routine
 
         lda     POKMSK
-        and     #%11111101              ; timer 2 disable
+        and     #%11111101      ; timer 2 disable
         sta     IRQEN
         sta     POKMSK
 
@@ -340,14 +339,14 @@ SHOW:   php
 ; caller and save some code here. No return code required.
 
 SETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX)-1
         php
         sei
 
-@L1:    lda     (ptr1),y
-        sta     XMin,y
+@L1:    lda     (ptr1), y
+        sta     XMin,   y
         dey
         bpl     @L1
 
@@ -359,14 +358,14 @@ SETBOX: sta     ptr1
 ; come from the C program, that is, a pointer to a mouse_box struct in a/x.
 
 GETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX)-1
         php
         sei
 
-@L1:    lda     XMin,y
-        sta     (ptr1),y
+@L1:    lda     XMin,   y
+        sta     (ptr1), y
         dey
         bpl     @L1
 
@@ -382,7 +381,7 @@ GETBOX: sta     ptr1
 ;
 
 MOVE:   php
-        sei                             ; No interrupts
+        sei     ; No interrupts
 
         pha
         txa
@@ -394,24 +393,24 @@ MOVE:   php
 
         sta     YPos
         sta     YPosWrk
-        stx     YPos+1                  ; New Y position
+        stx     YPos+1  ; New Y position
         stx     YPosWrk+1
-        jsr     CMOVEY                  ; Set it
+        jsr     CMOVEY  ; Set it
 
         ldy     #$01
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     XPos+1
         sta     XPosWrk+1
         tax
         dey
-        lda     (c_sp),y
-        sta     XPos                    ; New X position
+        lda     (c_sp), y
+        sta     XPos    ; New X position
         sta     XPosWrk
-        jsr     CMOVEX                  ; Move the cursor
+        jsr     CMOVEX  ; Move the cursor
 
         jsr     CDRAW
 
-        plp                             ; Restore interrupt flag
+        plp     ; Restore interrupt flag
         rts
 
 ;----------------------------------------------------------------------------
@@ -429,22 +428,22 @@ BUTTONS:
 POS:    ldy     #MOUSE_POS::XCOORD      ; Structure offset
 
         php
-        sei                             ; Disable interrupts
-        lda     XPos                    ; Transfer the position
-        sta     (ptr1),y
+        sei             ; Disable interrupts
+        lda     XPos    ; Transfer the position
+        sta     (ptr1), y
         lda     XPos+1
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos+1
-        plp                             ; Restore interrupt flag
+        plp             ; Restore interrupt flag
 
         iny
-        sta     (ptr1),y                ; Store last byte
+        sta     (ptr1), y       ; Store last byte
 
-        rts                             ; Done
+        rts     ; Done
 
 ;----------------------------------------------------------------------------
 ; INFO: Returns mouse position and current button mask in the MOUSE_INFO
@@ -461,7 +460,7 @@ INFO:   jsr     POS
 
         lda     Buttons
         ldy     #MOUSE_INFO::BUTTONS
-        sta     (ptr1),y
+        sta     (ptr1), y
 
         rts
 
@@ -471,7 +470,7 @@ INFO:   jsr     POS
 ; Must return an error code in a/x.
 ;
 
-IOCTL:  lda     #<MOUSE_ERR_INV_IOCTL     ; We don't support ioclts for now
+IOCTL:  lda     #<MOUSE_ERR_INV_IOCTL   ; We don't support ioclts for now
         ldx     #>MOUSE_ERR_INV_IOCTL
         rts
 
@@ -482,22 +481,22 @@ IOCTL:  lda     #<MOUSE_ERR_INV_IOCTL     ; We don't support ioclts for now
 ; MUST return carry clear.
 ;
 
-IRQ:    lda     PORTA                   ; mouse port contents
-        and     #$0f                    ; check port 1 only
+IRQ:    lda     PORTA   ; mouse port contents
+        and     #$0f    ; check port 1 only
         ldx     irq_enabled
         bne     @L1
 
 ; IRQ is disabled, check for mouse motion and enable IRQ if mouse motion detected
 
         cmp     old_porta_vbi
-        beq     @L3                     ; no motion
+        beq     @L3     ; no motion
         lda     #0
-        sta     ATRACT                  ; disable "attract mode"
+        sta     ATRACT  ; disable "attract mode"
 
 ; Turn mouse polling IRQ back on
 
         lda     POKMSK
-        ora     #%00000010              ; timer 2 enable
+        ora     #%00000010      ; timer 2 enable
         sta     POKMSK
         sta     IRQEN
         sta     irq_enabled
@@ -506,12 +505,12 @@ IRQ:    lda     PORTA                   ; mouse port contents
 
 ; IRQ is enabled
 
-@L1:    cmp     old_porta_vbi           ; mouse motion since last VBI?
+@L1:    cmp     old_porta_vbi   ; mouse motion since last VBI?
         sta     old_porta_vbi
-        beq     @L2                     ; no, increment timeout to disable IRQ
+        beq     @L2             ; no, increment timeout to disable IRQ
 
         lda     #0
-        sta     how_long                ; yes, reinitialize wait counter
+        sta     how_long        ; yes, reinitialize wait counter
         beq     @L3
         ; not reached
 
@@ -520,22 +519,22 @@ IRQ:    lda     PORTA                   ; mouse port contents
         cmp     #DISABLE_TIMEOUT        ; timeout?
         bcc     @L3                     ; no
 
-        lda     #0                      ; yes, turn off IRQ
+        lda     #0      ; yes, turn off IRQ
         sta     how_long
 
 ; no mouse input -- turn IRQ off
 
         sta     irq_enabled
         lda     POKMSK
-        and     #%11111101              ; timer 2 disable
+        and     #%11111101      ; timer 2 disable
         sta     IRQEN
         sta     POKMSK
 
 ; Check for a pressed button and place the result into Buttons
 
 @L3:    ldx     #0
-        lda     TRIG0                   ; joystick #0 trigger
-        bne     @L4                     ; not pressed
+        lda     TRIG0   ; joystick #0 trigger
+        bne     @L4     ; not pressed
         ldx     #MOUSE_BTN_LEFT
 @L4:    stx     Buttons
 
@@ -602,30 +601,29 @@ IRQ:    lda     PORTA                   ; mouse port contents
         ; print on upper right corner 'E' or 'D', indicating the IRQ is enabled or disabled
         ldy     irq_enabled
         beq     @L10
-        lda     #37                     ; screen code for 'E'
-        .byte   $2c                     ; bit opcode, eats next 2 bytes
-@L10:   lda     #36                     ; screen code for 'D'
+        lda     #37     ; screen code for 'E'
+        .byte   $2c     ; bit opcode, eats next 2 bytes
+@L10:   lda     #36     ; screen code for 'D'
         ldy     #39
-        sta     (SAVMSC),y
+        sta     (SAVMSC), y
 .endif
 
         clc
         rts
 
-
 ;----------------------------------------------------------------------------
 ; T2Han: Local IRQ routine to poll mouse
 ;
 
-T2Han:  lda     CRITIC                  ; if CRITIC flag is set, disable the
-        bne     disable_me              ; high frequency polling IRQ, in order
-                                        ; not to interfere with SIO I/O (e.g.
-                                        ; floppy access or serial I/O)
+T2Han:  lda     CRITIC          ; if CRITIC flag is set, disable the
+        bne     disable_me      ; high frequency polling IRQ, in order
+                                ; not to interfere with SIO I/O (e.g.
+                                ; floppy access or serial I/O)
 
-        lda     in_irq                  ; handler entered again?
-        bne     skip                    ; yes, ignore this interrupt
+        lda     in_irq  ; handler entered again?
+        bne     skip    ; yes, ignore this interrupt
         inc     in_irq
-        cli                             ; enable IRQs so that we don't block them for too long
+        cli             ; enable IRQs so that we don't block them for too long
 
         tya
         pha
@@ -647,7 +645,7 @@ T2Han:  lda     CRITIC                  ; if CRITIC flag is set, disable the
         and     #%00000011
         ora     dumx
         tax
-        lda     STTab,x
+        lda     STTab, x
         bmi     nxst
 
         beq     xist
@@ -667,7 +665,7 @@ nxst:   tya
         and     #%00001100
         ora     dumy
         tax
-        lda     STTab,x
+        lda     STTab, x
         bmi     nyst
 
         bne     yst
@@ -704,7 +702,7 @@ nyst:   tya
         and     #%00000101
         ora     dumx
         tax
-        lda     AmiTab,x
+        lda     AmiTab, x
         bmi     nxami
 
         bne     xiami
@@ -725,7 +723,7 @@ nxami:  tya
         and     #%00000101
         ora     dumy
         tax
-        lda     AmiTab,x
+        lda     AmiTab, x
         bmi     nyami
 
         bne     yiami
@@ -811,7 +809,6 @@ skip:
         rti
 .endif
 
-
 ; Disable the interrupt source which caused us to be called.
 ; The interrupt will be enabled again by the "IRQ" routine.
 ; The "IRQ" routine, despite its name, is called from the
@@ -820,7 +817,7 @@ skip:
 
 disable_me:
         lda     POKMSK
-        and     #%11111101              ; timer 2 disable
+        and     #%11111101      ; timer 2 disable
         sta     IRQEN
         sta     POKMSK
         lda     #0

@@ -10,11 +10,11 @@ EXTERN asm_zx_saddrpleft
 
 _zx_saddrpleft_callee:
 
-   pop af
-   pop hl
-   dec sp
-   pop de
-   push af
+        pop     af
+        pop     hl
+        dec     sp
+        pop     de
+        push    af
 
-   ld e,d   
-   jp asm_zx_saddrpleft
+        ld      e, d
+        jp      asm_zx_saddrpleft

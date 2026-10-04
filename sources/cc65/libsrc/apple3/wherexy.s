@@ -5,11 +5,11 @@
 ; unsigned char wherey (void);
 ;
 
-        .export         _wherex, _wherey, getpos, cursorx, cursory
-        .import         consdev
+        .export _wherex, _wherey, getpos, cursorx, cursory
+        .import consdev
 
-        .include        "apple3.inc"
-        .include        "sos.inc"
+        .include "apple3.inc"
+        .include "sos.inc"
 
 _wherex:
         jsr     getpos
@@ -40,5 +40,5 @@ getpos: lda     consdev
         .data
 
 curspos:
-cursorx:  .byte   00            ; horiz
-cursory:  .byte   00            ; vert
+cursorx: .byte  00      ; horiz
+cursory: .byte  00      ; vert

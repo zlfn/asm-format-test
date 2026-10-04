@@ -12,19 +12,19 @@ PUBLIC asm_SMSlib_setLineCounter
 
 asm_SMSlib_setLineCounter:
 
-   ; void SMS_setLineCounter (unsigned char count)
-   ;
-   ; enter :  l = unsigned char count
-   ;
-   ; uses  : a
-   
-   di
-   
-   ld a,l
-   out (VDPControlPort),a
-   
-   ld a,0x8a
-   out (VDPControlPort),a
-   
-   ei
-   ret
+        ; void SMS_setLineCounter (unsigned char count)
+        ;
+        ; enter :  l = unsigned char count
+        ;
+        ; uses  : a
+
+        di
+
+        ld      a, l
+        out     (VDPControlPort), a
+
+        ld      a, 0x8a
+        out     (VDPControlPort), a
+
+        ei
+        ret

@@ -9,19 +9,18 @@ EXTERN asm_sms_cls_wc
 
 sms_cls_wc:
 
-   pop af
-   pop hl
-   pop ix
-   
-   push hl
-   push hl
-   push af
-   
-   jp asm_sms_cls_wc
+        pop     af
+        pop     hl
+        pop     ix
+
+        push    hl
+        push    hl
+        push    af
+
+        jp      asm_sms_cls_wc
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sms_cls_wc
 defc _sms_cls_wc = sms_cls_wc
 ENDIF
-

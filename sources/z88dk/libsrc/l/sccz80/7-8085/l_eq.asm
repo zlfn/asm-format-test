@@ -16,20 +16,20 @@ EXTERN l_compare_true
 EXTERN l_compare_false
 
 .l_eq
-    ; de == hl
+        ; de == hl
 
-    ld bc,de
+        ld      bc, de
 
 .l_eq_hlbc
-    ; bc == hl
-    ; set carry if true
+        ; bc == hl
+        ; set carry if true
 
-    sub hl,bc
+        sub     hl, bc
 
-    scf
-    ld hl,1
-    ret z
+        scf
+        ld      hl, 1
+        ret     z
 
-    ccf
-    dec l
-    ret
+        ccf
+        dec     l
+        ret

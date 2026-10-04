@@ -28,13 +28,13 @@ EXTERN m32_compare_callee
 ;       ix and iy are untouched, which is what the caller's frame needs.
 
 ___fscmp:
-    ex de,hl                    ; de = a high, hl = a low — math32's order
-    call m32_compare_callee     ; z = equal, c = b < a
-    ld de,0
-    ret z
-    jr c,fscmp_greater
-    dec de                      ; a < b
-    ret
+        ex      de, hl                  ; de = a high, hl = a low — math32's order
+        call    m32_compare_callee      ; z = equal, c = b < a
+        ld      de, 0
+        ret     z
+        jr      c, fscmp_greater
+        dec     de                      ; a < b
+        ret
 fscmp_greater:
-    inc de                      ; a > b
-    ret
+        inc     de                      ; a > b
+        ret

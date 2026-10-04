@@ -8,16 +8,16 @@ EXTERN l0_esx_f_open_p3_callee
 
 _esx_f_open_p3:
 
-   pop bc
-   pop hl
-   dec sp
-   pop af
-   pop de
+        pop     bc
+        pop     hl
+        dec     sp
+        pop     af
+        pop     de
 
-   push de
-   push af
-   inc sp
-   push hl
-   push bc
-   
-   jp l0_esx_f_open_p3_callee
+        push    de
+        push    af
+        inc     sp
+        push    hl
+        push    bc
+
+        jp      l0_esx_f_open_p3_callee

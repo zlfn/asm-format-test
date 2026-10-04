@@ -6,7 +6,7 @@
 ;*
 ;------------------------------------------------------------------------------
 
-    SECTION .rodata
+        SECTION .rodata
 ;
 ; Float control word initial value:
 ; all exceptions masked, double-extended-precision, round-to-nearest
@@ -32,20 +32,19 @@ SECTION .text
 global ASM_PFX(InitializeFloatingPointUnits)
 ASM_PFX(InitializeFloatingPointUnits):
 
-    ;
-    ; Initialize floating point units
-    ;
-    finit
-    fldcw   [mFpuControlWord]
+        ;
+        ; Initialize floating point units
+        ;
+        finit
+        fldcw   [mFpuControlWord]
 
-    ;
-    ; Set OSFXSR bit 9 in CR4
-    ;
-    mov     rax, cr4
-    or      rax, BIT9
-    mov     cr4, rax
+        ;
+        ; Set OSFXSR bit 9 in CR4
+        ;
+        mov     rax, cr4
+        or      rax, BIT9
+        mov     cr4, rax
 
-    ldmxcsr [mMmxControlWord]
+        ldmxcsr [mMmxControlWord]
 
-    ret
-
+        ret

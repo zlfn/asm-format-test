@@ -9,16 +9,15 @@ EXTERN asm_sms_setw_vram
 
 sms_setw_vram_callee:
 
-   pop af
-   pop bc
-   pop de
-   push af
-   
-   jp asm_sms_setw_vram
+        pop     af
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_sms_setw_vram
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sms_setw_vram_callee
 defc _sms_setw_vram_callee = sms_setw_vram_callee
 ENDIF
-

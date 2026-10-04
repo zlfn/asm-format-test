@@ -4,24 +4,24 @@
 ; char* __fastcall__ fgets (char* s, unsigned size, register FILE* f)
 ;
 
-        .export         _fgets
-        .import         _fgetc, popptr1, pushptr1, popax, pushax, return0, ___errno
-        .importzp       ptr1, ptr4
+        .export _fgets
+        .import _fgetc, popptr1, pushptr1, popax, pushax, return0, ___errno
+        .importzp ptr1, ptr4
 
-        .feature        string_escapes
+        .feature string_escapes
 
-        .include        "errno.inc"
-        .include        "stdio.inc"
-        .include        "_file.inc"
+        .include "errno.inc"
+        .include "stdio.inc"
+        .include "_file.inc"
 
 terminate_ptr:
         lda     #$00
         tax
-        .if .cap(CPU_HAS_ZPIND)
-        sta     (ptr4)
+        .if     .cap(CPU_HAS_ZPIND)
+                sta     (ptr4)
         .else
-        tay
-        sta     (ptr4),y
+                tay
+                sta     (ptr4), y
         .endif
         rts
 
@@ -39,11 +39,11 @@ _fgets:
         sta     buf
         stx     buf+1
 
-        .if .cap(CPU_HAS_STZ)
-        stz     didread
+        .if     .cap(CPU_HAS_STZ)
+                stz     didread
         .else
-        lda     #$00            ; We have read nothing yet
-        sta     didread
+                lda     #$00    ; We have read nothing yet
+                sta     didread
         .endif
 
         ; Check size
@@ -55,12 +55,12 @@ _fgets:
         jmp     return0
 
 read_loop:
-        lda     size            ; Dec size
+        lda     size    ; Dec size
         bne     :+
         dec     size+1
 :       dec     size
 
-        bne     :+              ; Check bound
+        bne     :+      ; Check bound
         ldx     size+1
         beq     done
 
@@ -68,27 +68,27 @@ read_loop:
         jsr     _fgetc          ; Read a char
 
         pha
-        jsr     popptr1         ; Get ptr1 back
+        jsr     popptr1 ; Get ptr1 back
         pla
 
         cpx     #<EOF
         beq     got_eof
 
         ldy     #$01
-        sty     didread         ; We read at least one char
+        sty     didread ; We read at least one char
 
-        .if .cap(CPU_HAS_ZPIND)
-        sta     (ptr4)
+        .if     .cap(CPU_HAS_ZPIND)
+                sta     (ptr4)
         .else
-        dey
-        sta     (ptr4),y
+                dey
+                sta     (ptr4), y
         .endif
 
         inc     ptr4
         bne     :+
         inc     ptr4+1
 
-:       cmp     #'\n'    ; #'\n' should get translated properly
+:       cmp     #'\n'   ; #'\n' should get translated properly
         beq     done
         bne     read_loop
 
@@ -96,7 +96,7 @@ got_eof:
         lda     didread
         beq     stopped_at_first_char
         ldy     #_FILE::f_flags
-        lda     (ptr1),y
+        lda     (ptr1), y
         and     #_FERROR
         bne     stopped_at_first_char
 
@@ -111,7 +111,7 @@ stopped_at_first_char:
 
         .bss
 
-c:      .res 1
-buf:    .res 2
-size:   .res 2
-didread:.res 1
+c:      .res    1
+buf:    .res    2
+size:   .res    2
+didread: .res   1

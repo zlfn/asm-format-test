@@ -58,112 +58,112 @@ GLOBL tanhtab<>+0(SB), RODATA, $128
 // polynomial coefficients determined with a Remez exchange algorithm.
 
 TEXT ·tanhAsm(SB),NOSPLIT,$0-16
-	FMOVD   x+0(FP), F0
-	// special case Tanh(±0) = ±0
-	FMOVD   $(0.0), F1
-	FCMPU   F0, F1
-	BEQ     tanhIsZero
-	MOVD    $tanhrodataL18<>+0(SB), R5
-	LTDBR	F0, F0
-	MOVD    $0x4034000000000000, R1
-	BLTU    L15
-	FMOVD   F0, F1
+        FMOVD   x+0(FP), F0
+        // special case Tanh(±0) = ±0
+        FMOVD   $(0.0), F1
+        FCMPU   F0,     F1
+        BEQ     tanhIsZero
+        MOVD    $tanhrodataL18<>+0(SB), R5
+        LTDBR   F0, F0
+        MOVD    $0x4034000000000000, R1
+        BLTU    L15
+        FMOVD   F0, F1
 L2:
-	MOVD    $tanhxadd<>+0(SB), R2
-	FMOVD   0(R2), F2
-	MOVD    tanhrlog2<>+0(SB), R2
-	LDGR    R2, F4
-	WFMSDB  V0, V4, V2, V4
-	MOVD    $tanhtab<>+0(SB), R3
-	LGDR    F4, R2
-	RISBGZ	$57, $60, $3, R2, R4
-	WORD    $0xED105058     //cdb %f1,.L19-.L18(%r5)
-	BYTE    $0x00
-	BYTE    $0x19
-	RISBGN	$0, $15, $48, R2, R1
-	WORD    $0x68543000     //ld %f5,0(%r4,%r3)
-	LDGR    R1, F6
-	BLT     L3
-	MOVD    $tanhxzero<>+0(SB), R1
-	FMOVD   0(R1), F2
-	WFCHDBS V0, V2, V4
-	BEQ     L9
-	WFCHDBS V2, V0, V2
-	BNE     L1
-	MOVD    $tanhxmone<>+0(SB), R1
-	FMOVD   0(R1), F0
-	FMOVD   F0, ret+8(FP)
-	RET
+        MOVD    $tanhxadd<>+0(SB), R2
+        FMOVD   0(R2), F2
+        MOVD    tanhrlog2<>+0(SB), R2
+        LDGR    R2, F4
+        WFMSDB  V0, V4, V2, V4
+        MOVD    $tanhtab<>+0(SB), R3
+        LGDR    F4,  R2
+        RISBGZ  $57, $60, $3, R2, R4
+        WORD    $0xED105058     //cdb %f1,.L19-.L18(%r5)
+        BYTE    $0x00
+        BYTE    $0x19
+        RISBGN  $0, $15, $48, R2, R1
+        WORD    $0x68543000     //ld %f5,0(%r4,%r3)
+        LDGR    R1, F6
+        BLT     L3
+        MOVD    $tanhxzero<>+0(SB), R1
+        FMOVD   0(R1), F2
+        WFCHDBS V0,    V2, V4
+        BEQ     L9
+        WFCHDBS V2, V0, V2
+        BNE     L1
+        MOVD    $tanhxmone<>+0(SB), R1
+        FMOVD   0(R1), F0
+        FMOVD   F0,    ret+8(FP)
+        RET
 
 L3:
-	FADD    F4, F2
-	FMOVD   tanhrodataL18<>+80(SB), F4
-	FMADD   F4, F2, F0
-	FMOVD   tanhrodataL18<>+72(SB), F1
-	WFMDB   V0, V0, V3
-	FMOVD   tanhrodataL18<>+64(SB), F2
-	WFMADB  V0, V1, V2, V1
-	FMOVD   tanhrodataL18<>+56(SB), F4
-	FMOVD   tanhrodataL18<>+48(SB), F2
-	WFMADB  V1, V3, V4, V1
-	FMOVD   tanhrodataL18<>+40(SB), F4
-	WFMADB  V3, V2, V4, V2
-	FMOVD   tanhrodataL18<>+32(SB), F4
-	WORD    $0xB9270022     //lhr %r2,%r2
-	WFMADB  V3, V1, V4, V1
-	FMOVD   tanhrodataL18<>+24(SB), F4
-	WFMADB  V3, V2, V4, V3
-	WFMADB  V0, V5, V0, V2
-	WFMADB  V0, V1, V3, V0
-	WORD    $0xA7183ECF     //lhi %r1,16079
-	WFMADB  V0, V2, V5, V2
-	FMUL    F6, F2
-	MOVW    R2, R10
-	MOVW    R1, R11
-	CMPBLE  R10, R11, L16
-	FMOVD   F6, F0
-	WORD    $0xED005010     //adb %f0,.L28-.L18(%r5)
-	BYTE    $0x00
-	BYTE    $0x1A
-	WORD    $0xA7184330     //lhi %r1,17200
-	FADD    F2, F0
-	MOVW    R2, R10
-	MOVW    R1, R11
-	CMPBGT  R10, R11, L17
-	WORD    $0xED605010     //sdb %f6,.L28-.L18(%r5)
-	BYTE    $0x00
-	BYTE    $0x1B
-	FADD    F6, F2
-	WFDDB   V0, V2, V0
-	FMOVD   F0, ret+8(FP)
-	RET
+        FADD    F4, F2
+        FMOVD   tanhrodataL18<>+80(SB), F4
+        FMADD   F4, F2, F0
+        FMOVD   tanhrodataL18<>+72(SB), F1
+        WFMDB   V0, V0, V3
+        FMOVD   tanhrodataL18<>+64(SB), F2
+        WFMADB  V0, V1, V2, V1
+        FMOVD   tanhrodataL18<>+56(SB), F4
+        FMOVD   tanhrodataL18<>+48(SB), F2
+        WFMADB  V1, V3, V4, V1
+        FMOVD   tanhrodataL18<>+40(SB), F4
+        WFMADB  V3, V2, V4, V2
+        FMOVD   tanhrodataL18<>+32(SB), F4
+        WORD    $0xB9270022     //lhr %r2,%r2
+        WFMADB  V3, V1, V4, V1
+        FMOVD   tanhrodataL18<>+24(SB), F4
+        WFMADB  V3, V2, V4, V3
+        WFMADB  V0, V5, V0, V2
+        WFMADB  V0, V1, V3, V0
+        WORD    $0xA7183ECF     //lhi %r1,16079
+        WFMADB  V0,  V2,  V5, V2
+        FMUL    F6,  F2
+        MOVW    R2,  R10
+        MOVW    R1,  R11
+        CMPBLE  R10, R11, L16
+        FMOVD   F6,  F0
+        WORD    $0xED005010     //adb %f0,.L28-.L18(%r5)
+        BYTE    $0x00
+        BYTE    $0x1A
+        WORD    $0xA7184330     //lhi %r1,17200
+        FADD    F2,  F0
+        MOVW    R2,  R10
+        MOVW    R1,  R11
+        CMPBGT  R10, R11, L17
+        WORD    $0xED605010     //sdb %f6,.L28-.L18(%r5)
+        BYTE    $0x00
+        BYTE    $0x1B
+        FADD    F6, F2
+        WFDDB   V0, V2, V0
+        FMOVD   F0, ret+8(FP)
+        RET
 
 L9:
-	FMOVD   tanhrodataL18<>+16(SB), F0
+        FMOVD   tanhrodataL18<>+16(SB), F0
 L1:
-	FMOVD   F0, ret+8(FP)
-	RET
+        FMOVD   F0, ret+8(FP)
+        RET
 
 L15:
-	FNEG    F0, F1
-	BR      L2
+        FNEG    F0, F1
+        BR      L2
 L16:
-	FADD    F6, F2
-	FMOVD   tanhrodataL18<>+8(SB), F0
-	FMADD   F4, F2, F0
-	FMOVD   tanhrodataL18<>+0(SB), F4
-	FNEG    F0, F0
-	WFMADB  V0, V2, V4, V0
-	FMOVD   F0, ret+8(FP)
-	RET
+        FADD    F6, F2
+        FMOVD   tanhrodataL18<>+8(SB), F0
+        FMADD   F4, F2, F0
+        FMOVD   tanhrodataL18<>+0(SB), F4
+        FNEG    F0, F0
+        WFMADB  V0, V2, V4, V0
+        FMOVD   F0, ret+8(FP)
+        RET
 
 L17:
-	WFDDB   V0, V4, V0
-	FMOVD   tanhrodataL18<>+16(SB), F2
-	WFSDB   V0, V2, V0
-	FMOVD   F0, ret+8(FP)
-	RET
+        WFDDB   V0, V4, V0
+        FMOVD   tanhrodataL18<>+16(SB), F2
+        WFSDB   V0, V2, V0
+        FMOVD   F0, ret+8(FP)
+        RET
 
-tanhIsZero:      //return ±0
-	FMOVD   F0, ret+8(FP)
-	RET
+tanhIsZero:     //return ±0
+        FMOVD   F0, ret+8(FP)
+        RET

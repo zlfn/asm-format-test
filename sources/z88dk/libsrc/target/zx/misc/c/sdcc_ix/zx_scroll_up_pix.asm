@@ -9,12 +9,12 @@ EXTERN asm0_zx_scroll_up_pix
 
 _zx_scroll_up_pix:
 
-   pop af
-   pop de
-   
-   push de
-   push af
-   
-   ld l,d
-   ld d,0
-   jp asm0_zx_scroll_up_pix
+        pop     af
+        pop     de
+
+        push    de
+        push    af
+
+        ld      l, d
+        ld      d, 0
+        jp      asm0_zx_scroll_up_pix

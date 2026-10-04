@@ -7,7 +7,7 @@ EXTERN in_keytranstbl
 
 ; Given the ascii code of a character, returns the scan row and mask
 ; corresponding to the key that needs to be pressed to generate the
-; character.  
+; character.
 ;
 ; The scan row returned will have bit 7 set and bit 6 set to
 ; indicate if CAPS, SYM SHIFTS also have to be pressed to generate the
@@ -26,47 +26,46 @@ EXTERN in_keytranstbl
 
 .in_LookupKey
 ._in_LookupKey
-	ld	a,l
-	ld	hl,in_keytranstbl
-	ld	bc,80 * 3
-	cpir
-	jr	nz,notfound
+        ld      a,  l
+        ld      hl, in_keytranstbl
+        ld      bc, 80 * 3
+        cpir
+        jr      nz, notfound
 
-	ld	a,+(80 * 3) - 1
-	sub	c		;A = position in table
-	ld	hl,0
-	cp	80 * 2
-	jr	c,not_function_table
-	sub	80 * 2
-	set	6,l
-	jr	shift
+        ld      a, +(80 * 3) - 1
+        sub     c       ;A = position in table
+        ld      hl, 0
+        cp      80 * 2
+        jr      c, not_function_table
+        sub     80 * 2
+        set     6, l
+        jr      shift
 
 not_function_table:
-	cp	80
-	jr	c,shift
-	sub	80
-	set	7,l
+        cp      80
+        jr      c, shift
+        sub     80
+        set     7, l
 
 shift:
-	ld	h,a	;Save character
-	srl	a	; Divide by 8
-	srl	a
-	srl	a
-	or	l
-	ld	l,a
-	; calculate the mask now
-	ld	a,h
-	and	7
-	ld	h,128
+        ld      h, a    ;Save character
+        srl     a       ; Divide by 8
+        srl     a
+        srl     a
+        or      l
+        ld      l, a
+        ; calculate the mask now
+        ld      a, h
+        and     7
+        ld      h, 128
 shift_loop:
-	and	a
-	ret	z		; nc
-	rr	h
-	dec	a
-	jr	shift_loop
-
+        and     a
+        ret     z       ; nc
+        rr      h
+        dec     a
+        jr      shift_loop
 
 notfound:
-	ld	hl,0
-	scf
-	ret
+        ld      hl, 0
+        scf
+        ret

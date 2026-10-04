@@ -10,7 +10,7 @@ EXTERN asm_flockfile
 
 flockfile:
 
-   push hl
-   pop ix
-   
-   jp asm_flockfile
+        push    hl
+        pop     ix
+
+        jp      asm_flockfile

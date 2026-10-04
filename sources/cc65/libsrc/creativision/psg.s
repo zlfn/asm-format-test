@@ -2,18 +2,14 @@
 ; void __fastcall__ psg_delay (unsigned char b);
 ; void psg_silence (void);
 
+        .export _psg_outb, _psg_silence, _psg_delay
 
-        .export         _psg_outb, _psg_silence, _psg_delay
-
-        .include        "creativision.inc"
-
+        .include "creativision.inc"
 
 ;* Let BIOS output the value.
 _psg_outb       := BIOS_POKE_PSG
 
-
 _psg_silence    := BIOS_QUIET_PSG
-
 
 _psg_delay:
         tay

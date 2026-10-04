@@ -10,9 +10,9 @@ EXTERN asm_p_forward_list_prev
 
 _p_forward_list_prev_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_p_forward_list_prev
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_p_forward_list_prev

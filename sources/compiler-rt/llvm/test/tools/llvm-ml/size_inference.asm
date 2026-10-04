@@ -2,16 +2,16 @@
 
 .data
 
-FOO STRUCT
-  dword_field DWORD 3
-  byte_field BYTE 4 DUP (1)
-FOO ENDS
+FOO     STRUCT
+        dword_field DWORD 3
+        byte_field BYTE 4 DUP (1)
+FOO     ENDS
 
 var FOO <>
 
 .code
 
-t1 PROC
+t1      PROC
 
 mov eax, var.byte_field
 ; CHECK: error: invalid operand for instruction
@@ -22,6 +22,6 @@ mov eax, [var].byte_field
 mov eax, [var.byte_field]
 ; CHECK: error: invalid operand for instruction
 
-t1 ENDP
+t1      ENDP
 
 END

@@ -37,7 +37,7 @@
 #endif
 
 #if HAVE_AS_ARCH_DIRECTIVE
-        .arch           AS_ARCH_LEVEL
+        .arch   AS_ARCH_LEVEL
 #endif
 
 #if HAVE_AS_ARCHEXT_CRC_DIRECTIVE
@@ -135,7 +135,6 @@ DISABLE_SVE2
 DISABLE_SME
 DISABLE_SME_I16I64
 DISABLE_SME2
-
 
 /* Support macros for
  *   - Armv8.3-A Pointer Authentication and
@@ -248,96 +247,95 @@ DISABLE_SME2
 #define GNU_PROPERTY_AARCH64_GCS 0 /* No GCS */
 #endif
 
-
 #if (GNU_PROPERTY_AARCH64_BTI != 0 || GNU_PROPERTY_AARCH64_PAC != 0 || GNU_PROPERTY_AARCH64_GCS != 0) && defined(__ELF__)
         .pushsection .note.gnu.property, "a"
         .balign 8
-        .long 4
-        .long 0x10
-        .long 0x5
-        .asciz "GNU"
-        .long 0xc0000000 /* GNU_PROPERTY_AARCH64_FEATURE_1_AND */
-        .long 4
-        .long (GNU_PROPERTY_AARCH64_BTI | GNU_PROPERTY_AARCH64_PAC | GNU_PROPERTY_AARCH64_GCS)
-        .long 0
+        .long   4
+        .long   0x10
+        .long   0x5
+        .asciz  "GNU"
+        .long   0xc0000000      /* GNU_PROPERTY_AARCH64_FEATURE_1_AND */
+        .long   4
+        .long   (GNU_PROPERTY_AARCH64_BTI | GNU_PROPERTY_AARCH64_PAC | GNU_PROPERTY_AARCH64_GCS)
+        .long   0
         .popsection
 #endif
 
 .macro  function name, export=0, jumpable=0, align=4
-    .macro endfunc
+        .macro  endfunc
 ELF     .size   \name, . - \name
 FUNC    .endfunc
-        .purgem endfunc
-    .endm
+                .purgem endfunc
+        .endm
         .text
-        .align          \align
-    .if \export
-        .global EXTERN_ASM\name
+        .align  \align
+        .if     \export
+                .global EXTERN_ASM\name
 ELF     .type   EXTERN_ASM\name, %function
 FUNC    .func   EXTERN_ASM\name
 EXTERN_ASM\name:
-    .if \jumpable
-        AARCH64_VALID_JUMP_TARGET
-    .else
-        AARCH64_VALID_CALL_TARGET
-    .endif
-    .else
+                .if     \jumpable
+                        AARCH64_VALID_JUMP_TARGET
+                .else
+                        AARCH64_VALID_CALL_TARGET
+                .endif
+        .else
 ELF     .type   \name, %function
 FUNC    .func   \name
 \name:
-    .endif
+        .endif
 .endm
 
 .macro  const   name, align=4, relocate=0
-    .macro endconst
+        .macro  endconst
 ELF     .size   \name, . - \name
-        .purgem endconst
-    .endm
+                .purgem endconst
+        .endm
 #if HAVE_SECTION_DATA_REL_RO
 .if \relocate
-        .section        .data.rel.ro
+        .section .data.rel.ro
 .else
-        .section        .rodata
+        .section .rodata
 .endif
 #elif defined(_WIN32)
-        .section        .rdata
+        .section .rdata
 #elif !defined(__MACH__)
-        .section        .rodata
+        .section .rodata
 #else
         .const_data
 #endif
-        .align          \align
+        .align  \align
 \name:
 .endm
 
 .macro  movrel rd, val, offset=0
 #if CONFIG_PIC && defined(__APPLE__)
-    .if \offset < 0
-        adrp            \rd, \val@PAGE
-        add             \rd, \rd, \val@PAGEOFF
-        sub             \rd, \rd, -(\offset)
-    .else
-        adrp            \rd, \val+(\offset)@PAGE
-        add             \rd, \rd, \val+(\offset)@PAGEOFF
-    .endif
+        .if     \offset < 0
+                adrp    \rd, \val@PAGE
+                add     \rd, \rd, \val@PAGEOFF
+                sub     \rd, \rd, -(\offset)
+        .else
+                adrp    \rd, \val+(\offset)@PAGE
+                add     \rd, \rd, \val+(\offset)@PAGEOFF
+        .endif
 #elif CONFIG_PIC && defined(_WIN32)
-    .if \offset < 0
-        adrp            \rd, \val
-        add             \rd, \rd, :lo12:\val
-        sub             \rd, \rd, -(\offset)
-    .else
-        adrp            \rd, \val+(\offset)
-        add             \rd, \rd, :lo12:\val+(\offset)
-    .endif
+        .if     \offset < 0
+                adrp    \rd, \val
+                add     \rd, \rd, :lo12:\val
+                sub     \rd, \rd, -(\offset)
+        .else
+                adrp    \rd, \val+(\offset)
+                add     \rd, \rd, :lo12:\val+(\offset)
+        .endif
 #elif CONFIG_PIC
 #   if __has_feature(hwaddress_sanitizer)
-        adrp            \rd, :pg_hi21_nc:\val+(\offset)
+        adrp    \rd, :pg_hi21_nc:\val+(\offset)
 #   else
-        adrp            \rd, \val+(\offset)
+        adrp    \rd, \val+(\offset)
 #   endif
-        add             \rd, \rd, :lo12:\val+(\offset)
+        add     \rd, \rd, :lo12:\val+(\offset)
 #else
-        ldr             \rd, =\val+\offset
+        ldr     \rd, =\val+\offset
 #endif
 .endm
 
@@ -351,22 +349,22 @@ ELF     .size   \name, . - \name
 #if HAVE_SME
 .macro sme_entry
         AARCH64_SIGN_LINK_REGISTER
-        stp             x29, x30, [sp, #-80]!
-        mov             x29, sp
-        stp             d8,  d9,  [sp, #16]
-        stp             d10, d11, [sp, #32]
-        stp             d12, d13, [sp, #48]
-        stp             d14, d15, [sp, #64]
+        stp     x29, x30, [sp, #-80]!
+        mov     x29, sp
+        stp     d8,  d9,  [sp, #16]
+        stp     d10, d11, [sp, #32]
+        stp     d12, d13, [sp, #48]
+        stp     d14, d15, [sp, #64]
         smstart
 .endm
 
 .macro sme_exit
         smstop
-        ldp             d8,  d9,  [sp, #16]
-        ldp             d10, d11, [sp, #32]
-        ldp             d12, d13, [sp, #48]
-        ldp             d14, d15, [sp, #64]
-        ldp             x29, x30, [sp], #80
+        ldp     d8,  d9,  [sp, #16]
+        ldp     d10, d11, [sp, #32]
+        ldp     d12, d13, [sp, #48]
+        ldp     d14, d15, [sp, #64]
+        ldp     x29, x30, [sp], #80
         AARCH64_VALIDATE_LINK_REGISTER
 .endm
 #endif

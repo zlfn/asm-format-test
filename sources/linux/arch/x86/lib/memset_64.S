@@ -30,14 +30,14 @@
  * which the compiler could/should do much better anyway.
  */
 SYM_TYPED_FUNC_START(__memset)
-	ALTERNATIVE "jmp memset_orig", "", X86_FEATURE_FSRS
+        ALTERNATIVE "jmp memset_orig", "", X86_FEATURE_FSRS
 
-	movq %rdi,%r9
-	movb %sil,%al
-	movq %rdx,%rcx
-	rep stosb
-	movq %r9,%rax
-	RET
+        movq    %rdi, %r9
+        movb    %sil, %al
+        movq    %rdx, %rcx
+        rep stosb
+        movq    %r9, %rax
+        RET
 SYM_FUNC_END(__memset)
 EXPORT_SYMBOL(__memset)
 
@@ -46,74 +46,74 @@ SYM_PIC_ALIAS(memset)
 EXPORT_SYMBOL(memset)
 
 SYM_FUNC_START_LOCAL(memset_orig)
-	movq %rdi,%r10
+        movq    %rdi, %r10
 
-	/* expand byte value  */
-	movzbl %sil,%ecx
-	movabs $0x0101010101010101,%rax
-	imulq  %rcx,%rax
+        /* expand byte value  */
+        movzbl  %sil, %ecx
+        movabs  $0x0101010101010101, %rax
+        imulq   %rcx, %rax
 
-	/* align dst */
-	movl  %edi,%r9d
-	andl  $7,%r9d
-	jnz  .Lbad_alignment
+        /* align dst */
+        movl    %edi, %r9d
+        andl    $7,   %r9d
+        jnz     .Lbad_alignment
 .Lafter_bad_alignment:
 
-	movq  %rdx,%rcx
-	shrq  $6,%rcx
-	jz	 .Lhandle_tail
+        movq    %rdx, %rcx
+        shrq    $6,   %rcx
+        jz      .Lhandle_tail
 
-	.p2align 4
+        .p2align 4
 .Lloop_64:
-	decq  %rcx
-	movq  %rax,(%rdi)
-	movq  %rax,8(%rdi)
-	movq  %rax,16(%rdi)
-	movq  %rax,24(%rdi)
-	movq  %rax,32(%rdi)
-	movq  %rax,40(%rdi)
-	movq  %rax,48(%rdi)
-	movq  %rax,56(%rdi)
-	leaq  64(%rdi),%rdi
-	jnz    .Lloop_64
+        decq    %rcx
+        movq    %rax,     (%rdi)
+        movq    %rax,     8(%rdi)
+        movq    %rax,     16(%rdi)
+        movq    %rax,     24(%rdi)
+        movq    %rax,     32(%rdi)
+        movq    %rax,     40(%rdi)
+        movq    %rax,     48(%rdi)
+        movq    %rax,     56(%rdi)
+        leaq    64(%rdi), %rdi
+        jnz     .Lloop_64
 
 	/* Handle tail in loops. The loops should be faster than hard
 	   to predict jump tables. */
-	.p2align 4
+        .p2align 4
 .Lhandle_tail:
-	movl	%edx,%ecx
-	andl    $63&(~7),%ecx
-	jz 		.Lhandle_7
-	shrl	$3,%ecx
-	.p2align 4
+        movl    %edx,     %ecx
+        andl    $63&(~7), %ecx
+        jz      .Lhandle_7
+        shrl    $3, %ecx
+        .p2align 4
 .Lloop_8:
-	decl   %ecx
-	movq  %rax,(%rdi)
-	leaq  8(%rdi),%rdi
-	jnz    .Lloop_8
+        decl    %ecx
+        movq    %rax,    (%rdi)
+        leaq    8(%rdi), %rdi
+        jnz     .Lloop_8
 
 .Lhandle_7:
-	andl	$7,%edx
-	jz      .Lende
-	.p2align 4
+        andl    $7, %edx
+        jz      .Lende
+        .p2align 4
 .Lloop_1:
-	decl    %edx
-	movb 	%al,(%rdi)
-	leaq	1(%rdi),%rdi
-	jnz     .Lloop_1
+        decl    %edx
+        movb    %al,     (%rdi)
+        leaq    1(%rdi), %rdi
+        jnz     .Lloop_1
 
 .Lende:
-	movq	%r10,%rax
-	RET
+        movq    %r10, %rax
+        RET
 
 .Lbad_alignment:
-	cmpq $7,%rdx
-	jbe	.Lhandle_7
-	movq %rax,(%rdi)	/* unaligned store */
-	movq $8,%r8
-	subq %r9,%r8
-	addq %r8,%rdi
-	subq %r8,%rdx
-	jmp .Lafter_bad_alignment
+        cmpq    $7, %rdx
+        jbe     .Lhandle_7
+        movq    %rax, (%rdi)    /* unaligned store */
+        movq    $8,   %r8
+        subq    %r9,  %r8
+        addq    %r8,  %rdi
+        subq    %r8,  %rdx
+        jmp     .Lafter_bad_alignment
 .Lfinal:
 SYM_FUNC_END(memset_orig)

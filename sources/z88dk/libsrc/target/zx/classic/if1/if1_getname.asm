@@ -8,10 +8,9 @@
 ;	$Id: if1_getname.asm,v 1.4 2017-01-03 01:40:06 aralbrec Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  if1_getname
-    PUBLIC  _if1_getname
-
+        SECTION code_clib
+        PUBLIC  if1_getname
+        PUBLIC  _if1_getname
 
 if1_getname:
 _if1_getname:
@@ -22,25 +21,25 @@ _if1_getname:
 ;		push	hl
 ;		push	bc
 
-    ld      de, tempmdvname
-    push    de
-    ld      bc, 10
-    ldir
+        ld      de, tempmdvname
+        push    de
+        ld      bc, 10
+        ldir
 
-    push    de
-    pop     hl
+        push    de
+        pop     hl
 
 previous:
-    dec     hl
-    ld      a, (hl)
-    cp      ' '
-    jr      z, previous
-    inc     hl
-    ld      (hl), 0
+        dec     hl
+        ld      a, (hl)
+        cp      ' '
+        jr      z, previous
+        inc     hl
+        ld      (hl), 0
 
-    pop     hl                          ; pointer to temp name
-    ret
+        pop     hl      ; pointer to temp name
+        ret
 
-    SECTION bss_clib
+        SECTION bss_clib
 tempmdvname:
-    defs    11
+        defs    11

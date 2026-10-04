@@ -8,4 +8,4 @@ PUBLIC _b_array_destroy_fastcall
 
 EXTERN asm_b_array_destroy
 
-defc _b_array_destroy_fastcall = asm_b_array_destroy 
+defc _b_array_destroy_fastcall = asm_b_array_destroy

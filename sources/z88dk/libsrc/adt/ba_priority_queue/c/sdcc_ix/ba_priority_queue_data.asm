@@ -10,10 +10,10 @@ EXTERN asm_ba_priority_queue_data
 
 _ba_priority_queue_data:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_ba_priority_queue_data
+        push    hl
+        push    af
+
+        jp      asm_ba_priority_queue_data

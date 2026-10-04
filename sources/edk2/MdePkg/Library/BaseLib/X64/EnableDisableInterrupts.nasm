@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID
@@ -27,7 +27,6 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(EnableDisableInterrupts)
 ASM_PFX(EnableDisableInterrupts):
-    sti
-    cli
-    ret
-
+        sti
+        cli
+        ret

@@ -6,7 +6,7 @@
 ; const void joy_static_stddrv[];
 ;
 
-        .export         _joy_static_stddrv
-        .import         _supervision_stdjoy_joy
+        .export _joy_static_stddrv
+        .import _supervision_stdjoy_joy
 
 _joy_static_stddrv      := _supervision_stdjoy_joy

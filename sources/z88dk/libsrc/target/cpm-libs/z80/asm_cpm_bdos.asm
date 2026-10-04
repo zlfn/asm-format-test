@@ -2,7 +2,7 @@
 ; ===============================================================
 ; 2015
 ; ===============================================================
-; 
+;
 ; int cpm_bdos(unsigned int func,unsigned int arg)
 ;
 ; ===============================================================
@@ -21,15 +21,15 @@ IF __SDCC
 
 asm_cpm_bdos:
 
-   push ix
-   push iy
-   
-   call 0x0005
-   
-   pop iy
-   pop ix
-   
-   ret
+        push    ix
+        push    iy
+
+        call    0x0005
+
+        pop     iy
+        pop     ix
+
+        ret
 
 ELSE
 

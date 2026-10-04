@@ -34,16 +34,16 @@ SECTION .text
 ; %2 = number of inline store loops
 %macro CLEAR_BLOCK 2
 cglobal clear_block, 1, 1, %1, blocks
-    ZERO  m0, m0, m0
+        ZERO    m0, m0, m0
 %assign %%i 0
 %rep %2
-    mova  [blocksq+mmsize*(0+%%i)], m0
-    mova  [blocksq+mmsize*(1+%%i)], m0
-    mova  [blocksq+mmsize*(2+%%i)], m0
-    mova  [blocksq+mmsize*(3+%%i)], m0
+        mova    [blocksq+mmsize*(0+%%i)], m0
+        mova    [blocksq+mmsize*(1+%%i)], m0
+        mova    [blocksq+mmsize*(2+%%i)], m0
+        mova    [blocksq+mmsize*(3+%%i)], m0
 %assign %%i %%i+4
 %endrep
-    RET
+        RET
 %endmacro
 
 INIT_XMM sse
@@ -58,21 +58,21 @@ CLEAR_BLOCK 1, 1
 ; %1 = number of xmm registers used
 %macro CLEAR_BLOCKS 1
 cglobal clear_blocks, 1, 2, %1, blocks, len
-    add   blocksq, 768
-    mov      lenq, -768
-    ZERO       m0, m0, m0
+        add     blocksq, 768
+        mov     lenq,    -768
+        ZERO    m0, m0, m0
 .loop:
-    mova  [blocksq+lenq+mmsize*0], m0
-    mova  [blocksq+lenq+mmsize*1], m0
-    mova  [blocksq+lenq+mmsize*2], m0
-    mova  [blocksq+lenq+mmsize*3], m0
-    mova  [blocksq+lenq+mmsize*4], m0
-    mova  [blocksq+lenq+mmsize*5], m0
-    mova  [blocksq+lenq+mmsize*6], m0
-    mova  [blocksq+lenq+mmsize*7], m0
-    add   lenq, mmsize*8
-    js .loop
-    RET
+        mova    [blocksq+lenq+mmsize*0], m0
+        mova    [blocksq+lenq+mmsize*1], m0
+        mova    [blocksq+lenq+mmsize*2], m0
+        mova    [blocksq+lenq+mmsize*3], m0
+        mova    [blocksq+lenq+mmsize*4], m0
+        mova    [blocksq+lenq+mmsize*5], m0
+        mova    [blocksq+lenq+mmsize*6], m0
+        mova    [blocksq+lenq+mmsize*7], m0
+        add     lenq, mmsize*8
+        js      .loop
+        RET
 %endmacro
 
 INIT_XMM sse
@@ -87,22 +87,22 @@ CLEAR_BLOCKS 1
 ;-----------------------------------------
 %macro FILL_BLOCK_TAB 2
 cglobal fill_block_tab_%1, 4, 5, 1, block, value, stride, h, stride3
-    lea stride3q, [strideq + strideq * 2]
+        lea     stride3q, [strideq + strideq * 2]
 %if cpuflag(avx2)
-    movd m0, valued
-    vpbroadcastb m0, m0
+        movd    m0, valued
+        vpbroadcastb m0, m0
 %else
-    SPLATB_REG m0, value, x
+        SPLATB_REG m0, value, x
 %endif
 .loop:
-    mov%2 [blockq], m0
-    mov%2 [blockq + strideq], m0
-    mov%2 [blockq + strideq * 2], m0
-    mov%2 [blockq + stride3q], m0
-    lea blockq, [blockq + strideq * 4]
-    sub hd, 4
-    jg .loop
-    RET
+        mov%2   [blockq], m0
+        mov%2   [blockq + strideq],     m0
+        mov%2   [blockq + strideq * 2], m0
+        mov%2   [blockq + stride3q],    m0
+        lea     blockq, [blockq + strideq * 4]
+        sub     hd,     4
+        jg      .loop
+        RET
 %endmacro
 
 INIT_XMM sse2

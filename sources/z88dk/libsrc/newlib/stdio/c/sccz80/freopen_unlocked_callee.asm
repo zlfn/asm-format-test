@@ -10,9 +10,9 @@ EXTERN asm_freopen_unlocked
 
 freopen_unlocked_callee:
 
-   pop hl
-   pop ix
-   pop de
-   ex (sp),hl
-   
-   jp asm_freopen_unlocked
+        pop     hl
+        pop     ix
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_freopen_unlocked

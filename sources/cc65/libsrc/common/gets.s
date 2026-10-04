@@ -4,9 +4,9 @@
 ; char* __fastcall__ gets (char* s)
 ;
 
-        .export         _gets
-        .import         _fgets, _stdin, popax, pushax
-        .importzp       ptr4
+        .export _gets
+        .import _fgets, _stdin, popax, pushax
+        .importzp ptr4
 
 _gets:
         ; Push buffer
@@ -30,18 +30,18 @@ _gets:
         bne     :+
         rts
 
-:       ; At least one byte written.
-        jsr     pushax          ; Store returned pointer
+:                       ; At least one byte written.
+        jsr     pushax  ; Store returned pointer
 
         ; Remove \n if there is one.
         lda     ptr4            ; _fgets returns with ptr4 at
         bne     :+              ; end of buffer
         dec     ptr4+1
 :       dec     ptr4
-        lda     (ptr4),y        ; _fgets returns with Y=0
+        lda     (ptr4), y       ; _fgets returns with Y=0
         cmp     #$0A
         bne     :+
         tya
-        sta     (ptr4),y        ; Set terminator over \n
+        sta     (ptr4), y       ; Set terminator over \n
 
 :       jmp     popax

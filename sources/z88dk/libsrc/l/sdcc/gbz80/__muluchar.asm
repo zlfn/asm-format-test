@@ -6,16 +6,16 @@
         GLOBAL  l_mul16
 
 __muluchar:
-        ld      hl,sp+2
+        ld      hl, sp+2
 
-        ld      e,(hl)
+        ld      e, (hl)
 
         inc     hl
-        ld      c,(hl)
+        ld      c, (hl)
 
         ;; Clear the top
         xor     a
-        ld      d,a
-        ld      b,a
+        ld      d, a
+        ld      b, a
 
         jp      l_mul16

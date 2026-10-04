@@ -16,14 +16,14 @@
 	 * aligned and add in the offset when we load the value here.
 	 */
 
-	.macro addruart, rp, rv, tmp
-		ldr	\rp, =S5PV210_PA_UART
-		ldr	\rv, =S3C_VA_UART
+        .macro  addruart, rp, rv, tmp
+                ldr     \rp, =S5PV210_PA_UART
+                ldr     \rv, =S3C_VA_UART
 #if CONFIG_DEBUG_S3C_UART != 0
-		add	\rp, \rp, #(0x400 * CONFIG_DEBUG_S3C_UART)
-		add	\rv, \rv, #(0x400 * CONFIG_DEBUG_S3C_UART)
+                add     \rp, \rp, #(0x400 * CONFIG_DEBUG_S3C_UART)
+                add     \rv, \rv, #(0x400 * CONFIG_DEBUG_S3C_UART)
 #endif
-	.endm
+        .endm
 
 #define fifo_full fifo_full_s5pv210
 #define fifo_level fifo_level_s5pv210

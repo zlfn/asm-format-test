@@ -1,5 +1,5 @@
 ;
-;       Z88 Small C+ Run Time Library 
+;       Z88 Small C+ Run Time Library
 ;       Long support functions
 ;
 ;       djm 25/2/99
@@ -15,7 +15,7 @@ SECTION code_clib
 SECTION code_l_sccz80
 PUBLIC l_long_asr_uo
 
-; Shift primary (on stack) right by secondary, 
+; Shift primary (on stack) right by secondary,
 ; We can only shift a maximum of 32 bits (or so), so the counter can
 ; go in c
 
@@ -23,14 +23,14 @@ PUBLIC l_long_asr_uo
 
 .l_long_asr_uo
 
-        ld a,c
-        and	31
-        ret z
-        
-        ld b,a
+        ld      a, c
+        and     31
+        ret     z
+
+        ld      b, a
 .loop
-	and	a
-	rr	de
-	rr	hl
-        djnz loop
+        and     a
+        rr      de
+        rr      hl
+        djnz    loop
         ret

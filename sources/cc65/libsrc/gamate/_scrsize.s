@@ -1,7 +1,7 @@
 ;
 ; Screen size variables
 ;
-        .include        "gamate.inc"
+        .include "gamate.inc"
 
         .export screensize
 screensize:

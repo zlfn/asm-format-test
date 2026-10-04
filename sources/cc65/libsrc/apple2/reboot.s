@@ -4,13 +4,13 @@
 ; void rebootafterexit (void);
 ;
 
-        .constructor    initreboot, 11
-        .export         _rebootafterexit
-        .import         done, return
+        .constructor initreboot, 11
+        .export _rebootafterexit
+        .import done, return
 
 _rebootafterexit := return
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 initreboot:
         ; Quit to PWRUP

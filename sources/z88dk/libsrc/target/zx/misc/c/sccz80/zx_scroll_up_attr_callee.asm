@@ -9,9 +9,9 @@ EXTERN asm0_zx_scroll_up_attr
 
 zx_scroll_up_attr_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
-   jp asm0_zx_scroll_up_attr
+        jp      asm0_zx_scroll_up_attr

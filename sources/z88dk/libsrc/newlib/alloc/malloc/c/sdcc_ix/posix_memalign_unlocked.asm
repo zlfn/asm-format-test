@@ -10,14 +10,14 @@ EXTERN asm_posix_memalign_unlocked
 
 _posix_memalign_unlocked:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push af
-   
-   jp asm_posix_memalign_unlocked
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        jp      asm_posix_memalign_unlocked

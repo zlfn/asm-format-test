@@ -17,23 +17,23 @@ PUBLIC asm_zx_saddrpright
 
 asm_zx_saddrpright:
 
-   ; enter : hl = screen address
-   ;          e = bitmask
-   ;
-   ; exit  : hl = screen address moved right one pixel
-   ;          e = bitmask moved right one pixel
-   ;         carry set if pixel was at rightmost edge
-   ;
-   ; uses  : af, e, hl
+        ; enter : hl = screen address
+        ;          e = bitmask
+        ;
+        ; exit  : hl = screen address moved right one pixel
+        ;          e = bitmask moved right one pixel
+        ;         carry set if pixel was at rightmost edge
+        ;
+        ; uses  : af, e, hl
 
-   rrc e
-   ret nc
-   
-   inc l
-   ld a,l
-   and $1f
-   ret nz
-   
-   dec l
-   rlc e
-   ret
+        rrc     e
+        ret     nc
+
+        inc     l
+        ld      a, l
+        and     $1f
+        ret     nz
+
+        dec     l
+        rlc     e
+        ret

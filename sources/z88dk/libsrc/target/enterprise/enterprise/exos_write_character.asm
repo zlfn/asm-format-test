@@ -9,21 +9,19 @@
 ;
 
         SECTION code_clib
-	PUBLIC    exos_write_character
-	PUBLIC    _exos_write_character
+        PUBLIC  exos_write_character
+        PUBLIC  _exos_write_character
 
-	EXTERN     asm_exos_write_character
-
+        EXTERN  asm_exos_write_character
 
 exos_write_character:
 _exos_write_character:
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
-   
-   jp asm_exos_write_character
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
 
+        jp      asm_exos_write_character

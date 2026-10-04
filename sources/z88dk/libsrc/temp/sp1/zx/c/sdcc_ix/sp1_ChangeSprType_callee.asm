@@ -9,9 +9,9 @@ EXTERN asm_sp1_ChangeSprType
 
 _sp1_ChangeSprType_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_sp1_ChangeSprType
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_sp1_ChangeSprType

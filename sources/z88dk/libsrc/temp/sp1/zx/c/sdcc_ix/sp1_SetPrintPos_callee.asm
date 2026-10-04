@@ -9,11 +9,11 @@ EXTERN asm_sp1_SetPrintPos
 
 _sp1_SetPrintPos_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   push af
-   
-   ld d,c
-   jp asm_sp1_SetPrintPos
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        push    af
+
+        ld      d, c
+        jp      asm_sp1_SetPrintPos

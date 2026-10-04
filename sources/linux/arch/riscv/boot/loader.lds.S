@@ -8,10 +8,10 @@ ENTRY(_start)
 
 SECTIONS
 {
-	. = KERNEL_LINK_ADDR;
+        .       = KERNEL_LINK_ADDR;
 
-	.payload : {
-		*(.payload)
-		. = ALIGN(8);
-	}
+        .payload : {
+        *(.payload)
+        .       = ALIGN(8);
+        }
 }

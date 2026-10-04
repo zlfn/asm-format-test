@@ -9,10 +9,10 @@ PUBLIC _system_fastcall
 EXTERN asm_system
 
 _system_fastcall:
-   
-   push ix
-   
-   call asm_system
-   
-   pop ix
-   ret
+
+        push    ix
+
+        call    asm_system
+
+        pop     ix
+        ret

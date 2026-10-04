@@ -1,18 +1,15 @@
 
+        SECTION code_clib
 
-    SECTION code_clib
+        PUBLIC  powk_callee
+        PUBLIC  _powk_callee
 
-    PUBLIC  powk_callee
-    PUBLIC  _powk_callee
-
-    EXTERN  asm_fix16_pow
-
+        EXTERN  asm_fix16_pow
 
 powk_callee:
 _powk_callee:
-    pop     bc
-    pop     de
-    pop     hl
-    push    bc
-    jp      asm_fix16_pow
-
+        pop     bc
+        pop     de
+        pop     hl
+        push    bc
+        jp      asm_fix16_pow

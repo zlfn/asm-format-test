@@ -25,7 +25,7 @@
 %include "libavcodec/x86/h26x/h2656_sao.asm"
 
 %macro VVC_SAO_BAND_FILTER 2
-    H2656_SAO_BAND_FILTER vvc, %1, %2
+        H2656_SAO_BAND_FILTER vvc, %1, %2
 %endmacro
 
 %macro VVC_SAO_BAND_FILTER_FUNCS 0
@@ -55,7 +55,7 @@ VVC_SAO_BAND_FILTER 128, 4
 %endif
 
 %macro VVC_SAO_EDGE_FILTER 2-3
-    H2656_SAO_EDGE_FILTER vvc, %{1:-1}
+        H2656_SAO_EDGE_FILTER vvc, %{1:-1}
 %endmacro
 
 %if HAVE_AVX2_EXTERNAL

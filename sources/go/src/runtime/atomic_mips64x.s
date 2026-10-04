@@ -9,5 +9,5 @@
 #define SYNC	WORD $0xf
 
 TEXT ·publicationBarrier(SB),NOSPLIT|NOFRAME,$0-0
-	SYNC
-	RET
+        SYNC
+        RET

@@ -9,21 +9,19 @@
 ;
 
         SECTION code_clib
-	PUBLIC    exos_redirect_channel
-	PUBLIC    _exos_redirect_channel
+        PUBLIC  exos_redirect_channel
+        PUBLIC  _exos_redirect_channel
 
-	EXTERN     asm_exos_redirect_channel
-
+        EXTERN  asm_exos_redirect_channel
 
 exos_redirect_channel:
 _exos_redirect_channel:
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
-   
-   jp asm_exos_redirect_channel
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
 
+        jp      asm_exos_redirect_channel

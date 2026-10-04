@@ -4,23 +4,23 @@
 ; int open (const char* name, int flags, ...);
 ;
 
-        .export         _open, closedirect, freebuffer
-        .export         __filetype, __auxtype, __datetime
-        .constructor    raisefilelevel
-        .destructor     closeallfiles, 5
+        .export _open, closedirect, freebuffer
+        .export __filetype, __auxtype, __datetime
+        .constructor raisefilelevel
+        .destructor closeallfiles, 5
 
-        .import         pushname_tos, popname, mli_set_pathname_tos, __dos_type
-        .import         iobuf_alloc, iobuf_free
-        .import         addysp, incsp4, incaxy, pushax, popax
+        .import pushname_tos, popname, mli_set_pathname_tos, __dos_type
+        .import iobuf_alloc,  iobuf_free
+        .import addysp, incsp4, incaxy, pushax, popax
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "mli.inc"
-        .include        "filedes.inc"
-        .include        "time.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "mli.inc"
+        .include "filedes.inc"
+        .include "time.inc"
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 raisefilelevel:
         ; Raise file level
@@ -44,7 +44,7 @@ _open:
         ldy     #$00
 
         ; Check for free fdtab slot
-:       lda     fdtab + FD::REF_NUM,y
+:       lda     fdtab + FD::REF_NUM, y
         beq     found
 
         ; Advance to next fdtab slot
@@ -62,7 +62,7 @@ _open:
         lda     #EMFILE
 
         ; Cleanup stack
-errno:  jsr     incsp4          ; Preserves A
+errno:  jsr     incsp4  ; Preserves A
 
         ; Set __errno
         jmp     ___directerrno
@@ -77,10 +77,10 @@ found:  sty     tmp2
         jsr     pushax
         lda     #$00
         ldx     #>$0100
-        jsr     pushax          ; Preserves A
+        jsr     pushax  ; Preserves A
         ldx     #>$0400
         jsr     iobuf_alloc
-        bne     errno           ; Check for error
+        bne     errno   ; Check for error
 
         ; Get and save flags
         jsr     popax
@@ -94,7 +94,7 @@ found:  sty     tmp2
         jsr     mli_set_pathname_tos
 
         ; Check for create flag
-        lda     tmp3            ; Restore flags
+        lda     tmp3    ; Restore flags
         and     #O_CREAT
         beq     open
 
@@ -103,8 +103,8 @@ found:  sty     tmp2
 
         ; Set all other parameters from template
         ldx     #(MLI::CREATE::CREATE_TIME+1) - (MLI::CREATE::PATHNAME+1) - 1
-:       lda     CREATE,x
-        sta     mliparam + MLI::CREATE::ACCESS,x
+:       lda     CREATE, x
+        sta     mliparam + MLI::CREATE::ACCESS, x
         dex
         bpl     :-
 
@@ -115,34 +115,34 @@ found:  sty     tmp2
         bcc     open
 
         ; Check for ordinary errors
-        cmp     #$47            ; "Duplicate filename"
+        cmp     #$47    ; "Duplicate filename"
         bne     oserr2
 
         ; Check for exclusive flag
-        lda     tmp3            ; Restore flags
+        lda     tmp3    ; Restore flags
         and     #O_EXCL
         beq     open
 
-        lda     #$47            ; "Duplicate filename"
+        lda     #$47    ; "Duplicate filename"
 
         ; Cleanup name
-oserr2: jsr     popname         ; Preserves A
+oserr2: jsr     popname ; Preserves A
 
-oserr1: ldy     tmp2            ; Restore fdtab slot
+oserr1: ldy     tmp2    ; Restore fdtab slot
 
         ; Cleanup I/O buffer
-        pha                     ; Save oserror code
+        pha     ; Save oserror code
         jsr     freebuffer
-        pla                     ; Restore oserror code
+        pla     ; Restore oserror code
 
         ; Set ___oserror
         jmp     ___mappederrno
 
-open:   ldy     tmp2            ; Restore fdtab slot
+open:   ldy     tmp2    ; Restore fdtab slot
 
         ; Set allocated I/O buffer
-        ldx     fdtab + FD::BUFFER+1,y
-        sta     mliparam + MLI::OPEN::IO_BUFFER         ; A = 0
+        ldx     fdtab + FD::BUFFER+1, y
+        sta     mliparam + MLI::OPEN::IO_BUFFER ; A = 0
         stx     mliparam + MLI::OPEN::IO_BUFFER+1
 
         ; Open file
@@ -153,11 +153,11 @@ open:   ldy     tmp2            ; Restore fdtab slot
 
         ; Get and save fd
         ldx     mliparam + MLI::OPEN::REF_NUM
-        stx     tmp1            ; Save fd
+        stx     tmp1    ; Save fd
 
         ; Set flags and check for truncate flag
-        lda     tmp3            ; Restore flags
-        sta     fdtab + FD::FLAGS,y
+        lda     tmp3    ; Restore flags
+        sta     fdtab + FD::FLAGS, y
         and     #O_TRUNC
         beq     done
 
@@ -165,7 +165,7 @@ open:   ldy     tmp2            ; Restore fdtab slot
         stx     mliparam + MLI::EOF::REF_NUM
         ldx     #$02
         lda     #$00
-:       sta     mliparam + MLI::EOF::EOF,x
+:       sta     mliparam + MLI::EOF::EOF, x
         dex
         bpl     :-
 
@@ -176,15 +176,15 @@ open:   ldy     tmp2            ; Restore fdtab slot
         bcc     done
 
         ; Cleanup file
-        pha                     ; Save oserror code
-        lda     tmp1            ; Restore fd
+        pha             ; Save oserror code
+        lda     tmp1    ; Restore fd
         jsr     closedirect
-        pla                     ; Restore oserror code
-        bne     oserr2          ; Branch always
+        pla             ; Restore oserror code
+        bne     oserr2  ; Branch always
 
         ; Store fd
-done:   lda     tmp1            ; Restore fd
-        sta     fdtab + FD::REF_NUM,y
+done:   lda     tmp1    ; Restore fd
+        sta     fdtab + FD::REF_NUM, y
 
         ; Convert fdtab slot to handle
         .assert .sizeof(FD) = 4, error
@@ -193,7 +193,7 @@ done:   lda     tmp1            ; Restore fd
         lsr
 
         ; Cleanup name
-        jsr     popname         ; Preserves A
+        jsr     popname ; Preserves A
 
         ; Return success
         ldx     #>$0000
@@ -203,7 +203,7 @@ done:   lda     tmp1            ; Restore fd
 freebuffer:
         ; Free I/O buffer
         lda     #$00
-        ldx     fdtab + FD::BUFFER+1,y
+        ldx     fdtab + FD::BUFFER+1, y
         jmp     iobuf_free
 
 closedirect:

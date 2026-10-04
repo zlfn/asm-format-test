@@ -10,9 +10,9 @@ EXTERN asm_in_mouse_amx_init
 
 in_mouse_amx_init_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   ld b,l
-   jp asm_in_mouse_amx_init
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        ld      b, l
+        jp      asm_in_mouse_amx_init

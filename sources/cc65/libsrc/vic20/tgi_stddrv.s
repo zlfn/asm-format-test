@@ -10,4 +10,4 @@
 
 .rodata
 
-_tgi_stddrv:    .asciiz "vic20-hi.tgi"
+_tgi_stddrv: .asciiz "vic20-hi.tgi"

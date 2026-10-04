@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; char *strndup(const char *s, size_t n)
 ;
 ; Copy at most n chars from string s into an allocated block of
@@ -21,28 +21,28 @@ EXTERN asm_strlen, l_minu_bc_hl, asm0_strdup
 
 asm_strndup:
 
-   ; enter : hl = char *s
-   ;         bc = size_t n
-   ;
-   ; exit : 
-   ;         success
-   ;
-   ;           carry reset
-   ;           hl = char *str (dup), must deallocate with free()
-   ;           de = ptr to NUL at end of str (dup)
-   ;
-   ;        fail (no memory)
-   ;
-   ;           carry set, errno = enomem
-   ;           hl = 0
-   ;           de = char *s
-   ;           bc = min(strlen(s)+1, n+1)
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : hl = char *s
+        ;         bc = size_t n
+        ;
+        ; exit :
+        ;         success
+        ;
+        ;           carry reset
+        ;           hl = char *str (dup), must deallocate with free()
+        ;           de = ptr to NUL at end of str (dup)
+        ;
+        ;        fail (no memory)
+        ;
+        ;           carry set, errno = enomem
+        ;           hl = 0
+        ;           de = char *s
+        ;           bc = min(strlen(s)+1, n+1)
+        ;
+        ; uses  : af, bc, de, hl
 
-   push hl                     ; save char *s
+        push    hl      ; save char *s
 
-   call asm_strlen             ; hl = strlen(s)
-   call l_minu_bc_hl           ; hl = min(strlen, n)
+        call    asm_strlen      ; hl = strlen(s)
+        call    l_minu_bc_hl    ; hl = min(strlen, n)
 
-   jp asm0_strdup
+        jp      asm0_strdup

@@ -15,18 +15,17 @@ EXTERN asm_BIFROSTH_getTile
 
 BIFROSTH_getTile:
 
-   	ld hl,2
-   	add hl,sp
-   	ld c,(hl)       ; C=py
-   	inc hl
-   	inc hl
-   	ld l,(hl)       ; L=px
+        ld      hl, 2
+        add     hl, sp
+        ld      c,  (hl)        ; C=py
+        inc     hl
+        inc     hl
+        ld      l, (hl)         ; L=px
 
-   	jp asm_BIFROSTH_getTile
+        jp      asm_BIFROSTH_getTile
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _BIFROSTH_getTile
 defc _BIFROSTH_getTile = BIFROSTH_getTile
 ENDIF
-

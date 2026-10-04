@@ -9,12 +9,12 @@ EXTERN l0_tshr_cls_wc_pix_callee
 
 _tshr_cls_wc_pix:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp l0_tshr_cls_wc_pix_callee
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      l0_tshr_cls_wc_pix_callee

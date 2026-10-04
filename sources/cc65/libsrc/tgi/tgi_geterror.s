@@ -6,19 +6,19 @@
 ; ** error.
 ; */
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
 .proc   _tgi_geterror
 
-        lda     _tgi_drv                ; Check if we have a driver
+        lda     _tgi_drv        ; Check if we have a driver
         ora     _tgi_drv+1
         beq     @L1
-        jsr     tgi_geterror            ; First call driver
-@L1:    ldx     #$00                    ; Clear high byte
-        ldy     _tgi_error              ; Test high level error code
-        beq     @L2                     ; Branch if no high level error code
-        tya                             ; Use high level code if we have one
-        stx     _tgi_error              ; Clear high level error code
+        jsr     tgi_geterror    ; First call driver
+@L1:    ldx     #$00            ; Clear high byte
+        ldy     _tgi_error      ; Test high level error code
+        beq     @L2             ; Branch if no high level error code
+        tya                     ; Use high level code if we have one
+        stx     _tgi_error      ; Clear high level error code
 @L2:    rts
 
 .endproc

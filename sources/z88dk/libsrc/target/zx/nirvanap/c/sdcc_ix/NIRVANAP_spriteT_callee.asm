@@ -16,14 +16,14 @@ EXTERN asm_NIRVANAP_spriteT
 
 _NIRVANAP_spriteT_callee:
 
-   pop af
-   pop hl          ; l = sprite
-   pop bc
-   push af
-   
-   ld a,h          ; a = tile
-   ld h,0
-   ld d,c          ; d = lin
-   ld e,b          ; e = col
+        pop     af
+        pop     hl      ; l = sprite
+        pop     bc
+        push    af
 
-	jp asm_NIRVANAP_spriteT
+        ld      a, h    ; a = tile
+        ld      h, 0
+        ld      d, c    ; d = lin
+        ld      e, b    ; e = col
+
+        jp      asm_NIRVANAP_spriteT

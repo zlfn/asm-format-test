@@ -30,24 +30,24 @@
  * flat identity mapping.
  */
 SYM_TYPED_FUNC_START(cpu_soft_restart)
-	mov_q	x12, INIT_SCTLR_EL1_MMU_OFF
-	pre_disable_mmu_workaround
+        mov_q   x12, INIT_SCTLR_EL1_MMU_OFF
+        pre_disable_mmu_workaround
 	/*
 	 * either disable EL1&0 translation regime or disable EL2&0 translation
 	 * regime if HCR_EL2.E2H == 1
 	 */
-	msr	sctlr_el1, x12
-	isb
+        msr     sctlr_el1, x12
+        isb
 
-	cbz	x0, 1f				// el2_switch?
-	mov	x0, #HVC_SOFT_RESTART
-	hvc	#0				// no return
+        cbz     x0, 1f  // el2_switch?
+        mov     x0, #HVC_SOFT_RESTART
+        hvc     #0      // no return
 
-1:	mov	x8, x1				// entry
-	mov	x0, x2				// arg0
-	mov	x1, x3				// arg1
-	mov	x2, x4				// arg2
-	br	x8
+1:      mov     x8, x1  // entry
+        mov     x0, x2  // arg0
+        mov     x1, x3  // arg1
+        mov     x2, x4  // arg2
+        br      x8
 SYM_FUNC_END(cpu_soft_restart)
 
 .popsection

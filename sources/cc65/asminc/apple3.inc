@@ -4,11 +4,8 @@
 
 INTEXTPG     := $1601    ; Interpreter extended address offset
 
-
 ;-----------------------------------------------------------------------------
 ; Vectors
-
-
 
 ;-----------------------------------------------------------------------------
 ; Hardware
@@ -40,7 +37,6 @@ PAGE2CLR    :=  $C054   ; Clear PAGE2 mode
 PAGE2SET    :=  $C055   ; Set PAGE2 mode
 HIRESCLR    :=  $C056   ; Clear HIRES mode
 HIRESSET    :=  $C057   ; Set HIRES mode
-
 
 PDL0CLR     :=  $C058   ; Clear PDL0 (A/D Addr 0)
 PDL0SET     :=  $C059   ; Set PDL0 (A/D Addr 0)
@@ -115,7 +111,6 @@ E_PCR       :=  $FFEC
 E_IFR       :=  $FFED
 E_IER       :=  $FFEE
 B_REG       :=  $FFEF   ; bank switch register
-
 
 ;-----------------------------------------------------------------------------
 ; CONSOLE Driver commands

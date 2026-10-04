@@ -9,11 +9,11 @@ EXTERN asm_SMSlib_addTwoAdjoiningSprites
 
 _SMS_addTwoAdjoiningSprites_callee:
 
-   pop af
-   pop de
-   dec sp
-   pop bc
-   push af
-   
-   ld c,e
-   jp asm_SMSlib_addTwoAdjoiningSprites
+        pop     af
+        pop     de
+        dec     sp
+        pop     bc
+        push    af
+
+        ld      c, e
+        jp      asm_SMSlib_addTwoAdjoiningSprites

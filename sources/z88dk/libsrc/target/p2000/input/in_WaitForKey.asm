@@ -20,12 +20,12 @@ PUBLIC in_WaitForKey
 ; -----------------------------------------------------------------------------
 in_WaitForKey:
 _wfk_l:
-    di                      ; Disable interrupts for safe hardware access
-    ld a, $40
-    out ($10), a            ; Enable KBIEN for global scan mode
-    in a, ($00)             ; Read all rows at once
-    ei                      ; Immediately re-enable interrupts
+        di                      ; Disable interrupts for safe hardware access
+        ld      a,     $40
+        out     ($10), a        ; Enable KBIEN for global scan mode
+        in      a,     ($00)    ; Read all rows at once
+        ei                      ; Immediately re-enable interrupts
 
-    inc a                   ; Check if any key was pressed (result != 0xFF)
-    jr z, _wfk_l            ; Loop if no key was pressed
-    ret
+        inc     a               ; Check if any key was pressed (result != 0xFF)
+        jr      z, _wfk_l       ; Loop if no key was pressed
+        ret

@@ -12,22 +12,22 @@ EXTERN l_divs_32_32x32
 
 __smod32:
 __modslong:
-   push ix
-   ld ix,0
-   add ix,sp
+        push    ix
+        ld      ix, 0
+        add     ix, sp
 
-   ex de,hl
-   exx
+        ex      de, hl
+        exx
 
-   ld l,(ix+4)
-   ld h,(ix+5)
-   ld e,(ix+6)
-   ld d,(ix+7)
+        ld      l, (ix+4)
+        ld      h, (ix+5)
+        ld      e, (ix+6)
+        ld      d, (ix+7)
 
-   call l_divs_32_32x32
+        call    l_divs_32_32x32
 
-   exx
-   ex de,hl
+        exx
+        ex      de, hl
 
-   pop ix
-   ret
+        pop     ix
+        ret

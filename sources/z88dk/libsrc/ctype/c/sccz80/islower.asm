@@ -11,43 +11,40 @@ EXTERN asm_islower, error_zc
 
 islower:
 IF __CPU_GBZ80__
-   ld  hl,sp+2
-   ld  a,(hl+)
-   ld  h,(hl)
-   ld  l,a
+        ld      hl, sp+2
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a
 ELIF __CPU_RABBIT__ | __CPU_KC160__
-   ld hl,(sp+2)
+        ld      hl, (sp+2)
 ELSE
-   pop de
-   pop hl
-   push hl
-   push de
+        pop     de
+        pop     hl
+        push    hl
+        push    de
 ENDIF
 
 islower_fastcall:
 
-   inc h
-   dec h
-   jp nz, error_zc
+        inc     h
+        dec     h
+        jp      nz, error_zc
 
-   ld a,l
-   call asm_islower
-   
-   ld l,h
+        ld      a, l
+        call    asm_islower
+
+        ld      l, h
 IF __CPU_GBZ80__
-   ld d,h
-   ld e,l
+        ld      d, h
+        ld      e, l
 ENDIF
-   ret c
-   
-   inc l
+        ret     c
+
+        inc     l
 IF __CPU_GBZ80__
-   inc e
+        inc     e
 ENDIF
-   ret
-
-
-
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -62,4 +59,3 @@ IF __CLASSIC
 PUBLIC ___islower
 defc ___islower = islower
 ENDIF
-

@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Mar 2014
 ; ===============================================================
-; 
+;
 ; size_t b_vector_read_block(void *dst, size_t n, b_vector_t *v, size_t idx)
 ;
 ; Copy at most n bytes from the vector at index idx to address
@@ -21,25 +21,25 @@ EXTERN asm_b_array_read_block
 
 defc asm_b_vector_read_block = asm_b_array_read_block
 
-   ; enter : de'= void *dst
-   ;         hl = vector *
-   ;         de = n
-   ;         bc = idx
-   ; 
-   ; exit  : bc = idx
-   ;         de = n
-   ;
-   ;         success
-   ;
-   ;            hl = number of bytes read
-   ;            hl'= void *dst
-   ;            de'= ptr in dst to one byte after last one written
-   ;            carry reset
-   ;
-   ;         fail if idx out of range
-   ;
-   ;            hl = 0
-   ;            de'= void *dst
-   ;            carry set, errno = EINVAL
-   ;
-   ; uses  : af, bc, de, hl, bc', de', hl'
+        ; enter : de'= void *dst
+        ;         hl = vector *
+        ;         de = n
+        ;         bc = idx
+        ;
+        ; exit  : bc = idx
+        ;         de = n
+        ;
+        ;         success
+        ;
+        ;            hl = number of bytes read
+        ;            hl'= void *dst
+        ;            de'= ptr in dst to one byte after last one written
+        ;            carry reset
+        ;
+        ;         fail if idx out of range
+        ;
+        ;            hl = 0
+        ;            de'= void *dst
+        ;            carry set, errno = EINVAL
+        ;
+        ; uses  : af, bc, de, hl, bc', de', hl'

@@ -5,7 +5,6 @@
 ;       6/9/98  djm
 ;       13/5/99 djm Added carry conditions...
 
-
 SECTION code_clib
 SECTION code_l_sccz80
 
@@ -18,18 +17,18 @@ EXTERN  l_cmp
 ; carry set if true
 
 .l_eq
-    ld a,l
-    sub e
-    ld l,a
-    ld  a,h
-    sbc a,d
-    ld h,a
-    or l
-    inc hl
-    scf
-    ret z
+        ld      a, l
+        sub     e
+        ld      l, a
+        ld      a, h
+        sbc     a, d
+        ld      h, a
+        or      l
+        inc     hl
+        scf
+        ret     z
 
-    xor a
-    ld l,a
-    ld h,a
-    ret
+        xor     a
+        ld      l, a
+        ld      h, a
+        ret

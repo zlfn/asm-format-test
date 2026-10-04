@@ -16,25 +16,25 @@ EXTERN asm_fwrite
 
 _fwrite_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   exx
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        exx
+        pop     bc
+        push    af
 
 l0_fwrite_callee:
 
-   push bc
-   exx
-   
-   ex (sp),ix
-      
-   call asm_fwrite
-   
-   pop ix
-   ret
+        push    bc
+        exx
+
+        ex      (sp), ix
+
+        call    asm_fwrite
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

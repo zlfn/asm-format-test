@@ -3,7 +3,7 @@
 ;
         .export NMIStub
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 NMIStub:
         ; A is saved by the BIOS

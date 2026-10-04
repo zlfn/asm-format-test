@@ -10,9 +10,9 @@ EXTERN asm_p_forward_list_alt_remove
 
 _p_forward_list_alt_remove_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
 
-   jp asm_p_forward_list_alt_remove
+        jp      asm_p_forward_list_alt_remove

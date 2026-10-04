@@ -13,33 +13,32 @@
 ;	$Id: msx_locate.asm,v 1.7 2016-06-16 19:30:25 dom Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  msx_locate
-    PUBLIC  _msx_locate
-    PUBLIC  ___msx_locate
+        SECTION code_clib
+        PUBLIC  msx_locate
+        PUBLIC  _msx_locate
+        PUBLIC  ___msx_locate
 
-    EXTERN  msxbios
+        EXTERN  msxbios
 
-  IF    FORmsx
-    INCLUDE "target/msx/def/msxbios.def"
-  ELSE
-    INCLUDE "target/svi/def/svibios.def"
-  ENDIF
-
+        IF      FORmsx
+                INCLUDE "target/msx/def/msxbios.def"
+        ELSE
+                INCLUDE "target/svi/def/svibios.def"
+        ENDIF
 
 msx_locate:
 _msx_locate:
 ___msx_locate:
 
-    pop     bc
-    pop     hl
-    pop     de
-    push    de
-    push    hl
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
 
-    ld      h, e
-    push    ix
-    ld      ix, POSIT
-    call    msxbios
-    pop     ix
-    ret
+        ld      h, e
+        push    ix
+        ld      ix, POSIT
+        call    msxbios
+        pop     ix
+        ret

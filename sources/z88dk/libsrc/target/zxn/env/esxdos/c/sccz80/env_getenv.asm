@@ -8,25 +8,25 @@ EXTERN asm_env_getenv
 
 env_getenv:
 
-   pop af
-   pop bc
-   pop hl
-   exx
-   pop bc
-   pop de
-   pop hl
-   exx
-   pop de
-   
-   push de
-   exx
-   push hl
-   push de
-   push bc
-   exx
-   push hl
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     hl
+        exx
+        pop     bc
+        pop     de
+        pop     hl
+        exx
+        pop     de
 
-   exx
-   jp asm_env_getenv
+        push    de
+        exx
+        push    hl
+        push    de
+        push    bc
+        exx
+        push    hl
+        push    bc
+        push    af
+
+        exx
+        jp      asm_env_getenv

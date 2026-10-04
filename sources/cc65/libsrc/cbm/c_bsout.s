@@ -5,9 +5,9 @@
 ; void __fastcall__ cbm_k_chrout (unsigned char C);
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_k_bsout, _cbm_k_chrout
+        .export _cbm_k_bsout, _cbm_k_chrout
 
 _cbm_k_bsout  := BSOUT
 _cbm_k_chrout := CHROUT

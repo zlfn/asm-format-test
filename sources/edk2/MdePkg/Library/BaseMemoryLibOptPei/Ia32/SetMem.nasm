@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ;  VOID *
@@ -27,20 +27,19 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMemSetMem)
 ASM_PFX(InternalMemSetMem):
-    push    edi
-    mov         ecx, [esp + 12]
-    mov         al,  [esp + 16]
-    mov         ah,  al
-    shrd        edx, eax, 16
-    shld        eax, edx, 16
-    mov         edx, ecx
-    mov         edi, [esp + 8]
-    shr         ecx, 2
-    rep stosd
-    mov         ecx, edx
-    and         ecx, 3
-    rep stosb
-    mov         eax, [esp + 8]
-    pop     edi
-    ret
-
+        push    edi
+        mov     ecx, [esp + 12]
+        mov     al,  [esp + 16]
+        mov     ah,  al
+        shrd    edx, eax, 16
+        shld    eax, edx, 16
+        mov     edx, ecx
+        mov     edi, [esp + 8]
+        shr     ecx, 2
+        rep stosd
+        mov     ecx, edx
+        and     ecx, 3
+        rep stosb
+        mov     eax, [esp + 8]
+        pop     edi
+        ret

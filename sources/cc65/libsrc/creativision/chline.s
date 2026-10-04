@@ -1,17 +1,17 @@
 ;* void chlinexy (unsigned char x, unsigned char y, unsigned char length);
 ;* void chline (unsigned char length);
 
-        .export         _chlinexy, _chline
-        .import         popa, _gotoxy, cputdirect
-        .importzp       tmp1
+        .export _chlinexy, _chline
+        .import popa, _gotoxy, cputdirect
+        .importzp tmp1
 
-        .include        "creativision.inc"
+        .include "creativision.inc"
 
 _chlinexy:
-        pha                     ; Save the length
-        jsr     popa            ; Get y
-        jsr     _gotoxy         ; Call this one, will pop params
-        pla                     ; Restore the length
+        pha             ; Save the length
+        jsr     popa    ; Get y
+        jsr     _gotoxy ; Call this one, will pop params
+        pla             ; Restore the length
 
 _chline:
         cmp     #0              ; Is the length zero?

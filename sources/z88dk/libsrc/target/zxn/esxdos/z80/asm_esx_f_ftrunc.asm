@@ -11,27 +11,26 @@ EXTERN __esxdos_error_mc
 
 asm_esx_f_ftrunc:
 
-   ; enter :    a = handle
-   ;         bcde = size
-   ;
-   ; exit  : success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter :    a = handle
+        ;         bcde = size
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl
 
-   rst __ESX_RST_SYS
-   defb __ESX_F_FTRUNCATE
+        rst     __ESX_RST_SYS
+        defb    __ESX_F_FTRUNCATE
 
-   jp nc, error_znc
-   jp __esxdos_error_mc
-
+        jp      nc, error_znc
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * F_FTRUNCATE ($a2) *

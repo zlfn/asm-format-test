@@ -4,7 +4,7 @@
 
         .export screensize
 
-        .include        "creativision.inc"
+        .include "creativision.inc"
 
 .proc   screensize
 

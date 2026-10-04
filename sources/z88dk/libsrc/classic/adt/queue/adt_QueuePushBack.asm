@@ -10,11 +10,11 @@ EXTERN asm_adt_QueuePushBack
 .adt_QueuePushBack
 ._adt_QueuePushBack
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
-   
-   jp asm_adt_QueuePushBack
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
+
+        jp      asm_adt_QueuePushBack

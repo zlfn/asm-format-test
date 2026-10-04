@@ -13,18 +13,18 @@ EXTERN SP1V_TEMP_IY
 
 .sp1_MoveSprRel_callee
 
-   pop af
-   pop de
-   pop bc
-   ld b,e
-   pop de
-   pop hl
-   ld d,l
-   pop hl
-   pop ix
-   ld (SP1V_TEMP_IY),ix
-   pop ix
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        ld      b, e
+        pop     de
+        pop     hl
+        ld      d, l
+        pop     hl
+        pop     ix
+        ld      (SP1V_TEMP_IY), ix
+        pop     ix
+        push    af
 
 .asmentry
 
@@ -42,44 +42,44 @@ EXTERN SP1V_TEMP_IY
 
 .SP1MoveSprRel
 
-   ld a,(ix+5)           ; current horizontal rotation
-   add a,b
-   ld b,a
-   sra a
-   sra a
-   sra a
-   add a,e
-   add a,(ix+1)
-   ld e,a                ; e = absolute column position
-   ld a,b
-   cp $80
-   jp c, mvpos1
-   add a,8
+        ld      a, (ix+5)       ; current horizontal rotation
+        add     a, b
+        ld      b, a
+        sra     a
+        sra     a
+        sra     a
+        add     a, e
+        add     a, (ix+1)
+        ld      e, a            ; e = absolute column position
+        ld      a, b
+        cp      $80
+        jp      c, mvpos1
+        add     a, 8
 
 .mvpos1
 
-   and $07
-   ld b,a                ; b = absolute horizontal rotation
-   ld a,(ix+4)           ; current vertical rotation
-   and $07               ; get rid of flag in bit 7
-   add a,c
-   ld c,a
-   sra a
-   sra a
-   sra a
-   add a,d
-   add a,(ix+0)
-   ld d,a                ; d = absolute row position
-   ld a,c
-   cp $80
-   jp c, mvpos2
-   add a,8
+        and     $07
+        ld      b, a            ; b = absolute horizontal rotation
+        ld      a, (ix+4)       ; current vertical rotation
+        and     $07             ; get rid of flag in bit 7
+        add     a, c
+        ld      c, a
+        sra     a
+        sra     a
+        sra     a
+        add     a, d
+        add     a, (ix+0)
+        ld      d, a            ; d = absolute row position
+        ld      a, c
+        cp      $80
+        jp      c, mvpos2
+        add     a, 8
 
 .mvpos2
 
-   and $07
-   ld c,a                ; c = absolute vertical rotation
+        and     $07
+        ld      c, a    ; c = absolute vertical rotation
 
-   jp sp1_MoveSprAbs_callee + ASMDISP_SP1_MOVESPRABS_CALLEE
+        jp      sp1_MoveSprAbs_callee + ASMDISP_SP1_MOVESPRABS_CALLEE
 
 DEFC ASMDISP_SP1_MOVESPRREL_CALLEE = asmentry - sp1_MoveSprRel_callee

@@ -4,8 +4,8 @@
 ; CC65 runtime: Push a extended with FF onto the stack
 ;
 
-        .export         pushaFF
-        .import         pushax
+        .export pushaFF
+        .import pushax
 
 ; Beware: The optimizer knows about this function!
 
@@ -15,6 +15,3 @@
         jmp     pushax
 
 .endproc
-
-
-

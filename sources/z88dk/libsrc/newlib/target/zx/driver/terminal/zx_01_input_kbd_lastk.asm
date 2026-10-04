@@ -138,13 +138,13 @@ EXTERN zx_01_input_lastk_stdio_msg_ictl
 
 zx_01_input_kbd_lastk:
 
-   cp ITERM_MSG_GETC
-   jp z, zx_01_input_lastk_iterm_msg_getc
-   
-   cp STDIO_MSG_FLSH
-   jp z, zx_01_input_lastk_stdio_msg_flsh
-   
-   cp STDIO_MSG_ICTL
-   jp z, zx_01_input_lastk_stdio_msg_ictl
-   
-   jp console_01_input_terminal    ; forward to library
+        cp      ITERM_MSG_GETC
+        jp      z, zx_01_input_lastk_iterm_msg_getc
+
+        cp      STDIO_MSG_FLSH
+        jp      z, zx_01_input_lastk_stdio_msg_flsh
+
+        cp      STDIO_MSG_ICTL
+        jp      z, zx_01_input_lastk_stdio_msg_ictl
+
+        jp      console_01_input_terminal       ; forward to library

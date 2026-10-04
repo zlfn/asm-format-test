@@ -9,12 +9,12 @@ EXTERN asm_sms_copy_font_8x8_to_vram
 
 _sms_copy_font_8x8_to_vram_callee:
 
-   pop af
-   pop hl
-   dec sp
-   pop bc
-   pop de
-   push af
+        pop     af
+        pop     hl
+        dec     sp
+        pop     bc
+        pop     de
+        push    af
 
-   ld c,b
-   jp asm_sms_copy_font_8x8_to_vram
+        ld      c, b
+        jp      asm_sms_copy_font_8x8_to_vram

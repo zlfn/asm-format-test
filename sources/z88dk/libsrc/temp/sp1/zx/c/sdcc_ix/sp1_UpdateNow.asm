@@ -10,9 +10,9 @@ EXTERN asm_sp1_UpdateNow
 
 _sp1_UpdateNow:
 
-   push ix
-   
-   call asm_sp1_UpdateNow
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_sp1_UpdateNow
+
+        pop     ix
+        ret

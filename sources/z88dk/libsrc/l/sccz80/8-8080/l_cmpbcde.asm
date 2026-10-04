@@ -8,9 +8,8 @@ EXTERN l_cmpbcde
 ; {BC : DE}
 
 .l_cmpbcde
-    ld a,e
-    sub c
-    ld a,d
-    sbc a,b
-    ret
-
+        ld      a, e
+        sub     c
+        ld      a, d
+        sbc     a, b
+        ret

@@ -16,12 +16,12 @@ EXTERN asm_realloc
 
 _realloc:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_realloc
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_realloc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

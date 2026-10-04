@@ -13,5 +13,5 @@ EXTERN l_setmem
 .adt_QueueCreateS
 ._adt_QueueCreateS
 
-   xor a
-   jp l_setmem-11
+        xor     a
+        jp      l_setmem-11

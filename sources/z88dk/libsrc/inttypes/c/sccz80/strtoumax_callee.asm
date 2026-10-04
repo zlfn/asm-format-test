@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _strtoumax_callee
 defc _strtoumax_callee = strtoumax_callee
 ENDIF
-

@@ -15,16 +15,16 @@ EXTERN asm_smc_PLY_AKG_PLAYSOUNDEFFECT
 ;;   SDCC: (params pushed on the stack right to left, all 16-bit)
 ;;
 _ply_akg_playsoundeffect:
-        pop hl          ; HL = retaddr
-        pop de
-        ld a,e          ; A = sound effect number
-        pop de
-        ld c,e          ; C = num channel
-        pop de
-        ld b,e          ; B = inv volume
-        push hl         ; restore retaddr
+        pop     hl      ; HL = retaddr
+        pop     de
+        ld      a, e    ; A = sound effect number
+        pop     de
+        ld      c, e    ; C = num channel
+        pop     de
+        ld      b, e    ; B = inv volume
+        push    hl      ; restore retaddr
 
-        push ix         ; preserve IX for sdcc_ix
-        call asm_smc_PLY_AKG_PLAYSOUNDEFFECT
-        pop ix
+        push    ix      ; preserve IX for sdcc_ix
+        call    asm_smc_PLY_AKG_PLAYSOUNDEFFECT
+        pop     ix
         ret

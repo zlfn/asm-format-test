@@ -6,20 +6,19 @@
 ; 2014-09-10, Greg King
 ;
 
-        .include        "zeropage.inc"
-        .include        "../extzp.inc"
+        .include "zeropage.inc"
+        .include "../extzp.inc"
 
-        .include        "mouse-kernel.inc"
-        .include        "cbm510.inc"
+        .include "mouse-kernel.inc"
+        .include "cbm510.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table.
 
-        module_header   _cbm510_inkwl_mou
+        module_header _cbm510_inkwl_mou
 
 HEADER:
 
@@ -53,13 +52,12 @@ LIBREF: .addr   $0000
 
 ; Callback table, set by the kernel before INSTALL is called.
 
-CHIDE:  jmp     $0000                   ; Hide the cursor
-CSHOW:  jmp     $0000                   ; Show the cursor
-CPREP:  jmp     $0000                   ; Prepare to move the cursor
-CDRAW:  jmp     $0000                   ; Draw the cursor
-CMOVEX: jmp     $0000                   ; Move the cursor to X co-ord.
-CMOVEY: jmp     $0000                   ; Move the cursor to Y co-ord.
-
+CHIDE:  jmp     $0000   ; Hide the cursor
+CSHOW:  jmp     $0000   ; Show the cursor
+CPREP:  jmp     $0000   ; Prepare to move the cursor
+CDRAW:  jmp     $0000   ; Draw the cursor
+CMOVEX: jmp     $0000   ; Move the cursor to X co-ord.
+CMOVEY: jmp     $0000   ; Move the cursor to Y co-ord.
 
 ;----------------------------------------------------------------------------
 ; Constants
@@ -87,16 +85,16 @@ SCREEN_HEIGHT   = YSIZE * 8
 .bss
 
 Vars:
-XMin:           .res    2               ; X1 value of bounding box
-YMin:           .res    2               ; Y1 value of bounding box
-XMax:           .res    2               ; X2 value of bounding box
-YMax:           .res    2               ; Y2 value of bounding box
+XMin:   .res    2       ; X1 value of bounding box
+YMin:   .res    2       ; Y1 value of bounding box
+XMax:   .res    2       ; X2 value of bounding box
+YMax:   .res    2       ; Y2 value of bounding box
 
-XPos:           .res    2               ; Current lightpen position, X
-YPos:           .res    2               ; Current lightpen position, Y
+XPos:   .res    2       ; Current lightpen position, X
+YPos:   .res    2       ; Current lightpen position, Y
 
-OldPenX:        .res    1               ; Previous HW-counter values
-OldPenY:        .res    1
+OldPenX: .res   1       ; Previous HW-counter values
+OldPenY: .res   1
 
 .data
 
@@ -106,11 +104,10 @@ OldPenY:        .res    1
 ; See a comment below (at "Calculate the new X co-ordinate")
 ; for the reason for the third number.
 
-XOffset:        .byte   (24 + 24) / 2   ; x-offset
+XOffset: .byte  (24 + 24) / 2   ; x-offset
 
 ; Jump to a function that puts a new calibration value into XOffset.
-Calibrate:      jmp     $0000
-
+Calibrate: jmp  $0000
 
 .code
 
@@ -124,36 +121,36 @@ INSTALL:
 ; Initiate variables. Just copy the default stuff over.
 
         ldx     #.sizeof (DefVars) - 1
-@L0:    lda     DefVars,x
-        sta     Vars,x
+@L0:    lda     DefVars, x
+        sta     Vars,    x
         dex
         bpl     @L0
 
-        ldx     #15                    ; Change to system bank
+        ldx     #15     ; Change to system bank
         stx     IndReg
         ldy     #VIC_LPEN_X
-        lda     (vic),y
+        lda     (vic), y
         sta     OldPenX
         ldy     #VIC_LPEN_Y
-        lda     (vic),y
+        lda     (vic), y
         sta     OldPenY
-        ldx     ExecReg                 ; Change back to execution bank
+        ldx     ExecReg ; Change back to execution bank
         stx     IndReg
 
 ; Call a calibration function through the library-reference.
 
         lda     LIBREF
         ldx     LIBREF+1
-        sta     ptr1                    ; Point to mouse_adjuster
+        sta     ptr1            ; Point to mouse_adjuster
         stx     ptr1+1
         ldy     #1
-        lda     (ptr1),y
-        bze     @L1                     ; Don't call pointer if it's NULL
-        sta     Calibrate+2             ; Point to function
+        lda     (ptr1), y
+        bze     @L1             ; Don't call pointer if it's NULL
+        sta     Calibrate+2     ; Point to function
         dey
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     Calibrate+1
-        lda     #<XOffset               ; Function will set this variable
+        lda     #<XOffset       ; Function will set this variable
         ldx     #>XOffset
         jsr     Calibrate
 
@@ -217,13 +214,13 @@ SHOW:   sei
 ; caller; and, save some code here. No return code required.
 
 SETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX) - 1
         sei
 
-@L1:    lda     (ptr1),y
-        sta     XMin,y
+@L1:    lda     (ptr1), y
+        sta     XMin,   y
         dey
         bpl     @L1
 
@@ -235,11 +232,11 @@ SETBOX: sta     ptr1
 ; come from the C program, that is, a pointer to a mouse_box struct in .XA.
 
 GETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX) - 1
-@L1:    lda     XMin,y
-        sta     (ptr1),y
+@L1:    lda     XMin,   y
+        sta     (ptr1), y
         dey
         bpl     @L1
         rts
@@ -252,35 +249,35 @@ GETBOX: sta     ptr1
 ; the screen). No return code required.
 ;
 
-MOVE:   sei                             ; No interrupts
+MOVE:   sei     ; No interrupts
         jsr     MoveY
 
         ldy     #$01
-        lda     (c_sp),y
+        lda     (c_sp), y
         tax
         dey
-        lda     (c_sp),y
-        jsr     MoveX                   ; Move the cursor
+        lda     (c_sp), y
+        jsr     MoveX   ; Move the cursor
 
-        cli                             ; Allow interrupts
+        cli     ; Allow interrupts
         rts
 
 ;----------------------------------------------------------------------------
 ; BUTTONS: Return the button mask in .XA.
 
 BUTTONS:
-        ldx     #15                     ; To system bank
+        ldx     #15             ; To system bank
         stx     IndReg
         ldy     #CIA::PRB
-        lda     (cia2),y                ; Read joystick inputs
-        ldx     ExecReg                 ; Back to execution bank
+        lda     (cia2), y       ; Read joystick inputs
+        ldx     ExecReg         ; Back to execution bank
         stx     IndReg
 
 ; Joystick 1, directions in bits 3-0.
 ; Make the lightpen button look like a 1351 mouse.
 
-        asl     a                       ; Move joystick-left bit ...
-        asl     a                       ; ... to fire-button bit
+        asl     a       ; Move joystick-left bit ...
+        asl     a       ; ... to fire-button bit
         eor     #MOUSE_BTN_LEFT
         and     #MOUSE_BTN_LEFT
         ldx     #>$0000
@@ -292,20 +289,20 @@ BUTTONS:
 
 POS:    ldy     #MOUSE_POS::XCOORD      ; Structure offset
 
-        sei                             ; Disable interrupts
-        lda     XPos                    ; Transfer the position
-        sta     (ptr1),y
+        sei             ; Disable interrupts
+        lda     XPos    ; Transfer the position
+        sta     (ptr1), y
         lda     XPos+1
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos+1
-        cli                             ; Enable interrupts
+        cli             ; Enable interrupts
 
         iny
-        sta     (ptr1),y                ; Store last byte
+        sta     (ptr1), y       ; Store last byte
         rts
 
 ;----------------------------------------------------------------------------
@@ -321,9 +318,9 @@ INFO:   jsr     POS
 
 ; Fill in the button state
 
-        jsr     BUTTONS                 ; Will not touch ptr1
+        jsr     BUTTONS ; Will not touch ptr1
         ldy     #MOUSE_INFO::BUTTONS
-        sta     (ptr1),y
+        sta     (ptr1), y
         rts
 
 ;----------------------------------------------------------------------------
@@ -332,8 +329,8 @@ INFO:   jsr     POS
 ; Must return an error code in .XA.
 ;
 
-IOCTL:  lda     #MOUSE_ERR_INV_IOCTL     ; We don't support ioctls, for now
-        ldx     #0 ; return value is char
+IOCTL:  lda     #MOUSE_ERR_INV_IOCTL    ; We don't support ioctls, for now
+        ldx     #0                      ; return value is char
         rts
 
 ;----------------------------------------------------------------------------
@@ -344,27 +341,27 @@ IOCTL:  lda     #MOUSE_ERR_INV_IOCTL     ; We don't support ioctls, for now
 ;
 
 IRQ:    jsr     CPREP
-        ldx     #15                     ; To system bank
+        ldx     #15     ; To system bank
         stx     IndReg
 
 ; Read the VIC-II lightpen registers.
 
         ldy     #VIC_LPEN_Y
-        lda     (vic),y
+        lda     (vic), y
         cmp     OldPenY
 
 ; Skip processing if nothing has changed.
 
         beq     @SkipY
         sta     OldPenY
-        ldx     ExecReg                 ; Back to execution bank
+        ldx     ExecReg ; Back to execution bank
         stx     IndReg
 
 ; Subtract the height of the top border, so that the lightpen co-ordinate
 ; will match the TGI co-ordinate.
 
         sub     #50
-        tay                             ; Remember low byte
+        tay     ; Remember low byte
         ldx     #>$0000
 
 ; Limit the Y co-ordinate to the bounding box.
@@ -387,11 +384,11 @@ IRQ:    jsr     CPREP
 @L4:    tya
         jsr     MoveY
 
-        ldx     #15                     ; To system bank
+        ldx     #15     ; To system bank
         stx     IndReg
 @SkipY: ldy     #VIC_LPEN_X
-        lda     (vic),y
-        ldx     ExecReg                 ; Back to execution bank
+        lda     (vic), y
+        ldx     ExecReg ; Back to execution bank
         stx     IndReg
         cmp     OldPenX
 
@@ -410,10 +407,10 @@ IRQ:    jsr     CPREP
 ; but, it can reach across the screen.
 
         asl     a
-        tay                             ; Remember low byte
+        tay     ; Remember low byte
         lda     #>$0000
         rol     a
-        tax                             ; Remember high byte
+        tax     ; Remember high byte
 
 ; Limit the X co-ordinate to the bounding box.
 
@@ -437,7 +434,7 @@ IRQ:    jsr     CPREP
 ; Done
 
 @SkipX: jsr     CDRAW
-        clc                             ; Interrupt not "handled"
+        clc     ; Interrupt not "handled"
         rts
 
 ; Move the lightpen pointer to the new Y pos.

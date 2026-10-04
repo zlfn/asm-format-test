@@ -10,14 +10,14 @@ EXTERN asm_w_array_erase_range
 
 _w_array_erase_range:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push af
-   
-   jp asm_w_array_erase_range
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        jp      asm_w_array_erase_range

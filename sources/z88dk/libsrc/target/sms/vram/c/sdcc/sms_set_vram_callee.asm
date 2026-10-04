@@ -9,10 +9,10 @@ EXTERN asm_sms_set_vram
 
 _sms_set_vram_callee:
 
-   pop hl
-   dec sp
-   pop af
-   pop bc
-   push hl
+        pop     hl
+        dec     sp
+        pop     af
+        pop     bc
+        push    hl
 
-   jp asm_sms_set_vram
+        jp      asm_sms_set_vram

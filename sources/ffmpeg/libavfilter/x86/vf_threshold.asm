@@ -28,11 +28,11 @@ SECTION .text
 %macro THRESHOLD 2
 %if ARCH_X86_64
 cglobal threshold%1, 10, 13, 5, in, threshold, min, max, out, ilinesize, tlinesize, flinesize, slinesize, olinesize, w, h, x
-    mov             wd, dword wm
-    mov             hd, dword hm
+        mov     wd, dword wm
+        mov     hd, dword hm
 %else
 cglobal threshold%1, 5, 7, 5, in, threshold, min, max, out, w, x
-    mov             wd, r10m
+        mov     wd, r10m
 %define     ilinesizeq  r5mp
 %define     tlinesizeq  r6mp
 %define     flinesizeq  r7mp
@@ -41,36 +41,36 @@ cglobal threshold%1, 5, 7, 5, in, threshold, min, max, out, w, x
 %define             hd  r11mp
 %endif
 %if %1 == 16
-    add             wq, wq ; w *= 2 (16 bits instead of 8)
+        add     wq, wq  ; w *= 2 (16 bits instead of 8)
 %endif
-    add            inq, wq
-    add     thresholdq, wq
-    add           minq, wq
-    add           maxq, wq
-    add           outq, wq
-    neg             wq
+        add     inq, wq
+        add     thresholdq, wq
+        add     minq, wq
+        add     maxq, wq
+        add     outq, wq
+        neg     wq
 .nextrow:
-    mov         xq, wq
+        mov     xq, wq
 
-    .loop:
-        movu            m1, [inq + xq]
-        movu            m0, [thresholdq + xq]
-        movu            m2, [minq + xq]
-        movu            m3, [maxq + xq]
-        pminu%2         m0, m1
-        pcmpeq%2        m0, m1
-        PBLENDVB        m3, m2, m0
-        movu   [outq + xq], m3
-        add             xq, mmsize
-    jl .loop
+.loop:
+        movu    m1, [inq + xq]
+        movu    m0, [thresholdq + xq]
+        movu    m2, [minq + xq]
+        movu    m3, [maxq + xq]
+        pminu%2 m0, m1
+        pcmpeq%2 m0, m1
+        PBLENDVB m3, m2, m0
+        movu    [outq + xq], m3
+        add     xq, mmsize
+        jl      .loop
 
-    add          inq, ilinesizeq
-    add   thresholdq, tlinesizeq
-    add         minq, flinesizeq
-    add         maxq, slinesizeq
-    add         outq, olinesizeq
-    sub         hd, 1
-    jg .nextrow
+        add     inq, ilinesizeq
+        add     thresholdq, tlinesizeq
+        add     minq, flinesizeq
+        add     maxq, slinesizeq
+        add     outq, olinesizeq
+        sub     hd,   1
+        jg      .nextrow
 RET
 %endmacro
 

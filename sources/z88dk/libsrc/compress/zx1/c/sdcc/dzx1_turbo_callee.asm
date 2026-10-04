@@ -10,9 +10,9 @@ EXTERN asm_dzx1_turbo
 
 _dzx1_turbo_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_dzx1_turbo
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_dzx1_turbo

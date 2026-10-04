@@ -57,7 +57,7 @@ const pw_8,        times 8 dw 8
 const pw_64,       times 8 dw 64
 const pw_256,      times 8 dw 256
 const pw_32_0,     times 4 dw 32
-                   times 4 dw 0
+        times   4 dw 0
 const pw_8000,     times 8 dw 0x8000
 const pw_3fff,     times 8 dw 0x3fff
 const pw_ppppmmmm, dw 1,1,1,1,-1,-1,-1,-1

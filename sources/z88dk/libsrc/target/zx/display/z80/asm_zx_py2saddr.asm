@@ -19,41 +19,41 @@ PUBLIC asm0_zx_py2saddr
 
 asm_zx_py2saddr:
 
-   ; enter :  l = valid pixel y coordinate
-   ;
-   ; exit  : hl = screen address of byte containing pixel at x = 0, y.
-   ;         carry reset
-   ;
-   ; uses  : af, hl
+        ; enter :  l = valid pixel y coordinate
+        ;
+        ; exit  : hl = screen address of byte containing pixel at x = 0, y.
+        ;         carry reset
+        ;
+        ; uses  : af, hl
 
-   ld a,l
-   and $07
+        ld      a, l
+        and     $07
 
 IF __USE_SPECTRUM_128_SECOND_DFILE
-   or $c0
+        or      $c0
 ELIF __USE_OFFSET_SCREEN
-   EXTERN SCREEN_BASE
-   or +(SCREEN_BASE/256)
+        EXTERN  SCREEN_BASE
+        or      +(SCREEN_BASE/256)
 ELSE
-   or $40
+        or      $40
 ENDIF
 
 asm0_zx_py2saddr:
 
-   ld h,a
-   
-   ld a,l
-   rra
-   rra
-   rra
-   and $18
-   or h
-   ld h,a
-   
-   ld a,l
-   add a,a
-   add a,a
-   and $e0
-   ld l,a
-   
-   ret
+        ld      h, a
+
+        ld      a, l
+        rra
+        rra
+        rra
+        and     $18
+        or      h
+        ld      h, a
+
+        ld      a, l
+        add     a, a
+        add     a, a
+        and     $e0
+        ld      l, a
+
+        ret

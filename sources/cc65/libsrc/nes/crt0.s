@@ -5,29 +5,28 @@
 ; based on code by Ullrich von Bassewitz <uz@cc65.org>
 ;
 
-        .export         _exit
-        .export         __STARTUP__ : absolute = 1      ; Mark as startup
+        .export _exit
+        .export __STARTUP__ : absolute = 1      ; Mark as startup
 
-        .import         initlib, donelib, callmain
-        .import         push0, _main, zerobss, copydata
-        .import         ppubuf_flush
+        .import initlib, donelib, callmain
+        .import push0,   _main,   zerobss, copydata
+        .import ppubuf_flush
 
         ; Linker-generated symbols
-        .import         __RAM_START__, __RAM_SIZE__
-        .import         __SRAM_START__, __SRAM_SIZE__
-        .import         __ROM0_START__, __ROM0_SIZE__
-        .import         __STARTUP_LOAD__,__STARTUP_RUN__, __STARTUP_SIZE__
-        .import         __CODE_LOAD__,__CODE_RUN__, __CODE_SIZE__
-        .import         __RODATA_LOAD__,__RODATA_RUN__, __RODATA_SIZE__
+        .import __RAM_START__,    __RAM_SIZE__
+        .import __SRAM_START__,   __SRAM_SIZE__
+        .import __ROM0_START__,   __ROM0_SIZE__
+        .import __STARTUP_LOAD__, __STARTUP_RUN__, __STARTUP_SIZE__
+        .import __CODE_LOAD__,    __CODE_RUN__,    __CODE_SIZE__
+        .import __RODATA_LOAD__,  __RODATA_RUN__,  __RODATA_SIZE__
 
 ; ------------------------------------------------------------------------
 ; Character data
 ; ------------------------------------------------------------------------
-        .forceimport    NESfont
+        .forceimport NESfont
 
-        .include        "zeropage.inc"
-        .include        "nes.inc"
-
+        .include "zeropage.inc"
+        .include "nes.inc"
 
 ; ------------------------------------------------------------------------
 ; 16-byte INES header
@@ -61,13 +60,12 @@
 ;    | ..-EOF |      | CHR-ROM pages (in ascending order).      |
 ;    +--------+------+------------------------------------------+
 
-        .byte   $4e,$45,$53,$1a ; "NES"^Z
-        .byte   2               ; ines prg  - Specifies the number of 16k prg banks.
-        .byte   1               ; ines chr  - Specifies the number of 8k chr banks.
-        .byte   %00000011       ; ines mir  - Specifies VRAM mirroring of the banks.
-        .byte   %00000000       ; ines map  - Specifies the NES mapper used.
-        .byte   0,0,0,0,0,0,0,0 ; 8 zeroes
-
+        .byte   $4e, $45, $53, $1a      ; "NES"^Z
+        .byte   2                       ; ines prg  - Specifies the number of 16k prg banks.
+        .byte   1                       ; ines chr  - Specifies the number of 8k chr banks.
+        .byte   %00000011               ; ines mir  - Specifies VRAM mirroring of the banks.
+        .byte   %00000000               ; ines map  - Specifies the NES mapper used.
+        .byte   0, 0, 0, 0, 0, 0, 0, 0  ; 8 zeroes
 
 ; ------------------------------------------------------------------------
 ; Place the startup code in a special segment.
@@ -90,9 +88,9 @@ start:
         txs
 
         lda     #$20
-@l:     sta     ringbuff,x
-        sta     ringbuff+$0100,x
-        sta     ringbuff+$0200,x
+@l:     sta     ringbuff, x
+        sta     ringbuff+$0100, x
+        sta     ringbuff+$0200, x
         inx
         bne     @l
 
@@ -108,7 +106,7 @@ start:
         lda     #<(__SRAM_START__ + __SRAM_SIZE__)
         ldx     #>(__SRAM_START__ + __SRAM_SIZE__)
         sta     c_sp
-        stx     c_sp+1          ; Set argument stack ptr
+        stx     c_sp+1  ; Set argument stack ptr
 
 ; Call the module constructors.
 
@@ -120,11 +118,11 @@ start:
 
 ; Call the module destructors. This is also the exit() entry.
 
-_exit:  jsr     donelib         ; Run module destructors
+_exit:  jsr     donelib ; Run module destructors
 
 ; Reset the NES.
 
-        jmp start
+        jmp     start
 
 ; ------------------------------------------------------------------------
 ; System V-Blank Interrupt
@@ -168,13 +166,12 @@ nmi:    pha
 irq:
         rti
 
-
 ; ------------------------------------------------------------------------
 ; Hardware vectors
 ; ------------------------------------------------------------------------
 
 .segment "VECTORS"
 
-        .word   nmi         ; $fffa vblank nmi
-        .word   start       ; $fffc reset
-        .word   irq         ; $fffe irq / brk
+        .word   nmi     ; $fffa vblank nmi
+        .word   start   ; $fffc reset
+        .word   irq     ; $fffe irq / brk

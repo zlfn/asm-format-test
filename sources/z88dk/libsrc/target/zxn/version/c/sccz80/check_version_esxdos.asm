@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _check_version_esxdos
 defc _check_version_esxdos = check_version_esxdos
 ENDIF
-

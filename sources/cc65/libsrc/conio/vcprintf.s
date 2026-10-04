@@ -4,12 +4,12 @@
 ; Ullrich von Bassewitz, 2.12.2000
 ;
 
-        .export         _vcprintf
-        .import         pushax, popax, popptr1
-        .import         __printf, _cputc
-        .importzp       c_sp, ptr1, ptr2, ptr3, tmp1
+        .export _vcprintf
+        .import pushax,   popax, popptr1
+        .import __printf, _cputc
+        .importzp c_sp, ptr1, ptr2, ptr3, tmp1
 
-        .macpack        generic
+        .macpack generic
 
 .data
 
@@ -18,11 +18,11 @@
 ; Static data for the _vsprintf routine
 ;
 
-outdesc:                        ; Static outdesc structure
-        .word   0               ; ccount
-        .word   out             ; Output function pointer
-        .word   0               ; ptr
-        .word   0               ; uns
+outdesc:                ; Static outdesc structure
+        .word   0       ; ccount
+        .word   out     ; Output function pointer
+        .word   0       ; ptr
+        .word   0       ; uns
 
 .code
 
@@ -44,7 +44,7 @@ outdesc:                        ; Static outdesc structure
 ; We're using ptr1 and tmp1, since we know that the cputc routine will not use
 ; them (they're also used in cputs, so they must be safe).
 
-out:    jsr     popax           ; count
+out:    jsr     popax   ; count
         sta     ptr2
         stx     ptr2+1
         inx
@@ -53,23 +53,23 @@ out:    jsr     popax           ; count
         inx
         stx     outdesc+6
 
-        jsr     popptr1         ; buf
+        jsr     popptr1 ; buf
 
-        jsr     popax           ; d
+        jsr     popax   ; d
         sta     ptr3
         stx     ptr3+1
 
 ; Sum up the total count of characters
 
-        ldy     #0              ; ccount in struct outdesc
-        sty     tmp1            ; Initialize tmp1 while we have zero available
-        lda     (ptr3),y
+        ldy     #0      ; ccount in struct outdesc
+        sty     tmp1    ; Initialize tmp1 while we have zero available
+        lda     (ptr3), y
         add     ptr2
-        sta     (ptr3),y
+        sta     (ptr3), y
         iny
-        lda     (ptr3),y
+        lda     (ptr3), y
         adc     ptr2+1
-        sta     (ptr3),y
+        sta     (ptr3), y
 
 ; Loop outputting characters
 
@@ -77,12 +77,12 @@ out:    jsr     popax           ; count
 
 @L1:    dec     outdesc+6
         beq     @L4
-@L2:    lda     (ptr1)          ; (5)
-        inc     ptr1            ; (10)
-        bne     @L3             ; (12)
-        inc     ptr1+1          ; (17)
-@L3:    jsr     _cputc          ; (23)
-        bra     @L1             ; (26)
+@L2:    lda     (ptr1)  ; (5)
+        inc     ptr1    ; (10)
+        bne     @L3     ; (12)
+        inc     ptr1+1  ; (17)
+@L3:    jsr     _cputc  ; (23)
+        bra     @L1     ; (26)
 
 @L4:    dec     outdesc+7
         bne     @L2
@@ -93,7 +93,7 @@ out:    jsr     popax           ; count
 @L1:    dec     outdesc+6
         beq     @L4
 @L2:    ldy     tmp1            ; (3)
-        lda     (ptr1),y        ; (8)
+        lda     (ptr1), y       ; (8)
         iny                     ; (10)
         bne     @L3             ; (12)
         inc     ptr1+1          ; (17)
@@ -125,7 +125,7 @@ out:    jsr     popax           ; count
 ; }
 
 _vcprintf:
-        sta     ptr1            ; Save ap
+        sta     ptr1    ; Save ap
         stx     ptr1+1
 
 ; Setup the outdesc structure
@@ -137,22 +137,22 @@ _vcprintf:
 ; Get the format parameter and push it again
 
         ldy     #1
-        lda     (c_sp),y
+        lda     (c_sp), y
         tax
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
         jsr     pushax
 
 ; Replace the passed format parameter on the stack by &d - this creates
 ; exactly the stack frame _printf expects. Parameters will get dropped
 ; by _printf.
 
-        ldy     #2              ; Low byte of d
+        ldy     #2      ; Low byte of d
         lda     #<outdesc
-        sta     (c_sp),y
+        sta     (c_sp), y
         iny
         lda     #>outdesc
-        sta     (c_sp),y
+        sta     (c_sp), y
 
 ; Restore ap and call _printf
 
@@ -162,6 +162,6 @@ _vcprintf:
 
 ; Return the number of bytes written.
 
-        lda     outdesc         ; ccount
+        lda     outdesc ; ccount
         ldx     outdesc+1
         rts

@@ -10,10 +10,10 @@ EXTERN asm_strncpy
 
 _strncpy_callee:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_strncpy
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_strncpy

@@ -4,12 +4,12 @@
 ; Support the full 128- x 64-tile background.
 ;
 
-        .export         _clrscr
+        .export _clrscr
 
-        .import         plot
+        .import plot
 
-        .include        "pce.inc"
-        .include        "extzp.inc"
+        .include "pce.inc"
+        .include "extzp.inc"
 
 _clrscr:
         VREG    VDC_MAWR, $0000
@@ -19,8 +19,8 @@ _clrscr:
 rowloop:
         ldx     #$80
 colloop:
-        st1     #' '            ; low byte of char. index
-        st2     #$02            ; background color, high nybble of char. index
+        st1     #' '    ; low byte of char. index
+        st2     #$02    ; background color, high nybble of char. index
         dex
         bne     colloop
         dey
@@ -35,5 +35,5 @@ colloop:
 ;-------------------------------------------------------------------------------
 ; force the init constructor to be imported
 
-                .import initconio
+        .import initconio
 conio_init      = initconio

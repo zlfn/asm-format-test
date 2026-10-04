@@ -10,11 +10,11 @@ EXTERN asm_adt_ListPrepend
 .adt_ListPrepend
 ._adt_ListPrepend
 
-   pop hl
-   pop bc
-   pop de
-   push de
-   push bc
-   push hl
-   
-   jp asm_adt_ListPrepend
+        pop     hl
+        pop     bc
+        pop     de
+        push    de
+        push    bc
+        push    hl
+
+        jp      asm_adt_ListPrepend

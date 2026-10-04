@@ -16,29 +16,29 @@ EXTERN SP1V_TEMP_IX
 
 .SP1PSPUSH
 
-   ld a,ixl                  ; write bounds rectangle
-   ld (hl),a
-   inc hl
-   ld a,ixh
-   ld (hl),a
-   inc hl
-   ld (hl),e                 ; write flags
-   inc hl
-   ld (hl),b                 ; write x coordinate
-   inc hl
-   ld (hl),c                 ; write y coordinate
-   inc hl
-   push hl
-   exx
-   pop hl
-   ld (hl),e                 ; write sp1_update
-   inc hl
-   ld (hl),d
-   inc hl
-   ld a,(SP1V_TEMP_IX)       ; write visit function
-   ld (hl),a
-   inc hl
-   ld a,(SP1V_TEMP_IX + 1)
-   ld (hl),a
+        ld      a,    ixl               ; write bounds rectangle
+        ld      (hl), a
+        inc     hl
+        ld      a,    ixh
+        ld      (hl), a
+        inc     hl
+        ld      (hl), e                 ; write flags
+        inc     hl
+        ld      (hl), b                 ; write x coordinate
+        inc     hl
+        ld      (hl), c                 ; write y coordinate
+        inc     hl
+        push    hl
+        exx
+        pop     hl
+        ld      (hl), e                 ; write sp1_update
+        inc     hl
+        ld      (hl), d
+        inc     hl
+        ld      a,    (SP1V_TEMP_IX)    ; write visit function
+        ld      (hl), a
+        inc     hl
+        ld      a,    (SP1V_TEMP_IX + 1)
+        ld      (hl), a
 
-   ret
+        ret

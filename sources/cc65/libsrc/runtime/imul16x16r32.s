@@ -4,11 +4,10 @@
 ; CC65 runtime: 16x16 => 32 signed multiplication
 ;
 
-        .export         imul16x16r32
-        .import         negax, umul16x16r32m, negeax
+        .export imul16x16r32
+        .import negax, umul16x16r32m, negeax
 
-        .include        "zeropage.inc"
-
+        .include "zeropage.inc"
 
 ;---------------------------------------------------------------------------
 ; 16x16 => 32 signed multiplication routine.
@@ -42,4 +41,3 @@ imul16x16r32:
         bpl     @L3
         jmp     negeax
 @L3:    rts
-

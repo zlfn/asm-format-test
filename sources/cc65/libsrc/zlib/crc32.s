@@ -10,8 +10,8 @@
 
         .export _crc32
 
-        .import         compleax, incsp4, popptr1, popeax
-        .importzp       sreg, ptr1, ptr2, tmp1, tmp2
+        .import compleax, incsp4, popptr1, popeax
+        .importzp sreg, ptr1, ptr2, tmp1, tmp2
 
 POLYNOMIAL      =       $EDB88320
 
@@ -49,13 +49,13 @@ make_table:
         ror     a
 @L4:    dey
         bne     @L2
-        sta     table_0,x
+        sta     table_0, x
         lda     tmp2
-        sta     table_1,x
+        sta     table_1, x
         lda     sreg
-        sta     table_2,x
+        sta     table_2, x
         lda     sreg+1
-        sta     table_3,x
+        sta     table_3, x
         inx
         bne     @L1
         inc     table_initialised
@@ -84,18 +84,18 @@ _crc32:
 @L1:    cpy     ptr2
         beq     @low_end
 ; crc = (crc >> 8) ^ table[(crc & 0xff) ^ *p++];
-@L2:    eor     (ptr1),y
+@L2:    eor     (ptr1), y
         tax
-        lda     table_0,x
+        lda     table_0, x
         eor     tmp2
         sta     tmp1
-        lda     table_1,x
+        lda     table_1, x
         eor     sreg
         sta     tmp2
-        lda     table_2,x
+        lda     table_2, x
         eor     sreg+1
         sta     sreg
-        lda     table_3,x
+        lda     table_3, x
         sta     sreg+1
         lda     tmp1
         iny
@@ -111,16 +111,16 @@ _crc32:
 ; return 0L
 @L0:    sta     sreg
         sta     sreg+1
-        tax             ; (popptr1 doesn't set .X)
+        tax     ; (popptr1 doesn't set .X)
 ; ignore crc
         jmp     incsp4
 
-                .data
+        .data
 table_initialised:
-                .byte   0
+        .byte   0
 
-                .bss
-table_0:        .res    256
-table_1:        .res    256
-table_2:        .res    256
-table_3:        .res    256
+        .bss
+table_0: .res   256
+table_1: .res   256
+table_2: .res   256
+table_3: .res   256

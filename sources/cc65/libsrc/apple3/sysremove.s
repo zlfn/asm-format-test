@@ -5,11 +5,11 @@
 ; unsigned char __fastcall__ _sysremove (const char* name);
 ;
 
-        .export         __sysremove
-        .import         pushname, popname, sos_set_pathname_tos
+        .export __sysremove
+        .import pushname, popname, sos_set_pathname_tos
 
-        .include        "zeropage.inc"
-        .include        "sos.inc"
+        .include "zeropage.inc"
+        .include "sos.inc"
 
 __sysremove:
         ; Push name
@@ -25,6 +25,6 @@ __sysremove:
         jsr     callsos
 
         ; Cleanup name
-        jsr     popname         ; Preserves A
+        jsr     popname ; Preserves A
 
 oserr:  rts

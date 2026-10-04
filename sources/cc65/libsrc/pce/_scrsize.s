@@ -1,10 +1,10 @@
 ;
 ; Screen size variables
 ;
-        .export         screensize
-        .export         xsize, ysize
+        .export screensize
+        .export xsize, ysize
 
-        .include        "pce.inc"
+        .include "pce.inc"
 
 screensize:
         ldx     xsize

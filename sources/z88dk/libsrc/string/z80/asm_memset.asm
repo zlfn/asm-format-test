@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013 / Dec 2021 feilipu
 ; ===============================================================
-; 
+;
 ; void *memset(void *s, int c, size_t n)
 ;
 ; Write c into the first n bytes of s.
@@ -18,91 +18,91 @@ PUBLIC asm_memset
 
 asm_memset:
 
-   ; enter : hl = void *s
-   ;          e = char c
-   ;         bc = uint n
-   ;
-   ; exit  : hl = void *s
-   ;         de = ptr in s to byte after last one written
-   ;         bc = 0
-   ;         carry reset
-   ;
-   ; uses  : af, bc, de
+        ; enter : hl = void *s
+        ;          e = char c
+        ;         bc = uint n
+        ;
+        ; exit  : hl = void *s
+        ;         de = ptr in s to byte after last one written
+        ;         bc = 0
+        ;         carry reset
+        ;
+        ; uses  : af, bc, de
 
-   ld a,b
-   or c
+        ld      a, b
+        or      c
 
-   ld a,e
-   ld de,hl
+        ld      a,  e
+        ld      de, hl
 
-   ret Z
+        ret     Z
 
 IF (__CLIB_OPT_UNROLL & __CLIB_OPT_UNROLL_MEMSET)
-   ld (hl),a
-   inc de
-   dec bc
+        ld      (hl), a
+        inc     de
+        dec     bc
 
-   ld a,b
-   or a
+        ld      a, b
+        or      a
 
-   jr NZ,big
+        jr      NZ, big
 
-   or c
-   ret Z
+        or      c
+        ret     Z
 
-   push hl
+        push    hl
 
-   EXTERN l_ldi_loop_small
-   call   l_ldi_loop_small
+        EXTERN  l_ldi_loop_small
+        call    l_ldi_loop_small
 
-   pop hl
-   ret
+        pop     hl
+        ret
 
 big:
-   push hl
+        push    hl
 
-   EXTERN l_ldi_loop_0
-   call   l_ldi_loop_0
+        EXTERN  l_ldi_loop_0
+        call    l_ldi_loop_0
 
-   pop hl
-   ret
+        pop     hl
+        ret
 
 ELSE
 
 IF __CPU_INTEL__ || __CPU_GBZ80__
 
-   push hl
+        push    hl
 
-   dec bc
-   inc b
-   inc c
+        dec     bc
+        inc     b
+        inc     c
 
 loop:
-   ld (hl+),a
+        ld      (hl+), a
 
-   dec c
-   jr NZ,loop
-   dec b
-   jr NZ,loop
+        dec     c
+        jr      NZ, loop
+        dec     b
+        jr      NZ, loop
 
-   ex de,hl
+        ex      de, hl
 
 ELSE
 
-   ld (hl),a
-   inc de
-   dec bc
+        ld      (hl), a
+        inc     de
+        dec     bc
 
-   ld a,b
-   or c
-   ret Z
+        ld      a, b
+        or      c
+        ret     Z
 
-   push hl
-   ldir
+        push    hl
+        ldir
 
 ENDIF
 
-   pop hl
-   ret
+        pop     hl
+        ret
 
 ENDIF

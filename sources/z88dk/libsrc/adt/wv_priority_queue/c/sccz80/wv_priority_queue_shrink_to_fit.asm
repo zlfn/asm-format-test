@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _wv_priority_queue_shrink_to_fit
 defc _wv_priority_queue_shrink_to_fit = wv_priority_queue_shrink_to_fit
 ENDIF
-

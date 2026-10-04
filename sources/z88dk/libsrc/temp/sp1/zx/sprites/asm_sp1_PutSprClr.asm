@@ -19,21 +19,21 @@ asm_sp1_PutSprClr:
 ;         hl = array of sprite colour addresses (all point at struct sp1_cs.attr_mask)
 ; uses  : af, bc, de, hl
 
-   ld c,$ff
+        ld      c, $ff
 
 .loop
 
-   push de
-   ld e,(hl)
-   inc hl
-   ld d,(hl)              ; de = & sp1_cs.attr_mask
-   inc hl
-   ex (sp),hl             ; hl = struct sp1_ap[
+        push    de
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)         ; de = & sp1_cs.attr_mask
+        inc     hl
+        ex      (sp), hl        ; hl = struct sp1_ap[
 
-   ldi                    ; copy mask and attribute into struct sp1_cs
-   ldi
-   pop de                 ; de = array of sprite colour addresses advanced one entry
-   ex de,hl
-   djnz loop
+        ldi             ; copy mask and attribute into struct sp1_cs
+        ldi
+        pop     de      ; de = array of sprite colour addresses advanced one entry
+        ex      de, hl
+        djnz    loop
 
-   ret
+        ret

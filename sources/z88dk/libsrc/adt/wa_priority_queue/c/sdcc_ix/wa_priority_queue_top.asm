@@ -10,10 +10,10 @@ EXTERN asm_wa_priority_queue_top
 
 _wa_priority_queue_top:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_wa_priority_queue_top
+        push    hl
+        push    af
+
+        jp      asm_wa_priority_queue_top

@@ -9,9 +9,9 @@
 
 ; Struct _FILE
 .struct _FILE
-        f_fd        .byte
-        f_flags     .byte
-        f_pushback  .byte
+        f_fd    .byte
+        f_flags .byte
+        f_pushback .byte
 .endstruct
 
 ; Flags field
@@ -23,5 +23,3 @@ _FPUSHBACK      = $08
 
 ; File table
 .global         __filetab
-
-

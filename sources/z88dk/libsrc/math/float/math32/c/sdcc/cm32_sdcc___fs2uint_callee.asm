@@ -8,5 +8,5 @@ EXTERN cm32_sdcc_fsread1_callee
 
 cm32_sdcc___fs2uint_callee:
 cm32_sdcc___fs2uchar_callee:
-	call	cm32_sdcc_fsread1_callee
-	jp	m32_f2uint
+        call    cm32_sdcc_fsread1_callee
+        jp      m32_f2uint

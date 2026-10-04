@@ -4,60 +4,57 @@
 ; ---FUDLR  Stick bit pattern (nc, nc, nc, fire, up, down, left, right)
 ;
 
-    SECTION code_clib
-    PUBLIC  joystick
-    PUBLIC  _joystick
-    EXTERN  getk
+        SECTION code_clib
+        PUBLIC  joystick
+        PUBLIC  _joystick
+        EXTERN  getk
 
 joystick:
 _joystick:
 
-    ; __FASTCALL__ : joystick no. in HL.
-    ; 1 = Player 1's joystick.
-    ; 2 = Player 2's joystick.
+        ; __FASTCALL__ : joystick no. in HL.
+        ; 1 = Player 1's joystick.
+        ; 2 = Player 2's joystick.
 
-    ld      a, l
-    cp      1
-    jr      z, j_p1
-    cp      2
-    jr      z, j_p2
-    cp      3
-    jr      z, j_qaop
-    jr      j_nop
-
+        ld      a, l
+        cp      1
+        jr      z, j_p1
+        cp      2
+        jr      z, j_p2
+        cp      3
+        jr      z, j_qaop
+        jr      j_nop
 
 j_p1:
-    ; Player 1's joystick.
-    ld      a, ($13)
-    jr      jpp
-
+        ; Player 1's joystick.
+        ld      a, ($13)
+        jr      jpp
 
 j_p2:
-    ; Player 2's joystick.
-    ld      a, ($14)
-    jr      jpp
-
+        ; Player 2's joystick.
+        ld      a, ($14)
+        jr      jpp
 
 jpp:
 ;  ---FUDLR -> ---FUDRL
 
-    rra
-    rr      e
-    rra
-    rr      b
-    rl      e                           ; L
-    rla
-    rl      b                           ; R
-    rla
+        rra
+        rr      e
+        rra
+        rr      b
+        rl      e       ; L
+        rla
+        rl      b       ; R
+        rla
 
-    jr      j_done
+        jr      j_done
 
 j_nop:
-    xor     a
+        xor     a
 j_done:
-    ld      l, a
-    ld      h, 0
-    ret
+        ld      l, a
+        ld      h, 0
+        ret
 
 j_qaop:
-    INCLUDE "classic/games/joystick_qaop.as1"
+        INCLUDE "classic/games/joystick_qaop.as1"

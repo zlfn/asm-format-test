@@ -9,20 +9,19 @@ EXTERN asm_SMSlib_setSpritePaletteColor
 
 SMS_setSpritePaletteColor:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   ld a,c
-   jp asm_SMSlib_setSpritePaletteColor
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        ld      a, c
+        jp      asm_SMSlib_setSpritePaletteColor
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _SMS_setSpritePaletteColor
 defc _SMS_setSpritePaletteColor = SMS_setSpritePaletteColor
 ENDIF
-

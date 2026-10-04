@@ -2,10 +2,10 @@
 ; IRQ handling (Lynx version)
 ;
 
-        .export         initirq, doneirq
-        .import         callirq
+        .export initirq, doneirq
+        .import callirq
 
-        .include        "lynx.inc"
+        .include "lynx.inc"
 
 ; ------------------------------------------------------------------------
 

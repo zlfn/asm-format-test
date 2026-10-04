@@ -2,12 +2,12 @@
 ; IRQ handling (PCE version)
 ;
 
-        .export         initirq, doneirq, IRQStub, __nmi
+        .export initirq, doneirq, IRQStub, __nmi
 
-        .import         __INTERRUPTOR_COUNT__, callirq_y
+        .import __INTERRUPTOR_COUNT__, callirq_y
 
-        .include        "pce.inc"
-        .include        "extzp.inc"
+        .include "pce.inc"
+        .include "extzp.inc"
 
 ; ------------------------------------------------------------------------
 .segment        "ONCE"

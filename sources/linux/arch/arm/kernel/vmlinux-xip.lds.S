@@ -35,104 +35,104 @@ SECTIONS
 	 * unwind exit sections must be discarded before the rest of the
 	 * unwind sections get included.
 	 */
-	/DISCARD/ : {
-		ARM_DISCARD
-		*(.alt.smp.init)
-		*(.pv_table)
+        /DISCARD/ : {
+        ARM_DISCARD
+        *(.alt.smp.init)
+        *(.pv_table)
 #ifndef CONFIG_ARM_UNWIND
-		*(.ARM.exidx) *(.ARM.exidx.*)
-		*(.ARM.extab) *(.ARM.extab.*)
+        *(.ARM.exidx) *(.ARM.exidx.*)
+        *(.ARM.extab) *(.ARM.extab.*)
 #endif
-	}
+        }
 
-	. = XIP_VIRT_ADDR(CONFIG_XIP_PHYS_ADDR);
-	_xiprom = .;			/* XIP ROM area to be mapped */
+        .       = XIP_VIRT_ADDR(CONFIG_XIP_PHYS_ADDR);
+        _xiprom = .;			/* XIP ROM area to be mapped */
 
-	.head.text : {
-		_text = .;
-		HEAD_TEXT
-	}
+        .head.text : {
+        _text   = .;
+        HEAD_TEXT
+        }
 
-	.text : {			/* Real text segment		*/
-		_stext = .;		/* Text and read-only data	*/
-		ARM_TEXT
-	}
+        .text   : {     /* Real text segment		*/
+        _stext  = .;		/* Text and read-only data	*/
+        ARM_TEXT
+        }
 
-	RO_DATA(PAGE_SIZE)
+        RO_DATA(PAGE_SIZE)
 
-	. = ALIGN(4);
-	__ex_table : AT(ADDR(__ex_table) - LOAD_OFFSET) {
-		__start___ex_table = .;
-		ARM_MMU_KEEP(*(__ex_table))
-		__stop___ex_table = .;
-	}
+        .       = ALIGN(4);
+        __ex_table : AT(ADDR(__ex_table) - LOAD_OFFSET) {
+        __start___ex_table = .;
+        ARM_MMU_KEEP(*(__ex_table))
+        __stop___ex_table = .;
+        }
 
 #ifdef CONFIG_ARM_UNWIND
-	ARM_UNWIND_SECTIONS
+        ARM_UNWIND_SECTIONS
 #endif
 
-	_etext = .;			/* End of text and rodata section */
+        _etext  = .;			/* End of text and rodata section */
 
-	ARM_VECTORS
-	INIT_TEXT_SECTION(8)
-	.exit.text : {
-		ARM_EXIT_KEEP(EXIT_TEXT)
-	}
-	.init.proc.info : {
-		ARM_CPU_DISCARD(PROC_INFO)
-	}
-	.init.arch.info : {
-		__arch_info_begin = .;
-		KEEP(*(.arch.info.init))
-		__arch_info_end = .;
-	}
-	.init.tagtable : {
-		__tagtable_begin = .;
-		*(.taglist.init)
-		__tagtable_end = .;
-	}
-	.init.rodata : {
-		INIT_SETUP(16)
-		INIT_CALLS
-		CON_INITCALL
-		INIT_RAM_FS
-	}
+        ARM_VECTORS
+        INIT_TEXT_SECTION(8)
+        .exit.text : {
+        ARM_EXIT_KEEP(EXIT_TEXT)
+        }
+        .init.proc.info : {
+        ARM_CPU_DISCARD(PROC_INFO)
+        }
+        .init.arch.info : {
+        __arch_info_begin = .;
+        KEEP(*(.arch.info.init))
+        __arch_info_end = .;
+        }
+        .init.tagtable : {
+        __tagtable_begin = .;
+        *(.taglist.init)
+        __tagtable_end = .;
+        }
+        .init.rodata : {
+        INIT_SETUP(16)
+        INIT_CALLS
+        CON_INITCALL
+        INIT_RAM_FS
+        }
 
 #ifdef CONFIG_ARM_MPU
-	. = ALIGN(SZ_128K);
+        .       = ALIGN(SZ_128K);
 #endif
-	_exiprom = .;			/* End of XIP ROM area */
+        _exiprom = .;			/* End of XIP ROM area */
 
 /*
  * From this point, stuff is considered writable and will be copied to RAM
  */
-	__data_loc = ALIGN(4);		/* location in file */
-	. = PAGE_OFFSET + TEXT_OFFSET;	/* location in memory */
+        __data_loc = ALIGN(4);		/* location in file */
+        .       = PAGE_OFFSET + TEXT_OFFSET;	/* location in memory */
 #undef LOAD_OFFSET
 #define LOAD_OFFSET (PAGE_OFFSET + TEXT_OFFSET - __data_loc)
 
-	. = ALIGN(THREAD_SIZE);
-	_sdata = .;
-	RW_DATA(L1_CACHE_BYTES, PAGE_SIZE, THREAD_SIZE)
-	.data.ro_after_init : AT(ADDR(.data.ro_after_init) - LOAD_OFFSET) {
-		*(.data..ro_after_init)
-	}
-	_edata = .;
+        .       = ALIGN(THREAD_SIZE);
+        _sdata  = .;
+        RW_DATA(L1_CACHE_BYTES, PAGE_SIZE, THREAD_SIZE)
+        .data.ro_after_init : AT(ADDR(.data.ro_after_init) - LOAD_OFFSET) {
+        *(.data..ro_after_init)
+        }
+        _edata  = .;
 
-	. = ALIGN(PAGE_SIZE);
-	__init_begin = .;
-	.init.data : AT(ADDR(.init.data) - LOAD_OFFSET) {
-		INIT_DATA
-	}
-	.exit.data : AT(ADDR(.exit.data) - LOAD_OFFSET) {
-		ARM_EXIT_KEEP(EXIT_DATA)
-	}
+        .       = ALIGN(PAGE_SIZE);
+        __init_begin = .;
+        .init.data : AT(ADDR(.init.data) - LOAD_OFFSET) {
+        INIT_DATA
+        }
+        .exit.data : AT(ADDR(.exit.data) - LOAD_OFFSET) {
+        ARM_EXIT_KEEP(EXIT_DATA)
+        }
 #ifdef CONFIG_SMP
-	PERCPU_SECTION(L1_CACHE_BYTES)
+        PERCPU_SECTION(L1_CACHE_BYTES)
 #endif
 
 #ifdef CONFIG_HAVE_TCM
-	ARM_TCM
+        ARM_TCM
 #endif
 
 	/*
@@ -140,24 +140,24 @@ SECTIONS
 	 * Also located before final ALIGN() as trailing padding is not stored
 	 * in the resulting binary file and useless to copy.
 	 */
-	.data.endmark : AT(ADDR(.data.endmark) - LOAD_OFFSET) { }
-	_edata_loc = LOADADDR(.data.endmark);
+        .data.endmark : AT(ADDR(.data.endmark) - LOAD_OFFSET) { }
+        _edata_loc = LOADADDR(.data.endmark);
 
-	. = ALIGN(PAGE_SIZE);
-	__init_end = .;
+        .       = ALIGN(PAGE_SIZE);
+        __init_end = .;
 
-	BSS_SECTION(0, 0, 8)
+        BSS_SECTION(0, 0, 8)
 #ifdef CONFIG_ARM_MPU
-	. = ALIGN(PMSAv8_MINALIGN);
+        .       = ALIGN(PMSAv8_MINALIGN);
 #endif
-	_end = .;
+        _end    = .;
 
-	STABS_DEBUG
-	DWARF_DEBUG
-	MODINFO
-	ARM_DETAILS
+        STABS_DEBUG
+        DWARF_DEBUG
+        MODINFO
+        ARM_DETAILS
 
-	ARM_ASSERTS
+        ARM_ASSERTS
 }
 
 /*

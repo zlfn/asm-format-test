@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_m_gethandle
 defc _esx_m_gethandle = esx_m_gethandle
 ENDIF
-

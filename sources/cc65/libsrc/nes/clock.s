@@ -12,9 +12,8 @@
 
         .include "nes.inc"
 
-        .export         _clock
-        .importzp       sreg
-
+        .export _clock
+        .importzp sreg
 
 .proc   _clock
 
@@ -28,4 +27,3 @@ L1:     ldx     tickcount+1
         rts
 
 .endproc
-

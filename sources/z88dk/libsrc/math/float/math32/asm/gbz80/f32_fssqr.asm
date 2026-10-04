@@ -20,106 +20,105 @@ EXTERN m32_sqr_32h_24x24
 PUBLIC m32_fssqr, m32_fssqr_fastcall
 PUBLIC _m32_sqrf
 
-
 .m32_fssqr
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
 
 ._m32_sqrf
 .m32_fssqr_fastcall
-    ; DEHL = y
-    push hl                        ; HLDE = IEEE
-    ld hl,de                        ; HL↔DE without ex (56c)
-    pop de
-    add hl,hl                       ; exp→H, ignore sign
-    ld a,h
-    or a
-    jp Z,m32_fsconst_pzero
-    ld b,a                          ; B = exp (temp)
-    scf
-    ld a,l
-    rra
-    ld l,a                          ; L = mant msb
-    ld h,0                          ; HL = msb word for mul frame
-    ; DE = mid,lsb already
+        ; DEHL = y
+        push    hl      ; HLDE = IEEE
+        ld      hl, de  ; HL↔DE without ex (56c)
+        pop     de
+        add     hl, hl  ; exp→H, ignore sign
+        ld      a,  h
+        or      a
+        jp      Z, m32_fsconst_pzero
+        ld      b, a    ; B = exp (temp)
+        scf
+        ld      a, l
+        rra
+        ld      l, a    ; L = mant msb
+        ld      h, 0    ; HL = msb word for mul frame
+        ; DE = mid,lsb already
 
-    ld a,b
-    sub 07fh
-    jp C,sq_uf
-    add a,b
-    jp C,m32_fsconst_pinf
-    jp sq_ok
+        ld      a, b
+        sub     07fh
+        jp      C, sq_uf
+        add     a, b
+        jp      C, m32_fsconst_pinf
+        jp      sq_ok
 
 .sq_uf
-    add a,b
-    jp NC,m32_fsconst_pzero
+        add     a,  b
+        jp      NC, m32_fsconst_pzero
 
 .sq_ok
-    or a
-    jp Z,m32_fsconst_pzero
-    push af                         ; result exp (mul clobbers BC)
-    call m32_sqr_32h_24x24          ; HLDE product high 32
-    pop bc                          ; B=exp
+        or      a
+        jp      Z, m32_fsconst_pzero
+        push    af                      ; result exp (mul clobbers BC)
+        call    m32_sqr_32h_24x24       ; HLDE product high 32
+        pop     bc                      ; B=exp
 
-    ld a,h
-    rla
-    jp C,sq_normed
-    ld a,e
-    add a,a
-    ld e,a
-    ld a,d
-    rla
-    ld d,a
-    ld a,l
-    rla
-    ld l,a
-    ld a,h
-    rla
-    ld h,a
-    jp sq_rne
+        ld      a, h
+        rla
+        jp      C, sq_normed
+        ld      a, e
+        add     a, a
+        ld      e, a
+        ld      a, d
+        rla
+        ld      d, a
+        ld      a, l
+        rla
+        ld      l, a
+        ld      a, h
+        rla
+        ld      h, a
+        jp      sq_rne
 .sq_normed
-    inc b
-    jp Z,m32_fsconst_pnan
-    inc b
-    jp Z,m32_fsconst_pinf
-    dec b
+        inc     b
+        jp      Z, m32_fsconst_pnan
+        inc     b
+        jp      Z, m32_fsconst_pinf
+        dec     b
 .sq_rne
-    ld a,e
-    ld e,h
-    ld h,l
-    ld l,d
-    ; IEEE RNE: G=bit7, S=bits6..0 (via add a,a), B=L.0
-    add a,a
-    jp NC,sq_pack                   ; G=0
-    jp NZ,sq_up                     ; G=1 S≠0 → up
-    ld a,l
-    and 01h
-    jp Z,sq_pack                    ; tie, already even
+        ld      a, e
+        ld      e, h
+        ld      h, l
+        ld      l, d
+        ; IEEE RNE: G=bit7, S=bits6..0 (via add a,a), B=L.0
+        add     a,  a
+        jp      NC, sq_pack     ; G=0
+        jp      NZ, sq_up       ; G=1 S≠0 → up
+        ld      a,  l
+        and     01h
+        jp      Z, sq_pack      ; tie, already even
 .sq_up
-    inc l
-    jp NZ,sq_pack
-    inc h
-    jp NZ,sq_pack
-    inc e
-    jp NZ,sq_pack
-    ld h,0                          ; mant overflow → 1.0, exp++ (E=0; pack discards implicit 1)
-    ld l,h
-    ld e,l
-    inc b
-    jp Z,m32_fsconst_pinf
+        inc     l
+        jp      NZ, sq_pack
+        inc     h
+        jp      NZ, sq_pack
+        inc     e
+        jp      NZ, sq_pack
+        ld      h,  0           ; mant overflow → 1.0, exp++ (E=0; pack discards implicit 1)
+        ld      l,  h
+        ld      e,  l
+        inc     b
+        jp      Z, m32_fsconst_pinf
 .sq_pack
-    ld a,e
-    add a,a
-    ld e,a
-    xor a
-    ld a,b
-    rra
-    ld d,a
-    ld a,e
-    rra
-    ld e,a
-    ret
+        ld      a, e
+        add     a, a
+        ld      e, a
+        xor     a
+        ld      a, b
+        rra
+        ld      d, a
+        ld      a, e
+        rra
+        ld      e, a
+        ret

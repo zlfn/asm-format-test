@@ -10,9 +10,9 @@ EXTERN asm_posix_memalign_unlocked
 
 _posix_memalign_unlocked_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   jp asm_posix_memalign_unlocked
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_posix_memalign_unlocked

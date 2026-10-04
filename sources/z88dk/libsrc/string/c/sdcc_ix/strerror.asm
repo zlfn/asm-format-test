@@ -10,10 +10,10 @@ EXTERN asm_strerror
 
 _strerror:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_strerror
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_strerror

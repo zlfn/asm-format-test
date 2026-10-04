@@ -16,15 +16,15 @@ EXTERN l0_vscanf_callee
 
 _vscanf:
 
-   pop af
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
 
-   jp l0_vscanf_callee
+        push    bc
+        push    de
+        push    af
+
+        jp      l0_vscanf_callee
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -35,7 +35,7 @@ PUBLIC _vscanf
 EXTERN _vscanf_unlocked
 
 defc _vscanf = _vscanf_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

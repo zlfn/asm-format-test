@@ -10,9 +10,9 @@ EXTERN asm_obstack_printf
 
 _obstack_printf:
 
-   push ix
-   
-   call asm_obstack_printf
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_obstack_printf
+
+        pop     ix
+        ret

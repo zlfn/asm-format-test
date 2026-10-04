@@ -18,13 +18,11 @@
 ;       .. X. .X XX
 ;       XX XX XX XX
 
-
-    SECTION rodata_clib
-    PUBLIC  textpixl
-
+        SECTION rodata_clib
+        PUBLIC  textpixl
 
 textpixl:
-    defb    32, 239, 240, 249
-    defb    241, 228, 244, 245
-    defb    242, 243, 250, 246
-    defb    156, 247, 248, 160
+        defb    32,  239, 240, 249
+        defb    241, 228, 244, 245
+        defb    242, 243, 250, 246
+        defb    156, 247, 248, 160

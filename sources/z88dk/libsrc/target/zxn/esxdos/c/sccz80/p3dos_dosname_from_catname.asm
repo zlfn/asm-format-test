@@ -8,12 +8,12 @@ EXTERN asm_p3dos_dosname_from_catname
 
 p3dos_dosname_from_catname:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     hl
 
-   jp asm_p3dos_dosname_from_catname
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_p3dos_dosname_from_catname

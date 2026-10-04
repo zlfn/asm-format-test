@@ -3,13 +3,9 @@
 ;
 ;       Reset pixel at (x,y) coordinate.
 
-
-
-    SECTION code_clib
-    PUBLIC  respixel
-
+        SECTION code_clib
+        PUBLIC  respixel
 
 respixel:
-    defc    NEEDunplot=1
-    INCLUDE "pixel6.inc"
-
+        defc    NEEDunplot=1
+        INCLUDE "pixel6.inc"

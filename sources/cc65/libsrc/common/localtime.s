@@ -4,10 +4,10 @@
 ; struct tm* __fastcall__ localtime (const time_t* timep);
 ;
 
-        .export         _localtime
-        .import         __time_t_to_tm, __tz
-        .import         ldeaxi, tosaddeax, pusheax
-        .importzp       sreg
+        .export _localtime
+        .import __time_t_to_tm, __tz
+        .import ldeaxi, tosaddeax, pusheax
+        .importzp sreg
 
 _localtime:
         cpx     #$00            ; Check for null pointer
@@ -23,7 +23,7 @@ _localtime:
         ldx     __tz+1+1
         lda     __tz+1
         jsr     tosaddeax       ; Add _tz.timezone
-       jmp     __time_t_to_tm   ; Convert to struct tm
+        jmp     __time_t_to_tm  ; Convert to struct tm
 
 no_pointer:
-        rts                     ; A/X already set
+        rts     ; A/X already set

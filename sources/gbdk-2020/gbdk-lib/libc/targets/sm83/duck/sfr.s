@@ -12,7 +12,7 @@ __IO          = 0xFF00
 __AUD3WAVERAM = 0xFF30
 __HRAM        = 0xFF80
 
-.globl __VRAM, __VRAM8000, __VRAM8800, __VRAM9000, __SCRN0, __SCRN1, __SRAM, __RAM, __RAMBANK, __OAMRAM, __IO, __AUD3WAVERAM, __HRAM       
+.globl __VRAM, __VRAM8000, __VRAM8800, __VRAM9000, __SCRN0, __SCRN1, __SRAM, __RAM, __RAMBANK, __OAMRAM, __IO, __AUD3WAVERAM, __HRAM
 
 _rRAMG        = 0x0000
 _rROMB0       = 0x0001

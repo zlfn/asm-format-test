@@ -7,25 +7,25 @@ PUBLIC ____sdcc_load_dehl_deix
 ____sdcc_load_dehl_deix:
 
 IFDEF __SDCC_IX
-   
-   push ix
-   
+
+        push    ix
+
 ELSE
 
-   push iy
+        push    iy
 
 ENDIF
 
-   pop hl
-   add hl,de
-   
-   ld d,(hl)
-   dec hl
-   ld e,(hl)
-   dec hl
-   ld a,(hl)
-   dec hl
-   ld l,(hl)
-   ld h,a
-   
-   ret
+        pop     hl
+        add     hl, de
+
+        ld      d, (hl)
+        dec     hl
+        ld      e, (hl)
+        dec     hl
+        ld      a, (hl)
+        dec     hl
+        ld      l, (hl)
+        ld      h, a
+
+        ret

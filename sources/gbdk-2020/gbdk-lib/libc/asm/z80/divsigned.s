@@ -13,7 +13,7 @@
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ;  GNU General Public License for more details.
 ;
-;  You should have received a copy of the GNU General Public License 
+;  You should have received a copy of the GNU General Public License
 ;  along with this library; see the file COPYING. If not, write to the
 ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
 ;   MA 02110-1301, USA.
@@ -32,20 +32,20 @@
 .globl	__divschar
 
 __divschar:
-	ld	e, l
-	ld	l, a
+        ld      e, l
+        ld      l, a
 
 __div8::
-        ld      a, l            ; Sign extend
+        ld      a, l    ; Sign extend
         rlca
-        sbc     a,a
+        sbc     a, a
         ld      h, a
 __div_signexte::
-	ld      a, e            ; Sign extend
-	rlca
-	sbc     a, a
-	ld      d, a
-	; Fall through to __div16
+        ld      a, e    ; Sign extend
+        rlca
+        sbc     a, a
+        ld      d, a
+        ; Fall through to __div16
 
         ;; signed 16-bit division
         ;;
@@ -64,21 +64,21 @@ __div16::
         ;;  and divisor. Quotient is positive if signs are the same, negative
         ;;  if signs are different
         ;; Remainder has same sign as dividend
-        ld      a, h            ; Get high byte of dividend
-        xor     a, d            ; Xor with high byte of divisor
-        rla                     ; Sign of quotient goes into the carry
-        ld      a, h            ; Get high byte of dividend
-        push    af              ; Save sign of both quotient and reminder
+        ld      a, h    ; Get high byte of dividend
+        xor     a, d    ; Xor with high byte of divisor
+        rla             ; Sign of quotient goes into the carry
+        ld      a, h    ; Get high byte of dividend
+        push    af      ; Save sign of both quotient and reminder
 
         ; Take absolute value of dividend
         rla
         jr      NC, .chkde      ; Jump if dividend is positive
-        sub     a, a            ; Substract dividend from 0
-        sub     a, l
-        ld      l, a
-        sbc     a, a            ; Propagate borrow (A=0xFF if borrow)
-        sub     a, h
-        ld      h, a
+        sub     a,  a           ; Substract dividend from 0
+        sub     a,  l
+        ld      l,  a
+        sbc     a,  a           ; Propagate borrow (A=0xFF if borrow)
+        sub     a,  h
+        ld      h,  a
 
         ; Take absolute value of divisor
 .chkde:
@@ -97,28 +97,27 @@ __div16::
 
 .fix_quotient:
         ; Negate quotient if it is negative
-        pop     af              ; recover sign of quotient
-        ret	NC		; Jump if quotient is positive
+        pop     af      ; recover sign of quotient
+        ret     NC      ; Jump if quotient is positive
         ld      b, a
-        sub     a, a            ; Subtract quotient from 0
+        sub     a, a    ; Subtract quotient from 0
         sub     a, e
         ld      e, a
-        sbc     a, a            ; Propagate borrow (A=0xFF if borrow)
+        sbc     a, a    ; Propagate borrow (A=0xFF if borrow)
         sub     a, d
         ld      d, a
         ld      a, b
-	ret
+        ret
 
 __get_remainder::
         ; Negate remainder if it is negative.
         rla
-        ex	de, hl
-        ret     NC              ; Return if remainder is positive
-        sub     a, a            ; Subtract quotient from 0
+        ex      de, hl
+        ret     NC      ; Return if remainder is positive
+        sub     a, a    ; Subtract quotient from 0
         sub     a, e
         ld      e, a
-        sbc     a, a            ; Propagate borrow (A=0xFF if borrow)
+        sbc     a, a    ; Propagate borrow (A=0xFF if borrow)
         sub     a, d
         ld      d, a
         ret
-

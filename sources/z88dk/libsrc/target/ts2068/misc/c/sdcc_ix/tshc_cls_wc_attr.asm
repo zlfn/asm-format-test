@@ -9,12 +9,12 @@ EXTERN l0_tshc_cls_wc_attr_callee
 
 _tshc_cls_wc_attr:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp l0_tshc_cls_wc_attr_callee
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      l0_tshc_cls_wc_attr_callee

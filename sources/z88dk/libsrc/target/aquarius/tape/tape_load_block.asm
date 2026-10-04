@@ -9,14 +9,14 @@ EXTERN asm_tape_load_block
 .tape_load_block
 ._tape_load_block
 
-   pop hl
-   pop bc
-   ld a,c
-   pop de
-   pop bc
-   push bc
-   push de
-   push bc
-   push hl
-   
-   jp asm_tape_load_block
+        pop     hl
+        pop     bc
+        ld      a, c
+        pop     de
+        pop     bc
+        push    bc
+        push    de
+        push    bc
+        push    hl
+
+        jp      asm_tape_load_block

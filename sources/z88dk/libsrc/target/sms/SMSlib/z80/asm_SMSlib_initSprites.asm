@@ -14,11 +14,11 @@ EXTERN __SMSlib_SpriteNextFree
 
 asm_SMSlib_initSprites:
 
-   ; void SMS_initSprites (void)
-   ;
-   ; uses  : af
-   
-   xor a
-   ld (__SMSlib_SpriteNextFree),a
-   
-   ret
+        ; void SMS_initSprites (void)
+        ;
+        ; uses  : af
+
+        xor     a
+        ld      (__SMSlib_SpriteNextFree), a
+
+        ret

@@ -5,8 +5,8 @@
 ;
         .include "atari.inc"
 
-        .export         _revers
-        .export         _revflag
+        .export _revers
+        .export _revflag
 
 _revers:
         ldx     #$00            ; Assume revers off

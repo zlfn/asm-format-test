@@ -20,12 +20,12 @@ EXTERN SP1DrawUpdateStruct
 
 asm_sp1_DrawUpdateStructIfNotRem:
 
-   bit 6,(hl)
-   ret nz                    ; do not draw if removed
-   
-   ld a,(hl)
-   and $7f
-   ld (hl),a                 ; validate char
-   
-   ld b,a
-   jp SP1DrawUpdateStruct
+        bit     6, (hl)
+        ret     nz      ; do not draw if removed
+
+        ld      a, (hl)
+        and     $7f
+        ld      (hl), a ; validate char
+
+        ld      b, a
+        jp      SP1DrawUpdateStruct

@@ -8,12 +8,12 @@ PUBLIC asm_strtoimax
 
 IFDEF __SDCC
 
-   EXTERN asm_strtoll
-   defc asm_strtoimax = asm_strtoll
+        EXTERN  asm_strtoll
+        defc    asm_strtoimax = asm_strtoll
 
 ELSE
 
-   EXTERN asm_strtol
-   defc asm_strtoimax = asm_strtol
+        EXTERN  asm_strtol
+        defc    asm_strtoimax = asm_strtol
 
 ENDIF

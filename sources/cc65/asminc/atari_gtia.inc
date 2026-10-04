@@ -79,7 +79,6 @@ VDELAY  = GTIA + $1C         ;vertical delay
 GRACTL  = GTIA + $1D         ;graphic control
 HITCLR  = GTIA + $1E         ;collision clear
 
-
 ; Hue values
 
 HUE_GREY        = 0

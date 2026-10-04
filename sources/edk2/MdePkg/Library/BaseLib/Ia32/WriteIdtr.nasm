@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID
@@ -26,10 +26,9 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalX86WriteIdtr)
 ASM_PFX(InternalX86WriteIdtr):
-    mov     eax, [esp + 4]
-    pushfd
-    cli
-    lidt    [eax]
-    popfd
-    ret
-
+        mov     eax, [esp + 4]
+        pushfd
+        cli
+        lidt    [eax]
+        popfd
+        ret

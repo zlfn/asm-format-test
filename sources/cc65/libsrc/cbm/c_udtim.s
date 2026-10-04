@@ -4,6 +4,6 @@
 ; void cbm_k_udtim (void);
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_k_udtim := UDTIM
+        .export _cbm_k_udtim := UDTIM

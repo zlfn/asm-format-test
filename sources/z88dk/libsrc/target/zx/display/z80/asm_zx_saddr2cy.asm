@@ -16,18 +16,18 @@ PUBLIC asm_zx_saddr2cy
 
 asm_zx_saddr2cy:
 
-   ld a,l
-   rlca
-   rlca
-   rlca
-   xor h
-   and $07
-   xor h
-   and $1f
-   ld l,a
+        ld      a, l
+        rlca
+        rlca
+        rlca
+        xor     h
+        and     $07
+        xor     h
+        and     $1f
+        ld      l, a
 
 IF __SCCZ80
-   ld h,0
+        ld      h, 0
 ENDIF
 
-   ret
+        ret

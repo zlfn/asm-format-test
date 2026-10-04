@@ -5,10 +5,10 @@
         GLOBAL  l_mul8_signexte
 
 __muluschar:
-        ld      hl,sp+2
-        ld      b, 0
+        ld      hl, sp+2
+        ld      b,  0
 
-        ld      e,(hl)
+        ld      e, (hl)
         inc     hl
-        ld      c,(hl)
+        ld      c, (hl)
         jp      l_mul8_signexte

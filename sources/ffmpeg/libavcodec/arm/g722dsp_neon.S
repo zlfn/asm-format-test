@@ -22,48 +22,48 @@
 #include "libavutil/arm/asm.S"
 
 function ff_g722_apply_qmf_neon, export=1, align=4
-        movrel          r3, qmf_coeffs
-        vld1.s16        {d2,d3,d4}, [r0]! /* load prev_samples */
-        vld1.s16        {d16,d17,d18}, [r3,:64]! /* load qmf_coeffs */
-        vmull.s16       q0, d2, d16
-        vmlal.s16       q0, d3, d17
-        vmlal.s16       q0, d4, d18
+        movrel  r3, qmf_coeffs
+        vld1.s16 {d2,d3,d4},    [r0]!           /* load prev_samples */
+        vld1.s16 {d16,d17,d18}, [r3,:64]!       /* load qmf_coeffs */
+        vmull.s16 q0, d2, d16
+        vmlal.s16 q0, d3, d17
+        vmlal.s16 q0, d4, d18
 
-        vld1.s16        {d5,d6,d7}, [r0]! /* load prev_samples */
-        vld1.s16        {d19,d20,d21}, [r3,:64]! /* load qmf_coeffs */
-        vmlal.s16       q0, d5, d19
-        vmlal.s16       q0, d6, d20
-        vmlal.s16       q0, d7, d21
+        vld1.s16 {d5,d6,d7},    [r0]!           /* load prev_samples */
+        vld1.s16 {d19,d20,d21}, [r3,:64]!       /* load qmf_coeffs */
+        vmlal.s16 q0, d5, d19
+        vmlal.s16 q0, d6, d20
+        vmlal.s16 q0, d7, d21
 
-        vadd.s32        d0, d1, d0
-        vrev64.32       d0, d0
-        vst1.s32        {d0}, [r1]
-        bx              lr
+        vadd.s32 d0, d1, d0
+        vrev64.32 d0, d0
+        vst1.s32 {d0}, [r1]
+        bx      lr
 endfunc
 
 const qmf_coeffs, align=4
-        .hword          3
-        .hword          -11
-        .hword          -11
-        .hword          53
-        .hword          12
-        .hword          -156
-        .hword          32
-        .hword          362
-        .hword          -210
-        .hword          -805
-        .hword          951
-        .hword          3876
-        .hword          3876
-        .hword          951
-        .hword          -805
-        .hword          -210
-        .hword          362
-        .hword          32
-        .hword          -156
-        .hword          12
-        .hword          53
-        .hword          -11
-        .hword          -11
-        .hword          3
+        .hword  3
+        .hword  -11
+        .hword  -11
+        .hword  53
+        .hword  12
+        .hword  -156
+        .hword  32
+        .hword  362
+        .hword  -210
+        .hword  -805
+        .hword  951
+        .hword  3876
+        .hword  3876
+        .hword  951
+        .hword  -805
+        .hword  -210
+        .hword  362
+        .hword  32
+        .hword  -156
+        .hword  12
+        .hword  53
+        .hword  -11
+        .hword  -11
+        .hword  3
 endconst

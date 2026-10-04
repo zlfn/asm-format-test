@@ -10,14 +10,14 @@ EXTERN l0__fmemopen__callee
 
 __fmemopen_:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
 
-   jp l0__fmemopen__callee
+        push    de
+        push    bc
+        push    hl
+        push    af
+
+        jp      l0__fmemopen__callee

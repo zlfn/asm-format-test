@@ -1,9 +1,8 @@
 
+        SECTION code_graphics
+        PUBLIC  w_pixeladdress
 
-    SECTION code_graphics
-    PUBLIC  w_pixeladdress
-
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 ;
 ;       $Id: w_pixladdr.asm $
 ;
@@ -21,7 +20,6 @@
 ;  ..bc..../ixiy same
 ;  af..dehl/.... different
 
-
 ; Northstar Advantage needs two memory pages, a big 16K one and a 4K slice for the rightmost display portion.
 ; It is organized in 80 columnns of 256 bytes each, only 240 are visible at once (depending on the scroll register at address 090h).
 
@@ -37,51 +35,50 @@
 
 w_pixeladdress:
 
-    ; HL = x, DE = y
-    
-    push    bc
+        ; HL = x, DE = y
 
-    ; save x for bit index
-    ld      a,l
-    push    af
+        push    bc
 
-    ld      a,h
-    sub     2
+        ; save x for bit index
+        ld      a, l
+        push    af
 
-    ld      a,0x81
-    jr      nc,right_side
+        ld      a, h
+        sub     2
 
-    dec     a
+        ld      a,  0x81
+        jr      nc, right_side
+
+        dec     a
 
 right_side:
-    out     (0xA1),a
+        out     (0xA1), a
 
+        ; --- compute x / 8
+        ld      a, h
+        or      2
+        srl     a
+        rr      l
+        srl     a
+        rr      l
+        srl     a
+        rr      l       ; HL = x/8
 
-    ; --- compute x / 8
-    ld      a,h
-    or      2
-    srl     a
-    rr      l
-    srl     a
-    rr      l
-    srl     a
-    rr      l          ; HL = x/8
+        ; --- HL = (x/8) * 256
+        ld      h, l
+        ld      l, 0
 
-    ; --- HL = (x/8) * 256
-    ld      h,l
-    ld      l,0
+        ; Add  Y
+        add     hl, de
 
-    ; Add  Y
-    add     hl, de
+        ; return in DE also
+        ld      d, h
+        ld      e, l
 
-    ; return in DE also
-    ld      d, h
-    ld      e, l
+        ; --- bit calc
+        pop     af
+        and     @00000111
+        xor     @00000111
+        pop     bc
 
-    ; --- bit calc
-    pop     af
-    and     @00000111
-    xor     @00000111
-    pop     bc
-
-    ret
+        ret

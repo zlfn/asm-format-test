@@ -15,30 +15,30 @@ PUBLIC SP1MakeRect16
 
 .SP1MakeRect16
 
-   ld b,(hl)
-   inc hl
-   ld a,(hl)
-   inc hl
-   ld (de),a
-   inc de
-   xor a
-   ld (de),a
-   inc de
-   ld a,(hl)
-   ld (de),a
-   inc de
-   xor a
-   ld (de),a
-   inc de
-   ld a,b
-   ld (de),a
-   inc de
-   xor a
-   ld (de),a
-   inc de
-   ld a,(hl)
-   ld (de),a
-   inc de
-   xor a
-   ld (de),a
-   ret
+        ld      b, (hl)
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        ld      (de), a
+        inc     de
+        xor     a
+        ld      (de), a
+        inc     de
+        ld      a,    (hl)
+        ld      (de), a
+        inc     de
+        xor     a
+        ld      (de), a
+        inc     de
+        ld      a,    b
+        ld      (de), a
+        inc     de
+        xor     a
+        ld      (de), a
+        inc     de
+        ld      a,    (hl)
+        ld      (de), a
+        inc     de
+        xor     a
+        ld      (de), a
+        ret

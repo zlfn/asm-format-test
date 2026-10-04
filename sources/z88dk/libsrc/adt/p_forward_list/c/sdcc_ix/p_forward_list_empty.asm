@@ -10,10 +10,10 @@ EXTERN asm_p_forward_list_empty
 
 _p_forward_list_empty:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_p_forward_list_empty
+        push    hl
+        push    af
+
+        jp      asm_p_forward_list_empty

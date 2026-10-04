@@ -10,12 +10,12 @@ EXTERN l0_dup2_callee
 
 _dup2:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
 
-   jp l0_dup2_callee
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_dup2_callee

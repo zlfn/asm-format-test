@@ -10,9 +10,9 @@ EXTERN asm_ioctl
 
 _ioctl:
 
-   push ix
-   
-   call asm_ioctl
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_ioctl
+
+        pop     ix
+        ret

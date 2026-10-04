@@ -42,65 +42,64 @@ SECTION code_fp_math32
 
 PUBLIC m32_sqr_32h_24x24
 
-
 .m32_sqr_32h_24x24
 
-    ld h,l                      ; aa:bc
-    push hl                     ; aa on stack
-    ld l,d                      ; ab:bc
-    push hl                     ; ab on stack
-    ld d,h                      ; ab:ac
-    ld h,l                      ; bb:ac
-    push hl                     ; bb on stack
-    push de                     ; ac on stack
-    ld l,e                      ; bc:ac
+        ld      h, l    ; aa:bc
+        push    hl      ; aa on stack
+        ld      l, d    ; ab:bc
+        push    hl      ; ab on stack
+        ld      d, h    ; ab:ac
+        ld      h, l    ; bb:ac
+        push    hl      ; bb on stack
+        push    de      ; ac on stack
+        ld      l, e    ; bc:ac
 
-    mlt hl                      ; b*c 2^8
+        mlt     hl      ; b*c 2^8
 
-    xor a
-    add hl,hl                   ; 2*b*c 2^8
-    adc a,a
+        xor     a
+        add     hl, hl  ; 2*b*c 2^8
+        adc     a,  a
 
-    ld c,h                      ; put 2^8 in bc
-    ld b,a
+        ld      c, h    ; put 2^8 in bc
+        ld      b, a
 
-    pop hl                      ; ac
-    pop de                      ; bb
-    mlt hl                      ; a*c 2^16
-    mlt de                      ; b*b 2^16
+        pop     hl      ; ac
+        pop     de      ; bb
+        mlt     hl      ; a*c 2^16
+        mlt     de      ; b*b 2^16
 
-    xor a
-    add hl,hl                   ; 2*a*c 2^16
-    adc a,a
-    add hl,de
-    adc a,0
-    add hl,bc
-    adc a,0
+        xor     a
+        add     hl, hl  ; 2*a*c 2^16
+        adc     a,  a
+        add     hl, de
+        adc     a,  0
+        add     hl, bc
+        adc     a,  0
 
-    ld c,h                      ; put 2^16 in bc
-    ld b,a
+        ld      c, h    ; put 2^16 in bc
+        ld      b, a
 
-    pop de                      ; ab
-    mlt de                      ; a*b 2^24
+        pop     de      ; ab
+        mlt     de      ; a*b 2^24
 
-    ex de,hl                    ; l into e
-    
-    xor a
-    add hl,hl                   ; 2*a*b 2^24
-    adc a,a
-    add hl,bc
-    adc a,0
+        ex      de, hl  ; l into e
 
-    ld c,e                      ; l into c
-    ld b,l
-    ld l,h
-    ld h,a
+        xor     a
+        add     hl, hl  ; 2*a*b 2^24
+        adc     a,  a
+        add     hl, bc
+        adc     a,  0
 
-    pop de                      ; aa
-    mlt de                      ; a*a 2^32
+        ld      c, e    ; l into c
+        ld      b, l
+        ld      l, h
+        ld      h, a
 
-    add hl,de
-    ld de,bc                    ; exit  : HLDE  = 32-bit product
-    ret
+        pop     de      ; aa
+        mlt     de      ; a*a 2^32
+
+        add     hl, de
+        ld      de, bc  ; exit  : HLDE  = 32-bit product
+        ret
 
 ENDIF

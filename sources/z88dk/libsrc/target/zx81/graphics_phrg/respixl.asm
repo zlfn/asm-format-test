@@ -11,40 +11,39 @@
 ;	$Id: respixl.asm $
 ;
 
-    MODULE  respixel
+        MODULE  respixel
 
-    SECTION code_clib
-    PUBLIC  respixel
+        SECTION code_clib
+        PUBLIC  respixel
 
-    EXTERN  pixeladdress
-    EXTERN  __gfx_coords
-    EXTERN  pix_return
+        EXTERN  pixeladdress
+        EXTERN  __gfx_coords
+        EXTERN  pix_return
 
-    INCLUDE "classic/gfx/grafix.inc"
-
+        INCLUDE "classic/gfx/grafix.inc"
 
 respixel:
-    ld      a, h
-    cp      _GFX_MAXX
-    ret     nc                          ; x0        out of range
+        ld      a, h
+        cp      _GFX_MAXX
+        ret     nc      ; x0        out of range
 
-    ld      a, l
-    cp      _GFX_MAXY
-    ret     nc                          ; y0        out of range
+        ld      a, l
+        cp      _GFX_MAXY
+        ret     nc      ; y0        out of range
 
-    ld      (__gfx_coords), hl
+        ld      (__gfx_coords), hl
 
-    push    bc
-    call    pixeladdress
-    ld      b, a
-    ld      a, 1
-    jr      z, reset_pixel              ; pixel is at bit 0...
+        push    bc
+        call    pixeladdress
+        ld      b, a
+        ld      a, 1
+        jr      z, reset_pixel  ; pixel is at bit 0...
 reset_position:
-    rlca
-    djnz    reset_position
-    pop     bc
+        rlca
+        djnz    reset_position
+        pop     bc
 
 reset_pixel:
-    cpl
-    and     (hl)
-    jp      pix_return
+        cpl
+        and     (hl)
+        jp      pix_return

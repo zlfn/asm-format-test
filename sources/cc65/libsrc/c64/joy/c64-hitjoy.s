@@ -14,11 +14,10 @@
         .macpack generic
         .macpack module
 
-
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _c64_hitjoy_joy
+        module_header _c64_hitjoy_joy
 
 ; Driver signature
 
@@ -46,8 +45,8 @@ JOY_COUNT       = 4             ; Number of joysticks we support
 
 .bss
 
-temp3:  .byte 0
-temp4:  .byte 0
+temp3:  .byte   0
+temp4:  .byte   0
 
 .code
 
@@ -90,32 +89,32 @@ readadapter:
         sei
 
         ; cia 2 setup
-        ldy     #$00            ; port b direction
-        sty     $dd03           ; => input
+        ldy     #$00    ; port b direction
+        sty     $dd03   ; => input
 
-        sty     $dd05           ; cia2 timer a highbyte
-        sty     $dc05           ; cia1 timer a highbyte
+        sty     $dd05   ; cia2 timer a highbyte
+        sty     $dc05   ; cia1 timer a highbyte
         iny
-        sty     $dd04           ; cia2 timer a lowbyte
-        sty     $dc04           ; cia1 timer a lowbyte
+        sty     $dd04   ; cia2 timer a lowbyte
+        sty     $dc04   ; cia1 timer a lowbyte
 
         lda     #%00010001
-        sta     $dd0e           ; control register a
-                                ; timer: start
-                                ;        continuous
-                                ;        forced load
-                                ; serial port: input
+        sta     $dd0e   ; control register a
+                        ; timer: start
+                        ;        continuous
+                        ;        forced load
+                        ; serial port: input
 
         ; cia 1 setup
         lda     #%01010001
-        sta     $dc0e           ; control register a
-                                ; timer: start
-                                ;        continuous
-                                ;        forced load
-                                ; serial port: output
+        sta     $dc0e   ; control register a
+                        ; timer: start
+                        ;        continuous
+                        ;        forced load
+                        ; serial port: output
 
         ; read directions 3
-        lda     $dd01           ;read cia 2 port b
+        lda     $dd01   ;read cia 2 port b
         and     #$0f
         sta     temp3
 
@@ -132,7 +131,7 @@ readadapter:
         sta     temp3
 
         ; read directions 4
-        lda     $dd01           ;read cia 2 port b
+        lda     $dd01   ;read cia 2 port b
         lsr     a
         lsr     a
         lsr     a
@@ -140,13 +139,13 @@ readadapter:
         sta     temp4
 
         ; read button 4
-        ldx     #$ff            ;serial data register
-        stx     $dc0c           ;=> writing $ff causes
-                                ;cia to output some
-                                ;count signals at cnt1
+        ldx     #$ff    ;serial data register
+        stx     $dc0c   ;=> writing $ff causes
+                        ;cia to output some
+                        ;count signals at cnt1
 
-        ldx     $dd0c           ;read cia 2 serial in
-        beq     fire            ;button press if zero
+        ldx     $dd0c   ;read cia 2 serial in
+        beq     fire    ;button press if zero
 
         lda     temp4
         ora     #%00010000
@@ -167,27 +166,27 @@ fire:
 
 READ:
         pha
-        jsr readadapter
+        jsr     readadapter
         pla
 
-        tax            ; Joystick number into X
-        bne joy2
+        tax     ; Joystick number into X
+        bne     joy2
 
 ; Read joystick 1
 
-joy1:   lda #$7F
+joy1:   lda     #$7F
         sei
-        sta CIA1_PRA
-        lda CIA1_PRB
+        sta     CIA1_PRA
+        lda     CIA1_PRB
         cli
-        and #$1F
-        eor #$1F
+        and     #$1F
+        eor     #$1F
         rts
 
 ; Read joystick 2
 
 joy2:   dex
-        bne joy3
+        bne     joy3
 
         ; ldx   #0
         lda     #$E0

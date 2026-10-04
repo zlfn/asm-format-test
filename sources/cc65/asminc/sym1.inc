@@ -4,9 +4,7 @@
 ;
 ; ---------------------------------------------------------------------------
 
-
 RAMSTART := $0200     ; Entry point
-
 
 ; ---------------------------------------------------------------------------
 ; Monitor Functions
@@ -40,7 +38,6 @@ DUMPT    := $8E87     ; Dump memory to tape
 LOADT    := $8C78     ; Load memory from tape
 TAPEMODE := $00FD     ; Top bit on for high-speed
 
-
 ; ---------------------------------------------------------------------------
 ; System Memory
 ; ---------------------------------------------------------------------------
@@ -70,7 +67,6 @@ TV       := $A656     ; Trace Velocity (0=Single Step)
 LSTCOM   := $A657     ; Last Monitor Command
 MAXRC    := $A658     ; Maximum Record Length for Memory Dump
 
-
 ; ---------------------------------------------------------------------------
 ; Register Followers
 ; ---------------------------------------------------------------------------
@@ -82,7 +78,6 @@ AR       := $A65D     ; A Register
 XR       := $A65E     ; X Register
 YR       := $A65F     ; Y Register
 
-
 ; ---------------------------------------------------------------------------
 ; I/O Vectors (3 bytes each)
 ; ---------------------------------------------------------------------------
@@ -92,7 +87,6 @@ INSVEC   := $A666     ; Input Status
 URSVEC   := $A669     ; Unrecognized Syntax
 URCVEC   := $A66C     ; Unrecognized Command / Error
 SCNVEC   := $A66F     ; Scan On-board Display
-
 
 ; ---------------------------------------------------------------------------
 ; Trace and Interrupt Vectors (2 bytes each)
@@ -104,7 +98,6 @@ UIRQVC   := $A678     ; User non-break IRQ after Monitor
 NMIVEC   := $A67A     ; Non-Maskable Interrupt
 RSTVEC   := $A67C     ; Reset
 IRQVEC   := $A67E     ; Interrupt Request
-
 
 ; ---------------------------------------------------------------------------
 ; I/O Registers

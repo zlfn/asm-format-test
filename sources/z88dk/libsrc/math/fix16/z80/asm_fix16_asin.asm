@@ -1,7 +1,7 @@
 
-    SECTION code_clib
-    
-    PUBLIC  asm_fix16_asin
-    EXTERN  _fix16_asin
+        SECTION code_clib
 
-    defc    asm_fix16_asin = _fix16_asin
+        PUBLIC  asm_fix16_asin
+        EXTERN  _fix16_asin
+
+        defc    asm_fix16_asin = _fix16_asin

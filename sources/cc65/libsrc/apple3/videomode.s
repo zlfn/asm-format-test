@@ -3,13 +3,13 @@
 ;
 ; signed char __fastcall__ videomode (unsigned mode);
 ;
-        .export  _videomode
-        .import  putcdirect, consvpwidth, consvpheight
+        .export _videomode
+        .import putcdirect, consvpwidth, consvpheight
 
-        .include        "apple3.inc"
+        .include "apple3.inc"
 
 _videomode:
-        pha                         ; Save mode
+        pha     ; Save mode
         ldy     #80
         cmp     #VIDEOMODE_80x24
         beq     :+

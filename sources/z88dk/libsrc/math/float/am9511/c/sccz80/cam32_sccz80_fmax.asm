@@ -15,24 +15,24 @@ ELSE
 
 EXTERN asm_sccz80_read1, asm_sccz80_readl, asm_am9511_compare_sccz80
 
-    ; maximum of two sccz80 floats
-    ;
-    ; enter : stack = sccz80_float left, sccz80_float right, ret
-    ;
-    ; exit  : stack = sccz80_float left, sccz80_float right, ret
-    ;          DEHL = sccz80_float
-    ;
-    ; uses  : af, bc, de, hl, af', bc', de', hl'
+        ; maximum of two sccz80 floats
+        ;
+        ; enter : stack = sccz80_float left, sccz80_float right, ret
+        ;
+        ; exit  : stack = sccz80_float left, sccz80_float right, ret
+        ;          DEHL = sccz80_float
+        ;
+        ; uses  : af, bc, de, hl, af', bc', de', hl'
 
 .cam32_sccz80_fmax
-    call asm_am9511_compare_sccz80  ; compare two floats on the stack
-    jp NC,left
-    call  asm_sccz80_read1  ; enter  stack = sccz80_float left, sccz80_float right, ret
-    ret                     ; return stack = sccz80_float left, sccz80_float right, ret
-                            ;         DEHL = sccz80_float max
+        call    asm_am9511_compare_sccz80       ; compare two floats on the stack
+        jp      NC, left
+        call    asm_sccz80_read1                ; enter  stack = sccz80_float left, sccz80_float right, ret
+        ret                                     ; return stack = sccz80_float left, sccz80_float right, ret
+                                                ;         DEHL = sccz80_float max
 
 .left
-    call asm_sccz80_readl
-    ret
+        call    asm_sccz80_readl
+        ret
 
 ENDIF

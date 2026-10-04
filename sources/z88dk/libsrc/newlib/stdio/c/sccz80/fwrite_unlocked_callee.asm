@@ -10,10 +10,10 @@ EXTERN asm_fwrite_unlocked
 
 fwrite_unlocked_callee:
 
-   pop hl
-   pop ix
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   jp asm_fwrite_unlocked
+        pop     hl
+        pop     ix
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_fwrite_unlocked

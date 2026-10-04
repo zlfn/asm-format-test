@@ -25,31 +25,31 @@
 ; ---------------------------------------------------------------------------
 ; A little light 6502 housekeeping
 
-_init:    ldx     #$FF          ; Initialize stack pointer to $01FF
-          txs
-          cld                   ; Clear decimal mode
+_init:  ldx     #$FF    ; Initialize stack pointer to $01FF
+        txs
+        cld             ; Clear decimal mode
 
 ; ---------------------------------------------------------------------------
 ; Set cc65 argument stack pointer
 
-          lda     #<(__MAIN_START__ + __MAIN_SIZE__  + __STACKSIZE__)
-          ldx     #>(__MAIN_START__ + __MAIN_SIZE__  + __STACKSIZE__)
-          sta     c_sp
-          stx     c_sp+1
+        lda     #<(__MAIN_START__ + __MAIN_SIZE__  + __STACKSIZE__)
+        ldx     #>(__MAIN_START__ + __MAIN_SIZE__  + __STACKSIZE__)
+        sta     c_sp
+        stx     c_sp+1
 
 ; ---------------------------------------------------------------------------
 ; Initialize memory storage
 
-          jsr     zerobss       ; Clear BSS segment
-          jsr     initlib       ; Run constructors
+        jsr     zerobss ; Clear BSS segment
+        jsr     initlib ; Run constructors
 
 ; ---------------------------------------------------------------------------
 ; Call main()
 
-          jsr     _main
+        jsr     _main
 
 ; ---------------------------------------------------------------------------
 ; Back from main (this is also the _exit entry):
 
-_exit:    jsr     donelib       ; Run destructors
-          jmp     RESET         ; Display boot menu after program exit
+_exit:  jsr     donelib ; Run destructors
+        jmp     RESET   ; Display boot menu after program exit

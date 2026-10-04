@@ -16,18 +16,17 @@ EXTERN asm_NIRVANAM_readC
 
 NIRVANAM_readC_callee:
 
-        pop hl          ; RET address
-        pop de          ; col
-        pop bc
-        ld d,c          ; lin
-        pop bc          ; attrs
-        push hl
+        pop     hl      ; RET address
+        pop     de      ; col
+        pop     bc
+        ld      d, c    ; lin
+        pop     bc      ; attrs
+        push    hl
 
-	jp asm_NIRVANAM_readC
+        jp      asm_NIRVANAM_readC
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _NIRVANAM_readC_callee
 defc _NIRVANAM_readC_callee = NIRVANAM_readC_callee
 ENDIF
-

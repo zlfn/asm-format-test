@@ -10,10 +10,10 @@ EXTERN asm_b_vector_shrink_to_fit
 
 _b_vector_shrink_to_fit:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_b_vector_shrink_to_fit
+        push    hl
+        push    af
+
+        jp      asm_b_vector_shrink_to_fit

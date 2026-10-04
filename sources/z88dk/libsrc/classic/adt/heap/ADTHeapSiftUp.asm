@@ -13,40 +13,40 @@ EXTERN l_jpix
 ; uses :  AF,DE,HL,AF'
 
 .ADTHeapSiftUp
-   ld a,e
-   and $fc
-   or d
-   ret z                  ; if start <= 2 we have reached root so return
+        ld      a, e
+        and     $fc
+        or      d
+        ret     z       ; if start <= 2 we have reached root so return
 
-   srl d
-   rr e
-   res 0,e
-   push de                ; stack = parent(child=start) index
-   ex de,hl               ; de = &array[child=start]
-   add hl,bc              ; hl = &array[parent]
+        srl     d
+        rr      e
+        res     0, e
+        push    de      ; stack = parent(child=start) index
+        ex      de, hl  ; de = &array[child=start]
+        add     hl, bc  ; hl = &array[parent]
 
-   call l_jpix            ; compare(child, parent)
-   jr nc, done            ; if child >= parent, we are done
+        call    l_jpix          ; compare(child, parent)
+        jr      nc, done        ; if child >= parent, we are done
 
-   ld a,(de)              ; swap(child, parent)
-   ex af,af
-   ld a,(hl)
-   ld (de),a
-   ex af,af
-   ld (hl),a
-   inc hl
-   inc de
-   ld a,(de)
-   ex af,af
-   ld a,(hl)
-   ld (de),a
-   ex af,af
-   ld (hl),a
+        ld      a,    (de)      ; swap(child, parent)
+        ex      af,   af
+        ld      a,    (hl)
+        ld      (de), a
+        ex      af,   af
+        ld      (hl), a
+        inc     hl
+        inc     de
+        ld      a,    (de)
+        ex      af,   af
+        ld      a,    (hl)
+        ld      (de), a
+        ex      af,   af
+        ld      (hl), a
 
-   dec hl                 ; hl = &array[parent]
-   pop de                 ; de = parent index
-   jp ADTHeapSiftUp       ; parent becomes child
+        dec     hl              ; hl = &array[parent]
+        pop     de              ; de = parent index
+        jp      ADTHeapSiftUp   ; parent becomes child
 
 .done
-   pop de
-   ret
+        pop     de
+        ret

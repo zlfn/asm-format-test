@@ -38,60 +38,59 @@ PUBLIC m32_derror_erange_infc
 PUBLIC m32_derror_erange_ninfc
 PUBLIC m32_derror_erange_pinfc
 
-
 .m32_derror_zc
-    call m32_fsconst_pzero
-    scf
-    ret
+        call    m32_fsconst_pzero
+        scf
+        ret
 
 .m32_derror_onc
-    call m32_fsconst_one
-    scf
-    ret
+        call    m32_fsconst_one
+        scf
+        ret
 
 .m32_derror_znc
-    call m32_fsconst_pzero
-    or a                            ; NC
-    ret
+        call    m32_fsconst_pzero
+        or      a       ; NC
+        ret
 
 .m32_derror_nanc
-    call m32_fsconst_pnan
-    scf
-    ret
+        call    m32_fsconst_pnan
+        scf
+        ret
 
 .m32_derror_nannc
-    call m32_fsconst_pnan
-    or a
-    ret
+        call    m32_fsconst_pnan
+        or      a
+        ret
 
 .m32_derror_infnc
-    call m32_fsconst_pinf
-    or a
-    ret
+        call    m32_fsconst_pinf
+        or      a
+        ret
 
 .m32_derror_ninfnc
-    call m32_fsconst_ninf
-    or a
-    ret
+        call    m32_fsconst_ninf
+        or      a
+        ret
 
 .m32_derror_pinfnc
-    call m32_fsconst_pinf
-    or a
-    ret
+        call    m32_fsconst_pinf
+        or      a
+        ret
 
 .m32_derror_edom_infc
-    call m32_fsconst_pinf
-    ret                             ; C undefined / as left by const
+        call    m32_fsconst_pinf
+        ret     ; C undefined / as left by const
 
 .m32_derror_edom_ninfc
-    call m32_fsconst_ninf
-    scf
-    ret
+        call    m32_fsconst_ninf
+        scf
+        ret
 
 .m32_derror_edom_pinfc
-    call m32_fsconst_pinf
-    scf
-    ret
+        call    m32_fsconst_pinf
+        scf
+        ret
 
 defc m32_derror_edom_zc = m32_derror_zc
 defc m32_derror_einval_zc = m32_derror_zc

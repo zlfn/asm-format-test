@@ -4,10 +4,10 @@
 ; Banking routines for the 510.
 ;
 
-        .export         set_bank, sys_bank, restore_bank
-        .importzp       ptr1, segsave
+        .export set_bank, sys_bank, restore_bank
+        .importzp ptr1, segsave
 
-        .include        "cbm510.inc"
+        .include "cbm510.inc"
 
 .code
 

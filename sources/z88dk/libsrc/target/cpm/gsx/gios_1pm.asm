@@ -17,11 +17,11 @@ EXTERN asm_gios_1pm
 gios_1pm:
 _gios_1pm:
 
-   pop af
-   pop de
-   pop bc
-   push bc
-   push de
-   push af
-   
-   jp asm_gios_1pm
+        pop     af
+        pop     de
+        pop     bc
+        push    bc
+        push    de
+        push    af
+
+        jp      asm_gios_1pm

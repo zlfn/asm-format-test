@@ -8,27 +8,26 @@
 ;	$Id: ulaplus_set.asm,v 1.3 2016-06-10 21:14:23 dom Exp $
 ;
 
-
-    SECTION code_clib
-    PUBLIC  ulaplus_set
-    PUBLIC  _ulaplus_set
-    INCLUDE "target/zx/def/zxports.h"
+        SECTION code_clib
+        PUBLIC  ulaplus_set
+        PUBLIC  _ulaplus_set
+        INCLUDE "target/zx/def/zxports.h"
 
 ulaplus_set:
 _ulaplus_set:
-    pop     bc
-    pop     de
-    pop     hl
-    push    hl
-    push    de
-    push    bc
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
 
-    ld      bc, __IO_ULAP_REGISTER
-    ld      a, l
-    and     63                          ; mask to be sure we're setting the palette
-    out     (c), a
+        ld      bc, __IO_ULAP_REGISTER
+        ld      a,  l
+        and     63      ; mask to be sure we're setting the palette
+        out     (c), a
 
-    ld      b, +(__IO_ULAP_DATA / 256)
-    ld      a, e
-    out     (c), a
-    ret
+        ld      b,   +(__IO_ULAP_DATA / 256)
+        ld      a,   e
+        out     (c), a
+        ret

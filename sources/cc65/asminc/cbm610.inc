@@ -6,7 +6,6 @@
 ; 1998-09-28, Ullrich von Bassewitz
 ; 2014-04-02, Greg King
 
-
 ; ---------------------------------------------------------------------------
 ; Zeropage stuff
 
@@ -28,14 +27,12 @@ YSIZE           = 25
 ; ---------------------------------------------------------------------------
 ; I/O definitions
 
-
 ; I/O  $d800: CRTC 6545
 
 .struct CRTC
         ADDR    .byte
         DATA    .byte
 .endstruct
-
 
 ; I/O  $db00: CIA 6526, Inter Process Communication
 ;
@@ -47,18 +44,18 @@ YSIZE           = 25
         DDRA    .byte
         DDRB    .byte
         .union
-            .struct
-                TALO    .byte
-                TAHI    .byte
-            .endstruct
-            TA          .word
+        .struct
+        TALO    .byte
+        TAHI    .byte
+        .endstruct
+        TA      .word
         .endunion
         .union
-            .struct
-                TBLO    .byte
-                TBHI    .byte
-            .endstruct
-            TB          .word
+        .struct
+        TBLO    .byte
+        TBHI    .byte
+        .endstruct
+        TB      .word
         .endunion
         TOD10   .byte
         TODSEC  .byte
@@ -70,11 +67,9 @@ YSIZE           = 25
         CRB     .byte
 .endstruct
 
-
 ; I/O  $dc00: CIA 6526
 ;
 ;       cia             =       $dc00
-
 
 ; I/O  $dd00: ACIA 6551
 ;
@@ -87,7 +82,6 @@ YSIZE           = 25
         CTRL    .BYTE
 .endstruct
 
-
 ; I/O  $de00: Triport #1 6525
 ;
 ;       tpi1            =       $de00
@@ -96,24 +90,22 @@ YSIZE           = 25
         PRA     .byte
         PRB     .byte
         .union
-                PRC     .byte
-                INT     .byte
+        PRC     .byte
+        INT     .byte
         .endunion
         DDRA    .byte
         DDRB    .byte
         .union
-                DDRC    .byte
-                IMR     .byte
+        DDRC    .byte
+        IMR     .byte
         .endunion
         CR      .byte
         AIR     .byte
 .endstruct
 
-
 ; I/O  $df00: Triport #2 6525
 
 ;       tpi2            =       $df00
-
 
 ;-----------------------------------------------------------------------------
 

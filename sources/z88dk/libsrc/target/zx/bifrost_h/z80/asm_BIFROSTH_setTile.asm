@@ -16,14 +16,14 @@ asm_BIFROSTH_setTile:
 ; L=px
 ; C=py
 ; E=tile
-        ld a,l
-        add a,a
-        add a,a
-        add a,a
-        add a,l         ; A=px*9
-        add a,c         ; A=px*9+py
-        inc a           ; instead of: add a,_BIFROST_tilemap%256
-        ld l,a
-        ld h,_BIFROSTH_tilemap/256
-        ld (hl),e
+        ld      a, l
+        add     a, a
+        add     a, a
+        add     a, a
+        add     a, l    ; A=px*9
+        add     a, c    ; A=px*9+py
+        inc     a       ; instead of: add a,_BIFROST_tilemap%256
+        ld      l,    a
+        ld      h,    _BIFROSTH_tilemap/256
+        ld      (hl), e
         ret

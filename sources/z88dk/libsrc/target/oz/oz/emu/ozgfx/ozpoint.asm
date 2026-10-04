@@ -19,11 +19,9 @@
 
         EXTERN  ozpointcolor
 
-
-
 ozpoint:
 _ozpoint:
-        push    ix                      ;save callers
+        push    ix      ;save callers
         ld      ix, 2
         add     ix, sp
         call    ozpointcolor

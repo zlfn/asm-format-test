@@ -8,14 +8,14 @@ EXTERN l0_esx_f_readdir_callee
 
 _esx_f_readdir:
 
-   pop de
-   dec sp
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   inc sp
-   push de
+        pop     de
+        dec     sp
+        pop     af
+        pop     hl
 
-   jp l0_esx_f_readdir_callee
+        push    hl
+        push    af
+        inc     sp
+        push    de
+
+        jp      l0_esx_f_readdir_callee

@@ -16,20 +16,20 @@ EXTERN l0_fread_callee
 
 _fread:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   exx
-   pop bc
-   
-   push bc
-   push hl
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
+        exx
+        pop     bc
 
-   jp l0_fread_callee
+        push    bc
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        jp      l0_fread_callee
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -40,7 +40,7 @@ PUBLIC _fread
 EXTERN _fread_unlocked
 
 defc _fread = _fread_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

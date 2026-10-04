@@ -21,26 +21,26 @@ mm48__comser:
 ;hvor X er i AC, n er i A, og adressen paa
 ;konstanterne (minus 6) i IX.
 
-   exx
-   
-   push bc                     ;save X
-   push de
-   push hl
-   
-   push af                     ;save loop count
-   
-   call mm48_equal
-   call mm48_fpmul
-   
-   pop af                      ;restore loop count
-   
-   ; AC = X
-   ; AC'= X*X
-   
-   call mm48__calcs            ;AC'= result
-   
-   pop hl
-   pop de
-   pop bc                      ;AC = X
-   
-   jp mm48_fpmul
+        exx
+
+        push    bc      ;save X
+        push    de
+        push    hl
+
+        push    af      ;save loop count
+
+        call    mm48_equal
+        call    mm48_fpmul
+
+        pop     af      ;restore loop count
+
+        ; AC = X
+        ; AC'= X*X
+
+        call    mm48__calcs     ;AC'= result
+
+        pop     hl
+        pop     de
+        pop     bc      ;AC = X
+
+        jp      mm48_fpmul

@@ -9,10 +9,10 @@ EXTERN asm_sms_vdp_set_read_address
 
 _sms_vdp_set_read_address:
 
-   pop af
-   pop hl
+        pop     af
+        pop     hl
 
-   push hl
-   push af
+        push    hl
+        push    af
 
-   jp asm_sms_vdp_set_read_address
+        jp      asm_sms_vdp_set_read_address

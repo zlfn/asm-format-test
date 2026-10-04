@@ -12,9 +12,9 @@
 ; to ENOMEM when trying to increase the number beyond this limit.
 ;
 
-        .export         __environ, __envcount, __envsize
-        .import         initenv
-        .constructor    env_init
+        .export __environ, __envcount, __envsize
+        .import initenv
+        .constructor env_init
 
         env_init := initenv
 

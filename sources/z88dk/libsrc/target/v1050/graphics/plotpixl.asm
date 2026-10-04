@@ -11,10 +11,9 @@
 ;	$Id: plotpixl.asm $
 ;
 
-
-    SECTION code_graphics
-    PUBLIC  plotpixel
+        SECTION code_graphics
+        PUBLIC  plotpixel
 
 plotpixel:
-    defc    NEEDplot=1
-    INCLUDE "pixel6.inc"
+        defc    NEEDplot=1
+        INCLUDE "pixel6.inc"

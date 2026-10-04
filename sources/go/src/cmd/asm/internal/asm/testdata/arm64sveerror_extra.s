@@ -8,8 +8,8 @@
 #include "../../../../../runtime/textflag.h"
 
 TEXT asmtest(SB),DUPOK|NOSPLIT,$-8
-	// Only SP-relative byte offsets are materialized; GP-based byte
-	// offsets and the zero-offset (Rn) form remain unsupported.
-	ZSTR Z3, 8(R2)                     // ERROR "illegal combination from SVE"
-	ZLDR (R7), Z9                      // ERROR "illegal combination from SVE"
-	RET
+        // Only SP-relative byte offsets are materialized; GP-based byte
+        // offsets and the zero-offset (Rn) form remain unsupported.
+        ZSTR    Z3,   8(R2)     // ERROR "illegal combination from SVE"
+        ZLDR    (R7), Z9        // ERROR "illegal combination from SVE"
+        RET

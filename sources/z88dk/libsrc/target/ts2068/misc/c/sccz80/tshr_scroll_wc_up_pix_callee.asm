@@ -9,17 +9,16 @@ EXTERN asm0_tshr_scroll_wc_up_pix
 
 tshr_scroll_wc_up_pix_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop ix
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     ix
+        push    af
 
-   jp asm0_tshr_scroll_wc_up_pix
+        jp      asm0_tshr_scroll_wc_up_pix
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _tshr_scroll_wc_up_pix_callee
 defc _tshr_scroll_wc_up_pix_callee = tshr_scroll_wc_up_pix_callee
 ENDIF
-

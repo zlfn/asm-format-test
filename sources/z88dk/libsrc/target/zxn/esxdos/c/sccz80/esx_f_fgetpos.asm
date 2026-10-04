@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_f_fgetpos
 defc _esx_f_fgetpos = esx_f_fgetpos
 ENDIF
-

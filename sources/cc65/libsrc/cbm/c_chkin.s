@@ -4,16 +4,14 @@
 ; unsigned char __fastcall__ cbm_k_chkin (unsigned char FN);
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_k_chkin
-
+        .export _cbm_k_chkin
 
 _cbm_k_chkin:
         tax
         jsr     CHKIN
-        ldx     #0              ; Clear high byte
+        ldx     #0      ; Clear high byte
         bcs     @NotOk
         txa
 @NotOk: rts
-

@@ -1,32 +1,30 @@
 
-
-        .include    "cbm_kernal.inc"
-        .import     cursor
-        .export     _cgetc
+        .include "cbm_kernal.inc"
+        .import cursor
+        .export _cgetc
 _cgetc:
 
-        lda cursor
-        beq nocursor
+        lda     cursor
+        beq     nocursor
 
         ; enable the cursor
         clc
-        jsr CURSOR
+        jsr     CURSOR
 
 nocursor:
         ; wait for a key
-       ; FIXME: is $d610 mega65 specific?
+        ; FIXME: is $d610 mega65 specific?
 :
-        lda $d610
-        beq :-
+        lda     $d610
+        beq     :-
 
-        jsr KBDREAD
+        jsr     KBDREAD
 
         pha
         ; disable the cursor
         sec
-        jsr CURSOR
+        jsr     CURSOR
 
         pla
-        ldx #0
+        ldx     #0
         rts
-

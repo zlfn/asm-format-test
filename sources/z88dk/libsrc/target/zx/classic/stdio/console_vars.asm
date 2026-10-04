@@ -1,29 +1,27 @@
 
-    MODULE  console_vars
+        MODULE  console_vars
 
-    PUBLIC  __zx_screenmode
-    PUBLIC  __zx_gfxmode
-    PUBLIC  __zx_32col_udgs
-    PUBLIC  __zx_32col_font
-    PUBLIC  __zx_64col_font
-    PUBLIC  __zx_print_routine
+        PUBLIC  __zx_screenmode
+        PUBLIC  __zx_gfxmode
+        PUBLIC  __zx_32col_udgs
+        PUBLIC  __zx_32col_font
+        PUBLIC  __zx_64col_font
+        PUBLIC  __zx_print_routine
 
-    EXTERN  CRT_FONT
-    EXTERN  CRT_FONT_64
+        EXTERN  CRT_FONT
+        EXTERN  CRT_FONT_64
 
-
-    SECTION data_clib
+        SECTION data_clib
 
 __zx_32col_font:
-    defw    CRT_FONT
+        defw    CRT_FONT
 __zx_64col_font:
-    defw    CRT_FONT_64
+        defw    CRT_FONT_64
 __zx_32col_udgs:
-    defw    65368
+        defw    65368
 
 __zx_print_routine:
-    defw    0
-
+        defw    0
 
 ; TS2068 screen mode (values in gencon mode)
 ; 0 = use screen 0
@@ -37,14 +35,12 @@ __zx_print_routine:
 ; on +zx etc, the mode is the same for both console and graphics
 __zx_gfxmode:
 IF FORzxn
-    defb    0
+        defb    0
 ENDIF
 
 __zx_screenmode:
-  IF    FORsam
-    defb    3                           ;Mode 4 is the default mode
-  ELSE
-    defb    0                           ;If set TS2068 hrgmode is active
-  ENDIF
-
-
+        IF      FORsam
+                defb    3       ;Mode 4 is the default mode
+        ELSE
+                defb    0       ;If set TS2068 hrgmode is active
+        ENDIF

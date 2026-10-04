@@ -19,27 +19,27 @@ EXTERN asm_disk_write
 ;   hl = the address pointer to the buffer to read from
 
 _disk_write:
-    ld hl,9     ; get count into A
-    add hl,sp
-    ld a,(hl)
+        ld      hl, 9   ; get count into A
+        add     hl, sp
+        ld      a,  (hl)
 
-    dec hl      ; get LBA high into BC
-    ld b,(hl)
-    dec hl
-    ld c,(hl)
+        dec     hl      ; get LBA high into BC
+        ld      b, (hl)
+        dec     hl
+        ld      c, (hl)
 
-    dec hl      ; get LBA low onto stack
-    ld d,(hl)
-    dec hl
-    ld e,(hl)
-    push de
+        dec     hl      ; get LBA low onto stack
+        ld      d, (hl)
+        dec     hl
+        ld      e, (hl)
+        push    de
 
-    dec hl      ; get buffer * onto HL
-    ld d,(hl)
-    dec hl
-    ld e,(hl)
-    ex de,hl
+        dec     hl      ; get buffer * onto HL
+        ld      d, (hl)
+        dec     hl
+        ld      e,  (hl)
+        ex      de, hl
 
-    pop de      ; get LBA low from stack
+        pop     de      ; get LBA low from stack
 
-    jp asm_disk_write
+        jp      asm_disk_write

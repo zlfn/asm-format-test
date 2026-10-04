@@ -10,19 +10,19 @@ EXTERN asm_tshc_cls_wc_attr
 
 _tshc_cls_wc_attr_callee:
 
-   pop hl
-   pop de
-   dec sp
-   ex (sp),hl
-   
-   ld l,h
+        pop     hl
+        pop     de
+        dec     sp
+        ex      (sp), hl
+
+        ld      l, h
 
 l0_tshc_cls_wc_attr_callee:
 
-   push de
-   ex (sp),ix
+        push    de
+        ex      (sp), ix
 
-   call asm_tshc_cls_wc_attr
+        call    asm_tshc_cls_wc_attr
 
-   pop ix
-   ret
+        pop     ix
+        ret

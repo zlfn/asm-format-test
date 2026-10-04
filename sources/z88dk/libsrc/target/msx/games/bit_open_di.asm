@@ -7,12 +7,11 @@
 ; Stefano Bodrato - 3/12/2007
 ;
 
-    SECTION code_clib
-    PUBLIC  bit_open_di
-    PUBLIC  _bit_open_di
-    EXTERN  __snd_tick
-    EXTERN  __bit_irqstatus
-
+        SECTION code_clib
+        PUBLIC  bit_open_di
+        PUBLIC  _bit_open_di
+        EXTERN  __snd_tick
+        EXTERN  __bit_irqstatus
 
 ;Port 0AAh, PPI Port C - Keyboard Row,LED,Cassette (Read/Write)
 ;  Bit  Name   Expl.
@@ -22,18 +21,17 @@
 ;  6    CAPS   CAPS-LOCK lamp              (0=On, 1=Off)
 ;  7    SOUND  Keyboard klick bit          (Pulse)
 
-
 bit_open_di:
 _bit_open_di:
-    ld      a, i                        ; get the current status of the irq line
-    di
-    push    af
+        ld      a, i    ; get the current status of the irq line
+        di
+        push    af
 
-    ex      (sp), hl
-    ld      (__bit_irqstatus), hl
-    pop     hl
+        ex      (sp), hl
+        ld      (__bit_irqstatus), hl
+        pop     hl
 
-    di
-    ld      a, @11110000
-    ld      (__snd_tick), a
-    ret
+        di
+        ld      a, @11110000
+        ld      (__snd_tick), a
+        ret

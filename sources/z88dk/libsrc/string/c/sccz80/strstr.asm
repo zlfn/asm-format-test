@@ -10,20 +10,20 @@ EXTERN asm_strstr
 
 strstr:
 
-   pop bc
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push bc
+        pop     bc
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    bc
 IF __CLASSIC && __CPU_GBZ80__
-   call asm_strstr
-   ld d,h
-   ld e,l
-   ret
+        call    asm_strstr
+        ld      d, h
+        ld      e, l
+        ret
 ELSE
-   jp asm_strstr
+        jp      asm_strstr
 ENDIF
 
 ; SDCC bridge for Classic
@@ -32,10 +32,8 @@ PUBLIC _strstr
 defc _strstr = strstr
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___strstr
 defc ___strstr = strstr
 ENDIF
-

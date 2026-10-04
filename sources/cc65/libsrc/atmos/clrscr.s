@@ -3,10 +3,10 @@
 ; 2013-07-16, Greg King
 ;
 
-        .export         _clrscr
-        .importzp       ptr2
+        .export _clrscr
+        .importzp ptr2
 
-        .include        "atmos.inc"
+        .include "atmos.inc"
 
 ; ------------------------------------------------------------------------
 ; void clrscr (void);
@@ -30,16 +30,16 @@
 
         ldx     #>(SCREEN_YSIZE * SCREEN_XSIZE)
         lda     #' '
-@L1:    sta     (ptr2),y
-        iny                     ; Bump low byte of address
+@L1:    sta     (ptr2), y
+        iny             ; Bump low byte of address
         bne     @L1
-        inc     ptr2+1          ; Bump high byte of address
+        inc     ptr2+1  ; Bump high byte of address
         dex
         bne     @L1
 
 ; Clear the remaining page
 
-@L2:    sta     (ptr2),y
+@L2:    sta     (ptr2), y
         iny
         cpy     #<(SCREEN_YSIZE * SCREEN_XSIZE)
         bne     @L2

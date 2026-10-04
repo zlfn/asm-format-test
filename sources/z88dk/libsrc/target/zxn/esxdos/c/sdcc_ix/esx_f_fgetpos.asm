@@ -8,10 +8,10 @@ EXTERN asm_esx_f_fgetpos
 
 _esx_f_fgetpos:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_esx_f_fgetpos
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_esx_f_fgetpos

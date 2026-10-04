@@ -15,9 +15,9 @@
 
         .include "lynx.inc"
         .include "extzp.inc"
-        .export  lynxskip0, lynxread0
-        .export  lynxblock
-        .import  __BANK0BLOCKSIZE__
+        .export lynxskip0, lynxread0
+        .export lynxblock
+        .import __BANK0BLOCKSIZE__
 
         .code
 
@@ -27,11 +27,11 @@
 ;**********************************
 lynxskip0:
         inx
-        bne @0
+        bne     @0
         iny
-        beq exit
-@0:     jsr readbyte0
-        bra lynxskip0
+        beq     exit
+@0:     jsr     readbyte0
+        bra     lynxskip0
 
 ;**********************************
 ; Read bytes from bank 0
@@ -39,25 +39,25 @@ lynxskip0:
 ;**********************************
 lynxread0:
         inx
-        bne @1
+        bne     @1
         iny
-        beq exit
-@1:     jsr readbyte0
-        sta (_FileDestPtr)
-        inc _FileDestPtr
-        bne lynxread0
-        inc _FileDestPtr+1
-        bra lynxread0
+        beq     exit
+@1:     jsr     readbyte0
+        sta     (_FileDestPtr)
+        inc     _FileDestPtr
+        bne     lynxread0
+        inc     _FileDestPtr+1
+        bra     lynxread0
 
 ;**********************************
 ; Read one byte from cartridge
 ;**********************************
 readbyte0:
-        lda RCART0
-        inc _FileBlockByte
-        bne exit
-        inc _FileBlockByte+1
-        bne exit
+        lda     RCART0
+        inc     _FileBlockByte
+        bne     exit
+        inc     _FileBlockByte+1
+        bne     exit
 
 ;**********************************
 ; Select a block
@@ -66,33 +66,32 @@ lynxblock:
         pha
         phx
         phy
-        lda __iodat
-        and #$fc
+        lda     __iodat
+        and     #$fc
         tay
-        ora #2
+        ora     #2
         tax
-        lda _FileCurrBlock
-        inc _FileCurrBlock
+        lda     _FileCurrBlock
+        inc     _FileCurrBlock
         sec
-        bra @2
-@0:     bcc @1
-        stx IODAT
+        bra     @2
+@0:     bcc     @1
+        stx     IODAT
         clc
 @1:     inx
-        stx SYSCTL1
+        stx     SYSCTL1
         dex
-@2:     stx SYSCTL1
+@2:     stx     SYSCTL1
         rol
-        sty IODAT
-        bne @0
-        lda __iodat
-        sta IODAT
-        stz _FileBlockByte
-        lda #<($100-(>__BANK0BLOCKSIZE__))
-        sta _FileBlockByte+1
+        sty     IODAT
+        bne     @0
+        lda     __iodat
+        sta     IODAT
+        stz     _FileBlockByte
+        lda     #<($100-(>__BANK0BLOCKSIZE__))
+        sta     _FileBlockByte+1
         ply
         plx
         pla
 
 exit:   rts
-

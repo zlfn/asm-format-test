@@ -10,13 +10,12 @@ EXTERN asm_aplib_depack
 
 _aplib_depack:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp asm_aplib_depack
- 
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_aplib_depack

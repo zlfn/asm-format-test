@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _b_array_pop_back
 defc _b_array_pop_back = b_array_pop_back
 ENDIF
-

@@ -9,10 +9,10 @@ EXTERN asm_SMSlib_VRAMmemcpy
 
 _SMS_VRAMmemcpy_callee:
 
-   pop af
-	pop hl
-	pop de
-	pop bc
-	push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
-   jp asm_SMSlib_VRAMmemcpy
+        jp      asm_SMSlib_VRAMmemcpy

@@ -16,19 +16,19 @@ EXTERN asm_fread
 
 fread:
 
-   pop af
-   pop ix
-   pop hl
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push hl
-   push hl
-   push af
-   
-   jp asm_fread
+        pop     af
+        pop     ix
+        pop     hl
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    hl
+        push    hl
+        push    af
+
+        jp      asm_fread
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -10,7 +10,7 @@ EXTERN asm_ftrylockfile
 
 ftrylockfile:
 
-   push hl
-   pop ix
-   
-   jp asm_ftrylockfile
+        push    hl
+        pop     ix
+
+        jp      asm_ftrylockfile

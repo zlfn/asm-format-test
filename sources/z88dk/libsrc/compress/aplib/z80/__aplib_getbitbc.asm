@@ -7,9 +7,9 @@ EXTERN __aplib_getbit
 
 __aplib_getbitbc:
 
-   sla c
-   rl b
-   call __aplib_getbit
-   ret z
-   inc bc
-   ret
+        sla     c
+        rl      b
+        call    __aplib_getbit
+        ret     z
+        inc     bc
+        ret

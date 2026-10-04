@@ -10,9 +10,9 @@ EXTERN asm_open_memstream
 
 open_memstream_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_open_memstream
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_open_memstream

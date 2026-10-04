@@ -10,12 +10,12 @@ EXTERN asm_in_test_key
 
 in_test_key:
 
-   call asm_in_test_key
-   
-   ld hl,1
-   ret nz
-   
-   dec l
-   
-   scf
-   ret
+        call    asm_in_test_key
+
+        ld      hl, 1
+        ret     nz
+
+        dec     l
+
+        scf
+        ret

@@ -16,12 +16,12 @@ EXTERN asm_heap_alloc_aligned
 
 _heap_alloc_aligned_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   jp asm_heap_alloc_aligned
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_heap_alloc_aligned
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

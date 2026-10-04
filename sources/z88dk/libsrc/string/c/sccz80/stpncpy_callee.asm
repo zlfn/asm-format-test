@@ -10,13 +10,13 @@ EXTERN asm_stpncpy
 
 stpncpy_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   ex de,hl
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+        ex      de,   hl
 
-   jp asm_stpncpy
+        jp      asm_stpncpy
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -24,10 +24,8 @@ PUBLIC _stpncpy_callee
 defc _stpncpy_callee = stpncpy_callee
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___stpncpy_callee
 defc ___stpncpy_callee = stpncpy_callee
 ENDIF
-

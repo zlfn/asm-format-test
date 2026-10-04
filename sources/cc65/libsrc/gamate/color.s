@@ -4,11 +4,10 @@
 ; unsigned char __fastcall__ bordercolor (unsigned char color);
 ;
 
+        .export _textcolor, _bgcolor, _bordercolor
 
-        .export     _textcolor, _bgcolor, _bordercolor
-
-        .include        "gamate.inc"
-        .include        "extzp.inc"
+        .include "gamate.inc"
+        .include "extzp.inc"
 
 _textcolor:
         ldx     CHARCOLOR       ; get old value
@@ -17,8 +16,8 @@ _textcolor:
         rts
 
 _bgcolor:
-        ldx     BGCOLOR         ; get old value
-        sta     BGCOLOR         ; set new value
+        ldx     BGCOLOR ; get old value
+        sta     BGCOLOR ; set new value
         txa
         rts
 

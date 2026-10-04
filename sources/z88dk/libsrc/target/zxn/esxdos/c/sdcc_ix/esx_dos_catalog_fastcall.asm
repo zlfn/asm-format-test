@@ -8,12 +8,12 @@ EXTERN asm_esx_dos_catalog
 
 _esx_dos_catalog_fastcall:
 
-   push ix
-   push iy
-   
-   call asm_esx_dos_catalog
-   
-   pop iy
-   pop ix
+        push    ix
+        push    iy
 
-   ret
+        call    asm_esx_dos_catalog
+
+        pop     iy
+        pop     ix
+
+        ret

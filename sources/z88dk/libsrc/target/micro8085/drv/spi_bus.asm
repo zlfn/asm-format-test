@@ -30,32 +30,32 @@
 ; extern uint8 spi_rxbyte(void);
 ;-------------------------------------------------------------------------
 _spi_rxbuf:
-        ld      de,sp+2         ;get arguments from stack
-        ld      hl,(de)         ;last pushed is length
-        ld      b,h             ;copy to bc
-        ld      c,l             ;as loop counter
+        ld      de, sp+2        ;get arguments from stack
+        ld      hl, (de)        ;last pushed is length
+        ld      b,  h           ;copy to bc
+        ld      c,  l           ;as loop counter
         inc     de              ;get to first
         inc     de              ;argument position
-        ld      hl,(de)         ;first pushed is ptr
+        ld      hl, (de)        ;first pushed is ptr
 sprxbf: dec     bc              ;pre decrement counter
-        jp      k,spirx2        ;when using k-flag
+        jp      k, spirx2       ;when using k-flag
         push    hl              ;caller saves
         call    spirx           ;clock in byte to a
         pop     hl              ;restore
-        ld      (hl),a          ;put byte to buf
+        ld      (hl), a         ;put byte to buf
         inc     hl              ;bump ptr
         jp      sprxbf          ;and loop
 _spi_rxbyte:
-spirx:  ld      d,80H           ;AND MASK IN D
-        ld      hl,0800H        ;NBR OF BITS & RETURN VAL
+spirx:  ld      d,  80H         ;AND MASK IN D
+        ld      hl, 0800H       ;NBR OF BITS & RETURN VAL
 spirx1: rim                     ;READ CURRRENT BIT
-        out     (pspiclk),a     ;ISSUE A CLOCK PULSE
+        out     (pspiclk), a    ;ISSUE A CLOCK PULSE
         and     d               ;MASK THE CURRENT BIT
         or      l               ;MERGE WITH PREVIOUS
         rlca                    ;ROTATE ONE STEP
-        ld      l,a             ;AND SAVE IT
+        ld      l, a            ;AND SAVE IT
         dec     h               ;COUNT ITERATIONS
-        jp      nz,spirx1       ;LOOP IF NOT READY
+        jp      nz, spirx1      ;LOOP IF NOT READY
 spirx2: ret                     ;A PLUS HL HOLDS RETVAL
 
 ;-------------------------------------------------------------------------
@@ -63,36 +63,36 @@ spirx2: ret                     ;A PLUS HL HOLDS RETVAL
 ; extern void spi_txbyte(uint8 Data);
 ;-------------------------------------------------------------------------
 _spi_txbuf:
-        ld      de,sp+2         ;get arguments from stack
-        ld      hl,(de)         ;last pushed is length
-        ld      b,h             ;copy to bc
-        ld      c,l             ;as loop counter
+        ld      de, sp+2        ;get arguments from stack
+        ld      hl, (de)        ;last pushed is length
+        ld      b,  h           ;copy to bc
+        ld      c,  l           ;as loop counter
         inc     de              ;get to first
         inc     de              ;argument position
-        ld      hl,(de)         ;first pushed is ptr
+        ld      hl, (de)        ;first pushed is ptr
 sptxbf: dec     bc              ;pre decrement counter
-        jp      k,spitx2        ;when using k-flag
-        ld      a,(hl)          ;get byte from buf
+        jp      k, spitx2       ;when using k-flag
+        ld      a, (hl)         ;get byte from buf
         inc     hl              ;bump ptr
         push    hl              ;caller saves
         call    spitx           ;clock out byte in a
         pop     hl              ;restore
         jp      sptxbf          ;and loop
 _spi_txbyte:
-        ld      de,sp+2         ;GET ARGUMENT
-        ld      a,(de)          ;FROM STACK
-spitx:  ld      de,8040H        ;AND & OR MASK IN DE
-        ld      h,8H            ;NBR OF BITS TO SHIFT
-        ld      l,a             ;KEEP OUTPUT BYTE IN L
+        ld      de, sp+2        ;GET ARGUMENT
+        ld      a,  (de)        ;FROM STACK
+spitx:  ld      de, 8040H       ;AND & OR MASK IN DE
+        ld      h,  8H          ;NBR OF BITS TO SHIFT
+        ld      l,  a           ;KEEP OUTPUT BYTE IN L
 spitx1: and     d               ;MASK THE CURRENT BIT
         or      e               ;SET BIT FOR SOD ENABLE
         sim                     ;WRITE IT TO PIN
-        ld      a,l             ;RESTORE BYTE
+        ld      a, l            ;RESTORE BYTE
         rlca                    ;ROTATE ONE STEP
-        ld      l,a             ;AND SAVE IT
-        out     (pspiclk),a     ;ISSUE A CLOCK PULSE
+        ld      l, a            ;AND SAVE IT
+        out     (pspiclk), a    ;ISSUE A CLOCK PULSE
         dec     h               ;COUNT ITERATIONS
-        jp      nz,spitx1       ;LOOP IF NOT READY
-        ld      a,e             ;FINISH WITH A '0'
+        jp      nz, spitx1      ;LOOP IF NOT READY
+        ld      a,  e           ;FINISH WITH A '0'
         sim                     ;WRITE TO PIN
 spitx2: ret                     ;AND WE'RE DONE

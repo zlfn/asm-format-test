@@ -5,14 +5,14 @@
 ; void cclear (unsigned char length);
 ;
 
-        .export         _cclearxy, _cclear
-        .import         gotoxy, cputdirect
-        .importzp       tmp1
+        .export _cclearxy, _cclear
+        .import gotoxy,    cputdirect
+        .importzp tmp1
 
 _cclearxy:
-        pha                     ; Save the length
-        jsr     gotoxy          ; Call this one, will pop params
-        pla                     ; Restore the length and run into _cclear
+        pha             ; Save the length
+        jsr     gotoxy  ; Call this one, will pop params
+        pla             ; Restore the length and run into _cclear
 
 _cclear:
         cmp     #0              ; Is the length zero?

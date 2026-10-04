@@ -9,4 +9,3 @@
 
         .import _free
         .export _tgi_free_vectorfont := _free
-

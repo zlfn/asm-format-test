@@ -6,35 +6,35 @@ PUBLIC __str_locate_nul
 
 __str_locate_nul:
 
-   ; enter : hl = char *s
-   ;
-   ; exit  : hl = ptr in s to terminating 0
-   ;         bc = -(strlen + 1)
-   ;          a = 0
-   ;         carry reset
-   ;
-   ; uses  : af, bc, hl
+        ; enter : hl = char *s
+        ;
+        ; exit  : hl = ptr in s to terminating 0
+        ;         bc = -(strlen + 1)
+        ;          a = 0
+        ;         carry reset
+        ;
+        ; uses  : af, bc, hl
 
-   xor a
-   ld c,a
-   ld b,a
+        xor     a
+        ld      c, a
+        ld      b, a
 
 IF __CPU_INTEL__ || __CPU_GBZ80__
 loop:
-   dec bc
-   ld a,(hl)
-   and a
-   ret Z
+        dec     bc
+        ld      a, (hl)
+        and     a
+        ret     Z
 
-   inc hl
+        inc     hl
 
-   ld a,b
-   or c
-   jr NZ,loop
+        ld      a, b
+        or      c
+        jr      NZ, loop
 
 ELSE
-   cpir
+        cpir
 
 ENDIF
-   dec hl
-   ret
+        dec     hl
+        ret

@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _tshc_saddrpleft_callee
 defc _tshc_saddrpleft_callee = tshc_saddrpleft_callee
 ENDIF
-

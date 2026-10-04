@@ -11,22 +11,22 @@ EXTERN ASMDISP_SP1_GETUPDATESTRUCT_CALLEE, SP1V_DISPWIDTH
 
 .sp1_ClearRect_callee
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   push af
-   ld a,c
-   push hl
-   ex de,hl
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
-   pop hl   
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        push    af
+        ld      a, c
+        push    hl
+        ex      de, hl
+        ld      d,  (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
+        pop     hl
 
 .asmentry
 
@@ -42,154 +42,154 @@ EXTERN ASMDISP_SP1_GETUPDATESTRUCT_CALLEE, SP1V_DISPWIDTH
 ; uses  : af, bc, de, hl, af', ix
 
 .SP1ClearRect
- 
-   and $07
-   ret z                          ; ret if all flags reset
 
-   push hl
-   call SP1CRSELECT               ; ix = address of operation code (depending on flags passed in)
-   call sp1_GetUpdateStruct_callee + ASMDISP_SP1_GETUPDATESTRUCT_CALLEE  ; hl = & struct update
-   pop de                         ; e = tile
+        and     $07
+        ret     z       ; ret if all flags reset
+
+        push    hl
+        call    SP1CRSELECT     ; ix = address of operation code (depending on flags passed in)
+        call    sp1_GetUpdateStruct_callee + ASMDISP_SP1_GETUPDATESTRUCT_CALLEE ; hl = & struct update
+        pop     de              ; e = tile
 
 .rowloop
 
-   push bc                        ; save b = width
-   push hl                        ; save update position
+        push    bc      ; save b = width
+        push    hl      ; save update position
 
 .colloop
 
-   call l_jpix                    ; apply operation on hl, advance hl to next struct sp1_update to the right
-   djnz colloop
+        call    l_jpix  ; apply operation on hl, advance hl to next struct sp1_update to the right
+        djnz    colloop
 
-   pop hl
-   ld bc,9*SP1V_DISPWIDTH
-   add hl,bc
-   pop bc
-   
-   dec c
-   jp nz, rowloop
+        pop     hl
+        ld      bc, 9*SP1V_DISPWIDTH
+        add     hl, bc
+        pop     bc
 
-   ret
+        dec     c
+        jp      nz, rowloop
+
+        ret
 
 .SP1CRSELECT
 
-   add a,a
-   add a,seltbl%256
-   ld l,a
-   ld h,seltbl/256
-   jp nc, noinc0
-   inc h
-   
+        add     a,  a
+        add     a,  seltbl%256
+        ld      l,  a
+        ld      h,  seltbl/256
+        jp      nc, noinc0
+        inc     h
+
 .noinc0
 
-   ld a,(hl)
-   ld ixl,a
-   inc hl
-   ld a,(hl)
-   ld ixh,a
+        ld      a,   (hl)
+        ld      ixl, a
+        inc     hl
+        ld      a,   (hl)
+        ld      ixh, a
 
-   ret
-   
+        ret
+
 .seltbl
 
-   defw OPTION0, OPTION1, OPTION2, OPTION1
-   defw OPTION4, OPTION5, OPTION4, OPTION5
+        defw    OPTION0, OPTION1, OPTION2, OPTION1
+        defw    OPTION4, OPTION5, OPTION4, OPTION5
 
-.OPTION0                                             ; no flags
+.OPTION0        ; no flags
 
-   ld a,9
-   add a,l
-   ld l,a
-   ret nc
-   inc h
-   ret
-   
-.OPTION1                                             ; tile only
+        ld      a, 9
+        add     a, l
+        ld      l, a
+        ret     nc
+        inc     h
+        ret
 
-   inc hl
-   ld (hl),e
-   inc hl
-   ld (hl),0
-   ld a,7
-   add a,l
-   ld l,a
-   ret nc
-   inc h
-   ret
+.OPTION1        ; tile only
 
-.OPTION2                                             ; colour only - NOP
+        inc     hl
+        ld      (hl), e
+        inc     hl
+        ld      (hl), 0
+        ld      a,    7
+        add     a,    l
+        ld      l,    a
+        ret     nc
+        inc     h
+        ret
 
-   ld a,9
-   add a,l
-   ld l,a
-   ret nc
-   inc h
-   ret
+.OPTION2        ; colour only - NOP
 
-.OPTION4                                             ; sprite only
+        ld      a, 9
+        add     a, l
+        ld      l, a
+        ret     nc
+        inc     h
+        ret
 
-   ld a,(hl)
-   and $c0
-   inc a                                             ; keep bit 6:7 flag, occluding spr count reset to 1
-   ld (hl),a
-   inc hl
-   inc hl
-   inc hl
-   push hl
+.OPTION4        ; sprite only
 
-   ld a,(hl)                                         ; if no sprites in this tile, done
-   or a
-   jr z, done
+        ld      a, (hl)
+        and     $c0
+        inc     a       ; keep bit 6:7 flag, occluding spr count reset to 1
+        ld      (hl), a
+        inc     hl
+        inc     hl
+        inc     hl
+        push    hl
 
-   ld (hl),0                                         ; mark no sprites in this tile
-   inc hl
-   ld l,(hl)
-   ld h,a
+        ld      a, (hl) ; if no sprites in this tile, done
+        or      a
+        jr      z, done
 
-.loop                                                ; hl = & struct sp1_cs.ss_draw
+        ld      (hl), 0 ; mark no sprites in this tile
+        inc     hl
+        ld      l, (hl)
+        ld      h, a
 
-   dec hl
-   dec hl
-   dec hl
-   dec hl                                            ; hl = & struct sp1_cs.update
+.loop           ; hl = & struct sp1_cs.ss_draw
 
-   ld (hl),0                                         ; remove from sprite char from tile
-   ld a,16
-   add a,l
-   ld l,a
-   jp nc, noinc1
-   inc h
+        dec     hl
+        dec     hl
+        dec     hl
+        dec     hl      ; hl = & struct sp1_cs.update
 
-.noinc1                                              ; hl = & struct sp1_cs.next_in_upd
+        ld      (hl), 0 ; remove from sprite char from tile
+        ld      a,    16
+        add     a,    l
+        ld      l,    a
+        jp      nc,   noinc1
+        inc     h
 
-   ld a,(hl)
-   or a
-   jr z, done
+.noinc1         ; hl = & struct sp1_cs.next_in_upd
 
-   inc hl
-   ld l,(hl)
-   ld h,a
-   jp loop
+        ld      a, (hl)
+        or      a
+        jr      z, done
+
+        inc     hl
+        ld      l, (hl)
+        ld      h, a
+        jp      loop
 
 .done
 
-   pop hl
-   ld a,6
-   add a,l
-   ld l,a
-   ret nc
-   inc h
-   ret
+        pop     hl
+        ld      a, 6
+        add     a, l
+        ld      l, a
+        ret     nc
+        inc     h
+        ret
 
-.OPTION5                                             ; sprite and tile
+.OPTION5        ; sprite and tile
 
-   inc hl
-   ld (hl),e
-   inc hl
-   ld (hl),0
-   dec hl
-   dec hl
-   jp OPTION4
+        inc     hl
+        ld      (hl), e
+        inc     hl
+        ld      (hl), 0
+        dec     hl
+        dec     hl
+        jp      OPTION4
 
 DEFC ASMDISP_SP1_CLEARRECT_CALLEE = asmentry - sp1_ClearRect_callee
 DEFC ASMDISP_SP1CRSELECT = SP1CRSELECT - sp1_ClearRect_callee

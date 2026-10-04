@@ -6,10 +6,9 @@
 ;  */
 ;
 
-        .export         _slow
+        .export _slow
 
-        .include        "c128.inc"
-
+        .include "c128.inc"
 
 .proc   _slow
 
@@ -18,5 +17,3 @@
         rts
 
 .endproc
-
-

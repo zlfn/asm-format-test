@@ -7,11 +7,11 @@
 ;	$Id: wait_vrt.asm,v 1.3 2016-06-22 22:13:09 dom Exp $
 ;
 
-    INCLUDE "target/osca/def/flos.def"
+        INCLUDE "target/osca/def/flos.def"
 
         SECTION code_clib
-	PUBLIC  wait_vrt
-	PUBLIC  _wait_vrt
+        PUBLIC  wait_vrt
+        PUBLIC  _wait_vrt
 
-	defc wait_vrt = kjt_wait_vrt	
-	defc _wait_vrt = kjt_wait_vrt	
+        defc    wait_vrt = kjt_wait_vrt
+        defc    _wait_vrt = kjt_wait_vrt

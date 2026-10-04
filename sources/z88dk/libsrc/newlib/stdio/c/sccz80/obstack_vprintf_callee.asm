@@ -10,9 +10,9 @@ EXTERN asm_obstack_vprintf
 
 obstack_vprintf_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   
-   jp asm_obstack_vprintf
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_obstack_vprintf

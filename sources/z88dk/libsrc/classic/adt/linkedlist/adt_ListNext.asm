@@ -15,54 +15,54 @@ EXTERN adt_ListFirst
 ;        current pointer changed to point at next item in list
 ; uses : af, bc, de, hl
 
-   ld a,(hl)
-   inc hl
-   or (hl)
-   jr z, fail             ; fail if no items in list
-   
-   inc hl                 ; hl = state
-   ld a,(hl)              ; 0 = BEFORE, 1 = INLIST, 2 = AFTER
-   or a
-   jp z, adt_ListFirst + 6   ; BEFORE, so do ListFirst
-   dec a
-   jr nz, fail            ; return failure if current is AFTER end of list
+        ld      a, (hl)
+        inc     hl
+        or      (hl)
+        jr      z, fail ; fail if no items in list
 
-   ; current pointer INLIST
+        inc     hl                      ; hl = state
+        ld      a, (hl)                 ; 0 = BEFORE, 1 = INLIST, 2 = AFTER
+        or      a
+        jp      z, adt_ListFirst + 6    ; BEFORE, so do ListFirst
+        dec     a
+        jr      nz, fail                ; return failure if current is AFTER end of list
 
-   inc hl
-   ld d,(hl)
-   inc hl                 ; hl = current + 1
-   ld e,(hl)              ; de = NODE for current ptr
-   inc de
-   inc de                 ; de = NODE.next
-   ld a,(de)              ; if NODE->next == NULL, moving past end of list
-   or a
-   jr z, movedpastend
-   ld b,a
-   inc de
-   ld a,(de)
-   ld e,a
-   ld d,b                 ; de = NODE->next
-   ld (hl),e
-   dec hl
-   ld (hl),d              ; current ptr = next NODE
-   ex de,hl               ; hl = next NODE
-   ld e,(hl)
-   inc hl
-   ld d,(hl)              ; de = list item
-   ex de,hl
-   scf
-   ret
+        ; current pointer INLIST
 
-.movedpastend             ; hl = current+1, de = current NODE.next
+        inc     hl
+        ld      d, (hl)
+        inc     hl              ; hl = current + 1
+        ld      e, (hl)         ; de = NODE for current ptr
+        inc     de
+        inc     de              ; de = NODE.next
+        ld      a, (de)         ; if NODE->next == NULL, moving past end of list
+        or      a
+        jr      z, movedpastend
+        ld      b, a
+        inc     de
+        ld      a,    (de)
+        ld      e,    a
+        ld      d,    b         ; de = NODE->next
+        ld      (hl), e
+        dec     hl
+        ld      (hl), d         ; current ptr = next NODE
+        ex      de,   hl        ; hl = next NODE
+        ld      e,    (hl)
+        inc     hl
+        ld      d,  (hl)        ; de = list item
+        ex      de, hl
+        scf
+        ret
 
-   ld (hl),0
-   dec hl
-   ld (hl),0              ; mark current pointing at nothing
-   dec hl
-   ld (hl),2              ; mark current pointing after end of list
+.movedpastend   ; hl = current+1, de = current NODE.next
+
+        ld      (hl), 0
+        dec     hl
+        ld      (hl), 0 ; mark current pointing at nothing
+        dec     hl
+        ld      (hl), 2 ; mark current pointing after end of list
 
 .fail
 
-   ld hl,0
-   ret
+        ld      hl, 0
+        ret

@@ -3,14 +3,13 @@ SECTION code_clib
 
 PUBLIC sprite_set_4bit
 
-
 ; void sprite_set_4bit(struct sprite *spr);
 sprite_set_4bit:
-    pop     af
-    pop     hl
-    push    hl
-    push    af
-    INCLUDE "target/zxn/sprites/z80/asm_sprite_set_4bit.asm"
+        pop     af
+        pop     hl
+        push    hl
+        push    af
+        INCLUDE "target/zxn/sprites/z80/asm_sprite_set_4bit.asm"
 
 ; SDCC bridge for Classic
 IF __CLASSIC

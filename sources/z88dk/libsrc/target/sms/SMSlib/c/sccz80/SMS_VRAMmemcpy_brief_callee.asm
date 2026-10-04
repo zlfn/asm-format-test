@@ -9,17 +9,16 @@ EXTERN asm_SMSlib_VRAMmemcpy_brief
 
 SMS_VRAMmemcpy_brief_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   
-   ld b,c
-   jp asm_SMSlib_VRAMmemcpy_brief
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+
+        ld      b, c
+        jp      asm_SMSlib_VRAMmemcpy_brief
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _SMS_VRAMmemcpy_brief_callee
 defc _SMS_VRAMmemcpy_brief_callee = SMS_VRAMmemcpy_brief_callee
 ENDIF
-

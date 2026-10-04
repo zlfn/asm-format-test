@@ -10,28 +10,27 @@
 ;	$Id: fgetc_cons.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  fgetc_cons
-    PUBLIC  _fgetc_cons
-    INCLUDE "target/m100/def/romcalls.def"
+        SECTION code_clib
+        PUBLIC  fgetc_cons
+        PUBLIC  _fgetc_cons
+        INCLUDE "target/m100/def/romcalls.def"
 
 fgetc_cons:
 _fgetc_cons:
 
-    ROMCALL
-    defw    KY_KYREAD
+        ROMCALL
+        defw    KY_KYREAD
 
-	;and	a
-	;jr	z,fgetc_cons
+        ;and	a
+        ;jr	z,fgetc_cons
 
-  IF    STANDARDESCAPECHARS
-    cp      13
-    jr      nz, not_return
-    ld      a, 10
+        IF      STANDARDESCAPECHARS
+                cp      13
+                jr      nz, not_return
+                ld      a,  10
 not_return:
-  ENDIF
+        ENDIF
 
-    ld      l, a
-    ld      h, 0
-    ret
-
+        ld      l, a
+        ld      h, 0
+        ret

@@ -10,20 +10,20 @@ EXTERN asm_atoll, l_store_64_dehldehl_mbc
 
 _atoll:
 
-   pop af
-   pop bc
-   pop hl
+        pop     af
+        pop     bc
+        pop     hl
 
-   push hl
-   push bc
-   push af
+        push    hl
+        push    bc
+        push    af
 
-   push ix
-   push bc                     ; save result *
-   
-   call asm_atoll
-   
-   pop bc                      ; bc = result *
-   pop ix
-   
-   jp l_store_64_dehldehl_mbc  ; store result
+        push    ix
+        push    bc      ; save result *
+
+        call    asm_atoll
+
+        pop     bc      ; bc = result *
+        pop     ix
+
+        jp      l_store_64_dehldehl_mbc ; store result

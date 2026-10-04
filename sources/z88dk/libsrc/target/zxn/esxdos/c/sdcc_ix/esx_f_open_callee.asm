@@ -9,17 +9,17 @@ EXTERN asm_esx_f_open
 
 _esx_f_open_callee:
 
-   pop de
-   pop hl
-   dec sp
-   pop af
-   push de
+        pop     de
+        pop     hl
+        dec     sp
+        pop     af
+        push    de
 
 l0_esx_f_open_callee:
 
-   push ix
-   
-   call asm_esx_f_open
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_open
+
+        pop     ix
+        ret

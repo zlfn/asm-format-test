@@ -16,11 +16,11 @@ EXTERN asm_NIRVANAP_drawT
 
 _NIRVANAP_drawT_raw_callee:
 
-   pop hl
-   pop de          ; d = line
-   ld a,e          ; a = tile
-   dec sp
-   ex (sp),hl
-   ld e,h          ; e = col
+        pop     hl
+        pop     de      ; d = line
+        ld      a, e    ; a = tile
+        dec     sp
+        ex      (sp), hl
+        ld      e,    h ; e = col
 
-	jp asm_NIRVANAP_drawT
+        jp      asm_NIRVANAP_drawT

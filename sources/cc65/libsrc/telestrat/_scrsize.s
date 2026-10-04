@@ -5,8 +5,8 @@
 ; Screen size variables
 ;
 
-        .export         screensize
-        .include        "telestrat.inc"
+        .export screensize
+        .include "telestrat.inc"
 
 .proc   screensize
 
@@ -15,5 +15,3 @@
         rts
 
 .endproc
-
-

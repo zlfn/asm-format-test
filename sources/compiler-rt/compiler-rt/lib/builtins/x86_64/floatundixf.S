@@ -10,27 +10,26 @@
 
 CONST_SECTION
 
-	.balign 16
+        .balign 16
 twop64:
-	.quad 0x43f0000000000000
+        .quad   0x43f0000000000000
 
 #define REL_ADDR(_a)	(_a)(%rip)
 
-	.text
+        .text
 
-	.balign 4
+        .balign 4
 DEFINE_COMPILERRT_FUNCTION(__floatundixf)
-	movq	%rdi,	 -8(%rsp)
-	fildq	-8(%rsp)
-	test	%rdi,		%rdi
-	js		1f
-	ret
-1:	faddl	REL_ADDR(twop64)
-	ret
+        movq    %rdi, -8(%rsp)
+        fildq   -8(%rsp)
+        test    %rdi, %rdi
+        js      1f
+        ret
+1:      faddl   REL_ADDR(twop64)
+        ret
 END_COMPILERRT_FUNCTION(__floatundixf)
 
 #endif // __x86_64__
-
 
 /* Branch-free implementation is ever so slightly slower, but more beautiful.
    It is likely superior for inlining, so I kept it around for future reference.
@@ -69,4 +68,3 @@ END_COMPILERRT_FUNCTION(__floatundixf)
 */
 
 NO_EXEC_STACK_DIRECTIVE
-

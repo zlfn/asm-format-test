@@ -8,10 +8,10 @@ EXTERN console_01_output_fzx_oterm_msg_putc_raw
 
 console_01_output_fzx_iterm_msg_print_cursor:
 
-   ;   Input terminal is printing the cursor.
-   ;
-   ;   enter  :  c = cursor ascii code (CHAR_CURSOR_UC or CHAR_CURSOR_LC)
-   ;   can use:  af, bc, de, hl, ix
+        ;   Input terminal is printing the cursor.
+        ;
+        ;   enter  :  c = cursor ascii code (CHAR_CURSOR_UC or CHAR_CURSOR_LC)
+        ;   can use:  af, bc, de, hl, ix
 
-   ld (ix+22),c                ; store cursor code
-   jp console_01_output_fzx_oterm_msg_putc_raw
+        ld      (ix+22), c      ; store cursor code
+        jp      console_01_output_fzx_oterm_msg_putc_raw

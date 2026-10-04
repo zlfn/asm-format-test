@@ -9,10 +9,10 @@
 ; (c) 2022 DMSC
 ; Code under MIT license, see LICENSE file.
 
-        .export         _decompress_zx02_fast
+        .export _decompress_zx02_fast
 
-        .import         popax
-        .importzp       ptr1, ptr2, ptr3, tmp1, tmp2
+        .import popax
+        .importzp ptr1, ptr2, ptr3, tmp1, tmp2
 
 ZX0_src         = ptr1
 ZX0_dst         = ptr2
@@ -51,8 +51,8 @@ decode_literal:
         jsr     get_elias
 
 cop0:
-        lda     (ZX0_src),y
-        sta     (ZX0_dst),y
+        lda     (ZX0_src), y
+        sta     (ZX0_dst), y
 
         iny
         beq     cop0_inc_high
@@ -86,22 +86,22 @@ cop0_done:
 
 dzx0s_copy:
         lda     ZX0_dst+1
-        sbc     offset_hi  ; C=0 from get_elias
+        sbc     offset_hi       ; C=0 from get_elias
         sta     pntr+1
 
 cop1:
-        ldy     ZX0_dst    ; Align dest pointer
+        ldy     ZX0_dst ; Align dest pointer
         lda     #$00
         sta     ZX0_dst
 cop1_cont:
-        lda     (pntr), y
-        sta     (ZX0_dst),y
+        lda     (pntr),    y
+        sta     (ZX0_dst), y
         iny
         beq     cop1_inc_high
         dex
         bne     cop1_cont
 cop1_done:
-        sty     ZX0_dst    ; Update dest pointer
+        sty     ZX0_dst ; Update dest pointer
         ldy     #$00
 
         asl     bitr
@@ -113,7 +113,7 @@ dzx0s_new_offset:
         ; Read elias code for high part of offset
         inx
         jsr     get_elias
-        beq     exit  ; Read a 0, signals the end
+        beq     exit    ; Read a 0, signals the end
 
         ; Decrease and divide by 2
         dex
@@ -127,7 +127,7 @@ dzx0s_new_offset:
         bne     :+
         inc     ZX0_src+1
 
-:       ; Divide by 2
+:               ; Divide by 2
         ror
         eor     #$ff
         sta     pntr
@@ -138,7 +138,7 @@ dzx0s_new_offset:
         jsr     elias_skip1
 
         inx
-        bcc     dzx0s_copy  ; C=0 here so equivalent to bra
+        bcc     dzx0s_copy      ; C=0 here so equivalent to bra
 
 ; Read an elias-gamma interlaced code.
 elias_get:
@@ -158,7 +158,7 @@ get_elias:
         bne     :+
         inc     ZX0_src+1
 
-:     ; sec   ; not needed, C=1 guaranteed from last bit
+:               ; sec   ; not needed, C=1 guaranteed from last bit
         rol
         sta     bitr
 

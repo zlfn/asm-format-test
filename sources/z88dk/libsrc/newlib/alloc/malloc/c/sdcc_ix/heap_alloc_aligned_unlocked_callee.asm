@@ -10,9 +10,9 @@ EXTERN asm_heap_alloc_aligned_unlocked
 
 _heap_alloc_aligned_unlocked_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   jp asm_heap_alloc_aligned_unlocked
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_heap_alloc_aligned_unlocked

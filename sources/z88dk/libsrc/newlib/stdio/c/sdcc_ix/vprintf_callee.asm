@@ -16,19 +16,19 @@ EXTERN asm_vprintf
 
 _vprintf_callee:
 
-   pop af
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        push    af
 
 l0_vprintf_callee:
 
-   push ix
-   
-   call asm_vprintf
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_vprintf
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

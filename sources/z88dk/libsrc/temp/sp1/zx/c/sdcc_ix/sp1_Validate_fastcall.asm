@@ -9,12 +9,12 @@ EXTERN asm_sp1_Validate
 
 _sp1_Validate_fastcall:
 
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
+        ld      d, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
 
-   jp asm_sp1_Validate
+        jp      asm_sp1_Validate

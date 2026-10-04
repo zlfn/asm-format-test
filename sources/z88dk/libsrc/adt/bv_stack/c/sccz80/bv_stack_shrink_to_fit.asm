@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _bv_stack_shrink_to_fit
 defc _bv_stack_shrink_to_fit = bv_stack_shrink_to_fit
 ENDIF
-

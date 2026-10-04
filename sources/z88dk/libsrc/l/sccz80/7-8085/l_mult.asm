@@ -13,33 +13,33 @@ PUBLIC l_mult_0
 .l_mult
 ; HL = DE * HL [unsigned]
 .l_mult_u
-    ld      bc,hl
+        ld      bc, hl
 
 ; HL = DE * BC [signed]
 .l_mult_0
-    ld      hl,0
-    ld      a,4             ; 16 bits (4 iterations)
+        ld      hl, 0
+        ld      a,  4   ; 16 bits (4 iterations)
 .mul1
-    add     hl,hl
-    rl      de
-    jp      NC,mul2
-    add     hl,bc
+        add     hl, hl
+        rl      de
+        jp      NC, mul2
+        add     hl, bc
 .mul2
-    add     hl,hl
-    rl      de
-    jp      NC,mul3
-    add     hl,bc
+        add     hl, hl
+        rl      de
+        jp      NC, mul3
+        add     hl, bc
 .mul3
-    add     hl,hl
-    rl      de
-    jp      NC,mul4
-    add     hl,bc
+        add     hl, hl
+        rl      de
+        jp      NC, mul4
+        add     hl, bc
 .mul4
-    add     hl,hl
-    rl      de
-    jp      NC,mul5
-    add     hl,bc
+        add     hl, hl
+        rl      de
+        jp      NC, mul5
+        add     hl, bc
 .mul5
-    dec     a
-    jp      NZ,mul1
-    ret
+        dec     a
+        jp      NZ, mul1
+        ret

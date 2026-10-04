@@ -4,9 +4,9 @@
 ; unsigned char cbm_k_getin (void);
 ;
 
-        .include        "cbm.inc"
+        .include "cbm.inc"
 
-        .export         _cbm_k_getin
+        .export _cbm_k_getin
 
 _cbm_k_getin:
         jsr     GETIN

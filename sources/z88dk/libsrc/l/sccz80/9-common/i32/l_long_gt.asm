@@ -1,4 +1,4 @@
-;       Z88 Small C+ Run Time Library 
+;       Z88 Small C+ Run Time Library
 ;       Long functions
 ;
 
@@ -11,16 +11,16 @@ EXTERN l_long_cmp
 
 l_long_gt:
 
-   ; PRIMARY > SECONDARY? [signed], carry if true
-   ; HL set to 0 (false) or 1 (true)
+        ; PRIMARY > SECONDARY? [signed], carry if true
+        ; HL set to 0 (false) or 1 (true)
 
-   call l_long_cmp
-   jr z, false
+        call    l_long_cmp
+        jr      z, false
 
-   ccf
-   ret c
+        ccf
+        ret     c
 
 false:
 
-   dec l
-   ret
+        dec     l
+        ret

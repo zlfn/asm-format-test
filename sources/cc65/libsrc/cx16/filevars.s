@@ -5,30 +5,27 @@
 ; Variables used for CBM file I/O
 ;
 
-        .export         curunit
-        .constructor    initcurunit, 30
-        .destructor     updatedevnum, 30
+        .export curunit
+        .constructor initcurunit, 30
+        .destructor updatedevnum, 30
 
-        .include        "cx16.inc"
-
+        .include "cx16.inc"
 
 .segment "INIT"
 
 curunit:
         .res    1
 
-
 .segment "ONCE"
 
 .proc   initcurunit
         lda     DEVNUM
         bne     L0
-        lda     #8              ; Default is SD card
+        lda     #8      ; Default is SD card
         sta     DEVNUM
 L0:     sta     curunit
         rts
 .endproc
-
 
 .code
 

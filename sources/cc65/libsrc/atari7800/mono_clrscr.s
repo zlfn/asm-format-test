@@ -1,5 +1,5 @@
 
-        .include        "atari7800.inc"
+        .include "atari7800.inc"
 
         .export _mono_clrscr
 
@@ -9,7 +9,7 @@
 
         .code
 
-        .proc _mono_clrscr
+        .proc   _mono_clrscr
 
         lda     #<_mono_screen
         ldx     #>_mono_screen
@@ -23,5 +23,5 @@
 ;-------------------------------------------------------------------------------
 ; force the init constructor to be imported
 
-                .import mono_initconio
+        .import mono_initconio
 conio_init      = mono_initconio

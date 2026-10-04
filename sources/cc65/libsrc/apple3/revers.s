@@ -5,10 +5,10 @@
 ; unsigned char __fastcall__ revers (unsigned char onoff)
 ;
 
-        .export         _revers
-        .import         putcdirect, consinvflg
+        .export _revers
+        .import putcdirect, consinvflg
 
-        .include        "apple3.inc"
+        .include "apple3.inc"
 
 _revers:
         tax                     ; Test onoff

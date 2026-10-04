@@ -12,29 +12,29 @@
 ; Exit:  dehl = adjusted float
 
 .l_f32_ldexp
-        sla e                       ; get the exponent
-        rl d
-        jr Z,zero_legal             ; return IEEE zero
-        rr e                        ; save the sign in e[7]
+        sla     e               ; get the exponent
+        rl      d
+        jr      Z, zero_legal   ; return IEEE zero
+        rr      e               ; save the sign in e[7]
 
-        add d
-        ld d,a                      ; exponent returned
+        add     d
+        ld      d, a    ; exponent returned
 
-        rl e                        ; restore sign to C
-        rr d
-        rr e
+        rl      e       ; restore sign to C
+        rr      d
+        rr      e
 
-        and a                       ; check for zero exponent result
-        ret NZ                      ; return IEEE in DEHL
+        and     a       ; check for zero exponent result
+        ret     NZ      ; return IEEE in DEHL
 
-        ld e,a
-        ld h,a
-        ld l,a
+        ld      e, a
+        ld      h, a
+        ld      l, a
         scf
-        ret                         ; return IEEE underflow ZERO in DEHL
+        ret     ; return IEEE underflow ZERO in DEHL
 
 .zero_legal
-        ld e,d                      ; use 0
-        ld hl,de
-        rr d                        ; restore the sign and exponent
-        ret                         ; return IEEE signed ZERO in DEHL
+        ld      e,  d   ; use 0
+        ld      hl, de
+        rr      d       ; restore the sign and exponent
+        ret             ; return IEEE signed ZERO in DEHL

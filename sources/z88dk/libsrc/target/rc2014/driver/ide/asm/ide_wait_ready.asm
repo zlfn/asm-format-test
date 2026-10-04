@@ -12,7 +12,7 @@ PUBLIC ide_wait_ready
 IF __IO_CF_8_BIT
 
 ;------------------------------------------------------------------------------
-; IDE internal subroutines 
+; IDE internal subroutines
 ;
 ; These routines talk to the drive, using the low level I/O.
 ; Normally a program should not call these directly.
@@ -27,24 +27,24 @@ IF __IO_CF_8_BIT
 ; return carry on success
 
 .ide_wait_ready
-    in a,(__IO_CF_IDE_STATUS)
-    and 00100001b               ;test for ERR or WFT
-    ret NZ                      ;return clear carry flag on failure
+        in      a, (__IO_CF_IDE_STATUS)
+        and     00100001b       ;test for ERR or WFT
+        ret     NZ              ;return clear carry flag on failure
 
-    in a,(__IO_CF_IDE_STATUS)   ;get status byte again
-    and 11000000b               ;mask off BuSY and RDY bits
-    xor 01000000b               ;wait for RDY to be set and BuSY to be clear
-    jp NZ,ide_wait_ready
+        in      a, (__IO_CF_IDE_STATUS) ;get status byte again
+        and     11000000b               ;mask off BuSY and RDY bits
+        xor     01000000b               ;wait for RDY to be set and BuSY to be clear
+        jp      NZ, ide_wait_ready
 
-    scf                         ;set carry flag on success
-    ret
+        scf     ;set carry flag on success
+        ret
 
 ELSE
 
 EXTERN ide_read_byte
 
 ;------------------------------------------------------------------------------
-; IDE internal subroutines 
+; IDE internal subroutines
 ;
 ; These routines talk to the drive, using the low level I/O.
 ; Normally a program should not call these directly.
@@ -59,18 +59,17 @@ EXTERN ide_read_byte
 ; return carry on success
 
 .ide_wait_ready
-    ld d,__IO_PIO_IDE_ALT_STATUS;get IDE alt status register
-    call ide_read_byte
-    and 00100001b               ;test for ERR or WFT
-    ret NZ                      ;return clear carry flag on failure
+        ld      d, __IO_PIO_IDE_ALT_STATUS      ;get IDE alt status register
+        call    ide_read_byte
+        and     00100001b                       ;test for ERR or WFT
+        ret     NZ                              ;return clear carry flag on failure
 
-    ld a,e                      ;get byte from alternate ide_read_byte return
-    and 11000000b               ;mask off BuSY and RDY bits
-    xor 01000000b               ;wait for RDY to be set and BuSY to be clear
-    jp NZ,ide_wait_ready
+        ld      a, e            ;get byte from alternate ide_read_byte return
+        and     11000000b       ;mask off BuSY and RDY bits
+        xor     01000000b       ;wait for RDY to be set and BuSY to be clear
+        jp      NZ, ide_wait_ready
 
-    scf                         ;set carry flag on success
-    ret
+        scf     ;set carry flag on success
+        ret
 
 ENDIF
-

@@ -9,18 +9,17 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 sqrt:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_sqrtf
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_sqrtf
 
 ; SDCC bridge for Classic
 PUBLIC _sqrt
 defc _sqrt = sqrt
-
 
 ; Clang bridge for Classic
 PUBLIC _sqrtf

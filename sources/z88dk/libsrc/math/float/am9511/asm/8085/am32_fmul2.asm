@@ -10,7 +10,7 @@
 ;-------------------------------------------------------------------------
 ; asm_am9511_fmul2 - 8085 floating point multiply by 2
 ;-------------------------------------------------------------------------
-; 
+;
 ; Multiplication by 2 is incrementing the exponent. An easy optimisation.
 ;
 ;-------------------------------------------------------------------------
@@ -21,58 +21,58 @@ SECTION code_fp_am9511
 PUBLIC asm_am9511_fmul2_fastcall
 
 .asm_am9511_fmul2_fastcall
-    rl de                       ; get exponent in d
+        rl      de      ; get exponent in d
 
-    inc d
-    dec d
-    jp Z,zero_legal             ; return IEEE zero
+        inc     d
+        dec     d
+        jp      Z, zero_legal   ; return IEEE zero
 
-    inc d                       ; *2
-    jr Z,exp_max                ; was 0xff: Inf/NaN, restore
-    ld a,d
-    inc a
-    jr Z,overflow               ; was 0xfe: d is 0xff
+        inc     d               ; *2
+        jr      Z, exp_max      ; was 0xff: Inf/NaN, restore
+        ld      a, d
+        inc     a
+        jr      Z, overflow     ; was 0xfe: d is 0xff
 
-    ld a,d
-    rra                         ; return sign and exponent
-    ld d,a
-    ld a,e
-    rra                         ; return exponent and mantissa
-    ld e,a
+        ld      a, d
+        rra     ; return sign and exponent
+        ld      d, a
+        ld      a, e
+        rra     ; return exponent and mantissa
+        ld      e, a
 
-    ret                         ; return IEEE DEHL
+        ret     ; return IEEE DEHL
 
 .exp_max
-    dec d                       ; restore exp 0xff
-    ld a,d
-    rra
-    ld d,a
-    ld a,e
-    rra
-    ld e,a
-    ret
+        dec     d       ; restore exp 0xff
+        ld      a, d
+        rra
+        ld      d, a
+        ld      a, e
+        rra
+        ld      e, a
+        ret
 
 .zero_legal
-    ld e,d                      ; use 0
-    ld hl,de
+        ld      e,  d   ; use 0
+        ld      hl, de
 
-    ld a,d
-    rra                         ; return sign and exponent
-    ld d,a
+        ld      a, d
+        rra     ; return sign and exponent
+        ld      d, a
 
-    ret                         ; return IEEE signed ZERO in DEHL
+        ret     ; return IEEE signed ZERO in DEHL
 
 .overflow
-    ld e,0                      ; d is already 0xff
-    ld h,e
-    ld l,e
+        ld      e, 0    ; d is already 0xff
+        ld      h, e
+        ld      l, e
 
-    ld a,d
-    rra                         ; restore the sign and exponent
-    ld d,a
-    ld a,e
-    rra                         ; return exponent and mantissa
-    ld e,a
+        ld      a, d
+        rra     ; restore the sign and exponent
+        ld      d, a
+        ld      a, e
+        rra     ; return exponent and mantissa
+        ld      e, a
 
-    scf
-    ret                         ; return IEEE signed INFINITY in DEHL
+        scf
+        ret     ; return IEEE signed INFINITY in DEHL

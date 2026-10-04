@@ -10,8 +10,8 @@ EXTERN asm_dup2
 
 dup2_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_dup2
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_dup2

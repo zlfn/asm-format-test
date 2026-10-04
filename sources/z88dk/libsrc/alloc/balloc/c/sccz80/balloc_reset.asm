@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _balloc_reset
 defc _balloc_reset = balloc_reset
 ENDIF
-

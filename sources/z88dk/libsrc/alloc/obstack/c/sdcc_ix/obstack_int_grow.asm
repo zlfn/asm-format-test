@@ -10,12 +10,12 @@ EXTERN asm_obstack_int_grow
 
 _obstack_int_grow:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   
-   jp asm_obstack_int_grow
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_obstack_int_grow

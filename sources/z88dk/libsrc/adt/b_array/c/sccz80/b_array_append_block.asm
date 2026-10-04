@@ -10,19 +10,18 @@ EXTERN b_array_append_block_entry
 
 b_array_append_block:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp b_array_append_block_entry
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      b_array_append_block_entry
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _b_array_append_block
 defc _b_array_append_block = b_array_append_block
 ENDIF
-

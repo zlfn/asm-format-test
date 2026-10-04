@@ -5,26 +5,23 @@
 ; void reset_brk (void);
 ;
 
-        .export         _set_brk, _reset_brk
-        .destructor     _reset_brk
-        .export         _brk_a, _brk_x, _brk_y, _brk_sr, _brk_pc
+        .export _set_brk, _reset_brk
+        .destructor _reset_brk
+        .export _brk_a, _brk_x, _brk_y, _brk_sr, _brk_pc
 
-        .include        "plus4.inc"
-
+        .include "plus4.inc"
 
 .bss
-_brk_a:         .res    1
-_brk_x:         .res    1
-_brk_y:         .res    1
-_brk_sr:        .res    1
-_brk_pc:        .res    2
+_brk_a: .res    1
+_brk_x: .res    1
+_brk_y: .res    1
+_brk_sr: .res   1
+_brk_pc: .res   2
 
-oldvec:         .res    2               ; Old vector
-
+oldvec: .res    2       ; Old vector
 
 .data
-uservec:        jmp     $FFFF           ; Patched at runtime
-
+uservec: jmp    $FFFF   ; Patched at runtime
 
 .code
 
@@ -51,23 +48,20 @@ L1:     lda     #<brk_handler   ; Set the break vector to our routine
 
 .endproc
 
-
 ; Reset the break vector
 .proc   _reset_brk
 
         lda     oldvec
         ldx     oldvec+1
-        beq     @L9             ; Jump if vector not installed
+        beq     @L9     ; Jump if vector not installed
         sta     BRKVec
         stx     BRKVec+1
         lda     #$00
-        sta     oldvec          ; Clear the old vector
+        sta     oldvec  ; Clear the old vector
         stx     oldvec+1
 @L9:    rts
 
 .endproc
-
-
 
 ; Break handler, called if a break occurs
 
@@ -80,17 +74,17 @@ L1:     lda     #<brk_handler   ; Set the break vector to our routine
         pla
         sta     _brk_a
         pla
-        and     #$EF            ; Clear break bit
+        and     #$EF    ; Clear break bit
         sta     _brk_sr
-        pla                     ; PC low
+        pla             ; PC low
         sec
-        sbc     #2              ; Point to start of brk
+        sbc     #2      ; Point to start of brk
         sta     _brk_pc
-        pla                     ; PC high
+        pla             ; PC high
         sbc     #0
         sta     _brk_pc+1
 
-        jsr     uservec         ; Call the user's routine
+        jsr     uservec ; Call the user's routine
 
         lda     _brk_pc+1
         pha
@@ -101,8 +95,6 @@ L1:     lda     #<brk_handler   ; Set the break vector to our routine
         ldx     _brk_x
         ldy     _brk_y
         lda     _brk_a
-        rti                     ; Jump back...
+        rti     ; Jump back...
 
 .endproc
-
-

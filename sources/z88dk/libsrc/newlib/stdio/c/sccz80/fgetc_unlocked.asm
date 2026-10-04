@@ -10,7 +10,7 @@ EXTERN asm_fgetc_unlocked
 
 fgetc_unlocked:
 
-   push hl
-   pop ix
-   
-   jp asm_fgetc_unlocked
+        push    hl
+        pop     ix
+
+        jp      asm_fgetc_unlocked

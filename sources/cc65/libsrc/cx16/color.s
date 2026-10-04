@@ -5,11 +5,10 @@
 ; unsigned char __fastcall__ bgcolor (unsigned char color);
 ;
 
+        .export _textcolor, _bgcolor
 
-        .export         _textcolor, _bgcolor
-
-        .importzp       tmp1
-        .include        "cx16.inc"
+        .importzp tmp1
+        .include "cx16.inc"
 
 _textcolor:
         and     #$0F
@@ -22,7 +21,6 @@ _textcolor:
         txa
         and     #$0F
         rts
-
 
 _bgcolor:
         asl     a               ; move number to screen-color nybble

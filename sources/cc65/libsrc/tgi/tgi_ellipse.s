@@ -7,11 +7,9 @@
 ; */
 ;
 
+        .include "tgi-kernel.inc"
 
-        .include        "tgi-kernel.inc"
-
-        .import         pusha, push0
-
+        .import pusha, push0
 
 ;----------------------------------------------------------------------------
 ;
@@ -19,10 +17,10 @@
 .code
 .proc   _tgi_ellipse
 
-        jsr     pusha                   ; Push ry
-        jsr     push0                   ; Start angle is 0
+        jsr     pusha   ; Push ry
+        jsr     push0   ; Start angle is 0
         lda     #<360
-        ldx     #>360                   ; End angle is 360
+        ldx     #>360   ; End angle is 360
         jmp     _tgi_arc
 
 .endproc

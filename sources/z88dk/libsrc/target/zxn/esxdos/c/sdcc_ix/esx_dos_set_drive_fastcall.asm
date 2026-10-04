@@ -8,12 +8,12 @@ EXTERN asm_esx_dos_set_drive
 
 _esx_dos_set_drive_fastcall:
 
-   push ix
-   push iy
-   
-   call asm_esx_dos_set_drive
-   
-   pop iy
-   pop ix
+        push    ix
+        push    iy
 
-   ret
+        call    asm_esx_dos_set_drive
+
+        pop     iy
+        pop     ix
+
+        ret

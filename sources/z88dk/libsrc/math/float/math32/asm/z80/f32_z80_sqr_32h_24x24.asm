@@ -44,68 +44,67 @@ EXTERN l_mulu_de
 
 PUBLIC m32_sqr_32h_24x24
 
-
 .m32_sqr_32h_24x24
 
-    ld h,l                      ; aa:bc
-    push hl                     ; aa on stack
-    ld l,d                      ; ab:bc
-    push hl                     ; ab on stack
-    ld d,h                      ; ab:ac
-    ld h,l                      ; bb:ac
-    push hl                     ; bb on stack
-    push de                     ; ac on stack
-    ld l,e                      ; bc:ac
+        ld      h, l    ; aa:bc
+        push    hl      ; aa on stack
+        ld      l, d    ; ab:bc
+        push    hl      ; ab on stack
+        ld      d, h    ; ab:ac
+        ld      h, l    ; bb:ac
+        push    hl      ; bb on stack
+        push    de      ; ac on stack
+        ld      l, e    ; bc:ac
 
-    ex de,hl                    ; ac:bc
-    call l_mulu_de              ; b*c 2^8
-    ex de,hl
+        ex      de, hl          ; ac:bc
+        call    l_mulu_de       ; b*c 2^8
+        ex      de, hl
 
-    xor a
-    add hl,hl                   ; 2*b*c 2^8
-    adc a,a
+        xor     a
+        add     hl, hl  ; 2*b*c 2^8
+        adc     a,  a
 
-    ld c,h                      ; put 2^8 in bc
-    ld b,a
+        ld      c, h    ; put 2^8 in bc
+        ld      b, a
 
-    pop de                      ; ac
-    pop hl                      ; bb
-    call l_mulu_de              ; a*c 2^16
-    ex de,hl
-    call l_mulu_de              ; b*b 2^16
+        pop     de              ; ac
+        pop     hl              ; bb
+        call    l_mulu_de       ; a*c 2^16
+        ex      de, hl
+        call    l_mulu_de       ; b*b 2^16
 
-    xor a
-    add hl,hl                   ; 2*a*c 2^16
-    adc a,a
-    add hl,de
-    adc a,0
-    add hl,bc
-    adc a,0
+        xor     a
+        add     hl, hl  ; 2*a*c 2^16
+        adc     a,  a
+        add     hl, de
+        adc     a,  0
+        add     hl, bc
+        adc     a,  0
 
-    ld c,h                      ; put 2^16 in bc
-    ld b,a
+        ld      c, h    ; put 2^16 in bc
+        ld      b, a
 
-    pop de                      ; ab
-    call l_mulu_de              ; a*b 2^24
+        pop     de              ; ab
+        call    l_mulu_de       ; a*b 2^24
 
-    ex de,hl                    ; l into e
+        ex      de, hl  ; l into e
 
-    xor a
-    add hl,hl                   ; 2*a*b 2^24
-    adc a,a
-    add hl,bc
-    adc a,0
+        xor     a
+        add     hl, hl  ; 2*a*b 2^24
+        adc     a,  a
+        add     hl, bc
+        adc     a,  0
 
-    ld c,e                      ; l into c
-    ld b,l
-    ld l,h
-    ld h,a
+        ld      c, e    ; l into c
+        ld      b, l
+        ld      l, h
+        ld      h, a
 
-    pop de                      ; aa
-    call l_mulu_de              ; a*a 2^32
+        pop     de              ; aa
+        call    l_mulu_de       ; a*a 2^32
 
-    add hl,de
-    ld de,bc                    ; exit  : HLDE  = 32-bit product
-    ret
+        add     hl, de
+        ld      de, bc  ; exit  : HLDE  = 32-bit product
+        ret
 
 ENDIF

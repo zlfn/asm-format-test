@@ -11,9 +11,9 @@ EXTERN ASMDISP_SP1_ITERATESPRCHAR_CALLEE
 
 .sp1_GetSprClrAddr_callee
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 .asmentry
 
@@ -26,23 +26,23 @@ EXTERN ASMDISP_SP1_ITERATESPRCHAR_CALLEE
 
 .SP1GetSprClrAddr
 
-   ld ix,getaddr
-   jp sp1_IterateSprChar_callee + ASMDISP_SP1_ITERATESPRCHAR_CALLEE
+        ld      ix, getaddr
+        jp      sp1_IterateSprChar_callee + ASMDISP_SP1_ITERATESPRCHAR_CALLEE
 
 .getaddr
 
-   ; hl = & struct sp1_cs
-   ; de = current position in destination array of sprite colour addresses
+        ; hl = & struct sp1_cs
+        ; de = current position in destination array of sprite colour addresses
 
-   ld bc,6
-   add hl,bc
-   ex de,hl                    ; de = & struct sp1_cs.attr_mask, hl = address array
-   ld (hl),e                   ; store address of sprite tile's colour info into array
-   inc hl
-   ld (hl),d
-   inc hl
-   ex de,hl                    ; de = next destination address in array of pointers
+        ld      bc,   6
+        add     hl,   bc
+        ex      de,   hl        ; de = & struct sp1_cs.attr_mask, hl = address array
+        ld      (hl), e         ; store address of sprite tile's colour info into array
+        inc     hl
+        ld      (hl), d
+        inc     hl
+        ex      de, hl          ; de = next destination address in array of pointers
 
-   ret
+        ret
 
 DEFC ASMDISP_SP1_GETSPRCLRADDR_CALLEE = asmentry - sp1_GetSprClrAddr_callee

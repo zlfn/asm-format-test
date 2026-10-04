@@ -18,13 +18,13 @@ PUBLIC asm_cpu_indr
 asm_z180_indr:
 asm_cpu_indr:
 
-   ; enter : hl = void *dst
-   ;          c = port
-   ;          b = num
-   ;
-   ; exit  : hl = void *dst_prev (address prior to last byte written)
-   ;
-   ; uses  : f, b, hl
-   
-   indr
-   ret
+        ; enter : hl = void *dst
+        ;          c = port
+        ;          b = num
+        ;
+        ; exit  : hl = void *dst_prev (address prior to last byte written)
+        ;
+        ; uses  : f, b, hl
+
+        indr
+        ret

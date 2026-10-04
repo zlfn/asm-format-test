@@ -11,70 +11,70 @@
 ;	- 0 (false) otherwise
 ;
 ;   The type 2 includes TK90X/TK95, and Brazilian "Timex AY" interfaces
-;  
+;
 ;
 ;	$Id: zx_soundchip.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  zx_soundchip
-    PUBLIC  _zx_soundchip
-    EXTERN  zx_type
+        SECTION code_clib
+        PUBLIC  zx_soundchip
+        PUBLIC  _zx_soundchip
+        EXTERN  zx_type
 
 zx_soundchip:
 _zx_soundchip:
 
-	call zx_type
-	ld a,2
-	cp l
-    ld      l, 3
-    ret     z
+        call    zx_type
+        ld      a, 2
+        cp      l
+        ld      l, 3
+        ret     z
 
-    ; Look for classic I/O mapping
-    ld      l, 1
-    ld      bc, $fffd
-    ld      a, 11                       ; envelope register
-    out     (c), a
+        ; Look for classic I/O mapping
+        ld      l,   1
+        ld      bc,  $fffd
+        ld      a,   11 ; envelope register
+        out     (c), a
 
-    in      a, (c)
-    ld      e, a
+        in      a, (c)
+        ld      e, a
 
-    xor     170
-    ld      b, $bf
-    out     (c), a
-    ld      b, $ff
-    ld      d, a
-    in      a, (c)
-    cp      d
+        xor     170
+        ld      b,   $bf
+        out     (c), a
+        ld      b,   $ff
+        ld      d,   a
+        in      a,   (c)
+        cp      d
 
-    ld      b, $bf
-    ld      a, e
-    out     (c), a                      ; restore original value
-	ret     z
+        ld      b,   $bf
+        ld      a,   e
+        out     (c), a  ; restore original value
+        ret     z
 
-    ; Check for microdigital I/O mapping
-    ld      l, 2
-    ld      bc, $00ff
-    ld      a, 11                       ; envelope register
-    out     (c), a
+        ; Check for microdigital I/O mapping
+        ld      l,   2
+        ld      bc,  $00ff
+        ld      a,   11 ; envelope register
+        out     (c), a
 
-    ld      c, $bf
-    in      a, (c)
-    ld      e, a
+        ld      c, $bf
+        in      a, (c)
+        ld      e, a
 
-    xor     170
-    ld      c, $df
-    out     (c), a
+        xor     170
+        ld      c,   $df
+        out     (c), a
 
-    ld      d, a
-    ld      c, $bf
-    in      a, (c)
-    cp      d
+        ld      d, a
+        ld      c, $bf
+        in      a, (c)
+        cp      d
 
-    ld      c, $df
-    ld      a, e
-    out     (c), a                      ; restore original value
-    ret     z
+        ld      c,   $df
+        ld      a,   e
+        out     (c), a  ; restore original value
+        ret     z
 
-    ld      l,0
-    ret
+        ld      l, 0
+        ret

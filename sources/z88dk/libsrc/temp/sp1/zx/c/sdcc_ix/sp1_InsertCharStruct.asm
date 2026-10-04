@@ -9,12 +9,12 @@ EXTERN asm_sp1_InsertCharStruct
 
 _sp1_InsertCharStruct:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     hl
 
-   jp asm_sp1_InsertCharStruct
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_sp1_InsertCharStruct

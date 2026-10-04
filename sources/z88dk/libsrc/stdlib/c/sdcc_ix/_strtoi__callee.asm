@@ -10,10 +10,10 @@ EXTERN asm__strtoi
 
 __strtoi__callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
-   
-   jp asm__strtoi
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
+
+        jp      asm__strtoi

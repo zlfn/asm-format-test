@@ -15,14 +15,14 @@ PUBLIC _fileno_fastcall
 EXTERN asm_fileno
 
 _fileno_fastcall:
-   
-   push hl
-   ex (sp),ix
-   
-   call asm_fileno
-   
-   pop ix
-   ret
+
+        push    hl
+        ex      (sp), ix
+
+        call    asm_fileno
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -9,23 +9,23 @@ EXTERN asm_esxdos_disk_write
 
 esxdos_disk_write:
 
-   pop hl
-   pop ix
-   pop de
-   pop bc
-   dec sp
-   pop af
-   
-   dec sp
-   push bc
-   push de
-   push hl
-   push hl
+        pop     hl
+        pop     ix
+        pop     de
+        pop     bc
+        dec     sp
+        pop     af
 
-   push ix
-   pop hl
+        dec     sp
+        push    bc
+        push    de
+        push    hl
+        push    hl
 
-   jp asm_esxdos_disk_write
+        push    ix
+        pop     hl
+
+        jp      asm_esxdos_disk_write
 
 ; SDCC bridge for Classic
 IF __CLASSIC

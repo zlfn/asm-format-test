@@ -5,19 +5,19 @@
 ; void gotoxy (unsigned char x, unsigned char y);
 ;
 
-        .export         gotoxy, _gotoxy
+        .export gotoxy, _gotoxy
 
-        .import         popa
+        .import popa
 
-        .include        "atmos.inc"
+        .include "atmos.inc"
 
-gotoxy: jsr     popa            ; Get Y
+gotoxy: jsr     popa    ; Get Y
 
 .proc   _gotoxy
 
-        sta     CURS_Y          ; Set Y
-        jsr     popa            ; Get X
-        sta     CURS_X          ; Set X
+        sta     CURS_Y  ; Set Y
+        jsr     popa    ; Get X
+        sta     CURS_X  ; Set X
         rts
 
 .endproc

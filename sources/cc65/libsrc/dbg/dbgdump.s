@@ -4,32 +4,32 @@
 ; char* __cdecl__ DbgMemDump (unsigned Addr, char* Buf, unsigned char Length);
 ;
 
-        .export         _DbgMemDump
-        .import         addysp1
-        .import         __hextab
-        .importzp       c_sp, tmp2, tmp3, tmp4, ptr3, ptr4
+        .export _DbgMemDump
+        .import addysp1
+        .import __hextab
+        .importzp c_sp, tmp2, tmp3, tmp4, ptr3, ptr4
 
 _DbgMemDump:
         ldy     #0
-        lda     (c_sp),y        ; Get length
+        lda     (c_sp), y       ; Get length
         sta     tmp4
         iny
-        lda     (c_sp),y        ; Get the string buffer
+        lda     (c_sp), y       ; Get the string buffer
         sta     ptr3
         iny
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     ptr3+1
         iny
-        lda     (c_sp),y        ; Get the address
+        lda     (c_sp), y       ; Get the address
         sta     ptr4
         iny
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     ptr4+1
         jsr     addysp1         ; Drop the parameters
 
         lda     #0
-        sta     tmp2            ; String index
-        sta     tmp3            ; Byte index
+        sta     tmp2    ; String index
+        sta     tmp3    ; Byte index
 
 ; Print the address
 
@@ -44,13 +44,13 @@ dump1:  dec     tmp4            ; Bytes left?
         jsr     putspace        ; Add a space
         ldy     tmp3
         inc     tmp3
-        lda     (ptr4),y
+        lda     (ptr4), y
         jsr     dump
         jmp     dump1
 
 dump9:  lda     #0
         ldy     tmp2
-        sta     (ptr3),y        ; Add string terminator
+        sta     (ptr3), y       ; Add string terminator
         lda     ptr3
         ldx     ptr3+1          ; We assume this is not zero
         rts
@@ -63,19 +63,17 @@ dump:   pha
         lsr     a
         lsr     a
         tax
-        lda     __hextab,x
+        lda     __hextab, x
         jsr     putc
         pla
         and     #$0F
         tax
-        lda     __hextab,x
+        lda     __hextab, x
 putc:   ldy     tmp2
         inc     tmp2
-        sta     (ptr3),y
+        sta     (ptr3), y
         rts
 
 putspace:
         lda     #$20
         bne     putc
-
-

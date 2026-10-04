@@ -12,6 +12,6 @@ PUBLIC  _zx7_font_8x8_coleco_adam_system_end
 _zx7_font_6x8_coleco_adam_system:
 _zx7_font_8x8_coleco_adam_system:
 
-   BINARY "font_8x8_coleco_adam_system.bin.zx7"
+        BINARY  "font_8x8_coleco_adam_system.bin.zx7"
 
 _zx7_font_8x8_coleco_adam_system_end:

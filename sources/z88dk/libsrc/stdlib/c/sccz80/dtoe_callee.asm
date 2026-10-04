@@ -10,12 +10,12 @@ EXTERN dcallee1, asm_dtoe
 
 dtoe_callee:
 
-   pop af
-   pop bc
-   pop de
-   pop hl
-   push af
-   
-   call dcallee1
-   
-   jp asm_dtoe
+        pop     af
+        pop     bc
+        pop     de
+        pop     hl
+        push    af
+
+        call    dcallee1
+
+        jp      asm_dtoe

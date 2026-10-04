@@ -16,45 +16,45 @@ PUBLIC SP1MakeRect8Pix
 
 .SP1MakeRect8Pix
 
-   ld b,(hl)
-   inc hl
-   ld a,(hl)
-   inc hl
-   add a,a
-   add a,a
-   add a,a
-   ld (de),a
-   inc de
-   ld a,(hl)
-   inc hl
-   add a,a
-   add a,a
-   add a,a
-   ld (de),a
-   inc de
-   ld a,b
-   add a,a
-   add a,a
-   add a,a
-   ld (de),a
-   inc de
-   ld a,(hl)
-   inc hl
-   add a,a
-   add a,a
-   add a,a
-   ld (de),a
-   dec de
-   ld a,(de)
-   ld b,a
-   ld a,(hl)
-   inc hl
-   and $07
-   add a,b
-   ld (de),a
-   dec de
-   dec de
-   ld a,(de)
-   add a,(hl)
-   ld (de),a
-   ret
+        ld      b, (hl)
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        add     a,    a
+        add     a,    a
+        add     a,    a
+        ld      (de), a
+        inc     de
+        ld      a, (hl)
+        inc     hl
+        add     a,    a
+        add     a,    a
+        add     a,    a
+        ld      (de), a
+        inc     de
+        ld      a,    b
+        add     a,    a
+        add     a,    a
+        add     a,    a
+        ld      (de), a
+        inc     de
+        ld      a, (hl)
+        inc     hl
+        add     a,    a
+        add     a,    a
+        add     a,    a
+        ld      (de), a
+        dec     de
+        ld      a, (de)
+        ld      b, a
+        ld      a, (hl)
+        inc     hl
+        and     $07
+        add     a,    b
+        ld      (de), a
+        dec     de
+        dec     de
+        ld      a,    (de)
+        add     a,    (hl)
+        ld      (de), a
+        ret

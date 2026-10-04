@@ -4,8 +4,8 @@
 ; void waitvsync (void);
 ;
 
-        .include        "atari5200.inc"
-        .export         _waitvsync
+        .include "atari5200.inc"
+        .export _waitvsync
 
 .proc   _waitvsync
         lda     RTCLOK+1

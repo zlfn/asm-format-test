@@ -16,11 +16,11 @@ EXTERN asm_ungetc
 
 ungetc_callee:
 
-   pop hl
-   pop ix
-   ex (sp),hl
-   
-   jp asm_ungetc
+        pop     hl
+        pop     ix
+        ex      (sp), hl
+
+        jp      asm_ungetc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

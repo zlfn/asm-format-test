@@ -17,20 +17,18 @@
         EXTERN  __oz_gfxend
 
         EXTERN  drawbox
-        EXTERN  plotpixel               ; yes, this costs some byte, but I preferred to
-        			; leave ozpointcolor and ozplotpixel as they are.
-
-
+        EXTERN  plotpixel       ; yes, this costs some byte, but I preferred to
+        ; leave ozpointcolor and ozplotpixel as they are.
 
 ozbox:
 _ozbox:
         push    ix
         ld      ix, 2
         add     ix, sp
-        ld      c, (ix+8)
-        ld      b, (ix+6)
-        ld      l, (ix+4)
-        ld      h, (ix+2)
+        ld      c,  (ix+8)
+        ld      b,  (ix+6)
+        ld      l,  (ix+4)
+        ld      h,  (ix+2)
         ld      ix, plotpixel
         call    __gfx_vram_page_in
         call    drawbox

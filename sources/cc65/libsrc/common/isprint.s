@@ -10,9 +10,9 @@
 ; int isprint (int c);
 ;
 
-        .export         _isprint
-        .include        "ctype.inc"
-        .import         ctypemask
+        .export _isprint
+        .include "ctype.inc"
+        .import ctypemask
 
 _isprint:
         jsr     ctypemask       ; (always clears X)

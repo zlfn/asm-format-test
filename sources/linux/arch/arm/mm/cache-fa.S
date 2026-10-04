@@ -29,8 +29,8 @@
 #ifdef CONFIG_ARCH_GEMINI
 #define CACHE_DSIZE	8192
 #else
-#define CACHE_DSIZE	16384 
-#endif 
+#define CACHE_DSIZE	16384
+#endif
 
 /* FIXME: put optimal value here. Current one is just estimation */
 #define CACHE_DLIMIT	(CACHE_DSIZE * 2)
@@ -41,9 +41,9 @@
  *	Unconditionally clean and invalidate the entire icache.
  */
 SYM_TYPED_FUNC_START(fa_flush_icache_all)
-	mov	r0, #0
-	mcr	p15, 0, r0, c7, c5, 0		@ invalidate I cache
-	ret	lr
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c5, 0   @ invalidate I cache
+        ret     lr
 SYM_FUNC_END(fa_flush_icache_all)
 
 /*
@@ -60,16 +60,16 @@ SYM_FUNC_ALIAS(fa_flush_user_cache_all, fa_flush_kern_cache_all)
  *	Clean and invalidate the entire cache.
  */
 SYM_TYPED_FUNC_START(fa_flush_kern_cache_all)
-	mov	ip, #0
-	mov	r2, #VM_EXEC
+        mov     ip, #0
+        mov     r2, #VM_EXEC
 __flush_whole_cache:
-	mcr	p15, 0, ip, c7, c14, 0		@ clean/invalidate D cache
-	tst	r2, #VM_EXEC
-	mcrne	p15, 0, ip, c7, c5, 0		@ invalidate I cache
-	mcrne	p15, 0, ip, c7, c5, 6		@ invalidate BTB
-	mcrne	p15, 0, ip, c7, c10, 4		@ drain write buffer
-	mcrne	p15, 0, ip, c7, c5, 4		@ prefetch flush
-	ret	lr
+        mcr     p15, 0, ip, c7, c14, 0  @ clean/invalidate D cache
+        tst     r2,  #VM_EXEC
+        mcrne   p15, 0, ip, c7, c5,  0  @ invalidate I cache
+        mcrne   p15, 0, ip, c7, c5,  6  @ invalidate BTB
+        mcrne   p15, 0, ip, c7, c10, 4  @ drain write buffer
+        mcrne   p15, 0, ip, c7, c5,  4  @ prefetch flush
+        ret     lr
 SYM_FUNC_END(fa_flush_kern_cache_all)
 
 /*
@@ -83,22 +83,22 @@ SYM_FUNC_END(fa_flush_kern_cache_all)
  *	- flags	- vma_area_struct flags describing address space
  */
 SYM_TYPED_FUNC_START(fa_flush_user_cache_range)
-	mov	ip, #0
-	sub	r3, r1, r0			@ calculate total size
-	cmp	r3, #CACHE_DLIMIT		@ total size >= limit?
-	bhs	__flush_whole_cache		@ flush whole D cache
+        mov     ip, #0
+        sub     r3, r1, r0              @ calculate total size
+        cmp     r3, #CACHE_DLIMIT       @ total size >= limit?
+        bhs     __flush_whole_cache     @ flush whole D cache
 
-1:	tst	r2, #VM_EXEC
-	mcrne	p15, 0, r0, c7, c5, 1		@ invalidate I line
-	mcr	p15, 0, r0, c7, c14, 1		@ clean and invalidate D entry
-	add	r0, r0, #CACHE_DLINESIZE
-	cmp	r0, r1
-	blo	1b
-	tst	r2, #VM_EXEC
-	mcrne	p15, 0, ip, c7, c5, 6		@ invalidate BTB
-	mcrne	p15, 0, ip, c7, c10, 4		@ data write barrier
-	mcrne	p15, 0, ip, c7, c5, 4		@ prefetch flush
-	ret	lr
+1:      tst     r2,  #VM_EXEC
+        mcrne   p15, 0,  r0, c7, c5,  1 @ invalidate I line
+        mcr     p15, 0,  r0, c7, c14, 1 @ clean and invalidate D entry
+        add     r0,  r0, #CACHE_DLINESIZE
+        cmp     r0,  r1
+        blo     1b
+        tst     r2,  #VM_EXEC
+        mcrne   p15, 0, ip, c7, c5,  6  @ invalidate BTB
+        mcrne   p15, 0, ip, c7, c10, 4  @ data write barrier
+        mcrne   p15, 0, ip, c7, c5,  4  @ prefetch flush
+        ret     lr
 SYM_FUNC_END(fa_flush_user_cache_range)
 
 /*
@@ -113,7 +113,7 @@ SYM_FUNC_END(fa_flush_user_cache_range)
  */
 SYM_TYPED_FUNC_START(fa_coherent_kern_range)
 #ifdef CONFIG_CFI /* Fallthrough if !CFI */
-	b	fa_coherent_user_range
+        b       fa_coherent_user_range
 #endif
 SYM_FUNC_END(fa_coherent_kern_range)
 
@@ -128,17 +128,17 @@ SYM_FUNC_END(fa_coherent_kern_range)
  *	- end	 - virtual end address
  */
 SYM_TYPED_FUNC_START(fa_coherent_user_range)
-	bic	r0, r0, #CACHE_DLINESIZE - 1
-1:	mcr	p15, 0, r0, c7, c14, 1		@ clean and invalidate D entry
-	mcr	p15, 0, r0, c7, c5, 1		@ invalidate I entry
-	add	r0, r0, #CACHE_DLINESIZE
-	cmp	r0, r1
-	blo	1b
-	mov	r0, #0
-	mcr	p15, 0, r0, c7, c5, 6		@ invalidate BTB
-	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
-	mcr	p15, 0, r0, c7, c5, 4		@ prefetch flush
-	ret	lr
+        bic     r0,  r0, #CACHE_DLINESIZE - 1
+1:      mcr     p15, 0,  r0, c7, c14, 1 @ clean and invalidate D entry
+        mcr     p15, 0,  r0, c7, c5,  1 @ invalidate I entry
+        add     r0,  r0, #CACHE_DLINESIZE
+        cmp     r0,  r1
+        blo     1b
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c5,  6  @ invalidate BTB
+        mcr     p15, 0, r0, c7, c10, 4  @ drain write buffer
+        mcr     p15, 0, r0, c7, c5,  4  @ prefetch flush
+        ret     lr
 SYM_FUNC_END(fa_coherent_user_range)
 
 /*
@@ -151,15 +151,15 @@ SYM_FUNC_END(fa_coherent_user_range)
  *	- size	- size of region
  */
 SYM_TYPED_FUNC_START(fa_flush_kern_dcache_area)
-	add	r1, r0, r1
-1:	mcr	p15, 0, r0, c7, c14, 1		@ clean & invalidate D line
-	add	r0, r0, #CACHE_DLINESIZE
-	cmp	r0, r1
-	blo	1b
-	mov	r0, #0
-	mcr	p15, 0, r0, c7, c5, 0		@ invalidate I cache
-	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
-	ret	lr
+        add     r1,  r0, r1
+1:      mcr     p15, 0,  r0, c7, c14, 1 @ clean & invalidate D line
+        add     r0,  r0, #CACHE_DLINESIZE
+        cmp     r0,  r1
+        blo     1b
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c5,  0  @ invalidate I cache
+        mcr     p15, 0, r0, c7, c10, 4  @ drain write buffer
+        ret     lr
 SYM_FUNC_END(fa_flush_kern_dcache_area)
 
 /*
@@ -174,19 +174,19 @@ SYM_FUNC_END(fa_flush_kern_dcache_area)
  *	- end	 - virtual end address
  */
 fa_dma_inv_range:
-	tst	r0, #CACHE_DLINESIZE - 1
-	bic	r0, r0, #CACHE_DLINESIZE - 1
-	mcrne	p15, 0, r0, c7, c14, 1		@ clean & invalidate D entry
-	tst	r1, #CACHE_DLINESIZE - 1
-	bic	r1, r1, #CACHE_DLINESIZE - 1
-	mcrne	p15, 0, r1, c7, c14, 1		@ clean & invalidate D entry
-1:	mcr	p15, 0, r0, c7, c6, 1		@ invalidate D entry
-	add	r0, r0, #CACHE_DLINESIZE
-	cmp	r0, r1
-	blo	1b
-	mov	r0, #0
-	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
-	ret	lr
+        tst     r0,  #CACHE_DLINESIZE - 1
+        bic     r0,  r0, #CACHE_DLINESIZE - 1
+        mcrne   p15, 0,  r0, c7, c14, 1 @ clean & invalidate D entry
+        tst     r1,  #CACHE_DLINESIZE - 1
+        bic     r1,  r1, #CACHE_DLINESIZE - 1
+        mcrne   p15, 0,  r1, c7, c14, 1 @ clean & invalidate D entry
+1:      mcr     p15, 0,  r0, c7, c6,  1 @ invalidate D entry
+        add     r0,  r0, #CACHE_DLINESIZE
+        cmp     r0,  r1
+        blo     1b
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c10, 4  @ drain write buffer
+        ret     lr
 
 /*
  *	dma_clean_range(start, end)
@@ -197,14 +197,14 @@ fa_dma_inv_range:
  *	- end	 - virtual end address
  */
 fa_dma_clean_range:
-	bic	r0, r0, #CACHE_DLINESIZE - 1
-1:	mcr	p15, 0, r0, c7, c10, 1		@ clean D entry
-	add	r0, r0, #CACHE_DLINESIZE
-	cmp	r0, r1
-	blo	1b
-	mov	r0, #0	
-	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
-	ret	lr
+        bic     r0,  r0, #CACHE_DLINESIZE - 1
+1:      mcr     p15, 0,  r0, c7, c10, 1 @ clean D entry
+        add     r0,  r0, #CACHE_DLINESIZE
+        cmp     r0,  r1
+        blo     1b
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c10, 4  @ drain write buffer
+        ret     lr
 
 /*
  *	dma_flush_range(start,end)
@@ -212,14 +212,14 @@ fa_dma_clean_range:
  *	- end     - virtual end address of region
  */
 SYM_TYPED_FUNC_START(fa_dma_flush_range)
-	bic	r0, r0, #CACHE_DLINESIZE - 1
-1:	mcr	p15, 0, r0, c7, c14, 1		@ clean & invalidate D entry
-	add	r0, r0, #CACHE_DLINESIZE
-	cmp	r0, r1
-	blo	1b
-	mov	r0, #0	
-	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
-	ret	lr
+        bic     r0,  r0, #CACHE_DLINESIZE - 1
+1:      mcr     p15, 0,  r0, c7, c14, 1 @ clean & invalidate D entry
+        add     r0,  r0, #CACHE_DLINESIZE
+        cmp     r0,  r1
+        blo     1b
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c10, 4  @ drain write buffer
+        ret     lr
 SYM_FUNC_END(fa_dma_flush_range)
 
 /*
@@ -229,11 +229,11 @@ SYM_FUNC_END(fa_dma_flush_range)
  *	- dir	- DMA direction
  */
 SYM_TYPED_FUNC_START(fa_dma_map_area)
-	add	r1, r1, r0
-	cmp	r2, #DMA_TO_DEVICE
-	beq	fa_dma_clean_range
-	bcs	fa_dma_inv_range
-	b	fa_dma_flush_range
+        add     r1, r1, r0
+        cmp     r2, #DMA_TO_DEVICE
+        beq     fa_dma_clean_range
+        bcs     fa_dma_inv_range
+        b       fa_dma_flush_range
 SYM_FUNC_END(fa_dma_map_area)
 
 /*
@@ -243,5 +243,5 @@ SYM_FUNC_END(fa_dma_map_area)
  *	- dir	- DMA direction
  */
 SYM_TYPED_FUNC_START(fa_dma_unmap_area)
-	ret	lr
+        ret     lr
 SYM_FUNC_END(fa_dma_unmap_area)

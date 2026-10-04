@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT32
@@ -27,7 +27,7 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalSyncDecrement)
 ASM_PFX(InternalSyncDecrement):
-    mov       eax, 0FFFFFFFFh
-    lock xadd dword [rcx], eax
-    dec       eax
-    ret
+        mov     eax, 0FFFFFFFFh
+        lock xadd dword [rcx], eax
+        dec     eax
+        ret

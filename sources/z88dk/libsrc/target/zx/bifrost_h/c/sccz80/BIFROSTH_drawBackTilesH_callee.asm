@@ -16,17 +16,16 @@ EXTERN asm_BIFROSTH_drawBackTilesH
 
 BIFROSTH_drawBackTilesH_callee:
 
-        pop hl          ; RET address
-        pop bc          ; C=attrib
-        pop de          ; E=col
-        ex (sp),hl      ; L=lin
-        ld d,l          ; D=lin
+        pop     hl              ; RET address
+        pop     bc              ; C=attrib
+        pop     de              ; E=col
+        ex      (sp), hl        ; L=lin
+        ld      d,    l         ; D=lin
 
-        jp asm_BIFROSTH_drawBackTilesH        ; execute 'draw_back_tiles'
+        jp      asm_BIFROSTH_drawBackTilesH     ; execute 'draw_back_tiles'
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _BIFROSTH_drawBackTilesH_callee
 defc _BIFROSTH_drawBackTilesH_callee = BIFROSTH_drawBackTilesH_callee
 ENDIF
-

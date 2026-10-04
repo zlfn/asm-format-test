@@ -16,17 +16,17 @@ EXTERN asm_vfscanf
 
 vfscanf:
 
-   pop af
-   pop bc
-   pop de
-   pop ix
+        pop     af
+        pop     bc
+        pop     de
+        pop     ix
 
-   push hl
-   push de
-   push bc
-   push af
-   
-   jp asm_vfscanf
+        push    hl
+        push    de
+        push    bc
+        push    af
+
+        jp      asm_vfscanf
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -23,45 +23,45 @@ asm_sp1_PutTiles:
 ;          c = height
 ; uses  : af, bc, de, hl, ixl
 
-   push hl
-   call asm_sp1_GetUpdateStruct       ; hl = & struct sp1_update
-   pop de                             ; de = struct sp1_tp *
-   inc hl
-   ex de,hl                           ; hl = struct sp1_tp *, de = & struct sp1_update
- 
-   ld ixl,c                           ; ixl = height
-   ld c,$ff
+        push    hl
+        call    asm_sp1_GetUpdateStruct ; hl = & struct sp1_update
+        pop     de                      ; de = struct sp1_tp *
+        inc     hl
+        ex      de, hl                  ; hl = struct sp1_tp *, de = & struct sp1_update
+
+        ld      ixl, c  ; ixl = height
+        ld      c,   $ff
 
 .rowloop
 
-   push bc                            ; save b = width
-   push de                            ; save update position
+        push    bc      ; save b = width
+        push    de      ; save update position
 
 .colloop
 
-   ldi                                ; copy colour and tile from struct sp1_tp[
+        ldi     ; copy colour and tile from struct sp1_tp[
 
-   ldi                                ; into struct sp1_update
-   ldi
-   ld a,7
-   add a,e
-   ld e,a
-   jp nc, noinc
-   inc d                              ; de = next struct sp1_update * one column to right
+        ldi             ; into struct sp1_update
+        ldi
+        ld      a,  7
+        add     a,  e
+        ld      e,  a
+        jp      nc, noinc
+        inc     d       ; de = next struct sp1_update * one column to right
 
 .noinc
 
-   djnz colloop
+        djnz    colloop
 
-   ex (sp),hl                         ; hl = struct sp1_update * in same row but leftmost column
-   ld bc,10*SP1V_DISPWIDTH
-   add hl,bc                          ; hl = struct sp1_update * one row down leftmost column
-   pop de
-   ex de,hl                           ; de = struct sp1_update * down one row, hl = struct sp1_tp[
+        ex      (sp), hl        ; hl = struct sp1_update * in same row but leftmost column
+        ld      bc,   10*SP1V_DISPWIDTH
+        add     hl,   bc        ; hl = struct sp1_update * one row down leftmost column
+        pop     de
+        ex      de, hl          ; de = struct sp1_update * down one row, hl = struct sp1_tp[
 
-   pop bc                             ; b = width
+        pop     bc      ; b = width
 
-   dec ixl
-   jp nz, rowloop
+        dec     ixl
+        jp      nz, rowloop
 
-   ret
+        ret

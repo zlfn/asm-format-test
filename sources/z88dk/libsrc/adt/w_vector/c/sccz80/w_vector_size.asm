@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _w_vector_size
 defc _w_vector_size = w_vector_size
 ENDIF
-

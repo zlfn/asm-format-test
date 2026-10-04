@@ -8,10 +8,10 @@ EXTERN asm_esx_m_drvapi
 
 _esx_m_drvapi:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_esx_m_drvapi
+        push    hl
+        push    af
+
+        jp      asm_esx_m_drvapi

@@ -18,29 +18,29 @@
 ; while calling this function!
 ;
 
-        .export         ctypemask
-        .export         ctypemaskdirect
-        .import         __ctype
-        .import         __ctypeidx
+        .export ctypemask
+        .export ctypemaskdirect
+        .import __ctype
+        .import __ctypeidx
 
 ctypemask:
-        cpx     #$00            ; char range ok?
-        bne     SC              ; branch if not
+        cpx     #$00    ; char range ok?
+        bne     SC      ; branch if not
 ctypemaskdirect:
         lsr     a
         tax
-        lda     __ctypeidx,x
+        lda     __ctypeidx, x
         bcc     @lowerNibble
 @upperNibble:
         lsr     a
         lsr     a
         lsr     a
         lsr     a
-        clc                     ; remove out of bounds flag
+        clc             ; remove out of bounds flag
 @lowerNibble:
         and     #%00001111
         tax
-        lda     __ctype,x
+        lda     __ctype, x
         ldx     #$00
         rts
 

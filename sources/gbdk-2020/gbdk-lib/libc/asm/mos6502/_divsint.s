@@ -27,55 +27,54 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _divsint
+        .module _divsint
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __divsint
-	.globl ___sdivmod16
+        .globl  __divsint
+        .globl  ___sdivmod16
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define res "___SDCC_m6502_ret0"
-	.define den "__divsint_PARM_2"
-	.define rem "___SDCC_m6502_ret2"
-	.define s1  "___SDCC_m6502_ret4"
-	.define s2  "___SDCC_m6502_ret5"
+        .define res "___SDCC_m6502_ret0"
+        .define den "__divsint_PARM_2"
+        .define rem "___SDCC_m6502_ret2"
+        .define s1  "___SDCC_m6502_ret4"
+        .define s2  "___SDCC_m6502_ret5"
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 __divsint:
-	jsr	___sdivmod16
-	ldx	*res+1
-	lda	*s1
-	eor	*s2
-	bpl	pos
-	lda	*res+0
-	jmp	___negax
+        jsr     ___sdivmod16
+        ldx     *res+1
+        lda     *s1
+        eor     *s2
+        bpl     pos
+        lda     *res+0
+        jmp     ___negax
 pos:
-	lda	*res+0
-	rts
+        lda     *res+0
+        rts
 
 ___sdivmod16:
-	stx	*s1
-	jsr	_abs
-	tay
-	lda	*__divsint_PARM_2+1
-	sta	*s2
-	bpl	skip
-	sec
-	lda	#0x00
-	sbc	*__divsint_PARM_2+0
-        sta	*__divsint_PARM_2+0
-	lda	#0x00
-	sbc	*__divsint_PARM_2+1
-        sta	*__divsint_PARM_2+1
+        stx     *s1
+        jsr     _abs
+        tay
+        lda     *__divsint_PARM_2+1
+        sta     *s2
+        bpl     skip
+        sec
+        lda     #0x00
+        sbc     *__divsint_PARM_2+0
+        sta     *__divsint_PARM_2+0
+        lda     #0x00
+        sbc     *__divsint_PARM_2+1
+        sta     *__divsint_PARM_2+1
 skip:
-	tya
-	jmp	___udivmod16
-
+        tya
+        jmp     ___udivmod16

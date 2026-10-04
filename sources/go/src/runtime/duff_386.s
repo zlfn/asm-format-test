@@ -5,775 +5,775 @@
 #include "textflag.h"
 
 TEXT runtime·duffzero(SB), NOSPLIT, $0-0
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	STOSL
-	RET
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        STOSL
+        RET
 
 TEXT runtime·duffcopy(SB), NOSPLIT, $0-0
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	MOVL	(SI), CX
-	ADDL	$4, SI
-	MOVL	CX, (DI)
-	ADDL	$4, DI
-
-	RET
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        MOVL    (SI), CX
+        ADDL    $4,   SI
+        MOVL    CX,   (DI)
+        ADDL    $4,   DI
+
+        RET

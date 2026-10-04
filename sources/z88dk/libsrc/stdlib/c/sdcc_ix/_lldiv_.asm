@@ -10,12 +10,12 @@ EXTERN asm__lldiv
 
 __lldiv_:
 
-   push ix
-   
-   ld ix,6
-   add ix,sp
-   
-   call asm__lldiv
-   
-   pop ix
-   ret
+        push    ix
+
+        ld      ix, 6
+        add     ix, sp
+
+        call    asm__lldiv
+
+        pop     ix
+        ret

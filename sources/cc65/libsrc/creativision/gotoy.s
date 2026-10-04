@@ -4,10 +4,10 @@
 ; void gotoy (unsigned char y);
 ;
 
-        .export         _gotoy
-        .import         setcursor
+        .export _gotoy
+        .import setcursor
 
-        .include        "creativision.inc"
+        .include "creativision.inc"
 
 .proc   _gotoy
 

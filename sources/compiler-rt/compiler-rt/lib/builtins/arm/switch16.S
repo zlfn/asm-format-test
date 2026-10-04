@@ -20,26 +20,24 @@
 // to the last entry in the table. Each displacement in the table is actually
 // the distance from lr to the label, thus making the tables PIC.
 
-
-	.text
-	.syntax unified
+        .text
+        .syntax unified
 
 //
 // The table contains signed 2-byte sized elements which are 1/2 the distance
 // from lr to the target label.
 //
-	.p2align 2
+        .p2align 2
 DEFINE_COMPILERRT_PRIVATE_FUNCTION(__switch16)
-	ldrh    ip, [lr, #-1]           // get first 16-bit word in table
-	cmp     r0, ip                  // compare with index
-	add     r0, lr, r0, lsl #1      // compute address of element in table
-	add     ip, lr, ip, lsl #1      // compute address of last element in table
-	ite lo
-	ldrshlo r0, [r0, #1]            // load 16-bit element if r0 is in range
-	ldrshhs r0, [ip, #1]            // load 16-bit element if r0 out of range
-	add     ip, lr, r0, lsl #1      // compute label = lr + element*2
-	bx      ip                      // jump to computed label
+        ldrh    ip, [lr, #-1]           // get first 16-bit word in table
+        cmp     r0, ip                  // compare with index
+        add     r0, lr, r0, lsl #1      // compute address of element in table
+        add     ip, lr, ip, lsl #1      // compute address of last element in table
+        ite     lo
+        ldrshlo r0, [r0, #1]            // load 16-bit element if r0 is in range
+        ldrshhs r0, [ip, #1]            // load 16-bit element if r0 out of range
+        add     ip, lr, r0, lsl #1      // compute label = lr + element*2
+        bx      ip                      // jump to computed label
 END_COMPILERRT_FUNCTION(__switch16)
 
 NO_EXEC_STACK_DIRECTIVE
-

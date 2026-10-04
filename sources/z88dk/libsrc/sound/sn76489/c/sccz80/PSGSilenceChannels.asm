@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _PSGSilenceChannels
 defc _PSGSilenceChannels = PSGSilenceChannels
 ENDIF
-

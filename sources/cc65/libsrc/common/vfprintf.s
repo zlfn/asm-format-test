@@ -5,24 +5,23 @@
 ; 2005-02-08, Ullrich von Bassewitz
 ; 2005-02-11, Greg King
 
-        .export         _vfprintf
-        .import         push1, pushwysp, incsp6
-        .import         _fwrite, __printf
-        .importzp       c_sp, ptr1
+        .export _vfprintf
+        .import push1,   pushwysp, incsp6
+        .import _fwrite, __printf
+        .importzp c_sp, ptr1
 
-        .macpack        generic
-
+        .macpack generic
 
 .data
 
 ; ----------------------------------------------------------------------------
 ; Static data for the _vfprintf routine
 ;
-outdesc:                        ; Static outdesc structure
+outdesc:                ; Static outdesc structure
 ccount: .res    2
-        .word   out             ; Output function pointer
-ptr:    .res    2               ; Points to output file
-        .res    2               ; (Not used by this function)
+        .word   out     ; Output function pointer
+ptr:    .res    2       ; Points to output file
+        .res    2       ; (Not used by this function)
 
 .code
 
@@ -74,7 +73,7 @@ out:    ldy     #5
         dec     a
 .endif
         sta     ccount
-        bne     @Done           ; Branch always
+        bne     @Done   ; Branch always
 
 ; Result was ok, count bytes written
 
@@ -84,8 +83,7 @@ out:    ldy     #5
         txa
         adc     ccount+1
 @Done:  sta     ccount+1
-        jmp     incsp6          ; Drop stackframe
-
+        jmp     incsp6  ; Drop stackframe
 
 ; ----------------------------------------------------------------------------
 ; vfprintf - formatted output
@@ -109,7 +107,7 @@ out:    ldy     #5
 ; }
 ;
 _vfprintf:
-        pha                     ; Save low byte of ap
+        pha     ; Save low byte of ap
 
 ; Setup the outdesc structure
 
@@ -121,15 +119,15 @@ _vfprintf:
 ; exactly as _printf expects it. Parameters will get dropped by _printf.
 
         ldy     #2
-        lda     (c_sp),y        ; Low byte of f
+        lda     (c_sp), y       ; Low byte of f
         sta     ptr
         lda     #<outdesc
-        sta     (c_sp),y
+        sta     (c_sp), y
         iny
-        lda     (c_sp),y        ; High byte of f
+        lda     (c_sp), y       ; High byte of f
         sta     ptr+1
         lda     #>outdesc
-        sta     (c_sp),y
+        sta     (c_sp), y
 
 ; Restore low byte of ap and call _printf
 
@@ -141,5 +139,3 @@ _vfprintf:
         lda     ccount
         ldx     ccount+1
         rts
-
-

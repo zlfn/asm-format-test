@@ -35,29 +35,29 @@ global ASM_PFX(_ModuleEntryPoint)
 ;------------------------------------------------------------------------------
 global _ModuleEntryPoint
 _ModuleEntryPoint:
-  push ebx
-  push ecx
-  push edx
+        push    ebx
+        push    ecx
+        push    edx
 
-  mov eax, 1                        ; CPUID function 1
-  cpuid
-  test ecx, 0x40000000              ; Check if the RdRand bit (bit 30) is set in ECX
-  jz c_entry                        ; If not set, jump to c_entry
+        mov     eax, 1          ; CPUID function 1
+        cpuid
+        test    ecx, 0x40000000 ; Check if the RdRand bit (bit 30) is set in ECX
+        jz      c_entry         ; If not set, jump to c_entry
 
-  rdrand eax                        ; Use rdrand, getting a 32 bit value as on
-                                    ; IA32, __security_cookie is a 32 bit value.
-                                    ; CF=1 if RN generated ok, otherwise CF=0
-  jnc c_entry                       ; If the cmd fails, don't update __security_cookie, we'll have to move forward
-                                    ; with the static value provided at build time.
+        rdrand  eax     ; Use rdrand, getting a 32 bit value as on
+                        ; IA32, __security_cookie is a 32 bit value.
+                        ; CF=1 if RN generated ok, otherwise CF=0
+        jnc     c_entry ; If the cmd fails, don't update __security_cookie, we'll have to move forward
+                        ; with the static value provided at build time.
 
-  lea ebx, [ASM_PFX(__security_cookie)]      ; load the address of __stack_chk_guard into ebx
+        lea     ebx, [ASM_PFX(__security_cookie)]       ; load the address of __stack_chk_guard into ebx
 
-  xor ah, ah                        ; Zero a byte of the __security_cookie value to protect against string functions
-                                    ; (such as strcpy like functions) clobbering past the canary
-  mov [ebx], eax                    ; Store our random value, with 0'd first byte to __security_cookie
+        xor     ah, ah          ; Zero a byte of the __security_cookie value to protect against string functions
+                                ; (such as strcpy like functions) clobbering past the canary
+        mov     [ebx], eax      ; Store our random value, with 0'd first byte to __security_cookie
 
 c_entry:
-  pop edx
-  pop ecx
-  pop ebx
-  jmp ASM_PFX(_CModuleEntryPoint)
+        pop     edx
+        pop     ecx
+        pop     ebx
+        jmp     ASM_PFX(_CModuleEntryPoint)

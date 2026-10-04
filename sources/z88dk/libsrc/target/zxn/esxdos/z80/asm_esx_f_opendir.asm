@@ -12,47 +12,46 @@ EXTERN __esxdos_error_mc
 
 asm_esx_f_opendir:
 
-   ; enter : hl = dirname
-   
-   ld b,0
+        ; enter : hl = dirname
+
+        ld      b, 0
 
 asm_esx_f_opendir_ex:
 
-   ; enter : hl = dirname
-   ;          b = mode
-   ;
-   ; exit  : success
-   ;
-   ;            h = 0
-   ;            l = dir handle
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl, ix
-   
-   ld a,'*'
-   
+        ; enter : hl = dirname
+        ;          b = mode
+        ;
+        ; exit  : success
+        ;
+        ;            h = 0
+        ;            l = dir handle
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl, ix
+
+        ld      a, '*'
+
 IF __SDCC_IY
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 ELSE
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 ENDIF
 
-   rst __ESX_RST_SYS
-   defb __ESX_F_OPENDIR
-   
-   ld l,a
-   ld h,0
-   
-   ret nc
-   jp __esxdos_error_mc
+        rst     __ESX_RST_SYS
+        defb    __ESX_F_OPENDIR
 
+        ld      l, a
+        ld      h, 0
+
+        ret     nc
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * F_OPENDIR ($a3) *

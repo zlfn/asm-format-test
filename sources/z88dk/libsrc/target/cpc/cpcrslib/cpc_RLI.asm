@@ -11,20 +11,20 @@
 ;       $Id: cpc_RLI.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_RLI
-        PUBLIC    _cpc_RLI
-		
-        EXTERN    asm_cpc_RLI
-		
+        SECTION code_clib
+        PUBLIC  cpc_RLI
+        PUBLIC  _cpc_RLI
+
+        EXTERN  asm_cpc_RLI
+
 .cpc_RLI
 ._cpc_RLI
-		pop af
-		pop de	; h
-		pop bc	; w
-		pop	hl	; pos
-        push hl
-		push bc
-		push de
-        push af
-        jp asm_cpc_RLI
+        pop     af
+        pop     de      ; h
+        pop     bc      ; w
+        pop     hl      ; pos
+        push    hl
+        push    bc
+        push    de
+        push    af
+        jp      asm_cpc_RLI

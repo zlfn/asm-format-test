@@ -5,5 +5,5 @@
 ;
 ; Get a reverse attribute from screen RAM
 ;
-        .import         return0
-        .export         _cpeekrevers := return0 ; No attribute
+        .import return0
+        .export _cpeekrevers := return0 ; No attribute

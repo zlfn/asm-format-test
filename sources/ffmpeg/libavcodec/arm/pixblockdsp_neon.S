@@ -22,25 +22,25 @@
 
 .macro vld1_8 dst, src, incr, aligned
 .if \aligned
-        vld1.8          {\dst}, [\src, :64], \incr
+        vld1.8  {\dst}, [\src, :64], \incr
 .else
-        vld1.8          {\dst}, [\src], \incr
+        vld1.8  {\dst}, [\src], \incr
 .endif
 .endm
 
 .macro get_pixels suffix, aligned
 function ff_get_pixels\suffix\()_neon, export=1
-        mov             r3,  #8
+        mov     r3, #8
 1:
-        vld1_8          d0,  r1,  r2,  \aligned
-        subs            r3,  r3,  #2
-        vld1_8          d2,  r1,  r2,  \aligned
-        vmovl.u8        q0,  d0
-        vmovl.u8        q1,  d2
-        vst1.16         {q0, q1}, [r0, :128]!
-        bgt             1b
+        vld1_8  d0, r1, r2, \aligned
+        subs    r3, r3, #2
+        vld1_8  d2, r1, r2, \aligned
+        vmovl.u8 q0, d0
+        vmovl.u8 q1, d2
+        vst1.16 {q0, q1}, [r0, :128]!
+        bgt     1b
 
-        bx              lr
+        bx      lr
 endfunc
 .endm
 
@@ -49,19 +49,19 @@ get_pixels _unaligned, aligned=0
 
 .macro diff_pixels suffix, aligned=0
 function ff_diff_pixels\suffix\()_neon, export=1
-        mov             r12, #8
+        mov     r12, #8
 1:
-        vld1_8          d0,  r1,  r3,  \aligned
-        vld1_8          d1,  r2,  r3,  \aligned
-        subs            r12, r12, #2
-        vld1_8          d2,  r1,  r3,  \aligned
-        vsubl.u8        q0,  d0,  d1
-        vld1_8          d3,  r2,  r3,  \aligned
-        vsubl.u8        q1,  d2,  d3
-        vst1.16         {q0, q1}, [r0]!
-        bgt             1b
+        vld1_8  d0,  r1,  r3, \aligned
+        vld1_8  d1,  r2,  r3, \aligned
+        subs    r12, r12, #2
+        vld1_8  d2,  r1,  r3, \aligned
+        vsubl.u8 q0, d0, d1
+        vld1_8  d3, r2, r3, \aligned
+        vsubl.u8 q1, d2, d3
+        vst1.16 {q0, q1}, [r0]!
+        bgt     1b
 
-        bx              lr
+        bx      lr
 endfunc
 .endm
 

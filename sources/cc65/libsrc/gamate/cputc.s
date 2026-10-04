@@ -5,40 +5,40 @@
 ; Important note: The implementation of cputs() relies on the cputc() function
 ; not clobbering ptr1. Beware when rewriting or changing this function!
 
-        .export         _cputcxy, _cputc, cputdirect, putchar
-        .export         newline, plot
-        .import         gotoxy
-        .import         PLOT
-        .import         xsize
-        .import         fontdata
-        .import         _plotlo
+        .export _cputcxy, _cputc, cputdirect, putchar
+        .export newline,  plot
+        .import gotoxy
+        .import PLOT
+        .import xsize
+        .import fontdata
+        .import _plotlo
 
-        .importzp       tmp3,tmp4
-        .importzp       ptr3
+        .importzp tmp3, tmp4
+        .importzp ptr3
 
-        .include        "gamate.inc"
-        .include        "extzp.inc"
+        .include "gamate.inc"
+        .include "extzp.inc"
 
 _cputcxy:
-        pha                     ; Save C
-        jsr     gotoxy          ; Set cursor, drop x and y
-        pla                     ; Restore C
+        pha             ; Save C
+        jsr     gotoxy  ; Set cursor, drop x and y
+        pla             ; Restore C
 
 ; Plot a character - also used as internal function
 
-_cputc: cmp     #$0d            ; CR?
+_cputc: cmp     #$0d    ; CR?
         bne     L1
         lda     #0
         sta     CURS_X
-        beq     plot            ; Recalculate pointers
+        beq     plot    ; Recalculate pointers
 
-L1:     cmp     #$0a            ; LF?
-        beq     newline         ; Recalculate pointers
+L1:     cmp     #$0a    ; LF?
+        beq     newline ; Recalculate pointers
 
 ; Printable char of some sort
 
 cputdirect:
-        jsr     putchar         ; Write the character to the screen
+        jsr     putchar ; Write the character to the screen
 
 ; Advance cursor position
 
@@ -47,8 +47,8 @@ advance:
         iny
         cpy     xsize
         bne     L3
-        jsr     newline         ; new line
-        ldy     #0              ; + cr
+        jsr     newline ; new line
+        ldy     #0      ; + cr
 L3:     sty     CURS_X
         jmp     plot
 
@@ -60,7 +60,7 @@ newline:
 plot:   ldy     CURS_X
         ldx     CURS_Y
         clc
-        jmp     PLOT            ; Set the new cursor
+        jmp     PLOT    ; Set the new cursor
 
 ; Write one character to the screen without doing anything else, return X
 ; position in Y
@@ -103,20 +103,20 @@ putchar:
         bcc     @delete1
 
 @copylp1:
-        lda     (ptr3),y
+        lda     (ptr3), y
         eor     RVS
         sta     LCD_DATA
         iny
         bne     @copylp1
 
-        beq @skip_delete1
+        beq     @skip_delete1
 
 @delete1:
-        lda   #$00
+        lda     #$00
 @del1:
-        sta   LCD_DATA
+        sta     LCD_DATA
         iny
-        bne @del1
+        bne     @del1
 
 @skip_delete1:
 
@@ -126,7 +126,7 @@ putchar:
         sta     LCD_X
 
         ldx     CURS_Y
-        lda     _plotlo,x
+        lda     _plotlo, x
         sta     LCD_Y
 
         ldy     #$F8
@@ -136,20 +136,20 @@ putchar:
         beq     @delete2
 
 @copylp2:
-        lda     (ptr3),y
+        lda     (ptr3), y
         eor     RVS
         sta     LCD_DATA
         iny
         bne     @copylp2
 
-        beq    @skip_delete2
+        beq     @skip_delete2
 
 @delete2:
-        lda   #$00
+        lda     #$00
 @del2:
-        sta   LCD_DATA
+        sta     LCD_DATA
         iny
-        bne @del2
+        bne     @del2
 
 @skip_delete2:
         pla

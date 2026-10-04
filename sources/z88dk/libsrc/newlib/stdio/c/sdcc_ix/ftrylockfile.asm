@@ -10,10 +10,10 @@ EXTERN _ftrylockfile_fastcall
 
 _ftrylockfile:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _ftrylockfile_fastcall
+        push    hl
+        push    af
+
+        jp      _ftrylockfile_fastcall

@@ -10,12 +10,12 @@ EXTERN asm_b_array_resize
 
 _b_array_resize:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   jp asm_b_array_resize
+        pop     af
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_b_array_resize

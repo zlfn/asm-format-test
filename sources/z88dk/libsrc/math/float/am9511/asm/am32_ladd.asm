@@ -26,30 +26,28 @@ EXTERN asm_am9511_popl
 
 PUBLIC asm_am9511_ladd, asm_am9511_ladd_callee
 
-
 ; enter here for long add, x+y, x on stack, y in dehl, result in dehl
 .asm_am9511_ladd
-    call asm_am9511_pushl           ; x
+        call    asm_am9511_pushl        ; x
 
-    call asm_am9511_pushl_fastcall  ; y
+        call    asm_am9511_pushl_fastcall       ; y
 
-    ld a,__IO_APU_OP_DADD
-    AM9511_OUT_APU_CONTROL        ; x + y
+        ld      a, __IO_APU_OP_DADD
+        AM9511_OUT_APU_CONTROL  ; x + y
 
-    jp asm_am9511_popl
-
+        jp      asm_am9511_popl
 
 ; enter here for long add callee, x+y, x on stack, y in dehl
 .asm_am9511_ladd_callee
-    call asm_am9511_pushl           ; x
+        call    asm_am9511_pushl        ; x
 
-    call asm_am9511_pushl_fastcall  ; y
+        call    asm_am9511_pushl_fastcall       ; y
 
-    ld a,__IO_APU_OP_DADD
-    AM9511_OUT_APU_CONTROL        ; x + y
+        ld      a, __IO_APU_OP_DADD
+        AM9511_OUT_APU_CONTROL  ; x + y
 
-    pop hl                          ; ret
-    pop de
-    ex (sp),hl                      ; ret back on stack
+        pop     hl              ; ret
+        pop     de
+        ex      (sp), hl        ; ret back on stack
 
-    jp asm_am9511_popl              ; result in dehl
+        jp      asm_am9511_popl ; result in dehl

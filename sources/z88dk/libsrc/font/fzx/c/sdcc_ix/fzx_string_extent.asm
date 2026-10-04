@@ -10,12 +10,12 @@ EXTERN asm_fzx_string_extent
 
 _fzx_string_extent:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
 
-   jp asm_fzx_string_extent
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_fzx_string_extent

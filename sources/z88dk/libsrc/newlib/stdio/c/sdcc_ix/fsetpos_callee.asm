@@ -16,19 +16,19 @@ EXTERN asm_fsetpos
 
 _fsetpos_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        ex      (sp), hl
 
 l0_fsetpos_callee:
-   
-   push bc
-   ex (sp),ix
-   
-   call asm_fsetpos
-   
-   pop ix
-   ret
+
+        push    bc
+        ex      (sp), ix
+
+        call    asm_fsetpos
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -31,32 +31,28 @@
 ;/*                                                                           */
 ;/*****************************************************************************/
 
-
-
 ;------------------------------------------------------------------------------
 ; Struct tm - must match the struct defined in time.h
 
 .struct tm
-        tm_sec      .word
-        tm_min      .word
-        tm_hour     .word
-        tm_mday     .word
-        tm_mon      .word
-        tm_year     .word
-        tm_wday     .word
-        tm_yday     .word
-        tm_isdst    .word
+        tm_sec  .word
+        tm_min  .word
+        tm_hour .word
+        tm_mday .word
+        tm_mon  .word
+        tm_year .word
+        tm_wday .word
+        tm_yday .word
+        tm_isdst .word
 .endstruct
-
 
 ;------------------------------------------------------------------------------
 ; Struct timespec - must match the struct defined in time.h
 
 .struct timespec
-        tv_sec      .dword
-        tv_nsec     .dword
+        tv_sec  .dword
+        tv_nsec .dword
 .endstruct
-
 
 ;------------------------------------------------------------------------------
 ; Exported functions
@@ -66,7 +62,6 @@
 .global         _clock_settime
 .global         _localtime
 .global         _mktime
-
 
 ;------------------------------------------------------------------------------
 ; Constants

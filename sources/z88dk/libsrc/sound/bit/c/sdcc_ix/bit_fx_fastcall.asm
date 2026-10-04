@@ -9,10 +9,10 @@ PUBLIC _bit_fx_fastcall
 EXTERN asm_bit_fx
 
 _bit_fx_fastcall:
-   
-   push ix
-   
-   call asm_bit_fx
-   
-   pop ix
-   ret
+
+        push    ix
+
+        call    asm_bit_fx
+
+        pop     ix
+        ret

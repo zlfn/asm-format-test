@@ -10,13 +10,13 @@ EXTERN asm_strncmp
 
 strncmp_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   ex de,hl
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+        ex      de,   hl
 
-   jp asm_strncmp
+        jp      asm_strncmp
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -24,10 +24,8 @@ PUBLIC _strncmp_callee
 defc _strncmp_callee = strncmp_callee
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___strncmp_callee
 defc ___strncmp_callee = strncmp_callee
 ENDIF
-

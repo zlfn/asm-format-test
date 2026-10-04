@@ -9,10 +9,10 @@ EXTERN asm_SMSlib_VDPturnOnFeature
 
 _SMS_VDPturnOnFeature:
 
-   pop af
-	pop hl
-	
-	push hl
-	push af
-	
-	jp asm_SMSlib_VDPturnOnFeature
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_SMSlib_VDPturnOnFeature

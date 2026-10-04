@@ -36,22 +36,22 @@
  *	r1 - corrupted
  */
 SYM_TYPED_FUNC_START(v6_flush_icache_all)
-	mov	r0, #0
+        mov     r0, #0
 #ifdef CONFIG_ARM_ERRATA_411920
-	mrs	r1, cpsr
-	cpsid	ifa				@ disable interrupts
-	mcr	p15, 0, r0, c7, c5, 0		@ invalidate entire I-cache
-	mcr	p15, 0, r0, c7, c5, 0		@ invalidate entire I-cache
-	mcr	p15, 0, r0, c7, c5, 0		@ invalidate entire I-cache
-	mcr	p15, 0, r0, c7, c5, 0		@ invalidate entire I-cache
-	msr	cpsr_cx, r1			@ restore interrupts
-	.rept	11				@ ARM Ltd recommends at least
-	nop					@ 11 NOPs
-	.endr
+        mrs     r1, cpsr
+        cpsid   ifa                             @ disable interrupts
+        mcr     p15,     0, r0, c7, c5, 0       @ invalidate entire I-cache
+        mcr     p15,     0, r0, c7, c5, 0       @ invalidate entire I-cache
+        mcr     p15,     0, r0, c7, c5, 0       @ invalidate entire I-cache
+        mcr     p15,     0, r0, c7, c5, 0       @ invalidate entire I-cache
+        msr     cpsr_cx, r1                     @ restore interrupts
+        .rept   11                              @ ARM Ltd recommends at least
+                nop                             @ 11 NOPs
+        .endr
 #else
-	mcr	p15, 0, r0, c7, c5, 0		@ invalidate I-cache
+        mcr     p15, 0, r0, c7, c5, 0   @ invalidate I-cache
 #endif
-	ret	lr
+        ret     lr
 SYM_FUNC_END(v6_flush_icache_all)
 
 /*
@@ -62,18 +62,18 @@ SYM_FUNC_END(v6_flush_icache_all)
  *	It is assumed that:
  */
 SYM_TYPED_FUNC_START(v6_flush_kern_cache_all)
-	mov	r0, #0
+        mov     r0, #0
 #ifdef HARVARD_CACHE
-	mcr	p15, 0, r0, c7, c14, 0		@ D cache clean+invalidate
+        mcr     p15, 0, r0, c7, c14, 0  @ D cache clean+invalidate
 #ifndef CONFIG_ARM_ERRATA_411920
-	mcr	p15, 0, r0, c7, c5, 0		@ I+BTB cache invalidate
+        mcr     p15, 0, r0, c7, c5, 0   @ I+BTB cache invalidate
 #else
-	b	v6_flush_icache_all
+        b       v6_flush_icache_all
 #endif
 #else
-	mcr	p15, 0, r0, c7, c15, 0		@ Cache clean+invalidate
+        mcr     p15, 0, r0, c7, c15, 0  @ Cache clean+invalidate
 #endif
-	ret	lr
+        ret     lr
 SYM_FUNC_END(v6_flush_kern_cache_all)
 
 /*
@@ -84,7 +84,7 @@ SYM_FUNC_END(v6_flush_kern_cache_all)
  *	- mm    - mm_struct describing address space
  */
 SYM_TYPED_FUNC_START(v6_flush_user_cache_all)
-	ret	lr
+        ret     lr
 SYM_FUNC_END(v6_flush_user_cache_all)
 
 /*
@@ -100,7 +100,7 @@ SYM_FUNC_END(v6_flush_user_cache_all)
  *	- we have a VIPT cache.
  */
 SYM_TYPED_FUNC_START(v6_flush_user_cache_range)
-	ret	lr
+        ret     lr
 SYM_FUNC_END(v6_flush_user_cache_range)
 
 /*
@@ -118,7 +118,7 @@ SYM_FUNC_END(v6_flush_user_cache_range)
  */
 SYM_TYPED_FUNC_START(v6_coherent_kern_range)
 #ifdef CONFIG_CFI /* Fallthrough if !CFI */
-	b	v6_coherent_user_range
+        b       v6_coherent_user_range
 #endif
 SYM_FUNC_END(v6_coherent_kern_range)
 
@@ -136,36 +136,36 @@ SYM_FUNC_END(v6_coherent_kern_range)
  *	- the Icache does not read data from the write buffer
  */
 SYM_TYPED_FUNC_START(v6_coherent_user_range)
- UNWIND(.fnstart		)
+        UNWIND(.fnstart )
 #ifdef HARVARD_CACHE
-	bic	r0, r0, #CACHE_LINE_SIZE - 1
+        bic     r0, r0, #CACHE_LINE_SIZE - 1
 1:
- USER(	mcr	p15, 0, r0, c7, c10, 1	)	@ clean D line
-	add	r0, r0, #CACHE_LINE_SIZE
-	cmp	r0, r1
-	blo	1b
+        USER(   mcr	p15, 0, r0, c7, c10, 1	)       @ clean D line
+        add     r0, r0, #CACHE_LINE_SIZE
+        cmp     r0, r1
+        blo     1b
 #endif
-	mov	r0, #0
+        mov     r0, #0
 #ifdef HARVARD_CACHE
-	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
+        mcr     p15, 0, r0, c7, c10, 4  @ drain write buffer
 #ifndef CONFIG_ARM_ERRATA_411920
-	mcr	p15, 0, r0, c7, c5, 0		@ I+BTB cache invalidate
+        mcr     p15, 0, r0, c7, c5, 0   @ I+BTB cache invalidate
 #else
-	b	v6_flush_icache_all
+        b       v6_flush_icache_all
 #endif
 #else
-	mcr	p15, 0, r0, c7, c5, 6		@ invalidate BTB
+        mcr     p15, 0, r0, c7, c5, 6   @ invalidate BTB
 #endif
-	ret	lr
+        ret     lr
 
 /*
  * Fault handling for the cache operation above. If the virtual address in r0
  * isn't mapped, fail with -EFAULT.
  */
 9001:
-	mov	r0, #-EFAULT
-	ret	lr
- UNWIND(.fnend		)
+        mov     r0, #-EFAULT
+        ret     lr
+        UNWIND(.fnend )
 SYM_FUNC_END(v6_coherent_user_range)
 
 /*
@@ -178,22 +178,22 @@ SYM_FUNC_END(v6_coherent_user_range)
  *	- size	- region size
  */
 SYM_TYPED_FUNC_START(v6_flush_kern_dcache_area)
-	add	r1, r0, r1
-	bic	r0, r0, #D_CACHE_LINE_SIZE - 1
+        add     r1, r0, r1
+        bic     r0, r0, #D_CACHE_LINE_SIZE - 1
 1:
 #ifdef HARVARD_CACHE
-	mcr	p15, 0, r0, c7, c14, 1		@ clean & invalidate D line
+        mcr     p15, 0, r0, c7, c14, 1  @ clean & invalidate D line
 #else
-	mcr	p15, 0, r0, c7, c15, 1		@ clean & invalidate unified line
-#endif	
-	add	r0, r0, #D_CACHE_LINE_SIZE
-	cmp	r0, r1
-	blo	1b
-#ifdef HARVARD_CACHE
-	mov	r0, #0
-	mcr	p15, 0, r0, c7, c10, 4
+        mcr     p15, 0, r0, c7, c15, 1  @ clean & invalidate unified line
 #endif
-	ret	lr
+        add     r0, r0, #D_CACHE_LINE_SIZE
+        cmp     r0, r1
+        blo     1b
+#ifdef HARVARD_CACHE
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c10, 4
+#endif
+        ret     lr
 SYM_FUNC_END(v6_flush_kern_dcache_area)
 
 /*
@@ -207,32 +207,32 @@ SYM_FUNC_END(v6_flush_kern_dcache_area)
  *	- end     - virtual end address of region
  */
 v6_dma_inv_range:
-	tst	r0, #D_CACHE_LINE_SIZE - 1
-	bic	r0, r0, #D_CACHE_LINE_SIZE - 1
+        tst     r0, #D_CACHE_LINE_SIZE - 1
+        bic     r0, r0, #D_CACHE_LINE_SIZE - 1
 #ifdef HARVARD_CACHE
-	mcrne	p15, 0, r0, c7, c10, 1		@ clean D line
+        mcrne   p15, 0, r0, c7, c10, 1  @ clean D line
 #else
-	mcrne	p15, 0, r0, c7, c11, 1		@ clean unified line
+        mcrne   p15, 0, r0, c7, c11, 1  @ clean unified line
 #endif
-	tst	r1, #D_CACHE_LINE_SIZE - 1
-	bic	r1, r1, #D_CACHE_LINE_SIZE - 1
+        tst     r1, #D_CACHE_LINE_SIZE - 1
+        bic     r1, r1, #D_CACHE_LINE_SIZE - 1
 #ifdef HARVARD_CACHE
-	mcrne	p15, 0, r1, c7, c14, 1		@ clean & invalidate D line
+        mcrne   p15, 0, r1, c7, c14, 1  @ clean & invalidate D line
 #else
-	mcrne	p15, 0, r1, c7, c15, 1		@ clean & invalidate unified line
+        mcrne   p15, 0, r1, c7, c15, 1  @ clean & invalidate unified line
 #endif
 1:
 #ifdef HARVARD_CACHE
-	mcr	p15, 0, r0, c7, c6, 1		@ invalidate D line
+        mcr     p15, 0, r0, c7, c6, 1   @ invalidate D line
 #else
-	mcr	p15, 0, r0, c7, c7, 1		@ invalidate unified line
+        mcr     p15, 0, r0, c7, c7, 1   @ invalidate unified line
 #endif
-	add	r0, r0, #D_CACHE_LINE_SIZE
-	cmp	r0, r1
-	blo	1b
-	mov	r0, #0
-	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
-	ret	lr
+        add     r0, r0, #D_CACHE_LINE_SIZE
+        cmp     r0, r1
+        blo     1b
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c10, 4  @ drain write buffer
+        ret     lr
 
 /*
  *	v6_dma_clean_range(start,end)
@@ -240,19 +240,19 @@ v6_dma_inv_range:
  *	- end     - virtual end address of region
  */
 v6_dma_clean_range:
-	bic	r0, r0, #D_CACHE_LINE_SIZE - 1
+        bic     r0, r0, #D_CACHE_LINE_SIZE - 1
 1:
 #ifdef HARVARD_CACHE
-	mcr	p15, 0, r0, c7, c10, 1		@ clean D line
+        mcr     p15, 0, r0, c7, c10, 1  @ clean D line
 #else
-	mcr	p15, 0, r0, c7, c11, 1		@ clean unified line
+        mcr     p15, 0, r0, c7, c11, 1  @ clean unified line
 #endif
-	add	r0, r0, #D_CACHE_LINE_SIZE
-	cmp	r0, r1
-	blo	1b
-	mov	r0, #0
-	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
-	ret	lr
+        add     r0, r0, #D_CACHE_LINE_SIZE
+        cmp     r0, r1
+        blo     1b
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c10, 4  @ drain write buffer
+        ret     lr
 
 /*
  *	v6_dma_flush_range(start,end)
@@ -260,19 +260,19 @@ v6_dma_clean_range:
  *	- end     - virtual end address of region
  */
 SYM_TYPED_FUNC_START(v6_dma_flush_range)
-	bic	r0, r0, #D_CACHE_LINE_SIZE - 1
+        bic     r0, r0, #D_CACHE_LINE_SIZE - 1
 1:
 #ifdef HARVARD_CACHE
-	mcr	p15, 0, r0, c7, c14, 1		@ clean & invalidate D line
+        mcr     p15, 0, r0, c7, c14, 1  @ clean & invalidate D line
 #else
-	mcr	p15, 0, r0, c7, c15, 1		@ clean & invalidate line
+        mcr     p15, 0, r0, c7, c15, 1  @ clean & invalidate line
 #endif
-	add	r0, r0, #D_CACHE_LINE_SIZE
-	cmp	r0, r1
-	blo	1b
-	mov	r0, #0
-	mcr	p15, 0, r0, c7, c10, 4		@ drain write buffer
-	ret	lr
+        add     r0, r0, #D_CACHE_LINE_SIZE
+        cmp     r0, r1
+        blo     1b
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c10, 4  @ drain write buffer
+        ret     lr
 SYM_FUNC_END(v6_dma_flush_range)
 
 /*
@@ -282,10 +282,10 @@ SYM_FUNC_END(v6_dma_flush_range)
  *	- dir	- DMA direction
  */
 SYM_TYPED_FUNC_START(v6_dma_map_area)
-	add	r1, r1, r0
-	teq	r2, #DMA_FROM_DEVICE
-	beq	v6_dma_inv_range
-	b	v6_dma_clean_range
+        add     r1, r1, r0
+        teq     r2, #DMA_FROM_DEVICE
+        beq     v6_dma_inv_range
+        b       v6_dma_clean_range
 SYM_FUNC_END(v6_dma_map_area)
 
 /*
@@ -295,8 +295,8 @@ SYM_FUNC_END(v6_dma_map_area)
  *	- dir	- DMA direction
  */
 SYM_TYPED_FUNC_START(v6_dma_unmap_area)
-	add	r1, r1, r0
-	teq	r2, #DMA_TO_DEVICE
-	bne	v6_dma_inv_range
-	ret	lr
+        add     r1, r1, r0
+        teq     r2, #DMA_TO_DEVICE
+        bne     v6_dma_inv_range
+        ret     lr
 SYM_FUNC_END(v6_dma_unmap_area)

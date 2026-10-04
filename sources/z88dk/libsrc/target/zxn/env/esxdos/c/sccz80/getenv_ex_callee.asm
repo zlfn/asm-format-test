@@ -8,9 +8,9 @@ EXTERN asm_getenv_ex
 
 getenv_ex_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
-   jp asm_getenv_ex
+        jp      asm_getenv_ex

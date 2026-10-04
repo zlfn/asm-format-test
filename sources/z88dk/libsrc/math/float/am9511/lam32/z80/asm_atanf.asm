@@ -8,15 +8,15 @@ PUBLIC asm_atanf
 
 EXTERN asm_am9511_atan_fastcall
 
-    ; square (^2) sccz80 float
-    ;
-    ; enter : stack = ret
-    ;          DEHL = sccz80_float number
-    ;
-    ; exit  :  DEHL = sccz80_float(atan(number))
-    ;
-    ; uses  : af, bc, de, hl, af'
+        ; square (^2) sccz80 float
+        ;
+        ; enter : stack = ret
+        ;          DEHL = sccz80_float number
+        ;
+        ; exit  :  DEHL = sccz80_float(atan(number))
+        ;
+        ; uses  : af, bc, de, hl, af'
 
 DEFC  asm_atanf = asm_am9511_atan_fastcall      ; enter stack = ret
-                                                ;        DEHL = IEEE-754 float
-                                                ; return DEHL = IEEE-754 float
+        ;        DEHL = IEEE-754 float
+        ; return DEHL = IEEE-754 float

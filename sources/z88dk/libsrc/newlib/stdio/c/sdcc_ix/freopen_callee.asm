@@ -16,21 +16,21 @@ EXTERN asm_freopen
 
 _freopen_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
 l0_freopen_callee:
 
-   push bc
-   ex (sp),ix
-   
-   call asm_freopen
-   
-   pop ix
-   ret
+        push    bc
+        ex      (sp), ix
+
+        call    asm_freopen
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

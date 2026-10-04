@@ -10,14 +10,12 @@
 ; int islower (int c);
 ;
 
-        .export         _islower
-        .include        "ctype.inc"
-        .import         ctypemask
+        .export _islower
+        .include "ctype.inc"
+        .import ctypemask
 
 _islower:
         jsr     ctypemask       ; (always clears X)
         bcs     @L1             ; out of range? (everything already clear -> false)
         and     #CT_LOWER       ; mask lower char bit
 @L1:    rts
-
-

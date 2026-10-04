@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Jan 2014
 ; ===============================================================
-; 
+;
 ; void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *))
 ;
 ; Sort the array using the comparison function supplied.
@@ -44,7 +44,7 @@
 ;   sort in the extreme case of sorting an array containing all
 ;   equal items.  With this option enabled, items equal to the
 ;   pivot are alternately added to the left and right partitions.
-; 
+;
 ; ===============================================================
 
 INCLUDE "config_private.inc"
@@ -56,7 +56,7 @@ IF (__CLIB_OPT_SORT_QSORT & $03) = 0
 SECTION bss_clib
 SECTION bss_stdlib
 
-__stdlib_quicksort_size_lsb:   defw 0     ; ((size-1)&size)^size == lowest set bit in size
+__stdlib_quicksort_size_lsb: defw 0     ; ((size-1)&size)^size == lowest set bit in size
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -82,632 +82,632 @@ EXTERN __sort_parameters, asm0_memswap
 ;             save/marshal/call/sign-extract that l_compare_de_hl would.
 
 IF __CLASSIC
-   EXTERN l_jpix
+        EXTERN  l_jpix
 ELSE
-   EXTERN l_compare_de_hl
+        EXTERN  l_compare_de_hl
 ENDIF
 
 asm_quicksort:
 
-   ; enter : ix = int (*compar)(de=const void *, hl=const void *)
-   ;         bc = void *base
-   ;         hl = size_t nmemb
-   ;         de = size_t size
-   ;
-   ; exit  : none
-   ;
-   ;         if an error below occurs, no sorting is done.
-   ;
-   ;         einval if size == 0
-   ;         einval if array size > 64k
-   ;         erange if array wraps 64k boundary
-   ;
-   ; uses  : af, bc, de, hl, compare function
+        ; enter : ix = int (*compar)(de=const void *, hl=const void *)
+        ;         bc = void *base
+        ;         hl = size_t nmemb
+        ;         de = size_t size
+        ;
+        ; exit  : none
+        ;
+        ;         if an error below occurs, no sorting is done.
+        ;
+        ;         einval if size == 0
+        ;         einval if array size > 64k
+        ;         erange if array wraps 64k boundary
+        ;
+        ; uses  : af, bc, de, hl, compare function
 
-   call __sort_parameters
-   ret c                       ; if error
+        call    __sort_parameters
+        ret     c       ; if error
 
-   ; de = array_lo
-   ; hl = array_hi
-   ; bc = size
-   ; ix = compare
+        ; de = array_lo
+        ; hl = array_hi
+        ; bc = size
+        ; ix = compare
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF __CLIB_OPT_SORT_QSORT & $04
 
-   EXTERN asm0_insertion_sort
+        EXTERN  asm0_insertion_sort
 
-   push de
-   push hl
-   
-   call quicksort              ; apply quicksort until partitions are small
-   
-   pop hl
-   pop de
+        push    de
+        push    hl
 
-   ; de = array_lo
-   ; hl = array_hi
-   ; bc = size
-   ; ix = compare
+        call    quicksort       ; apply quicksort until partitions are small
 
-   jp asm0_insertion_sort      ; sort small partitions using insertion sort
+        pop     hl
+        pop     de
+
+        ; de = array_lo
+        ; hl = array_hi
+        ; bc = size
+        ; ix = compare
+
+        jp      asm0_insertion_sort     ; sort small partitions using insertion sort
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 quicksort:
 
-   push hl
+        push    hl
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF (__CLIB_OPT_SORT_QSORT & $03) = 0
 
-   ; pivot = middle item ; calculate lowest set bit in size = ((size-1)&size)^size
-   ld l,c
-   ld h,b
-   dec hl
-   ld a,l
-   and c
-   xor c
-   ld l,a
-   ld a,h
-   and b
-   xor b
-   ld h,a
-   ld (__stdlib_quicksort_size_lsb),hl
+        ; pivot = middle item ; calculate lowest set bit in size = ((size-1)&size)^size
+        ld      l, c
+        ld      h, b
+        dec     hl
+        ld      a, l
+        and     c
+        xor     c
+        ld      l, a
+        ld      a, h
+        and     b
+        xor     b
+        ld      h, a
+        ld      (__stdlib_quicksort_size_lsb), hl
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-   ld hl,0
-   ex (sp),hl                  ; mark end of stack with zero
+        ld      hl,   0
+        ex      (sp), hl        ; mark end of stack with zero
 
 while_lohi:
 
-   ; current partition is interval [lo, hi]
+        ; current partition is interval [lo, hi]
 
-   ; hl = hi
-   ; de = lo
-   ; bc = size
-   ; ix = compare
-   ; stack = 0, (hi,lo)*
+        ; hl = hi
+        ; de = lo
+        ; bc = size
+        ; ix = compare
+        ; stack = 0, (hi,lo)*
 
-   scf
-   sbc hl,de
-   jr nc, partition            ; if hi > lo
+        scf
+        sbc     hl, de
+        jr      nc, partition   ; if hi > lo
 
 interval_done:
 
-   ; retrieve the next partition from the stack
-   
-   ; bc = size
-   ; ix = compare
-   ; stack = 0, (hi,lo)*
-   
-   pop de
-   
-   ld a,d
-   or e
-   ret z                       ; zero is end marker
-   
-   pop hl
-   jr while_lohi
+        ; retrieve the next partition from the stack
+
+        ; bc = size
+        ; ix = compare
+        ; stack = 0, (hi,lo)*
+
+        pop     de
+
+        ld      a, d
+        or      e
+        ret     z       ; zero is end marker
+
+        pop     hl
+        jr      while_lohi
 
 partition:
 
-   add hl,de
-   inc hl
+        add     hl, de
+        inc     hl
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF (__CLIB_OPT_SORT_QSORT & $03) = 0
 
-   ; pivot = middle item
+        ; pivot = middle item
 
-   ; de = i
-   ; hl = j
-   ; bc = size
-   ; carry reset
+        ; de = i
+        ; hl = j
+        ; bc = size
+        ; carry reset
 
-   ; compute the address of the middle item k in the interval [i,j
+        ; compute the address of the middle item k in the interval [i,j
 
-   ; k = (i+j)/2 - ((j-i)/2)%size
-   ;   = i + (j-i)/2 - ((j-i)/2)%size  (-- Einar Saukas)
+        ; k = (i+j)/2 - ((j-i)/2)%size
+        ;   = i + (j-i)/2 - ((j-i)/2)%size  (-- Einar Saukas)
 
-   ; it is enough to adjust "i + (j-i)/2" by "-size/2" when "(j-i)/size" is odd
-   ; and odd-ness of (j-i)/size can be decided by lowest bit set in size without div:
+        ; it is enough to adjust "i + (j-i)/2" by "-size/2" when "(j-i)/size" is odd
+        ; and odd-ness of (j-i)/size can be decided by lowest bit set in size without div:
 
-   ; 0 == i%size && 0 == j%size => 0 == (j-i)%size =>
-   ; 0 == ((j-i)/2)%size || size/2 == ((j-i)/2)%size
-   ; size/2 == ((j-i)/2)%size <=> 1 == ((j-i)/size)%2
-   ; 1 == ((j-i)/size)%2 <=> 0 != (((size-1)&size)^size)&(j-i)
-   ; proof on the reader - think about binary addition of size value to pointer (-- Peter Helcmanovsky)
+        ; 0 == i%size && 0 == j%size => 0 == (j-i)%size =>
+        ; 0 == ((j-i)/2)%size || size/2 == ((j-i)/2)%size
+        ; size/2 == ((j-i)/2)%size <=> 1 == ((j-i)/size)%2
+        ; 1 == ((j-i)/size)%2 <=> 0 != (((size-1)&size)^size)&(j-i)
+        ; proof on the reader - think about binary addition of size value to pointer (-- Peter Helcmanovsky)
 
-   push hl                     ; save j
-   sbc hl,de                   ; hl = j-i
+        push    hl      ; save j
+        sbc     hl, de  ; hl = j-i
 
-   ld a,(__stdlib_quicksort_size_lsb)
-   and l
-   jr nz,delta_j_i_is_size_odd
-   ld a,(__stdlib_quicksort_size_lsb+1)
-   and h
-   jr z,delta_j_i_is_size_even
+        ld      a, (__stdlib_quicksort_size_lsb)
+        and     l
+        jr      nz, delta_j_i_is_size_odd
+        ld      a,  (__stdlib_quicksort_size_lsb+1)
+        and     h
+        jr      z, delta_j_i_is_size_even
 
 delta_j_i_is_size_odd:
-   sbc hl,bc                   ; hl = j-i-size ; forcing it to be "size even" => 0 == ((j-i)/2)%size
+        sbc     hl, bc  ; hl = j-i-size ; forcing it to be "size even" => 0 == ((j-i)/2)%size
 
 delta_j_i_is_size_even:
-   srl h
-   rr l                        ; hl = (j-i)/2 or (j-i-size)/2, hl%size == 0 (is valid pointer to element)
+        srl     h
+        rr      l       ; hl = (j-i)/2 or (j-i-size)/2, hl%size == 0 (is valid pointer to element)
 
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   IF __CLIB_OPT_SORT_QSORT & $04
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        IF      __CLIB_OPT_SORT_QSORT & $04
 
-      ; insertion sort small partitions
-      push hl                  ; save (j-i)/2
+                ; insertion sort small partitions
+                push    hl      ; save (j-i)/2
 
-      srl h
-      rr l
-      srl h
-      rr l
-      srl h
-      rr l
-      sbc hl,bc                ; (j-i)/2/8 - size - some_carry
+                srl     h
+                rr      l
+                srl     h
+                rr      l
+                srl     h
+                rr      l
+                sbc     hl, bc  ; (j-i)/2/8 - size - some_carry
 
-      pop hl
+                pop     hl
 
-      jr nc, partition_size_large ; roughly 8 < ((j-i)/2)/size
+                jr      nc, partition_size_large        ; roughly 8 < ((j-i)/2)/size
 
-   partition_size_small:
+partition_size_small:
 
-      pop af
+                pop     af
 
-      jr interval_done
+                jr      interval_done
 
 partition_size_large:
 
-   ENDIF
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        ENDIF
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-   add hl,de                   ; hl = k = i + (j-i)/2 - ((j-i)/2)%size
-   ex de,hl
+        add     hl, de  ; hl = k = i + (j-i)/2 - ((j-i)/2)%size
+        ex      de, hl
 
-   ; hl = i
-   ; de = pivot
-   ; bc = size
-   ; stack = j
+        ; hl = i
+        ; de = pivot
+        ; bc = size
+        ; stack = j
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ELSE
 
-   ; pivot = random item
-   ;
-   ; k = rand() % (j-i)
-   ; k = k - k % size + i
+        ; pivot = random item
+        ;
+        ; k = rand() % (j-i)
+        ; k = k - k % size + i
 
-   ; de = i
-   ; hl = j
-   ; bc = size
-   ; carry reset
+        ; de = i
+        ; hl = j
+        ; bc = size
+        ; carry reset
 
-   push hl                     ; save j
-   push de                     ; save i
-   push bc                     ; save size
-   push bc                     ; save size
-   
-   sbc hl,de
-   
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   IF __CLIB_OPT_SORT_QSORT & $04
-   
-      ; insertion sort small partitions
-      
-      ; do not have number of items so using
-      ; byte size of interval as poor substitute
-      
-      ld a,9
-      cp l
-      sbc a,a                  ; a = (9 < l) ? 0xFF : 0x00
-      or h
-      jr nz, partition_size_large ; 9 < j-i
-      
-   partition_size_small:
+        push    hl      ; save j
+        push    de      ; save i
+        push    bc      ; save size
+        push    bc      ; save size
 
-      pop bc
-      pop bc                   ; bc = size
-      pop af
-      pop af
-   
-      jr interval_done
-   
-   ENDIF
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        sbc     hl, de
+
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        IF      __CLIB_OPT_SORT_QSORT & $04
+
+                ; insertion sort small partitions
+
+                ; do not have number of items so using
+                ; byte size of interval as poor substitute
+
+                ld      a, 9
+                cp      l
+                sbc     a, a                            ; a = (9 < l) ? 0xFF : 0x00
+                or      h
+                jr      nz, partition_size_large        ; 9 < j-i
+
+partition_size_small:
+
+                pop     bc
+                pop     bc      ; bc = size
+                pop     af
+                pop     af
+
+                jr      interval_done
+
+        ENDIF
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 partition_size_large:
 
-   ld c,l
-   ld b,h                      ; bc = (j-i)
-   
-   EXTERN asm_random_uniform_xor_32
-   call asm_random_uniform_xor_32  ; hl = rand() != 0
+        ld      c, l
+        ld      b, h    ; bc = (j-i)
 
-   ld e,c
-   ld d,b                      ; de = (j-i)
-   
-   EXTERN l0_divu_16_16x16
-   call l0_divu_16_16x16
-   
-   ex de,hl                    ; hl = k = rand() % (j-i)
-   pop de                      ; de = size
-   
-   push hl                     ; save k
-   
-   call l0_divu_16_16x16       ; de = k % size
-   
-   pop hl                      ; hl = k
-   sbc hl,de                   ; hl = k - k % size
-   
-   pop bc                      ; bc = size
-   pop de                      ; de = i
-   
-   add hl,de
-   ex de,hl                    ; de = k - k % size + i
-   
-   ; de = pivot
-   ; hl = i
-   ; bc = size
-   ; stack = j
+        EXTERN  asm_random_uniform_xor_32
+        call    asm_random_uniform_xor_32       ; hl = rand() != 0
+
+        ld      e, c
+        ld      d, b    ; de = (j-i)
+
+        EXTERN  l0_divu_16_16x16
+        call    l0_divu_16_16x16
+
+        ex      de, hl  ; hl = k = rand() % (j-i)
+        pop     de      ; de = size
+
+        push    hl      ; save k
+
+        call    l0_divu_16_16x16        ; de = k % size
+
+        pop     hl      ; hl = k
+        sbc     hl, de  ; hl = k - k % size
+
+        pop     bc      ; bc = size
+        pop     de      ; de = i
+
+        add     hl, de
+        ex      de, hl  ; de = k - k % size + i
+
+        ; de = pivot
+        ; hl = i
+        ; bc = size
+        ; stack = j
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 pivot_selected:
 
-   ; move pivot to start of partition
-   
-   ; hl = i
-   ; de = pivot
-   ; bc = size
-   ; stack = j
+        ; move pivot to start of partition
 
-   push bc
-   call asm0_memswap           ; swap(i, pivot, size)
-   pop bc
-   
-   pop de
-   ex de,hl
-   
-   ; de = i = pivot
-   ; hl = j
-   ; bc = size
-   
-   ; first element (at lo) is the pivot
-   
-   push hl                     ; save hi
-   push de                     ; save lo = pivot
+        ; hl = i
+        ; de = pivot
+        ; bc = size
+        ; stack = j
+
+        push    bc
+        call    asm0_memswap    ; swap(i, pivot, size)
+        pop     bc
+
+        pop     de
+        ex      de, hl
+
+        ; de = i = pivot
+        ; hl = j
+        ; bc = size
+
+        ; first element (at lo) is the pivot
+
+        push    hl      ; save hi
+        push    de      ; save lo = pivot
 
 left_squeeze_0:
 
-   ; move items < pivot to left and items > pivot to right
+        ; move items < pivot to left and items > pivot to right
 
-   ex de,hl
-   add hl,bc                   ; i += size
-   ex de,hl
+        ex      de, hl
+        add     hl, bc  ; i += size
+        ex      de, hl
 
 left_squeeze_1:
 
-   ; investigating [i,j
+        ; investigating [i,j
 
-   ; items before i are <= pivot and items after j are >= pivot
-   
-   ; de = i
-   ; hl = j
-   ; bc = size
-   ; ix = compare
-   ; stack = hi, lo=pivot
-   ; carry reset
-   
-   sbc hl,de
-   add hl,de
-   jr c, partition_done_left   ; if i > j
-   
-   ; i <= j
-   
-   ex (sp),hl
-   ex de,hl
-   
-   ; de = lo=pivot
-   ; hl = i
-   ; bc = size
-   ; ix = compare
-   ; stack = hi, j
-   
-   IF __CLASSIC
-   call l_jpix                   ; compare(de=lo=pivot, hl=i) via closure thunk
-   ELSE
-   call l_compare_de_hl          ; compare(de=lo=pivot, hl=i)
-   ENDIF
-   
-   ex de,hl
-   ex (sp),hl
+        ; items before i are <= pivot and items after j are >= pivot
 
-   ; de = i
-   ; hl = j
-   ; bc = size
-   ; ix = compare
-   ; carry reset
-   ; stack = hi, lo=pivot
+        ; de = i
+        ; hl = j
+        ; bc = size
+        ; ix = compare
+        ; stack = hi, lo=pivot
+        ; carry reset
 
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   IF __CLIB_OPT_SORT_QSORT & $08
-   
-      ; enable equality dispersal
-   
-      jp m, right_squeeze_0    ; if item[lo=pivot] < item[i]
-      
-      or a
-      jr nz, left_squeeze_0    ; if item[lo=pivot] > item[i]
-      
-      ; item and pivot are equal
-      
-      ld a,r                   ; instruction count
-      and 31                   ; use prime number
-      jp pe, left_squeeze_0    ; if parity is even (random event)
-   
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   ELSE
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   
-      jp p, left_squeeze_0     ; if item[lo=pivot] >= item[i]
+        sbc     hl, de
+        add     hl, de
+        jr      c,  partition_done_left ; if i > j
 
-   ENDIF
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        ; i <= j
+
+        ex      (sp), hl
+        ex      de,   hl
+
+        ; de = lo=pivot
+        ; hl = i
+        ; bc = size
+        ; ix = compare
+        ; stack = hi, j
+
+        IF      __CLASSIC
+                call    l_jpix          ; compare(de=lo=pivot, hl=i) via closure thunk
+        ELSE
+                call    l_compare_de_hl ; compare(de=lo=pivot, hl=i)
+        ENDIF
+
+        ex      de,   hl
+        ex      (sp), hl
+
+        ; de = i
+        ; hl = j
+        ; bc = size
+        ; ix = compare
+        ; carry reset
+        ; stack = hi, lo=pivot
+
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        IF      __CLIB_OPT_SORT_QSORT & $08
+
+                ; enable equality dispersal
+
+                jp      m, right_squeeze_0      ; if item[lo=pivot] < item[i]
+
+                or      a
+                jr      nz, left_squeeze_0      ; if item[lo=pivot] > item[i]
+
+                ; item and pivot are equal
+
+                ld      a, r                    ; instruction count
+                and     31                      ; use prime number
+                jp      pe, left_squeeze_0      ; if parity is even (random event)
+
+                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        ELSE
+                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+                jp      p, left_squeeze_0       ; if item[lo=pivot] >= item[i]
+
+        ENDIF
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 right_squeeze_0:
 
-   ex de,hl
+        ex      de, hl
 
 right_squeeze_1:
 
-   ; de = j
-   ; hl = i
-   ; bc = size
-   ; ix = compare
-   ; carry reset
-   ; stack = hi, lo=pivot
+        ; de = j
+        ; hl = i
+        ; bc = size
+        ; ix = compare
+        ; carry reset
+        ; stack = hi, lo=pivot
 
-   sbc hl,de
-   jr z, partition_done_right  ; if i == j
-   add hl,de
-   
-   ; i < j
-   
-   ex (sp),hl
-   
-   ; de = j
-   ; hl = lo=pivot
-   ; bc = size
-   ; ix = compare
-   ; stack = hi, i
-   
-   IF __CLASSIC
-   call l_jpix                 ; compare(de=j, hl=lo=pivot) via closure thunk
-   ELSE
-   call l_compare_de_hl        ; compare(de=j, hl=lo=pivot)
-   ENDIF
-   ex (sp),hl
+        sbc     hl, de
+        jr      z,  partition_done_right        ; if i == j
+        add     hl, de
 
-   ; de = j
-   ; hl = i
-   ; bc = size
-   ; ix = compare
-   ; carry reset
-   ; stack = hi, lo=pivot
+        ; i < j
 
-   jp m, swap_ij               ; if item[j] < item[lo=pivot] stop
+        ex      (sp), hl
 
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   IF __CLIB_OPT_SORT_QSORT & $08
-   
-      ; enable equality dispersal
+        ; de = j
+        ; hl = lo=pivot
+        ; bc = size
+        ; ix = compare
+        ; stack = hi, i
 
-      or a
-      jr nz, right_squeeze_2   ; if item[j] > item[lo=pivot]
-      
-      ; item and pivot are equal
-      
-      ld a,r                   ; instruction count
-      and 31                   ; use prime number
-      jp pe, swap_ij           ; if parity is even (random event)
+        IF      __CLASSIC
+                call    l_jpix          ; compare(de=j, hl=lo=pivot) via closure thunk
+        ELSE
+                call    l_compare_de_hl ; compare(de=j, hl=lo=pivot)
+        ENDIF
+        ex      (sp), hl
 
-   ENDIF
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        ; de = j
+        ; hl = i
+        ; bc = size
+        ; ix = compare
+        ; carry reset
+        ; stack = hi, lo=pivot
+
+        jp      m, swap_ij      ; if item[j] < item[lo=pivot] stop
+
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        IF      __CLIB_OPT_SORT_QSORT & $08
+
+                ; enable equality dispersal
+
+                or      a
+                jr      nz, right_squeeze_2     ; if item[j] > item[lo=pivot]
+
+                ; item and pivot are equal
+
+                ld      a, r            ; instruction count
+                and     31              ; use prime number
+                jp      pe, swap_ij     ; if parity is even (random event)
+
+        ENDIF
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 right_squeeze_2:
 
-   ex de,hl
-   sbc hl,bc
-   ex de,hl
-   
-   jr right_squeeze_1
+        ex      de, hl
+        sbc     hl, bc
+        ex      de, hl
+
+        jr      right_squeeze_1
 
 swap_ij:
 
-   ; item[j] < item[pivot]
-   ; item[i] > item[pivot]
-   
-   ; must swap and continue squeeze
-   
-   ; de = j
-   ; hl = i
-   ; bc = size
-   ; ix = compare
-   ; stack = hi, lo=pivot
+        ; item[j] < item[pivot]
+        ; item[i] > item[pivot]
 
-   push de
-   push bc
-   
-   call asm0_memswap           ; swap(i, j, size)
-   
-   pop bc
-   add hl,bc
-   
-   ex de,hl                    ; de = i + size
-   
-   pop hl
-   sbc hl,bc                   ; hl = j - size
-   
-   jr left_squeeze_1
+        ; must swap and continue squeeze
+
+        ; de = j
+        ; hl = i
+        ; bc = size
+        ; ix = compare
+        ; stack = hi, lo=pivot
+
+        push    de
+        push    bc
+
+        call    asm0_memswap    ; swap(i, j, size)
+
+        pop     bc
+        add     hl, bc
+
+        ex      de, hl  ; de = i + size
+
+        pop     hl
+        sbc     hl, bc  ; hl = j - size
+
+        jr      left_squeeze_1
 
 partition_done_right:
 
-   ex de,hl
+        ex      de, hl
 
-   ; hl = i
-   ; bc = size
-   ; ix = compare
-   ; carry reset
-   ; stack = hi, lo=pivot
+        ; hl = i
+        ; bc = size
+        ; ix = compare
+        ; carry reset
+        ; stack = hi, lo=pivot
 
-   ; i == j
-   ; item[i] > item[pivot]
+        ; i == j
+        ; item[i] > item[pivot]
 
-   ; move pivot item into index (i-1)
-   
-   sbc hl,bc                   ; hl = "j" = i-1
+        ; move pivot item into index (i-1)
+
+        sbc     hl, bc  ; hl = "j" = i-1
 
 partition_done_left:
 
-   ; hl = j = final position
-   ; bc = size
-   ; ix = compare
-   ; stack = hi, lo=pivot
+        ; hl = j = final position
+        ; bc = size
+        ; ix = compare
+        ; stack = hi, lo=pivot
 
-   ; i > j
-   ; item[j] <= item[pivot]
-   
-   pop de                      ; de = lo=pivot
-   
-   or a
-   sbc hl,de
-   
-   jr z, left_partition_empty  ; if j == lo=pivot
-   add hl,de
-   
-   ; swap pivot into final position
-   
-   ; hl = j
-   ; de = lo=pivot
-   ; bc = size
-   ; stack = hi
+        ; i > j
+        ; item[j] <= item[pivot]
 
-   push bc
-   push de
-   
-   call asm0_memswap
-   
-   pop de
-   
-   ld c,l
-   ld b,h
-   
-   pop hl
-   
-   ex (sp),hl
-   push hl
-   
-   ; hl = hi
-   ; bc = j=pivot
-   ; de = lo
-   ; ix = compare
-   ; stack = size, hi
-   
-   ; lowest bound on stack usage occurs if the smallest partition is pursued
-   
-   add hl,de
-   
-   rr h
-   rr l                        ; hl = (hi+lo)/2 = midpoint
-   
-   or a
-   sbc hl,bc                   ; carry set if midpoint < j=pivot
-   
-   pop hl
-   ex (sp),hl
-   
-   push de
-   
-   ld e,c
-   ld d,b
-   
-   ld c,l
-   ld b,h
-   
-   ld l,e
-   ld h,d
-   
-   ; hl = j=pivot
-   ; de = j=pivot
-   ; bc = size
-   ; ix = compare
-   ; stack = hi,lo
-   
-   jr c, right_smallest        ; if midpoint < pivot
+        pop     de      ; de = lo=pivot
+
+        or      a
+        sbc     hl, de
+
+        jr      z,  left_partition_empty        ; if j == lo=pivot
+        add     hl, de
+
+        ; swap pivot into final position
+
+        ; hl = j
+        ; de = lo=pivot
+        ; bc = size
+        ; stack = hi
+
+        push    bc
+        push    de
+
+        call    asm0_memswap
+
+        pop     de
+
+        ld      c, l
+        ld      b, h
+
+        pop     hl
+
+        ex      (sp), hl
+        push    hl
+
+        ; hl = hi
+        ; bc = j=pivot
+        ; de = lo
+        ; ix = compare
+        ; stack = size, hi
+
+        ; lowest bound on stack usage occurs if the smallest partition is pursued
+
+        add     hl, de
+
+        rr      h
+        rr      l       ; hl = (hi+lo)/2 = midpoint
+
+        or      a
+        sbc     hl, bc  ; carry set if midpoint < j=pivot
+
+        pop     hl
+        ex      (sp), hl
+
+        push    de
+
+        ld      e, c
+        ld      d, b
+
+        ld      c, l
+        ld      b, h
+
+        ld      l, e
+        ld      h, d
+
+        ; hl = j=pivot
+        ; de = j=pivot
+        ; bc = size
+        ; ix = compare
+        ; stack = hi,lo
+
+        jr      c, right_smallest       ; if midpoint < pivot
 
 left_smallest:
 
-   add hl,bc
-   
-   ex (sp),hl
-   ex de,hl
-   
-   sbc hl,bc
-   
-   ; hl = pivot - size (new hi)
-   ; de = lo (new lo)
-   ; bc = size
-   ; stack = (hi,pivot+size) = stacked right side (hi,lo)
-   
-   jp while_lohi
+        add     hl, bc
+
+        ex      (sp), hl
+        ex      de,   hl
+
+        sbc     hl, bc
+
+        ; hl = pivot - size (new hi)
+        ; de = lo (new lo)
+        ; bc = size
+        ; stack = (hi,pivot+size) = stacked right side (hi,lo)
+
+        jp      while_lohi
 
 right_smallest:
 
-   ; hl = j=pivot
-   ; de = j=pivot
-   ; bc = size
-   ; ix = compare
-   ; carry reset
-   ; stack = hi,lo
-   
-   add hl,bc
-   ex de,hl                    ; de = pivot + size
-   sbc hl,bc                   ; hl = pivot - size
-   
-   pop af
-   ex (sp),hl
-   push af
-   
-   ; hl = hi (new hi)
-   ; de = pivot + size (new lo)
-   ; bc = size
-   ; ix = compare
-   ; stack = (pivot-size,lo) = stacked left side (hi,lo)
-   
-   jp while_lohi
+        ; hl = j=pivot
+        ; de = j=pivot
+        ; bc = size
+        ; ix = compare
+        ; carry reset
+        ; stack = hi,lo
+
+        add     hl, bc
+        ex      de, hl  ; de = pivot + size
+        sbc     hl, bc  ; hl = pivot - size
+
+        pop     af
+        ex      (sp), hl
+        push    af
+
+        ; hl = hi (new hi)
+        ; de = pivot + size (new lo)
+        ; bc = size
+        ; ix = compare
+        ; stack = (pivot-size,lo) = stacked left side (hi,lo)
+
+        jp      while_lohi
 
 left_partition_empty:
 
-   ; only right side remains
-   
-   ex de,hl
-   
-   ; hl = lo=pivot
-   ; bc = size
-   ; ix = compare
-   ; stack = hi
-   
-   pop de
-   add hl,bc
-   ex de,hl
-   
-   jp while_lohi
+        ; only right side remains
+
+        ex      de, hl
+
+        ; hl = lo=pivot
+        ; bc = size
+        ; ix = compare
+        ; stack = hi
+
+        pop     de
+        add     hl, bc
+        ex      de, hl
+
+        jp      while_lohi

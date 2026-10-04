@@ -13,12 +13,12 @@ EXTERN __PSGlib_SFXStatus
 
 asm_PSGlib_SFXGetStatus:
 
-   ; unsigned char PSGSFXGetStatus (void)
-   ; returns the current SFX status
-   ;
-   ; exit  :  l = current SFX status
-   ;
-   ; uses  : hl
+        ; unsigned char PSGSFXGetStatus (void)
+        ; returns the current SFX status
+        ;
+        ; exit  :  l = current SFX status
+        ;
+        ; uses  : hl
 
-   ld hl,(__PSGlib_SFXStatus)
-   ret
+        ld      hl, (__PSGlib_SFXStatus)
+        ret

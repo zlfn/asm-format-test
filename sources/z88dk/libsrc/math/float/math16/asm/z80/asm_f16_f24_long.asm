@@ -29,32 +29,32 @@ PUBLIC asm_u32_f24
 ; Convert floating point number to long
 .asm_i32_f24
 .asm_u32_f24
-    ld b,e                      ;Holds sign
-    ld a,d                      ;Holds exponent
-    and a
-    jr Z,lzero                  ;exponent was 0, return 0
-    cp $7e + 32
-    jp NC,lmax                  ;number too large
-    ld de,hl                    ;place mantissa in long
-    ld h,0
-    ld l,h
+        ld      b, e            ;Holds sign
+        ld      a, d            ;Holds exponent
+        and     a
+        jr      Z, lzero        ;exponent was 0, return 0
+        cp      $7e + 32
+        jp      NC, lmax        ;number too large
+        ld      de, hl          ;place mantissa in long
+        ld      h,  0
+        ld      l,  h
 .lloop
-    srl d                       ;fill with 0
-    rr e
-    rr hl
-    inc a
-    cp $7e + 32
-    jr NZ,lloop
-    rl b                        ;check sign bit
-    call C,l_neg_dehl
-    ret
+        srl     d               ;fill with 0
+        rr      e
+        rr      hl
+        inc     a
+        cp      $7e + 32
+        jr      NZ, lloop
+        rl      b               ;check sign bit
+        call    C, l_neg_dehl
+        ret
 
 .lzero
-    ld de,0
-    ld hl,0
-    ret
+        ld      de, 0
+        ld      hl, 0
+        ret
 
 .lmax
-    ld de,0FFh
-    ld hl,0FFh
-    ret
+        ld      de, 0FFh
+        ld      hl, 0FFh
+        ret

@@ -10,21 +10,21 @@ EXTERN asm_bit_synth_di
 
 bit_synth_di:
 
-   pop af
-   pop de
-   pop bc
-   ld d,c
-   pop hl
-   pop bc
-   ld h,c
-   pop bc
-   
-   push bc
-   push bc
-   push hl
-   push bc
-   push de
-   push af
-   
-   ld a,c
-   jp asm_bit_synth_di
+        pop     af
+        pop     de
+        pop     bc
+        ld      d, c
+        pop     hl
+        pop     bc
+        ld      h, c
+        pop     bc
+
+        push    bc
+        push    bc
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        ld      a, c
+        jp      asm_bit_synth_di

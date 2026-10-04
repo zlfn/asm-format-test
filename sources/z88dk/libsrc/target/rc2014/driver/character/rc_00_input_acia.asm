@@ -23,7 +23,7 @@ EXTERN rc_00_input_acia_ichar_msg_getc, character_00_input
 
 rc_00_input_acia:
 
-   cp ICHAR_MSG_GETC
-   jp z, rc_00_input_acia_ichar_msg_getc
+        cp      ICHAR_MSG_GETC
+        jp      z, rc_00_input_acia_ichar_msg_getc
 
-   jp character_00_input
+        jp      character_00_input

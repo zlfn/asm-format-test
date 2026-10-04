@@ -3,9 +3,9 @@
 ; Robert Justice, 2026
 ;
 
-        .export         sos_file_info_direct
-        .include        "zeropage.inc"
-        .include        "sos.inc"
+        .export sos_file_info_direct
+        .include "zeropage.inc"
+        .include "sos.inc"
 
         ; Calls SOS GET_FILE_INFO on the ProDOS style
         ; filename stored on top of stack
@@ -16,7 +16,7 @@ sos_file_info_direct:
         ldx     c_sp+1
         sta     sosparam + SOS::INFO::PATHNAME
         stx     sosparam + SOS::INFO::PATHNAME+1
-        lda     #$0F            ; get all info
+        lda     #$0F    ; get all info
         sta     sosparam + SOS::INFO::LENGTH
 
         ; Get file information

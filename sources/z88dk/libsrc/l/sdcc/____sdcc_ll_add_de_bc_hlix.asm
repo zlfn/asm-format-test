@@ -8,22 +8,22 @@ EXTERN ____sdcc_ll_add_de_bc_hl
 
 ____sdcc_ll_add_de_bc_hlix:
 
-   push bc
+        push    bc
 
 IF __SDCC_IX
 
-   push ix
-   pop bc
+        push    ix
+        pop     bc
 
 ELSE
 
-   push iy
-   pop bc
+        push    iy
+        pop     bc
 
 ENDIF
-   
-   add hl,bc
-   
-   pop bc
-   
-   jp ____sdcc_ll_add_de_bc_hl
+
+        add     hl, bc
+
+        pop     bc
+
+        jp      ____sdcc_ll_add_de_bc_hl

@@ -10,12 +10,12 @@
 ; int isalpha (int c);
 ;
 
-        .export         _isalpha
-        .include        "ctype.inc"
-        .import         ctypemask
+        .export _isalpha
+        .include "ctype.inc"
+        .import ctypemask
 
 _isalpha:
-        jsr     ctypemask      ; (always clears X)
-        bcs     @L1                     ; out of range? (everything already clear -> false)
-        and     #CT_ALPHA               ; mask character bits
+        jsr     ctypemask       ; (always clears X)
+        bcs     @L1             ; out of range? (everything already clear -> false)
+        and     #CT_ALPHA       ; mask character bits
 @L1:    rts

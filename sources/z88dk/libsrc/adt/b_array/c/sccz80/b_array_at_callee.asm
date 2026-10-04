@@ -10,15 +10,14 @@ EXTERN asm_b_array_at
 
 b_array_at_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   jp asm_b_array_at
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_b_array_at
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _b_array_at_callee
 defc _b_array_at_callee = b_array_at_callee
 ENDIF
-

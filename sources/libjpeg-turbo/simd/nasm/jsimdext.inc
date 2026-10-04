@@ -79,8 +79,8 @@ section .note.GNU-stack noalloc noexec nowrite progbits
 %ifdef __CET__
 %ifdef __x86_64__
 section .note.gnu.property note alloc noexec align=8
-    dd 0x00000004, 0x00000010, 0x00000005, 0x00554e47
-    dd 0xc0000002, 0x00000004, 0x00000003, 0x00000000
+        dd      0x00000004, 0x00000010, 0x00000005, 0x00554e47
+        dd      0xc0000002, 0x00000004, 0x00000003, 0x00000000
 %endif
 %endif
 
@@ -275,37 +275,37 @@ section .note.gnu.property note alloc noexec align=8
 ; At present, nasm doesn't seem to support PIC generation for Mach-O.
 ; The PIC support code below is a little tricky.
 
-    SECTION     SEG_CONST
+        SECTION SEG_CONST
 const_base:
 
 %define GOTOFF(got, sym)  (got) + (sym) - const_base
 
 %imacro GET_GOT 1
-    ; NOTE: this macro destroys ecx resister.
-    call        %%geteip
-    add         ecx, byte (%%ref - $)
-    jmp         short %%adjust
+        ; NOTE: this macro destroys ecx resister.
+        call    %%geteip
+        add     ecx, byte (%%ref - $)
+        jmp     short %%adjust
 %%geteip:
-    mov         ecx, POINTER [esp]
-    ret
+        mov     ecx, POINTER [esp]
+        ret
 %%adjust:
-    push        ebp
-    xor         ebp, ebp                ; ebp = 0
+        push    ebp
+        xor     ebp, ebp        ; ebp = 0
 %ifidni %1, ebx  ; (%1 == ebx)
-    ; db 0x8D, 0x9C + jmp near const_base =
-    ;   lea ebx, [ecx + ebp * 8 + (const_base - %%ref)] ; 8D, 9C, E9, (offset32)
-    db          0x8D, 0x9C              ; 8D, 9C
-    jmp         near const_base         ; E9, (const_base - %%ref)
+        ; db 0x8D, 0x9C + jmp near const_base =
+        ;   lea ebx, [ecx + ebp * 8 + (const_base - %%ref)] ; 8D, 9C, E9, (offset32)
+        db      0x8D, 0x9C      ; 8D, 9C
+        jmp     near const_base ; E9, (const_base - %%ref)
 %%ref:
 %else  ; (%1 != ebx)
-    ; db 0x8D, 0x8C + jmp near const_base =
-    ;   lea ecx, [ecx + ebp * 8 + (const_base - %%ref)] ; 8D, 8C, E9, (offset32)
-    db          0x8D, 0x8C              ; 8D, 8C
-    jmp         near const_base         ; E9, (const_base - %%ref)
+        ; db 0x8D, 0x8C + jmp near const_base =
+        ;   lea ecx, [ecx + ebp * 8 + (const_base - %%ref)] ; 8D, 8C, E9, (offset32)
+        db      0x8D, 0x8C      ; 8D, 8C
+        jmp     near const_base ; E9, (const_base - %%ref)
 %%ref:
-    mov         %1, ecx
+        mov     %1, ecx
 %endif  ; (%1 == ebx)
-    pop         ebp
+        pop     ebp
 %endmacro
 
 %else     ; GOT_SYMBOL != _MACHO_PIC_ ----------------
@@ -313,26 +313,26 @@ const_base:
 %define GOTOFF(got, sym)  (got) + (sym) wrt ..gotoff
 
 %imacro GET_GOT 1
-    extern      GOT_SYMBOL
-    call        %%geteip
-    add         %1, GOT_SYMBOL + $$ - $ wrt ..gotpc
-    jmp         short %%done
+        extern  GOT_SYMBOL
+        call    %%geteip
+        add     %1, GOT_SYMBOL + $$ - $ wrt ..gotpc
+        jmp     short %%done
 %%geteip:
-    mov         %1, POINTER [esp]
-    ret
+        mov     %1, POINTER [esp]
+        ret
 %%done:
 %endmacro
 
 %endif    ; GOT_SYMBOL == _MACHO_PIC_ ----------------
 
 %imacro PUSHPIC 1.nolist
-    push        %1
+        push    %1
 %endmacro
 %imacro POPPIC  1.nolist
-    pop         %1
+        pop     %1
 %endmacro
 %imacro MOVPIC  2.nolist
-    mov         %1, %2
+        mov     %1, %2
 %endmacro
 
 %else    ; !PIC -----------------------------------------
@@ -359,31 +359,31 @@ const_base:
 
 %imacro ALIGNX 1-2.nolist 0xFFFF
 %%bs: \
-  times MSKLE(FILLB(%%bs, %1), %2) & MSKLE(16, FILLB($, %1)) & FILLB($, %1) \
+        times MSKLE(FILLB(%%bs, %1), %2) & MSKLE(16, FILLB($, %1)) & FILLB($, %1) \
         db 0x90                         ; nop
-  times MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 9 \
-        db 0x8D, 0x9C, 0x23, 0x00, 0x00, 0x00, 0x00 \
-                                        ; lea ebx, [ebx + 0x00000000]
-  times MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 7 \
-        db 0x8D, 0xAC, 0x25, 0x00, 0x00, 0x00, 0x00 \
-                                        ; lea ebp, [ebp + 0x00000000]
-  times MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 6 \
-        db 0x8D, 0xAD, 0x00, 0x00, 0x00, 0x00 \
-                                        ; lea ebp, [ebp + 0x00000000]
-  times MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 4 \
-        db 0x8D, 0x6C, 0x25, 0x00       ; lea ebp, [ebp + 0x00]
-  times MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 3 \
-        db 0x8D, 0x6D, 0x00             ; lea ebp, [ebp + 0x00]
-  times MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 2 \
-        db 0x8B, 0xED                   ; mov ebp, ebp
-  times MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 1 \
-        db 0x90                         ; nop
+        times   MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 9 \
+                db 0x8D, 0x9C, 0x23, 0x00, 0x00, 0x00, 0x00   \
+                ; lea ebx, [ebx + 0x00000000]
+        times   MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 7 \
+                db 0x8D, 0xAC, 0x25, 0x00, 0x00, 0x00, 0x00   \
+                ; lea ebp, [ebp + 0x00000000]
+        times   MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 6 \
+                db 0x8D, 0xAD, 0x00, 0x00, 0x00, 0x00         \
+                ; lea ebp, [ebp + 0x00000000]
+        times   MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 4 \
+                db 0x8D, 0x6C, 0x25, 0x00       ; lea ebp, [ebp + 0x00]
+        times   MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 3 \
+                db 0x8D, 0x6D, 0x00             ; lea ebp, [ebp + 0x00]
+        times   MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 2 \
+                db 0x8B, 0xED                   ; mov ebp, ebp
+        times   MSKLE(FILLB(%%bs, %1), %2) & FILLB($, %1) / 1 \
+                db 0x90                         ; nop
 %endmacro
 
 ; Align the next data on {2,4,8,16,..}-byte boundary.
 ;
 %imacro ALIGNZ 1.nolist
-    align       %1, db 0                ; filling zeros
+        align   %1, db 0        ; filling zeros
 %endmacro
 
 %ifdef __x86_64__
@@ -391,127 +391,127 @@ const_base:
 %ifdef WIN64
 
 %imacro COLLECT_ARGS 1
-    sub         rsp, SIZEOF_XMMWORD
-    movaps      XMMWORD [rsp], xmm6
-    sub         rsp, SIZEOF_XMMWORD
-    movaps      XMMWORD [rsp], xmm7
-    mov         r10, rcx
+        sub     rsp, SIZEOF_XMMWORD
+        movaps  XMMWORD [rsp], xmm6
+        sub     rsp, SIZEOF_XMMWORD
+        movaps  XMMWORD [rsp], xmm7
+        mov     r10, rcx
 %if %1 > 1
-    mov         r11, rdx
+        mov     r11, rdx
 %endif
 %if %1 > 2
-    push        r12
-    mov         r12, r8
+        push    r12
+        mov     r12, r8
 %endif
 %if %1 > 3
-    push        r13
-    mov         r13, r9
+        push    r13
+        mov     r13, r9
 %endif
 %if %1 > 4
-    push        r14
-    mov         r14, [rbp + 48]
+        push    r14
+        mov     r14, [rbp + 48]
 %endif
 %if %1 > 5
-    push        r15
-    mov         r15, [rbp + 56]
+        push    r15
+        mov     r15, [rbp + 56]
 %endif
-    push        rsi
-    push        rdi
+        push    rsi
+        push    rdi
 %endmacro
 
 %imacro UNCOLLECT_ARGS 1
-    pop         rdi
-    pop         rsi
+        pop     rdi
+        pop     rsi
 %if %1 > 5
-    pop         r15
+        pop     r15
 %endif
 %if %1 > 4
-    pop         r14
+        pop     r14
 %endif
 %if %1 > 3
-    pop         r13
+        pop     r13
 %endif
 %if %1 > 2
-    pop         r12
+        pop     r12
 %endif
-    movaps      xmm7, XMMWORD [rsp]
-    add         rsp, SIZEOF_XMMWORD
-    movaps      xmm6, XMMWORD [rsp]
-    add         rsp, SIZEOF_XMMWORD
+        movaps  xmm7, XMMWORD [rsp]
+        add     rsp,  SIZEOF_XMMWORD
+        movaps  xmm6, XMMWORD [rsp]
+        add     rsp,  SIZEOF_XMMWORD
 %endmacro
 
 %imacro PUSH_XMM 1
-    sub         rsp, %1 * SIZEOF_XMMWORD
-    movaps      XMMWORD [rsp + 0 * SIZEOF_XMMWORD], xmm8
+        sub     rsp, %1 * SIZEOF_XMMWORD
+        movaps  XMMWORD [rsp + 0 * SIZEOF_XMMWORD], xmm8
 %if %1 > 1
-    movaps      XMMWORD [rsp + 1 * SIZEOF_XMMWORD], xmm9
+        movaps  XMMWORD [rsp + 1 * SIZEOF_XMMWORD], xmm9
 %endif
 %if %1 > 2
-    movaps      XMMWORD [rsp + 2 * SIZEOF_XMMWORD], xmm10
+        movaps  XMMWORD [rsp + 2 * SIZEOF_XMMWORD], xmm10
 %endif
 %if %1 > 3
-    movaps      XMMWORD [rsp + 3 * SIZEOF_XMMWORD], xmm11
+        movaps  XMMWORD [rsp + 3 * SIZEOF_XMMWORD], xmm11
 %endif
 %endmacro
 
 %imacro POP_XMM 1
-    movaps      xmm8, XMMWORD [rsp + 0 * SIZEOF_XMMWORD]
+        movaps  xmm8, XMMWORD [rsp + 0 * SIZEOF_XMMWORD]
 %if %1 > 1
-    movaps      xmm9, XMMWORD [rsp + 1 * SIZEOF_XMMWORD]
+        movaps  xmm9, XMMWORD [rsp + 1 * SIZEOF_XMMWORD]
 %endif
 %if %1 > 2
-    movaps      xmm10, XMMWORD [rsp + 2 * SIZEOF_XMMWORD]
+        movaps  xmm10, XMMWORD [rsp + 2 * SIZEOF_XMMWORD]
 %endif
 %if %1 > 3
-    movaps      xmm11, XMMWORD [rsp + 3 * SIZEOF_XMMWORD]
+        movaps  xmm11, XMMWORD [rsp + 3 * SIZEOF_XMMWORD]
 %endif
-    add         rsp, %1 * SIZEOF_XMMWORD
+        add     rsp, %1 * SIZEOF_XMMWORD
 %endmacro
 
 %else
 
 %imacro COLLECT_ARGS 1
-    push        r10
-    mov         r10, rdi
+        push    r10
+        mov     r10, rdi
 %if %1 > 1
-    push        r11
-    mov         r11, rsi
+        push    r11
+        mov     r11, rsi
 %endif
 %if %1 > 2
-    push        r12
-    mov         r12, rdx
+        push    r12
+        mov     r12, rdx
 %endif
 %if %1 > 3
-    push        r13
-    mov         r13, rcx
+        push    r13
+        mov     r13, rcx
 %endif
 %if %1 > 4
-    push        r14
-    mov         r14, r8
+        push    r14
+        mov     r14, r8
 %endif
 %if %1 > 5
-    push        r15
-    mov         r15, r9
+        push    r15
+        mov     r15, r9
 %endif
 %endmacro
 
 %imacro UNCOLLECT_ARGS 1
 %if %1 > 5
-    pop         r15
+        pop     r15
 %endif
 %if %1 > 4
-    pop         r14
+        pop     r14
 %endif
 %if %1 > 3
-    pop         r13
+        pop     r13
 %endif
 %if %1 > 2
-    pop         r12
+        pop     r12
 %endif
 %if %1 > 1
-    pop         r11
+        pop     r11
 %endif
-    pop         r10
+        pop     r10
 %endmacro
 
 %imacro PUSH_XMM 1
@@ -527,7 +527,7 @@ const_base:
 %ifdef __CET__
 
 %imacro ENDBR64 0
-    dd 0xfa1e0ff3
+        dd      0xfa1e0ff3
 %endmacro
 
 %else

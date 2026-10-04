@@ -4,16 +4,15 @@
 ; File name handling for CBM file I/O
 ;
 
-        .export         fnparse, fnparsename, fnset
-        .export         fnadd, fnaddmode, fncomplete, fndefunit
-        .export         fnunit, fnlen, fnisfile, fncmd, fnbuf
+        .export fnparse, fnparsename, fnset
+        .export fnadd,   fnaddmode,   fncomplete, fndefunit
+        .export fnunit,  fnlen,       fnisfile,   fncmd, fnbuf
 
-        .import         curunit, __filetype
-        .importzp       ptr1, tmp1
+        .import curunit, __filetype
+        .importzp ptr1, tmp1
 
-        .include        "ctype.inc"
-        .include        "cbm.inc"
-
+        .include "ctype.inc"
+        .include "cbm.inc"
 
 ;------------------------------------------------------------------------------
 ; fnparsename: Parse a filename (without drive spec) passed in in ptr1 and y.
@@ -21,10 +20,10 @@
 .proc   fnparsename
 
         lda     #0
-        sta     tmp1            ; Remember length of name
+        sta     tmp1    ; Remember length of name
 
 nameloop:
-        lda     (ptr1),y        ; Get next char from filename
+        lda     (ptr1), y       ; Get next char from filename
         beq     namedone        ; Jump if end of name reached
 
 ; Check the maximum length, store the character
@@ -32,7 +31,7 @@ nameloop:
         ldx     tmp1
         cpx     #16             ; Maximum length reached?
         bcs     invalidname
-        lda     (ptr1),y        ; Reload char
+        lda     (ptr1), y       ; Reload char
         jsr     fnadd           ; Add character to name
         iny                     ; Next char from name
         inc     tmp1            ; Increment length of name
@@ -41,7 +40,7 @@ nameloop:
 ; Invalid file name
 
 invalidname:
-        lda     #33             ; Invalid file name
+        lda     #33     ; Invalid file name
 
 ; Done, we've successfully parsed the name.
 
@@ -49,7 +48,6 @@ namedone:
         rts
 
 .endproc
-
 
 ;------------------------------------------------------------------------------
 ; fnparse: Parse a full filename passed in in a/x. Will set the following
@@ -64,7 +62,7 @@ namedone:
 .proc   fnparse
 
         sta     ptr1
-        stx     ptr1+1          ; Save pointer to name
+        stx     ptr1+1  ; Save pointer to name
 
 ; For now we will always use the default unit
 
@@ -73,7 +71,7 @@ namedone:
 ; Check the name for a drive spec
 
         ldy     #0
-        lda     (ptr1),y
+        lda     (ptr1), y
         cmp     #'0'
         beq     digit
         cmp     #'1'
@@ -81,7 +79,7 @@ namedone:
 
 digit:  sta     fnbuf+0
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         cmp     #':'
         bne     nodrive
 
@@ -98,12 +96,12 @@ nodrive:
         sta     fnbuf+0
         lda     #':'
         sta     fnbuf+1
-        ldy     #$00            ; Reposition to start of name
+        ldy     #$00    ; Reposition to start of name
 
 ; Drive spec done. We do now have a drive spec in the buffer.
 
 drivedone:
-        lda     #2              ; Length of drive spec
+        lda     #2      ; Length of drive spec
         sta     fnlen
 
 ; Assume this is a standard file on disk
@@ -115,13 +113,13 @@ drivedone:
 ; for unit 1. For simplicity, we won't check anything else if the first
 ; character of the file name is '$'.
 
-        lda     (ptr1),y        ; Get first character
+        lda     (ptr1), y       ; Get first character
         cmp     #'$'            ;
         bne     fnparsename
 
 ; Juggle stuff
 
-        ldx     fnbuf+0         ; unit
+        ldx     fnbuf+0 ; unit
         stx     fnbuf+1
         sta     fnbuf+0
 
@@ -184,7 +182,7 @@ fnaddmode:
 
 fnadd:  ldx     fnlen
         inc     fnlen
-        sta     fnbuf,x
+        sta     fnbuf, x
         rts
 
 ;--------------------------------------------------------------------------
@@ -192,11 +190,11 @@ fnadd:  ldx     fnlen
 
 .bss
 
-fnunit:         .res    1
-fnlen:          .res    1
-fnisfile:       .res    1       ; Flags standard file (as opposed to "$")
+fnunit: .res    1
+fnlen:  .res    1
+fnisfile: .res  1       ; Flags standard file (as opposed to "$")
 
 .data
-fncmd:          .byte   's'     ; Use as scratch command
-fnbuf:          .res    35      ; Either 0:0123456789012345,t,m
-                                ; Or     0:0123456789012345=0123456789012345
+fncmd:  .byte   's'     ; Use as scratch command
+fnbuf:  .res    35      ; Either 0:0123456789012345,t,m
+                        ; Or     0:0123456789012345=0123456789012345

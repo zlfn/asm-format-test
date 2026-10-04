@@ -5,10 +5,10 @@
 ; unsigned char __fastcall__ dio_write (dhandle_t handle, unsigned sect_num, const void *buffer);
 ;
 
-        .export         _dio_write
-        .import         dioprolog, diocommon
+        .export _dio_write
+        .import dioprolog, diocommon
 
-        .include        "sos.inc"
+        .include "sos.inc"
 
 _dio_write:
         jsr     dioprolog

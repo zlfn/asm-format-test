@@ -7,13 +7,12 @@
 ; search order, so this fa wins over the generic one for CPC builds, and the
 ; init runs exactly once.
 
-		SECTION	bss_fp
-		PUBLIC	fa
+        SECTION bss_fp
+        PUBLIC  fa
 
-		EXTERN	init_floatpack
+        EXTERN  init_floatpack
 
-fa:		defs	6
+fa:     defs    6
 
-
-		SECTION code_crt_init
-		call	init_floatpack
+        SECTION code_crt_init
+        call    init_floatpack

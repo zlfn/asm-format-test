@@ -8,10 +8,10 @@ EXTERN asm_esx_f_rewinddir
 
 _esx_f_rewinddir:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_esx_f_rewinddir
+        push    hl
+        push    af
+
+        jp      asm_esx_f_rewinddir

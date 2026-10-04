@@ -10,12 +10,12 @@ EXTERN fzx0_putc_callee
 
 fzx_putc:
 
-   pop af
-   pop bc
-   pop ix
+        pop     af
+        pop     bc
+        pop     ix
 
-   push hl
-   push bc
-   push af
-   
-   jp fzx0_putc_callee
+        push    hl
+        push    bc
+        push    af
+
+        jp      fzx0_putc_callee

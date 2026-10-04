@@ -10,77 +10,77 @@ EXTERN ITERM_MSG_BELL, OTERM_MSG_PAUSE, OTERM_MSG_SCROLL, OTERM_MSG_CLS
 
 console_01_output_char_proc_putchar_scroll:
 
-   ; enter: a = num rows to scroll
-   ;
-   ; exit : carry set if screen cleared
+        ; enter: a = num rows to scroll
+        ;
+        ; exit : carry set if screen cleared
 
-   or a
-   ret z
+        or      a
+        ret     z
 
-   ld c,a                      ; c = num rows to scroll
+        ld      c, a    ; c = num rows to scroll
 
-   bit 7,(ix+7)
+        bit     7, (ix+7)
 ;;   jr nz, scroll_it            ; if input terminal is reading input
-   jr nz, scroll_immediate
+        jr      nz, scroll_immediate
 
-   bit 6,(ix+6)
-   jr z, scroll_immediate      ; if pause flag is reset
-   
-   sub (ix+20)   
-   jr nc, pause_scroll         ; if scroll_amount >= scroll_limit
+        bit     6, (ix+6)
+        jr      z, scroll_immediate     ; if pause flag is reset
 
-   neg
-   jr scroll_immediate_0
+        sub     (ix+20)
+        jr      nc, pause_scroll        ; if scroll_amount >= scroll_limit
+
+        neg
+        jr      scroll_immediate_0
 
 pause_scroll:
 
-   ld b,a                      ; b = excess scroll amount
-   
-   push bc
+        ld      b, a    ; b = excess scroll amount
 
-   ld a,ITERM_MSG_BELL
-   call l_jpix                 ; send signal bell
+        push    bc
 
-   call console_01_output_char_proc_reset_scroll_limit
+        ld      a, ITERM_MSG_BELL
+        call    l_jpix  ; send signal bell
 
-   ld a,OTERM_MSG_PAUSE
-   call l_jpix
+        call    console_01_output_char_proc_reset_scroll_limit
 
-   pop bc
-   
-   ld a,(ix+20)
-   sub b
+        ld      a, OTERM_MSG_PAUSE
+        call    l_jpix
+
+        pop     bc
+
+        ld      a, (ix+20)
+        sub     b
 
 scroll_immediate_0:
 
-   ld (ix+20),a                ; new scroll limit
+        ld      (ix+20), a      ; new scroll limit
 
 scroll_immediate:
 
-   bit 7,(ix+6)
-   jr nz, page_it              ; if page mode selected
-   
+        bit     7,  (ix+6)
+        jr      nz, page_it     ; if page mode selected
+
 scroll_it:
 
-   ; c = num rows to scroll
+        ; c = num rows to scroll
 
-   ld a,OTERM_MSG_SCROLL
-   call l_jpix
-   
-   or a
-   ret
+        ld      a, OTERM_MSG_SCROLL
+        call    l_jpix
+
+        or      a
+        ret
 
 page_it:
 
-   bit 5,(ix+7)
-   jr z, no_cls
-   
-   ld a,OTERM_MSG_CLS
-   call l_jpix
+        bit     5, (ix+7)
+        jr      z, no_cls
+
+        ld      a, OTERM_MSG_CLS
+        call    l_jpix
 
 no_cls:
 
-   ld (ix+20),0                ; set scroll_limit to zero
+        ld      (ix+20), 0      ; set scroll_limit to zero
 
-   scf
-   ret
+        scf
+        ret

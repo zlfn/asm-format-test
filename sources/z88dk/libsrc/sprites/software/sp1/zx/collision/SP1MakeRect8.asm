@@ -15,19 +15,19 @@ PUBLIC SP1MakeRect8
 
 .SP1MakeRect8
 
-   ld b,(hl)
-   inc hl
-   ld a,(hl)
-   inc hl
-   ld (de),a
-   inc de
-   ld a,(hl)
-   inc hl
-   ld (de),a
-   inc de
-   ld a,b
-   ld (de),a
-   inc de
-   ld a,(hl)
-   ld (de),a
-   ret
+        ld      b, (hl)
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        ld      (de), a
+        inc     de
+        ld      a, (hl)
+        inc     hl
+        ld      (de), a
+        inc     de
+        ld      a,    b
+        ld      (de), a
+        inc     de
+        ld      a,    (hl)
+        ld      (de), a
+        ret

@@ -4,20 +4,19 @@
 ;       $Id: screen.asm,v 1.4 2016-06-19 20:58:00 dom Exp $
 ;
 
+        SECTION code_clib
+        PUBLIC  screen
+        PUBLIC  _screen
 
-    SECTION code_clib
-    PUBLIC  screen
-    PUBLIC  _screen
-
-    EXTERN  asm_screen
+        EXTERN  asm_screen
 
 screen:
 _screen:
-    pop     bc
-    pop     de
-    pop     hl
-    push    hl
-    push    de
-    push    bc
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
 
-    jp      asm_screen
+        jp      asm_screen

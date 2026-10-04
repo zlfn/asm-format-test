@@ -13,17 +13,17 @@
 
 .ifdef __ATARIXL__
 
-        .export         sramprep
+        .export sramprep
 
-        .import         __SRPREP_LOAD__, __SRPREPCHNK_LAST__
-        .import         __SHADOW_RAM_LOAD__, __SHADOW_RAM_SIZE__, __SHADOW_RAM_RUN__
-        .import         __SHADOW_RAM2_LOAD__, __SHADOW_RAM2_SIZE__, __SHADOW_RAM2_RUN__
-        .import         __CHARGEN_START__, __CHARGEN_SIZE__
-        .import         __STARTADDRESS__       ; needed by xlmemchk.inc
+        .import __SRPREP_LOAD__,     __SRPREPCHNK_LAST__
+        .import __SHADOW_RAM_LOAD__, __SHADOW_RAM_SIZE__, __SHADOW_RAM_RUN__
+        .import __SHADOW_RAM2_LOAD__, __SHADOW_RAM2_SIZE__, __SHADOW_RAM2_RUN__
+        .import __CHARGEN_START__,    __CHARGEN_SIZE__
+        .import __STARTADDRESS__        ; needed by xlmemchk.inc
 
-        .include        "zeropage.inc"
-        .include        "atari.inc"
-        .include        "save_area.inc"
+        .include "zeropage.inc"
+        .include "atari.inc"
+        .include "save_area.inc"
 
 .macro print_string text
         .local  start, cont
@@ -31,15 +31,15 @@
 start:  .byte   text, ATEOL
 cont:   ldx     #0              ; channel 0
         lda     #<start
-        sta     ICBAL,x         ; address
+        sta     ICBAL, x        ; address
         lda     #>start
-        sta     ICBAH,x
+        sta     ICBAH, x
         lda     #<(cont - start)
-        sta     ICBLL,x         ; length
+        sta     ICBLL, x        ; length
         lda     #>(cont - start)
-        sta     ICBLH,x
+        sta     ICBLH, x
         lda     #PUTCHR
-        sta     ICCOM,x
+        sta     ICCOM, x
         jsr     CIOV_org
 .endmacro
 
@@ -102,9 +102,7 @@ sramprep:
         adc     #0
         sta     APPMHI+1
 
-
 ; issue a GRAPHICS 0 call (copied'n'pasted from TGI drivers) to move screen memory down
-
 
         jsr     findfreeiocb
 .ifdef DEBUG            ; only check in debug version, this shouldn't really happen(tm)
@@ -113,26 +111,26 @@ sramprep:
         jsr     delay
         jsr     delay
         jsr     delay
-        jsr     restore                 ; restore stuff we've changed
-        jmp     (DOSVEC)                ; abort loading
+        jsr     restore         ; restore stuff we've changed
+        jmp     (DOSVEC)        ; abort loading
 iocbok:
 .endif
 
         ; reopen it in Graphics 0
         lda     #OPEN
-        sta     ICCOM,x
+        sta     ICCOM, x
         lda     #OPNIN | OPNOT
-        sta     ICAX1,x
+        sta     ICAX1, x
         lda     #0
-        sta     ICAX2,x
+        sta     ICAX2, x
         lda     #<screen_device
-        sta     ICBAL,x
+        sta     ICBAL, x
         lda     #>screen_device
-        sta     ICBAH,x
+        sta     ICBAH, x
         lda     #<screen_device_length
-        sta     ICBLL,x
+        sta     ICBLL, x
         lda     #>screen_device_length
-        sta     ICBLH,x
+        sta     ICBLH, x
         jsr     CIOV_org
         bpl     scrok
 
@@ -141,15 +139,13 @@ iocbok:
         jsr     delay
         jsr     delay
         jsr     delay
-        jsr     restore                 ; restore stuff we've changed
-        jmp     (DOSVEC)                ; abort loading
+        jsr     restore         ; restore stuff we've changed
+        jmp     (DOSVEC)        ; abort loading
 
-
-scrok:  ; now close it again -- we don't need it anymore
+scrok:          ; now close it again -- we don't need it anymore
         lda     #CLOSE
-        sta     ICCOM,x
+        sta     ICCOM, x
         jsr     CIOV_org
-
 
 ; copy chargen to low memory, just after the next possible address beyond our loaded chunk data
 
@@ -190,7 +186,7 @@ cg_addr_ok2:
         lda     ptr3
         sta     ptr2
         lda     ptr3+1
-        pha                             ; needed later to set CHBAS/CHBASE
+        pha     ; needed later to set CHBAS/CHBASE
         sta     ptr2+1
         lda     #>__CHARGEN_SIZE__
         sta     tmp2
@@ -205,13 +201,13 @@ cg_addr_ok2:
 ; disable ROM
         sei
         ldx     #0
-        stx     NMIEN                   ; disable NMI
+        stx     NMIEN   ; disable NMI
         lda     PORTB
         and     #$fe
         tax
-        pla                             ; get temp. chargen address
-        sta     WSYNC                   ; wait for horiz. retrace
-        stx     PORTB                   ; now ROM is mapped out
+        pla             ; get temp. chargen address
+        sta     WSYNC   ; wait for horiz. retrace
+        stx     PORTB   ; now ROM is mapped out
 
 ; switch to temporary chargen
 
@@ -223,10 +219,10 @@ cg_addr_ok2:
         lda     #<__SHADOW_RAM_SIZE__
         bne     do_copy
         lda     #>__SHADOW_RAM_SIZE__
-        beq     no_copy                 ; we have no shadow RAM contents
+        beq     no_copy ; we have no shadow RAM contents
 
         ; ptr1 - src; ptr2 - dest; tmp1, tmp2 - len
-do_copy:lda     #<__SHADOW_RAM_LOAD__
+do_copy: lda    #<__SHADOW_RAM_LOAD__
         sta     ptr1
         lda     #>__SHADOW_RAM_LOAD__
         sta     ptr1+1
@@ -248,7 +244,7 @@ no_copy:
         lda     #<__SHADOW_RAM2_SIZE__
         bne     do_copy2
         lda     #>__SHADOW_RAM2_SIZE__
-        beq     no_copy2                ; we have no shadow RAM #2 contents
+        beq     no_copy2        ; we have no shadow RAM #2 contents
 
         ; ptr1 - src; ptr2 - dest; tmp1, tmp2 - len
 do_copy2:
@@ -290,13 +286,13 @@ no_copy2:
         lda     PORTB
         ora     #1
         ldx     #>DCSORG
-        sta     WSYNC                   ; wait for horiz. retrace
+        sta     WSYNC   ; wait for horiz. retrace
         sta     PORTB
         stx     CHBASE
         stx     CHBAS
         lda     #$40
-        sta     NMIEN                   ; enable VB again
-        cli                             ; and enable IRQs
+        sta     NMIEN   ; enable VB again
+        cli             ; and enable IRQs
 
 .ifdef DEBUG
         print_string "Stage #2 OK"
@@ -319,8 +315,8 @@ no_copy2:
         ldy     #0
         ldx     tmp2
         beq     last
-pagecp: lda     (ptr1),y
-        sta     (ptr2),y
+pagecp: lda     (ptr1), y
+        sta     (ptr2), y
         iny
         bne     pagecp
         inc     ptr1+1
@@ -329,18 +325,17 @@ pagecp: lda     (ptr1),y
         bne     pagecp
 last:   cpy     tmp1
         beq     done
-        lda     (ptr1),y
-        sta     (ptr2),y
+        lda     (ptr1), y
+        sta     (ptr2), y
         iny
         bne     last
 done:   rts
 
 .endproc
 
-
 ; clean up after a fatal error
 
-restore:lda     RAMTOP_save
+restore: lda    RAMTOP_save
         sta     RAMTOP
         lda     MEMTOP_save
         sta     MEMTOP
@@ -364,7 +359,7 @@ restore:lda     RAMTOP_save
 
 delay1: ldx     #0
         ldy     #0
-@loop:   dey
+@loop:  dey
         bne     @loop
         dex
         bne     @loop
@@ -381,7 +376,7 @@ sramsize:
 
 .endif          ; .ifdef DEBUG
 
-screen_device:  .byte "S:",0
+screen_device: .byte "S:", 0
 screen_device_length = * - screen_device
 
 .ifdef DEBUG
@@ -394,7 +389,6 @@ screen_device_length = * - screen_device
 
 .segment        "SHADOW_RAM"
 .segment        "SHADOW_RAM2"
-
 
 ; ------------------------------------------------------------------------
 ; EXE load chunk "trailer" - sets INITAD

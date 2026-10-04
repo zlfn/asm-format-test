@@ -7,10 +7,10 @@
 jmp @B
 
 @@:
-  jmp @B
-  jmp @F
+        jmp     @B
+        jmp     @F
 @@:
-  xor eax, eax
+        xor     eax, eax
 
 ; NOTE: a trailing @F will not fail; fixing this seems to require two passes.
 jmp @F

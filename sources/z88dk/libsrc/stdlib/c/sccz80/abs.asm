@@ -9,11 +9,11 @@ PUBLIC abs
 EXTERN asm_abs
 
 abs:
-   pop de
-   pop hl
-   push hl
-   push de
-   jp asm_abs
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        jp      asm_abs
 
 ; SDCC bridge for Classic
 IF __CLASSIC

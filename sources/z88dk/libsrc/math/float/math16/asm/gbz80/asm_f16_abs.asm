@@ -23,9 +23,9 @@ PUBLIC asm_f24_fabs
 PUBLIC asm_f16_fabs
 
 .asm_f24_fabs
-    res 7,e
-    ret
+        res     7, e
+        ret
 
 .asm_f16_fabs
-    res 7,h
-    ret
+        res     7, h
+        ret

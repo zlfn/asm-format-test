@@ -10,11 +10,11 @@ EXTERN asm_adt_ListSetCurr
 .adt_ListSetCurr
 ._adt_ListSetCurr
 
-   pop af
-   pop de
-   pop hl
-   push hl
-   push de
-   push af
-   
-   jp asm_adt_ListSetCurr
+        pop     af
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_adt_ListSetCurr

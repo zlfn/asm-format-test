@@ -15,25 +15,25 @@
 ; As helper functions we also provide.
 ; void openn(int fileno)
 ;
-        .importzp       sreg, tmp3
-        .macpack        longbranch
-        .import         _atoi
-        .import         _read
-        .import         _lseek
-        .import         addysp,popax,pushax,decsp6,pusha0,pusheax,ldaxysp
-        .import         aslax3,axlong,tosaddeax,steaxysp,stax0sp,incsp8
-        .import         ldax0sp
-        .import         lynxskip0, lynxblock
-        .importzp       _FileEntry
-        .importzp       _FileStartBlock
-        .importzp       _FileCurrBlock
-        .importzp       _FileBlockOffset
-        .import         __STARTOFDIRECTORY__
-        .export         _open
-        .export         _openn
+        .importzp sreg, tmp3
+        .macpack longbranch
+        .import _atoi
+        .import _read
+        .import _lseek
+        .import addysp, popax,  pushax,    decsp6,   pusha0,  pusheax, ldaxysp
+        .import aslax3, axlong, tosaddeax, steaxysp, stax0sp, incsp8
+        .import ldax0sp
+        .import lynxskip0, lynxblock
+        .importzp _FileEntry
+        .importzp _FileStartBlock
+        .importzp _FileCurrBlock
+        .importzp _FileBlockOffset
+        .import __STARTOFDIRECTORY__
+        .export _open
+        .export _openn
 
-        .include        "errno.inc"
-        .include        "fcntl.inc"
+        .include "errno.inc"
+        .include "fcntl.inc"
 
 .segment        "DATA"
 
@@ -133,4 +133,3 @@ flagsok:
         jmp     incsp8
 
 .endproc
-

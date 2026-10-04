@@ -10,10 +10,10 @@ EXTERN _isalnum_fastcall
 
 _isalnum:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _isalnum_fastcall
+        push    hl
+        push    af
+
+        jp      _isalnum_fastcall

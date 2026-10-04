@@ -11,13 +11,13 @@
 ;	stencil_render(unsigned char *stencil, unsigned char intensity)
 ;
 
-	INCLUDE	"classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
         SECTION code_clib
         PUBLIC  stencil_render
         PUBLIC  _stencil_render
         EXTERN  dither_pattern
-	;EXTERN	l_cmp
+        ;EXTERN	l_cmp
 
         EXTERN  __gfx_vram_page_in
         EXTERN  w_pixeladdress
@@ -30,7 +30,7 @@
 
 stencil_render:
 _stencil_render:
-        push    ix                      ;save callers
+        push    ix      ;save callers
         ld      ix, 4
         add     ix, sp
 
@@ -53,25 +53,25 @@ noret:
         ld      d, b
         ld      e, c
 
-        ld      l, (ix+2)               ; stencil
+        ld      l, (ix+2)       ; stencil
         ld      h, (ix+3)
 
         add     hl, bc
         add     hl, bc
-        ld      e, (hl)
+        ld      e,  (hl)
         inc     hl
         ld      d, (hl)
         dec     hl
-		;ex	(sp),hl
+        ;ex	(sp),hl
 
-        ld      a, d                    ; check left side for current Y position..
+        ld      a, d            ; check left side for current Y position..
         and     e
         cp      127
-        jr      z, yloop                ; ...loop if nothing to be drawn
+        jr      z, yloop        ; ...loop if nothing to be drawn
 
         ld      bc, _GFX_MAXY*2
         add     hl, bc
-        ld      a, (hl)
+        ld      a,  (hl)
         inc     hl
         ld      h, (hl)
         ld      l, a
@@ -81,51 +81,51 @@ noret:
 
         push    hl
 
-        ld      a, (ix+0)               ; intensity
-        push    de                      ; X1
+        ld      a, (ix+0)       ; intensity
+        push    de              ; X1
         call    dither_pattern
-        pop     hl                      ; X1
+        pop     hl              ; X1
         ld      (pattern1+1), a
         ld      (pattern2+1), a
 
         push    bc
         ld      d, b
         ld      e, c
-        call    w_pixeladdress          ; bitpos0 = pixeladdress(x,y)
-        call    leftbitmask             ; LeftBitMask(bitpos0)
+        call    w_pixeladdress  ; bitpos0 = pixeladdress(x,y)
+        call    leftbitmask     ; LeftBitMask(bitpos0)
         pop     bc
 
         ld      h, d
         ld      l, e
         call    mask_pattern
-        ex      (sp), hl                ; X2 <-> adr0
-        push    af                      ; mask
+        ex      (sp), hl        ; X2 <-> adr0
+        push    af              ; mask
 
         ld      d, b
         ld      e, c
 
-        call    w_pixeladdress          ; bitpos1 = pixeladdress(x+width-1,y)
-        call    rightbitmask            ; RightBitMask(bitpos1)
-        ld      (bitmaskr+1), a         ; bitmask1 = LeftBitMask(bitpos0)
+        call    w_pixeladdress  ; bitpos1 = pixeladdress(x+width-1,y)
+        call    rightbitmask    ; RightBitMask(bitpos1)
+        ld      (bitmaskr+1), a ; bitmask1 = LeftBitMask(bitpos0)
 
-        pop     af                      ; pattern to be drawn (left-masked)
-        pop     hl                      ; adr0
+        pop     af      ; pattern to be drawn (left-masked)
+        pop     hl      ; adr0
         ld      b, a
 
         ld      a, h
         cp      d
         jr      nz, noobt
-        ld      a, l
+        ld      a,  l
         cp      e
         jr      z, onebyte
 noobt:
-        ld      a, b
-        ld      (hl), a                 ; (offset) = (offset) AND bitmask0
+        ld      a,    b
+        ld      (hl), a ; (offset) = (offset) AND bitmask0
 
         ld      a, h
         xor     @00100000
         cp      h
-        ld      h, a
+        ld      h,  a
         jp      nc, gonehi
         inc     hl
 gonehi:
@@ -133,20 +133,20 @@ gonehi:
         ld      a, h
         cp      d
         jr      nz, pattern2
-        ld      a, l
+        ld      a,  l
         cp      e
 pattern2:
         ld      a, 0
         jr      z, bitmaskr
         ld      b, a
-fill_row_loop:                          ; do
-        ld      a, b
-        ld      (hl), a                 ; (offset) = pattern
+fill_row_loop:          ; do
+        ld      a,    b
+        ld      (hl), a ; (offset) = pattern
 
         ld      a, h
         xor     @00100000
         cp      h
-        ld      h, a
+        ld      h,  a
         jp      nc, gonehi2
         inc     hl
 gonehi2:
@@ -154,7 +154,7 @@ gonehi2:
         ld      a, h
         cp      d
         jr      nz, fill_row_loop
-        ld      a, l
+        ld      a,  l
         cp      e
         jr      nz, fill_row_loop       ; while ( r-- != 0 )
 
@@ -165,24 +165,22 @@ bitmaskr:
 
         jp      yloop
 
-
 onebyte:
         ld      a, b
         ld      (pattern1+1), a
         jr      bitmaskr
 
-
-		; Prepare an edge byte, basing on the byte mask in A
-		; and on the pattern being set in (pattern1+1)
+        ; Prepare an edge byte, basing on the byte mask in A
+        ; and on the pattern being set in (pattern1+1)
 mask_pattern:
         push    de
-        ld      d, a                    ; keep a copy of mask
-        and     (hl)                    ; mask data on screen
-        ld      e, a                    ; save masked data
-        ld      a, d                    ; retrieve mask
-        cpl                             ; invert it
+        ld      d, a    ; keep a copy of mask
+        and     (hl)    ; mask data on screen
+        ld      e, a    ; save masked data
+        ld      a, d    ; retrieve mask
+        cpl             ; invert it
 pattern1:
-        and     0                       ; prepare fill pattern portion
-        or      e                       ; mix with masked data
+        and     0       ; prepare fill pattern portion
+        or      e       ; mix with masked data
         pop     de
         ret

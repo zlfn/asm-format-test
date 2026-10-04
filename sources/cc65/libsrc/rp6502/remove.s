@@ -4,10 +4,9 @@
 ; int __fastcall__ remove (const char* name);
 ;
 
-        .export         _remove
+        .export _remove
 
-        .import         __sysremove
-
+        .import __sysremove
 
 ;--------------------------------------------------------------------------
 

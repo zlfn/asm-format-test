@@ -33,6 +33,6 @@ _get_bkg_xy_addr::
         ld      a, #0xE0
         and     c
         or      d
-        ld      c, a            ; BC = (B << 8) + 0x20 * Y + X
+        ld      c, a    ; BC = (B << 8) + 0x20 * Y + X
 
         ret

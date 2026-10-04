@@ -10,10 +10,10 @@ EXTERN asm_zx_cy2saddr
 
 _zx_cy2saddr:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_zx_cy2saddr
+        push    hl
+        push    af
+
+        jp      asm_zx_cy2saddr

@@ -10,21 +10,20 @@ EXTERN asm_strspn
 
 strspn_callee:
 IF __CPU_GBZ80__
-   pop bc
-   pop de
-   pop hl
-   push bc
-   call asm_strspn
-   ld d,h
-   ld e,l
-   ret
+        pop     bc
+        pop     de
+        pop     hl
+        push    bc
+        call    asm_strspn
+        ld      d, h
+        ld      e, l
+        ret
 ELSE
-   pop hl
-   pop de
-   ex (sp),hl
-   jp asm_strspn
+        pop     hl
+        pop     de
+        ex      (sp), hl
+        jp      asm_strspn
 ENDIF
-   
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -32,10 +31,8 @@ PUBLIC _strspn_callee
 defc _strspn_callee = strspn_callee
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___strspn_callee
 defc ___strspn_callee = strspn_callee
 ENDIF
-

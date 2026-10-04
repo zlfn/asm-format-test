@@ -6,26 +6,25 @@
 ; 2016-06-18, Greg King
 ;
 
-        .include        "joy-kernel.inc"
-        .include        "joy-error.inc"
-        .include        "plus4.inc"
+        .include "joy-kernel.inc"
+        .include "joy-error.inc"
+        .include "plus4.inc"
 
-        .macpack        module
-
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        .if .xmatch ("MODULE_LABEL", .string(MODULE_LABEL))
-        module_header   _plus4_stdjoy_joy
+        .if     .xmatch ("MODULE_LABEL", .string(MODULE_LABEL))
+                module_header _plus4_stdjoy_joy
         .else
-        module_header   MODULE_LABEL
+                module_header MODULE_LABEL
         .endif
 
 ; Driver signature
 
-        .byte   $6A, $6F, $79           ; ASCII "joy"
-        .byte   JOY_API_VERSION         ; Driver API version number
+        .byte   $6A, $6F, $79   ; ASCII "joy"
+        .byte   JOY_API_VERSION ; Driver API version number
 
 ; Library reference
 
@@ -43,10 +42,8 @@
 
 JOY_COUNT       = 2             ; Number of joysticks we support
 
-
 ; ------------------------------------------------------------------------
 ; Data.
-
 
 .code
 
@@ -70,7 +67,6 @@ INSTALL:
 
 UNINSTALL:
         rts
-
 
 ; ------------------------------------------------------------------------
 ; COUNT: Return the total number of available joysticks in a/x.

@@ -1,8 +1,8 @@
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  pointxy
+        PUBLIC  pointxy
 
 pointxy:
-    defc    NEEDpoint=1
-    INCLUDE "target/hector/graphics/pixel.inc"
+        defc    NEEDpoint=1
+        INCLUDE "target/hector/graphics/pixel.inc"

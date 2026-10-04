@@ -6,13 +6,12 @@
 ; 2014-09-10, Greg King
 ;
 
-        .export         _vsscanf
+        .export _vsscanf
 
-        .import         popax, __scanf
-        .importzp       c_sp, ptr1, ptr2
+        .import popax, __scanf
+        .importzp c_sp, ptr1, ptr2
 
-        .macpack        generic
-
+        .macpack generic
 
 ; ----------------------------------------------------------------------------
 ; Structure used to pass data to the callback functions
@@ -21,7 +20,6 @@
         STR     .addr
         INDEX   .word
 .endstruct
-
 
 ; ----------------------------------------------------------------------------
 ; static int __fastcall__ get (struct sscanfdata* d)
@@ -41,26 +39,26 @@
 .proc   get
 
         sta     ptr1
-        stx     ptr1+1                  ; Save d
+        stx     ptr1+1  ; Save d
 
 ; Get d->str adding the high byte of index to the pointer, so we can access
 ; the byte in the string with just the low byte as index
 
         ldy     #SSCANFDATA::STR
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     ptr2
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         ldy     #SSCANFDATA::INDEX+1
-        add     (ptr1),y
+        add     (ptr1), y
         sta     ptr2+1
 
 ; Load the low byte of the index and fetch the byte from the string
 
-        dey                             ; = SSCANFDATA::INDEX
-        lda     (ptr1),y
+        dey     ; = SSCANFDATA::INDEX
+        lda     (ptr1), y
         tay
-        lda     (ptr2),y
+        lda     (ptr2), y
 
 ; Return EOF if we are at the end of the string
 
@@ -71,15 +69,15 @@
 
 ; Bump the index (beware: A contains the char we must return)
 
-L1:     tax                             ; Save return value
-        tya                             ; Low byte of index
+L1:     tax     ; Save return value
+        tya     ; Low byte of index
         ldy     #SSCANFDATA::INDEX
         add     #<$0001
-        sta     (ptr1),y
+        sta     (ptr1), y
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         adc     #>$0001
-        sta     (ptr1),y
+        sta     (ptr1), y
 
 ; Return the char just read
 
@@ -105,18 +103,18 @@ L1:     tax                             ; Save return value
 .proc   unget
 
         sta     ptr1
-        stx     ptr1+1                  ; Save d
+        stx     ptr1+1  ; Save d
 
 ; Decrement the index
 
         ldy     #SSCANFDATA::INDEX
-        lda     (ptr1),y
+        lda     (ptr1), y
         sub     #<$0001
-        sta     (ptr1),y
+        sta     (ptr1), y
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         sbc     #>$0001
-        sta     (ptr1),y
+        sta     (ptr1), y
 
 ; Return c
 
@@ -164,16 +162,16 @@ d:      .addr   get
 ; Initialize sd and at the same time replace str on the stack by a pointer
 ; to d
 
-        ldy     #2                      ; Stack offset of str
-        lda     (c_sp),y
+        ldy     #2      ; Stack offset of str
+        lda     (c_sp), y
         sta     sd + SSCANFDATA::STR
         lda     #<d
-        sta     (c_sp),y
+        sta     (c_sp), y
         iny
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     sd + SSCANFDATA::STR+1
         lda     #>d
-        sta     (c_sp),y
+        sta     (c_sp), y
 
         lda     #$00
         sta     sd + SSCANFDATA::INDEX
@@ -185,4 +183,3 @@ d:      .addr   get
         jmp     __scanf
 
 .endproc
-

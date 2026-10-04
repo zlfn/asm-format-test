@@ -10,4 +10,4 @@
 
 .rodata
 
-_ser_stddrv:    .asciiz "c64_swlink.ser"
+_ser_stddrv: .asciiz "c64_swlink.ser"

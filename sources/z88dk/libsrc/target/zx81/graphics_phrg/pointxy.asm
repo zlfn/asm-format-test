@@ -9,14 +9,13 @@
 ;	$Id: pointxy.asm $
 ;
 
-    MODULE  __pseudohrg_pointxy
-    SECTION code_clib
-    PUBLIC  pointxy
+        MODULE  __pseudohrg_pointxy
+        SECTION code_clib
+        PUBLIC  pointxy
 
-    EXTERN  pixeladdress
+        EXTERN  pixeladdress
 
-    INCLUDE "classic/gfx/grafix.inc"
-
+        INCLUDE "classic/gfx/grafix.inc"
 
 ; ******************************************************************
 ;
@@ -25,29 +24,29 @@
 ; out:        Fz =        0, if pixel is set, otherwise Fz = 1.
 
 pointxy:
-    ld      a, h
-    cp      _GFX_MAXX
-    ret     nc                          ; x0        out of range
+        ld      a, h
+        cp      _GFX_MAXX
+        ret     nc      ; x0        out of range
 
-    ld      a, l
-    cp      _GFX_MAXY
-    ret     nc                          ; y0        out of range
+        ld      a, l
+        cp      _GFX_MAXY
+        ret     nc      ; y0        out of range
 
-    push    bc
-    push    de
-    push    hl
+        push    bc
+        push    de
+        push    hl
 
-    call    pixeladdress
-    ld      b, a
-    ld      a, 1
-    jr      z, test_pixel               ; pixel is at bit 0...
+        call    pixeladdress
+        ld      b, a
+        ld      a, 1
+        jr      z, test_pixel   ; pixel is at bit 0...
 pixel_position:
-    rlca
-    djnz    pixel_position
+        rlca
+        djnz    pixel_position
 
 test_pixel:
-    and     (hl)
-    pop     hl
-    pop     de
-    pop     bc
-    ret
+        and     (hl)
+        pop     hl
+        pop     de
+        pop     bc
+        ret

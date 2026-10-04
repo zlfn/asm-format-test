@@ -4,13 +4,13 @@
 ; off_t __fastcall__ lseek(int fd, off_t offset, int whence);
 ;
 
-        .export         _lseek
-        .import         popax, popptr1
+        .export _lseek
+        .import popax, popptr1
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "mli.inc"
-        .include        "filedes.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "mli.inc"
+        .include "filedes.inc"
 
 _lseek:
         ; Save whence
@@ -25,7 +25,7 @@ _lseek:
 
         ; Get and process fd
         jsr     popax
-        jsr     getfd           ; Returns A, Y and C
+        jsr     getfd   ; Returns A, Y and C
         bcs     errno
 
         ; Check for device
@@ -80,7 +80,7 @@ seek_common:
         sta     mliparam + MLI::MARK::POSITION+2
         lda     #$00
         adc     ptr2+1
-        bne     einval          ; less than 0 or greater than 2^24 - 1
+        bne     einval  ; less than 0 or greater than 2^24 - 1
 
         ; Set file pointer
         lda     #SET_MARK_CALL

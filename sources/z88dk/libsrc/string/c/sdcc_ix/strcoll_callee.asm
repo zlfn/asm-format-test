@@ -10,9 +10,9 @@ EXTERN asm_strcoll
 
 _strcoll_callee:
 
-   pop af
-   pop de
-   pop hl
-   push af
-   
-   jp asm_strcoll
+        pop     af
+        pop     de
+        pop     hl
+        push    af
+
+        jp      asm_strcoll

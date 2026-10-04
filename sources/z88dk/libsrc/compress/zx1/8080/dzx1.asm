@@ -19,148 +19,144 @@
 
 ;#define BACKWARD
 
-
-
 ; We enter here with hl=source, de=dest
 dzx1_standard:
-                ld bc,de
-                ex de,hl
+        ld      bc, de
+        ex      de, hl
 IF BACKWARD
-		lxi h,1
+        lxi     h, 1
 ELSE
-		lxi h,0FFFFh
+        lxi     h, 0FFFFh
 ENDIF
-		shld Offset
-		mvi a,080h
+        shld    Offset
+        mvi     a, 080h
 dzx1s_literals:
-		call dzx1s_elias
-		push psw
-		dcx h
-		inr l
+        call    dzx1s_elias
+        push    psw
+        dcx     h
+        inr     l
 dzx1s_ldir1:
-		ldax d
-		stax b
+        ldax    d
+        stax    b
 IF BACKWARD
-        dcx d
-        dcx b
+        dcx     d
+        dcx     b
 ELSE
-        inx d
-        inx b
+        inx     d
+        inx     b
 ENDIF
-		dcr l
-		jnz dzx1s_ldir1
-		xra a
-		ora h
-		jz $+7
-		dcr h
-		jmp dzx1s_ldir1
-		pop psw
-		add a
-		jc dzx1s_new_offset
-		call dzx1s_elias
+        dcr     l
+        jnz     dzx1s_ldir1
+        xra     a
+        ora     h
+        jz      $+7
+        dcr     h
+        jmp     dzx1s_ldir1
+        pop     psw
+        add     a
+        jc      dzx1s_new_offset
+        call    dzx1s_elias
 dzx1s_copy:
-		push d
-		xchg
-		lhld Offset
-		dad b
-		push psw
-		dcx d
-		inr e
+        push    d
+        xchg
+        lhld    Offset
+        dad     b
+        push    psw
+        dcx     d
+        inr     e
 dzx1s_ldir2:
-		mov a,m
-		stax b
+        mov     a, m
+        stax    b
 IF BACKWARD
-        dcx h
-        dcx b
+        dcx     h
+        dcx     b
 ELSE
-        inx h
-        inx b
+        inx     h
+        inx     b
 ENDIF
-		dcr e
-		jnz dzx1s_ldir2
-		xra a
-		ora d
-		jz $+7
-		dcr d
-		jmp dzx1s_ldir2
-		pop psw
-		xchg
-		pop d
-		add a
-		jnc dzx1s_literals
+        dcr     e
+        jnz     dzx1s_ldir2
+        xra     a
+        ora     d
+        jz      $+7
+        dcr     d
+        jmp     dzx1s_ldir2
+        pop     psw
+        xchg
+        pop     d
+        add     a
+        jnc     dzx1s_literals
 dzx1s_new_offset:
 IF BACKWARD
-		ora a
+        ora     a
 ELSE
-		dcr h
+        dcr     h
 ENDIF
-		push psw
-		ldax d
+        push    psw
+        ldax    d
 IF BACKWARD
-        dcx d
+        dcx     d
 ELSE
-        inx d
+        inx     d
 ENDIF
-		rar
-        mov l,a
-		jnc dzx1s_msb_skip
-		ldax d
-IF BACKWARD
-        dcx d
-ELSE
-        inx d
-ENDIF
-IF BACKWARD
-		ora a
-		rar
         rar
-        adc a
-ELSE
-		rar
-        inr a
-ENDIF
-		jz dzx1s_exit
-		mov h,a
+        mov     l, a
+        jnc     dzx1s_msb_skip
+        ldax    d
 IF BACKWARD
-		dcr h
+        dcx     d
+ELSE
+        inx     d
 ENDIF
-		mov a,l
-        ral 
-        mov l,a
+IF BACKWARD
+        ora     a
+        rar
+        rar
+        adc     a
+ELSE
+        rar
+        inr     a
+ENDIF
+        jz      dzx1s_exit
+        mov     h, a
+IF BACKWARD
+        dcr     h
+ENDIF
+        mov     a, l
+        ral
+        mov     l, a
 dzx1s_msb_skip:
-		pop psw
+        pop     psw
 IF BACKWARD
-		inr l
+        inr     l
 ENDIF
-		shld Offset
-		call dzx1s_elias
-		inx h
-		jmp dzx1s_copy
+        shld    Offset
+        call    dzx1s_elias
+        inx     h
+        jmp     dzx1s_copy
 dzx1s_elias:
-		lxi h,1
-dzx1s_elias_loop:	
-		add a
-		rnc
-		jnz dzx1s_elias_skip
-		ldax d
+        lxi     h, 1
+dzx1s_elias_loop:
+        add     a
+        rnc
+        jnz     dzx1s_elias_skip
+        ldax    d
 IF BACKWARD
-        dcx d
+        dcx     d
 ELSE
-        inx d
+        inx     d
 ENDIF
-		ral
-		rnc
+        ral
+        rnc
 dzx1s_elias_skip:
-		dad h
-		add a
-		jnc dzx1s_elias_loop
-		inr l
-		jmp dzx1s_elias_loop
+        dad     h
+        add     a
+        jnc     dzx1s_elias_loop
+        inr     l
+        jmp     dzx1s_elias_loop
 dzx1s_exit:
-		pop psw
-		ret
+        pop     psw
+        ret
 
 Offset:
-		defw 0
-		
-		
+        defw    0

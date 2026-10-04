@@ -24,31 +24,31 @@
 
 SECTION_RODATA
 
-pw_qmf_coeffs:  dw   3, -210,  -11, -805,  -11,  951,  53, 3876
-pw_qmf_coeffs2: dw  12, 3876, -156,  951,   32, -805, 362, -210
-pw_qmf_coeffs3: dw 362,    0 ,  32,    0, -156,    0,  12,    0
-pw_qmf_coeffs4: dw  53,    0,  -11,    0,  -11,    0,   3,    0
+pw_qmf_coeffs:  dw 3,   -210, -11,  -805, -11,  951,  53,  3876
+pw_qmf_coeffs2: dw 12,  3876, -156, 951,  32,   -805, 362, -210
+pw_qmf_coeffs3: dw 362, 0 ,   32,   0,    -156, 0,    12,  0
+pw_qmf_coeffs4: dw 53,  0,    -11,  0,    -11,  0,    3,   0
 
 SECTION .text
 
 INIT_XMM sse2
 cglobal g722_apply_qmf, 2, 2, 5, prev, out
-    movu m0, [prevq+mmsize*0]
-    movu m1, [prevq+mmsize*1]
-    movu m2, [prevq+mmsize*2]
-    punpcklwd m3, m0, m1
-    punpckhwd m0, m1
-    punpcklwd m4, m2, m2
-    punpckhwd m2, m2
-    pmaddwd   m3, [pw_qmf_coeffs ]
-    pmaddwd   m0, [pw_qmf_coeffs2]
-    pmaddwd   m4, [pw_qmf_coeffs3]
-    pmaddwd   m2, [pw_qmf_coeffs4]
-    paddd     m0, m3
-    paddd     m2, m4
-    paddd     m0, m2
-    pshufd    m2, m0, q0032
-    paddd     m0, m2
-    pshufd    m0, m0, q0001
-    movq  [outq], m0
-    RET
+        movu    m0, [prevq+mmsize*0]
+        movu    m1, [prevq+mmsize*1]
+        movu    m2, [prevq+mmsize*2]
+        punpcklwd m3, m0, m1
+        punpckhwd m0, m1
+        punpcklwd m4, m2, m2
+        punpckhwd m2, m2
+        pmaddwd m3,     [pw_qmf_coeffs ]
+        pmaddwd m0,     [pw_qmf_coeffs2]
+        pmaddwd m4,     [pw_qmf_coeffs3]
+        pmaddwd m2,     [pw_qmf_coeffs4]
+        paddd   m0,     m3
+        paddd   m2,     m4
+        paddd   m0,     m2
+        pshufd  m2,     m0, q0032
+        paddd   m0,     m2
+        pshufd  m0,     m0, q0001
+        movq    [outq], m0
+        RET

@@ -14,4 +14,4 @@ EXTERN l_divu_16_16x16
 
 __mod16:
 __moduint:
-   jp l_divu_16_16x16      ; hl = quotient, de = remainder — xcc wants de = remainder
+        jp      l_divu_16_16x16 ; hl = quotient, de = remainder — xcc wants de = remainder

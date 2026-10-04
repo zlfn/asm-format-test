@@ -31,57 +31,57 @@ SECTION .text
 
 INIT_XMM sse2
 cglobal transpose_8x8_8, 4,5,8, src, src_linesize, dst, dst_linesize, linesize3
-    lea     linesize3q, [src_linesizeq * 3]
-    movq    m0, [srcq + src_linesizeq * 0]
-    movq    m1, [srcq + src_linesizeq * 1]
-    movq    m2, [srcq + src_linesizeq * 2]
-    movq    m3, [srcq + linesize3q]
-    lea   srcq, [srcq + src_linesizeq * 4]
-    movq    m4, [srcq + src_linesizeq * 0]
-    movq    m5, [srcq + src_linesizeq * 1]
-    movq    m6, [srcq + src_linesizeq * 2]
-    movq    m7, [srcq + linesize3q]
+        lea     linesize3q, [src_linesizeq * 3]
+        movq    m0,   [srcq + src_linesizeq * 0]
+        movq    m1,   [srcq + src_linesizeq * 1]
+        movq    m2,   [srcq + src_linesizeq * 2]
+        movq    m3,   [srcq + linesize3q]
+        lea     srcq, [srcq + src_linesizeq * 4]
+        movq    m4,   [srcq + src_linesizeq * 0]
+        movq    m5,   [srcq + src_linesizeq * 1]
+        movq    m6,   [srcq + src_linesizeq * 2]
+        movq    m7,   [srcq + linesize3q]
 
-    TRANSPOSE_8X8B 0, 1, 2, 3, 4, 5, 6, 7
+        TRANSPOSE_8X8B 0, 1, 2, 3, 4, 5, 6, 7
 
-    lea                  linesize3q, [dst_linesizeq * 3]
-    movq [dstq + dst_linesizeq * 0], m0
-    movq [dstq + dst_linesizeq * 1], m1
-    movq [dstq + dst_linesizeq * 2], m2
-    movq [dstq + linesize3q], m3
-    lea                        dstq, [dstq + dst_linesizeq * 4]
-    movq [dstq + dst_linesizeq * 0], m4
-    movq [dstq + dst_linesizeq * 1], m5
-    movq [dstq + dst_linesizeq * 2], m6
-    movq [dstq + linesize3q], m7
-    RET
+        lea     linesize3q, [dst_linesizeq * 3]
+        movq    [dstq + dst_linesizeq * 0], m0
+        movq    [dstq + dst_linesizeq * 1], m1
+        movq    [dstq + dst_linesizeq * 2], m2
+        movq    [dstq + linesize3q], m3
+        lea     dstq, [dstq + dst_linesizeq * 4]
+        movq    [dstq + dst_linesizeq * 0], m4
+        movq    [dstq + dst_linesizeq * 1], m5
+        movq    [dstq + dst_linesizeq * 2], m6
+        movq    [dstq + linesize3q], m7
+        RET
 
 cglobal transpose_8x8_16, 4,5,9, ARCH_X86_32 * 32, src, src_linesize, dst, dst_linesize, linesize3
-    lea     linesize3q, [src_linesizeq * 3]
-    movu    m0, [srcq + src_linesizeq * 0]
-    movu    m1, [srcq + src_linesizeq * 1]
-    movu    m2, [srcq + src_linesizeq * 2]
-    movu    m3, [srcq + linesize3q]
-    lea   srcq, [srcq + src_linesizeq * 4]
-    movu    m4, [srcq + src_linesizeq * 0]
-    movu    m5, [srcq + src_linesizeq * 1]
-    movu    m6, [srcq + src_linesizeq * 2]
-    movu    m7, [srcq + linesize3q]
+        lea     linesize3q, [src_linesizeq * 3]
+        movu    m0,   [srcq + src_linesizeq * 0]
+        movu    m1,   [srcq + src_linesizeq * 1]
+        movu    m2,   [srcq + src_linesizeq * 2]
+        movu    m3,   [srcq + linesize3q]
+        lea     srcq, [srcq + src_linesizeq * 4]
+        movu    m4,   [srcq + src_linesizeq * 0]
+        movu    m5,   [srcq + src_linesizeq * 1]
+        movu    m6,   [srcq + src_linesizeq * 2]
+        movu    m7,   [srcq + linesize3q]
 
 %if ARCH_X86_64
-    TRANSPOSE8x8W 0, 1, 2, 3, 4, 5, 6, 7, 8
+        TRANSPOSE8x8W 0, 1, 2, 3, 4, 5, 6, 7, 8
 %else
-    TRANSPOSE8x8W 0, 1, 2, 3, 4, 5, 6, 7, [rsp], [rsp + 16]
+        TRANSPOSE8x8W 0, 1, 2, 3, 4, 5, 6, 7, [rsp], [rsp + 16]
 %endif
 
-    lea                  linesize3q, [dst_linesizeq * 3]
-    movu [dstq + dst_linesizeq * 0], m0
-    movu [dstq + dst_linesizeq * 1], m1
-    movu [dstq + dst_linesizeq * 2], m2
-    movu [dstq + linesize3q], m3
-    lea                        dstq, [dstq + dst_linesizeq * 4]
-    movu [dstq + dst_linesizeq * 0], m4
-    movu [dstq + dst_linesizeq * 1], m5
-    movu [dstq + dst_linesizeq * 2], m6
-    movu [dstq + linesize3q], m7
-    RET
+        lea     linesize3q, [dst_linesizeq * 3]
+        movu    [dstq + dst_linesizeq * 0], m0
+        movu    [dstq + dst_linesizeq * 1], m1
+        movu    [dstq + dst_linesizeq * 2], m2
+        movu    [dstq + linesize3q], m3
+        lea     dstq, [dstq + dst_linesizeq * 4]
+        movu    [dstq + dst_linesizeq * 0], m4
+        movu    [dstq + dst_linesizeq * 1], m5
+        movu    [dstq + dst_linesizeq * 2], m6
+        movu    [dstq + linesize3q], m7
+        RET

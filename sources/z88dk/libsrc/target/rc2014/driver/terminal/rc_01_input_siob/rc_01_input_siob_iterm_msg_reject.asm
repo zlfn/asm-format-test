@@ -7,11 +7,11 @@ EXTERN rc_01_input_sioa_iterm_msg_reject
 
 defc rc_01_input_siob_iterm_msg_reject = rc_01_input_sioa_iterm_msg_reject
 
-   ;   Indicate whether typed character should be rejected.
-   ;
-   ;   enter:  c = ascii code
-   ;    exit:  carry reset indicates the character should be rejected.
-   ; can use:  af, bc, de, hl
-   
-   ; accept all for the moment
-   ; put state machine here to eliminate pc keyboard escape sequences
+        ;   Indicate whether typed character should be rejected.
+        ;
+        ;   enter:  c = ascii code
+        ;    exit:  carry reset indicates the character should be rejected.
+        ; can use:  af, bc, de, hl
+
+        ; accept all for the moment
+        ; put state machine here to eliminate pc keyboard escape sequences

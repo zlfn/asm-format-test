@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_f_getcwd
 defc _esx_f_getcwd = esx_f_getcwd
 ENDIF
-

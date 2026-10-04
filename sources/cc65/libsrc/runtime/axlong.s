@@ -5,14 +5,14 @@
 ; CC65 runtime: Convert int in ax into a long
 ;
 
-        .export         axulong, axlong
-        .importzp       sreg
+        .export axulong, axlong
+        .importzp sreg
 
 ; Convert AX from int to long in EAX
 
 axlong: ldy     #$ff
-        cpx     #$80            ; Positive?
-        bcs     store           ; No, apply $FF
+        cpx     #$80    ; Positive?
+        bcs     store   ; No, apply $FF
 
 axulong:
         ldy     #0

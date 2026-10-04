@@ -11,10 +11,9 @@
 ;	$Id: pointxy.asm $
 ;
 
-
-    SECTION code_graphics
-    PUBLIC  pointxy
+        SECTION code_graphics
+        PUBLIC  pointxy
 
 pointxy:
-    defc    NEEDpoint=1
-    INCLUDE "pixel6.inc"
+        defc    NEEDpoint=1
+        INCLUDE "pixel6.inc"

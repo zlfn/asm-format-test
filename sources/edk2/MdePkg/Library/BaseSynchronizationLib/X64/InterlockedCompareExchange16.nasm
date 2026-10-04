@@ -16,8 +16,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT16
@@ -30,7 +30,6 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalSyncCompareExchange16)
 ASM_PFX(InternalSyncCompareExchange16):
-    mov     ax, dx
-    lock    cmpxchg [rcx], r8w
-    ret
-
+        mov     ax, dx
+        lock    cmpxchg [rcx], r8w
+        ret

@@ -8,11 +8,11 @@ PUBLIC ASMDISP_SP1_GETSPRCLR_CALLEE
 
 .sp1_GetSprClr_callee
 
-   pop hl
-   pop bc
-   ld b,c
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        ld      b, c
+        pop     de
+        ex      (sp), hl
 
 .asmentry
 
@@ -26,22 +26,22 @@ PUBLIC ASMDISP_SP1_GETSPRCLR_CALLEE
 
 .SP1GetSprClr
 
-   ld c,$ff
+        ld      c, $ff
 
 .loop
 
-   push de
-   ld e,(hl)
-   inc hl
-   ld d,(hl)                   ; de = & struct sp1_cs.attr_mask
-   inc hl
-   ex (sp),hl
-   ex de,hl                    ; hl = & struct sp1_cs.attr_mask, de = destination array of colour pairs
-   ldi
-   ldi
-   pop hl
-   djnz loop
+        push    de
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)         ; de = & struct sp1_cs.attr_mask
+        inc     hl
+        ex      (sp), hl
+        ex      de,   hl        ; hl = & struct sp1_cs.attr_mask, de = destination array of colour pairs
+        ldi
+        ldi
+        pop     hl
+        djnz    loop
 
-   ret
+        ret
 
 DEFC ASMDISP_SP1_GETSPRCLR_CALLEE = asmentry - sp1_GetSprClr_callee

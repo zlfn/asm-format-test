@@ -22,51 +22,49 @@
         PUBLIC  z80type
         PUBLIC  _z80type
 
-
 z80type:
 _z80type:
         ld      hl, 0
         ld      de, 1
         push    de
         defb    $ed
-        defb    $54                     ; ex (sp),hl ONLY IF we're on a Rabbic Control Module
-        nop                             ; this could help z80 clones not to hurt too much
+        defb    $54     ; ex (sp),hl ONLY IF we're on a Rabbic Control Module
+        nop             ; this could help z80 clones not to hurt too much
         nop
         pop     de
         dec     l
         jr      nz, norabbit
-        ld      l, 5                    ; Rabbit
+        ld      l,  5   ; Rabbit
         ret
 norabbit:
 
-        xor     a                       ; $af
+        xor     a       ; $af
 
-        defb    $cb, $37                ; on Z80 it acts as "SLL A" (left shift forcing rightmost bit to 1)
-			; on Z380 - EX A,A'
-			; on Z280 - TSET A
+        defb    $cb, $37        ; on Z80 it acts as "SLL A" (left shift forcing rightmost bit to 1)
+        ; on Z380 - EX A,A'
+        ; on Z280 - TSET A
 
-        ld      a, 2                    ; $3e $02
+        ld      a, 2    ; $3e $02
 
         defb    $cb, $37
 
-        and     a                       ; happens if we are run by a Z380
-        ld      l, 3                    ; Z380
+        and     a       ; happens if we are run by a Z380
+        ld      l, 3    ; Z380
         ret     z
 
-        cp      5                       ; happens if we found a Z80 SLL command
+        cp      5       ; happens if we found a Z80 SLL command
         jr      z, noz280
 
-        dec     l                       ; [2]
-        cp      1                       ; happens if TSET has forced A to 1 (Z280)
-        ret     z                       ; Z280
-        dec     l                       ; else Z180 [1]
+        dec     l       ; [2]
+        cp      1       ; happens if TSET has forced A to 1 (Z280)
+        ret     z       ; Z280
+        dec     l       ; else Z180 [1]
         ret
 
 noz280:
         ld      l, 0
         ld      a, 1
         ld      c, 4
-        defb    $ed                     ; MULT A,C (result goes in HL) on Z280 or Z800/R800
+        defb    $ed     ; MULT A,C (result goes in HL) on Z280 or Z800/R800
         defb    $c9
-        ret                             ; [0] or [4]
-
+        ret             ; [0] or [4]

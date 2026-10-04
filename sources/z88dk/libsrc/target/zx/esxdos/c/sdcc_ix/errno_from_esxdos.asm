@@ -9,10 +9,10 @@ EXTERN asm_errno_from_esxdos
 
 _errno_from_esxdos:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_errno_from_esxdos
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_errno_from_esxdos

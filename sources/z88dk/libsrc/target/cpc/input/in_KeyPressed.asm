@@ -20,48 +20,45 @@ EXTERN __cpc_keystate
 
 in_KeyPressed:
 _in_KeyPressed:
-    push    hl
-    call    __cpc_scan_allrows
-    pop     de
+        push    hl
+        call    __cpc_scan_allrows
+        pop     de
 asm_in_KeyPressed_direct:
-    ld      a,e
-    and     15
-    ld      c,a
-    ld      b,0
-    ld      hl,__cpc_keystate
-    add     hl,bc
-    ld      a,(hl)
-    cpl
-    and     d
-    jr      nz,keypressed
+        ld      a, e
+        and     15
+        ld      c,  a
+        ld      b,  0
+        ld      hl, __cpc_keystate
+        add     hl, bc
+        ld      a,  (hl)
+        cpl
+        and     d
+        jr      nz, keypressed
 
 fail:
-    ld      hl,0
-    and     a
-    ret
+        ld      hl, 0
+        and     a
+        ret
 
 keypressed:
-    ; Now we need to check ctrl + shift keys
-    ; CTRL = row 2, bit 7
-    ; SHIFT = row 2, bit 5
-    xor      a
-    bit      7,e    ;shift
-    jr       z,noshift
-    or       @00100000
+        ; Now we need to check ctrl + shift keys
+        ; CTRL = row 2, bit 7
+        ; SHIFT = row 2, bit 5
+        xor     a
+        bit     7, e    ;shift
+        jr      z, noshift
+        or      @00100000
 noshift:
-    bit      6,e
-    jr       z,noctrl
-    or       @10000000
+        bit     6, e
+        jr      z, noctrl
+        or      @10000000
 noctrl:
-    ld       d,a
-    ld       a,(__cpc_keystate+2)
-    cpl
-    and      @10100000
-    cp       d
-    jr       nz,fail
-    ld       hl,1
-    scf
-    ret
-
-
-    
+        ld      d, a
+        ld      a, (__cpc_keystate+2)
+        cpl
+        and     @10100000
+        cp      d
+        jr      nz, fail
+        ld      hl, 1
+        scf
+        ret

@@ -9,16 +9,15 @@ EXTERN asm_sms_vdp_init
 
 sms_vdp_init:
 
-   di
-   
-   call asm_sms_vdp_init
-   
-   ei
-   ret
+        di
+
+        call    asm_sms_vdp_init
+
+        ei
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sms_vdp_init
 defc _sms_vdp_init = sms_vdp_init
 ENDIF
-

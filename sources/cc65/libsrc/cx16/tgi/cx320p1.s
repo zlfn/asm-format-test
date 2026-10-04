@@ -5,17 +5,16 @@
 ; 2022-03-30, Greg King <gregdk@users.sf.net>
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-error.inc"
+        .include "tgi-kernel.inc"
+        .include "tgi-error.inc"
 
-        .include        "cbm_kernal.inc"
-        .include        "cx16.inc"
+        .include "cbm_kernal.inc"
+        .include "cx16.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; Macro that copies a word into a pseudo-register
 
@@ -26,26 +25,25 @@
         stx     gREG::reg+1
 .endmac
 
-
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table and constants.
 
-        module_header   _cx320p1_tgi    ; 320 pixels across, 1 pixel per byte
+        module_header _cx320p1_tgi      ; 320 pixels across, 1 pixel per byte
 
 ; First part of the header is a structure that has a signature,
 ; and defines the capabilities of the driver.
 
-        .byte   $74, $67, $69           ; ASCII "tgi"
-        .byte   TGI_API_VERSION         ; TGI API version number
-        .addr   $0000                   ; Library reference
-        .word   320                     ; X resolution
-        .word   240                     ; Y resolution
-        .byte   <$0100                  ; Number of drawing colors
-        .byte   1                       ; Number of screens available
-        .byte   8                       ; System font X size
-        .byte   8                       ; System font Y size
-        .word   $0100                   ; Aspect ratio (based on VGA display)
-        .byte   0                       ; TGI driver flags
+        .byte   $74, $67, $69   ; ASCII "tgi"
+        .byte   TGI_API_VERSION ; TGI API version number
+        .addr   $0000           ; Library reference
+        .word   320             ; X resolution
+        .word   240             ; Y resolution
+        .byte   <$0100          ; Number of drawing colors
+        .byte   1               ; Number of screens available
+        .byte   8               ; System font X size
+        .byte   8               ; System font Y size
+        .word   $0100           ; Aspect ratio (based on VGA display)
+        .byte   0               ; TGI driver flags
 
 ; Next, comes the jump table. Currently, all entries must be valid,
 ; and may point to an RTS for test versions (function not implemented).
@@ -69,7 +67,6 @@
         .addr   BAR
         .addr   TEXTSTYLE
         .addr   OUTTEXT
-
 
 ; ------------------------------------------------------------------------
 ; Constant
@@ -95,17 +92,16 @@ Y2              := ptr4
 ; VERA's palette.  Vera's palette is a table of Red, Green, and Blue levels.
 ; The first 16 RGB elements mimic the Commodore 64's colors.
 
-defpalette:     .res    $0100
-palette:        .res    $0100
+defpalette: .res $0100
+palette:    .res $0100
 
 bcolor          :=      palette + 0     ; Background color
-color:          .res    1               ; Stroke and fill index
-text_mode:      .res    1               ; Old text mode
+color:  .res    1       ; Stroke and fill index
+text_mode: .res 1       ; Old text mode
 
 .data
 
-error:          .byte   TGI_ERR_OK      ; Error code
-
+error:  .byte   TGI_ERR_OK      ; Error code
 
 .code
 
@@ -121,7 +117,7 @@ INSTALL:
 
         ldx     #$00
 :       txa
-        sta     defpalette,x
+        sta     defpalette, x
         inx
         bnz     :-
 
@@ -148,7 +144,7 @@ UNINSTALL:
 ;
 ; Must set an error code: YES
 
-INIT:   stz     error           ; #TGI_ERR_OK
+INIT:   stz     error   ; #TGI_ERR_OK
 
 ; Save the current text mode.
 
@@ -226,14 +222,14 @@ SETDRAWPAGE:
 ; Must set an error code: YES
 
 SETPALETTE:
-        stz     error           ; #TGI_ERR_OK
+        stz     error   ; #TGI_ERR_OK
         ldy     #$00
-:       lda     (ptr1),y
-        sta     palette,y
+:       lda     (ptr1),  y
+        sta     palette, y
         iny
         bnz     :-
 
-        lda     color           ; Get stroke and fill index
+        lda     color   ; Get stroke and fill index
 
         ; Fall through.
 
@@ -246,7 +242,7 @@ SETPALETTE:
 SETCOLOR:
         tax
         sta     color
-        lda     palette,x       ; Set stroke and fill color
+        lda     palette, x      ; Set stroke and fill color
         tax
         ldy     bcolor          ; Get background color
         jmp     GRAPH_SET_COLORS
@@ -287,7 +283,7 @@ SETPIXEL:
         jsr     Point
         jsr     FB_CURSOR_POSITION
         ldx     color
-        lda     palette,x
+        lda     palette, x
         jmp     FB_SET_PIXEL
 
 ; ------------------------------------------------------------------------
@@ -356,7 +352,7 @@ BAR:
         stz     gREG::r4
         stz     gREG::r4+1
 
-        sec                     ; Fill the rectangle
+        sec     ; Fill the rectangle
         jmp     GRAPH_DRAW_RECT
 
 ; ------------------------------------------------------------------------
@@ -379,7 +375,7 @@ OUTTEXT:
         jsr     Point
 
         ldy     #$00
-@next:  lda     (ptr3),y
+@next:  lda     (ptr3), y
         bze     @end
         phy
         jsr     GRAPH_PUT_CHAR

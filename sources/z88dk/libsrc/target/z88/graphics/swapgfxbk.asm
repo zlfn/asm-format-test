@@ -13,38 +13,31 @@
 ;	$Id: __gfx_vram_page_in.asm,v 1.8 2017-01-02 22:57:59 aralbrec Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  __gfx_vram_page_in
-    PUBLIC  ___gfx_vram_page_in
+        SECTION code_clib
+        PUBLIC  __gfx_vram_page_in
+        PUBLIC  ___gfx_vram_page_in
 
-    EXTERN  __z88_gfxbank
-    EXTERN  z88_map_bank
+        EXTERN  __z88_gfxbank
+        EXTERN  z88_map_bank
 
-    PUBLIC  __gfx_vram_page_out
-    PUBLIC  ___gfx_vram_page_out
+        PUBLIC  __gfx_vram_page_out
+        PUBLIC  ___gfx_vram_page_out
 
-
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
 __gfx_vram_page_in:
 ___gfx_vram_page_in:
 __gfx_vram_page_out:
 ___gfx_vram_page_out:
-    push    hl
-    push    de
-    ld      hl, z88_map_bank            ;$4Dx
-    ld      e, (hl)
-    ld      a, (__z88_gfxbank)               ;in crt0
-    ld      (hl), a
-    out     (z88_map_bank-$400), a
-    ld      a, e
-    ld      (__z88_gfxbank), a
-    pop     de
-    pop     hl
-    ret
-
-
-
-
-
-
+        push    hl
+        push    de
+        ld      hl,   z88_map_bank      ;$4Dx
+        ld      e,    (hl)
+        ld      a,    (__z88_gfxbank)   ;in crt0
+        ld      (hl), a
+        out     (z88_map_bank-$400), a
+        ld      a, e
+        ld      (__z88_gfxbank), a
+        pop     de
+        pop     hl
+        ret

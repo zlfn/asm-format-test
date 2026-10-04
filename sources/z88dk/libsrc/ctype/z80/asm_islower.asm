@@ -6,17 +6,16 @@ PUBLIC asm_islower
 
 asm_islower:
 
-   ; determine if char is in [a-z
+        ; determine if char is in [a-z
 
-   
-   ; enter : a = char
-   ; exit  : carry if not lower
-   ; uses  : f
-   
-   cp 'a'
-   ret c
-   
-   cp 'z'+1
-   ccf
+        ; enter : a = char
+        ; exit  : carry if not lower
+        ; uses  : f
 
-   ret
+        cp      'a'
+        ret     c
+
+        cp      'z'+1
+        ccf
+
+        ret

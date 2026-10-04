@@ -9,9 +9,9 @@ EXTERN asm_sms_vdp_init
 
 _sms_vdp_init_fastcall:
 
-   di
-   
-   call asm_sms_vdp_init
-   
-   ei
-   ret
+        di
+
+        call    asm_sms_vdp_init
+
+        ei
+        ret

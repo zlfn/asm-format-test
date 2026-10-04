@@ -2,9 +2,9 @@
 ; Colin Leroy-Mira, 2025 <colin@colino.net>
 ;
 
-        .export         mli_set_pathname_tos
-        .include        "zeropage.inc"
-        .include        "mli.inc"
+        .export mli_set_pathname_tos
+        .include "zeropage.inc"
+        .include "mli.inc"
 
         ; Sets MLI PATHNAME parameter from TOS
 mli_set_pathname_tos:

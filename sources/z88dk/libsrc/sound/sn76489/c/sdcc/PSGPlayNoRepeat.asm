@@ -9,9 +9,9 @@ EXTERN asm_PSGlib_PlayNoRepeat
 
 _PSGPlayNoRepeat:
 
-   pop af
-   pop hl
-   push hl
-   push af
+        pop     af
+        pop     hl
+        push    hl
+        push    af
 
-   jp asm_PSGlib_PlayNoRepeat
+        jp      asm_PSGlib_PlayNoRepeat

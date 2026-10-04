@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_reserveSprite
 defc _SMS_reserveSprite = SMS_reserveSprite
 ENDIF
-

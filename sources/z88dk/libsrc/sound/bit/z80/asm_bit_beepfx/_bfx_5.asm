@@ -9,8 +9,8 @@ PUBLIC _bfx_5
 
 _bfx_5:
 
-   ; Drop_1
+        ; Drop_1
 
-   defb 1 ;tone
-   defw 50,100,200,65531,128
-   defb 0
+        defb    1       ;tone
+        defw    50, 100, 200, 65531, 128
+        defb    0

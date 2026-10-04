@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _bv_priority_queue_resize_callee
 defc _bv_priority_queue_resize_callee = bv_priority_queue_resize_callee
 ENDIF
-

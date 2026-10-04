@@ -16,13 +16,13 @@
  * This trampoline is used only for signal return and not via an indirect
  * call/jump from userspace, so adding CFI landing pad is unnecessary.
  */
-	.text
+        .text
 SYM_FUNC_START(__vdso_rt_sigreturn)
-	.cfi_startproc
-	.cfi_signal_frame
-	li a7, __NR_rt_sigreturn
-	ecall
-	.cfi_endproc
+        .cfi_startproc
+        .cfi_signal_frame
+        li      a7, __NR_rt_sigreturn
+        ecall
+        .cfi_endproc
 SYM_FUNC_END(__vdso_rt_sigreturn)
 
 emit_riscv_feature_1_and

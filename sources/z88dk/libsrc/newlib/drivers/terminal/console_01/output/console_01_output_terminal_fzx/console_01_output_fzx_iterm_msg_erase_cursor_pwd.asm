@@ -16,9 +16,9 @@ console_01_output_fzx_iterm_msg_erase_cursor_pwd:
 ;
 ;   Note: The cursor char is not stored in the buffer.
 
-   push ix                     ; save FDSTRUCT.JP *
-   
-   ld l,(ix+22)
-   push hl                     ; save cursor ascii code
-   
-   jp console_01_output_fzx_iterm_msg_bs_pwd_join
+        push    ix      ; save FDSTRUCT.JP *
+
+        ld      l, (ix+22)
+        push    hl      ; save cursor ascii code
+
+        jp      console_01_output_fzx_iterm_msg_bs_pwd_join

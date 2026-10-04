@@ -8,9 +8,9 @@
 
         .export _mouse_static_stddrv
         .ifdef  __ATARIXL__
-        .import _atrxst_mou
+                .import _atrxst_mou
         .else
-        .import _atrst_mou
+                .import _atrst_mou
         .endif
 
 .rodata

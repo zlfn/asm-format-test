@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _wv_stack_size
 defc _wv_stack_size = wv_stack_size
 ENDIF
-

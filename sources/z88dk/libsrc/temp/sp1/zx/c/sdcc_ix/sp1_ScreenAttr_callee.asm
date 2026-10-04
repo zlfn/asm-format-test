@@ -9,10 +9,10 @@ EXTERN asm_sp1_ScreenAttr
 
 _sp1_ScreenAttr_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   ld d,l
-   jp asm_sp1_ScreenAttr
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        ld      d, l
+        jp      asm_sp1_ScreenAttr

@@ -29,20 +29,20 @@ SECTION .text
 ;-----------------------------------------------------------------------------
 INIT_XMM sse2
 cglobal butterflies_fixed, 3,3,3, src0, src1, len
-    shl       lend, 2
-    add      src0q, lenq
-    add      src1q, lenq
-    neg       lenq
+        shl     lend,  2
+        add     src0q, lenq
+        add     src1q, lenq
+        neg     lenq
 
 align 16
 .loop:
-    mova        m0, [src0q + lenq]
-    mova        m1, [src1q + lenq]
-    mova        m2, m0
-    paddd       m0, m1
-    psubd       m2, m1
-    mova        [src0q + lenq], m0
-    mova        [src1q + lenq], m2
-    add       lenq, mmsize
-    jl .loop
-    RET
+        mova    m0, [src0q + lenq]
+        mova    m1, [src1q + lenq]
+        mova    m2, m0
+        paddd   m0, m1
+        psubd   m2, m1
+        mova    [src0q + lenq], m0
+        mova    [src1q + lenq], m2
+        add     lenq, mmsize
+        jl      .loop
+        RET

@@ -13,28 +13,27 @@
 ;	$Id: msx_map_m2_subpixel.asm,v 1.3 2016-06-16 19:30:25 dom Exp $
 ;
 
-    SECTION code_video_vdp
-    PUBLIC  msx_map_m2_subpixel
-    PUBLIC  _msx_map_m2_subpixel
-
+        SECTION code_video_vdp
+        PUBLIC  msx_map_m2_subpixel
+        PUBLIC  _msx_map_m2_subpixel
 
 msx_map_m2_subpixel:
 _msx_map_m2_subpixel:
 
-    ld      a, 7
-    and     l
+        ld      a, 7
+        and     l
 
-    ld      b, a
-    ld      a, 128
+        ld      b, a
+        ld      a, 128
 
-    jr      z, firstbit
+        jr      z, firstbit
 
 rotate:
-    rrca
-    djnz    rotate
+        rrca
+        djnz    rotate
 
 firstbit:
-    ld      h, 0
-    ld      l, a
+        ld      h, 0
+        ld      l, a
 
-    ret
+        ret

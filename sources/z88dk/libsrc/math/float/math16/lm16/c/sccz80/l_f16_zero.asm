@@ -1,7 +1,7 @@
-    SECTION code_clib
-    SECTION code_fp_math16
-    PUBLIC  l_f16_zero
+        SECTION code_clib
+        SECTION code_fp_math16
+        PUBLIC  l_f16_zero
 
 .l_f16_zero
-    ld hl,0
-    ret
+        ld      hl, 0
+        ret

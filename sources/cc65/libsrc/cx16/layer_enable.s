@@ -8,17 +8,16 @@
 ; */
 ;
 
-        .export         _vera_layer_enable
+        .export _vera_layer_enable
 
-        .include        "cx16.inc"
-
+        .include "cx16.inc"
 
 mask    =       VERA::DISP::ENABLE::LAYER1 | VERA::DISP::ENABLE::LAYER0
 
 .proc   _vera_layer_enable
-        stz     VERA::CTRL              ; Use display register bank 0
+        stz     VERA::CTRL      ; Use display register bank 0
         asl     a
-        asl     a                       ; Shift new flags into position
+        asl     a               ; Shift new flags into position
         asl     a
         asl     a
         ldy     VERA::DISP::VIDEO
@@ -29,7 +28,7 @@ mask    =       VERA::DISP::ENABLE::LAYER1 | VERA::DISP::ENABLE::LAYER0
         sta     VERA::DISP::VIDEO
 
         tya
-        and     #mask                   ; Get old flags
+        and     #mask   ; Get old flags
         lsr     a
         lsr     a
         lsr     a

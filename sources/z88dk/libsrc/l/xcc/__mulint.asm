@@ -14,6 +14,6 @@ EXTERN l_mulu_16_16x16
 
 __mul16:
 __mulint:
-   call l_mulu_16_16x16    ; hl = hl * de
-   ex de,hl                ; xcc returns product in de
-   ret
+        call    l_mulu_16_16x16 ; hl = hl * de
+        ex      de, hl          ; xcc returns product in de
+        ret

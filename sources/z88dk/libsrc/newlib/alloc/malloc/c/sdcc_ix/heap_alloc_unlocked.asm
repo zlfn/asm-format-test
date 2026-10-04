@@ -10,12 +10,12 @@ EXTERN asm_heap_alloc_unlocked
 
 _heap_alloc_unlocked:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp asm_heap_alloc_unlocked
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_heap_alloc_unlocked

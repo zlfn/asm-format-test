@@ -10,9 +10,9 @@ EXTERN asm_fzx_string_extent
 
 _fzx_string_extent_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_fzx_string_extent
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_fzx_string_extent

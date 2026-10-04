@@ -10,7 +10,7 @@
 ;-------------------------------------------------------------------------
 ;  asm_am9511_pushi - am9511 APU push integer
 ;-------------------------------------------------------------------------
-; 
+;
 ;  Load integer into Am9511 APU stack
 ;
 ;-------------------------------------------------------------------------
@@ -26,57 +26,54 @@ ENDIF
 PUBLIC asm_am9511_pushi
 PUBLIC asm_am9511_pushi_fastcall
 
-
 .asm_am9511_pushi
 
-    ; float primitive
-    ; push an integer into Am9511 stack.
-    ;
-    ; enter : stack = integer, ret1, ret0
-    ;
-    ; exit  : stack = integer, ret1
-    ; 
-    ; uses  : af, bc', hl'
+        ; float primitive
+        ; push an integer into Am9511 stack.
+        ;
+        ; enter : stack = integer, ret1, ret0
+        ;
+        ; exit  : stack = integer, ret1
+        ;
+        ; uses  : af, bc', hl'
 
 ;   AM9511_IN_APU_STATUS      ; read the APU status register
 ;   rlca                        ; busy? __IO_APU_STATUS_BUSY
 ;   jr C,asm_am9511_pushi_hl
 
-    exx                         ; preserve dehl
+        exx     ; preserve dehl
 
-    ld hl,4
-    add hl,sp
+        ld      hl, 4
+        add     hl, sp
 
 IFNDEF __AM9511_HELPER_FUNC
-    ld bc,__IO_APU_DATA         ; the address of the APU data port in bc
+        ld      bc, __IO_APU_DATA       ; the address of the APU data port in bc
 ENDIF
-    AM9511_OUTI                 ; load LSW into APU
-    AM9511_OUTI
+        AM9511_OUTI     ; load LSW into APU
+        AM9511_OUTI
 
-    exx
-    ret
-
+        exx
+        ret
 
 .asm_am9511_pushi_fastcall
 
-    ; float primitive
-    ; push an integer into Am9511 stack.
-    ;
-    ; enter : stack = ret1, ret0
-    ;       :    hl = integer
-    ;
-    ; exit  : stack = ret1
-    ; 
-    ; uses  : af, bc, hl
+        ; float primitive
+        ; push an integer into Am9511 stack.
+        ;
+        ; enter : stack = ret1, ret0
+        ;       :    hl = integer
+        ;
+        ; exit  : stack = ret1
+        ;
+        ; uses  : af, bc, hl
 
 ;   AM9511_IN_APU_STATUS      ; read the APU status register
 ;   rlca                        ; busy? __IO_APU_STATUS_BUSY
 ;   jr C,asm_am9511_pushi_fastcall
 
 IFNDEF __AM9511_HELPER_FUNC
-    ld bc,__IO_APU_DATA         ; the address of the APU data port in bc
+        ld      bc, __IO_APU_DATA       ; the address of the APU data port in bc
 ENDIF
-    AM9511_OUTC l               ; load LSW into APU
-    AM9511_OUTC h
-    ret
-
+        AM9511_OUTC l   ; load LSW into APU
+        AM9511_OUTC h
+        ret

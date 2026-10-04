@@ -10,20 +10,20 @@ EXTERN l_neg_hl, asm_fzx_write
 
 _fzx_write_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
 l0_fzx_write_callee:
 
-   push hl
-   ex (sp),ix
-   
-   call asm_fzx_write
-   
-   pop ix
-   ret nc
-   
-   jp l_neg_hl
+        push    hl
+        ex      (sp), ix
+
+        call    asm_fzx_write
+
+        pop     ix
+        ret     nc
+
+        jp      l_neg_hl

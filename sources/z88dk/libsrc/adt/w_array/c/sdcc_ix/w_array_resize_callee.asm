@@ -10,9 +10,9 @@ EXTERN asm_w_array_resize
 
 _w_array_resize_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_w_array_resize
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_w_array_resize

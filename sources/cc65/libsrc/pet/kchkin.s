@@ -4,15 +4,12 @@
 ; CHKIN replacement function for the PETs
 ;
 
-        .export         CHKIN
-        .import         checkst
-
+        .export CHKIN
+        .import checkst
 
 .proc   CHKIN
 
-        jsr     $FFC6           ; Call kernal function
-        jmp     checkst         ; Check status, return carry on error
+        jsr     $FFC6   ; Call kernal function
+        jmp     checkst ; Check status, return carry on error
 
 .endproc
-
-

@@ -26,55 +26,55 @@ EXTERN _in_KbdState
 .in_GetKey
 ._in_GetKey
 
-   call in_Inkey              ; hl = ascii code & carry if no key
-   jp c, in_GetKeyReset
+        call    in_Inkey        ; hl = ascii code & carry if no key
+        jp      c, in_GetKeyReset
 
-   ld a,(_in_KbdState)
-   dec a
-   jr nz, nokey
+        ld      a, (_in_KbdState)
+        dec     a
+        jr      nz, nokey
 
-   ld a,(_in_KbdState + 1)
-   dec a
-   jp m, debounce
-   jp z, startrepeat
+        ld      a, (_in_KbdState + 1)
+        dec     a
+        jp      m, debounce
+        jp      z, startrepeat
 
 .repeat
 
-   ld a,(_in_KeyRepeatPeriod)
-   ld (_in_KbdState),a
-   ret
+        ld      a, (_in_KeyRepeatPeriod)
+        ld      (_in_KbdState), a
+        ret
 
 .debounce
 
-   ld a,(_in_KeyStartRepeat)
-   ld e,a
-   ld d,1
-IF __CPU_INTEL__ 
-   ex de,hl
-   ld (_in_KbdState),hl
-   ex de,hl
+        ld      a, (_in_KeyStartRepeat)
+        ld      e, a
+        ld      d, 1
+IF __CPU_INTEL__
+        ex      de, hl
+        ld      (_in_KbdState), hl
+        ex      de, hl
 ELSE
-   ld (_in_KbdState),de
+        ld      (_in_KbdState), de
 ENDIF
-   ret
+        ret
 
 .startrepeat
 
-   ld a,(_in_KeyRepeatPeriod)
-   ld e,a
-   ld d,2
+        ld      a, (_in_KeyRepeatPeriod)
+        ld      e, a
+        ld      d, 2
 IF __CPU_INTEL__
-   ex de,hl
-   ld (_in_KbdState),hl
-   ex de,hl
+        ex      de, hl
+        ld      (_in_KbdState), hl
+        ex      de, hl
 ELSE
-   ld (_in_KbdState),de
+        ld      (_in_KbdState), de
 ENDIF
-   ret
+        ret
 
 .nokey
 
-   ld (_in_KbdState),a
-   ld hl,0
-   scf
-   ret
+        ld      (_in_KbdState), a
+        ld      hl, 0
+        scf
+        ret

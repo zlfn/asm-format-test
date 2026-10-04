@@ -8,10 +8,10 @@ EXTERN _esx_m_tapeout_open_fastcall
 
 _esx_m_tapeout_open:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _esx_m_tapeout_open_fastcall
+        push    hl
+        push    af
+
+        jp      _esx_m_tapeout_open_fastcall

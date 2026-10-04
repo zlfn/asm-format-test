@@ -12,7 +12,7 @@
 
 _mouse_stddrv:
         .ifdef  __APPLE2ENH__
-        .asciiz "A2E.STDMOU.MOU"
+                .asciiz "A2E.STDMOU.MOU"
         .else
-        .asciiz "A2.STDMOU.MOU"
+                .asciiz "A2.STDMOU.MOU"
         .endif

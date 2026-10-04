@@ -12,29 +12,29 @@ EXTERN RIsPtInRect8
 .r_IsPtInRect8
 ._r_IsPtInRect8
 
-   ld hl,2
-   add hl,sp
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   push hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   pop hl
-   ld a,(hl)
-   inc hl
-   inc hl
-   ld h,(hl)
-   ld l,a
-   ld a,h
-   call RIsPtInRect8
-   ld hl,0
-   ret nc
-   inc l
-   ret
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        push    hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      e, (hl)
+        pop     hl
+        ld      a, (hl)
+        inc     hl
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
+        ld      a, h
+        call    RIsPtInRect8
+        ld      hl, 0
+        ret     nc
+        inc     l
+        ret

@@ -10,10 +10,10 @@ EXTERN asm_z80_outp
 
 _z80_outp_callee:
 
-   pop af
-   pop bc
-   dec sp
-   pop hl
-   push af
-   out (c),h
-   ret
+        pop     af
+        pop     bc
+        dec     sp
+        pop     hl
+        push    af
+        out     (c), h
+        ret

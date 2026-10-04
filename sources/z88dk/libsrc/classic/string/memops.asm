@@ -1,59 +1,59 @@
 ; operations for memopi() and memopd()
 ; 06.2007 aralbrec
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  memops
-    PUBLIC  _memops
+        PUBLIC  memops
+        PUBLIC  _memops
 
 memops:
 _memops:
 opload:
 
-    nop
-    ret
+        nop
+        ret
 
 opor:
 
-    or      (hl)
-    ret
+        or      (hl)
+        ret
 
 opxor:
 
-    xor     (hl)
-    ret
+        xor     (hl)
+        ret
 
 opand:
 
-    and     (hl)
-    ret
+        and     (hl)
+        ret
 
 opadd:
 
-    add     a, (hl)
-    ret
+        add     a, (hl)
+        ret
 
 opadc:
 
-    adc     a, (hl)
-    ret
+        adc     a, (hl)
+        ret
 
 opsub:
 
-    sub     (hl)
-    ret
+        sub     (hl)
+        ret
 
 opsbc:
 
-    sbc     a, (hl)
-    ret
+        sbc     a, (hl)
+        ret
 
 oprls:
 
-    rla
-    ret
+        rla
+        ret
 
 oprrs:
 
-    rra
-    ret
+        rra
+        ret

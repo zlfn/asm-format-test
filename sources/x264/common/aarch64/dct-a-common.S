@@ -29,12 +29,12 @@
 // the SVE/SVE2 functions as well
 
 .macro DCT_1D v0 v1 v2 v3 v4 v5 v6 v7
-    SUMSUB_AB   \v1, \v6, \v5, \v6
-    SUMSUB_AB   \v3, \v7, \v4, \v7
-    add         \v0, \v3, \v1
-    add         \v4, \v7, \v7
-    add         \v5, \v6, \v6
-    sub         \v2, \v3, \v1
-    add         \v1, \v4, \v6
-    sub         \v3, \v7, \v5
+        SUMSUB_AB \v1, \v6, \v5, \v6
+        SUMSUB_AB \v3, \v7, \v4, \v7
+        add     \v0, \v3, \v1
+        add     \v4, \v7, \v7
+        add     \v5, \v6, \v6
+        sub     \v2, \v3, \v1
+        add     \v1, \v4, \v6
+        sub     \v3, \v7, \v5
 .endm

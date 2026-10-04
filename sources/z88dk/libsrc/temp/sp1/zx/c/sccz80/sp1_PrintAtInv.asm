@@ -10,29 +10,28 @@ EXTERN asm_sp1_PrintAtInv
 
 sp1_PrintAtInv:
 
-   ld hl,2
-   add hl,sp
-   ld c,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld a,(hl)
-   inc hl
-   inc hl
-   ld e,(hl)
-   inc hl
-   inc hl
-   ld d,(hl)
-   
+        ld      hl, 2
+        add     hl, sp
+        ld      c,  (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        inc     hl
+        ld      d, (hl)
+
 ;   jp asm_sp1_PrintAtInv
-   push ix
-   call asm_sp1_PrintAtInv
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_PrintAtInv
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_PrintAtInv
 defc _sp1_PrintAtInv = sp1_PrintAtInv
 ENDIF
-

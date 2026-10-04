@@ -10,9 +10,9 @@ EXTERN asm__memupr
 
 __memupr__callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm__memupr
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm__memupr

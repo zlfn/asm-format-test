@@ -8,14 +8,14 @@ EXTERN l_esx_f_getcwd_drive_callee
 
 _esx_f_getcwd_drive:
 
-   pop de
-   dec sp
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   inc sp
-   push de
-   
-   jp l_esx_f_getcwd_drive_callee
+        pop     de
+        dec     sp
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+        inc     sp
+        push    de
+
+        jp      l_esx_f_getcwd_drive_callee

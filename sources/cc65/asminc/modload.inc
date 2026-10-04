@@ -31,12 +31,8 @@
 ;*                                                                           */
 ;*****************************************************************************/
 
-
-
 ; Exports structures and functions to load relocatable o65 modules at
 ; runtime.
-
-
 
 ; Offsets for the mod_ctrl struct. This struct is passed to the module loader.
 ; It contains stuff, the loader needs to work, and another area where the
@@ -44,11 +40,11 @@
 ; check the return code of mod_load before accessing any of these additional
 ; struct members.
 .struct MOD_CTRL
-        READ            .addr
-        CALLERDATA      .word
-        MODULE          .addr           ; Pointer to module data
-        MODULE_SIZE     .word           ; Total size of loaded module
-        MODULE_ID       .word
+        READ    .addr
+        CALLERDATA .word
+        MODULE  .addr           ; Pointer to module data
+        MODULE_SIZE .word       ; Total size of loaded module
+        MODULE_ID .word
 .endstruct
 
 ; unsigned char mod_load (struct mod_ctrl* ctrl);
@@ -74,5 +70,3 @@
         MLOAD_ERR_FMT   ; Data format error
         MLOAD_ERR_MEM   ; Not enough memory
 .endenum
-
-

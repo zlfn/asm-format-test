@@ -9,11 +9,11 @@ EXTERN asm_sp1_GetSprClr
 
 _sp1_GetSprClr_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
-   
-   ld b,c
-   jp asm_sp1_GetSprClr
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
+
+        ld      b, c
+        jp      asm_sp1_GetSprClr

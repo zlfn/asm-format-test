@@ -150,16 +150,16 @@ DEFINE_COMPILERRT_OUTLINE_FUNCTION_UNMANGLED(NAME(cas))
 #else
 #define CAS .inst 0x08a07c41 + B + M
 #endif
-        CAS    // s(0), s(1), [x2]
+        CAS     // s(0), s(1), [x2]
         ret
 8:
-        UXT    s(tmp0), s(0)
+        UXT     s(tmp0), s(0)
 0:
-        LDXR   s(0), [x2]
-        cmp    s(0), s(tmp0)
-        bne    1f
-        STXR   w(tmp1), s(1), [x2]
-        cbnz   w(tmp1), 0b
+        LDXR    s(0), [x2]
+        cmp     s(0), s(tmp0)
+        bne     1f
+        STXR    w(tmp1), s(1), [x2]
+        cbnz    w(tmp1), 0b
 1:
         BARRIER
         ret
@@ -177,18 +177,18 @@ DEFINE_COMPILERRT_OUTLINE_FUNCTION_UNMANGLED(NAME(cas))
 #define CASP .inst 0x48207c82 + M
 #endif
 
-        CASP   // x0, x1, x2, x3, [x4]
+        CASP    // x0, x1, x2, x3, [x4]
         ret
 8:
-        mov    x(tmp0), x0
-        mov    x(tmp1), x1
+        mov     x(tmp0), x0
+        mov     x(tmp1), x1
 0:
-        LDXP   x0, x1, [x4]
-        cmp    x0, x(tmp0)
-        ccmp   x1, x(tmp1), #0, eq
-        bne    1f
-        STXP   w(tmp2), x2, x3, [x4]
-        cbnz   w(tmp2), 0b
+        LDXP    x0, x1,      [x4]
+        cmp     x0, x(tmp0)
+        ccmp    x1, x(tmp1), #0, eq
+        bne     1f
+        STXP    w(tmp2), x2, x3, [x4]
+        cbnz    w(tmp2), 0b
 1:
         BARRIER
         ret
@@ -204,14 +204,14 @@ END_COMPILERRT_OUTLINE_FUNCTION(NAME(cas))
 #endif
 DEFINE_COMPILERRT_OUTLINE_FUNCTION_UNMANGLED(NAME(swp))
         JUMP_IF_NOT_LSE 8f
-        SWP    // s(0), s(0), [x1]
+        SWP     // s(0), s(0), [x1]
         ret
 8:
-        mov    s(tmp0), s(0)
+        mov     s(tmp0), s(0)
 0:
-        LDXR   s(0), [x1]
-        STXR   w(tmp1), s(tmp0), [x1]
-        cbnz   w(tmp1), 0b
+        LDXR    s(0),    [x1]
+        STXR    w(tmp1), s(tmp0), [x1]
+        cbnz    w(tmp1), 0b
         BARRIER
         ret
 END_COMPILERRT_OUTLINE_FUNCTION(NAME(swp))
@@ -248,15 +248,15 @@ END_COMPILERRT_OUTLINE_FUNCTION(NAME(swp))
 
 DEFINE_COMPILERRT_OUTLINE_FUNCTION_UNMANGLED(NAME(LDNM))
         JUMP_IF_NOT_LSE 8f
-        LDOP // s(0), s(0), [x1]
+        LDOP    // s(0), s(0), [x1]
         ret
 8:
-        mov    s(tmp0), s(0)
+        mov     s(tmp0), s(0)
 0:
-        LDXR   s(0), [x1]
-        OP     s(tmp1), s(0), s(tmp0)
-        STXR   w(tmp2), s(tmp1), [x1]
-        cbnz   w(tmp2), 0b
+        LDXR    s(0),    [x1]
+        OP      s(tmp1), s(0),    s(tmp0)
+        STXR    w(tmp2), s(tmp1), [x1]
+        cbnz    w(tmp2), 0b
         BARRIER
         ret
 END_COMPILERRT_OUTLINE_FUNCTION(NAME(LDNM))

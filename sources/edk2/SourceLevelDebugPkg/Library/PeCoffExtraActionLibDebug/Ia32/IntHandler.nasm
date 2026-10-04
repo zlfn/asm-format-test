@@ -17,6 +17,6 @@ global ASM_PFX(AsmInterruptHandle)
 
 SECTION .text
 ASM_PFX(AsmInterruptHandle):
-    cli
-    mov   al, 1
-    iretd
+        cli
+        mov     al, 1
+        iretd

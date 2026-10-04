@@ -4,19 +4,16 @@
 ; unsigned char mouse_unload (void);
 ; /* Uninstall, then unload the currently loaded driver. */
 
+        .include "mouse-kernel.inc"
+        .include "modload.inc"
 
-        .include        "mouse-kernel.inc"
-        .include        "modload.inc"
-
-        .import         return0, return1
-
-
+        .import return0, return1
 
 _mouse_unload:
         lda     _mouse_drv
-        pha                             ; Save pointer to driver
+        pha                     ; Save pointer to driver
         ora     _mouse_drv+1
-        beq     no_driver               ; No driver
+        beq     no_driver       ; No driver
         lda     _mouse_drv+1
         pha
 
@@ -24,11 +21,11 @@ _mouse_unload:
 
         pla
         tax
-        pla                             ; Get pointer to driver
-        jsr     _mod_free               ; Free the driver
-        jmp     return0                 ; Return MOUSE_ERR_OK
+        pla                     ; Get pointer to driver
+        jsr     _mod_free       ; Free the driver
+        jmp     return0         ; Return MOUSE_ERR_OK
 
 no_driver:
-        pla                             ; Remove pushed junk
+        pla             ; Remove pushed junk
         .assert MOUSE_ERR_NO_DRIVER = 1, error
-        jmp     return1                 ; Return MOUSE_ERR_NO_DRIVER
+        jmp     return1 ; Return MOUSE_ERR_NO_DRIVER

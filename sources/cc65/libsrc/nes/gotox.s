@@ -4,10 +4,10 @@
 ; void gotox (unsigned char x);
 ;
 
-        .export         _gotox
-        .import         setcursor
+        .export _gotox
+        .import setcursor
 
-        .include        "nes.inc"
+        .include "nes.inc"
 
 .proc   _gotox
 
@@ -17,5 +17,3 @@
         jmp     setcursor       ; Set the cursor to the new position
 
 .endproc
-
-

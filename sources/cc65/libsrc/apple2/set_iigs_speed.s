@@ -4,15 +4,15 @@
 ; unsigned char __fastcall__ detect_iigs(unsigned char speed)
 ;
 
-        .export         _set_iigs_speed
-        .import         ostype, return0
+        .export _set_iigs_speed
+        .import ostype, return0
 
-        .include        "apple2.inc"
-        .include        "accelerator.inc"
+        .include "apple2.inc"
+        .include "accelerator.inc"
 
 _set_iigs_speed:
-        tax                     ; Keep parameter
-        lda     ostype          ; Return if not IIgs
+        tax             ; Keep parameter
+        lda     ostype  ; Return if not IIgs
         bmi     :+
         jmp     return0
 

@@ -10,16 +10,16 @@ EXTERN asm_bit_synth_di
 
 bit_synth_di_callee:
 
-   pop af
-   pop de
-   pop bc
-   ld d,c
-   pop hl
-   pop bc
-   ld h,c
-   pop bc
-   push af
-   
-   ld a,c
+        pop     af
+        pop     de
+        pop     bc
+        ld      d, c
+        pop     hl
+        pop     bc
+        ld      h, c
+        pop     bc
+        push    af
 
-   jp asm_bit_synth_di
+        ld      a, c
+
+        jp      asm_bit_synth_di

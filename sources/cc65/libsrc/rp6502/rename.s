@@ -4,10 +4,9 @@
 ; int __fastcall__ rename (const char* oldname, const char* newname);
 ;
 
-        .export         _rename
+        .export _rename
 
-        .import         __sysrename
-
+        .import __sysrename
 
 ;--------------------------------------------------------------------------
 

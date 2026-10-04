@@ -1,7 +1,5 @@
 
+        SECTION bss_fp
+        PUBLIC  fasign
 
-		SECTION	bss_fp
-		PUBLIC	fasign
-
-fasign:		defs	6
-
+fasign: defs    6

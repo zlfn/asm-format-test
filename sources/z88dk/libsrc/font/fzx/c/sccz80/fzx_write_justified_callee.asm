@@ -10,11 +10,11 @@ EXTERN asm_fzx_write_justified
 
 fzx_write_justified_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   pop ix
-   push af
-   
-   jp asm_fzx_write_justified
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        pop     ix
+        push    af
+
+        jp      asm_fzx_write_justified

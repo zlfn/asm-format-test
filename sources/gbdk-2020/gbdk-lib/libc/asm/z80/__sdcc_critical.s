@@ -13,7 +13,7 @@
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 ;  GNU General Public License for more details.
 ;
-;  You should have received a copy of the GNU General Public License 
+;  You should have received a copy of the GNU General Public License
 ;  along with this library; see the file COPYING. If not, write to the
 ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
 ;   MA 02110-1301, USA.
@@ -26,29 +26,29 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-	.area   _CODE
+        .area   _CODE
 
-	.globl ___sdcc_critical_enter
+        .globl  ___sdcc_critical_enter
 ;
 ; NMOS Z80 compatible
 ; this function cannot be placed at 0x0000...0x00ff addresses
 ;
 ___sdcc_critical_enter::
-	xor	a, a
-	push	af
-	pop	af
-	ld	a, i
-	di
-	ret	pe	;enabled interrupts
-	dec	sp
-	dec	sp
-	pop	af
-	or	a, a	;A = 0 if interrupts disabled
-	jr	NZ, 00100$
+        xor     a, a
+        push    af
+        pop     af
+        ld      a, i
+        di
+        ret     pe      ;enabled interrupts
+        dec     sp
+        dec     sp
+        pop     af
+        or      a,  a   ;A = 0 if interrupts disabled
+        jr      NZ, 00100$
 ;inetrrupts disabled
-	sub	a, a	;force P/V = 0
-	ret
+        sub     a, a    ;force P/V = 0
+        ret
 ;interrupts enabled
 00100$:
-	xor	a, a	;force P/V = 1
-	ret
+        xor     a, a    ;force P/V = 1
+        ret

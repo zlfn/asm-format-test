@@ -15,16 +15,16 @@ EXTERN asm_BIFROST2_findAttrH
 
 BIFROST2_findAttrH:
 
-        ld hl,2
-        ld b,h
-        add hl,sp
-        ld c,(hl)       ; BC=col
-        inc hl
-        inc hl
-        ld l,(hl)       ; HL=lin
-        ld h,b
+        ld      hl, 2
+        ld      b,  h
+        add     hl, sp
+        ld      c,  (hl)        ; BC=col
+        inc     hl
+        inc     hl
+        ld      l, (hl)         ; HL=lin
+        ld      h, b
 
-   	jp asm_BIFROST2_findAttrH
+        jp      asm_BIFROST2_findAttrH
 
 ; SDCC bridge for Classic
 IF __CLASSIC

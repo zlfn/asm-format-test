@@ -5,13 +5,12 @@
 ;
 ; Get a character from OSI C1P screen RAM.
 ;
-        .export         _cpeekc
+        .export _cpeekc
 
-        .include        "extzp.inc"
-
+        .include "extzp.inc"
 
 _cpeekc:
         ldy     CURS_X
-        lda     (SCREEN_PTR),y
+        lda     (SCREEN_PTR), y
         ldx     #>$0000
         rts

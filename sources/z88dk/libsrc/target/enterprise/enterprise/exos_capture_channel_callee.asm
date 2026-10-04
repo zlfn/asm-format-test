@@ -16,19 +16,19 @@ PUBLIC 	asm_exos_capture_channel
 exos_capture_channel_callee:
 _exos_capture_channel_callee:
 
-	pop hl
-	pop de
-	ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 ; enter : l = main channel number
 ;         e = secondary channel number
 
 .asm_exos_capture_channel
 
-	ld	a,l		; main channel
-	ld	c,e		; sec. ch
-	rst   30h
-	defb  17
-	ld	h,0
-	ld	l,a
-	ret
+        ld      a, l    ; main channel
+        ld      c, e    ; sec. ch
+        rst     30h
+        defb    17
+        ld      h, 0
+        ld      l, a
+        ret

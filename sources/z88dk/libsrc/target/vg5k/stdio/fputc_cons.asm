@@ -9,51 +9,46 @@
 ;	$Id: fputc_cons.asm$
 ;
 
-    SECTION code_clib
-    PUBLIC  fputc_cons_native
+        SECTION code_clib
+        PUBLIC  fputc_cons_native
 
 ;
 ; Entry:        hl points char to print
 ;
 
-
-
 fputc_cons_native:
-    ld      hl, 2
-    add     hl, sp
+        ld      hl, 2
+        add     hl, sp
 
+        ld      a, (hl)
 
-    ld      a, (hl)
+        push    iy
+        ld      iy, $47FA       ;iy -> ix (it must point to the BASIC system variables, IX+0=INTDIV)
 
-    push    iy
-    ld      iy, $47FA                   ;iy -> ix (it must point to the BASIC system variables, IX+0=INTDIV)
-
-    cp      7
-    jr      nz, nobel
-    ld      a, 14
-    jr      setout
+        cp      7
+        jr      nz, nobel
+        ld      a,  14
+        jr      setout
 
 nobel:
 
-    cp      12
-    jr      nz, nocls
-    ld      a, 31
-    jr      setout
+        cp      12
+        jr      nz, nocls
+        ld      a,  31
+        jr      setout
 
 nocls:
 
-  IF    STANDARDESCAPECHARS
-    cp      10
-    jr      nz, notCR
-    ld      a, 13
+        IF      STANDARDESCAPECHARS
+                cp      10
+                jr      nz, notCR
+                ld      a,  13
 ;	jr setout
 notCR:
-  ENDIF
-
+        ENDIF
 
 setout:
-    rst     $18
+        rst     $18
 
-    pop     iy
-    ret
-
+        pop     iy
+        ret

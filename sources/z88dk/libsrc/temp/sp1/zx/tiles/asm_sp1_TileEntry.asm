@@ -18,16 +18,16 @@ asm_sp1_TileEntry:
 ; exit  : hl = old udg graphic associated with char code
 ; uses  : af, b, de, hl
 
-   ld hl,SP1V_TILEARRAY
-   ld b,0
-   add hl,bc
-   ld a,(hl)
-   ld (hl),e
-   ld e,a
-   inc h
-   ld a,(hl)
-   ld (hl),d
-   ld h,a
-   ld l,e
+        ld      hl,   SP1V_TILEARRAY
+        ld      b,    0
+        add     hl,   bc
+        ld      a,    (hl)
+        ld      (hl), e
+        ld      e,    a
+        inc     h
+        ld      a,    (hl)
+        ld      (hl), d
+        ld      h,    a
+        ld      l,    e
 
-   ret
+        ret

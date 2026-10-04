@@ -10,17 +10,17 @@ EXTERN asm_obstack_vprintf
 
 _obstack_vprintf_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
 l0_obstack_vprintf_callee:
 
-   push ix
-   
-   call asm_obstack_vprintf
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_obstack_vprintf
+
+        pop     ix
+        ret

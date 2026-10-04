@@ -2,7 +2,6 @@
 ; Plus/4 generic definitions.
 ;
 
-
 ; ---------------------------------------------------------------------------
 ; Zero page, Commodore stuff
 

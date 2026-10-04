@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Apr 2014
 ; ===============================================================
-; 
+;
 ; void in_wait_nokey(void)
 ;
 ; Busy wait until no keys are pressed.
@@ -18,9 +18,9 @@ EXTERN asm_in_test_key
 
 asm_in_wait_nokey:
 
-   ; uses : af
+        ; uses : af
 
-   call asm_in_test_key
-   jr nz, asm_in_wait_nokey
-   
-   ret
+        call    asm_in_test_key
+        jr      nz, asm_in_wait_nokey
+
+        ret

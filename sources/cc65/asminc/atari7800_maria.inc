@@ -36,4 +36,3 @@ P7C2   := $3E
 P7C3   := $3F
 
 ; Write registers
-

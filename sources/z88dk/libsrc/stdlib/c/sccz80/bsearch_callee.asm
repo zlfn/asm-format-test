@@ -12,24 +12,23 @@ EXTERN asm_bsearch
 
 bsearch_callee:
 
-   pop af
-   pop ix
-   pop de
-   pop hl
-   pop bc
-   exx
-   pop bc
-   push af
-   
-   push bc
-   pop af
-   exx
-   
-   jp asm_bsearch
+        pop     af
+        pop     ix
+        pop     de
+        pop     hl
+        pop     bc
+        exx
+        pop     bc
+        push    af
+
+        push    bc
+        pop     af
+        exx
+
+        jp      asm_bsearch
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _bsearch_callee
 defc _bsearch_callee = bsearch_callee
 ENDIF
-

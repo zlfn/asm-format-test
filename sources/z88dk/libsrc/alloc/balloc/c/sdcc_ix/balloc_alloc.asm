@@ -10,10 +10,10 @@ EXTERN asm_balloc_alloc
 
 _balloc_alloc:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_balloc_alloc
+        push    hl
+        push    af
+
+        jp      asm_balloc_alloc

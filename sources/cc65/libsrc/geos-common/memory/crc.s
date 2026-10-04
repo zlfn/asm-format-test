@@ -5,15 +5,15 @@
 
 ; int CRC         (char *memory, int length);
 
-            .import DoublePop
-            .export _CRC
+        .import DoublePop
+        .export _CRC
 
-            .include "jumptab.inc"
-            .include "geossym.inc"
+        .include "jumptab.inc"
+        .include "geossym.inc"
 
 _CRC:
-        jsr DoublePop
-        jsr CRC
-        lda r2L
-        ldx r2H
+        jsr     DoublePop
+        jsr     CRC
+        lda     r2L
+        ldx     r2H
         rts

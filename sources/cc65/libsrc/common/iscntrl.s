@@ -10,12 +10,12 @@
 ; int iscntrl (int c);
 ;
 
-        .export         _iscntrl
-        .include        "ctype.inc"
-        .import         ctypemask
+        .export _iscntrl
+        .include "ctype.inc"
+        .import ctypemask
 
 _iscntrl:
-        jsr     ctypemask      ; (always clears X)
-        bcs     @L1                     ; out of range? (everything already clear -> false)
-        and     #CT_CTRL                ; mask control character bit
+        jsr     ctypemask       ; (always clears X)
+        bcs     @L1             ; out of range? (everything already clear -> false)
+        and     #CT_CTRL        ; mask control character bit
 @L1:    rts

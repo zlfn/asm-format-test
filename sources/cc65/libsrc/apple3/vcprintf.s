@@ -5,14 +5,14 @@
 ; Robert Justice, 2026
 ;
 
-        .export         _vcprintf
-        .import         pushax, popax, popptr1
-        .import         __printf, _cputc, wrconss
-        .importzp       c_sp, ptr1, ptr2, ptr3, tmp1
+        .export _vcprintf
+        .import pushax,   popax,  popptr1
+        .import __printf, _cputc, wrconss
+        .importzp c_sp, ptr1, ptr2, ptr3, tmp1
 
-        .include        "sos.inc"
+        .include "sos.inc"
 
-        .macpack        generic
+        .macpack generic
 
 .data
 
@@ -21,11 +21,11 @@
 ; Static data for the _vsprintf routine
 ;
 
-outdesc:                        ; Static outdesc structure
-        .word   0               ; ccount
-        .word   out             ; Output function pointer
-        .word   0               ; ptr
-        .word   0               ; uns
+outdesc:                ; Static outdesc structure
+        .word   0       ; ccount
+        .word   out     ; Output function pointer
+        .word   0       ; ptr
+        .word   0       ; uns
 
 .code
 
@@ -48,34 +48,33 @@ outdesc:                        ; Static outdesc structure
 ; Output the whole chunk directly in one SOS call to improve console speed
 ;
 
-out:    jsr     popax           ; count
+out:    jsr     popax   ; count
         sta     sosparam + SOS::RW::REQUEST_COUNT
         stx     sosparam + SOS::RW::REQUEST_COUNT+1
 
-        jsr     popax           ; buf
+        jsr     popax   ; buf
         sta     sosparam + SOS::RW::DATA_BUFFER
         stx     sosparam + SOS::RW::DATA_BUFFER+1
 
-        jsr     popax           ; d
+        jsr     popax   ; d
         sta     ptr3
         stx     ptr3+1
 
 ; Sum up the total count of characters
 
-        ldy     #0              ; ccount in struct outdesc
-        sty     tmp1            ; Initialize tmp1 while we have zero available
-        lda     (ptr3),y
+        ldy     #0      ; ccount in struct outdesc
+        sty     tmp1    ; Initialize tmp1 while we have zero available
+        lda     (ptr3), y
         add     sosparam + SOS::RW::REQUEST_COUNT
-        sta     (ptr3),y
+        sta     (ptr3), y
         iny
-        lda     (ptr3),y
+        lda     (ptr3), y
         adc     sosparam + SOS::RW::REQUEST_COUNT+1
-        sta     (ptr3),y
+        sta     (ptr3), y
 
 ; output characters in one block
 
         jmp     wrconss
-
 
 ; ----------------------------------------------------------------------------
 ; vcprintf - formatted console i/o
@@ -95,7 +94,7 @@ out:    jsr     popax           ; count
 ; }
 
 _vcprintf:
-        sta     ptr1            ; Save ap
+        sta     ptr1    ; Save ap
         stx     ptr1+1
 
 ; Setup the outdesc structure
@@ -107,22 +106,22 @@ _vcprintf:
 ; Get the format parameter and push it again
 
         ldy     #1
-        lda     (c_sp),y
+        lda     (c_sp), y
         tax
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
         jsr     pushax
 
 ; Replace the passed format parameter on the stack by &d - this creates
 ; exactly the stack frame _printf expects. Parameters will get dropped
 ; by _printf.
 
-        ldy     #2              ; Low byte of d
+        ldy     #2      ; Low byte of d
         lda     #<outdesc
-        sta     (c_sp),y
+        sta     (c_sp), y
         iny
         lda     #>outdesc
-        sta     (c_sp),y
+        sta     (c_sp), y
 
 ; Restore ap and call _printf
 
@@ -132,6 +131,6 @@ _vcprintf:
 
 ; Return the number of bytes written.
 
-        lda     outdesc         ; ccount
+        lda     outdesc ; ccount
         ldx     outdesc+1
         rts

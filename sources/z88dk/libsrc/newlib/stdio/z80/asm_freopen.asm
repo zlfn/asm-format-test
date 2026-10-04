@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Apr 2014
 ; ===============================================================
-; 
+;
 ; FILE *freopen(char *filename, char *mode, FILE *stream)
 ;
 ; Reassigns the stream to a different file.
@@ -22,39 +22,39 @@ EXTERN __stdio_verify_valid_lock, error_zc
 
 asm_freopen:
 
-   ; enter : ix = FILE *
-   ;         de = char *mode
-   ;         hl = char *filename
-   ; 
-   ; exit  : ix = FILE *
-   ;
-   ;         success
-   ;
-   ;            hl = FILE *
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = 0
-   ;            carry set, errno set
-   ;
-   ; uses  : all except ix
+        ; enter : ix = FILE *
+        ;         de = char *mode
+        ;         hl = char *filename
+        ;
+        ; exit  : ix = FILE *
+        ;
+        ;         success
+        ;
+        ;            hl = FILE *
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = 0
+        ;            carry set, errno set
+        ;
+        ; uses  : all except ix
 
-   call __stdio_verify_valid_lock
-   jp c, error_zc              ; if FILE invalid
+        call    __stdio_verify_valid_lock
+        jp      c, error_zc     ; if FILE invalid
 
-   push hl                     ; save filename
+        push    hl      ; save filename
 
-   call asm0_freopen_unlocked
-   
-   pop bc                      ; bc = filename
-   ret c                       ; if error, FILE is closed
-   
-   ld a,b
-   or c
-   ret nz                      ; if FILE was replaced
-   
-   jp __stdio_lock_release     ; if FILE was modified (mode change)
+        call    asm0_freopen_unlocked
+
+        pop     bc      ; bc = filename
+        ret     c       ; if error, FILE is closed
+
+        ld      a, b
+        or      c
+        ret     nz      ; if FILE was replaced
+
+        jp      __stdio_lock_release    ; if FILE was modified (mode change)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

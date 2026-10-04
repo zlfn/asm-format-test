@@ -8,17 +8,16 @@
 ;       $Id: cpc_Chars.asm $
 ;
 
-        SECTION   data_clib
-        PUBLIC    cpc_Chars
-        PUBLIC    _cpc_Chars
-        PUBLIC    first_char
+        SECTION data_clib
+        PUBLIC  cpc_Chars
+        PUBLIC  _cpc_Chars
+        PUBLIC  first_char
 
-
-.first_char defb 48	;first defined char number (ASCII)
+.first_char defb 48     ;first defined char number (ASCII)
 
 .cpc_Chars
 ._cpc_Chars
-   ; cpc_Chars encoding... every pixel is defined with 2 bits defining the colour.
+        ; cpc_Chars encoding... every pixel is defined with 2 bits defining the colour.
 
 ;0
 defb @00010101
@@ -160,7 +159,7 @@ defb @10101000
 defb @11001100
 defb @11001100
 defb @11001100
-defb @00000000	
+defb @00000000
 ;B
 defb @01010000
 defb @01000100

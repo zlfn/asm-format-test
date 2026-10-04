@@ -17,28 +17,27 @@ SECTION code_fp_math32
 
 PUBLIC l_f32_swap
 
-
 .l_f32_swap
-    pop bc                          ; BC = return
-    push de
-    push hl                         ; SP: right(4), left(4)
-    push bc                         ; SP: ret, right, left
-    ld hl,sp+2                      ; &right
-    push hl
-    ld hl,de                        ; HL↔DE without ex (56c)
-    pop de
-    ld hl,sp+6                      ; &left
-    ld b,4
+        pop     bc              ; BC = return
+        push    de
+        push    hl              ; SP: right(4), left(4)
+        push    bc              ; SP: ret, right, left
+        ld      hl, sp+2        ; &right
+        push    hl
+        ld      hl, de          ; HL↔DE without ex (56c)
+        pop     de
+        ld      hl, sp+6        ; &left
+        ld      b,  4
 .swloop
-    ld a,(de)
-    ld c,a                          ; right byte (ld (de),r is A-only)
-    ld a,(hl)                       ; left byte
-    ld (de+),a                      ; left → right
-    ld (hl+),c                      ; right → left
-    dec b
-    jp NZ,swloop
-    pop bc                          ; BC = ret
-    pop hl                          ; left LSW
-    pop de                          ; left MSW → DEHL = left
-    push bc                         ; ret
-    ret
+        ld      a,     (de)
+        ld      c,     a        ; right byte (ld (de),r is A-only)
+        ld      a,     (hl)     ; left byte
+        ld      (de+), a        ; left → right
+        ld      (hl+), c        ; right → left
+        dec     b
+        jp      NZ, swloop
+        pop     bc              ; BC = ret
+        pop     hl              ; left LSW
+        pop     de              ; left MSW → DEHL = left
+        push    bc              ; ret
+        ret

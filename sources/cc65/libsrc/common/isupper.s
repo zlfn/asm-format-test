@@ -10,9 +10,9 @@
 ; int isupper (int c);
 ;
 
-        .export         _isupper
-        .include        "ctype.inc"
-        .import         ctypemask
+        .export _isupper
+        .include "ctype.inc"
+        .import ctypemask
 
 _isupper:
         jsr     ctypemask       ; (always clears X)

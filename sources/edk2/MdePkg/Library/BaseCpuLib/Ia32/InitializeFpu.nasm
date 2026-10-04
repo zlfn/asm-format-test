@@ -6,7 +6,7 @@
 ;*
 ;------------------------------------------------------------------------------
 
-    SECTION .rodata
+        SECTION .rodata
 
 ;
 ; Float control word initial value:
@@ -19,7 +19,7 @@ mFpuControlWord: DW 0x27F
 ;
 mMmxControlWord: DD 0x1F80
 
-    SECTION .text
+        SECTION .text
 
 ;
 ; Initializes floating point units for requirement of UEFI specification.
@@ -32,37 +32,36 @@ mMmxControlWord: DD 0x1F80
 global ASM_PFX(InitializeFloatingPointUnits)
 ASM_PFX(InitializeFloatingPointUnits):
 
-    push    ebx
+        push    ebx
 
-    ;
-    ; Initialize floating point units
-    ;
-    finit
-    fldcw   [mFpuControlWord]
+        ;
+        ; Initialize floating point units
+        ;
+        finit
+        fldcw   [mFpuControlWord]
 
-    ;
-    ; Use CpuId instruction (CPUID.01H:EDX.SSE[bit 25] = 1) to test
-    ; whether the processor supports SSE instruction.
-    ;
-    mov     eax, 1
-    cpuid
-    bt      edx, 25
-    jnc     Done
+        ;
+        ; Use CpuId instruction (CPUID.01H:EDX.SSE[bit 25] = 1) to test
+        ; whether the processor supports SSE instruction.
+        ;
+        mov     eax, 1
+        cpuid
+        bt      edx, 25
+        jnc     Done
 
-    ;
-    ; Set OSFXSR bit 9 in CR4
-    ;
-    mov     eax, cr4
-    or      eax, BIT9
-    mov     cr4, eax
+        ;
+        ; Set OSFXSR bit 9 in CR4
+        ;
+        mov     eax, cr4
+        or      eax, BIT9
+        mov     cr4, eax
 
-    ;
-    ; The processor should support SSE instruction and we can use
-    ; ldmxcsr instruction
-    ;
-    ldmxcsr [mMmxControlWord]
+        ;
+        ; The processor should support SSE instruction and we can use
+        ; ldmxcsr instruction
+        ;
+        ldmxcsr [mMmxControlWord]
 Done:
-    pop     ebx
+        pop     ebx
 
-    ret
-
+        ret

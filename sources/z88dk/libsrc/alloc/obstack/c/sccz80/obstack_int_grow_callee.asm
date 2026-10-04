@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; void *obstack_int_grow(struct obstack *ob, int data)
 ;
 ; Append int to the growing object.
@@ -18,15 +18,14 @@ EXTERN asm_obstack_int_grow
 
 obstack_int_grow_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   jp asm_obstack_int_grow
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_obstack_int_grow
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _obstack_int_grow_callee
 defc _obstack_int_grow_callee = obstack_int_grow_callee
 ENDIF
-

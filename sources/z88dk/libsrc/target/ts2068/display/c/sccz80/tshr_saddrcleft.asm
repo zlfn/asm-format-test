@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _tshr_saddrcleft
 defc _tshr_saddrcleft = tshr_saddrcleft
 ENDIF
-

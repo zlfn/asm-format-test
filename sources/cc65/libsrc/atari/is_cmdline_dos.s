@@ -6,8 +6,8 @@
 ; returns 0 for non-commandline DOS, 1 for commandline DOS
 ;
 
-        .export  __is_cmdline_dos
-        .import  __dos_type
+        .export __is_cmdline_dos
+        .import __dos_type
         .include "atari.inc"
 
 __is_cmdline_dos:

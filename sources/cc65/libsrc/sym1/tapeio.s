@@ -15,32 +15,32 @@
 
 .proc _loadt:   near
 
-        sta     P1L              ; Tape record ID to P1L
+        sta     P1L     ; Tape record ID to P1L
         ldx     #$00
         stx     P1H
         ldy     #$80
-        jsr     LOADT            ; Read data from tape
+        jsr     LOADT   ; Read data from tape
         bcs     error
-        jmp     return0          ; Return 0 if successful
-error:  jmp     return1          ; or 1 if not
+        jmp     return0 ; Return 0 if successful
+error:  jmp     return1 ; or 1 if not
 
 .endproc
 
 .proc _dumpt:  near
 
-        sta     P3L              ; End address
+        sta     P3L     ; End address
         stx     P3H
         jsr     popax
-        sta     P2L              ; Start address
+        sta     P2L     ; Start address
         stx     P2H
         jsr     popa
-        sta     P1L              ; Tape Record ID
+        sta     P1L     ; Tape Record ID
         ldx     #$00
         stx     P1H
         ldy     #$80
-        jsr     DUMPT            ; Write data to tape
+        jsr     DUMPT   ; Write data to tape
         bcs     error
-        jmp     return0          ; Return 0 if successful
-error:  jmp     return1          ; or 1 if not
+        jmp     return0 ; Return 0 if successful
+error:  jmp     return1 ; or 1 if not
 
 .endproc

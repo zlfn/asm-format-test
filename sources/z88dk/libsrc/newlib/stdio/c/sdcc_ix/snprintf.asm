@@ -10,9 +10,9 @@ EXTERN asm_snprintf
 
 _snprintf:
 
-   push ix
-   
-   call asm_snprintf
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_snprintf
+
+        pop     ix
+        ret

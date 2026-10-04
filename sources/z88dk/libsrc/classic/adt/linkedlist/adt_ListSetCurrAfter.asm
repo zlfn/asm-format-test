@@ -11,9 +11,9 @@ EXTERN l_setmem
 .adt_ListSetCurrAfter
 ._adt_ListSetCurrAfter
 
-   inc hl
-   inc hl
-   ld (hl),2               ; indicate current pointer points after end of list
-   inc hl
-   xor a
-   jp l_setmem-3           ; current ptr = 0
+        inc     hl
+        inc     hl
+        ld      (hl), 2         ; indicate current pointer points after end of list
+        inc     hl
+        xor     a
+        jp      l_setmem-3      ; current ptr = 0

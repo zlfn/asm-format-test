@@ -6,14 +6,14 @@
 ;
         .include "atari5200.inc"
 
-        .export         _cvlinexy, _cvline
-        .import         gotoxy, putchar
-        .importzp       tmp1
+        .export _cvlinexy, _cvline
+        .import gotoxy,    putchar
+        .importzp tmp1
 
 _cvlinexy:
-        pha                     ; Save the length
-        jsr     gotoxy          ; Call this one, will pop params
-        pla                     ; Restore the length and run into _cvline
+        pha             ; Save the length
+        jsr     gotoxy  ; Call this one, will pop params
+        pla             ; Restore the length and run into _cvline
 
 _cvline:
         cmp     #0              ; Is the length zero?

@@ -33,63 +33,63 @@ SECTION .text
 
 INIT_XMM sse2
 cglobal maskedclamp8, 5,5,5, src, dst, dark, bright, w, undershoot, overshoot
-    movsxdifnidn wq, wd
+        movsxdifnidn wq, wd
 
-    add        srcq, wq
-    add       darkq, wq
-    add     brightq, wq
-    add        dstq, wq
-    neg          wq
+        add     srcq,    wq
+        add     darkq,   wq
+        add     brightq, wq
+        add     dstq,    wq
+        neg     wq
 
-    movd         m3, r5m
-    punpcklbw    m3, m3
-    SPLATW       m3, m3
+        movd    m3, r5m
+        punpcklbw m3, m3
+        SPLATW  m3, m3
 
-    movd         m4, r6m
-    punpcklbw    m4, m4
-    SPLATW       m4, m4
+        movd    m4, r6m
+        punpcklbw m4, m4
+        SPLATW  m4, m4
 
-    .loop:
-        movu                  m0, [srcq + wq]
-        movu                  m1, [darkq + wq]
-        movu                  m2, [brightq + wq]
+.loop:
+        movu    m0, [srcq + wq]
+        movu    m1, [darkq + wq]
+        movu    m2, [brightq + wq]
 
-        psubusb               m1, m3
-        paddusb               m2, m4
-        CLIPUB                m0, m1, m2
-        mova         [dstq + wq], m0
+        psubusb m1, m3
+        paddusb m2, m4
+        CLIPUB  m0, m1, m2
+        mova    [dstq + wq], m0
 
-        add                   wq, mmsize
-        jl .loop
-    RET
+        add     wq, mmsize
+        jl      .loop
+        RET
 
 INIT_XMM sse4
 cglobal maskedclamp16, 5,5,5, src, dst, dark, bright, w, undershoot, overshoot
-    shl          wd, 1
+        shl     wd, 1
 
-    add        srcq, wq
-    add       darkq, wq
-    add     brightq, wq
-    add        dstq, wq
-    neg          wq
+        add     srcq,    wq
+        add     darkq,   wq
+        add     brightq, wq
+        add     dstq,    wq
+        neg     wq
 
-    movd         m3, r5m
-    SPLATW       m3, m3
+        movd    m3, r5m
+        SPLATW  m3, m3
 
-    movd         m4, r6m
-    SPLATW       m4, m4
+        movd    m4, r6m
+        SPLATW  m4, m4
 
-    .loop:
-        movu                  m0, [srcq + wq]
-        movu                  m1, [darkq + wq]
-        movu                  m2, [brightq + wq]
+.loop:
+        movu    m0, [srcq + wq]
+        movu    m1, [darkq + wq]
+        movu    m2, [brightq + wq]
 
-        psubusw               m1, m3
-        paddusw               m2, m4
-        pmaxuw                m0, m1
-        pminuw                m0, m2
-        mova         [dstq + wq], m0
+        psubusw m1, m3
+        paddusw m2, m4
+        pmaxuw  m0, m1
+        pminuw  m0, m2
+        mova    [dstq + wq], m0
 
-        add                   wq, mmsize
-        jl .loop
-    RET
+        add     wq, mmsize
+        jl      .loop
+        RET

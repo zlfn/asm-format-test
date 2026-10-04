@@ -4,9 +4,9 @@
 ; CC65 runtime: Decrement ax by 6
 ;
 
-        .export         decax6
+        .export decax6
 
-        .macpack        generic
+        .macpack generic
 
 .proc   decax6
 

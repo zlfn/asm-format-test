@@ -24,30 +24,26 @@ EXTERN asm_am9511_pushf
 EXTERN asm_am9511_pushf_fastcall
 EXTERN asm_am9511_popf
 
-
 PUBLIC asm_am9511_sqr, asm_am9511_sqr_fastcall
 
-
 .asm_am9511_sqr
-    call asm_am9511_pushf           ; x
+        call    asm_am9511_pushf        ; x
 
-    ld a,__IO_APU_OP_PTOF
-    AM9511_OUT_APU_CONTROL        ; x
+        ld      a, __IO_APU_OP_PTOF
+        AM9511_OUT_APU_CONTROL  ; x
 
-    ld a,__IO_APU_OP_FMUL
-    AM9511_OUT_APU_CONTROL        ; x*x
+        ld      a, __IO_APU_OP_FMUL
+        AM9511_OUT_APU_CONTROL  ; x*x
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf
 
 .asm_am9511_sqr_fastcall
-    call asm_am9511_pushf_fastcall  ; x
+        call    asm_am9511_pushf_fastcall       ; x
 
-    ld a,__IO_APU_OP_PTOF
-    AM9511_OUT_APU_CONTROL        ; x
+        ld      a, __IO_APU_OP_PTOF
+        AM9511_OUT_APU_CONTROL  ; x
 
-    ld a,__IO_APU_OP_FMUL
-    AM9511_OUT_APU_CONTROL        ; x*x
+        ld      a, __IO_APU_OP_FMUL
+        AM9511_OUT_APU_CONTROL  ; x*x
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf

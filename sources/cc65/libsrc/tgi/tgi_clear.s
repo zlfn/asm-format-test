@@ -4,6 +4,6 @@
 ; void tgi_clear (void);
 ; /* Clear the drawpage */
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
 _tgi_clear      = tgi_clear               ; Call the driver

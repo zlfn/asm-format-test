@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Apr 2016
 ; ===============================================================
-; 
+;
 ; uint16_t htons(uint16_t)
 ;
 ; Change host byte order to network byte order.
@@ -16,14 +16,14 @@ PUBLIC asm_htons
 
 asm_htons:
 
-   ; enter : hl = host order port
-   ;
-   ; exit  : hl = network order port
-   ;
-   ; uses  : a, hl
+        ; enter : hl = host order port
+        ;
+        ; exit  : hl = network order port
+        ;
+        ; uses  : a, hl
 
-   ld a,l
-   ld l,h
-   ld h,a
+        ld      a, l
+        ld      l, h
+        ld      h, a
 
-   ret
+        ret

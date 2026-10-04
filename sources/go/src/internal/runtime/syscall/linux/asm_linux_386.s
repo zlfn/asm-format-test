@@ -12,23 +12,23 @@
 //
 // Syscall # in AX, args in BX CX DX SI DI BP, return in AX
 TEXT ·Syscall6(SB),NOSPLIT,$0-40
-	MOVL	num+0(FP), AX	// syscall entry
-	MOVL	a1+4(FP), BX
-	MOVL	a2+8(FP), CX
-	MOVL	a3+12(FP), DX
-	MOVL	a4+16(FP), SI
-	MOVL	a5+20(FP), DI
-	MOVL	a6+24(FP), BP
-	INVOKE_SYSCALL
-	CMPL	AX, $0xfffff001
-	JLS	ok
-	MOVL	$-1, r1+28(FP)
-	MOVL	$0, r2+32(FP)
-	NEGL	AX
-	MOVL	AX, errno+36(FP)
-	RET
+        MOVL    num+0(FP), AX   // syscall entry
+        MOVL    a1+4(FP),  BX
+        MOVL    a2+8(FP),  CX
+        MOVL    a3+12(FP), DX
+        MOVL    a4+16(FP), SI
+        MOVL    a5+20(FP), DI
+        MOVL    a6+24(FP), BP
+        INVOKE_SYSCALL
+        CMPL    AX, $0xfffff001
+        JLS     ok
+        MOVL    $-1, r1+28(FP)
+        MOVL    $0,  r2+32(FP)
+        NEGL    AX
+        MOVL    AX, errno+36(FP)
+        RET
 ok:
-	MOVL	AX, r1+28(FP)
-	MOVL	DX, r2+32(FP)
-	MOVL	$0, errno+36(FP)
-	RET
+        MOVL    AX, r1+28(FP)
+        MOVL    DX, r2+32(FP)
+        MOVL    $0, errno+36(FP)
+        RET

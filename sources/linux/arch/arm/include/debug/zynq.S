@@ -24,28 +24,28 @@
 # define LL_UART_VADDR		UART0_VIRT
 #endif
 
-		.macro	addruart, rp, rv, tmp
-		ldr	\rp, =LL_UART_PADDR	@ physical
-		ldr	\rv, =LL_UART_VADDR	@ virtual
-		.endm
+        .macro  addruart, rp, rv, tmp
+                ldr     \rp, =LL_UART_PADDR     @ physical
+                ldr     \rv, =LL_UART_VADDR     @ virtual
+        .endm
 
-		.macro	senduart,rd,rx
-		strb	\rd, [\rx, #UART_FIFO_OFFSET]	@ TXDATA
-		.endm
+        .macro  senduart, rd, rx
+                strb    \rd, [\rx, #UART_FIFO_OFFSET]   @ TXDATA
+        .endm
 
-		.macro	waituartcts,rd,rx
-		.endm
+        .macro  waituartcts, rd, rx
+        .endm
 
-		.macro	waituarttxrdy,rd,rx
-1001:		ldr	\rd, [\rx, #UART_SR_OFFSET]
+        .macro  waituarttxrdy, rd, rx
+1001:           ldr     \rd, [\rx, #UART_SR_OFFSET]
 ARM_BE8(	rev	\rd, \rd )
-		tst	\rd, #UART_SR_TXEMPTY
-		beq	1001b
-		.endm
+                tst     \rd, #UART_SR_TXEMPTY
+                beq     1001b
+        .endm
 
-		.macro	busyuart,rd,rx
-1002:		ldr	\rd, [\rx, #UART_SR_OFFSET]	@ get status register
+        .macro  busyuart, rd, rx
+1002:           ldr     \rd, [\rx, #UART_SR_OFFSET]     @ get status register
 ARM_BE8(	rev	\rd, \rd )
-		tst	\rd, #UART_SR_TXFULL		@
-		bne	1002b			@ wait if FIFO is full
-		.endm
+                tst     \rd, #UART_SR_TXFULL    @
+                bne     1002b                   @ wait if FIFO is full
+        .endm

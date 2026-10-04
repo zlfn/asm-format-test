@@ -10,25 +10,24 @@ EXTERN asm_balloc_addmem
 
 balloc_addmem:
 
-   pop ix
-   pop de
-   pop hl
-   pop bc
-   dec sp
-   pop af
-   inc sp
-   
-   push af
-   push bc
-   push hl
-   push de
-   push ix
+        pop     ix
+        pop     de
+        pop     hl
+        pop     bc
+        dec     sp
+        pop     af
+        inc     sp
 
-   jp asm_balloc_addmem
+        push    af
+        push    bc
+        push    hl
+        push    de
+        push    ix
+
+        jp      asm_balloc_addmem
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _balloc_addmem
 defc _balloc_addmem = balloc_addmem
 ENDIF
-

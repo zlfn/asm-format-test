@@ -23,29 +23,29 @@
 
 ENTRY(call_with_stack)
 #if defined(CONFIG_UNWINDER_FRAME_POINTER) && defined(CONFIG_CC_IS_GCC)
-	mov	ip, sp
-	push	{fp, ip, lr, pc}
-	sub	fp, ip, #4
+        mov     ip, sp
+        push    {fp, ip, lr, pc}
+        sub     fp, ip, #4
 #else
 UNWIND( .fnstart		)
 UNWIND( .save	{fpreg, lr}	)
-	push	{fpreg, lr}
+        push    {fpreg, lr}
 UNWIND( .setfp	fpreg, sp	)
-	mov	fpreg, sp
+        mov     fpreg, sp
 #endif
-	mov	sp, r2
-	mov	r2, r0
-	mov	r0, r1
+        mov     sp, r2
+        mov     r2, r0
+        mov     r0, r1
 
-	bl_r	r2
+        bl_r    r2
 
 #if defined(CONFIG_UNWINDER_FRAME_POINTER) && defined(CONFIG_CC_IS_GCC)
-	ldmdb	fp, {fp, sp, pc}
+        ldmdb   fp, {fp, sp, pc}
 #else
-	mov	sp, fpreg
-	pop	{fpreg, pc}
+        mov     sp, fpreg
+        pop     {fpreg, pc}
 UNWIND( .fnend			)
 #endif
-	.globl call_with_stack_end
+        .globl  call_with_stack_end
 call_with_stack_end:
 ENDPROC(call_with_stack)

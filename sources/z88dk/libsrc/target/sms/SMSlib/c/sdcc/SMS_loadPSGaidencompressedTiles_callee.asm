@@ -10,18 +10,18 @@ EXTERN asm_SMSlib_loadPSGaidencompressedTiles
 
 _SMS_loadPSGaidencompressedTiles_callee:
 
-	pop hl
-	pop de
-	ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 _SMS_loadPSGaidencompressedTiles_callee_0:
 
-	push ix
-	push iy
-	
-	call asm_SMSlib_loadPSGaidencompressedTiles
+        push    ix
+        push    iy
 
-	pop iy
-	pop ix
-	
-	ret
+        call    asm_SMSlib_loadPSGaidencompressedTiles
+
+        pop     iy
+        pop     ix
+
+        ret

@@ -7,22 +7,21 @@
 ; by the constructor defined in this module.
 ;
 
-        .export         __cwd
-        .export         __cwd_buf_size
-        .constructor    cwd_init
+        .export __cwd
+        .export __cwd_buf_size
+        .constructor cwd_init
 
-        .import         initcwd
+        .import initcwd
 
-        .include        "stdio.inc"
+        .include "stdio.inc"
 
-        __cwd_buf_size  = FILENAME_MAX
+        __cwd_buf_size = FILENAME_MAX
 
         cwd_init        := initcwd
 
 .segment        "INIT"
 
 __cwd:  .res    __cwd_buf_size
-
 
 ; NOTE: Some of the code working with directories is not able to handle
 ; strings longer than 255 chars, so don't make __cwd larger than 256 without

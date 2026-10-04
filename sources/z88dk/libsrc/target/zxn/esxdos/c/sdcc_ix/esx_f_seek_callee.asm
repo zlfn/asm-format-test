@@ -9,21 +9,21 @@ EXTERN asm_esx_f_seek
 
 _esx_f_seek_callee:
 
-   pop hl
-   dec sp
-   pop af
-   pop de
-   pop bc
-   dec sp
-   ex (sp),hl
+        pop     hl
+        dec     sp
+        pop     af
+        pop     de
+        pop     bc
+        dec     sp
+        ex      (sp), hl
 
 l0_esx_f_seek_callee:
 
-   ld l,h
-   
-   push ix
+        ld      l, h
 
-   call asm_esx_f_seek
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_seek
+
+        pop     ix
+        ret

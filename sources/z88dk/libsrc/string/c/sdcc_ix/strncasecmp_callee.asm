@@ -10,15 +10,15 @@ EXTERN asm_strncasecmp
 
 _strncasecmp_callee:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
 
 IF __CPU_Z180__ ||  __CPU_RABBIT__
 
-   jp asm_strncasecmp
+        jp      asm_strncasecmp
 
 ELSE
 
@@ -26,11 +26,11 @@ PUBLIC l0_strncasecmp_callee
 
 l0_strncasecmp_callee:
 
-   push ix
-   
-   call asm_strncasecmp
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_strncasecmp
+
+        pop     ix
+        ret
 
 ENDIF

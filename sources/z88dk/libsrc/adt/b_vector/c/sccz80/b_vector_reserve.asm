@@ -10,19 +10,18 @@ EXTERN asm_b_vector_reserve
 
 b_vector_reserve:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp asm_b_vector_reserve
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_b_vector_reserve
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _b_vector_reserve
 defc _b_vector_reserve = b_vector_reserve
 ENDIF
-

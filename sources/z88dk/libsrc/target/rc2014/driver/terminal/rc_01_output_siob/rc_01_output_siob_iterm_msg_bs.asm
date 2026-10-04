@@ -9,15 +9,15 @@ EXTERN rc_01_output_siob_oterm_msg_putc_send
 
 rc_01_output_siob_iterm_msg_bs:
 
-   ; backspace
-   ; can use:  af, bc, de, hl, ix
+        ; backspace
+        ; can use:  af, bc, de, hl, ix
 
-   call backspace
+        call    backspace
 
-   ld c,' '
-   call rc_01_output_siob_oterm_msg_putc_send
+        ld      c, ' '
+        call    rc_01_output_siob_oterm_msg_putc_send
 
 backspace:
 
-   ld c,CHAR_BS
-   jp rc_01_output_siob_oterm_msg_putc_send
+        ld      c, CHAR_BS
+        jp      rc_01_output_siob_oterm_msg_putc_send

@@ -3,191 +3,187 @@
 ;   fill.asm - Stefano, 05/2017
 ;
 
+        INCLUDE "classic/gfx/grafix.inc"
 
-    INCLUDE "classic/gfx/grafix.inc"
+        SECTION code_clib
 
-    SECTION code_clib
+        PUBLIC  fill
+        PUBLIC  _fill
 
-    PUBLIC  fill
-    PUBLIC  _fill
+        EXTERN  w_pixeladdress
+        EXTERN  l_cmp
 
-    EXTERN  w_pixeladdress
-    EXTERN  l_cmp
-
-    EXTERN  __gfx_vram_page_in
-    EXTERN  __gfx_vram_page_out
-
+        EXTERN  __gfx_vram_page_in
+        EXTERN  __gfx_vram_page_out
 
 fill:
 _fill:
-    pop     bc
-    pop     de                          ; y
-    pop     hl                          ; x
-    push    hl
-    push    de
-    push    bc
+        pop     bc
+        pop     de      ; y
+        pop     hl      ; x
+        push    hl
+        push    de
+        push    bc
 
-    ld      a, _GFX_MAXY
-    cp      e
-    ret     c
+        ld      a, _GFX_MAXY
+        cp      e
+        ret     c
 
-    push    de
-    ld      de, _GFX_MAXX
-    call    l_cmp
-    pop     de
-    ret     c                           ; Return if X overflows
+        push    de
+        ld      de, _GFX_MAXX
+        call    l_cmp
+        pop     de
+        ret     c       ; Return if X overflows
 
-    call    __gfx_vram_page_in
+        call    __gfx_vram_page_in
 
-    call    w_pixeladdress
-    ld      b, a
-    ld      a, 1
-    jr      z, cont                     ; pixel is at bit 0...
+        call    w_pixeladdress
+        ld      b, a
+        ld      a, 1
+        jr      z, cont ; pixel is at bit 0...
 loop3:
-    rlca
-    djnz    loop3
+        rlca
+        djnz    loop3
 cont:
-		;ld hl,sline
+        ;ld hl,sline
 
-    ld      hl, -_GFX_MAXX*2*3               ; create buffer 2 on stack
-    add     hl, sp                      ; The stack size depends on the display height.
-    ld      (sl2ptr+1), hl              ; We don't undersize it because we have lots of RAM
-    ld      sp, hl
+        ld      hl, -_GFX_MAXX*2*3      ; create buffer 2 on stack
+        add     hl, sp                  ; The stack size depends on the display height.
+        ld      (sl2ptr+1), hl          ; We don't undersize it because we have lots of RAM
+        ld      sp, hl
 
-    ld      hl, -_GFX_MAXX*2*3               ; create buffer 1 on stack
-    add     hl, sp
-    ld      sp, hl
-    ld      (w_sline+3), hl
+        ld      hl, -_GFX_MAXX*2*3      ; create buffer 1 on stack
+        add     hl, sp
+        ld      sp, hl
+        ld      (w_sline+3), hl
 
-    ld      (ws1), hl
-    ld      b, a
-    set     2, c                        ; semafor = 1
-    res     3, c                        ; indeks_ws = 0
-    call    segm
-    push    ix                          ;save callers
+        ld      (ws1), hl
+        ld      b,     a
+        set     2,     c        ; semafor = 1
+        res     3,     c        ; indeks_ws = 0
+        call    segm
+        push    ix              ;save callers
 petelka:
-    pop     ix                          ;restore callers
-    bit     3, c                        ; indeks_ws1 == 0
-    jp      z, __gfx_vram_page_out
+        pop     ix              ;restore callers
+        bit     3, c            ; indeks_ws1 == 0
+        jp      z, __gfx_vram_page_out
 
-    res     3, c                        ; indeks_ws1 = 0
-    push    ix                          ;save callers
+        res     3, c    ; indeks_ws1 = 0
+        push    ix      ;save callers
 dalej2:
-    push    hl
-    pop     ix                          ; W = ws1
-    ld      hl, (ws1)
-    ld      (index), hl
-    bit     2, c
-    jr      z, w_sline
-    res     2, c
+        push    hl
+        pop     ix      ; W = ws1
+        ld      hl, (ws1)
+        ld      (index), hl
+        bit     2, c
+        jr      z, w_sline
+        res     2, c
 sl2ptr:
 ;		ld hl,sline2
-    ld      hl, 0
-    ld      (ws1), hl
-    jr      inner_loop
+        ld      hl,    0
+        ld      (ws1), hl
+        jr      inner_loop
 w_sline:
-    set     2, c
+        set     2, c
 ;		ld hl,sline
-    ld      hl, 0
-    ld      (ws1), hl
+        ld      hl,    0
+        ld      (ws1), hl
 
 inner_loop:
-    ld      a, (index)
-    cp      ixl
-    jr      nz, dalej
-    ld      a, (index+1)
-    cp      ixh
-    jr      z, petelka
+        ld      a, (index)
+        cp      ixl
+        jr      nz, dalej
+        ld      a,  (index+1)
+        cp      ixh
+        jr      z, petelka
 dalej:
-    dec     ix
-    ld      d, (ix+0)
-    dec     ix
-    ld      e, (ix+0)
-    dec     ix
-    ld      b, (ix+0)
-    call    segm
-    jr      inner_loop
+        dec     ix
+        ld      d, (ix+0)
+        dec     ix
+        ld      e, (ix+0)
+        dec     ix
+        ld      b, (ix+0)
+        call    segm
+        jr      inner_loop
 
 write:
-    ld      (hl), b
-    inc     hl
-    ld      (hl), e
-    inc     hl
-    ld      (hl), d
-    inc     hl
-    set     3, c
-    ret
+        ld      (hl), b
+        inc     hl
+        ld      (hl), e
+        inc     hl
+        ld      (hl), d
+        inc     hl
+        set     3, c
+        ret
 
 test_up_down:
-    ld      a, (de)
-    or      b
-    ld      (de), a                     ; plot(x,y)
-    push    de
-    call    decy
-    jr      c, down
-    ld      a, (de)
-    and     b                           ; point(x, y - 1)
-    jr      z, test_write
-    set     0, c
-    jr      down
+        ld      a, (de)
+        or      b
+        ld      (de), a ; plot(x,y)
+        push    de
+        call    decy
+        jr      c, down
+        ld      a, (de)
+        and     b       ; point(x, y - 1)
+        jr      z, test_write
+        set     0, c
+        jr      down
 
 test_write:
-    bit     0, c                        ; if (is_above) {
-    jr      z, down
-    res     0, c                        ; is_above = 0;
-    call    write
+        bit     0, c    ; if (is_above) {
+        jr      z, down
+        res     0, c    ; is_above = 0;
+        call    write
 
 down:
-    pop     de
-    push    de
-    call    incy
-    jr      c, wypad
+        pop     de
+        push    de
+        call    incy
+        jr      c, wypad
 
-    ld      a, (de)
-    and     b                           ; point(x, y + 1)
-    jr      z, test_write2
-    set     1, c
-    jr      wypad
+        ld      a, (de)
+        and     b       ; point(x, y + 1)
+        jr      z, test_write2
+        set     1, c
+        jr      wypad
 
 test_write2:
-    bit     1, c                        ; if (is_below) {
-    jr      z, wypad
-    res     1, c                        ; is_below = 0;
-    call    write
+        bit     1, c    ; if (is_below) {
+        jr      z, wypad
+        res     1, c    ; is_below = 0;
+        call    write
 wypad:
-    pop     de
-    ret
-
+        pop     de
+        ret
 
 segm:
 ; de - address
 ; b - mask of the pixel
-    set     0, c
-    set     1, c                        ; is_above = 1, is_below = 1
-    push    de
-    ld      a, b
-    push    af
+        set     0, c
+        set     1, c    ; is_above = 1, is_below = 1
+        push    de
+        ld      a, b
+        push    af
 loop1:
-    ld      a, (de)
-    and     b
-    jr      nz, right
-    call    test_up_down
-    call    decx
-    jr      nc, loop1
+        ld      a, (de)
+        and     b
+        jr      nz, right
+        call    test_up_down
+        call    decx
+        jr      nc, loop1
 
 right:
-    pop     af
-    ld      b, a
-    pop     de
+        pop     af
+        ld      b, a
+        pop     de
 loop2:
-    call    incx
-    ret     c
-    ld      a, (de)
-    and     b
-    ret     nz
-    call    test_up_down
-    jr      loop2
-
+        call    incx
+        ret     c
+        ld      a, (de)
+        and     b
+        ret     nz
+        call    test_up_down
+        jr      loop2
 
 ; enter: de = valid screen address
 ;        b = uchar mask
@@ -197,63 +193,63 @@ loop2:
 ; uses : af, b, de
 
 decx:
-    rlc     b
-    ret     nc
-    dec     de
-    bit     5, e
-    ret     nz
-    ccf
-    ret
+        rlc     b
+        ret     nc
+        dec     de
+        bit     5, e
+        ret     nz
+        ccf
+        ret
 
 ; b mask
 ; de - screen address
 incx:
-    rrc     b
-    ret     nc
-    inc     de
-    ld      a, e
-    and     63
-    cp      60
-    ccf
-    ret
+        rrc     b
+        ret     nc
+        inc     de
+        ld      a, e
+        and     63
+        cp      60
+        ccf
+        ret
 
 ; enter: de = valid screen address
 ; exit : carry = moved off screen
 ;        de = new screen address one pixel up
 ; uses : af, de
 decy:
-    push    hl
-    ld      hl, -64
-    add     hl, de
-    ld      d, h
-    ld      e, l
-    pop     hl
-    and     a
-    bit     7, d
-    ret     z
-    scf
-    ret
+        push    hl
+        ld      hl, -64
+        add     hl, de
+        ld      d,  h
+        ld      e,  l
+        pop     hl
+        and     a
+        bit     7, d
+        ret     z
+        scf
+        ret
 
 ; in: de - address
 ; exit : carry = moved off screen
 ;        de = new screen address one pixel up
 ; uses : af, de
 incy:
-    push    hl
-    ld      hl, 64
-    add     hl, de
-    ld      d, h
-    ld      e, l
-    pop     hl
-    and     a
-  IF    FORnc200
-    bit     5, d
-  ELSE
-    bit     4, d
-  ENDIF
-    ret     nz
-    scf
-    ret
+        push    hl
+        ld      hl, 64
+        add     hl, de
+        ld      d,  h
+        ld      e,  l
+        pop     hl
+        and     a
+        IF      FORnc200
+                bit     5, d
+        ELSE
+                bit     4, d
+        ENDIF
+        ret     nz
+        scf
+        ret
 
 ;#define TEST_UP_DOWN \
 ;if (y > 0) { \
@@ -281,7 +277,6 @@ incy:
 ;	int xs;
 ;	int y;
 ;};
-
 
 ;struct segment sline[2 * 2 * 480 + 4];
 ;struct segment *ws1 = sline;
@@ -346,10 +341,10 @@ incy:
 ;	drawb(20, 20, 260, 40);
 ;	fill(128, 30);
 ;}
-    SECTION bss_clib
+        SECTION bss_clib
 ws1:
-    defw    0
+        defw    0
 index:
-    defw    0
+        defw    0
 ;.sline	defs 480 * 2 * 3
 ;.sline2	defs 480 * 2 * 3

@@ -4,9 +4,9 @@
 ; File descriptor management for the POSIX I/O routines
 ;
 
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "filedes.inc"
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "filedes.inc"
 
 getfd:
         ; Check for handle >= 256
@@ -24,7 +24,7 @@ getfd:
 
         ; Check for fdtab slot in use
         tay
-        lda     fdtab + FD::REF_NUM,y
+        lda     fdtab + FD::REF_NUM, y
         beq     error
 
         ; Return success

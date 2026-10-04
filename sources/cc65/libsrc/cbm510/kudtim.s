@@ -5,8 +5,8 @@
 ; C programs will not use it.
 ;
 
-        .export         UDTIM
-        .import         time: zp
+        .export UDTIM
+        .import time: zp
 
 .proc   UDTIM
 
@@ -20,4 +20,3 @@
 L9:     rts
 
 .endproc
-

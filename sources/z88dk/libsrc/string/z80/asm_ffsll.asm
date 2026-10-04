@@ -2,7 +2,7 @@
 ; ===============================================================
 ; May 2016
 ; ===============================================================
-; 
+;
 ; int ffsll(long long i)
 ;
 ; Return bit position of least significant bit set.  Bit
@@ -21,34 +21,34 @@ EXTERN asm_ffsl, error_znc
 
 asm_ffsll:
 
-   ; enter : dehl'dehl = long long
-   ;
-   ; exit  : hl = bit pos or 0 if no set bits
-   ;         carry set if set bit present
-   ;
-   ; uses  : af, hl, hl'
+        ; enter : dehl'dehl = long long
+        ;
+        ; exit  : hl = bit pos or 0 if no set bits
+        ;         carry set if set bit present
+        ;
+        ; uses  : af, hl, hl'
 
-   ld a,d
-   or e
-   or h
-   or l
+        ld      a, d
+        or      e
+        or      h
+        or      l
 
-   jp NZ,asm_ffsl
+        jp      NZ, asm_ffsl
 
-   exx
+        exx
 
-   call asm_ffsl
-   ld a,l
+        call    asm_ffsl
+        ld      a, l
 
-   exx
+        exx
 
-   jp NC,error_znc
+        jp      NC, error_znc
 
-   add a,32
+        add     a, 32
 
-   ld l,a
-   ld h,0
+        ld      l, a
+        ld      h, 0
 
-   scf
-   ret
+        scf
+        ret
 ENDIF

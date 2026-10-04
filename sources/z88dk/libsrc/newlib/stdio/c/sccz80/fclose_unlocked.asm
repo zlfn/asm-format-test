@@ -10,7 +10,7 @@ EXTERN asm_fclose_unlocked
 
 fclose_unlocked:
 
-   push hl
-   pop ix
-   
-   jp asm_fclose_unlocked
+        push    hl
+        pop     ix
+
+        jp      asm_fclose_unlocked

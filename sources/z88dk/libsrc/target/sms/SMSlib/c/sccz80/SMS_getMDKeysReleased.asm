@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_getMDKeysReleased
 defc _SMS_getMDKeysReleased = SMS_getMDKeysReleased
 ENDIF
-

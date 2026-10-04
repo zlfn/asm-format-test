@@ -10,12 +10,12 @@
 
 /* if you want SMP support, implement these with real spinlocks */
 .macro IRQ_SAVE reg
-	pushfl
-	cli
+        pushfl
+        cli
 .endm
 
 .macro IRQ_RESTORE reg
-	popfl
+        popfl
 .endm
 
 #define BEGIN_IRQ_SAVE(op) \
@@ -34,162 +34,162 @@ SYM_FUNC_START(atomic64_##op##_386); \
 
 #define v %ecx
 BEGIN_IRQ_SAVE(read)
-	movl  (v), %eax
-	movl 4(v), %edx
-	RET_IRQ_RESTORE
+        movl    (v),  %eax
+        movl    4(v), %edx
+        RET_IRQ_RESTORE
 ENDP
 #undef v
 
 #define v %esi
 BEGIN_IRQ_SAVE(set)
-	movl %ebx,  (v)
-	movl %ecx, 4(v)
-	RET_IRQ_RESTORE
+        movl    %ebx, (v)
+        movl    %ecx, 4(v)
+        RET_IRQ_RESTORE
 ENDP
 #undef v
 
 #define v  %esi
 BEGIN_IRQ_SAVE(xchg)
-	movl  (v), %eax
-	movl 4(v), %edx
-	movl %ebx,  (v)
-	movl %ecx, 4(v)
-	RET_IRQ_RESTORE
+        movl    (v),  %eax
+        movl    4(v), %edx
+        movl    %ebx, (v)
+        movl    %ecx, 4(v)
+        RET_IRQ_RESTORE
 ENDP
 #undef v
 
 #define v %ecx
 BEGIN_IRQ_SAVE(add)
-	addl %eax,  (v)
-	adcl %edx, 4(v)
-	RET_IRQ_RESTORE
+        addl    %eax, (v)
+        adcl    %edx, 4(v)
+        RET_IRQ_RESTORE
 ENDP
 #undef v
 
 #define v %ecx
 BEGIN_IRQ_SAVE(add_return)
-	addl  (v), %eax
-	adcl 4(v), %edx
-	movl %eax,  (v)
-	movl %edx, 4(v)
-	RET_IRQ_RESTORE
+        addl    (v),  %eax
+        adcl    4(v), %edx
+        movl    %eax, (v)
+        movl    %edx, 4(v)
+        RET_IRQ_RESTORE
 ENDP
 #undef v
 
 #define v %ecx
 BEGIN_IRQ_SAVE(sub)
-	subl %eax,  (v)
-	sbbl %edx, 4(v)
-	RET_IRQ_RESTORE
+        subl    %eax, (v)
+        sbbl    %edx, 4(v)
+        RET_IRQ_RESTORE
 ENDP
 #undef v
 
 #define v %ecx
 BEGIN_IRQ_SAVE(sub_return)
-	negl %edx
-	negl %eax
-	sbbl $0, %edx
-	addl  (v), %eax
-	adcl 4(v), %edx
-	movl %eax,  (v)
-	movl %edx, 4(v)
-	RET_IRQ_RESTORE
+        negl    %edx
+        negl    %eax
+        sbbl    $0,   %edx
+        addl    (v),  %eax
+        adcl    4(v), %edx
+        movl    %eax, (v)
+        movl    %edx, 4(v)
+        RET_IRQ_RESTORE
 ENDP
 #undef v
 
 #define v %esi
 BEGIN_IRQ_SAVE(inc)
-	addl $1,  (v)
-	adcl $0, 4(v)
-	RET_IRQ_RESTORE
+        addl    $1, (v)
+        adcl    $0, 4(v)
+        RET_IRQ_RESTORE
 ENDP
 #undef v
 
 #define v %esi
 BEGIN_IRQ_SAVE(inc_return)
-	movl  (v), %eax
-	movl 4(v), %edx
-	addl $1, %eax
-	adcl $0, %edx
-	movl %eax,  (v)
-	movl %edx, 4(v)
-	RET_IRQ_RESTORE
+        movl    (v),  %eax
+        movl    4(v), %edx
+        addl    $1,   %eax
+        adcl    $0,   %edx
+        movl    %eax, (v)
+        movl    %edx, 4(v)
+        RET_IRQ_RESTORE
 ENDP
 #undef v
 
 #define v %esi
 BEGIN_IRQ_SAVE(dec)
-	subl $1,  (v)
-	sbbl $0, 4(v)
-	RET_IRQ_RESTORE
+        subl    $1, (v)
+        sbbl    $0, 4(v)
+        RET_IRQ_RESTORE
 ENDP
 #undef v
 
 #define v %esi
 BEGIN_IRQ_SAVE(dec_return)
-	movl  (v), %eax
-	movl 4(v), %edx
-	subl $1, %eax
-	sbbl $0, %edx
-	movl %eax,  (v)
-	movl %edx, 4(v)
-	RET_IRQ_RESTORE
+        movl    (v),  %eax
+        movl    4(v), %edx
+        subl    $1,   %eax
+        sbbl    $0,   %edx
+        movl    %eax, (v)
+        movl    %edx, 4(v)
+        RET_IRQ_RESTORE
 ENDP
 #undef v
 
 #define v %esi
 BEGIN_IRQ_SAVE(add_unless)
-	addl %eax, %ecx
-	adcl %edx, %edi
-	addl  (v), %eax
-	adcl 4(v), %edx
-	cmpl %eax, %ecx
-	je 3f
+        addl    %eax, %ecx
+        adcl    %edx, %edi
+        addl    (v),  %eax
+        adcl    4(v), %edx
+        cmpl    %eax, %ecx
+        je      3f
 1:
-	movl %eax,  (v)
-	movl %edx, 4(v)
-	movl $1, %eax
+        movl    %eax, (v)
+        movl    %edx, 4(v)
+        movl    $1,   %eax
 2:
-	RET_IRQ_RESTORE
+        RET_IRQ_RESTORE
 3:
-	cmpl %edx, %edi
-	jne 1b
-	xorl %eax, %eax
-	jmp 2b
+        cmpl    %edx, %edi
+        jne     1b
+        xorl    %eax, %eax
+        jmp     2b
 ENDP
 #undef v
 
 #define v %esi
 BEGIN_IRQ_SAVE(inc_not_zero)
-	movl  (v), %eax
-	movl 4(v), %edx
-	testl %eax, %eax
-	je 3f
+        movl    (v),  %eax
+        movl    4(v), %edx
+        testl   %eax, %eax
+        je      3f
 1:
-	addl $1, %eax
-	adcl $0, %edx
-	movl %eax,  (v)
-	movl %edx, 4(v)
-	movl $1, %eax
+        addl    $1,   %eax
+        adcl    $0,   %edx
+        movl    %eax, (v)
+        movl    %edx, 4(v)
+        movl    $1,   %eax
 2:
-	RET_IRQ_RESTORE
+        RET_IRQ_RESTORE
 3:
-	testl %edx, %edx
-	jne 1b
-	jmp 2b
+        testl   %edx, %edx
+        jne     1b
+        jmp     2b
 ENDP
 #undef v
 
 #define v %esi
 BEGIN_IRQ_SAVE(dec_if_positive)
-	movl  (v), %eax
-	movl 4(v), %edx
-	subl $1, %eax
-	sbbl $0, %edx
-	js 1f
-	movl %eax,  (v)
-	movl %edx, 4(v)
+        movl    (v),  %eax
+        movl    4(v), %edx
+        subl    $1,   %eax
+        sbbl    $0,   %edx
+        js      1f
+        movl    %eax, (v)
+        movl    %edx, 4(v)
 1:
-	RET_IRQ_RESTORE
+        RET_IRQ_RESTORE
 ENDP
 #undef v

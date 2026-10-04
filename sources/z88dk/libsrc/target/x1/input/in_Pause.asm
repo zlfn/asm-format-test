@@ -5,11 +5,11 @@
 ;       2013, Karl Von Dyson (X1s.org)
 ;
 
-    SECTION code_clib
-    PUBLIC  in_Pause
-    PUBLIC  _in_Pause
-    EXTERN  in_WaitForKey, t_delay
-    EXTERN  _x1_keyboard_io
+        SECTION code_clib
+        PUBLIC  in_Pause
+        PUBLIC  _in_Pause
+        EXTERN  in_WaitForKey, t_delay
+        EXTERN  _x1_keyboard_io
 
 ; Waits a period of time measured in milliseconds and exits
 ; early if a key is pressed
@@ -21,25 +21,25 @@
 
 in_Pause:
 _in_Pause:
-    ld      a, h
-    or      l
-    ld      bc, _x1_keyboard_io+1
-    ld      a, 0xF7
-    ld      (bc), a
-    jp      z, in_WaitForKey
+        ld      a, h
+        or      l
+        ld      bc,   _x1_keyboard_io+1
+        ld      a,    0xF7
+        ld      (bc), a
+        jp      z,    in_WaitForKey
 loop:
-    ex      de, hl
-    ld      hl, 3500-78
-    call    t_delay                     ; wait exactly HL t-states
-    ex      de, hl
-    dec     hl
-    ld      a, h
-    or      l
-    ret     z
+        ex      de, hl
+        ld      hl, 3500-78
+        call    t_delay ; wait exactly HL t-states
+        ex      de, hl
+        dec     hl
+        ld      a, h
+        or      l
+        ret     z
 
-    ld      bc, _x1_keyboard_io+1
-    ld      a, (bc)
-    and     $40
-    jp      nz, loop
+        ld      bc, _x1_keyboard_io+1
+        ld      a,  (bc)
+        and     $40
+        jp      nz, loop
 
-    ret
+        ret

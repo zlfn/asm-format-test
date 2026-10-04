@@ -10,18 +10,18 @@ EXTERN asm_dtoh, dload
 
 dtoh:
 
-   ld hl,8
-   add hl,sp
-   call dload
+        ld      hl, 8
+        add     hl, sp
+        call    dload
 
-   pop af
-   pop bc
-   pop de
-   pop hl
+        pop     af
+        pop     bc
+        pop     de
+        pop     hl
 
-   push hl
-   push de
-   push bc
-   push af
-   
-   jp asm_dtoh
+        push    hl
+        push    de
+        push    bc
+        push    af
+
+        jp      asm_dtoh

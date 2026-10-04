@@ -3,16 +3,16 @@
 ;
 ;	by Stefano Bodrato  - 2016
 
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
-    SECTION code_clib
-    PUBLIC  w_respixel
+        SECTION code_clib
+        PUBLIC  w_respixel
 
-    EXTERN  l_cmp
-    EXTERN  w_pixeladdress
-    EXTERN  pchar
+        EXTERN  l_cmp
+        EXTERN  w_pixeladdress
+        EXTERN  pchar
 
-    EXTERN  __gfx_coords
+        EXTERN  __gfx_coords
 
 ;
 ;       $Id: w_respixl.asm,v 1.1 2016-11-17 09:39:03 stefano Exp $
@@ -35,30 +35,30 @@
 ;  afbcdehl/.... different
 ;
 w_respixel:
-    push    hl
-    ld      hl, _GFX_MAXY
-    call    l_cmp
-    pop     hl
-    ret     nc                          ; Return if Y overflows
+        push    hl
+        ld      hl, _GFX_MAXY
+        call    l_cmp
+        pop     hl
+        ret     nc      ; Return if Y overflows
 
-    push    de
-    ld      de, _GFX_MAXX
-    call    l_cmp
-    pop     de
-    ret     c                           ; Return if X overflows
+        push    de
+        ld      de, _GFX_MAXX
+        call    l_cmp
+        pop     de
+        ret     c       ; Return if X overflows
 
-    ld      (__gfx_coords), hl          ; store X
-    ld      (__gfx_coords+2), de        ; store Y: COORDS must be 2 bytes wider
+        ld      (__gfx_coords),   hl    ; store X
+        ld      (__gfx_coords+2), de    ; store Y: COORDS must be 2 bytes wider
 
-    call    w_pixeladdress
-    ld      c, a                        ;;;
-                        ;ld      b,a
-    ld      a, 1
-    jr      z, or_pixel                 ; pixel is at bit 0...
+        call    w_pixeladdress
+        ld      c, a    ;;;
+        ;ld      b,a
+        ld      a, 1
+        jr      z, or_pixel     ; pixel is at bit 0...
 reset_position:
-    rlca
-    djnz    reset_position
+        rlca
+        djnz    reset_position
 or_pixel:
-    cpl
-    and     c
-    jp      pchar
+        cpl
+        and     c
+        jp      pchar

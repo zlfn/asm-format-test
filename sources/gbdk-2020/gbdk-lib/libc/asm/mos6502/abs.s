@@ -26,32 +26,31 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module abs
+        .module abs
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl _abs
-	.globl ___negax
+        .globl  _abs
+        .globl  ___negax
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
-	
-_abs:
-	cpx #0x00
-	bpl skip
-___negax:
-  	sec
-	eor #0xff
-	adc #0x00
-	tay
-	txa
-	eor #0xff
-	adc #0x00
-	tax
-	tya
-skip:
-	rts
+        .area   _CODE
 
+_abs:
+        cpx     #0x00
+        bpl     skip
+___negax:
+        sec
+        eor     #0xff
+        adc     #0x00
+        tay
+        txa
+        eor     #0xff
+        adc     #0x00
+        tax
+        tya
+skip:
+        rts

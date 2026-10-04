@@ -44,119 +44,119 @@ GLOBL ·asinrodataL15<> + 0(SB), RODATA, $224
 // with coefficients determined with a Remez exchange algorithm.
 
 TEXT	·asinAsm(SB), NOSPLIT, $0-16
-	FMOVD	x+0(FP), F0
-	MOVD	$·asinrodataL15<>+0(SB), R9
-	LGDR	F0, R7
-	FMOVD	F0, F8
-	SRAD	$32, R7
-	WORD	$0xC0193FE6 //iilf  %r1,1072079005
-	BYTE	$0xA0
-	BYTE	$0x9D
-	WORD	$0xB91700C7 //llgtr %r12,%r7
-	MOVW	R12, R8
-	MOVW	R1, R6
-	CMPBGT	R8, R6, L2
-	WORD	$0xC0193BFF //iilf  %r1,1006632959
-	BYTE	$0xFF
-	BYTE	$0xFF
-	MOVW	R1, R6
-	CMPBGT	R8, R6, L13
+        FMOVD   x+0(FP), F0
+        MOVD    $·asinrodataL15<>+0(SB), R9
+        LGDR    F0,  R7
+        FMOVD   F0,  F8
+        SRAD    $32, R7
+        WORD    $0xC0193FE6     //iilf  %r1,1072079005
+        BYTE    $0xA0
+        BYTE    $0x9D
+        WORD    $0xB91700C7     //llgtr %r12,%r7
+        MOVW    R12, R8
+        MOVW    R1,  R6
+        CMPBGT  R8,  R6, L2
+        WORD    $0xC0193BFF     //iilf  %r1,1006632959
+        BYTE    $0xFF
+        BYTE    $0xFF
+        MOVW    R1, R6
+        CMPBGT  R8, R6, L13
 L3:
-	FMOVD	216(R9), F0
-	FMADD	F0, F8, F8
+        FMOVD   216(R9), F0
+        FMADD   F0, F8, F8
 L1:
-	FMOVD	F8, ret+8(FP)
-	RET
+        FMOVD   F8, ret+8(FP)
+        RET
 L2:
-	WORD	$0xC0193FEF	//iilf	%r1,1072693247
-	BYTE	$0xFF
-	BYTE	$0xFF
-	CMPW	R12, R1
-	BLE	L14
+        WORD    $0xC0193FEF     //iilf	%r1,1072693247
+        BYTE    $0xFF
+        BYTE    $0xFF
+        CMPW    R12, R1
+        BLE     L14
 L5:
-	WORD	$0xED0090D0	//cdb	%f0,.L17-.L15(%r9)
-	BYTE	$0x00
-	BYTE	$0x19
-	BEQ		L9
-	WORD	$0xED0090C8	//cdb	%f0,.L18-.L15(%r9)
-	BYTE	$0x00
-	BYTE	$0x19
-	BEQ	L10
-	WFCEDBS	V8, V8, V0
-	BVS	L1
-	FMOVD	192(R9), F8
-	BR	L1
+        WORD    $0xED0090D0     //cdb	%f0,.L17-.L15(%r9)
+        BYTE    $0x00
+        BYTE    $0x19
+        BEQ     L9
+        WORD    $0xED0090C8     //cdb	%f0,.L18-.L15(%r9)
+        BYTE    $0x00
+        BYTE    $0x19
+        BEQ     L10
+        WFCEDBS V8, V8, V0
+        BVS     L1
+        FMOVD   192(R9), F8
+        BR      L1
 L13:
-	WFMDB	V0, V0, V10
+        WFMDB   V0, V0, V10
 L4:
-	WFMDB	V10, V10, V0
-	FMOVD	184(R9), F6
-	FMOVD	176(R9), F2
-	FMOVD	168(R9), F4
-	WFMADB	V0, V2, V6, V2
-	FMOVD	160(R9), F6
-	WFMADB	V0, V4, V6, V4
-	FMOVD	152(R9), F6
-	WFMADB	V0, V2, V6, V2
-	FMOVD	144(R9), F6
-	WFMADB	V0, V4, V6, V4
-	FMOVD	136(R9), F6
-	WFMADB	V0, V2, V6, V2
-	WORD	$0xC0193FE6	//iilf	%r1,1072079005
-	BYTE	$0xA0
-	BYTE	$0x9D
-	FMOVD	128(R9), F6
-	WFMADB	V0, V4, V6, V4
-	FMOVD	120(R9), F6
-	WFMADB	V0, V2, V6, V2
-	FMOVD	112(R9), F6
-	WFMADB	V0, V4, V6, V4
-	FMOVD	104(R9), F6
-	WFMADB	V0, V2, V6, V2
-	FMOVD	96(R9), F6
-	WFMADB	V0, V4, V6, V4
-	FMOVD	88(R9), F6
-	WFMADB	V0, V2, V6, V2
-	FMOVD	80(R9), F6
-	WFMADB	V0, V4, V6, V4
-	FMOVD	72(R9), F6
-	WFMADB	V0, V2, V6, V2
-	FMOVD	64(R9), F6
-	WFMADB	V0, V4, V6, V4
-	FMOVD	56(R9), F6
-	WFMADB	V0, V2, V6, V2
-	FMOVD	48(R9), F6
-	WFMADB	V0, V4, V6, V0
-	WFMDB	V8, V10, V4
-	FMADD	F2, F10, F0
-	FMADD	F0, F4, F8
-	CMPW	R12, R1
-	BLE	L1
-	FMOVD	40(R9), F0
-	FMADD	F0, F1, F8
-	FMOVD	F8, ret+8(FP)
-	RET
+        WFMDB   V10,     V10, V0
+        FMOVD   184(R9), F6
+        FMOVD   176(R9), F2
+        FMOVD   168(R9), F4
+        WFMADB  V0, V2, V6, V2
+        FMOVD   160(R9), F6
+        WFMADB  V0, V4, V6, V4
+        FMOVD   152(R9), F6
+        WFMADB  V0, V2, V6, V2
+        FMOVD   144(R9), F6
+        WFMADB  V0, V4, V6, V4
+        FMOVD   136(R9), F6
+        WFMADB  V0, V2, V6, V2
+        WORD    $0xC0193FE6     //iilf	%r1,1072079005
+        BYTE    $0xA0
+        BYTE    $0x9D
+        FMOVD   128(R9), F6
+        WFMADB  V0, V4, V6, V4
+        FMOVD   120(R9), F6
+        WFMADB  V0, V2, V6, V2
+        FMOVD   112(R9), F6
+        WFMADB  V0, V4, V6, V4
+        FMOVD   104(R9), F6
+        WFMADB  V0,     V2,  V6, V2
+        FMOVD   96(R9), F6
+        WFMADB  V0,     V4,  V6, V4
+        FMOVD   88(R9), F6
+        WFMADB  V0,     V2,  V6, V2
+        FMOVD   80(R9), F6
+        WFMADB  V0,     V4,  V6, V4
+        FMOVD   72(R9), F6
+        WFMADB  V0,     V2,  V6, V2
+        FMOVD   64(R9), F6
+        WFMADB  V0,     V4,  V6, V4
+        FMOVD   56(R9), F6
+        WFMADB  V0,     V2,  V6, V2
+        FMOVD   48(R9), F6
+        WFMADB  V0,     V4,  V6, V0
+        WFMDB   V8,     V10, V4
+        FMADD   F2,     F10, F0
+        FMADD   F0,     F4,  F8
+        CMPW    R12,    R1
+        BLE     L1
+        FMOVD   40(R9), F0
+        FMADD   F0,     F1, F8
+        FMOVD   F8,     ret+8(FP)
+        RET
 L14:
-	FMOVD	200(R9), F0
-	FMADD	F8, F8, F0
-	LCDBR	F0, F10
-	WORD	$0xED009020	//cdb	%f0,.L39-.L15(%r9)
-	BYTE	$0x00
-	BYTE	$0x19
-	FSQRT	F10, F8
+        FMOVD   200(R9), F0
+        FMADD   F8, F8, F0
+        LCDBR   F0, F10
+        WORD    $0xED009020     //cdb	%f0,.L39-.L15(%r9)
+        BYTE    $0x00
+        BYTE    $0x19
+        FSQRT   F10, F8
 L6:
-	MOVW	R7, R6
-	CMPBLE	R6, $0, L8
-	LCDBR	F8, F8
-	FMOVD	24(R9), F1
-	BR	L4
+        MOVW    R7,     R6
+        CMPBLE  R6,     $0, L8
+        LCDBR   F8,     F8
+        FMOVD   24(R9), F1
+        BR      L4
 L10:
-	FMOVD	16(R9), F8
-	BR	L1
+        FMOVD   16(R9), F8
+        BR      L1
 L9:
-	FMOVD	8(R9), F8
-	FMOVD	F8, ret+8(FP)
-	RET
+        FMOVD   8(R9), F8
+        FMOVD   F8,    ret+8(FP)
+        RET
 L8:
-	FMOVD	0(R9), F1
-	BR	L4
+        FMOVD   0(R9), F1
+        BR      L4

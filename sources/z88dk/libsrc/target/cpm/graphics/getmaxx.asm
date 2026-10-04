@@ -6,60 +6,54 @@
 ;	$Id: getmaxx.asm $
 ;
 
+        INCLUDE "classic/gfx/grafix.inc"
 
-	INCLUDE	"classic/gfx/grafix.inc"
+        SECTION code_graphics
+        PUBLIC  getmaxx
+        PUBLIC  _getmaxx
+        PUBLIC  _gsx_maxx
+        PUBLIC  gsx_xscale
+        PUBLIC  _gsx_xscale
+        PUBLIC  gsx_xoffs
+        PUBLIC  _gsx_xoffs
+        PUBLIC  _gsx_xscale_factor
 
-
-                SECTION         code_graphics
-                PUBLIC    getmaxx
-                PUBLIC    _getmaxx
-                PUBLIC    _gsx_maxx
-                PUBLIC    gsx_xscale
-                PUBLIC    _gsx_xscale
-                PUBLIC    gsx_xoffs
-                PUBLIC    _gsx_xoffs
-				PUBLIC    _gsx_xscale_factor
-				
-				EXTERN    l_mult
+        EXTERN  l_mult
 
 .getmaxx
 ._getmaxx
-		ld	hl,(_gsx_maxx)
-		ret
-
+        ld      hl, (_gsx_maxx)
+        ret
 
 .gsx_xscale
 ._gsx_xscale
-        ld     de,(_gsx_xscale_factor)
-		push   de
-		call   l_mult
-		pop    de
+        ld      de, (_gsx_xscale_factor)
+        push    de
+        call    l_mult
+        pop     de
 IF __CPU_INTEL__
-		ld	a,d
-		and	a
-		rra
-		ld	d,a
-		ld	a,e
-		rra
-		ld	e,a
+        ld      a, d
+        and     a
+        rra
+        ld      d, a
+        ld      a, e
+        rra
+        ld      e, a
 ELSE
-		srl    d
-		rr     e
+        srl     d
+        rr      e
 ENDIF
-		add    hl,de
-		ret
-
+        add     hl, de
+        ret
 
 .gsx_xoffs
 ._gsx_xoffs
-        ld      de,(_gsx_xscale_factor)
-		jp   l_mult
+        ld      de, (_gsx_xscale_factor)
+        jp      l_mult
 
-
-
-	SECTION  bss_graphics
+        SECTION bss_graphics
 ._gsx_maxx
-	defw 0
+        defw    0
 
 ._gsx_xscale_factor
-	defw 0
+        defw    0

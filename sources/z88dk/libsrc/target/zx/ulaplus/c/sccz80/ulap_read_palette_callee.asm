@@ -9,10 +9,10 @@ EXTERN asm_ulap_read_palette
 
 ulap_read_palette_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   
-   ld d,c
-   jp asm_ulap_read_palette
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+
+        ld      d, c
+        jp      asm_ulap_read_palette

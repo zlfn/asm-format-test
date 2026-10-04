@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT64
@@ -27,8 +27,7 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmReadTsc)
 ASM_PFX(AsmReadTsc):
-    rdtsc
-    shl     rdx, 0x20
-    or      rax, rdx
-    ret
-
+        rdtsc
+        shl     rdx, 0x20
+        or      rax, rdx
+        ret

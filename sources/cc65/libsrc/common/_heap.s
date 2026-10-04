@@ -4,12 +4,11 @@
 ; Heap variables and initialization.
 ;
 
-        .constructor    initheap, 24
-        .import         __BSS_RUN__, __BSS_SIZE__, __STACKSIZE__
-        .importzp       c_sp
+        .constructor initheap, 24
+        .import __BSS_RUN__, __BSS_SIZE__, __STACKSIZE__
+        .importzp c_sp
 
-        .include        "_heap.inc"
-
+        .include "_heap.inc"
 
 .data
 
@@ -24,7 +23,6 @@ ___heapfirst:
 ___heaplast:
         .word   0
 
-
 ; Initialization. Will be called from startup!
 
 .segment        "ONCE"
@@ -38,5 +36,3 @@ initheap:
         sbc     #>__STACKSIZE__
         sta     ___heapend+1
         rts
-
-

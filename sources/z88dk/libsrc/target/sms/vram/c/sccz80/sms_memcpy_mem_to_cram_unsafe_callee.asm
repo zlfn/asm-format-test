@@ -9,17 +9,16 @@ EXTERN asm_sms_memcpy_mem_to_cram_unsafe
 
 sms_memcpy_mem_to_cram_unsafe_callee:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        push    af
 
-   jp asm_sms_memcpy_mem_to_cram_unsafe
+        jp      asm_sms_memcpy_mem_to_cram_unsafe
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sms_memcpy_mem_to_cram_unsafe_callee
 defc _sms_memcpy_mem_to_cram_unsafe_callee = sms_memcpy_mem_to_cram_unsafe_callee
 ENDIF
-

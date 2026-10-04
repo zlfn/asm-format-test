@@ -4,11 +4,10 @@
 ; int __fastcall__ uname (struct utsname* buf);
 ;
 
-        .export         _uname
+        .export _uname
 
-        .import         __sysuname
-        .import         ___mappederrno
-
+        .import __sysuname
+        .import ___mappederrno
 
 ;--------------------------------------------------------------------------
 
@@ -18,5 +17,3 @@
         jmp     ___mappederrno  ; Store into __oserror, set errno, return 0/-1
 
 .endproc
-
-

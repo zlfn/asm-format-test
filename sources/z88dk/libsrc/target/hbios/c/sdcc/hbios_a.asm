@@ -10,10 +10,10 @@ EXTERN asm_hbios_a
 
 ._hbios_a
 
-    pop af
-    pop bc
+        pop     af
+        pop     bc
 
-    push bc
-    push af
+        push    bc
+        push    af
 
-    jp asm_hbios_a
+        jp      asm_hbios_a

@@ -26,91 +26,91 @@
 
 SECTION_RODATA
 
-pw_1:    times 8 dw 1
-pw_8000: times 8 dw 0x8000
-pd_1:    times 4 dd 1
-pd_8000: times 4 dd 0x8000
+pw_1:   times   8 dw 1
+pw_8000: times  8 dw 0x8000
+pd_1:   times   4 dd 1
+pd_8000: times  4 dd 0x8000
 
 SECTION .text
 
 %macro PABS 2
 %if cpuflag(ssse3)
-    pabsd %1, %1
+        pabsd   %1, %1
 %else
-    pxor    %2, %2
-    pcmpgtd %2, %1
-    pxor    %1, %2
-    psubd   %1, %2
+        pxor    %2, %2
+        pcmpgtd %2, %1
+        pxor    %1, %2
+        psubd   %1, %2
 %endif
 %endmacro
 
 %macro PACK 1
 %if cpuflag(sse4)
-    packusdw %1, %1
+        packusdw %1, %1
 %else
-    psubd    %1, [pd_8000]
-    packssdw %1, %1
-    paddw    %1, [pw_8000]
+        psubd   %1, [pd_8000]
+        packssdw %1, %1
+        paddw   %1, [pw_8000]
 %endif
 %endmacro
 
 %macro PMAXUW 2
 %if cpuflag(sse4)
-    pmaxuw %1, %2
+        pmaxuw  %1, %2
 %else
-    psubusw %1, %2
-    paddusw %1, %2
+        psubusw %1, %2
+        paddusw %1, %2
 %endif
 %endmacro
 
 %macro CHECK 2
-    movu      m2, [curq+t1+%1*2]
-    movu      m3, [curq+t0+%2*2]
-    mova      m4, m2
-    mova      m5, m2
-    pxor      m4, m3
-    pavgw     m5, m3
-    pand      m4, [pw_1]
-    psubusw   m5, m4
-    psrldq    m5, 2
-    punpcklwd m5, m7
-    mova      m4, m2
-    psubusw   m2, m3
-    psubusw   m3, m4
-    PMAXUW    m2, m3
-    mova      m3, m2
-    mova      m4, m2
-    psrldq    m3, 2
-    psrldq    m4, 4
-    punpcklwd m2, m7
-    punpcklwd m3, m7
-    punpcklwd m4, m7
-    paddd     m2, m3
-    paddd     m2, m4
+        movu    m2, [curq+t1+%1*2]
+        movu    m3, [curq+t0+%2*2]
+        mova    m4, m2
+        mova    m5, m2
+        pxor    m4, m3
+        pavgw   m5, m3
+        pand    m4, [pw_1]
+        psubusw m5, m4
+        psrldq  m5, 2
+        punpcklwd m5, m7
+        mova    m4, m2
+        psubusw m2, m3
+        psubusw m3, m4
+        PMAXUW  m2, m3
+        mova    m3, m2
+        mova    m4, m2
+        psrldq  m3, 2
+        psrldq  m4, 4
+        punpcklwd m2, m7
+        punpcklwd m3, m7
+        punpcklwd m4, m7
+        paddd   m2, m3
+        paddd   m2, m4
 %endmacro
 
 %macro CHECK1 0
-    mova    m3, m0
-    pcmpgtd m3, m2
-    PMINSD  m0, m2, m6
-    mova    m6, m3
-    pand    m5, m3
-    pandn   m3, m1
-    por     m3, m5
-    mova    m1, m3
+        mova    m3, m0
+        pcmpgtd m3, m2
+        PMINSD  m0, m2, m6
+        mova    m6, m3
+        pand    m5, m3
+        pandn   m3, m1
+        por     m3, m5
+        mova    m1, m3
 %endmacro
 
 %macro CHECK2 0
-    paddd   m6, [pd_1]
-    pslld   m6, 30
-    paddd   m2, m6
-    mova    m3, m0
-    pcmpgtd m3, m2
-    PMINSD  m0, m2, m4
-    pand    m5, m3
-    pandn   m3, m1
-    por     m3, m5
-    mova    m1, m3
+        paddd   m6, [pd_1]
+        pslld   m6, 30
+        paddd   m2, m6
+        mova    m3, m0
+        pcmpgtd m3, m2
+        PMINSD  m0, m2, m4
+        pand    m5, m3
+        pandn   m3, m1
+        por     m3, m5
+        mova    m1, m3
 %endmacro
 
 ; This version of CHECK2 has 3 fewer instructions on sets older than SSE4 but I
@@ -133,152 +133,152 @@ SECTION .text
 ; %endmacro
 
 %macro LOAD 2
-    movh      %1, %2
-    punpcklwd %1, m7
+        movh    %1, %2
+        punpcklwd %1, m7
 %endmacro
 
 %macro FILTER 3
 .loop%1:
-    pxor         m7, m7
-    LOAD         m0, [curq+t1]
-    LOAD         m1, [curq+t0]
-    LOAD         m2, [%2]
-    LOAD         m3, [%3]
-    mova         m4, m3
-    paddd        m3, m2
-    psrad        m3, 1
-    mova   [rsp+ 0], m0
-    mova   [rsp+16], m3
-    mova   [rsp+32], m1
-    psubd        m2, m4
-    PABS         m2, m4
-    LOAD         m3, [prevq+t1]
-    LOAD         m4, [prevq+t0]
-    psubd        m3, m0
-    psubd        m4, m1
-    PABS         m3, m5
-    PABS         m4, m5
-    paddd        m3, m4
-    psrld        m2, 1
-    psrld        m3, 1
-    PMAXSD       m2, m3, m6
-    LOAD         m3, [nextq+t1]
-    LOAD         m4, [nextq+t0]
-    psubd        m3, m0
-    psubd        m4, m1
-    PABS         m3, m5
-    PABS         m4, m5
-    paddd        m3, m4
-    psrld        m3, 1
-    PMAXSD       m2, m3, m6
-    mova   [rsp+48], m2
+        pxor    m7, m7
+        LOAD    m0, [curq+t1]
+        LOAD    m1, [curq+t0]
+        LOAD    m2, [%2]
+        LOAD    m3, [%3]
+        mova    m4, m3
+        paddd   m3, m2
+        psrad   m3, 1
+        mova    [rsp+ 0], m0
+        mova    [rsp+16], m3
+        mova    [rsp+32], m1
+        psubd   m2, m4
+        PABS    m2, m4
+        LOAD    m3, [prevq+t1]
+        LOAD    m4, [prevq+t0]
+        psubd   m3, m0
+        psubd   m4, m1
+        PABS    m3, m5
+        PABS    m4, m5
+        paddd   m3, m4
+        psrld   m2, 1
+        psrld   m3, 1
+        PMAXSD  m2, m3, m6
+        LOAD    m3, [nextq+t1]
+        LOAD    m4, [nextq+t0]
+        psubd   m3, m0
+        psubd   m4, m1
+        PABS    m3, m5
+        PABS    m4, m5
+        paddd   m3, m4
+        psrld   m3, 1
+        PMAXSD  m2, m3, m6
+        mova    [rsp+48], m2
 
-    paddd        m1, m0
-    paddd        m0, m0
-    psubd        m0, m1
-    psrld        m1, 1
-    PABS         m0, m2
+        paddd   m1, m0
+        paddd   m0, m0
+        psubd   m0, m1
+        psrld   m1, 1
+        PABS    m0, m2
 
-    movu         m2, [curq+t1-1*2]
-    movu         m3, [curq+t0-1*2]
-    mova         m4, m2
-    psubusw      m2, m3
-    psubusw      m3, m4
-    PMAXUW       m2, m3
-    mova         m3, m2
-    psrldq       m3, 4
-    punpcklwd    m2, m7
-    punpcklwd    m3, m7
-    paddd        m0, m2
-    paddd        m0, m3
-    psubd        m0, [pd_1]
+        movu    m2, [curq+t1-1*2]
+        movu    m3, [curq+t0-1*2]
+        mova    m4, m2
+        psubusw m2, m3
+        psubusw m3, m4
+        PMAXUW  m2, m3
+        mova    m3, m2
+        psrldq  m3, 4
+        punpcklwd m2, m7
+        punpcklwd m3, m7
+        paddd   m0, m2
+        paddd   m0, m3
+        psubd   m0, [pd_1]
 
-    CHECK -2, 0
-    CHECK1
-    CHECK -3, 1
-    CHECK2
-    CHECK 0, -2
-    CHECK1
-    CHECK 1, -3
-    CHECK2
+        CHECK   -2, 0
+        CHECK1
+        CHECK   -3, 1
+        CHECK2
+        CHECK   0, -2
+        CHECK1
+        CHECK   1, -3
+        CHECK2
 
-    mova         m6, [rsp+48]
-    cmp   DWORD r8m, 2
-    jge .end%1
-    LOAD         m2, [%2+t1*2]
-    LOAD         m4, [%3+t1*2]
-    LOAD         m3, [%2+t0*2]
-    LOAD         m5, [%3+t0*2]
-    paddd        m2, m4
-    paddd        m3, m5
-    psrld        m2, 1
-    psrld        m3, 1
-    mova         m4, [rsp+ 0]
-    mova         m5, [rsp+16]
-    mova         m7, [rsp+32]
-    psubd        m2, m4
-    psubd        m3, m7
-    mova         m0, m5
-    psubd        m5, m4
-    psubd        m0, m7
-    mova         m4, m2
-    PMINSD       m2, m3, m7
-    PMAXSD       m3, m4, m7
-    PMAXSD       m2, m5, m7
-    PMINSD       m3, m5, m7
-    PMAXSD       m2, m0, m7
-    PMINSD       m3, m0, m7
-    pxor         m4, m4
-    PMAXSD       m6, m3, m7
-    psubd        m4, m2
-    PMAXSD       m6, m4, m7
+        mova    m6, [rsp+48]
+        cmp     DWORD r8m, 2
+        jge     .end%1
+        LOAD    m2, [%2+t1*2]
+        LOAD    m4, [%3+t1*2]
+        LOAD    m3, [%2+t0*2]
+        LOAD    m5, [%3+t0*2]
+        paddd   m2, m4
+        paddd   m3, m5
+        psrld   m2, 1
+        psrld   m3, 1
+        mova    m4, [rsp+ 0]
+        mova    m5, [rsp+16]
+        mova    m7, [rsp+32]
+        psubd   m2, m4
+        psubd   m3, m7
+        mova    m0, m5
+        psubd   m5, m4
+        psubd   m0, m7
+        mova    m4, m2
+        PMINSD  m2, m3, m7
+        PMAXSD  m3, m4, m7
+        PMAXSD  m2, m5, m7
+        PMINSD  m3, m5, m7
+        PMAXSD  m2, m0, m7
+        PMINSD  m3, m0, m7
+        pxor    m4, m4
+        PMAXSD  m6, m3, m7
+        psubd   m4, m2
+        PMAXSD  m6, m4, m7
 
 .end%1:
-    mova         m2, [rsp+16]
-    mova         m3, m2
-    psubd        m2, m6
-    paddd        m3, m6
-    PMAXSD       m1, m2, m7
-    PMINSD       m1, m3, m7
-    PACK         m1
+        mova    m2, [rsp+16]
+        mova    m3, m2
+        psubd   m2, m6
+        paddd   m3, m6
+        PMAXSD  m1, m2, m7
+        PMINSD  m1, m3, m7
+        PACK    m1
 
-    movh     [dstq], m1
-    add        dstq, mmsize/2
-    add       prevq, mmsize/2
-    add        curq, mmsize/2
-    add       nextq, mmsize/2
-    sub   DWORD r4m, mmsize/4
-    jg .loop%1
+        movh    [dstq], m1
+        add     dstq,   mmsize/2
+        add     prevq,  mmsize/2
+        add     curq,   mmsize/2
+        add     nextq,  mmsize/2
+        sub     DWORD r4m, mmsize/4
+        jg      .loop%1
 %endmacro
 
 %macro YADIF 0
 %if ARCH_X86_32
 cglobal yadif_filter_line_16bit, 4, 6, 8, 80, dst, prev, cur, next, w, \
-                                              prefs, mrefs, parity, mode
+        prefs, mrefs, parity, mode
 %else
 cglobal yadif_filter_line_16bit, 4, 7, 8, 80, dst, prev, cur, next, w, \
-                                              prefs, mrefs, parity, mode
+        prefs, mrefs, parity, mode
 %endif
 %if ARCH_X86_32
-    mov            r4, r5mp
-    mov            r5, r6mp
-    DECLARE_REG_TMP 4,5
+        mov     r4, r5mp
+        mov     r5, r6mp
+        DECLARE_REG_TMP 4, 5
 %else
-    movsxd         r5, DWORD r5m
-    movsxd         r6, DWORD r6m
-    DECLARE_REG_TMP 5,6
+        movsxd  r5, DWORD r5m
+        movsxd  r6, DWORD r6m
+        DECLARE_REG_TMP 5, 6
 %endif
 
-    cmp DWORD paritym, 0
-    je .parity0
-    FILTER 1, prevq, curq
-    jmp .ret
+        cmp     DWORD paritym, 0
+        je      .parity0
+        FILTER  1, prevq, curq
+        jmp     .ret
 
 .parity0:
-    FILTER 0, curq, nextq
+        FILTER  0, curq, nextq
 
 .ret:
-    RET
+        RET
 %endmacro
 
 INIT_XMM sse4

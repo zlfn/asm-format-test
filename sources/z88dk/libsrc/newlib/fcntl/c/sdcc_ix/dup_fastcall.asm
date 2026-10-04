@@ -9,10 +9,10 @@ PUBLIC _dup_fastcall
 EXTERN asm_dup
 
 _dup_fastcall:
-   
-   push ix
-   
-   call asm_dup
-   
-   pop ix
-   ret
+
+        push    ix
+
+        call    asm_dup
+
+        pop     ix
+        ret

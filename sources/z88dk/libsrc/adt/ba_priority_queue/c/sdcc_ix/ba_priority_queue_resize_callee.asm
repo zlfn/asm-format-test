@@ -10,15 +10,15 @@ EXTERN asm_ba_priority_queue_resize
 
 _ba_priority_queue_resize_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
 l0_ba_priority_queue_resize_callee:
 
-   push ix
-   call asm_ba_priority_queue_resize
-   pop ix
-   
-   ret
+        push    ix
+        call    asm_ba_priority_queue_resize
+        pop     ix
+
+        ret

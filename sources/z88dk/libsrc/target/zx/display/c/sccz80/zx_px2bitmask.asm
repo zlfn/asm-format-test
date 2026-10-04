@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _zx_px2bitmask
 defc _zx_px2bitmask = zx_px2bitmask
 ENDIF
-

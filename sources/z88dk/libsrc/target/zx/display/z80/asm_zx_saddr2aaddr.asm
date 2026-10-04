@@ -18,20 +18,20 @@ PUBLIC asm_zx_saddr2aaddr
 
 asm_zx_saddr2aaddr:
 
-   ld a,h
-   rra
-   rra
-   rra
-   and $03
+        ld      a, h
+        rra
+        rra
+        rra
+        and     $03
 
 IF __USE_SPECTRUM_128_SECOND_DFILE
-   or $d8
+        or      $d8
 ELIF __USE_OFFSET_SCREEN
-   EXTERN SCREEN_BASE
-   or +(SCREEN_BASE/256) + $18
+        EXTERN  SCREEN_BASE
+        or      +(SCREEN_BASE/256) + $18
 ELSE
-   or $58
+        or      $58
 ENDIF
 
-   ld h,a   
-   ret
+        ld      h, a
+        ret

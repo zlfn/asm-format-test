@@ -3,14 +3,12 @@
 ;
 ; Helper functions for open-/read-/closedir
 
+        .include "dir.inc"
+        .include "errno.inc"
+        .include "zeropage.inc"
 
-        .include        "dir.inc"
-        .include        "errno.inc"
-        .include        "zeropage.inc"
-
-        .import         pushax
-        .import         _read
-
+        .import pushax
+        .import _read
 
 ;---------------------------------------------------------------------------
 ;
@@ -22,8 +20,8 @@
 
 __dirread1:
 
-        jsr     pushax          ; Push buf
-        lda     #1              ; Load count = 1
+        jsr     pushax  ; Push buf
+        lda     #1      ; Load count = 1
 
 ; Run directly into __dirread
 
@@ -44,21 +42,21 @@ __dirread:
 ; Replace dir by dir->fd
 
         ldy     #2
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     ptr1
         iny
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     ptr1+1
         ldy     #DIR::fd+1
-        lda     (ptr1),y
+        lda     (ptr1), y
         pha
         dey
-        lda     (ptr1),y
+        lda     (ptr1), y
         ldy     #2
-        sta     (c_sp),y
+        sta     (c_sp), y
         pla
         iny
-        sta     (c_sp),y
+        sta     (c_sp), y
 
 ; Get count, save it again, clear the high byte and call read(). By the
 ; previous actions, the stack frame is as read() needs it, and read() will
@@ -76,18 +74,18 @@ __dirread:
 
 ; read() returned an error, so errno is already set
 
-        pla                     ; Drop count
-        inx                     ; X = 0
-L1:     txa                     ; Return zero
+        pla     ; Drop count
+        inx     ; X = 0
+L1:     txa     ; Return zero
 L2:     rts
 
 ; read() was successful, check number of bytes read. We assume that read will
 ; not return more than count, so X is zero if we come here.
 
-L3:     sta     tmp1            ; Save returned count
-        pla                     ; Our count
+L3:     sta     tmp1    ; Save returned count
+        pla             ; Our count
         cmp     tmp1
-        beq     L2              ; Ok, return count
+        beq     L2      ; Ok, return count
 
 ; Didn't read enough bytes. This is an error for us, but errno is not set
 
@@ -95,5 +93,3 @@ L3:     sta     tmp1            ; Save returned count
         sta     ___errno
         stx     ___errno+1      ; X is zero
         bne     L1              ; Branch always
-
-

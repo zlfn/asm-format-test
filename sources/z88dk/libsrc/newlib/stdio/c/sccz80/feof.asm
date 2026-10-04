@@ -16,10 +16,10 @@ EXTERN asm_feof
 
 feof:
 
-   push hl
-   pop ix
-   
-   jp asm_feof
+        push    hl
+        pop     ix
+
+        jp      asm_feof
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

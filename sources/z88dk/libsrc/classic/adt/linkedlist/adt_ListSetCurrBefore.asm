@@ -11,7 +11,7 @@ EXTERN l_setmem
 .adt_ListSetCurrBefore
 ._adt_ListSetCurrBefore
 
-   inc hl
-   inc hl
-   xor a
-   jp l_setmem-5           ; state = AFTER, current ptr = 0
+        inc     hl
+        inc     hl
+        xor     a
+        jp      l_setmem-5      ; state = AFTER, current ptr = 0

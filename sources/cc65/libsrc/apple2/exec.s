@@ -4,18 +4,18 @@
 ; int __fastcall__ exec (const char* progname, const char* cmdline);
 ;
 
-        .export         _exec
-        .import         mli_file_info_direct
-        .import         aux80col
-        .import         pushname_tos, popname, popax, done, exit_with_params
+        .export _exec
+        .import mli_file_info_direct
+        .import aux80col
+        .import pushname_tos, popname, popax, done, exit_with_params
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "apple2.inc"
-        .include        "mli.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "apple2.inc"
+        .include "mli.inc"
 
         ; Wrong file type
-typerr: lda     #$4A            ; "Incompatible file format"
+typerr: lda     #$4A    ; "Incompatible file format"
 
         ; Cleanup name
 
@@ -41,18 +41,18 @@ _exec:
         ; binary programs so we should do the same too in any case
         ; especially as _we_ rely on it in mainargs.s for argv[0]
         ldy     #$00
-        lda     (c_sp),y
+        lda     (c_sp), y
         tay
-:       lda     (c_sp),y
-        sta     $0280,y
+:       lda     (c_sp), y
+        sta     $0280,  y
         dey
         bpl     :-
 
         ; If we get here the program file at least exists so we copy
         ; the loader stub right now and patch it later to set params
         ldx     #size - 1
-:       lda     source,x
-        sta     target,x
+:       lda     source, x
+        sta     target, x
         dex
         bpl     :-
 
@@ -66,14 +66,14 @@ _exec:
         ; protection for pages $80 - $BF just in case BASIC.SYSTEM is there now
         ldx     #$0F            ; Start with protection for pages $B8 - $BF
         lda     #%00000001      ; Protect only system global page
-:       sta     $BF60,x         ; Set protection for 8 pages
+:       sta     $BF60, x        ; Set protection for 8 pages
         lda     #%00000000      ; Protect no page
         dex
         bpl     :-
         bmi     prodos          ; Branch always
 
-binary: cmp     #$06            ; BIN file?
-        bne     typerr          ; No, wrong file type
+binary: cmp     #$06    ; BIN file?
+        bne     typerr  ; No, wrong file type
 
         ; Set BIN program load addr
         lda     mliparam + MLI::INFO::AUX_TYPE
@@ -87,23 +87,23 @@ binary: cmp     #$06            ; BIN file?
         beq     setvec
 
         ; Get highest available mem addr from BASIC.SYSTEM
-        ldx     HIMEM+1         ; High byte
-        bne     setbuf          ; Branch always
+        ldx     HIMEM+1 ; High byte
+        bne     setbuf  ; Branch always
 
         ; BIN programs are supposed to quit through one of the two DOS
         ; vectors so we set up those to point to the ProDOS dispatcher
 setvec: ldx     #$03 - 1        ; Size of JMP opcode
-:       lda     dosvec,x
-        sta     DOSWARM,x       ; DOS warm start
-        sta     DOSWARM + 3,x   ; DOS cold start
+:       lda     dosvec,  x
+        sta     DOSWARM, x      ; DOS warm start
+        sta     DOSWARM + 3, x  ; DOS cold start
         dex
         bpl     :-
 
         ; No BASIC.SYSTEM so use addr of ProDOS system global page
-prodos: ldx     #>$BF00         ; High byte
+prodos: ldx     #>$BF00 ; High byte
 
         ; The I/O buffer needs to be page aligned
-setbuf: lda     #$00            ; Low byte
+setbuf: lda     #$00    ; Low byte
 
         ; The I/O buffer needs four pages
         dex
@@ -130,24 +130,24 @@ setbuf: lda     #$00            ; Low byte
         ; Switch in LC bank 2 for R/O
         bit     $C080
 
-:       ; Reset stack as we already passed
-        ; the point of no return anyway
+:               ; Reset stack as we already passed
+                ; the point of no return anyway
         ldx     #$FF
         txs
 
         ; Store up to 127 chars of cmdline (if any)
         ; including terminating zero in stack page
         ldy     #$00
-        lda     ptr4+1          ; NULL?
-        beq     :++             ; Yes, store as '\0'
-:       lda     (ptr4),y
-:       sta     $0100,y
-        beq     :+              ; '\0' stored, done
+        lda     ptr4+1  ; NULL?
+        beq     :++     ; Yes, store as '\0'
+:       lda     (ptr4), y
+:       sta     $0100,  y
+        beq     :+      ; '\0' stored, done
         iny
         cpy     #$7E
         bcc     :--
-        lda     #$00            ; '\0'
-        beq     :-              ; Branch always
+        lda     #$00    ; '\0'
+        beq     :-      ; Branch always
 
         ; Call loader stub after C library shutdown
 :       lda     #<target
@@ -192,13 +192,13 @@ source:
         bne     system          ; Yes, check for startup filename
 
         ; Store REM and cmdline in BASIC input buffer
-        lda     #$B2            ; REM token
-        bne     :++             ; Branch always
+        lda     #$B2    ; REM token
+        bne     :++     ; Branch always
 :       inx
-        lda     a:$0100-1,x
-:       sta     $0200,x
+        lda     a:$0100-1, x
+:       sta     $0200,     x
         bne     :--
-        beq     jump            ; Branch always
+        beq     jump    ; Branch always
 
         ; Check for startup filename support
         ; ProDOS TechRefMan, chapter 5.1.5.1:
@@ -214,14 +214,14 @@ system: lda     #$4C
 
         ; Store cmdline in startup filename buffer
         ldx     #$01
-:       lda     a:$0100-1,x
+:       lda     a:$0100-1, x
         beq     :+
-        sta     $2006,x
+        sta     $2006, x
         inx
-        cpx     $2005           ; Buffer full?
-        bcc     :-              ; No, continue
+        cpx     $2005   ; Buffer full?
+        bcc     :-      ; No, continue
 :       dex
-        stx     $2006           ; Store cmdline length
+        stx     $2006   ; Store cmdline length
 
         ; Go for it ...
 jump:   jmp     (data_buffer)
@@ -230,39 +230,39 @@ file_type       = * - source + target
         .byte   $00
 
 open_param      = * - source + target
-        .byte   $03             ; PARAM_COUNT
-        .addr   $0280           ; PATHNAME
+        .byte   $03     ; PARAM_COUNT
+        .addr   $0280   ; PATHNAME
 io_buffer       = * - source + target
-        .addr   $0000           ; IO_BUFFER
+        .addr   $0000   ; IO_BUFFER
 open_ref        = * - source + target
-        .byte   $00             ; REF_NUM
+        .byte   $00     ; REF_NUM
 
 read_param      = * - source + target
-        .byte   $04             ; PARAM_COUNT
+        .byte   $04     ; PARAM_COUNT
 read_ref        = * - source + target
-        .byte   $00             ; REF_NUM
+        .byte   $00     ; REF_NUM
 data_buffer     = * - source + target
-        .addr   $2000           ; DATA_BUFFER
-        .word   $FFFF           ; REQUEST_COUNT
-        .word   $0000           ; TRANS_COUNT
+        .addr   $2000   ; DATA_BUFFER
+        .word   $FFFF   ; REQUEST_COUNT
+        .word   $0000   ; TRANS_COUNT
 
 close_param     = * - source + target
-        .byte   $01             ; PARAM_COUNT
+        .byte   $01     ; PARAM_COUNT
 close_ref       = * - source + target
-        .byte   $00             ; REF_NUM
+        .byte   $00     ; REF_NUM
 
         ; Quit to ProDOS dispatcher
 quit            = * - source + target
 error:  jsr     $BF00
-        .byte   $65             ; QUIT
+        .byte   $65     ; QUIT
         .word   quit_param
 
 quit_param      = * - source + target
-        .byte   $04             ; PARAM_COUNT
-        .byte   $00             ; QUIT_TYPE
-        .word   $0000           ; RESERVED
-        .byte   $00             ; RESERVED
-        .word   $0000           ; RESERVED
+        .byte   $04     ; PARAM_COUNT
+        .byte   $00     ; QUIT_TYPE
+        .word   $0000   ; RESERVED
+        .byte   $00     ; RESERVED
+        .word   $0000   ; RESERVED
 
 size            = * - source
 

@@ -9,28 +9,28 @@ EXTERN ASMDISP_SP1_PRESHIFTSPR_CALLEE
 
 .sp1_PreShiftSpr
 
-   ld hl,2
-   add hl,sp
-   ld c,(hl)
-   inc hl
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   ld ixl,e
-   ld ixh,d
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   inc hl
-   ld a,(hl)
-   inc hl
-   inc hl
-   ld h,(hl)
-   ld l,a
-   ld a,c
-   jp sp1_PreShiftSpr_callee + ASMDISP_SP1_PRESHIFTSPR_CALLEE
+        ld      hl, 2
+        add     hl, sp
+        ld      c,  (hl)
+        inc     hl
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      ixl, e
+        ld      ixh, d
+        ld      e,   (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
+        ld      a, c
+        jp      sp1_PreShiftSpr_callee + ASMDISP_SP1_PRESHIFTSPR_CALLEE

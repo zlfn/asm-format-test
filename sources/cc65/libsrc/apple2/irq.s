@@ -4,14 +4,14 @@
 ; IRQ handling (Apple2 version)
 ;
 
-        .export         initirq, doneirq
-        .import         callirq, __dos_type, _exit
+        .export initirq, doneirq
+        .import callirq, __dos_type, _exit
 
-        .include        "apple2.inc"
+        .include "apple2.inc"
 
-        .macpack        apple2
+        .macpack apple2
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 initirq:
         ; Check for ProDOS
@@ -19,8 +19,8 @@ initirq:
         beq     prterr
 
         ; Allocate interrupt vector table entry
-        jsr     $BF00           ; MLI call entry point
-        .byte   $40             ; Alloc interrupt
+        jsr     $BF00   ; MLI call entry point
+        .byte   $40     ; Alloc interrupt
         .addr   i_param
         bcs     prterr
 
@@ -31,8 +31,8 @@ initirq:
 
         ; Print error message and exit
 prterr: ldx     #msglen-1
-:       lda     errmsg,x
-        jsr     $FDED           ; COUT
+:       lda     errmsg, x
+        jsr     $FDED   ; COUT
         dex
         bpl     :-
         jmp     _exit
@@ -54,13 +54,13 @@ doneirq:
         beq     :+
 
         ; Deallocate interrupt vector table entry
-        dec     i_param         ; Adjust parameter count
-        jsr     $BF00           ; MLI call entry point
-        .byte   $41             ; Dealloc interrupt
+        dec     i_param ; Adjust parameter count
+        jsr     $BF00   ; MLI call entry point
+        .byte   $41     ; Dealloc interrupt
         .addr   i_param
 :       rts
 
-        .segment        "LOWCODE"
+        .segment "LOWCODE"
 
 intptr:
         ; ProDOS TechRefMan, chapter 6.2:
@@ -86,6 +86,6 @@ intptr:
         .data
 
         ; MLI parameter list for (de)alloc interrupt
-i_param:.byte   $02             ; param_count
-int_num:.byte   $00             ; int_num
-        .addr   intptr          ; int_code
+i_param: .byte  $02     ; param_count
+int_num: .byte  $00     ; int_num
+        .addr   intptr  ; int_code

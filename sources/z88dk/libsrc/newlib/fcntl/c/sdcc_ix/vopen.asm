@@ -10,14 +10,14 @@ EXTERN l0_vopen_callee
 
 _vopen:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
 
-   jp l0_vopen_callee
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        jp      l0_vopen_callee

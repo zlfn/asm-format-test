@@ -9,28 +9,28 @@ EXTERN asm_sp1_GetTiles
 
 _sp1_GetTiles_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
 l0_sp1_GetTiles_callee:
 
-   push de
-   
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
+        push    de
 
-   pop hl
-   
-   push ix
-   
-   call asm_sp1_GetTiles
-   
-   pop ix
-   ret
+        ld      d, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
+
+        pop     hl
+
+        push    ix
+
+        call    asm_sp1_GetTiles
+
+        pop     ix
+        ret

@@ -5,13 +5,12 @@
 ; /* Initialize the random number generator */
 ;
 
-        .export         ___randomize
-        .import         _srand
+        .export ___randomize
+        .import _srand
 
-        .include        "apple2.inc"
+        .include "apple2.inc"
 
 ___randomize:
-        ldx     RNDH            ; Use random value supplied by ROM
+        ldx     RNDH    ; Use random value supplied by ROM
         lda     RNDL
-        jmp     _srand          ; Initialize generator
-
+        jmp     _srand  ; Initialize generator

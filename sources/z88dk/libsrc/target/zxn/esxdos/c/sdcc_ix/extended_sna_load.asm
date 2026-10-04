@@ -8,10 +8,10 @@ EXTERN _extended_sna_load_fastcall
 
 _extended_sna_load:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _extended_sna_load_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _extended_sna_load_fastcall

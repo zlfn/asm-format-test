@@ -9,11 +9,11 @@ EXTERN asm_im2_RegHookFirst
 .im2_RegHookFirst
 ._im2_RegHookFirst
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
 
-   jp asm_im2_RegHookFirst
+        jp      asm_im2_RegHookFirst

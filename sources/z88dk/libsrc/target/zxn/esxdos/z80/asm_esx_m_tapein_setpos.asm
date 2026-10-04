@@ -8,25 +8,24 @@ EXTERN __esx_m_tapein_call
 
 asm_esx_m_tapein_setpos:
 
-   ; enter : hl = uint16_t block
-   ;
-   ; exit  : success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl
-   
-   ld b,3
-   ex de,hl
-   
-   jp __esx_m_tapein_call
+        ; enter : hl = uint16_t block
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl
 
+        ld      b,  3
+        ex      de, hl
+
+        jp      __esx_m_tapein_call
 
 ; ***************************************************************************
 ; * M_TAPEIN ($8b) *

@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Jan 2014
 ; ===============================================================
-; 
+;
 ; size_t getdelim_unlocked(char **lineptr, size_t *n, int delimiter, FILE *stream)
 ;
 ; Reads characters from the stream up to and including the delimiter
@@ -36,206 +36,206 @@ EXTERN __stdio_verify_input, __stdio_recv_input_raw_eatc, __stdio_input_sm_getde
 
 asm_getdelim_unlocked:
 
-   ; enter : ix = FILE *
-   ;         bc = int delimiter
-   ;         de = size_t *n
-   ;         hl = char **lineptr
-   ;
-   ; exit  : ix = FILE *
-   ;
-   ;         success
-   ;
-   ;            *lineptr = address of buffer
-   ;            *n       = size of buffer in bytes, including '\0'
-   ;
-   ;            hl = number of chars written to buffer (not including '\0')
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set
-   ;
-   ; uses  : all except ix
+        ; enter : ix = FILE *
+        ;         bc = int delimiter
+        ;         de = size_t *n
+        ;         hl = char **lineptr
+        ;
+        ; exit  : ix = FILE *
+        ;
+        ;         success
+        ;
+        ;            *lineptr = address of buffer
+        ;            *n       = size of buffer in bytes, including '\0'
+        ;
+        ;            hl = number of chars written to buffer (not including '\0')
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set
+        ;
+        ; uses  : all except ix
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF __CLIB_OPT_STDIO & $01
 
-   EXTERN __stdio_verify_valid
+        EXTERN  __stdio_verify_valid
 
-   call __stdio_verify_valid
-   ret c
+        call    __stdio_verify_valid
+        ret     c
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 asm0_getdelim_unlocked:
 
-   call __stdio_verify_input   ; check if input from stream is ok
-   ret c                       ; if stream not readable
-   
-   push de                     ; save size_t *n
-   push hl                     ; save char **lineptr
+        call    __stdio_verify_input    ; check if input from stream is ok
+        ret     c                       ; if stream not readable
 
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a
+        push    de      ; save size_t *n
+        push    hl      ; save char **lineptr
 
-   ex de,hl                    ; de = char *line
-   
-   ld a,d
-   or e
-   jr nz, line_not_zero        ; if line != 0
-   
-   ; if char *line == 0, make sure the size is 0 too
-   
-   ; hl = size_t *n
-   ; de = 0
-   
-   ld (hl),a
-   inc hl
-   ld (hl),a                   ; *n = 0, to prevent leaks
-   
-   ld l,a
-   ld h,a
-   
-   jr create_vector
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
+
+        ex      de, hl  ; de = char *line
+
+        ld      a, d
+        or      e
+        jr      nz, line_not_zero       ; if line != 0
+
+        ; if char *line == 0, make sure the size is 0 too
+
+        ; hl = size_t *n
+        ; de = 0
+
+        ld      (hl), a
+        inc     hl
+        ld      (hl), a ; *n = 0, to prevent leaks
+
+        ld      l, a
+        ld      h, a
+
+        jr      create_vector
 
 line_not_zero:
 
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a                      ; hl = size_t n
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a    ; hl = size_t n
 
 create_vector:
 
-   ; create a b_vector on the stack
+        ; create a b_vector on the stack
 
-   push hl
-   ld hl,$ffff
-   ex (sp),hl                  ; push vector.max_size
-   push hl                     ; push vector.capacity
-   push hl                     ; push vector.size
-   push de                     ; push vector.data
+        push    hl
+        ld      hl,   $ffff
+        ex      (sp), hl        ; push vector.max_size
+        push    hl              ; push vector.capacity
+        push    hl              ; push vector.size
+        push    de              ; push vector.data
 
-   ; reserve one byte in the vector for zero terminator
-   
-   ld hl,0
-   add hl,sp                   ; hl = vector *
+        ; reserve one byte in the vector for zero terminator
 
-   push bc                     ; save delim_char
-   
-   ld de,1
-   call asm_b_vector_resize    ; vector.size = 1
-   
-   pop bc                      ; bc = delim_char
-   jr c, error_exit            ; if vector size failed
-   
-   ; zero terminate initial vector
-   
-   pop hl                      ; hl = vector.data
-   push hl
-   
-   xor a
-   ld (hl),a
-   
-   ; read chars from the stream
-   
-   ld l,a
-   ld h,a
-   add hl,sp
-   ex de,hl                    ; de = vector *
+        ld      hl, 0
+        add     hl, sp  ; hl = vector *
 
-   ld hl,__stdio_input_sm_getdelim
-   
-   ; bc = delim_char
-   ; de = vector *
-   ; hl = state machine
-   
-   exx
-   
-   ld hl,$ffff                 ; no limit on number of chars read from stream
-   call __stdio_recv_input_raw_eatc
+        push    bc      ; save delim_char
 
-   exx
-   
-   dec l                       ; if l == 1, state machine says remove delim char
-   jr nz, no_delim
+        ld      de, 1
+        call    asm_b_vector_resize     ; vector.size = 1
+
+        pop     bc              ; bc = delim_char
+        jr      c, error_exit   ; if vector size failed
+
+        ; zero terminate initial vector
+
+        pop     hl      ; hl = vector.data
+        push    hl
+
+        xor     a
+        ld      (hl), a
+
+        ; read chars from the stream
+
+        ld      l,  a
+        ld      h,  a
+        add     hl, sp
+        ex      de, hl  ; de = vector *
+
+        ld      hl, __stdio_input_sm_getdelim
+
+        ; bc = delim_char
+        ; de = vector *
+        ; hl = state machine
+
+        exx
+
+        ld      hl, $ffff       ; no limit on number of chars read from stream
+        call    __stdio_recv_input_raw_eatc
+
+        exx
+
+        dec     l       ; if l == 1, state machine says remove delim char
+        jr      nz, no_delim
 
 remove_delim:
 
-   ; delim char is still on the stream
-      
-   call __stdio_recv_input_raw_getc  ; throw delim away
+        ; delim char is still on the stream
 
-   exx
-   ld bc,1
-   exx
+        call    __stdio_recv_input_raw_getc     ; throw delim away
+
+        exx
+        ld      bc, 1
+        exx
 
 no_delim:
 
-   ; loose ends prior to exit
-   
-   ; bc'= 0 if error
-   ; stack = size_t *n, char **lineptr, vector.max_size,
-   ;         vector.capacity, vector.size, vector.data
+        ; loose ends prior to exit
 
-   pop bc                      ; bc = vector.data = char *line, possibly new address
-   pop de                      ; de = num bytes written including '\0'
-   pop hl
-   pop hl
-   pop hl                      ; hl = char **lineptr
-   
-   ld (hl),c
-   inc hl
-   ld (hl),b                   ; *lineptr = line
-   
-   pop hl                      ; hl = size_t *n
-   
-   ld c,(hl)
-   inc hl
-   ld b,(hl)                   ; bc = old_n
+        ; bc'= 0 if error
+        ; stack = size_t *n, char **lineptr, vector.max_size,
+        ;         vector.capacity, vector.size, vector.data
 
-   ex de,hl                    ; hl = new_n
-   
-   call l_ltu_bc_hl
-   
-   dec hl                      ; hl = num bytes written less the '\0'
-   jr nc, check_error          ; if bc >= hl, old_n >= new_n
+        pop     bc      ; bc = vector.data = char *line, possibly new address
+        pop     de      ; de = num bytes written including '\0'
+        pop     hl
+        pop     hl
+        pop     hl      ; hl = char **lineptr
 
-   ; new_n is larger so store new size
-   
-   inc hl
-   ex de,hl
-   
-   ld (hl),d
-   dec hl
-   ld (hl),e                   ; *n = new_n
-   
-   ex de,hl
-   dec hl
-   
-   or a
-   ret
+        ld      (hl), c
+        inc     hl
+        ld      (hl), b ; *lineptr = line
+
+        pop     hl      ; hl = size_t *n
+
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl) ; bc = old_n
+
+        ex      de, hl  ; hl = new_n
+
+        call    l_ltu_bc_hl
+
+        dec     hl              ; hl = num bytes written less the '\0'
+        jr      nc, check_error ; if bc >= hl, old_n >= new_n
+
+        ; new_n is larger so store new size
+
+        inc     hl
+        ex      de, hl
+
+        ld      (hl), d
+        dec     hl
+        ld      (hl), e ; *n = new_n
+
+        ex      de, hl
+        dec     hl
+
+        or      a
+        ret
 
 check_error:
 
-   exx
-   ld a,b
-   or c
-   exx
-   
-   ret nz
-   jp error_mc
+        exx
+        ld      a, b
+        or      c
+        exx
+
+        ret     nz
+        jp      error_mc
 
 error_exit:
 
-   ; stack = size_t *n, char **lineptr, b_vector_t
+        ; stack = size_t *n, char **lineptr, b_vector_t
 
-   ld hl,12
-   add hl,sp
-   ld sp,hl                    ; repair stack
-   
-   jp error_mc
+        ld      hl, 12
+        add     hl, sp
+        ld      sp, hl  ; repair stack
+
+        jp      error_mc

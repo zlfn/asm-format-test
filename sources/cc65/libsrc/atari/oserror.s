@@ -10,19 +10,19 @@
 
 .proc   ___osmaperrno
 
-        cmp     #$80            ; error or success
-        bcs     errcode         ; error, jump
+        cmp     #$80    ; error or success
+        bcs     errcode ; error, jump
 
-        lda     #0              ; no error, return 0
+        lda     #0      ; no error, return 0
         tax
         rts
 
-errcode:and     #$7f            ; create index from error number
+errcode: and    #$7f            ; create index from error number
         tax
         cpx     #MAX_OSERR_VAL  ; valid number?
         bcs     inverr          ; no
 
-        lda     maptable,x
+        lda     maptable, x
         ldx     #0
         rts
 
@@ -44,7 +44,7 @@ maptable:
         .byte   EINVAL  ;BADIOC = 134           ;($86) invalid IOCB index error
         .byte   EACCES  ;RDONLY = 135           ;($87) IOCB opened for read only error
         .byte   EINVAL  ;EOFERR = 136           ;($88) end of file error (should never come,
-                                                ;      specially handled by read.s)
+        ;      specially handled by read.s)
         .byte   EIO     ;TRNRCD = 137           ;($89) truncated record error
         .byte   EIO     ;TIMOUT = 138           ;($8A) peripheral device timeout error
         .byte   EIO     ;DNACK  = 139           ;($8B) device does not acknowledge command
@@ -99,6 +99,6 @@ maptable:
         .byte   EUNKNOWN        ; 181 - [MYDOS] invalid address range
         .byte   EUNKNOWN        ; 182 - [XDOS] invalid parameter
 
-        .byte   EINVAL          ; 183 - dummy (used by cc65 rtl, see sysremove.s)
+        .byte   EINVAL  ; 183 - dummy (used by cc65 rtl, see sysremove.s)
 
 MAX_OSERR_VAL = (* - maptable)

@@ -16,15 +16,15 @@ EXTERN asm_vscanf
 
 vscanf:
 
-   pop af
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push af
-   
-   jp asm_vscanf
+        pop     af
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    af
+
+        jp      asm_vscanf
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

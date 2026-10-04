@@ -17,30 +17,30 @@ PUBLIC asm_tshc_cxy2aaddr
 
 asm_tshc_cxy2aaddr:
 
-   ; enter : h = valid character y coordinate
-   ;         l = valid character x coordinate
-   ;
-   ; exit  : hl = attribute address corresponding to the top
-   ;              pixel row of the character square
-   ;
-   ; uses  : af, hl
+        ; enter : h = valid character y coordinate
+        ;         l = valid character x coordinate
+        ;
+        ; exit  : hl = attribute address corresponding to the top
+        ;              pixel row of the character square
+        ;
+        ; uses  : af, hl
 
-   ld a,h
-   rrca
-   rrca
-   rrca
-   and $e0
-   or l
-   ld l,a
-   
-   ld a,h
-   and $18
+        ld      a, h
+        rrca
+        rrca
+        rrca
+        and     $e0
+        or      l
+        ld      l, a
+
+        ld      a, h
+        and     $18
 
 IF __USE_SPECTRUM_128_SECOND_DFILE
-   or $e0
+        or      $e0
 ELSE
-   or $60
+        or      $60
 ENDIF
 
-   ld h,a   
-   ret
+        ld      h, a
+        ret

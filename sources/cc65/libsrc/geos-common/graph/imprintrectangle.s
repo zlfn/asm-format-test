@@ -5,9 +5,8 @@
 
 ; void ImprintRectangle (void);
 
-            .export _ImprintRectangle
+        .export _ImprintRectangle
 
-            .include "jumptab.inc"
+        .include "jumptab.inc"
 
 _ImprintRectangle = ImprintRectangle
-

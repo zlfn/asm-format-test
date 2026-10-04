@@ -5,21 +5,20 @@
 ; void chline (unsigned char length);
 ;
 
-        .export         _chlinexy, _chline
-        .import         setscrptr
-        .import         rvs
-        .import         popax
-        .importzp       ptr2
+        .export _chlinexy, _chline
+        .import setscrptr
+        .import rvs
+        .import popax
+        .importzp ptr2
 
-        .include        "atmos.inc"
-
+        .include "atmos.inc"
 
 _chlinexy:
-        pha                     ; Save the length
-        jsr     popax           ; Get X and Y
-        sta     CURS_Y          ; Store Y
-        stx     CURS_X          ; Store X
-        pla                     ; Restore the length and run into _chline
+        pha             ; Save the length
+        jsr     popax   ; Get X and Y
+        sta     CURS_Y  ; Store Y
+        stx     CURS_X  ; Store X
+        pla             ; Restore the length and run into _chline
 
 _chline:
         tax                     ; Is the length zero?
@@ -31,11 +30,10 @@ _chline:
         sta     CURS_X          ; Correct X position by length
         lda     #'-'            ; Horizontal line screen code
         ora     rvs
-@L1:    sta     (ptr2),y        ; Write one char
+@L1:    sta     (ptr2), y       ; Write one char
         iny                     ; Next char
         bne     @L2
         inc     ptr2+1          ; Bump high byte of screen pointer
 @L2:    dex
         bne     @L1
 @L9:    rts
-

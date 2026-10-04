@@ -2,7 +2,6 @@
 ; NES definitions. By Groepaz/Hitmem.
 ;
 
-
 ;; FIXME: optimize zeropage usage
 
 SCREEN_PTR      = $62           ;2
@@ -68,7 +67,6 @@ APU_CHANCTRL    = $4015         ; Sound/Vertical Clock Signal Register (R)
 APU_PAD1        = $4016         ; Joypad #1 (RW)
 APU_PAD2        = $4017         ; Joypad #2/SOFTCLK (RW)
 
-
 CH_HLINE        = 11
 CH_VLINE        = 14
 CH_ULCORNER     = 176
@@ -90,4 +88,3 @@ CH_INS          = 148
 CH_ENTER        = 10
 CH_STOP         = 3
 CH_ESC          = 27
-

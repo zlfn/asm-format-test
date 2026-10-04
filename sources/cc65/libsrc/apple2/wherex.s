@@ -5,20 +5,20 @@
 ;
 
         .ifndef __APPLE2ENH__
-        .import         machinetype
+                .import machinetype
         .endif
 
-        .export         _wherex
+        .export _wherex
 
-        .include        "apple2.inc"
+        .include "apple2.inc"
 
 _wherex:
         lda     CH
         .ifndef __APPLE2ENH__
-        bit     machinetype
-        bpl     :+
+                bit     machinetype
+                bpl     :+
         .endif
-        bit     RD80VID         ; In 80 column mode?
+        bit     RD80VID ; In 80 column mode?
         bpl     :+
         lda     OURCH
 

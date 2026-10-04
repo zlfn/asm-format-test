@@ -16,18 +16,17 @@ EXTERN asm_NIRVANAM_paintC
 
 NIRVANAM_paintC_callee:
 
-        pop hl          ; RET address
-        pop de          ; col
-        pop bc
-        ld d,c          ; lin
-        pop bc          ; attrs
-        push hl
+        pop     hl      ; RET address
+        pop     de      ; col
+        pop     bc
+        ld      d, c    ; lin
+        pop     bc      ; attrs
+        push    hl
 
-	jp asm_NIRVANAM_paintC
+        jp      asm_NIRVANAM_paintC
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _NIRVANAM_paintC_callee
 defc _NIRVANAM_paintC_callee = NIRVANAM_paintC_callee
 ENDIF
-

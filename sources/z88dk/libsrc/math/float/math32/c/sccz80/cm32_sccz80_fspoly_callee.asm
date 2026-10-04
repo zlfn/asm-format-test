@@ -12,19 +12,19 @@ defc cm32_sccz80_fspoly_callee = m32_fspoly_callee
 ELSE
 
 .cm32_sccz80_fspoly_callee
-    pop af
-    pop hl
-    pop de
-    exx
-    pop hl
-    pop de
-    exx
-    push hl
-    push de
-    exx
-    push de
-    push hl
-    push af
-    jp m32_fspoly_callee
+        pop     af
+        pop     hl
+        pop     de
+        exx
+        pop     hl
+        pop     de
+        exx
+        push    hl
+        push    de
+        exx
+        push    de
+        push    hl
+        push    af
+        jp      m32_fspoly_callee
 
 ENDIF

@@ -19,14 +19,13 @@ asm_sp1_PrintAt:
 ;          a = attr
 ; uses  : af, de, hl, af'
 
-   ex af,af
-   call asm_sp1_GetUpdateStruct
-   ex af,af
-   inc hl
-   ld (hl),a
-   inc hl
-   ld (hl),c
-   inc hl
-   ld (hl),b
-   ret
-
+        ex      af, af
+        call    asm_sp1_GetUpdateStruct
+        ex      af, af
+        inc     hl
+        ld      (hl), a
+        inc     hl
+        ld      (hl), c
+        inc     hl
+        ld      (hl), b
+        ret

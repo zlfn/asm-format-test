@@ -21,14 +21,13 @@
 ; Register 25 ($19) is said to require different value for VDC v1, but I
 ; couldn't find what it should be.
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-error.inc"
+        .include "tgi-kernel.inc"
+        .include "tgi-error.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Constants
@@ -50,22 +49,22 @@ VDC_DATA          = 31
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table and constants.
 
-        module_header   _c128_vdc2_tgi
+        module_header _c128_vdc2_tgi
 
 ; First part of the header is a structure that has a magic and defines the
 ; capabilities of the driver
 
-        .byte   $74, $67, $69           ; "tgi"
-        .byte   TGI_API_VERSION         ; TGI API version number
-        .addr   $0000                   ; Library reference
-xres:   .word   640                     ; X resolution
-yres:   .word   480                     ; Y resolution
-        .byte   2                       ; Number of drawing colors
-pages:  .byte   0                       ; Number of screens available
-        .byte   8                       ; System font X size
-        .byte   8                       ; System font Y size
-        .word   $0100                   ; Aspect ratio (based on 4/3 display)
-        .byte   0                       ; TGI driver flags
+        .byte   $74, $67, $69   ; "tgi"
+        .byte   TGI_API_VERSION ; TGI API version number
+        .addr   $0000           ; Library reference
+xres:   .word   640             ; X resolution
+yres:   .word   480             ; Y resolution
+        .byte   2               ; Number of drawing colors
+pages:  .byte   0               ; Number of screens available
+        .byte   8               ; System font X size
+        .byte   8               ; System font Y size
+        .word   $0100           ; Aspect ratio (based on 4/3 display)
+        .byte   0               ; TGI driver flags
 
 ; Next comes the jump table. Currently all entries must be valid and may point
 ; to an RTS for test versions (function not implemented).
@@ -110,54 +109,54 @@ TEMP3           = sreg          ; HORLINE
 
 .bss
 
-ERROR:          .res    1       ; Error code
-PALETTE:        .res    2       ; The current palette
+ERROR:  .res    1       ; Error code
+PALETTE: .res   2       ; The current palette
 
-BITMASK:        .res    1       ; $00 = clear, $FF = set pixels
+BITMASK: .res   1       ; $00 = clear, $FF = set pixels
 
-OLDCOLOR:       .res    1       ; colors before entering gfx mode
+OLDCOLOR: .res  1       ; colors before entering gfx mode
 
 ; Text output stuff
-TEXTMAGX:       .res    1
-TEXTMAGY:       .res    1
-TEXTDIR:        .res    1
+TEXTMAGX: .res  1
+TEXTMAGY: .res  1
+TEXTDIR:  .res  1
 
 ; Constants and tables
 
 .rodata
 
-DEFPALETTE:     .byte   $00, $0f        ; White on black
+DEFPALETTE: .byte $00, $0f      ; White on black
 PALETTESIZE     = * - DEFPALETTE
 
-BITTAB:         .byte   $80,$40,$20,$10,$08,$04,$02,$01
+BITTAB: .byte   $80, $40, $20, $10, $08, $04, $02, $01
 
-BITMASKL:       .byte   %11111111, %01111111, %00111111, %00011111
-                .byte   %00001111, %00000111, %00000011, %00000001
+BITMASKL: .byte %11111111, %01111111, %00111111, %00011111
+        .byte   %00001111, %00000111, %00000011, %00000001
 
-BITMASKR:       .byte   %10000000, %11000000, %11100000, %11110000
-                .byte   %11111000, %11111100, %11111110, %11111111
+BITMASKR: .byte %10000000, %11000000, %11100000, %11110000
+        .byte   %11111000, %11111100, %11111110, %11111111
 
 ; color translation table (indexed by VIC color)
-COLTRANS:       .byte $00, $0f, $08, $06, $0a, $04, $02, $0c
-                .byte $0d, $0b, $09, $01, $0e, $05, $03, $07
-                ; colors BROWN and GRAY3 are wrong
+COLTRANS: .byte $00, $0f, $08, $06, $0a, $04, $02, $0c
+        .byte   $0d, $0b, $09, $01, $0e, $05, $03, $07
+        ; colors BROWN and GRAY3 are wrong
 
 ; VDC initialization table (reg),(val),...,$ff
 InitVDCTab:
-                .byte VDC_DSP_HI, 0             ; viewpage 0 as default
-                .byte VDC_DSP_LO, 0
-                .byte VDC_HSCROLL, $87
-                .byte 2, $66
-                .byte 4, $4c
-                .byte 5, $06
-                .byte 6, $4c
-                .byte 7, $47
-                .byte 8, $03
-                .byte 9, $06
-                .byte 27, $00
-                .byte $ff
+        .byte   VDC_DSP_HI,  0  ; viewpage 0 as default
+        .byte   VDC_DSP_LO,  0
+        .byte   VDC_HSCROLL, $87
+        .byte   2,  $66
+        .byte   4,  $4c
+        .byte   5,  $06
+        .byte   6,  $4c
+        .byte   7,  $47
+        .byte   8,  $03
+        .byte   9,  $06
+        .byte   27, $00
+        .byte   $ff
 
-SCN80CLR:       .byte 27,88,147,27,88,0
+SCN80CLR: .byte 27, 88, 147, 27, 88, 0
 
 .code
 
@@ -184,18 +183,18 @@ INSTALL:
         jsr     VDCReadByte
         sta     tmp2
 
-        lda     #$55            ; write $55 here
+        lda     #$55    ; write $55 here
         ldy     #ptr1
-        jsr     test64k         ; read it here and there
-        lda     #$aa            ; write $aa here
+        jsr     test64k ; read it here and there
+        lda     #$aa    ; write $aa here
         ldy     #ptr2
-        jsr     test64k         ; read it here and there
+        jsr     test64k ; read it here and there
 
         jsr     settestadr1
         lda     tmp2
         jsr     VDCWriteByte    ; restore original value of test byte
 
-        lda     ptr1            ; do bytes match?
+        lda     ptr1    ; do bytes match?
         cmp     ptr1+1
         bne     @have64k
         lda     ptr2
@@ -220,24 +219,24 @@ test64k:
         sta     ptr3+1
         jsr     settestadr1
         lda     tmp1
-        jsr     VDCWriteByte            ; write $55
+        jsr     VDCWriteByte    ; write $55
         jsr     settestadr1
-        jsr     VDCReadByte             ; read here
+        jsr     VDCReadByte     ; read here
         pha
         jsr     settestadr2
-        jsr     VDCReadByte             ; and there
+        jsr     VDCReadByte     ; and there
         ldy     #1
-        sta     (ptr3),y
+        sta     (ptr3), y
         pla
         dey
-        sta     (ptr3),y
+        sta     (ptr3), y
         rts
 
 settestadr1:
-        ldy     #$02                    ; test page 2 (here)
+        ldy     #$02    ; test page 2 (here)
         .byte   $2c
 settestadr2:
-        ldy     #$42                    ; or page 64+2 (there)
+        ldy     #$42    ; or page 64+2 (there)
         lda     #0
         jmp     VDCSetSourceAddr
 
@@ -250,7 +249,6 @@ settestadr2:
 
 UNINSTALL:
         rts
-
 
 ; ------------------------------------------------------------------------
 ; INIT: Changes an already installed device from text mode to graphics
@@ -285,10 +283,10 @@ INIT:
 ; Switch into graphics mode (set view page 0)
 
         ldy     #0
-@L2:    ldx     InitVDCTab,y
+@L2:    ldx     InitVDCTab, y
         bmi     @L3
         iny
-        lda     InitVDCTab,y
+        lda     InitVDCTab, y
         jsr     VDCWriteReg
         iny
         bne     @L2
@@ -310,26 +308,26 @@ INIT:
 
 DONE:
         ; This part is C128-mode specific
-        jsr $e179               ; reload character set and setup VDC
-        jsr $ff62
-        lda $d7                 ; in 80-columns?
-        bne @L01
-@L0:    lda SCN80CLR,y
-        beq @L1
-        jsr $ffd2               ; print \xe,clr,\xe
+        jsr     $e179           ; reload character set and setup VDC
+        jsr     $ff62
+        lda     $d7             ; in 80-columns?
+        bne     @L01
+@L0:    lda     SCN80CLR, y
+        beq     @L1
+        jsr     $ffd2           ; print \xe,clr,\xe
         iny
-        bne @L0
-@L01:   lda #147
-        jsr $ffd2               ; print clr
-@L1:    lda #0                  ; restore view page
-        ldx #VDC_DSP_HI
-        jsr VDCWriteReg
-        lda OLDCOLOR
-        ldx #VDC_COLORS
-        jsr VDCWriteReg         ; restore color (background)
-        lda #$47
-        ldx #VDC_HSCROLL
-        jmp VDCWriteReg         ; switch to text screen
+        bne     @L0
+@L01:   lda     #147
+        jsr     $ffd2           ; print clr
+@L1:    lda     #0              ; restore view page
+        ldx     #VDC_DSP_HI
+        jsr     VDCWriteReg
+        lda     OLDCOLOR
+        ldx     #VDC_COLORS
+        jsr     VDCWriteReg     ; restore color (background)
+        lda     #$47
+        ldx     #VDC_HSCROLL
+        jmp     VDCWriteReg     ; switch to text screen
 
 ; ------------------------------------------------------------------------
 ; GETERROR: Return the error code in A and clear it.
@@ -363,11 +361,11 @@ CLEAR:
         jsr     VDCSetSourceAddr
         lda     #0
         ldx     #VDC_VSCROLL
-        jsr     VDCWriteReg                     ; set fill mode
+        jsr     VDCWriteReg     ; set fill mode
         lda     #0
-        jsr     VDCWriteByte                    ; put 1rst byte (fill value)
-        ldy     #159                            ; 159 times
-        lda     #0                              ; 256 bytes
+        jsr     VDCWriteByte    ; put 1rst byte (fill value)
+        ldy     #159            ; 159 times
+        lda     #0              ; 256 bytes
         ldx     #VDC_COUNT
 @L1:    jsr     VDCWriteReg
         dey
@@ -418,22 +416,22 @@ SETCOLOR:
 
 SETPALETTE:
         ldy     #PALETTESIZE - 1
-@L1:    lda     (ptr1),y        ; Copy the palette
+@L1:    lda     (ptr1), y       ; Copy the palette
         and     #$0F            ; Make a valid color
-        sta     PALETTE,y
+        sta     PALETTE, y
         dey
         bpl     @L1
 
 ; Get the color entries from the palette
 
         ldy     PALETTE+1       ; Foreground color
-        lda     COLTRANS,y
+        lda     COLTRANS, y
         asl     a
         asl     a
         asl     a
         asl     a
         ldy     PALETTE         ; Background color
-        ora     COLTRANS,y
+        ora     COLTRANS, y
 
         ldx     #VDC_COLORS
         jsr     VDCWriteReg
@@ -477,7 +475,7 @@ GETDEFPALETTE:
 ;
 
 SETPIXEL:
-        jsr     CALC            ; Calculate coordinates
+        jsr     CALC    ; Calculate coordinates
 
         stx     TEMP
         lda     ADDR
@@ -488,7 +486,7 @@ SETPIXEL:
 
         sta     TEMP
         eor     BITMASK
-        and     BITTAB,X
+        and     BITTAB, X
         eor     TEMP
         pha
         lda     ADDR
@@ -504,11 +502,10 @@ SETPIXEL:
 ; coordinates passed to this function are never outside the visible screen
 ; area, so there is no need for clipping inside this function.
 
-
 GETPIXEL:
-        jsr     CALC            ; Calculate coordinates
+        jsr     CALC    ; Calculate coordinates
 
-        stx     TEMP            ; preserve X
+        stx     TEMP    ; preserve X
         lda     ADDR
         ldy     ADDR+1
         jsr     VDCSetSourceAddr
@@ -516,12 +513,12 @@ GETPIXEL:
         ldx     TEMP
 
         ldy     #$00
-        and     BITTAB,X
+        and     BITTAB, X
         beq     @L1
         iny
 
-@L1:    tya                     ; Get color value into A
-        ldx     #$00            ; Clear high byte
+@L1:    tya             ; Get color value into A
+        ldx     #$00    ; Clear high byte
         rts
 
 ; ------------------------------------------------------------------------
@@ -548,105 +545,105 @@ BAR:
 ; Original code for a horizontal line
 
 HORLINE:
-        lda X1
+        lda     X1
         pha
-        lda X1+1
+        lda     X1+1
         pha
-        jsr CALC                ; get data for LEFT
-        lda BITMASKL,x          ; remember left address and bitmask
+        jsr     CALC            ; get data for LEFT
+        lda     BITMASKL, x     ; remember left address and bitmask
         pha
-        lda ADDR
+        lda     ADDR
         pha
-        lda ADDR+1
+        lda     ADDR+1
         pha
 
-        lda X2
-        sta X1
-        lda X2+1
-        sta X1+1
-        jsr CALC                ; get data for RIGHT
-        lda BITMASKR,x
-        sta TEMP3
+        lda     X2
+        sta     X1
+        lda     X2+1
+        sta     X1+1
+        jsr     CALC    ; get data for RIGHT
+        lda     BITMASKR, x
+        sta     TEMP3
 
-        pla                     ; recall data for LEFT
-        sta X1+1
+        pla             ; recall data for LEFT
+        sta     X1+1
         pla
-        sta X1                  ; put left address into X1
+        sta     X1      ; put left address into X1
         pla
 
-        cmp #%11111111          ; if left bit <> 0
-        beq @L1
-        sta TEMP2               ; do left byte only...
-        lda X1
-        ldy X1+1
-        jsr VDCSetSourceAddr
-        jsr VDCReadByte
-        sta TEMP
-        eor BITMASK
-        and TEMP2
-        eor TEMP
+        cmp     #%11111111      ; if left bit <> 0
+        beq     @L1
+        sta     TEMP2           ; do left byte only...
+        lda     X1
+        ldy     X1+1
+        jsr     VDCSetSourceAddr
+        jsr     VDCReadByte
+        sta     TEMP
+        eor     BITMASK
+        and     TEMP2
+        eor     TEMP
         pha
-        lda X1
-        ldy X1+1
-        jsr VDCSetSourceAddr
+        lda     X1
+        ldy     X1+1
+        jsr     VDCSetSourceAddr
         pla
-        jsr VDCWriteByte
-        inc X1                  ; ... and proceed
-        bne @L1
-        inc X1+1
+        jsr     VDCWriteByte
+        inc     X1              ; ... and proceed
+        bne     @L1
+        inc     X1+1
 
         ; do right byte (if Y2=0 ++ADDR and skip)
-@L1:    lda TEMP3
-        cmp #%11111111          ; if right bit <> 7
-        bne @L11
-        inc ADDR                ; right bit = 7 - the next one is the last
-        bne @L10
-        inc ADDR+1
-@L10:   bne @L2
+@L1:    lda     TEMP3
+        cmp     #%11111111      ; if right bit <> 7
+        bne     @L11
+        inc     ADDR            ; right bit = 7 - the next one is the last
+        bne     @L10
+        inc     ADDR+1
+@L10:   bne     @L2
 
-@L11:   lda ADDR                ; do right byte only...
-        ldy ADDR+1
-        jsr VDCSetSourceAddr
-        jsr VDCReadByte
-        sta TEMP
-        eor BITMASK
-        and TEMP3
-        eor TEMP
+@L11:   lda     ADDR    ; do right byte only...
+        ldy     ADDR+1
+        jsr     VDCSetSourceAddr
+        jsr     VDCReadByte
+        sta     TEMP
+        eor     BITMASK
+        and     TEMP3
+        eor     TEMP
         pha
-        lda ADDR
-        ldy ADDR+1
-        jsr VDCSetSourceAddr
+        lda     ADDR
+        ldy     ADDR+1
+        jsr     VDCSetSourceAddr
         pla
-        jsr VDCWriteByte
+        jsr     VDCWriteByte
 
-@L2:                            ; do the fill in the middle
-        lda ADDR                ; calculate offset in full bytes
+@L2:                    ; do the fill in the middle
+        lda     ADDR    ; calculate offset in full bytes
         sec
-        sbc X1
-        beq @L3                 ; if equal - there are no more bytes
-        sta ADDR
+        sbc     X1
+        beq     @L3     ; if equal - there are no more bytes
+        sta     ADDR
 
-        lda X1                  ; setup for the left side
-        ldy X1+1
-        jsr VDCSetSourceAddr
-        lda BITMASK             ; get color
-        jsr VDCWriteByte        ; put 1st value
-        ldx ADDR
+        lda     X1              ; setup for the left side
+        ldy     X1+1
+        jsr     VDCSetSourceAddr
+        lda     BITMASK         ; get color
+        jsr     VDCWriteByte    ; put 1st value
+        ldx     ADDR
         dex
-        beq @L3                 ; 1 byte already written
+        beq     @L3             ; 1 byte already written
 
-        stx ADDR                ; if there are more bytes - fill them...
-        ldx #VDC_VSCROLL
-        lda #0
-        jsr VDCWriteReg         ; setup for fill
-        ldx #VDC_COUNT
-        lda ADDR
-        jsr VDCWriteReg         ; ... fill them NOW!
+        stx     ADDR            ; if there are more bytes - fill them...
+        ldx     #VDC_VSCROLL
+        lda     #0
+        jsr     VDCWriteReg     ; setup for fill
+        ldx     #VDC_COUNT
+        lda     ADDR
+        jsr     VDCWriteReg     ; ... fill them NOW!
 
 @L3:    pla
-        sta X1+1
+        sta     X1+1
         pla
-        sta X1
+        sta     X1
 
 ; End of horizontal line code
 
@@ -663,7 +660,6 @@ HORLINE:
 
 @L5:    jmp     HORLINE
 
-
 ; ------------------------------------------------------------------------
 ; TEXTSTYLE: Set the style used when calling OUTTEXT. Text scaling in X and Y
 ; direction is passend in X/Y, the text direction is passed in A.
@@ -676,7 +672,6 @@ TEXTSTYLE:
         sty     TEXTMAGY
         sta     TEXTDIR
         rts
-
 
 ; ------------------------------------------------------------------------
 ; OUTTEXT: Output text at X/Y = ptr1/ptr2 using the current color and the
@@ -701,20 +696,20 @@ CALC:
         lda     Y1+1
         pha
         lsr
-        ror     Y1              ; Y=Y/2
+        ror     Y1      ; Y=Y/2
         sta     Y1+1
         sta     ADDR+1
         lda     Y1
         asl
         rol     ADDR+1
         asl
-        rol     ADDR+1          ; Y*4
+        rol     ADDR+1  ; Y*4
         clc
         adc     Y1
         sta     ADDR
         lda     Y1+1
         adc     ADDR+1
-        sta     ADDR+1          ; Y*4+Y=Y*5
+        sta     ADDR+1  ; Y*4+Y=Y*5
         lda     ADDR
         asl
         rol     ADDR+1
@@ -724,7 +719,7 @@ CALC:
         rol     ADDR+1
         asl
         rol     ADDR+1
-        sta     ADDR            ; Y*5*16=Y*80
+        sta     ADDR    ; Y*5*16=Y*80
         lda     X1+1
         sta     TEMP
         lda     X1
@@ -737,7 +732,7 @@ CALC:
         clc
         adc     ADDR
         sta     ADDR
-        lda     ADDR+1          ; ADDR = Y*80+x/8
+        lda     ADDR+1  ; ADDR = Y*80+x/8
         adc     TEMP
         sta     ADDR+1
         pla
@@ -745,14 +740,14 @@ CALC:
         pla
         sta     Y1
         and     #1
-        beq     @even           ; even line - no offset
+        beq     @even   ; even line - no offset
         lda     ADDR
         clc
         adc     #<21360
         sta     ADDR
         lda     ADDR+1
         adc     #>21360
-        sta     ADDR+1          ; odd lines are 21360 bytes farther
+        sta     ADDR+1  ; odd lines are 21360 bytes farther
 @even:  lda     X1
         and     #7
         tax
@@ -790,4 +785,4 @@ VDCWriteReg:
 
 ; ------------------------------------------------------------------------
 
-        .include        "../../tgi/tgidrv_line.inc"
+        .include "../../tgi/tgidrv_line.inc"

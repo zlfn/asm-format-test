@@ -14,26 +14,26 @@
 ; error code could not be found.
 ;
 
-            .export __sys_oserrlist
+        .export __sys_oserrlist
 
-            .include "const.inc"
+        .include "const.inc"
 
 ;----------------------------------------------------------------------------
 ; Macros used to generate the list (may get moved to an include file?)
 
 ; Regular entry
 .macro  sys_oserr_entry code, msg
-        .local Start, End
-Start:  .byte End - Start
-        .byte code
+        .local  Start, End
+Start:  .byte   End - Start
+        .byte   code
         .asciiz msg
 End:
 .endmacro
 
 ; Sentinel entry
 .macro  sys_oserr_sentinel msg
-        .byte 0                 ; Length is always zero
-        .byte 0                 ; Code is unused
+        .byte   0       ; Length is always zero
+        .byte   0       ; Code is unused
         .asciiz msg
 .endmacro
 
@@ -43,20 +43,20 @@ End:
 .rodata
 
 __sys_oserrlist:
-        sys_oserr_entry NO_BLOCKS, "No free blocks"
-        sys_oserr_entry INV_TRACK, "Illegal track or sector"
+        sys_oserr_entry NO_BLOCKS,    "No free blocks"
+        sys_oserr_entry INV_TRACK,    "Illegal track or sector"
         sys_oserr_entry INSUFF_SPACE, "Disk full"
         sys_oserr_entry FULL_DIRECTORY, "Directory full"
         sys_oserr_entry FILE_NOT_FOUND, "File not found"
         sys_oserr_entry BAD_BAM, "Inconsistent BAM"
-        sys_oserr_entry UNOPENED_VLIR, "VLIR file not opened"
-        sys_oserr_entry INV_RECORD, "Invalid VLIR record"
+        sys_oserr_entry UNOPENED_VLIR,  "VLIR file not opened"
+        sys_oserr_entry INV_RECORD,     "Invalid VLIR record"
         sys_oserr_entry OUT_OF_RECORDS, "Out of VLIR records"
-        sys_oserr_entry STRUCT_MISMAT, "Structure mismatch"
-        sys_oserr_entry BFR_OVERFLOW, "Buffer overflow"
-        sys_oserr_entry CANCEL_ERR, "Operation cancelled"
-        sys_oserr_entry DEV_NOT_FOUND, "Device not found"
-        sys_oserr_entry INCOMPATIBLE, "Incompatible device"
+        sys_oserr_entry STRUCT_MISMAT,  "Structure mismatch"
+        sys_oserr_entry BFR_OVERFLOW,   "Buffer overflow"
+        sys_oserr_entry CANCEL_ERR,     "Operation cancelled"
+        sys_oserr_entry DEV_NOT_FOUND,  "Device not found"
+        sys_oserr_entry INCOMPATIBLE,   "Incompatible device"
         sys_oserr_entry 20, "Read error"
         sys_oserr_entry 21, "Read error"
         sys_oserr_entry 22, "Read error"

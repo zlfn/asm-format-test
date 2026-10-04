@@ -37,25 +37,25 @@ SECTION .text
 
 %macro REORDER_PIXELS 0
 cglobal reorder_pixels, 3,4,3, dst, src1, size, src2
-    lea                              src2q, [src1q+sizeq] ; src2 = src + 2 * half_size
-    add                               dstq, sizeq         ; dst offset by size
-    shr                              sizeq, 1             ; half_size
-    add                              src1q, sizeq         ; offset src by half_size
-    neg                              sizeq                ; size = offset for dst, src1, src2
+        lea     src2q, [src1q+sizeq]    ; src2 = src + 2 * half_size
+        add     dstq,  sizeq            ; dst offset by size
+        shr     sizeq, 1                ; half_size
+        add     src1q, sizeq            ; offset src by half_size
+        neg     sizeq                   ; size = offset for dst, src1, src2
 .loop:
 
-    mova                                m0, [src1q+sizeq]        ; load first part
-    movu                                m1, [src2q+sizeq]        ; load second part
-    SBUTTERFLY bw, 0, 1, 2                                       ; interleaved
-    mova                 [dstq+2*sizeq   ], xm0                  ; copy to dst
-    mova                 [dstq+2*sizeq+16], xm1
+        mova    m0, [src1q+sizeq]       ; load first part
+        movu    m1, [src2q+sizeq]       ; load second part
+        SBUTTERFLY bw, 0, 1, 2          ; interleaved
+        mova    [dstq+2*sizeq   ], xm0  ; copy to dst
+        mova    [dstq+2*sizeq+16], xm1
 %if cpuflag(avx2)
-    vperm2i128                          m0, m0, m1, q0301
-    mova                 [dstq+2*sizeq+32], m0
+        vperm2i128 m0, m0, m1, q0301
+        mova    [dstq+2*sizeq+32], m0
 %endif
-    add     sizeq, mmsize
-    jl .loop
-    RET
+        add     sizeq, mmsize
+        jl      .loop
+        RET
 %endmacro
 
 INIT_XMM sse2
@@ -66,44 +66,43 @@ INIT_YMM avx2
 REORDER_PIXELS
 %endif
 
-
 ;------------------------------------------------------------------------------
 ; void ff_predictor(uint8_t *src, ptrdiff_t size);
 ;------------------------------------------------------------------------------
 
 %macro PREDICTOR 0
 cglobal predictor, 2,2,5, src, size
-    mova             m0, [pb_80]
-    mova            xm1, [pb_15]
-    mova            xm2, xm0
-    add            srcq, sizeq
-    neg           sizeq
+        mova    m0,   [pb_80]
+        mova    xm1,  [pb_15]
+        mova    xm2,  xm0
+        add     srcq, sizeq
+        neg     sizeq
 .loop:
-    pxor             m3, m0, [srcq + sizeq]
-    pslldq           m4, m3, 1
-    paddb            m3, m4
-    pslldq           m4, m3, 2
-    paddb            m3, m4
-    pslldq           m4, m3, 4
-    paddb            m3, m4
-    pslldq           m4, m3, 8
+        pxor    m3, m0, [srcq + sizeq]
+        pslldq  m4, m3, 1
+        paddb   m3, m4
+        pslldq  m4, m3, 2
+        paddb   m3, m4
+        pslldq  m4, m3, 4
+        paddb   m3, m4
+        pslldq  m4, m3, 8
 %if mmsize == 32
-    paddb            m3, m4
-    paddb           xm2, xm3
-    vextracti128    xm4, m3, 1
-    mova [srcq + sizeq], xm2
-    pshufb          xm2, xm1
-    paddb           xm2, xm4
-    mova [srcq + sizeq + 16], xm2
+        paddb   m3,  m4
+        paddb   xm2, xm3
+        vextracti128 xm4, m3, 1
+        mova    [srcq + sizeq], xm2
+        pshufb  xm2, xm1
+        paddb   xm2, xm4
+        mova    [srcq + sizeq + 16], xm2
 %else
-    paddb            m2, m3
-    paddb            m2, m4
-    mova [srcq + sizeq], m2
+        paddb   m2, m3
+        paddb   m2, m4
+        mova    [srcq + sizeq], m2
 %endif
-    pshufb          xm2, xm1
-    add           sizeq, mmsize
-    jl .loop
-    RET
+        pshufb  xm2,   xm1
+        add     sizeq, mmsize
+        jl      .loop
+        RET
 %endmacro
 
 INIT_XMM ssse3

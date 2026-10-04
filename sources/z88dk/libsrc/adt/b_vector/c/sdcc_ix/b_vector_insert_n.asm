@@ -10,17 +10,17 @@ EXTERN l0_b_vector_insert_n_callee
 
 _b_vector_insert_n:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   exx
-   pop bc
-   
-   push bc
-   push de
-   push bc
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        exx
+        pop     bc
 
-   jp l0_b_vector_insert_n_callee
+        push    bc
+        push    de
+        push    bc
+        push    hl
+        push    af
+
+        jp      l0_b_vector_insert_n_callee

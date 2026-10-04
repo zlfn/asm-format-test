@@ -27,76 +27,76 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _divulong
+        .module _divulong
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __divulong_PARM_1
-	.globl __divulong_PARM_2
-	.globl __divslong_PARM_1
-	.globl __divslong_PARM_2
-	.globl __modulong_PARM_1
-	.globl __modulong_PARM_2
-	.globl __modslong_PARM_1
-	.globl __modslong_PARM_2
-	.globl _ldiv_PARM_1
-	.globl _ldiv_PARM_2
-	.globl __divulong
-	.globl ___udivmod32
+        .globl  __divulong_PARM_1
+        .globl  __divulong_PARM_2
+        .globl  __divslong_PARM_1
+        .globl  __divslong_PARM_2
+        .globl  __modulong_PARM_1
+        .globl  __modulong_PARM_2
+        .globl  __modslong_PARM_1
+        .globl  __modslong_PARM_2
+        .globl  _ldiv_PARM_1
+        .globl  _ldiv_PARM_2
+        .globl  __divulong
+        .globl  ___udivmod32
 
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 __divulong_PARM_1:
 __divslong_PARM_1:
 __modulong_PARM_1:
 __modslong_PARM_1:
 _ldiv_PARM_1:
-	.ds 4
+        .ds     4
 __divulong_PARM_2:
 __divslong_PARM_2:
 __modulong_PARM_2:
 __modslong_PARM_2:
 _ldiv_PARM_2:
-	.ds 4
+        .ds     4
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define res0 "__divulong_PARM_1+0"
-	.define res1 "__divulong_PARM_1+1"
-	.define res2 "___SDCC_m6502_ret2"
-	.define res3 "___SDCC_m6502_ret3"
-	.define den  "__divulong_PARM_2"
-	.define rem  "___SDCC_m6502_ret4"
-	
+        .define res0 "__divulong_PARM_1+0"
+        .define res1 "__divulong_PARM_1+1"
+        .define res2 "___SDCC_m6502_ret2"
+        .define res3 "___SDCC_m6502_ret3"
+        .define den  "__divulong_PARM_2"
+        .define rem  "___SDCC_m6502_ret4"
+
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 __divulong:
-	jsr	___udivmod32
-	lda	*res0
-	ldx	*res1
-	rts
+        jsr     ___udivmod32
+        lda     *res0
+        ldx     *res1
+        rts
 
 ___udivmod32:
-        ldx	*__divulong_PARM_1+2
-        stx	*res2
-        ldx	*__divulong_PARM_1+3
-        stx	*res3
+        ldx     *__divulong_PARM_1+2
+        stx     *res2
+        ldx     *__divulong_PARM_1+3
+        stx     *res3
 
-	lda     #0
+        lda     #0
         sta     *rem+0
         sta     *rem+1
         sta     *rem+2
         sta     *rem+3
         ldy     #32
 L0:
-	asl     *res0
+        asl     *res0
         rol     *res1
         rol     *res2
         rol     *res3
@@ -118,21 +118,20 @@ L0:
         bcc     L1
 
 ; Overflow, do the subtraction again, this time store the result
-        sta     *rem+3	; We have the high byte already
+        sta     *rem+3  ; We have the high byte already
         txa
-        sbc     *den+0	; byte 0
+        sbc     *den+0  ; byte 0
         tax
         lda     *rem+1
         sbc     *den+1
-        sta     *rem+1	; byte 1
+        sta     *rem+1  ; byte 1
         lda     *rem+2
         sbc     *den+2
-        sta     *rem+2 	; byte 2
-        inc     *res0	; Set result bit
+        sta     *rem+2  ; byte 2
+        inc     *res0   ; Set result bit
 L1:
-	txa
+        txa
         dey
         bne     L0
         sta     *rem+0
         rts
-

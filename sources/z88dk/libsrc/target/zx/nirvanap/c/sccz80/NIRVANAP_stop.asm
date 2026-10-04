@@ -20,4 +20,3 @@ IF __CLASSIC
 PUBLIC _NIRVANAP_stop
 defc _NIRVANAP_stop = NIRVANAP_stop
 ENDIF
-

@@ -4,9 +4,9 @@
 ; SETLFS replacement function
 ;
 
-        .export         SETLFS
+        .export SETLFS
 
-        .include        "plus4.inc"
+        .include "plus4.inc"
 
 ; Write directly to the zero page to avoid banking in the ROM
 
@@ -14,7 +14,5 @@
         sta     LFN
         stx     DEVNUM
         sty     SECADR
-        rts                             ; Return to caller
+        rts     ; Return to caller
 .endproc
-
-

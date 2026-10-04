@@ -13,10 +13,10 @@
 
 .segment        "CARTHDR"
 
-                .word   cartstart       ; start routine
-                .byte   0               ; must be zero
-                .byte   <__CARTFLAGS__
-                .word   cartinit        ; init routine
+        .word   cartstart       ; start routine
+        .byte   0               ; must be zero
+        .byte   <__CARTFLAGS__
+        .word   cartinit        ; init routine
 
 .assert         (__CARTSIZE__ = $2000 || __CARTSIZE__ = $4000), error, "Cartridge size must either be $2000 or $4000"
 

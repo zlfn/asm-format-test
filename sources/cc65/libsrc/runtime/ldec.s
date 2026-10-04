@@ -5,8 +5,8 @@
 ; CC65 runtime: Decrement eax by value in Y
 ;
 
-        .export         deceaxy
-        .importzp       sreg, tmp1
+        .export deceaxy
+        .importzp sreg, tmp1
 
 deceaxy:
         sty     tmp1
@@ -33,4 +33,3 @@ deceaxy:
 ; Done.
 
 @L9:    rts
-

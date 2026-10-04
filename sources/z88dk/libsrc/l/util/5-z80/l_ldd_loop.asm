@@ -26,50 +26,50 @@ EXTERN l_ldd_64, l_ldd_32, l_ldd_16
 
 l_ldd_loop:
 
-   ld a,b
-   
-   or a
-   jp z, fine
+        ld      a, b
+
+        or      a
+        jp      z, fine
 
 l_ldd_loop_0:
 coarse:
 
-   call l_ldd_256
-   
-   dec a
-   jp nz, coarse
+        call    l_ldd_256
+
+        dec     a
+        jp      nz, coarse
 
 l_ldd_loop_small:
 fine:
 
-   ld a,c
+        ld      a, c
 
-   cp 16
-   jp c, sub_16
+        cp      16
+        jp      c, sub_16
 
-   add a,a
-   call c, l_ldd_128
+        add     a, a
+        call    c, l_ldd_128
 
-   add a,a
-   call c, l_ldd_64
-   
-   add a,a
-   call c, l_ldd_32
+        add     a, a
+        call    c, l_ldd_64
 
-   add a,a
-   call c, l_ldd_16
+        add     a, a
+        call    c, l_ldd_32
 
-   ret z
-   
-   lddr
-   ret
+        add     a, a
+        call    c, l_ldd_16
+
+        ret     z
+
+        lddr
+        ret
 
 sub_16:
 
-   or a
-   ret z
+        or      a
+        ret     z
 
-   lddr
-   ret
+        lddr
+        ret
 
 ENDIF

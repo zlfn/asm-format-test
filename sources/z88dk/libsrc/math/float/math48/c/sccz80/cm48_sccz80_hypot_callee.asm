@@ -10,9 +10,9 @@ EXTERN am48_hypot, cm48_sccz80p_dcallee2
 
 cm48_sccz80_hypot_callee:
 
-   call cm48_sccz80p_dcallee2
-   
-   ; AC'= y
-   ; AC = x
-   
-   jp am48_hypot
+        call    cm48_sccz80p_dcallee2
+
+        ; AC'= y
+        ; AC = x
+
+        jp      am48_hypot

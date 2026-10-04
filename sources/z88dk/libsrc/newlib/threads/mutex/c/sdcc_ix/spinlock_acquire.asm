@@ -10,10 +10,10 @@ EXTERN asm_spinlock_acquire
 
 _spinlock_acquire:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_spinlock_acquire
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_spinlock_acquire

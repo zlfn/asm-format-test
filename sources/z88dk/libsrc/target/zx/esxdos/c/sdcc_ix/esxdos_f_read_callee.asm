@@ -10,20 +10,20 @@ EXTERN asm_esxdos_f_read
 
 _esxdos_f_read_callee:
 
-   pop de
-   dec sp
-   pop af
-   pop hl
-   pop bc
-   push de
-   
+        pop     de
+        dec     sp
+        pop     af
+        pop     hl
+        pop     bc
+        push    de
+
 l0_esxdos_f_read_callee:
 
-   push ix
-   push iy
-   
-   call asm_esxdos_f_read
-   
-   pop iy
-   pop ix
-   ret
+        push    ix
+        push    iy
+
+        call    asm_esxdos_f_read
+
+        pop     iy
+        pop     ix
+        ret

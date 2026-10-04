@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ;  VOID *
@@ -28,13 +28,12 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMemSetMem64)
 ASM_PFX(InternalMemSetMem64):
-    mov     eax, [esp + 4]
-    mov     ecx, [esp + 8]
-    movq    mm0, [esp + 12]
-    mov     edx, eax
+        mov     eax, [esp + 4]
+        mov     ecx, [esp + 8]
+        movq    mm0, [esp + 12]
+        mov     edx, eax
 .0:
-    movq    [edx], mm0
-    add     edx, 8
-    loop    .0
-    ret
-
+        movq    [edx], mm0
+        add     edx,   8
+        loop    .0
+        ret

@@ -29,52 +29,52 @@ SECTION .text
 
 INIT_XMM sse
 cglobal compute_distance_ssd, 3,5,3, f1, f2, len, r, x
-    mov       xq, lenq
-    shl       xq, 2
-    neg       xq
-    add       f1q, xq
-    add       f2q, xq
-    xor       xq, xq
-    shl       lenq, 1
-    add       lenq, 1
-    shl       lenq, 2
-    mov       rq, lenq
-    and       rq, mmsize - 1
-    xorps     m0, m0
-    cmp       lenq, mmsize
-    jl .loop1
-    sub       lenq, rq
+        mov     xq, lenq
+        shl     xq, 2
+        neg     xq
+        add     f1q,  xq
+        add     f2q,  xq
+        xor     xq,   xq
+        shl     lenq, 1
+        add     lenq, 1
+        shl     lenq, 2
+        mov     rq,   lenq
+        and     rq,   mmsize - 1
+        xorps   m0,   m0
+        cmp     lenq, mmsize
+        jl      .loop1
+        sub     lenq, rq
 ALIGN 16
-    .loop0:
-        movups    m1, [f1q + xq]
-        movups    m2, [f2q + xq]
-        subps     m1, m2
-        mulps     m1, m1
-        addps     m0, m1
-        add       xq, mmsize
-        cmp       xq, lenq
-        jl .loop0
+.loop0:
+        movups  m1, [f1q + xq]
+        movups  m2, [f2q + xq]
+        subps   m1, m2
+        mulps   m1, m1
+        addps   m0, m1
+        add     xq, mmsize
+        cmp     xq, lenq
+        jl      .loop0
 
-    movhlps   xmm1, xmm0
-    addps     xmm0, xmm1
-    movss     xmm1, xmm0
-    shufps    xmm0, xmm0, 1
-    addss     xmm0, xmm1
+        movhlps xmm1, xmm0
+        addps   xmm0, xmm1
+        movss   xmm1, xmm0
+        shufps  xmm0, xmm0, 1
+        addss   xmm0, xmm1
 
-    cmp       rq, 0
-    je .end
-    add       lenq, rq
-    .loop1:
-        movss    xm1, [f1q + xq]
-        subss    xm1, [f2q + xq]
-        mulss    xm1, xm1
-        addss    xm0, xm1
-        add       xq, 4
-        cmp       xq, lenq
-        jl .loop1
-    .end:
+        cmp     rq, 0
+        je      .end
+        add     lenq, rq
+.loop1:
+        movss   xm1, [f1q + xq]
+        subss   xm1, [f2q + xq]
+        mulss   xm1, xm1
+        addss   xm0, xm1
+        add     xq,  4
+        cmp     xq,  lenq
+        jl      .loop1
+.end:
 %if ARCH_X86_64 == 0
-    movss     r0m, xm0
-    fld dword r0m
+        movss   r0m, xm0
+        fld     dword r0m
 %endif
-    RET
+        RET

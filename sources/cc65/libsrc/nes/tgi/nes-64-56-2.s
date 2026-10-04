@@ -5,38 +5,37 @@
 ; Based on Maciej Witkowiak's line routine.
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-error.inc"
-        .include        "nes.inc"
-        .include        "get_tv.inc"
-        .import         _clrscr, setcursor, putchar
-        .import         paldata
+        .include "tgi-kernel.inc"
+        .include "tgi-error.inc"
+        .include "nes.inc"
+        .include "get_tv.inc"
+        .import _clrscr, setcursor, putchar
+        .import paldata
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table and constants.
 
-        module_header   _nes_64_56_2_tgi
+        module_header _nes_64_56_2_tgi
 
 ; First part of the header is a structure that has a magic and defines the
 ; capabilities of the driver
 
-        .byte   $74, $67, $69           ; "tgi"
-        .byte   TGI_API_VERSION         ; TGI API version number
-        .addr   $0000                   ; Library reference
-xres:   .word   charsperline*2          ; Max X resolution
-yres:   .word   56                      ; Max Y resolution
-        .byte   2                       ; Number of drawing colors
-        .byte   1                       ; Number of screens available
-        .byte   2                       ; System font X size
-        .byte   2                       ; System font Y size
-        .word   $0100                   ; Aspect ratio
-        .byte   0                       ; TGI driver flags
+        .byte   $74, $67, $69   ; "tgi"
+        .byte   TGI_API_VERSION ; TGI API version number
+        .addr   $0000           ; Library reference
+xres:   .word   charsperline*2  ; Max X resolution
+yres:   .word   56              ; Max Y resolution
+        .byte   2               ; Number of drawing colors
+        .byte   1               ; Number of screens available
+        .byte   2               ; System font X size
+        .byte   2               ; System font Y size
+        .word   $0100           ; Aspect ratio
+        .byte   0               ; TGI driver flags
 
 ; Next comes the jump table. Currently all entries must be valid and may point
 ; to an RTS for test versions (function not implemented).
@@ -83,24 +82,24 @@ TEMP4           = sreg+1
 
 .bss
 
-MEM:            .res    charsperline*2*56/4
+MEM:    .res    charsperline*2*56/4
 MEMEND:
-ERROR:          .res    1       ; Error code
-COLOR:          .res    1       ; Current color
-PALETTE:        .res    2       ; The current palette
+ERROR:  .res    1       ; Error code
+COLOR:  .res    1       ; Current color
+PALETTE: .res   2       ; The current palette
 
 ; Constants and tables
 
 .rodata
 
-DEFPALETTE:     .byte   $0, $1
-OFFSET:         .byte   8, 4, 2, 1
+DEFPALETTE: .byte $0, $1
+OFFSET: .byte   8, 4, 2, 1
 ;                       00  00  00  00  01  01  01  01
 ;                       00  01  10  11  00  01  10  11
-CODE:           .byte   32, 29, 26, 25, 28, 24+128, 31+128, 30+128
+CODE:   .byte   32, 29, 26, 25, 28, 24+128, 31+128, 30+128
 ;                       10  10  10  10  11  11  11  11
 ;                       00  01  10  11  00  01  10  11
-                .byte   30, 31, 24, 28+128, 25+128, 26+128, 29+128, 32+128
+        .byte   30, 31, 24, 28+128, 25+128, 26+128, 29+128, 32+128
 
 .code
 
@@ -119,7 +118,7 @@ INSTALL:
 ; TODO ROM!
         inc     yres
         inc     yres
-ntsc:;  rts
+ntsc:           ;  rts
 
 ; ------------------------------------------------------------------------
 ; UNINSTALL routine. Is called before the driver is removed from memory. May
@@ -197,7 +196,7 @@ CLEAR:
         stx     TEMP+1
         lda     #0
         tay
-@L1:    sta     (TEMP),y
+@L1:    sta     (TEMP), y
         iny
         bne     @L1
         inc     TEMP+1
@@ -256,17 +255,17 @@ SETPALETTE:
         sta     PPU_VRAM_ADDR2
 
         ldy     #0
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     PALETTE
         tax
-        lda     paldata,x
+        lda     paldata, x
 ;       sta     PPU_VRAM_IO
 
         iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         sta     PALETTE+1
         tax
-        lda     paldata,x
+        lda     paldata, x
         sta     PPU_VRAM_IO
 
         lda     #TGI_ERR_OK
@@ -309,12 +308,12 @@ GETDEFPALETTE:
 ;
 
 SETPIXEL:
-        ldx     Y1              ; y+2<yres
+        ldx     Y1      ; y+2<yres
         inx
         inx
         cpx     yres
         bcc     @L2
-        ldx     X1              ; x+2<xres
+        ldx     X1      ; x+2<xres
         inx
         inx
         cpx     xres
@@ -334,27 +333,26 @@ SETPIXEL:
         eor     #%00001111
 @set2:  sta     TEMP3
 
-        lda     (TEMP),y
+        lda     (TEMP), y
         ldx     COLOR
         bne     @set
         and     TEMP3
         .byte   $2c
 @set:   ora     TEMP3
-        sta     (TEMP),y
+        sta     (TEMP), y
         tax
-        lda     CODE,x
-@normal:jmp     putchar
+        lda     CODE, x
+@normal: jmp    putchar
 
 ; ------------------------------------------------------------------------
 ; GETPIXEL: Read the color value of a pixel and return it in A/X. The
 ; coordinates passed to this function are never outside the visible screen
 ; area, so there is no need for clipping inside this function.
 
-
 GETPIXEL:
         jsr     CALC
         sta     TEMP3
-        lda     (TEMP),y
+        lda     (TEMP), y
         and     TEMP3
         beq     @L1
         lda     #1
@@ -422,7 +420,7 @@ OUTTEXT:
         clc
         jsr     setcursor
         ldy     #0
-@L1:    lda     (ptr3),y
+@L1:    lda     (ptr3), y
         jsr     putchar
         iny
         cmp     #$0
@@ -472,7 +470,7 @@ CALC:   lda     xres
         and     #%00000010
         ora     TEMP3
         tax
-        lda     OFFSET,x
+        lda     OFFSET, x
         rts
 
 ; ------------------------------------------------------------------------

@@ -5,10 +5,9 @@
 ; /* Switch the CPU into double clock mode. */
 ;
 
-        .export         _fast
+        .export _fast
 
-        .include        "plus4.inc"
-
+        .include "plus4.inc"
 
 .proc   _fast
 
@@ -18,5 +17,3 @@
         rts
 
 .endproc
-
-

@@ -19,7 +19,7 @@ PUBLIC sp1_ValUpdateStruct
 
 .sp1_ValUpdateStruct
 
-   bit 6,(hl)         ; must not validate removed update chars
-   ret nz
-   res 7,(hl)
-   ret
+        bit     6, (hl) ; must not validate removed update chars
+        ret     nz
+        res     7, (hl)
+        ret

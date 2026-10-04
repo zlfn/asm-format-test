@@ -16,12 +16,12 @@ EXTERN asm_getline
 
 getline_callee:
 
-   pop hl
-   pop ix
-   pop de
-   ex (sp),hl
-   
-   jp asm_getline
+        pop     hl
+        pop     ix
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_getline
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

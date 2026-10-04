@@ -6,6 +6,6 @@ PUBLIC _zx7_font_8x10_clairsys_end
 
 _zx7_font_8x10_clairsys:
 
-   BINARY "font_8x10_clairsys.bin.zx7"
+        BINARY  "font_8x10_clairsys.bin.zx7"
 
 _zx7_font_8x10_clairsys_end:

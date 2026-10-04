@@ -4,6 +4,5 @@
 ; intmax_t __fastcall__ strtoimax (const char* nptr, char** endptr, int base);
 ;
 
-        .import         _strtol
-        .export         _strtoimax = _strtol
-
+        .import _strtol
+        .export _strtoimax = _strtol

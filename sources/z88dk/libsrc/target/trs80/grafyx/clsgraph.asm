@@ -4,49 +4,48 @@
 ;       Stefano Bodrato 2021
 ;
 
-    SECTION code_clib
-    PUBLIC  clsgraph
-    PUBLIC  _clsgraph
-    PUBLIC  clg
-    PUBLIC  _clg
+        SECTION code_clib
+        PUBLIC  clsgraph
+        PUBLIC  _clsgraph
+        PUBLIC  clg
+        PUBLIC  _clg
 
-    INCLUDE "classic/gfx/grafix.inc"
-
+        INCLUDE "classic/gfx/grafix.inc"
 
 clsgraph:
 _clsgraph:
 clg:
 _clg:
-    ld      a, 255
-    out     (131), a                    ; enable graphics page
+        ld      a,     255
+        out     (131), a        ; enable graphics page
 
-    ld      hl, _GFX_MAXX
-    srl     h                           ;hl = x / 8
-    rr      l
-    srl     h
-    rr      l
-    srl     h
-    rr      l
+        ld      hl, _GFX_MAXX
+        srl     h       ;hl = x / 8
+        rr      l
+        srl     h
+        rr      l
+        srl     h
+        rr      l
 
-    ld      bc, 128
-    xor     a
+        ld      bc, 128
+        xor     a
 
 clsloop:
-    ld      e, _GFX_MAXY
+        ld      e, _GFX_MAXY
 clsloop2:
 
-    inc     bc
-    out     (c), e                      ; set Y coord
-    dec     bc
-    out     (c), l                      ; set X coord
+        inc     bc
+        out     (c), e  ; set Y coord
+        dec     bc
+        out     (c), l  ; set X coord
 
-	;ld	a,l		; test pattern
-	;add e
-    out     (130), a                    ; write 0 (or pattern) to display
+        ;ld	a,l		; test pattern
+        ;add e
+        out     (130), a        ; write 0 (or pattern) to display
 
-    dec     e
-    jr      nz, clsloop2
-    dec     l
-    jr      nz, clsloop
+        dec     e
+        jr      nz, clsloop2
+        dec     l
+        jr      nz, clsloop
 
-    ret
+        ret

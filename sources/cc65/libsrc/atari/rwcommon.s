@@ -9,7 +9,6 @@
 
         .export __rwsetup
 
-
 __rwsetup:
 
         pha                     ; push size in stack
@@ -24,20 +23,19 @@ __rwsetup:
         bmi     iocberr         ; negative (X=$FF or A>$7F) on error.
         tax
         pla                     ; store address
-        sta     ICBAH,x
+        sta     ICBAH, x
         pla
-        sta     ICBAL,x
+        sta     ICBAL, x
         pla                     ; store length
-        sta     ICBLH,x
+        sta     ICBLH, x
         pla
-        sta     ICBLL,x
-        ora     ICBLH,x         ; returns Z if length is 0
+        sta     ICBLL, x
+        ora     ICBLH, x        ; returns Z if length is 0
         rts
 
-iocberr:pla
+iocberr: pla
         pla
         pla
         pla
-        ldx     #$FF            ; indicate error + clear ZF
+        ldx     #$FF    ; indicate error + clear ZF
         rts
-

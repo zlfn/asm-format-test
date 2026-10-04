@@ -29,50 +29,50 @@ SECTION .text
 ; 16bit implementation that does 4/8-pixels at a time
 
 %macro PABS_DIFF_WD 3    ; a, b, junk   , output=a
-  psubusw   %3, %2, %1
-  psubusw   %1, %2
-  por       %1, %3
+        psubusw %3, %2, %1
+        psubusw %1, %2
+        por     %1, %3
 
-  mova      %2, %1
-  punpcklwd %1, m_zero
-  punpckhwd %2, m_zero
-  paddd     %1, %2
+        mova    %2, %1
+        punpcklwd %1, m_zero
+        punpckhwd %2, m_zero
+        paddd   %1, %2
 %endmacro
 
 %macro IDET_FILTER_LINE_16BIT 0
 cglobal idet_filter_line_16bit, 4, 5, 8, a, b, c, width, index
-    xor       indexq, indexq
+        xor     indexq, indexq
 %define m_zero m1
 %define m_sum  m0
-    pxor      m_sum, m_sum
-    pxor      m_zero, m_zero
+        pxor    m_sum,  m_sum
+        pxor    m_zero, m_zero
 
 .loop_16bit:
-    movu      m2, [bq + indexq * 2]  ; B
-    movu      m3, [aq + indexq * 2]  ; A
-    psubusw   m5, m2, m3             ; ba
+        movu    m2, [bq + indexq * 2]   ; B
+        movu    m3, [aq + indexq * 2]   ; A
+        psubusw m5, m2, m3              ; ba
 
-    movu      m4, [cq + indexq * 2]  ; C
-    add       indexq, mmsize >> 1
-    psubusw   m3, m2                 ; ab
-    CMP       indexd, widthd
+        movu    m4,     [cq + indexq * 2]       ; C
+        add     indexq, mmsize >> 1
+        psubusw m3,     m2                      ; ab
+        CMP     indexd, widthd
 
-    psubusw   m6, m2, m4             ; bc
-    psubusw   m4, m2                 ; cb
+        psubusw m6, m2, m4      ; bc
+        psubusw m4, m2          ; cb
 
-    PABS_DIFF_WD   m3, m6, m7        ; |ab - bc|
-    PABS_DIFF_WD   m5, m4, m7        ; |ba - cb|
-    paddd          m_sum, m3
-    paddd          m_sum, m5
-    jl        .loop_16bit
+        PABS_DIFF_WD m3, m6, m7 ; |ab - bc|
+        PABS_DIFF_WD m5, m4, m7 ; |ba - cb|
+        paddd   m_sum, m3
+        paddd   m_sum, m5
+        jl      .loop_16bit
 
 %if mmsize > 32
-    vextracti64x4 ym1, m0, 1
-    paddq     ym0, ym1
+        vextracti64x4 ym1, m0, 1
+        paddq   ym0, ym1
 %endif
-    HADDD     m_sum, m2
-    movd      eax, m_sum
-    RET
+        HADDD   m_sum, m2
+        movd    eax,   m_sum
+        RET
 %endmacro
 
 INIT_XMM sse2
@@ -89,42 +89,42 @@ IDET_FILTER_LINE_16BIT
 
 %macro IDET_FILTER_LINE 0
 cglobal idet_filter_line, 4, 6, 7, a, b, c, width, index, total
-    xor       indexq, indexq
-    pxor      m0, m0
-    pxor      m1, m1
+        xor     indexq, indexq
+        pxor    m0,     m0
+        pxor    m1,     m1
 
 .sse2_loop:
-    movu      m2, [bq + indexq*1]  ; B
-    movu      m3, [aq + indexq*1]  ; A
-    psubusb   m5, m2, m3           ; ba
+        movu    m2, [bq + indexq*1]     ; B
+        movu    m3, [aq + indexq*1]     ; A
+        psubusb m5, m2, m3              ; ba
 
-    movu      m4, [cq + indexq*1]  ; C
-    add       indexq, mmsize
-    psubusb   m3, m2               ; ab
-    CMP       indexd, widthd
+        movu    m4,     [cq + indexq*1] ; C
+        add     indexq, mmsize
+        psubusb m3,     m2              ; ab
+        CMP     indexd, widthd
 
-    psubusb   m6, m2, m4           ; bc
-    psubusb   m4, m2               ; cb
+        psubusb m6, m2, m4      ; bc
+        psubusb m4, m2          ; cb
 
-    psadbw    m3, m6               ; |ab - bc|
-    paddq     m0, m3
-    psadbw    m5, m4               ; |ba - cb|
-    paddq     m1, m5
-    jl       .sse2_loop
+        psadbw  m3, m6  ; |ab - bc|
+        paddq   m0, m3
+        psadbw  m5, m4  ; |ba - cb|
+        paddq   m1, m5
+        jl      .sse2_loop
 
-    paddq     m0, m1
+        paddq   m0, m1
 %if mmsize > 32
-    vextracti64x4 ym1, m0, 1
-    paddq     ym0, ym1
+        vextracti64x4 ym1, m0, 1
+        paddq   ym0, ym1
 %endif
 %if mmsize > 16
-    vextracti128 xm1, ym0, 1
-    paddq     xm0, xm1
+        vextracti128 xm1, ym0, 1
+        paddq   xm0, xm1
 %endif
-    movhlps   xm1, xm0
-    paddq     xm0, xm1
-    movd      eax, xm0
-    RET
+        movhlps xm1, xm0
+        paddq   xm0, xm1
+        movd    eax, xm0
+        RET
 %endmacro
 
 INIT_XMM sse2

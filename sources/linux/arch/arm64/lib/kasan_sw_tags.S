@@ -38,37 +38,37 @@
  * incremented by 256 prior to return).
  */
 SYM_CODE_START(__hwasan_tag_mismatch)
-	bti	c
-	add	x29, sp, #232
-	stp	x2, x3, [sp, #8 * 2]
-	stp	x4, x5, [sp, #8 * 4]
-	stp	x6, x7, [sp, #8 * 6]
-	stp	x8, x9, [sp, #8 * 8]
-	stp	x10, x11, [sp, #8 * 10]
-	stp	x12, x13, [sp, #8 * 12]
-	stp	x14, x15, [sp, #8 * 14]
+        bti     c
+        add     x29, sp,  #232
+        stp     x2,  x3,  [sp, #8 * 2]
+        stp     x4,  x5,  [sp, #8 * 4]
+        stp     x6,  x7,  [sp, #8 * 6]
+        stp     x8,  x9,  [sp, #8 * 8]
+        stp     x10, x11, [sp, #8 * 10]
+        stp     x12, x13, [sp, #8 * 12]
+        stp     x14, x15, [sp, #8 * 14]
 #ifndef CONFIG_SHADOW_CALL_STACK
-	str	x18, [sp, #8 * 18]
+        str     x18, [sp, #8 * 18]
 #endif
 
-	mov	x2, x30
-	bl	kasan_tag_mismatch
+        mov     x2, x30
+        bl      kasan_tag_mismatch
 
-	ldp	x0, x1, [sp]
-	ldp	x2, x3, [sp, #8 * 2]
-	ldp	x4, x5, [sp, #8 * 4]
-	ldp	x6, x7, [sp, #8 * 6]
-	ldp	x8, x9, [sp, #8 * 8]
-	ldp	x10, x11, [sp, #8 * 10]
-	ldp	x12, x13, [sp, #8 * 12]
-	ldp	x14, x15, [sp, #8 * 14]
+        ldp     x0,  x1,  [sp]
+        ldp     x2,  x3,  [sp, #8 * 2]
+        ldp     x4,  x5,  [sp, #8 * 4]
+        ldp     x6,  x7,  [sp, #8 * 6]
+        ldp     x8,  x9,  [sp, #8 * 8]
+        ldp     x10, x11, [sp, #8 * 10]
+        ldp     x12, x13, [sp, #8 * 12]
+        ldp     x14, x15, [sp, #8 * 14]
 #ifndef CONFIG_SHADOW_CALL_STACK
-	ldr	x18, [sp, #8 * 18]
+        ldr     x18, [sp, #8 * 18]
 #endif
-	ldp	x29, x30, [sp, #8 * 29]
+        ldp     x29, x30, [sp, #8 * 29]
 
-	/* remove the structure from the stack */
-	add	sp, sp, #256
-	ret
+        /* remove the structure from the stack */
+        add     sp, sp, #256
+        ret
 SYM_CODE_END(__hwasan_tag_mismatch)
 EXPORT_SYMBOL(__hwasan_tag_mismatch)

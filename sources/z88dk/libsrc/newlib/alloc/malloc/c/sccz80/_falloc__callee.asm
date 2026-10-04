@@ -16,12 +16,12 @@ EXTERN asm__falloc
 
 _falloc__callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
 
-   jp asm__falloc
+        jp      asm__falloc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

@@ -29,28 +29,28 @@ PUBLIC asm_shadow_relocate
 ;             IX IY AF' BC' DE' HL' preserved
 
 .asm_shadow_relocate
-    ex de,hl                ; destination to de
-    push de                 ; save a copy of destination
+        ex      de, hl  ; destination to de
+        push    de      ; save a copy of destination
 
-    ld hl,shadow_relocate_continue  ; save our return address after copy
-    push hl
+        ld      hl, shadow_relocate_continue    ; save our return address after copy
+        push    hl
 
-    ld hl,(__IO_RAM_SHADOW_BASE)    ; location of stub
-    push hl                 ; save for jp (__IO_RAM_SHADOW_BASE)
+        ld      hl, (__IO_RAM_SHADOW_BASE)      ; location of stub
+        push    hl                              ; save for jp (__IO_RAM_SHADOW_BASE)
 
-    ld bc,asm_shadow_copy_end-asm_shadow_copy   ; size of stub
+        ld      bc, asm_shadow_copy_end-asm_shadow_copy ; size of stub
 
-    or a                    ; write to shadow RAM
-    ret                     ; copy it by jp (__IO_RAM_SHADOW_BASE)
+        or      a       ; write to shadow RAM
+        ret             ; copy it by jp (__IO_RAM_SHADOW_BASE)
 
 .shadow_relocate_continue
-    pop de                  ; recover destination
+        pop     de      ; recover destination
 
-    ld hl,(__IO_RAM_SHADOW_BASE)    ; location of stub
-    ld (__IO_RAM_SHADOW_BASE),de    ; write new location to base
-    
-    ld bc,asm_shadow_copy_end-asm_shadow_copy   ; size of stub
+        ld      hl, (__IO_RAM_SHADOW_BASE)      ; location of stub
+        ld      (__IO_RAM_SHADOW_BASE), de      ; write new location to base
 
-    ldir                    ; copy it
+        ld      bc, asm_shadow_copy_end-asm_shadow_copy ; size of stub
 
-    ret
+        ldir    ; copy it
+
+        ret

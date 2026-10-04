@@ -5,15 +5,14 @@
 ; Setup arguments for main
 ;
 
-        .constructor    initmainargs, 24
-        .import         __argc, __argv
+        .constructor initmainargs, 24
+        .import __argc, __argv
 
-        .include        "pet.inc"
+        .include "pet.inc"
 
 MAXARGS  = 10                   ; Maximum number of arguments allowed
 REM      = $8f                  ; BASIC token-code
 NAME_LEN = 16                   ; Maximum length of command-name
-
 
 ;---------------------------------------------------------------------------
 ; Get possible command-line arguments. Goes into the special ONCE segment,
@@ -32,8 +31,8 @@ NAME_LEN = 16                   ; Maximum length of command-name
         bcc     L1
         ldy     #NAME_LEN       ; Limit the length
         bne     L1              ; Branch always
-L0:     lda     (FNADR),y
-L1:     sta     name,y
+L0:     lda     (FNADR), y
+L1:     sta     name,    y
         dey
         bpl     L0
         inc     __argc          ; argc always is equal to, at least, 1
@@ -41,8 +40,8 @@ L1:     sta     name,y
 ; Find the "rem" token.
 
         ldx     #0
-L2:     lda     BASIC_BUF,x
-        beq     done            ; No "rem," no args.
+L2:     lda     BASIC_BUF, x
+        beq     done    ; No "rem," no args.
         inx
         cmp     #REM
         bne     L2
@@ -50,10 +49,10 @@ L2:     lda     BASIC_BUF,x
 
 ; Find the next argument
 
-next:   lda     BASIC_BUF,x
-        beq     done            ; End of line reached
+next:   lda     BASIC_BUF, x
+        beq     done    ; End of line reached
         inx
-        cmp     #' '            ; Skip leading spaces
+        cmp     #' '    ; Skip leading spaces
         beq     next
 
 ; Found start of next argument. We've incremented the pointer in X already, so
@@ -61,27 +60,27 @@ next:   lda     BASIC_BUF,x
 ; will check now for a quoted argument, in which case we will have to skip this
 ; first character.
 
-found:  cmp     #'"'            ; Is the argument quoted?
-        beq     setterm         ; Jump if so
-        dex                     ; Reset pointer to first argument character
-        lda     #' '            ; A space ends the argument
-setterm:sta     term            ; Set end of argument marker
+found:  cmp     #'"'    ; Is the argument quoted?
+        beq     setterm ; Jump if so
+        dex             ; Reset pointer to first argument character
+        lda     #' '    ; A space ends the argument
+setterm: sta    term    ; Set end of argument marker
 
 ; Now store a pointer to the argument into the next slot. Since the BASIC
 ; input buffer is located at the start of a RAM page, no calculations are
 ; necessary.
 
-        txa                     ; Get low byte
-        sta     argv,y          ; argv[y]= &arg
+        txa             ; Get low byte
+        sta     argv, y ; argv[y]= &arg
         iny
         lda     #>BASIC_BUF
-        sta     argv,y
+        sta     argv, y
         iny
-        inc     __argc          ; Found another arg
+        inc     __argc  ; Found another arg
 
 ; Search for the end of the argument
 
-argloop:lda     BASIC_BUF,x
+argloop: lda    BASIC_BUF, x
         beq     done
         inx
         cmp     term
@@ -92,7 +91,7 @@ argloop:lda     BASIC_BUF,x
 ; replace the terminating character by a zero.
 
         lda     #0
-        sta     BASIC_BUF-1,x
+        sta     BASIC_BUF-1, x
 
 ; Check if the maximum number of command line arguments is reached. If not,
 ; parse the next one.

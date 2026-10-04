@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _ba_priority_queue_size
 defc _ba_priority_queue_size = ba_priority_queue_size
 ENDIF
-

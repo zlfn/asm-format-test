@@ -9,13 +9,13 @@ PUBLIC labs
 EXTERN asm_labs
 
 labs:
-   pop bc
-   pop hl
-   pop de
-   push de
-   push hl
-   push bc
-   jp asm_labs
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      asm_labs
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -28,4 +28,3 @@ IF __CLASSIC
 PUBLIC ___labs
 defc ___labs = labs
 ENDIF
-

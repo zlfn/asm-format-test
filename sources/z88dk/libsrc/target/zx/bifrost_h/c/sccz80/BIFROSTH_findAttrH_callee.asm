@@ -16,15 +16,14 @@ EXTERN asm_BIFROSTH_findAttrH
 
 BIFROSTH_findAttrH_callee:
 
-        pop hl          ; RET address
-        pop bc          ; BC=col
-        ex (sp),hl      ; HL=lin
+        pop     hl              ; RET address
+        pop     bc              ; BC=col
+        ex      (sp), hl        ; HL=lin
 
-        jp asm_BIFROSTH_findAttrH
+        jp      asm_BIFROSTH_findAttrH
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _BIFROSTH_findAttrH_callee
 defc _BIFROSTH_findAttrH_callee = BIFROSTH_findAttrH_callee
 ENDIF
-

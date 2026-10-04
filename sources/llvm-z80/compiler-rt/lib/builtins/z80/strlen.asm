@@ -1,6 +1,6 @@
 ; SPDX-License-Identifier: Zlib OR Apache-2.0 WITH LLVM-exception OR MIT
-	.area _CODE
-	.globl _strlen
+        .area   _CODE
+        .globl  _strlen
 
 ;===------------------------------------------------------------------------===;
 ; _strlen - Get string length
@@ -9,11 +9,11 @@
 ; Output: DE = length (number of bytes before null terminator)
 ;===------------------------------------------------------------------------===;
 _strlen:
-	ld	de, #0		; length = 0
+        ld      de, #0  ; length = 0
 _strlen_loop:
-	ld	a, (hl)
-	or	a
-	ret	z		; found null terminator, DE = length
-	inc	hl
-	inc	de
-	jr	_strlen_loop
+        ld      a, (hl)
+        or      a
+        ret     z       ; found null terminator, DE = length
+        inc     hl
+        inc     de
+        jr      _strlen_loop

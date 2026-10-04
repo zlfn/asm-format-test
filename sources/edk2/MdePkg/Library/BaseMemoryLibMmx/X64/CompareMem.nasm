@@ -23,8 +23,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; INTN
@@ -37,16 +37,15 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMemCompareMem)
 ASM_PFX(InternalMemCompareMem):
-    push    rsi
-    push    rdi
-    mov     rsi, rcx
-    mov     rdi, rdx
-    mov     rcx, r8
-    repe    cmpsb
-    movzx   rax, byte [rsi - 1]
-    movzx   rdx, byte [rdi - 1]
-    sub     rax, rdx
-    pop     rdi
-    pop     rsi
-    ret
-
+        push    rsi
+        push    rdi
+        mov     rsi, rcx
+        mov     rdi, rdx
+        mov     rcx, r8
+        repe    cmpsb
+        movzx   rax, byte [rsi - 1]
+        movzx   rdx, byte [rdi - 1]
+        sub     rax, rdx
+        pop     rdi
+        pop     rsi
+        ret

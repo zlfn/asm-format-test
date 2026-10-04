@@ -23,117 +23,116 @@ SECTION code_fp_math32
 
 PUBLIC m32__dtoa_emit
 
-
 .m32__dtoa_emit
-    ; enter : hl = user dest
-    ;         bc = workspace *
-    ;         de = digit * (usually workspace+5 or +6)
-    ;         carry set = special inf/nan (copy until NUL)
-    ;
-    ; uses  : af, bc, de, hl
+        ; enter : hl = user dest
+        ;         bc = workspace *
+        ;         de = digit * (usually workspace+5 or +6)
+        ;         carry set = special inf/nan (copy until NUL)
+        ;
+        ; uses  : af, bc, de, hl
 
-    push af
-    ld a,(bc)
-    rla
-    jp NC,no_sign
-    ld (hl+),'-'
+        push    af
+        ld      a, (bc)
+        rla
+        jp      NC,    no_sign
+        ld      (hl+), '-'
 
 .no_sign
-    pop af
-    jp C,special_copy
+        pop     af
+        jp      C, special_copy
 
-    ld a,(de)
-    cp '0'
-    jp NZ,copy_int
-    inc de
+        ld      a, (de)
+        cp      '0'
+        jp      NZ, copy_int
+        inc     de
 
 .copy_int
-    ld a,(de)
-    cp '.'
-    jp Z,do_iz
-    cp 'E'
-    jp Z,do_tze
-    or a
-    jp Z,finish
-    ld (hl+),a                      ; *p++
-    inc de
-    jp copy_int
+        ld      a, (de)
+        cp      '.'
+        jp      Z, do_iz
+        cp      'E'
+        jp      Z, do_tze
+        or      a
+        jp      Z,     finish
+        ld      (hl+), a        ; *p++
+        inc     de
+        jp      copy_int
 
 .do_iz
-    inc bc                          ; &iz
-    ld a,(bc)
-    call put_zeroes
-    ld (hl+),'.'
-    inc de                          ; skip '.'
-    inc bc                          ; &fz
-    ld a,(bc)
-    call put_zeroes
+        inc     bc      ; &iz
+        ld      a, (bc)
+        call    put_zeroes
+        ld      (hl+), '.'
+        inc     de      ; skip '.'
+        inc     bc      ; &fz
+        ld      a, (bc)
+        call    put_zeroes
 
 .copy_frac
-    ld a,(de)
-    cp 'E'
-    jp Z,do_tze_from_fz
-    or a
-    jp Z,do_tz_from_fz
-    ld (hl+),a                      ; *p++
-    inc de
-    jp copy_frac
+        ld      a, (de)
+        cp      'E'
+        jp      Z, do_tze_from_fz
+        or      a
+        jp      Z,     do_tz_from_fz
+        ld      (hl+), a        ; *p++
+        inc     de
+        jp      copy_frac
 
 .do_tze
-    inc bc
-    inc bc
-    inc bc                          ; &tz from flags
-    jp tze_body
+        inc     bc
+        inc     bc
+        inc     bc      ; &tz from flags
+        jp      tze_body
 
 .do_tze_from_fz
-    inc bc                          ; fz -> tz
-    jp tze_body
+        inc     bc      ; fz -> tz
+        jp      tze_body
 
 .do_tz_from_fz
-    inc bc                          ; fz -> tz
-    jp tz_body
+        inc     bc      ; fz -> tz
+        jp      tz_body
 
 .tze_body
-    ld a,(de)
-    or 020h                         ; 'E' -> 'e'
-    push af                         ; save exponent letter
-    ld a,(bc)
-    call put_zeroes
-    pop af
-    ld (hl+),a                      ; *p++
-    inc de
+        ld      a, (de)
+        or      020h            ; 'E' -> 'e'
+        push    af              ; save exponent letter
+        ld      a, (bc)
+        call    put_zeroes
+        pop     af
+        ld      (hl+), a        ; *p++
+        inc     de
 
 .rest
-    ld a,(de)
-    or a
-    jp Z,finish
-    ld (hl+),a                      ; *p++
-    inc de
-    jp rest
+        ld      a, (de)
+        or      a
+        jp      Z,     finish
+        ld      (hl+), a        ; *p++
+        inc     de
+        jp      rest
 
 .tz_body
-    ld a,(bc)
-    call put_zeroes
+        ld      a, (bc)
+        call    put_zeroes
 
 .finish
-    xor a
-    ld (hl),a
-    ret
+        xor     a
+        ld      (hl), a
+        ret
 
 .special_copy
-    ld a,(de)
-    ld (hl),a
-    or a
-    ret Z
-    inc hl
-    inc de
-    jp special_copy
+        ld      a,    (de)
+        ld      (hl), a
+        or      a
+        ret     Z
+        inc     hl
+        inc     de
+        jp      special_copy
 
 .put_zeroes
-    or a
-    ret Z
+        or      a
+        ret     Z
 .pz_loop
-    ld (hl+),'0'
-    dec a
-    jp NZ,pz_loop
-    ret
+        ld      (hl+), '0'
+        dec     a
+        jp      NZ, pz_loop
+        ret

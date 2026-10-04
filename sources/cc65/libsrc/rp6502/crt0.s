@@ -18,34 +18,34 @@
 
 ; Essential 6502 startup the CPU doesn't do
 init:
-    ldx #$FF
-    txs
-    cld
+        ldx     #$FF
+        txs
+        cld
 
 ; Set cc65 argument stack pointer
-    lda #<(__RAM_START__ + __RAM_SIZE__)
-    sta c_sp
-    lda #>(__RAM_START__ + __RAM_SIZE__)
-    sta c_sp+1
+        lda     #<(__RAM_START__ + __RAM_SIZE__)
+        sta     c_sp
+        lda     #>(__RAM_START__ + __RAM_SIZE__)
+        sta     c_sp+1
 
 ; Initialize memory storage
-    jsr zerobss   ; Clear BSS segment
-    jsr copydata  ; Initialize DATA segment
-    jsr initlib   ; Run constructors
+        jsr     zerobss         ; Clear BSS segment
+        jsr     copydata        ; Initialize DATA segment
+        jsr     initlib         ; Run constructors
 
 ; Call main()
-    jsr callmain
+        jsr     callmain
 
 ; Back from main() also the _exit entry
 ; Stack the exit value in case destructors call OS
 _exit:
-    phx
-    pha
-    jsr donelib  ; Run destructors
-    pla
-    sta RIA_A
-    plx
-    stx RIA_X
-    lda #RIA_OP_EXIT
-    sta RIA_OP
-    stp
+        phx
+        pha
+        jsr     donelib ; Run destructors
+        pla
+        sta     RIA_A
+        plx
+        stx     RIA_X
+        lda     #RIA_OP_EXIT
+        sta     RIA_OP
+        stp

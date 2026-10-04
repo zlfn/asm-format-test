@@ -7,10 +7,10 @@
 #include "textflag.h"
 
 TEXT ·useVFPv1(SB),NOSPLIT,$0
-	RET
+        RET
 
 TEXT ·useVFPv3(SB),NOSPLIT,$0
-	RET
+        RET
 
 TEXT ·useARMv6K(SB),NOSPLIT,$0
-	RET
+        RET

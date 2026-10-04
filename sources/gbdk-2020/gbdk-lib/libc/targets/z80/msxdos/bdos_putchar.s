@@ -1,4 +1,4 @@
-        .include        "global.s"
+        .include "global.s"
 
         .title  "putchar"
         .module putchar
@@ -7,6 +7,5 @@
 
 _setchar::
 _putchar::
-        ld e, a         ; char in E
+        ld      e, a    ; char in E
         JP_BDOS #_CONOUT
-	

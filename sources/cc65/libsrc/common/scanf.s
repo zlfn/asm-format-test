@@ -5,18 +5,18 @@
 ; 2004-12-31, Greg King
 ;
 
-        .export         _scanf
+        .export _scanf
 
-        .import         _stdin, pushax, addysp, _vfscanf
-        .import         c_sp:zp, ptr1:zp
+        .import _stdin,  pushax, addysp, _vfscanf
+        .import c_sp:zp, ptr1:zp
 
-        .macpack        generic
+        .macpack generic
 
 ; ----------------------------------------------------------------------------
 ; Code
 ;
 _scanf:
-        sty     ArgSize         ; Number of argument bytes passed in .Y
+        sty     ArgSize ; Number of argument bytes passed in .Y
 
 ; We are using a (hopefully) clever trick here to reduce code size.  On entry,
 ; the stack pointer points to the last pushed argument of the variable
@@ -45,10 +45,10 @@ _scanf:
 ; Push a copy of Format.
 
         ldy     #1
-        lda     (ptr1),y
+        lda     (ptr1), y
         tax
         dey
-        lda     (ptr1),y
+        lda     (ptr1), y
         jsr     pushax
 
 ; Load va_list [last and __fastcall__ argument to vfscanf()].
@@ -70,5 +70,4 @@ _scanf:
 ;
         .bss
 ArgSize:
-        .res    1               ; Number of argument bytes
-
+        .res    1       ; Number of argument bytes

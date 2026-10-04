@@ -126,26 +126,26 @@ GLOBAL ASM_PFX (mPostSmmPen)     ; UINT8[]
 GLOBAL ASM_PFX (mPostSmmPenSize) ; UINT16
 
 ASM_PFX (mPostSmmPen):
-  ;
-  ; Point DS at the same reserved page.
-  ;
-  mov ax, cs
-  mov ds, ax
+        ;
+        ; Point DS at the same reserved page.
+        ;
+        mov     ax, cs
+        mov     ds, ax
 
-  ;
-  ; Inform the SMM Monarch that we're done with SMBASE relocation, by setting
-  ; the last byte in the reserved page.
-  ;
-  mov byte [ds : word 0xFFF], 1
+        ;
+        ; Inform the SMM Monarch that we're done with SMBASE relocation, by setting
+        ; the last byte in the reserved page.
+        ;
+        mov     byte [ds : word 0xFFF], 1
 
-  ;
-  ; Halt now, until we get woken by another SMI, or (more likely) the OS
-  ; reboots us with another INIT-SIPI-SIPI.
-  ;
+        ;
+        ; Halt now, until we get woken by another SMI, or (more likely) the OS
+        ; reboots us with another INIT-SIPI-SIPI.
+        ;
 HltLoop:
-  cli
-  hlt
-  jmp HltLoop
+        cli
+        hlt
+        jmp     HltLoop
 
 ASM_PFX (mPostSmmPenSize):
-  dw $ - ASM_PFX (mPostSmmPen)
+        dw      $ - ASM_PFX (mPostSmmPen)

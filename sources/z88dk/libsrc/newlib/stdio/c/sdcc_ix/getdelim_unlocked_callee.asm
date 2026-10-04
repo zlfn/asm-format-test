@@ -10,22 +10,22 @@ EXTERN asm_getdelim_unlocked
 
 _getdelim_unlocked_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   exx
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        exx
+        pop     bc
+        push    af
 
 l0_getdelim_unlocked_callee:
 
-   push bc
-   exx
-   
-   ex (sp),ix
-   
-   call asm_getdelim_unlocked
-   
-   pop ix
-   ret
+        push    bc
+        exx
+
+        ex      (sp), ix
+
+        call    asm_getdelim_unlocked
+
+        pop     ix
+        ret

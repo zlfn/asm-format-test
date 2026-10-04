@@ -13,11 +13,11 @@ PUBLIC    l_asr_u
 PUBLIC    l_asr_u_hl_by_e
 
 .l_asr_u
-        ex      de,hl
+        ex      de, hl
 .l_asr_u_hl_by_e
 .l_asr_u_1
         dec     e
         ret     m
-	srl	h
+        srl     h
         rr      l
         jp      l_asr_u_1

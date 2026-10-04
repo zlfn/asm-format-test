@@ -22,18 +22,18 @@
  * Always returns 0
  */
 SYM_FUNC_START(__hibernate_cpu_resume)
-	/* switch to hibernated image's page table. */
-	csrw CSR_SATP, s0
-	sfence.vma
+        /* switch to hibernated image's page table. */
+        csrw    CSR_SATP, s0
+        sfence.vma
 
-	REG_L	a0, hibernate_cpu_context
+        REG_L   a0, hibernate_cpu_context
 
-	suspend_restore_regs
+        suspend_restore_regs
 
-	/* Return zero value. */
-	mv	a0, zero
+        /* Return zero value. */
+        mv      a0, zero
 
-	ret
+        ret
 SYM_FUNC_END(__hibernate_cpu_resume)
 
 /*
@@ -43,13 +43,13 @@ SYM_FUNC_END(__hibernate_cpu_resume)
  * a2: cpu_resume.
  */
 SYM_FUNC_START(hibernate_restore_image)
-	mv	s0, a0
-	mv	s1, a1
-	mv	s2, a2
-	REG_L	s4, restore_pblist
-	REG_L	a1, relocated_restore_code
+        mv      s0, a0
+        mv      s1, a1
+        mv      s2, a2
+        REG_L   s4, restore_pblist
+        REG_L   a1, relocated_restore_code
 
-	jr	a1
+        jr      a1
 SYM_FUNC_END(hibernate_restore_image)
 
 /*
@@ -59,18 +59,18 @@ SYM_FUNC_END(hibernate_restore_image)
  * to restore the CPU context.
  */
 SYM_FUNC_START(hibernate_core_restore_code)
-	/* switch to temp page table. */
-	csrw satp, s1
-	sfence.vma
+        /* switch to temp page table. */
+        csrw    satp, s1
+        sfence.vma
 .Lcopy:
-	/* The below code will restore the hibernated image. */
-	REG_L	a1, HIBERN_PBE_ADDR(s4)
-	REG_L	a0, HIBERN_PBE_ORIG(s4)
+        /* The below code will restore the hibernated image. */
+        REG_L   a1, HIBERN_PBE_ADDR(s4)
+        REG_L   a0, HIBERN_PBE_ORIG(s4)
 
-	copy_page a0, a1
+        copy_page a0, a1
 
-	REG_L	s4, HIBERN_PBE_NEXT(s4)
-	bnez	s4, .Lcopy
+        REG_L   s4, HIBERN_PBE_NEXT(s4)
+        bnez    s4, .Lcopy
 
-	jr	s2
+        jr      s2
 SYM_FUNC_END(hibernate_core_restore_code)

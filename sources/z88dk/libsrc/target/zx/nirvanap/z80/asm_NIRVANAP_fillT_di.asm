@@ -7,7 +7,7 @@ EXTERN asm_NIRVANAP_fillT
 
 asm_NIRVANAP_fillT_di:
 
-   di
-	call asm_NIRVANAP_fillT
-	ei
-	ret
+        di
+        call    asm_NIRVANAP_fillT
+        ei
+        ret

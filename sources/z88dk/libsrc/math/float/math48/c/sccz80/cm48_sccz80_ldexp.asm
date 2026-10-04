@@ -10,17 +10,17 @@ EXTERN am48_ldexp, cm48_sccz80p_dload
 
 cm48_sccz80_ldexp:
 
-   pop af
-   pop hl                      ; hl = exp
-   
-   push hl
-   push af
-   
-   exx
-   
-   ld hl,4
-   add hl,sp
-   
-   call cm48_sccz80p_dload     ; AC'= x
+        pop     af
+        pop     hl      ; hl = exp
 
-   jp am48_ldexp
+        push    hl
+        push    af
+
+        exx
+
+        ld      hl, 4
+        add     hl, sp
+
+        call    cm48_sccz80p_dload      ; AC'= x
+
+        jp      am48_ldexp

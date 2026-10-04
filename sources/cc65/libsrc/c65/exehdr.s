@@ -7,7 +7,7 @@
 
         ; The following symbol is used by linker config to force the module
         ; to get included into the output file
-        .export         __EXEHDR__: absolute = 1
+        .export __EXEHDR__: absolute = 1
 
 .segment        "EXEHDR"
 
@@ -20,8 +20,8 @@
         .byte   <(((Start /   100) .mod 10) + '0')
         .byte   <(((Start /    10) .mod 10) + '0')
         .byte   <(((Start /     1) .mod 10) + '0')
-        .byte   $00             ; End of BASIC line
-Next:   .word   0               ; BASIC end marker
+        .byte   $00     ; End of BASIC line
+Next:   .word   0       ; BASIC end marker
 Start:
 
 ; If the start address is larger than 4 digits, the header generated above

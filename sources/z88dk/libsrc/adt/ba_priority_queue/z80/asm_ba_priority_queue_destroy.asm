@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Mar 2014
 ; ===============================================================
-; 
+;
 ; void ba_priority_queue_destroy(ba_priority_queue_t *q)
 ;
 ; Zero the queue structure.
@@ -18,9 +18,9 @@ EXTERN l_setmem_hl
 
 asm_ba_priority_queue_destroy:
 
-   xor a
-   jp l_setmem_hl - 16
+        xor     a
+        jp      l_setmem_hl - 16
 
-   ; enter : hl = priority_queue *
-   ;
-   ; uses  : af, hl
+        ; enter : hl = priority_queue *
+        ;
+        ; uses  : af, hl

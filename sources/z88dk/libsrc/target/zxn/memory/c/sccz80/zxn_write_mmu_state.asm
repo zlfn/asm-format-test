@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _zxn_write_mmu_state
 defc _zxn_write_mmu_state = zxn_write_mmu_state
 ENDIF
-

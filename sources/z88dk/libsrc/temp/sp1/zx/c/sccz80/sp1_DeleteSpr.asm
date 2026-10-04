@@ -10,10 +10,10 @@ EXTERN asm_sp1_DeleteSpr
 
 sp1_DeleteSpr:
 
-   push ix
-   call asm_sp1_DeleteSpr
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_DeleteSpr
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC

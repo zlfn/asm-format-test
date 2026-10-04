@@ -20,25 +20,25 @@ EXTERN __generic_isr_locate_callbacks
 
 asm_im2_prepend_generic_callback:
 
-   ; enter :  l = interrupt vector
-   ;         de = void *callback
-   ;
-   ; uses  : af, bc, de, hl
-   
-   call __generic_isr_locate_callbacks
-   
+        ; enter :  l = interrupt vector
+        ;         de = void *callback
+        ;
+        ; uses  : af, bc, de, hl
+
+        call    __generic_isr_locate_callbacks
+
 loop:
 
-   ld a,(hl)
-   ld (hl),e
-   ld e,a
-   inc hl
-   ld a,(hl)
-   ld (hl),d
-   ld d,a
-   
-   or e
-   ret z
+        ld      a,    (hl)
+        ld      (hl), e
+        ld      e,    a
+        inc     hl
+        ld      a,    (hl)
+        ld      (hl), d
+        ld      d,    a
 
-   inc hl
-   jr loop
+        or      e
+        ret     z
+
+        inc     hl
+        jr      loop

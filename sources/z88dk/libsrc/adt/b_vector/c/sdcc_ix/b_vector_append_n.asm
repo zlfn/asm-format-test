@@ -10,14 +10,14 @@ EXTERN asm_b_vector_append_n
 
 _b_vector_append_n:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
-   
-   jp asm_b_vector_append_n
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_b_vector_append_n

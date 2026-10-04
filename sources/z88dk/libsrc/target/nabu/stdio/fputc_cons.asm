@@ -1,9 +1,8 @@
 
+        SECTION code_clib
 
-    SECTION code_clib
-
-    PUBLIC  fputc_cons_native
+        PUBLIC  fputc_cons_native
 
 fputc_cons_native:
-    ld      hl, 0
-    ret
+        ld      hl, 0
+        ret

@@ -8,9 +8,9 @@
 
         .export _joy_static_stddrv
         .ifdef  __APPLE2ENH__
-        .import _a2e_stdjoy_joy
+                .import _a2e_stdjoy_joy
         .else
-        .import _a2_stdjoy_joy
+                .import _a2_stdjoy_joy
         .endif
 
 .rodata

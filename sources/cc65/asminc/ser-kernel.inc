@@ -31,8 +31,6 @@
 ;*                                                                          *
 ;****************************************************************************
 
-
-
 ;------------------------------------------------------------------------------
 ; The driver header
 
@@ -41,18 +39,17 @@
         VERSION .byte   1       ; Interface version
         LIBREF  .addr           ; Library reference
         JUMPTAB .struct
-            SER_INSTALL   .addr   ; SER_INSTALL routine
-            SER_UNINSTALL .addr   ; SER_UNINSTALL routine
-            SER_OPEN      .addr   ; SER_OPEN routine
-            SER_CLOSE     .addr   ; SER_CLOSE routine
-            SER_GET       .addr   ; SER_GET routine
-            SER_PUT       .addr   ; SER_PUT routine
-            SER_STATUS    .addr   ; SER_STATUS routine
-            SER_IOCTL     .addr   ; SER_IOCTL routine
-            SER_IRQ       .addr   ; SER_IRQ routine
+        SER_INSTALL .addr       ; SER_INSTALL routine
+        SER_UNINSTALL .addr     ; SER_UNINSTALL routine
+        SER_OPEN .addr          ; SER_OPEN routine
+        SER_CLOSE .addr         ; SER_CLOSE routine
+        SER_GET .addr           ; SER_GET routine
+        SER_PUT .addr           ; SER_PUT routine
+        SER_STATUS .addr        ; SER_STATUS routine
+        SER_IOCTL .addr         ; SER_IOCTL routine
+        SER_IRQ .addr           ; SER_IRQ routine
         .endstruct
 .endstruct
-
 
 ;------------------------------------------------------------------------------
 ; The SER API version, stored SER_HDR::VERSION
@@ -63,11 +60,11 @@ SER_API_VERSION         = $02
 ; ser_params
 
 .struct SER_PARAMS
-        BAUDRATE        .byte           ; Baudrate
-        DATABITS        .byte           ; Number of data bits
-        STOPBITS        .byte           ; Number of stop bits
-        PARITY          .byte           ; Parity setting
-        HANDSHAKE       .byte           ; Type of handshake to use
+        BAUDRATE .byte  ; Baudrate
+        DATABITS .byte  ; Number of data bits
+        STOPBITS .byte  ; Number of stop bits
+        PARITY  .byte   ; Parity setting
+        HANDSHAKE .byte ; Type of handshake to use
 .endstruct
 
 ;------------------------------------------------------------------------------
@@ -130,7 +127,7 @@ SER_STATUS_DSR          =       $40     ; NOT data set ready
 ;------------------------------------------------------------------------------
 ; Variables
 
-        .global _ser_drv                         ; Pointer to driver
+        .global _ser_drv        ; Pointer to driver
 
 ;------------------------------------------------------------------------------
 ; Driver entry points

@@ -10,29 +10,29 @@ EXTERN asm_dtoa, dload
 
 ftoa:
 
-   ; void ftoa(double x, int f, char *str)
-   ; enter: sp+2 = char *str, sp+4 = int f, sp+6 = double x
+        ; void ftoa(double x, int f, char *str)
+        ; enter: sp+2 = char *str, sp+4 = int f, sp+6 = double x
 
-   ld hl,6
-   add hl,sp
-   call dload              ; DEHL' = x
+        ld      hl, 6
+        add     hl, sp
+        call    dload   ; DEHL' = x
 
-   ld hl,2
-   add hl,sp
-   ld e,(hl)
-   inc hl
-   ld d,(hl)               ; de = str
-   ld hl,4
-   add hl,sp
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a                  ; hl = f
-   ex de,hl                ; de = f (precision), hl = str (buffer)
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)
+        inc     hl
+        ld      d,  (hl)        ; de = str
+        ld      hl, 4
+        add     hl, sp
+        ld      a,  (hl)
+        inc     hl
+        ld      h,  (hl)
+        ld      l,  a           ; hl = f
+        ex      de, hl          ; de = f (precision), hl = str (buffer)
 
-   xor a
-   ld c,a                  ; c = flag = 0
+        xor     a
+        ld      c, a    ; c = flag = 0
 
-   jp asm_dtoa
+        jp      asm_dtoa
 
 defc _ftoa = ftoa

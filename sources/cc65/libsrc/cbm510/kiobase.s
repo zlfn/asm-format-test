@@ -4,10 +4,8 @@
 ; IOBASE kernal call
 ;
 
-        .export         IOBASE
-        .import         cia : zeropage
-
-
+        .export IOBASE
+        .import cia : zeropage
 
 .proc   IOBASE
 
@@ -16,4 +14,3 @@
         rts
 
 .endproc
-

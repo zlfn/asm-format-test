@@ -9,11 +9,11 @@ EXTERN asm_PSGlib_SFXPlay
 
 _PSGSFXPlay:
 
-   pop af
-	pop de
-	pop bc
-	push bc
-	push de
-	push af
+        pop     af
+        pop     de
+        pop     bc
+        push    bc
+        push    de
+        push    af
 
-   jp asm_PSGlib_SFXPlay
+        jp      asm_PSGlib_SFXPlay

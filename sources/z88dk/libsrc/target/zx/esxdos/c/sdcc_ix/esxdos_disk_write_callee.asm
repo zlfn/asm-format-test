@@ -10,20 +10,20 @@ EXTERN asm_esxdos_disk_write
 
 _esxdos_disk_write_callee:
 
-   pop hl
-   dec sp
-   pop af
-   pop de
-   pop bc
-   ex (sp),hl
+        pop     hl
+        dec     sp
+        pop     af
+        pop     de
+        pop     bc
+        ex      (sp), hl
 
 l0_esxdos_disk_write_callee:
 
-   push ix
-   push iy
-   
-   call asm_esxdos_disk_write
+        push    ix
+        push    iy
 
-   pop iy
-   pop ix
-   ret
+        call    asm_esxdos_disk_write
+
+        pop     iy
+        pop     ix
+        ret

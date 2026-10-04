@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT64
@@ -28,8 +28,7 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmWriteMsr64)
 ASM_PFX(AsmWriteMsr64):
-    mov     rax, rdx                    ; meanwhile, rax <- return value
-    shr     rdx, 0x20                    ; edx:eax contains the value to write
-    wrmsr
-    ret
-
+        mov     rax, rdx        ; meanwhile, rax <- return value
+        shr     rdx, 0x20       ; edx:eax contains the value to write
+        wrmsr
+        ret

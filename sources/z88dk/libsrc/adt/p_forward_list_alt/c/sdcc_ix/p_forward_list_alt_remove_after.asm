@@ -10,12 +10,12 @@ EXTERN asm_p_forward_list_alt_remove_after
 
 _p_forward_list_alt_remove_after:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     hl
 
-   jp asm_p_forward_list_alt_remove_after
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_p_forward_list_alt_remove_after

@@ -3,10 +3,10 @@
 ; by Matthias Swatosch
 ;--------------------------------------------------------------
 
-    SECTION code_clib
-    PUBLIC  pixeladdress
+        SECTION code_clib
+        PUBLIC  pixeladdress
 
-    EXTERN  base_graphics
+        EXTERN  base_graphics
 
 ;
 ;	$Id: pixladdr.asm $
@@ -29,38 +29,38 @@
 
 pixeladdress:
 
-	; add y-times the nuber of bytes per line (32)
-	; or just multiply y by 32 and the add
+        ; add y-times the nuber of bytes per line (32)
+        ; or just multiply y by 32 and the add
 ;    ld      e, l
-    ld      a, h
-    ld      b, a
+        ld      a, h
+        ld      b, a
 
-    ld      h, 0
+        ld      h, 0
 
-    add     hl, hl
-    add     hl, hl
-    add     hl, hl
-    add     hl, hl
-    add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
 
-    ld      de, (base_graphics)
-    add     hl, de
+        ld      de, (base_graphics)
+        add     hl, de
 
-	; add x divided by 8
+        ; add x divided by 8
 
-	;or	a
-    rra
-    srl     a
-    srl     a
-    ld      e, a
-    ld      d, 0
-    add     hl, de
+        ;or	a
+        rra
+        srl     a
+        srl     a
+        ld      e,  a
+        ld      d,  0
+        add     hl, de
 
-    ld      d, h
-    ld      e, l
+        ld      d, h
+        ld      e, l
 
-    ld      a, b
-    or      0f8h                        ;set all unused bits 1
-    cpl                                 ;they now become 0
+        ld      a, b
+        or      0f8h    ;set all unused bits 1
+        cpl             ;they now become 0
 
-    ret
+        ret

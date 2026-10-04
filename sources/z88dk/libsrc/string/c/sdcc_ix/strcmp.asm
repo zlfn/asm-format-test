@@ -10,12 +10,12 @@ EXTERN asm_strcmp
 
 _strcmp:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp asm_strcmp
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_strcmp

@@ -11,25 +11,25 @@ PUBLIC l_gchar, l_gchar_sxt
 PUBLIC l_gchar1, l_gchar2, l_gchar3
 
 l_gchar3:
-   inc hl
+        inc     hl
 l_gchar2:
-   inc hl
+        inc     hl
 l_gchar1:
-   inc hl
+        inc     hl
 l_gchar:
 
-   ; fetch char from (HL) and sign extend into HL
+        ; fetch char from (HL) and sign extend into HL
 
-   ld a,(hl)
+        ld      a, (hl)
 
 l_gchar_sxt:
 
-   ; sign extend a into hl
-   
-   ld l,a
-   
-   rlca
-   sbc a,a
-   ld h,a
-   
-   ret
+        ; sign extend a into hl
+
+        ld      l, a
+
+        rlca
+        sbc     a, a
+        ld      h, a
+
+        ret

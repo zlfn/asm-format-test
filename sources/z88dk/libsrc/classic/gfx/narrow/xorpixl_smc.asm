@@ -11,15 +11,14 @@
 ;    $Id: xorpixl_smc.asm,v 1.2 2015-01-19 01:32:47 pauloscustodio Exp $
 ;
 
+        PUBLIC  xorpixel
 
-    PUBLIC  xorpixel
-
-    EXTERN  pixel
-    EXTERN  pixmode
+        EXTERN  pixel
+        EXTERN  pixmode
 
 xorpixel:
-    push    hl
-    ld      hl, 174                     ; XOR (HL)
-    ld      (pixmode), hl
-    pop     hl
-    jp      pixel
+        push    hl
+        ld      hl, 174 ; XOR (HL)
+        ld      (pixmode), hl
+        pop     hl
+        jp      pixel

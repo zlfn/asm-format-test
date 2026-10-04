@@ -9,16 +9,16 @@ EXTERN asm_esx_f_chmod
 
 _esx_f_chmod_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
 
 l0_esx_f_chmod_callee:
 
-   push ix
-   
-   call asm_esx_f_chmod
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_chmod
+
+        pop     ix
+        ret

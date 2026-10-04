@@ -18,7 +18,7 @@
 
 #include "calling.h"
 
-	.section .entry.text, "ax"
+        .section .entry.text, "ax"
 
 /*
  * 32-bit SYSENTER entry.
@@ -48,20 +48,20 @@
  * 0(%ebp) arg6
  */
 SYM_CODE_START(entry_SYSENTER_compat)
-	UNWIND_HINT_ENTRY
-	ENDBR
-	/* Interrupts are off on entry. */
-	swapgs
+        UNWIND_HINT_ENTRY
+        ENDBR
+        /* Interrupts are off on entry. */
+        swapgs
 
-	pushq	%rax
-	SWITCH_TO_KERNEL_CR3 scratch_reg=%rax
-	popq	%rax
+        pushq   %rax
+        SWITCH_TO_KERNEL_CR3 scratch_reg=%rax
+        popq    %rax
 
-	movq	PER_CPU_VAR(cpu_current_top_of_stack), %rsp
+        movq    PER_CPU_VAR(cpu_current_top_of_stack), %rsp
 
-	/* Construct struct pt_regs on stack */
-	pushq	$__USER_DS		/* pt_regs->ss */
-	pushq	$0			/* pt_regs->sp = 0 (placeholder) */
+        /* Construct struct pt_regs on stack */
+        pushq   $__USER_DS      /* pt_regs->ss */
+        pushq   $0              /* pt_regs->sp = 0 (placeholder) */
 
 	/*
 	 * Push flags.  This is nasty.  First, interrupts are currently
@@ -69,9 +69,9 @@ SYM_CODE_START(entry_SYSENTER_compat)
 	 * was set in usermode, it's still set, and we're singlestepping
 	 * through this code.  do_SYSENTER_32() will fix up IF.
 	 */
-	pushfq				/* pt_regs->flags (except IF = 0) */
-	pushq	$__USER32_CS		/* pt_regs->cs */
-	pushq	$0			/* pt_regs->ip = 0 (placeholder) */
+        pushfq                  /* pt_regs->flags (except IF = 0) */
+        pushq   $__USER32_CS    /* pt_regs->cs */
+        pushq   $0              /* pt_regs->ip = 0 (placeholder) */
 SYM_INNER_LABEL(entry_SYSENTER_compat_after_hwframe, SYM_L_GLOBAL)
 
 	/*
@@ -81,13 +81,13 @@ SYM_INNER_LABEL(entry_SYSENTER_compat_after_hwframe, SYM_L_GLOBAL)
 	 * the syscall number.  (This could almost certainly be deleted
 	 * with no ill effects.)
 	 */
-	movl	%eax, %eax
+        movl    %eax, %eax
 
-	pushq	%rax			/* pt_regs->orig_ax */
-	PUSH_AND_CLEAR_REGS rax=$-ENOSYS
-	UNWIND_HINT_REGS
+        pushq   %rax    /* pt_regs->orig_ax */
+        PUSH_AND_CLEAR_REGS rax=$-ENOSYS
+        UNWIND_HINT_REGS
 
-	cld
+        cld
 
 	/*
 	 * SYSENTER doesn't filter flags, so we need to clear NT and AC
@@ -108,8 +108,8 @@ SYM_INNER_LABEL(entry_SYSENTER_compat_after_hwframe, SYM_L_GLOBAL)
 	 * we're keeping that code behind a branch which will predict as
 	 * not-taken and therefore its instructions won't be fetched.
 	 */
-	testl	$X86_EFLAGS_NT|X86_EFLAGS_AC|X86_EFLAGS_TF, EFLAGS(%rsp)
-	jnz	.Lsysenter_fix_flags
+        testl   $X86_EFLAGS_NT|X86_EFLAGS_AC|X86_EFLAGS_TF, EFLAGS(%rsp)
+        jnz     .Lsysenter_fix_flags
 .Lsysenter_flags_fixed:
 
 	/*
@@ -118,18 +118,18 @@ SYM_INNER_LABEL(entry_SYSENTER_compat_after_hwframe, SYM_L_GLOBAL)
 	 * single-step is ignored only for instructions inside the
 	 * entry_SYSENTER_compat function.
 	 */
-	IBRS_ENTER
-	UNTRAIN_RET
-	CLEAR_BRANCH_HISTORY
+        IBRS_ENTER
+        UNTRAIN_RET
+        CLEAR_BRANCH_HISTORY
 
-	movq	%rsp, %rdi
-	call	do_SYSENTER_32
-	jmp	sysret32_from_system_call
+        movq    %rsp, %rdi
+        call    do_SYSENTER_32
+        jmp     sysret32_from_system_call
 
 .Lsysenter_fix_flags:
-	pushq	$X86_EFLAGS_FIXED
-	popfq
-	jmp	.Lsysenter_flags_fixed
+        pushq   $X86_EFLAGS_FIXED
+        popfq
+        jmp     .Lsysenter_flags_fixed
 SYM_INNER_LABEL(__end_entry_SYSENTER_compat, SYM_L_GLOBAL)
 SYM_CODE_END(entry_SYSENTER_compat)
 
@@ -181,46 +181,46 @@ SYM_CODE_END(entry_SYSENTER_compat)
  * 0(%esp) arg6
  */
 SYM_CODE_START(entry_SYSCALL_compat)
-	UNWIND_HINT_ENTRY
-	ENDBR
-	/* Interrupts are off on entry. */
-	swapgs
+        UNWIND_HINT_ENTRY
+        ENDBR
+        /* Interrupts are off on entry. */
+        swapgs
 
-	/* Stash user ESP */
-	movl	%esp, %r8d
+        /* Stash user ESP */
+        movl    %esp, %r8d
 
-	/* Use %rsp as scratch reg. User ESP is stashed in r8 */
-	SWITCH_TO_KERNEL_CR3 scratch_reg=%rsp
+        /* Use %rsp as scratch reg. User ESP is stashed in r8 */
+        SWITCH_TO_KERNEL_CR3 scratch_reg=%rsp
 
-	/* Switch to the kernel stack */
-	movq	PER_CPU_VAR(cpu_current_top_of_stack), %rsp
+        /* Switch to the kernel stack */
+        movq    PER_CPU_VAR(cpu_current_top_of_stack), %rsp
 
 SYM_INNER_LABEL(entry_SYSCALL_compat_safe_stack, SYM_L_GLOBAL)
-	ANNOTATE_NOENDBR
+        ANNOTATE_NOENDBR
 
-	/* Construct struct pt_regs on stack */
-	pushq	$__USER_DS		/* pt_regs->ss */
-	pushq	%r8			/* pt_regs->sp */
-	pushq	%r11			/* pt_regs->flags */
-	pushq	$__USER32_CS		/* pt_regs->cs */
-	pushq	%rcx			/* pt_regs->ip */
+        /* Construct struct pt_regs on stack */
+        pushq   $__USER_DS      /* pt_regs->ss */
+        pushq   %r8             /* pt_regs->sp */
+        pushq   %r11            /* pt_regs->flags */
+        pushq   $__USER32_CS    /* pt_regs->cs */
+        pushq   %rcx            /* pt_regs->ip */
 SYM_INNER_LABEL(entry_SYSCALL_compat_after_hwframe, SYM_L_GLOBAL)
-	movl	%eax, %eax		/* discard orig_ax high bits */
-	pushq	%rax			/* pt_regs->orig_ax */
-	PUSH_AND_CLEAR_REGS rcx=%rbp rax=$-ENOSYS
-	UNWIND_HINT_REGS
+        movl    %eax, %eax      /* discard orig_ax high bits */
+        pushq   %rax            /* pt_regs->orig_ax */
+        PUSH_AND_CLEAR_REGS rcx=%rbp rax=$-ENOSYS
+        UNWIND_HINT_REGS
 
-	IBRS_ENTER
-	UNTRAIN_RET
-	CLEAR_BRANCH_HISTORY
+        IBRS_ENTER
+        UNTRAIN_RET
+        CLEAR_BRANCH_HISTORY
 
-	movq	%rsp, %rdi
-	call	do_fast_syscall_32
+        movq    %rsp, %rdi
+        call    do_fast_syscall_32
 
 sysret32_from_system_call:
-	/* XEN PV guests always use IRET path */
-	ALTERNATIVE "testb %al, %al; jz swapgs_restore_regs_and_return_to_usermode", \
-		    "jmp swapgs_restore_regs_and_return_to_usermode", X86_FEATURE_XENPV
+        /* XEN PV guests always use IRET path */
+        ALTERNATIVE "testb %al, %al; jz swapgs_restore_regs_and_return_to_usermode", \
+                "jmp swapgs_restore_regs_and_return_to_usermode", X86_FEATURE_XENPV
 
 	/*
 	 * Opportunistic SYSRET
@@ -228,20 +228,20 @@ sysret32_from_system_call:
 	 * We are not going to return to userspace from the trampoline
 	 * stack. So let's erase the thread stack right now.
 	 */
-	STACKLEAK_ERASE
+        STACKLEAK_ERASE
 
-	IBRS_EXIT
+        IBRS_EXIT
 
-	movq	RBX(%rsp), %rbx		/* pt_regs->rbx */
-	movq	RBP(%rsp), %rbp		/* pt_regs->rbp */
-	movq	EFLAGS(%rsp), %r11	/* pt_regs->flags (in r11) */
-	movq	RIP(%rsp), %rcx		/* pt_regs->ip (in rcx) */
-	addq	$RAX, %rsp		/* Skip r8-r15 */
-	popq	%rax			/* pt_regs->rax */
-	popq	%rdx			/* Skip pt_regs->cx */
-	popq	%rdx			/* pt_regs->dx */
-	popq	%rsi			/* pt_regs->si */
-	popq	%rdi			/* pt_regs->di */
+        movq    RBX(%rsp),    %rbx      /* pt_regs->rbx */
+        movq    RBP(%rsp),    %rbp      /* pt_regs->rbp */
+        movq    EFLAGS(%rsp), %r11      /* pt_regs->flags (in r11) */
+        movq    RIP(%rsp),    %rcx      /* pt_regs->ip (in rcx) */
+        addq    $RAX, %rsp              /* Skip r8-r15 */
+        popq    %rax                    /* pt_regs->rax */
+        popq    %rdx                    /* Skip pt_regs->cx */
+        popq    %rdx                    /* pt_regs->dx */
+        popq    %rsi                    /* pt_regs->si */
+        popq    %rdi                    /* pt_regs->di */
 
         /*
          * USERGS_SYSRET32 does:
@@ -258,9 +258,9 @@ sysret32_from_system_call:
 	 * when the system call started, which is already known to user
 	 * code.  We zero R8-R10 to avoid info leaks.
          */
-	movq	RSP-ORIG_RAX(%rsp), %rsp
+        movq    RSP-ORIG_RAX(%rsp), %rsp
 SYM_INNER_LABEL(entry_SYSRETL_compat_unsafe_stack, SYM_L_GLOBAL)
-	ANNOTATE_NOENDBR
+        ANNOTATE_NOENDBR
 
 	/*
 	 * The original userspace %rsp (RSP-ORIG_RAX(%rsp)) is stored
@@ -271,17 +271,17 @@ SYM_INNER_LABEL(entry_SYSRETL_compat_unsafe_stack, SYM_L_GLOBAL)
 	 *
 	 * %r8/%r9 are zeroed before the sysret, thus safe to clobber.
 	 */
-	SWITCH_TO_USER_CR3_NOSTACK scratch_reg=%r8 scratch_reg2=%r9
+        SWITCH_TO_USER_CR3_NOSTACK scratch_reg=%r8 scratch_reg2=%r9
 
-	xorl	%r8d, %r8d
-	xorl	%r9d, %r9d
-	xorl	%r10d, %r10d
-	swapgs
-	CLEAR_CPU_BUFFERS
-	sysretl
+        xorl    %r8d,  %r8d
+        xorl    %r9d,  %r9d
+        xorl    %r10d, %r10d
+        swapgs
+        CLEAR_CPU_BUFFERS
+        sysretl
 SYM_INNER_LABEL(entry_SYSRETL_compat_end, SYM_L_GLOBAL)
-	ANNOTATE_NOENDBR
-	int3
+        ANNOTATE_NOENDBR
+        int3
 SYM_CODE_END(entry_SYSCALL_compat)
 
 /*
@@ -292,8 +292,8 @@ SYM_CODE_END(entry_SYSCALL_compat)
  * routines.
  */
 SYM_CODE_START(int80_emulation)
-	ANNOTATE_NOENDBR
-	UNWIND_HINT_FUNC
-	CLEAR_BRANCH_HISTORY
-	jmp do_int80_emulation
+        ANNOTATE_NOENDBR
+        UNWIND_HINT_FUNC
+        CLEAR_BRANCH_HISTORY
+        jmp     do_int80_emulation
 SYM_CODE_END(int80_emulation)

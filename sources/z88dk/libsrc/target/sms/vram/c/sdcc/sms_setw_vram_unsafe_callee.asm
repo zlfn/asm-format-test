@@ -9,9 +9,9 @@ EXTERN asm_sms_setw_vram_unsafe
 
 _sms_setw_vram_unsafe_callee:
 
-   pop af
-   pop de
-   pop bc
-   push af
-   
-   jp asm_sms_setw_vram_unsafe
+        pop     af
+        pop     de
+        pop     bc
+        push    af
+
+        jp      asm_sms_setw_vram_unsafe

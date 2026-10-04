@@ -10,10 +10,10 @@ EXTERN _perror_fastcall
 
 _perror:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _perror_fastcall
+        push    hl
+        push    af
+
+        jp      _perror_fastcall

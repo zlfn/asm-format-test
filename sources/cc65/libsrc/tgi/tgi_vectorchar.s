@@ -7,13 +7,13 @@
 ; */
 ;
 
-        .import         imul16x16r32, umul16x16r32, negax, negeax
+        .import imul16x16r32, umul16x16r32, negax, negeax
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-vectorfont.inc"
-        .include        "zeropage.inc"
+        .include "tgi-kernel.inc"
+        .include "tgi-vectorfont.inc"
+        .include "zeropage.inc"
 
-        .macpack        longbranch
+        .macpack longbranch
 
 ;----------------------------------------------------------------------------
 ; Data
@@ -37,7 +37,7 @@ Y2:     .res    2
 ; Load delta value
 
         ldy     #0
-        lda     (Ops),y
+        lda     (Ops), y
         inc     Ops
         bne     :+
         inc     Ops+1
@@ -45,20 +45,19 @@ Y2:     .res    2
 ; Move bit 7 into Flag, then sign extend the value in A and extend the sign
 ; into X.
 
-:       asl     a                       ; Flag into carry
+:       asl     a       ; Flag into carry
         ror     Flag
         ldx     #0
-        cmp     #$80                    ; Sign bit into carry
-        ror     a                       ; Sign extend the value
+        cmp     #$80    ; Sign bit into carry
+        ror     a       ; Sign extend the value
         bpl     :+
-        dex                             ; Value is negative
+        dex             ; Value is negative
 
 ; Done
 
 :       rts
 
 .endproc
-
 
 ;----------------------------------------------------------------------------
 ; Get and process one coordinate value. The scale factor is passed in a/x
@@ -81,7 +80,7 @@ GetProcessedCoord:
 
 ; Multiply with the scale factor.
 
-        jmp     tgi_imulround           ; Multiply, round and scale
+        jmp     tgi_imulround   ; Multiply, round and scale
 
 ;----------------------------------------------------------------------------
 ; Add the base coordinate with offset in Y to the value in A/X
@@ -90,10 +89,10 @@ GetProcessedCoord:
 .proc   AddBaseCoord
 
         clc
-        adc     _tgi_curx+0,y
+        adc     _tgi_curx+0, y
         pha
         txa
-        adc     _tgi_curx+1,y
+        adc     _tgi_curx+1, y
         tax
         pla
         rts
@@ -110,17 +109,16 @@ GetProcessedCoord:
 ;
 ;   ax = _tgi_cur[xy] + (~ax + 1);
 
-
 .code
 .proc   SubBaseCoord
 
         eor     #$FF
-        sec                             ; + 1
-        adc     _tgi_curx+0,y
+        sec     ; + 1
+        adc     _tgi_curx+0, y
         pha
         txa
         eor     #$FF
-        adc     _tgi_curx+1,y
+        adc     _tgi_curx+1, y
         tax
         pla
         rts
@@ -160,10 +158,10 @@ GetProcessedCoord:
         sta     Ops+1
 
         iny
-        lda     (Ops),y
+        lda     (Ops), y
         tax
         dey
-        lda     (Ops),y
+        lda     (Ops), y
         sta     Ops
         stx     Ops+1
 
@@ -248,31 +246,31 @@ Loop:   lda     _tgi_textscalew+0
 
 @DrawMove:
         bit     Flag
-        bpl     @Move                   ; Jump if move only
+        bpl     @Move   ; Jump if move only
 
 .if     0
-        ldy     #7                      ; Copy start coords into zp
-:       lda     X1,y
-        sta     ptr1,y
+        ldy     #7      ; Copy start coords into zp
+:       lda     X1,   y
+        sta     ptr1, y
         dey
         bpl     :-
 
-        jsr     tgi_line                ; Call the driver
+        jsr     tgi_line        ; Call the driver
 .else
-        ldy     #7                      ; Copy start coords
-:       lda     X1,y
-        sta     tgi_clip_x1,y
+        ldy     #7      ; Copy start coords
+:       lda     X1, y
+        sta     tgi_clip_x1, y
         dey
         bpl     :-
 
-        jsr     tgi_clippedline         ; Call line clipper
+        jsr     tgi_clippedline ; Call line clipper
 .endif
 
 ; Move the start position
 
 @Move:  ldy     #3
-:       lda     X2,y
-        sta     X1,y
+:       lda     X2, y
+        sta     X1, y
         dey
         bpl     :-
 
@@ -292,4 +290,3 @@ Loop:   lda     _tgi_textscalew+0
         rts
 
 .endproc
-

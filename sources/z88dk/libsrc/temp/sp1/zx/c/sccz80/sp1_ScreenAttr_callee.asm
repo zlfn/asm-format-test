@@ -11,21 +11,19 @@ EXTERN asm_sp1_ScreenAttr
 
 sp1_ScreenAttr_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   ld d,l
+        pop     hl
+        pop     de
+        ex      (sp), hl
+        ld      d,    l
 
 ;   jp asm_sp1_ScreenAttr
-   push ix
-   call asm_sp1_ScreenAttr
-   pop ix
-   ret
-
+        push    ix
+        call    asm_sp1_ScreenAttr
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_ScreenAttr_callee
 defc _sp1_ScreenAttr_callee = sp1_ScreenAttr_callee
 ENDIF
-

@@ -32,15 +32,15 @@
 ; struct statvfs
 
 .struct statvfs
-        f_bsize           .dword
-        f_frsize          .dword
-        f_blocks          .dword
-        f_bfree           .dword
-        f_bavail          .dword
-        f_files           .dword
-        f_ffree           .dword
-        f_favail          .dword
-        f_fsid            .dword
-        f_flag            .dword
-        f_namemax         .dword
+        f_bsize .dword
+        f_frsize .dword
+        f_blocks .dword
+        f_bfree .dword
+        f_bavail .dword
+        f_files .dword
+        f_ffree .dword
+        f_favail .dword
+        f_fsid  .dword
+        f_flag  .dword
+        f_namemax .dword
 .endstruct

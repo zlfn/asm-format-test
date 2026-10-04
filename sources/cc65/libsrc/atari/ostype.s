@@ -38,7 +38,7 @@
 ;               101 - unassigned (up to 111)
 ;
 
-        .export         _get_ostype
+        .export _get_ostype
 
         .include "atari.inc"
         .include "romswitch.inc"
@@ -61,7 +61,6 @@
 
 .endif  ; .ifdef __ATARIXL__
 
-
 ; unknown ROM
 
 _unknown:
@@ -69,7 +68,6 @@ _unknown:
         tax
         disable_rom_save_a
         rts
-
 
 _get_ostype:
 
@@ -101,12 +99,12 @@ _fin:   ldx     #0
 ; 1200XL ROM
 
 _1200xl:
-        lda     $fff7           ; revision #
+        lda     $fff7   ; revision #
         cmp     #10
         beq     _1200_10
         cmp     #11
         beq     _1200_11
-        lda     #0              ; for unknown
+        lda     #0      ; for unknown
         beq     _1200_fin
 
 _1200_10:

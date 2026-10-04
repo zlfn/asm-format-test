@@ -10,12 +10,12 @@ EXTERN cm48_sdccix_erfc_fastcall
 
 cm48_sdccix_erfc:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
 
-   jp cm48_sdccix_erfc_fastcall
+        push    de
+        push    hl
+        push    af
+
+        jp      cm48_sdccix_erfc_fastcall

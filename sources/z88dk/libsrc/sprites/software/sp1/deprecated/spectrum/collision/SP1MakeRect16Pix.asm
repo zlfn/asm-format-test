@@ -16,79 +16,79 @@ PUBLIC SP1MakeRect16Pix
 
 .SP1MakeRect16Pix
 
-   ld a,(hl)
-   ex af,af
-   inc hl
-   ld e,(hl)
-   ld d,0
-   inc hl
-   push de
-   inc bc
-   inc bc
-   ld e,(hl)
-   inc hl
-   ex de,hl
-   add hl,hl
-   add hl,hl
-   add hl,hl
-   ld a,l
-   ld (bc),a
-   inc bc
-   ld a,h
-   ld (bc),a
-   inc bc
-   ex de,hl
-   inc bc
-   inc bc
-   ld e,(hl)
-   inc hl
-   ld d,0
-   ex de,hl
-   add hl,hl
-   add hl,hl
-   add hl,hl
-   ld a,l
-   ld (bc),a
-   inc bc
-   ld a,h
-   ld (bc),a
-   dec bc
-   dec bc
-   ex de,hl
-   ex af,af
-   ld e,a
-   ld a,(hl)
-   inc hl
-   and $07
-   ld d,0
-   ex de,hl
-   add hl,hl
-   add hl,hl
-   add hl,hl
-   add a,l
-   ld l,a
-   jp nc, noinc0
-   inc h
+        ld      a,  (hl)
+        ex      af, af
+        inc     hl
+        ld      e, (hl)
+        ld      d, 0
+        inc     hl
+        push    de
+        inc     bc
+        inc     bc
+        ld      e, (hl)
+        inc     hl
+        ex      de,   hl
+        add     hl,   hl
+        add     hl,   hl
+        add     hl,   hl
+        ld      a,    l
+        ld      (bc), a
+        inc     bc
+        ld      a,    h
+        ld      (bc), a
+        inc     bc
+        ex      de, hl
+        inc     bc
+        inc     bc
+        ld      e, (hl)
+        inc     hl
+        ld      d,    0
+        ex      de,   hl
+        add     hl,   hl
+        add     hl,   hl
+        add     hl,   hl
+        ld      a,    l
+        ld      (bc), a
+        inc     bc
+        ld      a,    h
+        ld      (bc), a
+        dec     bc
+        dec     bc
+        ex      de, hl
+        ex      af, af
+        ld      e,  a
+        ld      a,  (hl)
+        inc     hl
+        and     $07
+        ld      d,  0
+        ex      de, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     a,  l
+        ld      l,  a
+        jp      nc, noinc0
+        inc     h
 .noinc0
-   ld a,h
-   ld (bc),a
-   dec bc
-   ld a,l
-   ld (bc),a
-   dec bc
-   dec bc
-   dec bc
-   ld a,(de)
-   pop hl
-   ld d,h
-   ld e,a
-   add hl,hl
-   add hl,hl
-   add hl,hl
-   add hl,de
-   ld a,h
-   ld (bc),a
-   dec bc
-   ld a,l
-   ld (bc),a
-   ret
+        ld      a,    h
+        ld      (bc), a
+        dec     bc
+        ld      a,    l
+        ld      (bc), a
+        dec     bc
+        dec     bc
+        dec     bc
+        ld      a, (de)
+        pop     hl
+        ld      d,    h
+        ld      e,    a
+        add     hl,   hl
+        add     hl,   hl
+        add     hl,   hl
+        add     hl,   de
+        ld      a,    h
+        ld      (bc), a
+        dec     bc
+        ld      a,    l
+        ld      (bc), a
+        ret

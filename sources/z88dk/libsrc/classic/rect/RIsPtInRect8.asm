@@ -19,11 +19,11 @@ PUBLIC RIsPtInRect8
 
 .RIsPtInRect8
 
-   sub b
-   cp c
-   ret nc
-   
-   ld a,l
-   sub d
-   cp e
-   ret
+        sub     b
+        cp      c
+        ret     nc
+
+        ld      a, l
+        sub     d
+        cp      e
+        ret

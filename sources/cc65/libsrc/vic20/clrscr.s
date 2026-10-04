@@ -4,8 +4,8 @@
 ; void clrscr (void);
 ;
 
-        .export         _clrscr
+        .export _clrscr
 
-        .include        "cbm_kernal.inc"
+        .include "cbm_kernal.inc"
 
 _clrscr = CLRSCR

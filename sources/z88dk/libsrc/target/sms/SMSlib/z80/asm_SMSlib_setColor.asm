@@ -12,13 +12,13 @@ PUBLIC asm_SMSlib_setColor
 
 asm_SMSlib_setColor:
 
-   ; void SMS_setColor (unsigned char color)
-   ;
-   ; enter :  l = unsigned char color
-   ;
-   ; uses  : a
-   
-   ld a,l
-   out (VDPDataPort),a
-   
-   ret
+        ; void SMS_setColor (unsigned char color)
+        ;
+        ; enter :  l = unsigned char color
+        ;
+        ; uses  : a
+
+        ld      a, l
+        out     (VDPDataPort), a
+
+        ret

@@ -9,10 +9,10 @@ EXTERN asm_sp1_ScreenStr
 
 _sp1_ScreenStr_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   ld d,l
-   jp asm_sp1_ScreenStr
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        ld      d, l
+        jp      asm_sp1_ScreenStr

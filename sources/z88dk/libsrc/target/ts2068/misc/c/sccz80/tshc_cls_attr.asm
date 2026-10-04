@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _tshc_cls_attr
 defc _tshc_cls_attr = tshc_cls_attr
 ENDIF
-

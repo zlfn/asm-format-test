@@ -161,24 +161,24 @@ EXTERN sms_01_output_terminal_oterm_msg_bell
 
 sms_01_output_terminal:
 
-   cp OTERM_MSG_PRINTC
-   jp z, sms_01_output_terminal_oterm_msg_printc
+        cp      OTERM_MSG_PRINTC
+        jp      z, sms_01_output_terminal_oterm_msg_printc
 
-   cp STDIO_MSG_ICTL
-   jp z, sms_01_output_terminal_stdio_msg_ictl
+        cp      STDIO_MSG_ICTL
+        jp      z, sms_01_output_terminal_stdio_msg_ictl
 
-   cp OTERM_MSG_SCROLL
-   jp z, sms_01_output_terminal_oterm_msg_scroll
+        cp      OTERM_MSG_SCROLL
+        jp      z, sms_01_output_terminal_oterm_msg_scroll
 
-   jp c, sms_01_output_terminal_base  ; forward to library
+        jp      c, sms_01_output_terminal_base  ; forward to library
 
-   cp OTERM_MSG_CLS
-   jp z, sms_01_output_terminal_oterm_msg_cls
-   
-   cp OTERM_MSG_PAUSE
-   jp z, sms_01_output_terminal_oterm_msg_pause
-   
-   cp OTERM_MSG_BELL
-   jp z, sms_01_output_terminal_oterm_msg_bell
+        cp      OTERM_MSG_CLS
+        jp      z, sms_01_output_terminal_oterm_msg_cls
 
-   jp sms_01_output_terminal_base     ; forward to library
+        cp      OTERM_MSG_PAUSE
+        jp      z, sms_01_output_terminal_oterm_msg_pause
+
+        cp      OTERM_MSG_BELL
+        jp      z, sms_01_output_terminal_oterm_msg_bell
+
+        jp      sms_01_output_terminal_base     ; forward to library

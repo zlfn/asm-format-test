@@ -9,21 +9,20 @@ EXTERN asm_sms_memcpy_vram_to_mem_unsafe
 
 sms_memcpy_vram_to_mem_unsafe:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
 
-   jp asm_sms_memcpy_vram_to_mem_unsafe
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_sms_memcpy_vram_to_mem_unsafe
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sms_memcpy_vram_to_mem_unsafe
 defc _sms_memcpy_vram_to_mem_unsafe = sms_memcpy_vram_to_mem_unsafe
 ENDIF
-

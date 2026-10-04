@@ -4,9 +4,9 @@
 ; Signal vector table
 ;
 
-        .export         sigtable
+        .export sigtable
 
-        .include        "signal.inc"
+        .include "signal.inc"
 
 ;----------------------------------------------------------------------------
 ;
@@ -20,5 +20,3 @@ sigtable:
         .word   ___sig_dfl      ; SIGINT
         .word   ___sig_dfl      ; SIGSEGV
         .word   ___sig_dfl      ; SIGTERM
-
-

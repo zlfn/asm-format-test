@@ -12,9 +12,9 @@
 ;	$Id: f_ansi_cls.asm,v 1.3 2016-06-12 16:06:42 dom Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_cls
-    INCLUDE "target/osca/def/flos.def"
+        SECTION code_clib
+        PUBLIC  ansi_cls
+        INCLUDE "target/osca/def/flos.def"
 
 ansi_cls:
-    jp      kjt_clear_screen
+        jp      kjt_clear_screen

@@ -11,13 +11,13 @@ EXTERN asm_esxdos_f_unlink
 
 _esxdos_f_unlink_fastcall:
 
-   ld a,__ESXDOS_DRIVE_CURRENT
+        ld      a, __ESXDOS_DRIVE_CURRENT
 
-   push ix
-   push iy
-   
-   call asm_esxdos_f_unlink
-   
-   pop iy
-   pop ix
-   ret
+        push    ix
+        push    iy
+
+        call    asm_esxdos_f_unlink
+
+        pop     iy
+        pop     ix
+        ret

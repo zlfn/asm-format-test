@@ -6,10 +6,10 @@
 
         .include "cbm_kernal.inc"
 
-        .export         CLRCH
-        .export         BASIN
-        .export         CHRIN
-        .export         STOP
-        .export         GETIN
-        .export         CLALL
-        .export         UDTIM
+        .export CLRCH
+        .export BASIN
+        .export CHRIN
+        .export STOP
+        .export GETIN
+        .export CLALL
+        .export UDTIM

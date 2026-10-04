@@ -9,9 +9,9 @@ EXTERN asm_sp1_TileEntry
 
 _sp1_TileEntry_callee:
 
-   pop af
-   pop bc
-   pop de
-   push af
+        pop     af
+        pop     bc
+        pop     de
+        push    af
 
-   jp asm_sp1_TileEntry
+        jp      asm_sp1_TileEntry

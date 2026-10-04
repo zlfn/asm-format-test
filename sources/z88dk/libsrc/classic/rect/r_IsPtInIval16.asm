@@ -12,28 +12,28 @@ EXTERN RIsPtInIval16
 .r_IsPtInIval16
 ._r_IsPtInIval16
 
-   ld hl,2
-   add hl,sp
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   push hl
-   ex de,hl
-   ld c,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   pop hl
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a
-   call RIsPtInIval16
-   ld hl,0
-   ret nc
-   inc l
-   ret
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        push    hl
+        ex      de, hl
+        ld      c,  (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        pop     hl
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
+        call    RIsPtInIval16
+        ld      hl, 0
+        ret     nc
+        inc     l
+        ret

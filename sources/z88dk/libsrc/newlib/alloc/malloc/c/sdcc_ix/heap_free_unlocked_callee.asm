@@ -10,8 +10,8 @@ EXTERN asm_heap_free_unlocked
 
 _heap_free_unlocked_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
-   jp asm_heap_free_unlocked
+        jp      asm_heap_free_unlocked

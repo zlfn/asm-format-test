@@ -12,82 +12,82 @@ EXTERN RIntersectRect16
 .r_IntersectRect16
 ._r_IntersectRect16
 
-   ld hl,7
-   add hl,sp
-   ld d,(hl)
-   dec hl
-   ld e,(hl)
-   dec hl
-   push de
-   ld d,(hl)
-   dec hl
-   ld e,(hl)
-   dec hl
-   ld b,(hl)
-   dec hl
-   ld c,(hl)
+        ld      hl, 7
+        add     hl, sp
+        ld      d,  (hl)
+        dec     hl
+        ld      e, (hl)
+        dec     hl
+        push    de
+        ld      d, (hl)
+        dec     hl
+        ld      e, (hl)
+        dec     hl
+        ld      b, (hl)
+        dec     hl
+        ld      c, (hl)
 IF __CPU_RABBIT__ | __CPU_Z180__ | __CPU_KC160__
-   push bc
-   pop  ix
+        push    bc
+        pop     ix
 ELSE
-   ld ixl,c
-   ld ixh,b
+        ld      ixl, c
+        ld      ixh, b
 ENDIF
-   ex de,hl
-   ld c,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   ex (sp),hl
-   ld a,(hl)
-   inc hl
-   push hl
-   ld h,(hl)
-   ld l,a
+        ex      de, hl
+        ld      c,  (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ex      (sp), hl
+        ld      a,    (hl)
+        inc     hl
+        push    hl
+        ld      h, (hl)
+        ld      l, a
 
-   ; stack = r2.y, r1.width-1
+        ; stack = r2.y, r1.width-1
 
-   exx
-   
-   pop hl
-   inc hl
-   pop de
-   ld a,(hl)
-   inc hl
-   ex af,af
-   ld a,(hl)
-   inc hl
-   ld c,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   push bc
-   ld c,(hl)
-   inc hl
-   ld b,(hl)
-   push bc
-   ex de,hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   push de
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   push de
-   ld d,a
-   ex af,af
-   ld e,a
-   
-   exx
-   
-   call RIntersectRect16
-   ld hl,0
-   ret nc
-   inc l
-   ret
+        exx
+
+        pop     hl
+        inc     hl
+        pop     de
+        ld      a, (hl)
+        inc     hl
+        ex      af, af
+        ld      a,  (hl)
+        inc     hl
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        push    bc
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl)
+        push    bc
+        ex      de, hl
+        ld      e,  (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        push    de
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        push    de
+        ld      d,  a
+        ex      af, af
+        ld      e,  a
+
+        exx
+
+        call    RIntersectRect16
+        ld      hl, 0
+        ret     nc
+        inc     l
+        ret

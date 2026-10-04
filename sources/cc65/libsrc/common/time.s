@@ -4,13 +4,12 @@
 ; time_t __fastcall__ time (time_t* timep);
 ;
 
-        .export         _time
+        .export _time
 
-        .import         pusha, ldeaxi
-        .importzp       ptr1, sreg, tmp1, tmp2
+        .import pusha, ldeaxi
+        .importzp ptr1, sreg, tmp1, tmp2
 
-        .include        "time.inc"
-
+        .include "time.inc"
 
 .code
 
@@ -18,7 +17,7 @@
 
         pha
         txa
-        pha                     ; Save timep
+        pha     ; Save timep
 
 ; Get the time (machine dependent)
 
@@ -31,13 +30,13 @@
 
 ; _clock_gettime returns 0 on success and -1 on error. Check that.
 
-        inx                     ; Did _clock_gettime return -1?
-        bne     @L2             ; Jump if not
+        inx             ; Did _clock_gettime return -1?
+        bne     @L2     ; Jump if not
 
 ; We had an error so invalidate time. A contains $FF.
 
         ldy     #3
-@L1:    sta     time,y
+@L1:    sta     time, y
         dey
         bpl     @L1
 
@@ -46,15 +45,15 @@
 @L2:    pla
         sta     ptr1+1
         pla
-        sta     ptr1            ; Restore timep
-        ora     ptr1+1          ; timep == 0?
+        sta     ptr1    ; Restore timep
+        ora     ptr1+1  ; timep == 0?
         beq     @L4
 
 ; timep is not NULL, store the result there
 
         ldy     #3
-@L3:    lda     time,y
-        sta     (ptr1),y
+@L3:    lda     time,   y
+        sta     (ptr1), y
         dey
         bpl     @L3
 

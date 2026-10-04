@@ -19,15 +19,15 @@ EXTERN asm_bit_play_tritone, asm_cpu_push_di, asm0_cpu_pop_ei
 
 asm_bit_play_tritone_di:
 
-   ; enter : hl = song address
-   ;            = 0 continue after loop command
-   ;            =-1 continue after end of row reached
-   ;
-   ; exit  : hl = 0 if loop command met
-   ;             -1 if one row of song has played
-   ;
-   ; uses  : all except af', iy
+        ; enter : hl = song address
+        ;            = 0 continue after loop command
+        ;            =-1 continue after end of row reached
+        ;
+        ; exit  : hl = 0 if loop command met
+        ;             -1 if one row of song has played
+        ;
+        ; uses  : all except af', iy
 
-   call asm_cpu_push_di
-   call asm_bit_play_tritone
-   jp asm0_cpu_pop_ei
+        call    asm_cpu_push_di
+        call    asm_bit_play_tritone
+        jp      asm0_cpu_pop_ei

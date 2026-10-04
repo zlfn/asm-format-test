@@ -1,10 +1,9 @@
 
+        SECTION code_fp
 
-    SECTION code_fp
+        PUBLIC  fpclassify
 
-    PUBLIC  fpclassify
-
-    EXTERN  fa
+        EXTERN  fa
 
 ; Return 0 = normal
 ;	 1 = zero
@@ -12,9 +11,9 @@
 ;	 3 = infinite
 
 fpclassify:
-    ld      a, (fa+5)                   ;exponent
-    ld      hl, 1
-    and     a
-    ret     z
-    dec     hl
-    ret
+        ld      a,  (fa+5)      ;exponent
+        ld      hl, 1
+        and     a
+        ret     z
+        dec     hl
+        ret

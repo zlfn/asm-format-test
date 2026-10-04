@@ -4,10 +4,9 @@
 ; void __fastcall__ tgi_circle (int x, int y, unsigned char radius);
 ; /* Draw a circle in the current drawing color */
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
-        .import         pusha
-
+        .import pusha
 
 ;----------------------------------------------------------------------------
 ;
@@ -15,7 +14,7 @@
 .code
 .proc   _tgi_circle
 
-        jsr     pusha                   ; Push as rx
-        jmp     _tgi_ellipse            ; Draw an ellipse with rx=ry
+        jsr     pusha           ; Push as rx
+        jmp     _tgi_ellipse    ; Draw an ellipse with rx=ry
 
 .endproc

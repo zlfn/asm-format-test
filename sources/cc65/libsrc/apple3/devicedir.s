@@ -5,12 +5,12 @@
 ; char* __fastcall__ getdevicedir (unsigned char device, char* buf, size_t size);
 ;
 
-        .export         _getdevicedir
-        .import         popptr1, popa, devname
+        .export _getdevicedir
+        .import popptr1, popa, devname
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "sos.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "sos.inc"
 
 _getdevicedir:
         ; Save size
@@ -40,17 +40,17 @@ _getdevicedir:
 
         ; Check for sufficient buf size
         lda     ptr2+1
-        bne     :++             ; Buf >= 256
+        bne     :++     ; Buf >= 256
         lda     ptr2
         cmp     #17
-        bcs     :++             ; Buf >= 17
+        bcs     :++     ; Buf >= 17
 
         ; Handle errors
 erange: lda     #<ERANGE
         jsr     ___directerrno
-        bne     :+              ; Branch always
+        bne     :+      ; Branch always
 oserr:  jsr     ___mappederrno
-:       lda     #$00            ; Return NULL
+:       lda     #$00    ; Return NULL
         tax
         rts
 
@@ -80,19 +80,19 @@ oserr:  jsr     ___mappederrno
 
         ; Get volume name length
         ldy     #$00
-        lda     (ptr1),y
-        and     #15             ; Max volume name length
+        lda     (ptr1), y
+        and     #15     ; Max volume name length
         sta     tmp1
 
         ; Add leading slash
         lda     #'/'
-        sta     (ptr1),y
+        sta     (ptr1), y
 
         ; Add terminating zero
         ldy     tmp1
         iny
         lda     #$00
-        sta     (ptr1),y
+        sta     (ptr1), y
         sta     ___oserror      ; Clear __oserror
 
         ; Success, return buf

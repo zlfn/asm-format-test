@@ -10,23 +10,23 @@ EXTERN asm_esxdos_f_seek
 
 _esxdos_f_seek_callee:
 
-   pop hl
-   dec sp
-   pop af
-   pop de
-   pop bc
-   dec sp
-   ex (sp),hl
+        pop     hl
+        dec     sp
+        pop     af
+        pop     de
+        pop     bc
+        dec     sp
+        ex      (sp), hl
 
 l0_esxdos_f_seek_callee:
 
-   ld l,h
+        ld      l, h
 
-   push ix
-   push iy
-   
-   call asm_esxdos_f_seek
-   
-   pop iy
-   pop ix
-   ret
+        push    ix
+        push    iy
+
+        call    asm_esxdos_f_seek
+
+        pop     iy
+        pop     ix
+        ret

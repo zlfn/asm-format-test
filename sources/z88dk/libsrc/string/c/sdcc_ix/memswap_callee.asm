@@ -10,10 +10,10 @@ EXTERN asm_memswap
 
 _memswap_callee:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
-   
-   jp asm_memswap
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
+
+        jp      asm_memswap

@@ -13,7 +13,7 @@ SECTION code_l_sccz80
 PUBLIC l_gint_eq
 
 l_gint_eq:
-    ld      hl,(hl)
-    ld      a,h
-    or      l
-    ret
+        ld      hl, (hl)
+        ld      a,  h
+        or      l
+        ret

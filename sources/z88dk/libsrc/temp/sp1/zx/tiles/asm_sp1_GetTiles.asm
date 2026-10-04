@@ -23,40 +23,40 @@ asm_sp1_GetTiles:
 ;          c = height
 ; uses  : af, bc, de, hl, ixl
 
-   push hl
-   call asm_sp1_GetUpdateStruct   ; hl = & struct sp1_update
-   pop de                         ; de = dest address
-   inc hl
+        push    hl
+        call    asm_sp1_GetUpdateStruct ; hl = & struct sp1_update
+        pop     de                      ; de = dest address
+        inc     hl
 
-   ld ixl,c                       ; ixl = height
-   ld c,$ff
+        ld      ixl, c  ; ixl = height
+        ld      c,   $ff
 
 .rowloop
 
-   push bc                        ; save b = width
-   push hl                        ; save update position
+        push    bc      ; save b = width
+        push    hl      ; save update position
 
 .colloop
 
-   ldi
-   ldi
-   ldi
-   ld a,7
-   add a,l
-   ld l,a
-   jp nc, noinc
-   inc h
+        ldi
+        ldi
+        ldi
+        ld      a,  7
+        add     a,  l
+        ld      l,  a
+        jp      nc, noinc
+        inc     h
 
 .noinc
 
-   djnz colloop
+        djnz    colloop
 
-   pop hl                         ; hl = & struct sp1_update in same row leftmost column
-   ld bc,10*SP1V_DISPWIDTH
-   add hl,bc                      ; hl = & struct sp1_update in next row leftmost column
-   pop bc
+        pop     hl      ; hl = & struct sp1_update in same row leftmost column
+        ld      bc, 10*SP1V_DISPWIDTH
+        add     hl, bc  ; hl = & struct sp1_update in next row leftmost column
+        pop     bc
 
-   dec ixl
-   jp nz, rowloop
+        dec     ixl
+        jp      nz, rowloop
 
-   ret
+        ret

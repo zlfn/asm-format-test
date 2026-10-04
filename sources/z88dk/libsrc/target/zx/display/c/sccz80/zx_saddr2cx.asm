@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _zx_saddr2cx
 defc _zx_saddr2cx = zx_saddr2cx
 ENDIF
-

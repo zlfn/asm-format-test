@@ -10,13 +10,13 @@ EXTERN asm0_zx_scroll_up
 
 zx_scroll_up:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
 
-   ld d,0
-   jp asm0_zx_scroll_up
+        push    de
+        push    hl
+        push    af
+
+        ld      d, 0
+        jp      asm0_zx_scroll_up

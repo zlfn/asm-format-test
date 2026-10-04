@@ -15,17 +15,17 @@ EXTERN asm_smc_PLY_AKG_PLAYSOUNDEFFECT
 ;;   (params pushed on the stack left to right, all 16-bit)
 ;;
 ply_akg_playsoundeffect:
-        pop hl          ; HL = retaddr
+        pop     hl      ; HL = retaddr
 
-        pop bc
-        ld b,c          ; B = inv volume
-        pop de
-        ld c,e          ; C = num channel
-        pop de
-        ld a,e          ; A = sound effect number
+        pop     bc
+        ld      b, c    ; B = inv volume
+        pop     de
+        ld      c, e    ; C = num channel
+        pop     de
+        ld      a, e    ; A = sound effect number
 
-        push hl         ; restore retaddr
-        jp asm_smc_PLY_AKG_PLAYSOUNDEFFECT
+        push    hl      ; restore retaddr
+        jp      asm_smc_PLY_AKG_PLAYSOUNDEFFECT
 
 ; SDCC bridge for Classic
 IF __CLASSIC

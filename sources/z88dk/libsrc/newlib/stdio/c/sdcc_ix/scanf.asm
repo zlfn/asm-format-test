@@ -16,12 +16,12 @@ EXTERN asm_scanf
 
 _scanf:
 
-   push ix
-   
-   call asm_scanf
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_scanf
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

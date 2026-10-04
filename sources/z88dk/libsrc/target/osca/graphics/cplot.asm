@@ -12,7 +12,6 @@
 
 ;Usage: cplot(int x, int y, int color)
 
-
         SECTION code_clib
 
         PUBLIC  cplot
@@ -32,10 +31,9 @@ _cplot:
         push    de
         push    bc
         push    af
-        ld      a, c
+        ld      a,  c
         ex      af, af
 
         call    __gfx_vram_page_in
         call    cplotpixel
         jp      __gfx_vram_page_out
-

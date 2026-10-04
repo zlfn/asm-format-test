@@ -5,8 +5,8 @@
 ; CC65 runtime: save eax into temp storage/restore eax from temp storage
 ;
 
-        .export         saveeax, resteax
-        .importzp       sreg, regsave
+        .export saveeax, resteax
+        .importzp sreg, regsave
 
 saveeax:
         sta     regsave

@@ -17,6 +17,6 @@ EXTERN l_divs_16_16x16
 
 __sdiv16:
 __xcc_divsint:
-   call l_divs_16_16x16    ; hl = quotient, de = remainder
-   ex de,hl                ; xcc returns de = quotient, hl = remainder
-   ret
+        call    l_divs_16_16x16 ; hl = quotient, de = remainder
+        ex      de, hl          ; xcc returns de = quotient, hl = remainder
+        ret

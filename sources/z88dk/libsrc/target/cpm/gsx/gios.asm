@@ -7,16 +7,13 @@
 ; $Id: gios.asm $
 ;
 
-
 PUBLIC	gios
 PUBLIC	_gios
-
 
 EXTERN	gios_ctl
 EXTERN	gios_pb
 
 EXTERN	__bdos
-
 
 SECTION code_clib
 
@@ -24,20 +21,19 @@ SECTION code_clib
 
 gios:
 _gios:
-	ld	a,l
-	ld	hl,gios_ctl
-	ld	(hl),a
-	inc hl
-	ld	(hl),0
-	
-	ld	de,gios_pb
-	ld	c,115   ; GSX
-IF !__CPU_INTEL__
-	push	ix
-	call	__bdos
-	pop	ix
-	ret
-ELSE
-	jp	5
-ENDIF
+        ld      a,    l
+        ld      hl,   gios_ctl
+        ld      (hl), a
+        inc     hl
+        ld      (hl), 0
 
+        ld      de, gios_pb
+        ld      c,  115 ; GSX
+IF !__CPU_INTEL__
+        push    ix
+        call    __bdos
+        pop     ix
+        ret
+ELSE
+        jp      5
+ENDIF

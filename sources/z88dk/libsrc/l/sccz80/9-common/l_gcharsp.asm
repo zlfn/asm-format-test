@@ -9,12 +9,12 @@ PUBLIC l_gcharsp
 
 l_gcharsp:
 
-   add hl,sp
-   inc hl
-   inc hl
-   ld a,(hl)
-   ld l,a
-   rlca
-   sbc a,a
-   ld h,a
-   ret
+        add     hl, sp
+        inc     hl
+        inc     hl
+        ld      a, (hl)
+        ld      l, a
+        rlca
+        sbc     a, a
+        ld      h, a
+        ret

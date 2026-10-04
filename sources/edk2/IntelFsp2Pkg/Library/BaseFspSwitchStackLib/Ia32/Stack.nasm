@@ -9,7 +9,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 extern ASM_PFX(SwapStack)
 extern ASM_PFX(FeaturePcdGet (PcdFspSaveRestorePageTableEnable))
@@ -28,8 +28,8 @@ extern ASM_PFX(FeaturePcdGet (PcdFspSaveRestorePageTableEnable))
 ;------------------------------------------------------------------------------
 global ASM_PFX(Pei2LoaderSwitchStack)
 ASM_PFX(Pei2LoaderSwitchStack):
-    xor     eax, eax
-    jmp     ASM_PFX(FspSwitchStack)
+        xor     eax, eax
+        jmp     ASM_PFX(FspSwitchStack)
 
 ;------------------------------------------------------------------------------
 ; UINT32
@@ -40,7 +40,7 @@ ASM_PFX(Pei2LoaderSwitchStack):
 ;------------------------------------------------------------------------------
 global ASM_PFX(Loader2PeiSwitchStack)
 ASM_PFX(Loader2PeiSwitchStack):
-    jmp     ASM_PFX(FspSwitchStack)
+        jmp     ASM_PFX(FspSwitchStack)
 
 ;------------------------------------------------------------------------------
 ; UINT32
@@ -51,150 +51,149 @@ ASM_PFX(Loader2PeiSwitchStack):
 ;------------------------------------------------------------------------------
 global ASM_PFX(FspSwitchStack)
 ASM_PFX(FspSwitchStack):
-    ; Save current contexts
-    push    eax
-    pushfd
-    cli
-    pushad
+        ; Save current contexts
+        push    eax
+        pushfd
+        cli
+        pushad
 
-    ;
-    ; Allocate 4x4 bytes on the stack.
-    ;
-    sub     esp, 16
-    cmp     byte [dword ASM_PFX(FeaturePcdGet (PcdFspSaveRestorePageTableEnable))], 0
-    jz      SkipPagetableSave
+        ;
+        ; Allocate 4x4 bytes on the stack.
+        ;
+        sub     esp, 16
+        cmp     byte [dword ASM_PFX(FeaturePcdGet (PcdFspSaveRestorePageTableEnable))], 0
+        jz      SkipPagetableSave
 
-    add     esp, 16
-    ; Save EFER MSR lower 32 bits
-    push   ecx
-    push   eax
-    mov    ecx, 0xC0000080
-    rdmsr
-    mov    edx, eax
-    pop    eax
-    pop    ecx
-    push   edx
+        add     esp, 16
+        ; Save EFER MSR lower 32 bits
+        push    ecx
+        push    eax
+        mov     ecx, 0xC0000080
+        rdmsr
+        mov     edx, eax
+        pop     eax
+        pop     ecx
+        push    edx
 
-    ; Save CR registers
-    mov    eax, cr4
-    push   eax
-    mov    eax, cr3
-    push   eax
-    mov    eax, cr0
-    push   eax
+        ; Save CR registers
+        mov     eax, cr4
+        push    eax
+        mov     eax, cr3
+        push    eax
+        mov     eax, cr0
+        push    eax
 SkipPagetableSave:
 
-    sub     esp, 8
-    sidt    [esp]
+        sub     esp, 8
+        sidt    [esp]
 
-    ; Load new stack
-    push    esp
-    call    ASM_PFX(SwapStack)
-    mov     esp, eax
+        ; Load new stack
+        push    esp
+        call    ASM_PFX(SwapStack)
+        mov     esp, eax
 
-    ; Restore previous contexts
-    lidt    [esp]
-    add     esp, 8
+        ; Restore previous contexts
+        lidt    [esp]
+        add     esp, 8
 
-    cmp     byte [dword ASM_PFX(FeaturePcdGet (PcdFspSaveRestorePageTableEnable))], 0
-    jz      SkipPagetableRestore
-    ; [esp]    stores new cr0
-    ; [esp+4]  stores new cr3
-    ; [esp+8]  stores new cr4
-    ; [esp+12] stores new Efer
-    ;
-    ; When new EFER.NXE == 1, the restore flow is: EFER --> CRx
-    ; Otherwise: CRx --> EFER
-    ; When new CR0.PG == 1, the restore flow for CRx is: CR3 --> CR4 --> CR0
-    ; Otherwise, the restore flow is: CR0 --> CR3 --> CR4
-    ;
-    ; If NXE bit is changed to 1, change NXE before CR register
-    ; This is because Nx bit in page table entry in new CR3 will be invalid
-    ; if updating CR3 before EFER MSR.
-    ;
-    mov eax, [esp+12]
-    bt  eax, 11
-    jnc SkipEferLabel1
+        cmp     byte [dword ASM_PFX(FeaturePcdGet (PcdFspSaveRestorePageTableEnable))], 0
+        jz      SkipPagetableRestore
+        ; [esp]    stores new cr0
+        ; [esp+4]  stores new cr3
+        ; [esp+8]  stores new cr4
+        ; [esp+12] stores new Efer
+        ;
+        ; When new EFER.NXE == 1, the restore flow is: EFER --> CRx
+        ; Otherwise: CRx --> EFER
+        ; When new CR0.PG == 1, the restore flow for CRx is: CR3 --> CR4 --> CR0
+        ; Otherwise, the restore flow is: CR0 --> CR3 --> CR4
+        ;
+        ; If NXE bit is changed to 1, change NXE before CR register
+        ; This is because Nx bit in page table entry in new CR3 will be invalid
+        ; if updating CR3 before EFER MSR.
+        ;
+        mov     eax, [esp+12]
+        bt      eax, 11
+        jnc     SkipEferLabel1
 
-    ; Restore EFER MSR
-    mov    ecx, 0xC0000080
-    rdmsr
-    and    eax, ~EFER_PG_MASK
-    mov    ebx, [esp+12]
-    and    ebx, EFER_PG_MASK
-    or     eax, ebx
-    wrmsr
+        ; Restore EFER MSR
+        mov     ecx, 0xC0000080
+        rdmsr
+        and     eax, ~EFER_PG_MASK
+        mov     ebx, [esp+12]
+        and     ebx, EFER_PG_MASK
+        or      eax, ebx
+        wrmsr
 
 SkipEferLabel1:
 
-    ;
-    ; if new cr0 is to disable page table, change CR0 before CR3/CR4
-    ;
-    mov     eax, [esp]
-    bt      eax, 31
-    jc      SkipCr0Label1
+        ;
+        ; if new cr0 is to disable page table, change CR0 before CR3/CR4
+        ;
+        mov     eax, [esp]
+        bt      eax, 31
+        jc      SkipCr0Label1
 
-    ; Restore CR0
-    mov     edx, cr0
-    and     edx, ~CR0_PG_MASK
-    mov     eax, [esp]
-    and     eax, CR0_PG_MASK
-    or      edx, eax
-    mov     cr0, edx
+        ; Restore CR0
+        mov     edx, cr0
+        and     edx, ~CR0_PG_MASK
+        mov     eax, [esp]
+        and     eax, CR0_PG_MASK
+        or      edx, eax
+        mov     cr0, edx
 
 SkipCr0Label1:
 
-    ; Restore CR3/CR4
-    mov     eax, [esp+4]
-    mov     cr3, eax
+        ; Restore CR3/CR4
+        mov     eax, [esp+4]
+        mov     cr3, eax
 
-    mov     edx, cr4
-    and     edx, ~CR4_PG_MASK
-    mov     eax, [esp+8]
-    and     eax, CR4_PG_MASK
-    or      edx, eax
-    mov     cr4, edx
+        mov     edx, cr4
+        and     edx, ~CR4_PG_MASK
+        mov     eax, [esp+8]
+        and     eax, CR4_PG_MASK
+        or      edx, eax
+        mov     cr4, edx
 
-    ;
-    ; if new cr0 is to enable page table, change CR0 after CR3/CR4
-    ;
-    mov     eax, [esp]
-    bt      eax, 31
-    jnc     SkipCr0Label2
+        ;
+        ; if new cr0 is to enable page table, change CR0 after CR3/CR4
+        ;
+        mov     eax, [esp]
+        bt      eax, 31
+        jnc     SkipCr0Label2
 
-    ; Restore CR0
-    mov     edx, cr0
-    and     edx, ~CR0_PG_MASK
-    mov     eax, [esp]
-    and     eax, CR0_PG_MASK
-    or      edx, eax
-    mov     cr0, edx
+        ; Restore CR0
+        mov     edx, cr0
+        and     edx, ~CR0_PG_MASK
+        mov     eax, [esp]
+        and     eax, CR0_PG_MASK
+        or      edx, eax
+        mov     cr0, edx
 
 SkipCr0Label2:
-    ;
-    ; If NXE bit is changed to 0, change NXE after than CR regiser
-    ;
-    mov eax, [esp+12]
-    bt  eax, 11
-    jc SkipEferLabel2
+        ;
+        ; If NXE bit is changed to 0, change NXE after than CR regiser
+        ;
+        mov     eax, [esp+12]
+        bt      eax, 11
+        jc      SkipEferLabel2
 
-    ; Restore EFER MSR
-    mov    ecx, 0xC0000080
-    rdmsr
-    and    eax, ~EFER_PG_MASK
-    mov    ebx, [esp+12]
-    and    ebx, EFER_PG_MASK
-    or     eax, ebx
-    wrmsr
+        ; Restore EFER MSR
+        mov     ecx, 0xC0000080
+        rdmsr
+        and     eax, ~EFER_PG_MASK
+        mov     ebx, [esp+12]
+        and     ebx, EFER_PG_MASK
+        or      eax, ebx
+        wrmsr
 
 SkipEferLabel2:
 SkipPagetableRestore:
 
-    ; pop page table related registers.
-    add     esp, 16
+        ; pop page table related registers.
+        add     esp, 16
 
-    popad
-    popfd
-    add     esp, 4
-    ret
-
+        popad
+        popfd
+        add     esp, 4
+        ret

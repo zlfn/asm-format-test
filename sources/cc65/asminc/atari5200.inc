@@ -68,17 +68,17 @@ SAVMSC          =       $1B             ; pointer to screen memory (conio)
 ;Interrupt Vectors
 
 VIMIRQ  =  $0200   ; Immediate IRQ
-                      ; Preset $FC03 (SYSIRQ)
+        ; Preset $FC03 (SYSIRQ)
 VVBLKI  =  $0202   ; Vblank immediate
-                      ; Preset $FCB8 (SYSVBL)
+        ; Preset $FCB8 (SYSVBL)
 VVBLKD  =  $0204   ; Vblank deferred
-                      ; Preset $FCB2 (XITVBL)
+        ; Preset $FCB2 (XITVBL)
 VDSLST  =  $0206   ; Display List
-                      ; Preset $FEA1 (OSDLI)
+        ; Preset $FEA1 (OSDLI)
 VKYBDI  =  $0208   ; Keyboard immediate
-                      ; Preset $FD02 (SYSKBD)
+        ; Preset $FD02 (SYSKBD)
 VKYBDF  =  $020A   ; Deferred Keyboard
-                      ; Preset $FCB2 (XITVBL)
+        ; Preset $FCB2 (XITVBL)
 VTRIGR  =  $020C   ; Soft Trigger
 VBRKOP  =  $020E   ; BRK Opcode
 VSERIN  =  $0210   ; Serial in Ready
@@ -87,8 +87,6 @@ VSEROC  =  $0214   ; Serial Output complete
 VTIMR1  =  $0216   ; Pokey Timer 1
 VTIMR2  =  $0218   ; Pokey Timer 2
 VTIMR4  =  $021A   ; Pokey Timer 4
-
-
 
 ;-------------------------------------------------------------------------
 ; CTIA/GTIA Address Equates
@@ -127,7 +125,7 @@ COLOR_BLACK = 3
 CARTNM  =  $BFE8   ; Cartridge Name Area
 COPYD   =  $BFFC   ; Copyright Decade in Cart
 COPYR   =  $BFFD   ; Copyright Year in Cart
-                      ; $FF=Diagnostic Cart
+        ; $FF=Diagnostic Cart
 GOCART  =  $BFFE   ; Cartridge Start Vector
 
 CHRORG  =  $F800   ; Character Generator Base

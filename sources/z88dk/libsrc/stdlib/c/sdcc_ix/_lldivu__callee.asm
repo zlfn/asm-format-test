@@ -10,19 +10,19 @@ EXTERN asm__lldivu
 
 __lldivu__callee:
 
-   push ix
-   
-   ld ix,6
-   add ix,sp
-   
-   call asm__lldivu
-   
-   pop ix
-   pop de
-   
-   ld hl,18
-   add hl,sp
-   ld sp,hl
-   
-   ex de,hl
-   jp (hl)
+        push    ix
+
+        ld      ix, 6
+        add     ix, sp
+
+        call    asm__lldivu
+
+        pop     ix
+        pop     de
+
+        ld      hl, 18
+        add     hl, sp
+        ld      sp, hl
+
+        ex      de, hl
+        jp      (hl)

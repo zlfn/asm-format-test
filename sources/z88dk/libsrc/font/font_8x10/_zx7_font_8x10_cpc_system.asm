@@ -12,6 +12,6 @@ PUBLIC  _zx7_font_8x10_cpc_system_end
 
 _zx7_font_8x10_cpc_system:
 
-   BINARY "font_8x10_cpc_system.bin.zx7"
+        BINARY  "font_8x10_cpc_system.bin.zx7"
 
 _zx7_font_8x10_cpc_system_end:

@@ -10,21 +10,21 @@ PUBLIC l_mult_ulong_0
 
 ; DEHL = DE * HL [unsigned]
 .l_mult_ulong
-    ld      bc,hl
+        ld      bc, hl
 
 ; DEHL = DE * BC [unsigned]
 .l_mult_ulong_0
-    ld      hl,0
-    ld      a,16        ; 16 iterations
+        ld      hl, 0
+        ld      a,  16  ; 16 iterations
 .mul1
-    add     hl,hl
-    rl      e
-    rl      d
-    jp      NC,mul2
-    add     hl,bc
-    jp      NC,mul2
-    inc     de
+        add     hl, hl
+        rl      e
+        rl      d
+        jp      NC, mul2
+        add     hl, bc
+        jp      NC, mul2
+        inc     de
 .mul2
-    dec     a
-    jp      NZ,mul1
-    ret
+        dec     a
+        jp      NZ, mul1
+        ret

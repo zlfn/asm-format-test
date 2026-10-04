@@ -8,10 +8,10 @@ EXTERN asm_pathnice
 
 _pathnice:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_pathnice
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_pathnice

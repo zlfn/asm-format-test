@@ -9,20 +9,20 @@ EXTERN asm_sp1_InitCharStruct
 
 _sp1_InitCharStruct_callee:
 
-   exx
-   pop bc
-   exx
-   pop hl
-   pop de
-   pop bc
-   ld a,c
-   pop bc
-   exx
-   pop de
-   ex af,af'
-   ld a,e
-   ex af,af'
-   push bc
-   exx
-   
-   jp asm_sp1_InitCharStruct
+        exx
+        pop     bc
+        exx
+        pop     hl
+        pop     de
+        pop     bc
+        ld      a, c
+        pop     bc
+        exx
+        pop     de
+        ex      af, af'
+        ld      a,  e
+        ex      af, af'
+        push    bc
+        exx
+
+        jp      asm_sp1_InitCharStruct

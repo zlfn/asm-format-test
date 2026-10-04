@@ -1,10 +1,10 @@
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
-    SECTION code_clib
-    PUBLIC  w_respixel
-    PUBLIC  w_xorpixel
+        SECTION code_clib
+        PUBLIC  w_respixel
+        PUBLIC  w_xorpixel
 
-    EXTERN  __mbc_pixel
+        EXTERN  __mbc_pixel
 
 ;
 ;       $Id: w_plotpixl.asm $
@@ -30,5 +30,5 @@
 w_respixel:
 w_xorpixel:
 
-    ld      c, 'R'
-    jp      __mbc_pixel
+        ld      c, 'R'
+        jp      __mbc_pixel

@@ -4,9 +4,9 @@
 ; unsigned char wherey (void);
 ;
 
-        .export         _wherey
+        .export _wherey
 
-        .include        "cx16.inc"
+        .include "cx16.inc"
 
 .proc   _wherey
         lda     CURS_Y

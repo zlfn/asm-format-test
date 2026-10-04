@@ -9,9 +9,9 @@ EXTERN asm_sms_setw_vram
 
 _sms_setw_vram_callee:
 
-   pop af
-   pop de
-   pop bc
-   push af
-   
-   jp asm_sms_setw_vram
+        pop     af
+        pop     de
+        pop     bc
+        push    af
+
+        jp      asm_sms_setw_vram

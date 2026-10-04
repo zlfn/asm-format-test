@@ -17,7 +17,7 @@
 #include <asm/tlbflush.h>
 #include "proc-macros.S"
 
-	.align	5
+        .align  5
 /*
  *	v4_flush_user_tlb_range(start, end, mm)
  *
@@ -27,20 +27,20 @@
  *	- end   - range end address
  *	- mm    - mm_struct describing address space
  */
-	.align	5
+        .align  5
 SYM_TYPED_FUNC_START(v4_flush_user_tlb_range)
-	vma_vm_mm ip, r2
-	act_mm	r3				@ get current->active_mm
-	eors	r3, ip, r3				@ == mm ?
-	retne	lr				@ no, we dont do anything
+        vma_vm_mm ip, r2
+        act_mm  r3                      @ get current->active_mm
+        eors    r3, ip, r3              @ == mm ?
+        retne   lr                      @ no, we dont do anything
 .v4_flush_kern_tlb_range:
-	bic	r0, r0, #0x0ff
-	bic	r0, r0, #0xf00
-1:	mcr	p15, 0, r0, c8, c7, 1		@ invalidate TLB entry
-	add	r0, r0, #PAGE_SZ
-	cmp	r0, r1
-	blo	1b
-	ret	lr
+        bic     r0,  r0, #0x0ff
+        bic     r0,  r0, #0xf00
+1:      mcr     p15, 0,  r0, c8, c7, 1  @ invalidate TLB entry
+        add     r0,  r0, #PAGE_SZ
+        cmp     r0,  r1
+        blo     1b
+        ret     lr
 SYM_FUNC_END(v4_flush_user_tlb_range)
 
 /*
@@ -54,7 +54,7 @@ SYM_FUNC_END(v4_flush_user_tlb_range)
  */
 #ifdef CONFIG_CFI
 SYM_TYPED_FUNC_START(v4_flush_kern_tlb_range)
-	b	.v4_flush_kern_tlb_range
+        b       .v4_flush_kern_tlb_range
 SYM_FUNC_END(v4_flush_kern_tlb_range)
 #else
 .globl v4_flush_kern_tlb_range

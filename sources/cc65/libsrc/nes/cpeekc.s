@@ -5,13 +5,12 @@
 ; char cpeekc (void);
 ;
 
-        .export         _cpeekc
+        .export _cpeekc
 
-        .import         ppubuf_waitempty
-        .forceimport    initconio
+        .import ppubuf_waitempty
+        .forceimport initconio
 
-        .include        "nes.inc"
-
+        .include "nes.inc"
 
 _cpeekc:
         ; wait until all console data has been written
@@ -33,5 +32,5 @@ vwait:
         stx     PPU_VRAM_ADDR2
         stx     PPU_VRAM_ADDR2
 
-        and     #<~$80          ; remove reverse bit
+        and     #<~$80  ; remove reverse bit
         rts

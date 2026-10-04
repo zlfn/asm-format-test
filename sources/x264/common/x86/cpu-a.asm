@@ -33,50 +33,50 @@ SECTION .text
 ; void cpu_cpuid( int op, int *eax, int *ebx, int *ecx, int *edx )
 ;-----------------------------------------------------------------------------
 cglobal cpu_cpuid, 5,7
-    push rbx
-    push  r4
-    push  r3
-    push  r2
-    push  r1
-    mov  eax, r0d
-    xor  ecx, ecx
-    cpuid
-    pop   r4
-    mov [r4], eax
-    pop   r4
-    mov [r4], ebx
-    pop   r4
-    mov [r4], ecx
-    pop   r4
-    mov [r4], edx
-    pop  rbx
-    RET
+        push    rbx
+        push    r4
+        push    r3
+        push    r2
+        push    r1
+        mov     eax, r0d
+        xor     ecx, ecx
+        cpuid
+        pop     r4
+        mov     [r4], eax
+        pop     r4
+        mov     [r4], ebx
+        pop     r4
+        mov     [r4], ecx
+        pop     r4
+        mov     [r4], edx
+        pop     rbx
+        RET
 
 ;-----------------------------------------------------------------------------
 ; uint64_t cpu_xgetbv( int xcr )
 ;-----------------------------------------------------------------------------
 cglobal cpu_xgetbv
-    movifnidn ecx, r0m
-    xgetbv
+        movifnidn ecx, r0m
+        xgetbv
 %if ARCH_X86_64
-    shl       rdx, 32
-    or        rax, rdx
+        shl     rdx, 32
+        or      rax, rdx
 %endif
-    ret
+        ret
 
 ;-----------------------------------------------------------------------------
 ; void cpu_emms( void )
 ;-----------------------------------------------------------------------------
 cglobal cpu_emms
-    emms
-    ret
+        emms
+        ret
 
 ;-----------------------------------------------------------------------------
 ; void cpu_sfence( void )
 ;-----------------------------------------------------------------------------
 cglobal cpu_sfence
-    sfence
-    ret
+        sfence
+        ret
 
 %if ARCH_X86_64 == 0
 ;-----------------------------------------------------------------------------
@@ -84,24 +84,24 @@ cglobal cpu_sfence
 ; return 0 if unsupported
 ;-----------------------------------------------------------------------------
 cglobal cpu_cpuid_test
-    pushfd
-    push    ebx
-    push    ebp
-    push    esi
-    push    edi
-    pushfd
-    pop     eax
-    mov     ebx, eax
-    xor     eax, 0x200000
-    push    eax
-    popfd
-    pushfd
-    pop     eax
-    xor     eax, ebx
-    pop     edi
-    pop     esi
-    pop     ebp
-    pop     ebx
-    popfd
-    ret
+        pushfd
+        push    ebx
+        push    ebp
+        push    esi
+        push    edi
+        pushfd
+        pop     eax
+        mov     ebx, eax
+        xor     eax, 0x200000
+        push    eax
+        popfd
+        pushfd
+        pop     eax
+        xor     eax, ebx
+        pop     edi
+        pop     esi
+        pop     ebp
+        pop     ebx
+        popfd
+        ret
 %endif

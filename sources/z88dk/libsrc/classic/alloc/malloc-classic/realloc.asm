@@ -11,11 +11,11 @@ EXTERN asm_realloc
 ._realloc
 .___realloc
 
-   pop de
-   pop bc
-   pop hl
-   push hl
-   push bc
-   push de
-   
-   jp asm_realloc
+        pop     de
+        pop     bc
+        pop     hl
+        push    hl
+        push    bc
+        push    de
+
+        jp      asm_realloc

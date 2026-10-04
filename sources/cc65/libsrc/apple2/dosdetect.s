@@ -21,17 +21,17 @@
 ; ProDOS 8 2.4.x - $24
 ;
 
-        .constructor    initdostype, 25
-        .export         __dos_type
+        .constructor initdostype, 25
+        .export __dos_type
 
-        .include        "mli.inc"
+        .include "mli.inc"
 
 ; Identify DOS version according to:
 ; - Beneath Apple ProDOS, chapter 6-63
 ; - Apple II ProDOS 8 TechNote #23, ProDOS 8 Changes and Minutia
 ; - ProDOS TechRefMan, chapter 5.2.4
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 initdostype:
         lda     $BF00
@@ -46,4 +46,4 @@ done:   rts
 
         .data
 
-__dos_type:     .byte   $00
+__dos_type: .byte $00

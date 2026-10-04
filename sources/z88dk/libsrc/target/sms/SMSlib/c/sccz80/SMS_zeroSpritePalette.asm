@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_zeroSpritePalette
 defc _SMS_zeroSpritePalette = SMS_zeroSpritePalette
 ENDIF
-

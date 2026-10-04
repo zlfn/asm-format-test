@@ -8,12 +8,12 @@ EXTERN asm_esx_ide_mode_get
 
 _esx_ide_mode_get_fastcall:
 
-   push ix
-   push iy
-   
-   call asm_esx_ide_mode_get
-   
-   pop iy
-   pop ix
-   
-   ret
+        push    ix
+        push    iy
+
+        call    asm_esx_ide_mode_get
+
+        pop     iy
+        pop     ix
+
+        ret

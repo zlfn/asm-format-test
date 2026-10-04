@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Jan 2014
 ; ===============================================================
-; 
+;
 ; int fflush(FILE *stream)
 ;
 ; Flush the stream.  For streams most recently written to, this
@@ -30,38 +30,38 @@ EXTERN asm1_fflush_unlocked, asm__fflushall, __stdio_lock_release
 
 asm_fflush:
 
-   ; enter : ix = FILE *
-   ;
-   ; exit  : ix = FILE *
-   ;
-   ;         if success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         if lock could not be acquired
-   ;         if stream is in error state
-   ;         if write failed
-   ;
-   ;            hl = -1
-   ;            carry set
-   ;
-   ; uses  : all except ix
+        ; enter : ix = FILE *
+        ;
+        ; exit  : ix = FILE *
+        ;
+        ;         if success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         if lock could not be acquired
+        ;         if stream is in error state
+        ;         if write failed
+        ;
+        ;            hl = -1
+        ;            carry set
+        ;
+        ; uses  : all except ix
 
 IF __CPU_Z180__ ||  __CPU_RABBIT__
 
-   push ix
-   pop hl
+        push    ix
+        pop     hl
 
-   ld a,l
-   or h
-   jp z, asm__fflushall
+        ld      a, l
+        or      h
+        jp      z, asm__fflushall
 
 ELSE
 
-   ld a,ixl
-   or ixh
-   jp z, asm__fflushall
+        ld      a, ixl
+        or      ixh
+        jp      z, asm__fflushall
 
 ENDIF
 
@@ -70,23 +70,23 @@ asm0_fflush:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF __CLIB_OPT_STDIO & $01
 
-   EXTERN __stdio_verify_valid_lock
+        EXTERN  __stdio_verify_valid_lock
 
-   call __stdio_verify_valid_lock
-   ret c
+        call    __stdio_verify_valid_lock
+        ret     c
 
 ELSE
 
-   EXTERN __stdio_lock_acquire, error_enolck_mc
+        EXTERN  __stdio_lock_acquire, error_enolck_mc
 
-   call __stdio_lock_acquire
-   jp c, error_enolck_mc
+        call    __stdio_lock_acquire
+        jp      c, error_enolck_mc
 
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   
-   call asm1_fflush_unlocked
-   jp __stdio_lock_release
+
+        call    asm1_fflush_unlocked
+        jp      __stdio_lock_release
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

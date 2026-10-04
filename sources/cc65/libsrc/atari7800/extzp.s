@@ -8,8 +8,8 @@
 
         .segment "EXTZP" : zeropage
 
-ptr7800:        .res 2
-ptrtmp:         .res 2
-cursorzone:     .res 2
-CURS_X:         .res 1
-CURS_Y:         .res 1
+ptr7800:    .res 2
+ptrtmp: .res    2
+cursorzone: .res 2
+CURS_X: .res    1
+CURS_Y: .res    1

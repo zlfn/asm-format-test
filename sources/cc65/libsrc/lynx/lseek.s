@@ -11,15 +11,15 @@
 ;
 ; off_t __fastcall__ lseek(int fd, off_t offset, int whence);
 
-        .importzp       c_sp, sreg, regsave, regbank, tmp1, ptr1, ptr2
-        .macpack        longbranch
-        .export         _lseek
-        .import         addysp, stax0sp, tosand0ax, pusheax, asreax2
-        .import         ldeaxysp, decsp2, pushax, incsp8
-        .import         tosandeax,decax1,tosdiveax,axlong,ldaxysp
-        .import         lynxskip0, lynxblock,tosasreax
-        .import         __BANK0BLOCKSIZE__
-        .importzp       _FileCurrBlock
+        .importzp c_sp, sreg, regsave, regbank, tmp1, ptr1, ptr2
+        .macpack longbranch
+        .export _lseek
+        .import addysp,    stax0sp,   tosand0ax, pusheax, asreax2
+        .import ldeaxysp,  decsp2,    pushax,    incsp8
+        .import tosandeax, decax1,    tosdiveax, axlong,  ldaxysp
+        .import lynxskip0, lynxblock, tosasreax
+        .import __BANK0BLOCKSIZE__
+        .importzp _FileCurrBlock
 
 .segment        "CODE"
 
@@ -55,4 +55,3 @@
         jmp     incsp8
 
 .endproc
-

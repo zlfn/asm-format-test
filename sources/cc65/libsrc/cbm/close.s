@@ -4,15 +4,14 @@
 ; int __fastcall__ close (int fd);
 ;
 
-        .export         _close
+        .export _close
 
-        .import         readdiskerror, closecmdchannel
-        .importzp       tmp2
+        .import readdiskerror, closecmdchannel
+        .importzp tmp2
 
-        .include        "errno.inc"
-        .include        "cbm.inc"
-        .include        "filedes.inc"
-
+        .include "errno.inc"
+        .include "cbm.inc"
+        .include "filedes.inc"
 
 ;--------------------------------------------------------------------------
 ; _close
@@ -30,7 +29,7 @@
 ; Check if the file is actually open
 
         tax
-        lda     fdtab,x         ; Get flags for this handle
+        lda     fdtab, x        ; Get flags for this handle
         and     #LFN_OPEN
         beq     invalidfd
 
@@ -38,7 +37,7 @@
 ; as the kernal is involved
 
         lda     #LFN_CLOSED
-        sta     fdtab,x
+        sta     fdtab, x
         txa                     ; Get handle
         clc
         adc     #LFN_OFFS       ; Make LFN from handle
@@ -47,11 +46,11 @@
 ; Read the drive error channel, then close it
 
         ldy     tmp2            ; Get the handle
-        ldx     unittab,y       ; Get the disk for this handle
+        ldx     unittab, y      ; Get the disk for this handle
         jsr     readdiskerror   ; Read the disk error code
         pha                     ; Save it on stack
         ldy     tmp2
-        ldx     unittab,y
+        ldx     unittab, y
         jsr     closecmdchannel ; Close the disk command channel
         pla                     ; Get the error code from the disk
         jmp     ___mappederrno  ; Set __oserror and _errno, return 0/-1

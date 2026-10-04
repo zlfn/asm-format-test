@@ -20,4 +20,3 @@ IF __CLASSIC
 PUBLIC _BIFROSTL_showNextTile
 defc _BIFROSTL_showNextTile = BIFROSTL_showNextTile
 ENDIF
-

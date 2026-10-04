@@ -10,15 +10,15 @@ EXTERN asm_isalnum, error_zc
 
 _isalnum_fastcall:
 
-   inc h
-   dec h
-   jp nz, error_zc
+        inc     h
+        dec     h
+        jp      nz, error_zc
 
-   ld a,l
-   call asm_isalnum
-   
-   ld l,h
-   ret c
-   
-   inc l
-   ret
+        ld      a, l
+        call    asm_isalnum
+
+        ld      l, h
+        ret     c
+
+        inc     l
+        ret

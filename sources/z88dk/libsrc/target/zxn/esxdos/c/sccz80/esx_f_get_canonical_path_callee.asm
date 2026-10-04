@@ -8,9 +8,9 @@ EXTERN asm_esx_f_get_canonical_path
 
 esx_f_get_canonical_path_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_esx_f_get_canonical_path
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_esx_f_get_canonical_path

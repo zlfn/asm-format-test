@@ -10,35 +10,34 @@ EXTERN asm_sp1_PutTiles
 
 sp1_PutTiles:
 
-   ld hl,2
-   add hl,sp
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   push de
-   inc hl
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
-   pop hl
-   
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)
+        inc     hl
+        ld      d, (hl)
+        push    de
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
+        ld      d, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
+        pop     hl
+
 ;   jp asm_sp1_PutTiles
-   push ix
-   call asm_sp1_PutTiles
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_PutTiles
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_PutTiles
 defc _sp1_PutTiles = sp1_PutTiles
 ENDIF
-

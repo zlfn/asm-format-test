@@ -10,31 +10,31 @@ EXTERN cm48_sdccixp_dcallee2, am48_dmul, cm48_sdccixp_m482d, cm48_sdccixp_d2m48,
 
 cm48_sdccix_fma_callee:
 
-   call cm48_sdccixp_dcallee2
+        call    cm48_sdccixp_dcallee2
 
-   ; AC'= y
-   ; AC = x
-   ; stack = z, ret
+        ; AC'= y
+        ; AC = x
+        ; stack = z, ret
 
-   ; fma operation performed here since
-   ; it is difficult to gather three params
+        ; fma operation performed here since
+        ; it is difficult to gather three params
 
-   call am48_dmul
+        call    am48_dmul
 
-   pop bc
-   
-   pop de
-   pop hl                      ; hlde = float z
-   
-   push bc
-   
-   jp c, cm48_sdccixp_m482d    ; if overflow
-   
-   call cm48_sdccixp_d2m48
-   
-   ; AC = x * y
-   ; AC'= z
-   
-   call am48_dadd
-   
-   jp cm48_sdccixp_m482d
+        pop     bc
+
+        pop     de
+        pop     hl      ; hlde = float z
+
+        push    bc
+
+        jp      c, cm48_sdccixp_m482d   ; if overflow
+
+        call    cm48_sdccixp_d2m48
+
+        ; AC = x * y
+        ; AC'= z
+
+        call    am48_dadd
+
+        jp      cm48_sdccixp_m482d

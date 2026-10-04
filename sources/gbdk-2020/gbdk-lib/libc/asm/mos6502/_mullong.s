@@ -26,122 +26,122 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _mullong
+        .module _mullong
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __mullong_PARM_2
-	.globl __mullong_PARM_1
-	.globl __mullong
+        .globl  __mullong_PARM_2
+        .globl  __mullong_PARM_1
+        .globl  __mullong
 
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 __mullong_PARM_1:
-	.ds 4
+        .ds     4
 __mullong_PARM_2:
-	.ds 4
+        .ds     4
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define res0 "___SDCC_m6502_ret0"
-	.define res1 "___SDCC_m6502_ret1"
-	.define res2 "___SDCC_m6502_ret2"
-	.define res3 "___SDCC_m6502_ret3"
+        .define res0 "___SDCC_m6502_ret0"
+        .define res1 "___SDCC_m6502_ret1"
+        .define res2 "___SDCC_m6502_ret2"
+        .define res3 "___SDCC_m6502_ret3"
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 __mullong:
-	ldx     #0
-	stx     *res0
-	stx     *res1
-	stx     *res2
+        ldx     #0
+        stx     *res0
+        stx     *res1
+        stx     *res2
 ;	stx	*res3
 
-	ldy     #8
+        ldy     #8
 loop0:
-	lsr	*__mullong_PARM_1+0
-	bcc	skip0
-	clc
-	lda	*res0
-	adc	*__mullong_PARM_2+0
-	sta	*res0
-	lda	*res1
-	adc	*__mullong_PARM_2+1
-	sta	*res1
-	lda	*res2
-	adc	*__mullong_PARM_2+2
-	sta	*res2
+        lsr     *__mullong_PARM_1+0
+        bcc     skip0
+        clc
+        lda     *res0
+        adc     *__mullong_PARM_2+0
+        sta     *res0
+        lda     *res1
+        adc     *__mullong_PARM_2+1
+        sta     *res1
+        lda     *res2
+        adc     *__mullong_PARM_2+2
+        sta     *res2
 ;	lda	*res3
-	txa
-	adc	*__mullong_PARM_2+3
-	tax
+        txa
+        adc     *__mullong_PARM_2+3
+        tax
 ;	sta	*res3
 skip0:
-	asl	*__mullong_PARM_2+0
-	rol	*__mullong_PARM_2+1
-	rol	*__mullong_PARM_2+2
-	rol	*__mullong_PARM_2+3
-	dey
-	bne	loop0
+        asl     *__mullong_PARM_2+0
+        rol     *__mullong_PARM_2+1
+        rol     *__mullong_PARM_2+2
+        rol     *__mullong_PARM_2+3
+        dey
+        bne     loop0
 
         ldy     #8
 loop1:
-	lsr 	*__mullong_PARM_1+1
-	bcc 	skip1
-	clc
-	lda 	*res1
-	adc	*__mullong_PARM_2+1
-	sta 	*res1
-	lda 	*res2
-	adc 	*__mullong_PARM_2+2
-	sta 	*res2
+        lsr     *__mullong_PARM_1+1
+        bcc     skip1
+        clc
+        lda     *res1
+        adc     *__mullong_PARM_2+1
+        sta     *res1
+        lda     *res2
+        adc     *__mullong_PARM_2+2
+        sta     *res2
 ;	lda 	*res3
-	txa
-	adc	*__mullong_PARM_2+3
+        txa
+        adc     *__mullong_PARM_2+3
 ;	sta 	*res3
-	tax
+        tax
 skip1:
-	asl	*__mullong_PARM_2+1
-	rol	*__mullong_PARM_2+2
-	rol	*__mullong_PARM_2+3
-	dey
-	bne	loop1
-    
-	ldy	#8
+        asl     *__mullong_PARM_2+1
+        rol     *__mullong_PARM_2+2
+        rol     *__mullong_PARM_2+3
+        dey
+        bne     loop1
+
+        ldy     #8
 loop2:
-	lsr	*__mullong_PARM_1+2
-	bcc	skip2
-	clc
-	lda	*res2
-	adc	*__mullong_PARM_2+2
-	sta	*res2
-	txa
-	adc	*__mullong_PARM_2+3
-	tax
+        lsr     *__mullong_PARM_1+2
+        bcc     skip2
+        clc
+        lda     *res2
+        adc     *__mullong_PARM_2+2
+        sta     *res2
+        txa
+        adc     *__mullong_PARM_2+3
+        tax
 skip2:
-	asl	*__mullong_PARM_2+2
-	rol	*__mullong_PARM_2+3
-	dey
-	bne loop2
+        asl     *__mullong_PARM_2+2
+        rol     *__mullong_PARM_2+3
+        dey
+        bne     loop2
 
-	txa
+        txa
 loop3:
-	lsr 	*__mullong_PARM_1+3
-	bcc 	skip3
-	clc
-	adc 	*__mullong_PARM_2+3
+        lsr     *__mullong_PARM_1+3
+        bcc     skip3
+        clc
+        adc     *__mullong_PARM_2+3
 skip3:
-	asl 	*__mullong_PARM_2+3
-	bne 	loop3
+        asl     *__mullong_PARM_2+3
+        bne     loop3
 
-	sta 	*res3
-  	ldx	*res1
-  	lda	*res0
-	rts
+        sta     *res3
+        ldx     *res1
+        lda     *res0
+        rts

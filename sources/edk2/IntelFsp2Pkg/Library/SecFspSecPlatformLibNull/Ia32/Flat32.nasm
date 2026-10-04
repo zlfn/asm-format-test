@@ -16,8 +16,8 @@ SECTION .text
 
 %macro RET_ESI  0
 
-  movd    esi, mm7                      ; restore EIP from MM7
-  jmp     esi
+        movd    esi, mm7        ; restore EIP from MM7
+        jmp     esi
 
 %endmacro
 
@@ -27,7 +27,7 @@ SECTION .text
 global ASM_PFX(SecPlatformInit)
 ASM_PFX(SecPlatformInit):
 
-  RET_ESI
+        RET_ESI
 
 ;
 ; Protected mode portion initializes stack, configures cache, and calls C entry point
@@ -60,13 +60,13 @@ ASM_PFX(SecPlatformInit):
 ;----------------------------------------------------------------------------
 global ASM_PFX(ProtectedModeEntryPoint)
 ASM_PFX(ProtectedModeEntryPoint):
-  ;
-  ; Dummy function. Consume 2 API to make sure they can be linked.
-  ;
-  mov  eax, ASM_PFX(TempRamInitApi)
+        ;
+        ; Dummy function. Consume 2 API to make sure they can be linked.
+        ;
+        mov     eax, ASM_PFX(TempRamInitApi)
 
-  ; Should never return
-  jmp  $
+        ; Should never return
+        jmp     $
 
 ;
 ; ROM-based Global-Descriptor Table for the PEI Phase
@@ -77,45 +77,44 @@ global  ASM_PFX(BootGdtTable)
 ;
 ; GDT[0]: 0x00: Null entry, never used.
 ;
-NULL_SEL        equ     $ - GDT_BASE        ; Selector [0]
+NULL_SEL equ    $ - GDT_BASE    ; Selector [0]
 GDT_BASE:
 ASM_PFX(BootGdtTable):    DD      0
-                          DD      0
+        DD      0
 ;
 ; Linear code segment descriptor
 ;
-LINEAR_CODE_SEL equ     $ - GDT_BASE        ; Selector [0x8]
-        DW      0FFFFh                      ; limit 0xFFFF
-        DW      0                           ; base 0
+LINEAR_CODE_SEL equ $ - GDT_BASE        ; Selector [0x8]
+        DW      0FFFFh                  ; limit 0xFFFF
+        DW      0                       ; base 0
         DB      0
-        DB      09Bh                        ; present, ring 0, data, expand-up, not-writable
-        DB      0CFh                        ; page-granular, 32-bit
+        DB      09Bh                    ; present, ring 0, data, expand-up, not-writable
+        DB      0CFh                    ; page-granular, 32-bit
         DB      0
 ;
 ; System data segment descriptor
 ;
-SYS_DATA_SEL    equ     $ - GDT_BASE        ; Selector [0x10]
-        DW      0FFFFh                      ; limit 0xFFFF
-        DW      0                           ; base 0
+SYS_DATA_SEL equ $ - GDT_BASE   ; Selector [0x10]
+        DW      0FFFFh          ; limit 0xFFFF
+        DW      0               ; base 0
         DB      0
-        DB      093h                        ; present, ring 0, data, expand-up, not-writable
-        DB      0CFh                        ; page-granular, 32-bit
+        DB      093h            ; present, ring 0, data, expand-up, not-writable
+        DB      0CFh            ; page-granular, 32-bit
         DB      0
 
-GDT_SIZE        EQU     $ - GDT_BASE        ; Size, in bytes
+GDT_SIZE EQU    $ - GDT_BASE    ; Size, in bytes
 
 ;
 ; GDT Descriptor
 ;
-GdtDesc:                                    ; GDT descriptor
-        DW      GDT_SIZE - 1                ; GDT limit
-        DD      GDT_BASE                    ; GDT base address
+GdtDesc:                        ; GDT descriptor
+        DW      GDT_SIZE - 1    ; GDT limit
+        DD      GDT_BASE        ; GDT base address
 
 global ASM_PFX(ProtectedModeEntryLinearAddress)
 global ASM_PFX(ProtectedModeEntryLinearOffset)
 
 ASM_PFX(ProtectedModeEntryLinearAddress):
 ASM_PFX(ProtectedModeEntryLinearOffset):
-  DD      ASM_PFX(ProtectedModeEntryPoint)  ; Offset of our 32 bit code
-  DW      LINEAR_CODE_SEL
-
+        DD      ASM_PFX(ProtectedModeEntryPoint)        ; Offset of our 32 bit code
+        DW      LINEAR_CODE_SEL

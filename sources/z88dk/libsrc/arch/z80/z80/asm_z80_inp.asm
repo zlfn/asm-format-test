@@ -18,16 +18,16 @@ PUBLIC asm_cpu_inp
 asm_z80_inp:
 asm_cpu_inp:
 
-   ; enter : hl = port
-   ;
-   ; exit  : hl = byte read from port
-   ;
-   ; uses  : f, bc, hl
+        ; enter : hl = port
+        ;
+        ; exit  : hl = byte read from port
+        ;
+        ; uses  : f, bc, hl
 
-   ld c,l
-   ld b,h
-   
-   in l,(c)
-   ld h,0
-   
-   ret
+        ld      c, l
+        ld      b, h
+
+        in      l, (c)
+        ld      h, 0
+
+        ret

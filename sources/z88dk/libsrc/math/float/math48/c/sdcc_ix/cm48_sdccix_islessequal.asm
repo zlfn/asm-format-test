@@ -10,9 +10,9 @@ EXTERN am48_islessequal, cm48_sdccixp_dread2
 
 cm48_sdccix_islessequal:
 
-   call cm48_sdccixp_dread2
-   
-   ; AC'= y
-   ; AC = x
+        call    cm48_sdccixp_dread2
 
-   jp am48_islessequal
+        ; AC'= y
+        ; AC = x
+
+        jp      am48_islessequal

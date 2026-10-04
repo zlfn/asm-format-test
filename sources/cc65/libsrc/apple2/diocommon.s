@@ -2,11 +2,11 @@
 ; Oliver Schmidt, 24.03.2005
 ;
 
-        .export         dioprolog, diocommon, dioepilog
-        .import         popax
+        .export dioprolog, diocommon, dioepilog
+        .import popax
 
-        .include        "errno.inc"
-        .include        "mli.inc"
+        .include "errno.inc"
+        .include "mli.inc"
 
 dioprolog:
         ; Set buffer

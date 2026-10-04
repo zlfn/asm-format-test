@@ -8,12 +8,12 @@
 ; Commodore machines. No segment has to be passed, the current segment is
 ; assumed.
 
-        .export         SETNAM
+        .export SETNAM
 
-        .import         sys_bank, restore_bank
-        .import         sysp0: zp, ktmp: zp
+        .import sys_bank,  restore_bank
+        .import sysp0: zp, ktmp: zp
 
-        .include        "cbm510.inc"
+        .include "cbm510.inc"
 
 .proc   SETNAM
 
@@ -23,19 +23,19 @@
 
         txa
         ldy     #FNAM
-        sta     (sysp0),y
+        sta     (sysp0), y
 
         lda     ktmp
         iny
-        sta     (sysp0),y
+        sta     (sysp0), y
 
-        lda     ExecReg                 ; Assume name is always in this segment
-        ldy     #$92                    ; FNAM_SEG
-        sta     (sysp0),y
+        lda     ExecReg ; Assume name is always in this segment
+        ldy     #$92    ; FNAM_SEG
+        sta     (sysp0), y
 
         ldy     #FNAM_LEN
         pla
-        sta     (sysp0),y
+        sta     (sysp0), y
         ldy     ktmp
         jmp     restore_bank
 

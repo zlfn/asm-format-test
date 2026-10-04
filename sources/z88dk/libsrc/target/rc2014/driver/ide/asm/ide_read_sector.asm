@@ -26,38 +26,37 @@ EXTERN ide_setup_lba
 ; return carry on success
 
 .ide_read_sector
-    call ide_wait_ready         ;make sure drive is ready
-    call ide_setup_lba          ;tell it which sector we want in BCDE
+        call    ide_wait_ready  ;make sure drive is ready
+        call    ide_setup_lba   ;tell it which sector we want in BCDE
 
-    ld a,1
-    out (__IO_CF_IDE_SEC_CNT),a ;set sector count to 1
+        ld      a, 1
+        out     (__IO_CF_IDE_SEC_CNT), a        ;set sector count to 1
 
-    ld a,__IDE_CMD_READ
-    out (__IO_CF_IDE_COMMAND),a ;ask the drive to read it
+        ld      a, __IDE_CMD_READ
+        out     (__IO_CF_IDE_COMMAND), a        ;ask the drive to read it
 
-    call ide_wait_drq           ;wait until it's got the data
+        call    ide_wait_drq    ;wait until it's got the data
 
-    ;Read a block of 512 bytes (one sector) from the drive
-    ;16 bit data register and store it in memory at (HL++)
+        ;Read a block of 512 bytes (one sector) from the drive
+        ;16 bit data register and store it in memory at (HL++)
 
 IF __CPU_INTEL__
-    ld b,0                      ;keep iterative count in b
+        ld      b, 0                            ;keep iterative count in b
 .ide_rdblk
-    in a,(__IO_CF_IDE_DATA)     ;read the data byte (hl++)
-    ld (hl+),a
-    in a,(__IO_CF_IDE_DATA)     ;read the data byte (hl++)
-    ld (hl+),a
-    djnz ide_rdblk              ;keep iterative count in b
+        in      a,     (__IO_CF_IDE_DATA)       ;read the data byte (hl++)
+        ld      (hl+), a
+        in      a,     (__IO_CF_IDE_DATA)       ;read the data byte (hl++)
+        ld      (hl+), a
+        djnz    ide_rdblk                       ;keep iterative count in b
 
 ELSE
-    ld bc,__IO_CF_IDE_DATA&0xFF ;keep iterative count in b, I/O port in c
-    inir
-    inir
+        ld      bc, __IO_CF_IDE_DATA&0xFF       ;keep iterative count in b, I/O port in c
+        inir
+        inir
 
 ENDIF
-    scf                         ;carry = 1 on return = operation ok
-    ret
-
+        scf     ;carry = 1 on return = operation ok
+        ret
 
 ELSE
 
@@ -79,23 +78,23 @@ EXTERN ide_read_block
 ; return carry on success
 
 .ide_read_sector
-    push de
-    call ide_wait_ready         ;make sure drive is ready
+        push    de
+        call    ide_wait_ready  ;make sure drive is ready
 
-    pop de
-    call ide_setup_lba          ;tell it which sector we want in BCDE
+        pop     de
+        call    ide_setup_lba   ;tell it which sector we want in BCDE
 
-    ld de,__IO_PIO_IDE_SEC_CNT<<8|1
-    call ide_write_byte_preset  ;set sector count to 1
+        ld      de, __IO_PIO_IDE_SEC_CNT<<8|1
+        call    ide_write_byte_preset   ;set sector count to 1
 
-    ld de,__IO_PIO_IDE_COMMAND<<8|__IDE_CMD_READ
-    call ide_write_byte_preset  ;ask the drive to read it
+        ld      de, __IO_PIO_IDE_COMMAND<<8|__IDE_CMD_READ
+        call    ide_write_byte_preset   ;ask the drive to read it
 
-    call ide_wait_drq           ;wait until it's got the data
+        call    ide_wait_drq    ;wait until it's got the data
 
-    call ide_read_block         ;grab the data into (HL++)
+        call    ide_read_block  ;grab the data into (HL++)
 
-    scf                         ;carry = 1 on return = operation ok
-    ret
+        scf     ;carry = 1 on return = operation ok
+        ret
 
 ENDIF

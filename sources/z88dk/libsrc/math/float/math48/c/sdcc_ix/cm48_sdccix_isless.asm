@@ -10,9 +10,9 @@ EXTERN am48_isless, cm48_sdccixp_dread2
 
 cm48_sdccix_isless:
 
-   call cm48_sdccixp_dread2
-   
-   ; AC'= y
-   ; AC = x
+        call    cm48_sdccixp_dread2
 
-   jp am48_isless
+        ; AC'= y
+        ; AC = x
+
+        jp      am48_isless

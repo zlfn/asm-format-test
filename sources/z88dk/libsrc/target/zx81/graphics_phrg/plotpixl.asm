@@ -11,40 +11,39 @@
 ;	$Id: plotpixl.asm $
 ;
 
-    MODULE  plotpixel
+        MODULE  plotpixel
 
-    SECTION code_clib
-    PUBLIC  plotpixel
+        SECTION code_clib
+        PUBLIC  plotpixel
 
-    EXTERN  pixeladdress
-    EXTERN  __gfx_coords
-    EXTERN  pix_return
+        EXTERN  pixeladdress
+        EXTERN  __gfx_coords
+        EXTERN  pix_return
 
-    INCLUDE "classic/gfx/grafix.inc"
-
+        INCLUDE "classic/gfx/grafix.inc"
 
 plotpixel:
-    ld      a, h
-    cp      _GFX_MAXX
-    ret     nc                          ; x0        out of range
+        ld      a, h
+        cp      _GFX_MAXX
+        ret     nc      ; x0        out of range
 
-    ld      a, l
-    cp      _GFX_MAXY
-    ret     nc                          ; y0        out of range
+        ld      a, l
+        cp      _GFX_MAXY
+        ret     nc      ; y0        out of range
 
-    ld      (__gfx_coords), hl
+        ld      (__gfx_coords), hl
 
-    push    bc
-    call    pixeladdress
+        push    bc
+        call    pixeladdress
 
-    ld      b, a
-    ld      a, 1
-    jr      z, or_pixel                 ; pixel is at bit 0...
+        ld      b, a
+        ld      a, 1
+        jr      z, or_pixel     ; pixel is at bit 0...
 plot_position:
-    rlca
-    djnz    plot_position
-    pop     bc
+        rlca
+        djnz    plot_position
+        pop     bc
 
 or_pixel:
-    or      (hl)
-    jp      pix_return
+        or      (hl)
+        jp      pix_return

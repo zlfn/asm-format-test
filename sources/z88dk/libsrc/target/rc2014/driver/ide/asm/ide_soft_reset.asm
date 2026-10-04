@@ -28,7 +28,7 @@ EXTERN ide_wait_ready
 ;   ld a,00000010b              ;no interrupt, clear drives reset
 ;   out (__IO_CF_IDE_CONTROL),a
 
-    jp ide_wait_ready           ;carry set on return = operation ok
+        jp      ide_wait_ready  ;carry set on return = operation ok
 
 ELSE
 
@@ -45,11 +45,11 @@ EXTERN ide_write_byte, ide_write_byte_preset
 ; this should be followed with a call to "ide_init".
 
 .ide_soft_reset
-    ld de,__IO_PIO_IDE_CONTROL<<8|00000110b
-    call ide_write_byte         ;no interrupt, set drives reset
+        ld      de, __IO_PIO_IDE_CONTROL<<8|00000110b
+        call    ide_write_byte  ;no interrupt, set drives reset
 
-    ld de,__IO_PIO_IDE_CONTROL<<8|00000010b
-    call ide_write_byte_preset  ;no interrupt, clear drives reset
-    jp ide_wait_ready           ;carry set on return = operation ok
+        ld      de, __IO_PIO_IDE_CONTROL<<8|00000010b
+        call    ide_write_byte_preset   ;no interrupt, clear drives reset
+        jp      ide_wait_ready          ;carry set on return = operation ok
 
 ENDIF

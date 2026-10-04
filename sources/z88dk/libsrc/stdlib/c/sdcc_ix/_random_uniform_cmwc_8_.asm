@@ -10,10 +10,10 @@ EXTERN __random_uniform_cmwc_8__fastcall
 
 __random_uniform_cmwc_8_:
 
-   pop af
-   pop hl
+        pop     af
+        pop     hl
 
-   push hl
-   push af
+        push    hl
+        push    af
 
-   jp __random_uniform_cmwc_8__fastcall
+        jp      __random_uniform_cmwc_8__fastcall

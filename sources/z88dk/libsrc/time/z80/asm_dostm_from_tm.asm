@@ -7,73 +7,72 @@ PUBLIC asm_dostm_from_tm
 
 asm_dostm_from_tm:
 
-   ; enter : hl = struct dos_tm *
-   ;         de = struct tm *
-   ;
-   ; uses  : af, bc, de, hl
+        ; enter : hl = struct dos_tm *
+        ;         de = struct tm *
+        ;
+        ; uses  : af, bc, de, hl
 
-   ld a,(de)                   ; tm_sec
-   inc de
-   
-   srl a
-   ld (hl),a                   ; dos.seconds
-   
-   ld a,(de)                   ; tm_min
-   inc de
-   
-   rrca
-   rrca
-   rrca
-   ld c,a
-   and $e0
-   or (hl)
-   ld (hl),a                   ; dos.minute low part
-   inc hl
-   
-   ld a,c
-   and $07
-   ld (hl),a                   ; dos.minute high part
-   
-   ld a,(de)                   ; tm_hour
-   inc de
-   
-   add a,a
-   add a,a
-   add a,a
-   or (hl)
-   ld (hl),a                   ; dos.hour
-   inc hl
-   
-   ld a,(de)                   ; tm_mday
-   inc de
-   
-   and $1f
-   ld (hl),a                   ; dos.day
-   
-   ld a,(de)                   ; tm_mon
-   inc a
-   inc de
-   
-   rrca
-   rrca
-   rrca
-   ld c,a
-   and $e0
-   or (hl)
-   ld (hl),a                  ; dos.month low part
-   inc hl
-   ld a,c
-   and $01
-   ld (hl),a                  ; dos.month high part
-   
-   ld a,(de)                  ; tm_year offset from 1900
-   sub 80
-   add a,a
-   or (hl)
-   ld (hl),a                  ; dos.year offset from 1980
-   
-   ret
+        ld      a, (de) ; tm_sec
+        inc     de
 
+        srl     a
+        ld      (hl), a ; dos.seconds
+
+        ld      a, (de) ; tm_min
+        inc     de
+
+        rrca
+        rrca
+        rrca
+        ld      c, a
+        and     $e0
+        or      (hl)
+        ld      (hl), a ; dos.minute low part
+        inc     hl
+
+        ld      a, c
+        and     $07
+        ld      (hl), a ; dos.minute high part
+
+        ld      a, (de) ; tm_hour
+        inc     de
+
+        add     a, a
+        add     a, a
+        add     a, a
+        or      (hl)
+        ld      (hl), a ; dos.hour
+        inc     hl
+
+        ld      a, (de) ; tm_mday
+        inc     de
+
+        and     $1f
+        ld      (hl), a ; dos.day
+
+        ld      a, (de) ; tm_mon
+        inc     a
+        inc     de
+
+        rrca
+        rrca
+        rrca
+        ld      c, a
+        and     $e0
+        or      (hl)
+        ld      (hl), a ; dos.month low part
+        inc     hl
+        ld      a, c
+        and     $01
+        ld      (hl), a ; dos.month high part
+
+        ld      a, (de) ; tm_year offset from 1900
+        sub     80
+        add     a, a
+        or      (hl)
+        ld      (hl), a ; dos.year offset from 1980
+
+        ret
 
 ; msdos date
 ;

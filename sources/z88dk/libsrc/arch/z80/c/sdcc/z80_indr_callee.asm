@@ -10,9 +10,9 @@ EXTERN asm_z80_indr
 
 _z80_indr_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   indr
-   ret
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+        indr
+        ret

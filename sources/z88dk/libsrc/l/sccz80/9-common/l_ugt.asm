@@ -12,14 +12,14 @@ EXTERN l_compare_result
 
 l_ugt:
 
-   ; DE > HL [unsigned]
+        ; DE > HL [unsigned]
 
-   ; set carry if true
+        ; set carry if true
 
-   ld a,h
-   cp d
-   jp nz, l_compare_result
+        ld      a, h
+        cp      d
+        jp      nz, l_compare_result
 
-   ld a,l
-   cp e
-   jp l_compare_result
+        ld      a, l
+        cp      e
+        jp      l_compare_result

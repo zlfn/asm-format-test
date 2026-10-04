@@ -8,11 +8,10 @@
 ; 2014-09-04, Greg King
 ;
 
-        .constructor    disable_caps
-        .destructor     restore_caps
+        .constructor disable_caps
+        .destructor restore_caps
 
-        .include        "atmos.inc"
-
+        .include "atmos.inc"
 
 ;--------------------------------------------------------------------------
 ; Put this constructor into a segment whose space
@@ -29,7 +28,6 @@ disable_caps:
         sta     CAPSLOCK
         rts
 
-
 ;--------------------------------------------------------------------------
 
 .code
@@ -40,7 +38,6 @@ restore_caps:
         lda     capsave
         sta     CAPSLOCK
         rts
-
 
 ;--------------------------------------------------------------------------
 

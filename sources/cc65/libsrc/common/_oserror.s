@@ -4,11 +4,9 @@
 ; extern unsigned char __oserror;
 ; /* Operating system specific errors from the low level functions */
 
-
-        .export         ___oserror
+        .export ___oserror
 
 .bss
 
 ___oserror:
         .res    1
-

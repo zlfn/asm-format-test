@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _tshc_py2aaddr
 defc _tshc_py2aaddr = tshc_py2aaddr
 ENDIF
-

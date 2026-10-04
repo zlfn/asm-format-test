@@ -10,10 +10,10 @@ EXTERN _atof_fastcall
 
 _atof:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _atof_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _atof_fastcall

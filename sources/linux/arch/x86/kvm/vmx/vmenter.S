@@ -21,37 +21,37 @@
  *	0 on VM-Exit, 1 on VM-Fail
  */
 SYM_FUNC_START(__vmx_vcpu_run)
-	push %_ASM_BP
-	mov  %_ASM_SP, %_ASM_BP
+        push    %_ASM_BP
+        mov     %_ASM_SP, %_ASM_BP
 #ifdef CONFIG_X86_64
-	push %r15
-	push %r14
-	push %r13
-	push %r12
+        push    %r15
+        push    %r14
+        push    %r13
+        push    %r12
 #else
-	push %edi
-	push %esi
+        push    %edi
+        push    %esi
 #endif
-	push %_ASM_BX
+        push    %_ASM_BX
 
-	/* Save @vmx for SPEC_CTRL handling */
-	push %_ASM_ARG1
+        /* Save @vmx for SPEC_CTRL handling */
+        push    %_ASM_ARG1
 
-	/* Save @flags (used for VMLAUNCH vs. VMRESUME and mitigations). */
-	push %_ASM_ARG2
+        /* Save @flags (used for VMLAUNCH vs. VMRESUME and mitigations). */
+        push    %_ASM_ARG2
 
-	lea (%_ASM_SP), %_ASM_ARG2
-	call vmx_update_host_rsp
+        lea     (%_ASM_SP), %_ASM_ARG2
+        call    vmx_update_host_rsp
 
-	/* Reload @vmx, _ASM_ARG1 may be modified by vmx_update_host_rsp().  */
-	mov WORD_SIZE(%_ASM_SP), %_ASM_DI
+        /* Reload @vmx, _ASM_ARG1 may be modified by vmx_update_host_rsp().  */
+        mov     WORD_SIZE(%_ASM_SP), %_ASM_DI
 
 	/*
 	 * Unlike AMD there's no V_SPEC_CTRL here, so do not leave the body
 	 * out of line.  Clobbers RAX, RCX, RDX, RSI.
 	 */
-	ALTERNATIVE "jmp .Lspec_ctrl_guest_done", "", X86_FEATURE_MSR_SPEC_CTRL
-	RESTORE_GUEST_SPEC_CTRL_BODY VMX_spec_ctrl(%_ASM_DI), .Lspec_ctrl_guest_done
+        ALTERNATIVE "jmp .Lspec_ctrl_guest_done", "", X86_FEATURE_MSR_SPEC_CTRL
+        RESTORE_GUEST_SPEC_CTRL_BODY VMX_spec_ctrl(%_ASM_DI), .Lspec_ctrl_guest_done
 .Lspec_ctrl_guest_done:
 
 	/*
@@ -63,14 +63,14 @@ SYM_FUNC_START(__vmx_vcpu_run)
 	 * Load guest registers.  Don't clobber flags. Intentionally omit
 	 * %_ASM_SP as it's context switched by hardware
 	 */
-	LOAD_REGS %_ASM_DI, VMX_vcpu_arch_regs, \
-		  %_ASM_AX, %_ASM_CX, %_ASM_DX, %_ASM_BX, %_ASM_BP, %_ASM_SI
+        LOAD_REGS %_ASM_DI, VMX_vcpu_arch_regs, \
+                %_ASM_AX, %_ASM_CX, %_ASM_DX, %_ASM_BX, %_ASM_BP, %_ASM_SI
 #ifdef CONFIG_X86_64
-	LOAD_REGS %_ASM_DI, VMX_vcpu_arch_regs, \
-		  %r8, %r9, %r10, %r11, %r12, %r13, %r14, %r15
+        LOAD_REGS %_ASM_DI, VMX_vcpu_arch_regs, \
+                %r8, %r9, %r10, %r11, %r12, %r13, %r14, %r15
 #endif
-	/* Load guest RDI.  This kills the @vmx pointer! */
-	LOAD_REGS %_ASM_DI, VMX_vcpu_arch_regs, %_ASM_DI
+        /* Load guest RDI.  This kills the @vmx pointer! */
+        LOAD_REGS %_ASM_DI, VMX_vcpu_arch_regs, %_ASM_DI
 
 	/*
 	 * Note, ALTERNATIVE_2 works in reverse order.  If CLEAR_CPU_BUF_VM is
@@ -78,17 +78,17 @@ SYM_FUNC_START(__vmx_vcpu_run)
 	 * check @flags to see if the vCPU has access to host MMIO, and if so,
 	 * do VERW.  Else, do nothing (no mitigations needed/enabled).
 	 */
-	ALTERNATIVE_2 "",									  \
-		      __stringify(testl $KVM_ENTER_CLEAR_CPU_BUFFERS_FOR_MMIO, (%_ASM_SP);	  \
-				  jz .Lskip_mmio_verw;						  \
-				  VERW;								  \
-				  .Lskip_mmio_verw:),					  	  \
-		      X86_FEATURE_CLEAR_CPU_BUF_VM_MMIO,					  \
-		      __stringify(VERW), X86_FEATURE_CLEAR_CPU_BUF_VM
+        ALTERNATIVE_2 "",                                                            \
+                __stringify(testl $KVM_ENTER_CLEAR_CPU_BUFFERS_FOR_MMIO, (%_ASM_SP); \
+                jz .Lskip_mmio_verw;                                                 \
+                VERW;                                                                \
+                .Lskip_mmio_verw:),                                                  \
+                X86_FEATURE_CLEAR_CPU_BUF_VM_MMIO,                                   \
+                __stringify(VERW), X86_FEATURE_CLEAR_CPU_BUF_VM
 
-	/* Check @flags to see if VMLAUNCH or VMRESUME is needed. */
-	testl $KVM_ENTER_VMRESUME, (%_ASM_SP)
-	jz .Lvmlaunch
+        /* Check @flags to see if VMLAUNCH or VMRESUME is needed. */
+        testl   $KVM_ENTER_VMRESUME, (%_ASM_SP)
+        jz      .Lvmlaunch
 
 	/*
 	 * After a successful VMRESUME/VMLAUNCH, control flow "magically"
@@ -96,49 +96,49 @@ SYM_FUNC_START(__vmx_vcpu_run)
 	 * So this isn't a typical function and objtool needs to be told to
 	 * save the unwind state here and restore it below.
 	 */
-	UNWIND_HINT_SAVE
+        UNWIND_HINT_SAVE
 
 /*
  * If VMRESUME/VMLAUNCH and corresponding vmexit succeed, execution resumes at
  * the 'vmx_vmexit' label below.
  */
 .Lvmresume:
-	vmresume
-	jmp .Lvmfail
+        vmresume
+        jmp     .Lvmfail
 
 .Lvmlaunch:
-	vmlaunch
-	jmp .Lvmfail
+        vmlaunch
+        jmp     .Lvmfail
 
-	_ASM_EXTABLE(.Lvmresume, .Lfixup)
-	_ASM_EXTABLE(.Lvmlaunch, .Lfixup)
+        _ASM_EXTABLE(.Lvmresume, .Lfixup)
+        _ASM_EXTABLE(.Lvmlaunch, .Lfixup)
 
 SYM_INNER_LABEL_ALIGN(vmx_vmexit, SYM_L_GLOBAL)
 
-	/* Restore unwind state from before the VMRESUME/VMLAUNCH. */
-	UNWIND_HINT_RESTORE
-	ENDBR
+        /* Restore unwind state from before the VMRESUME/VMLAUNCH. */
+        UNWIND_HINT_RESTORE
+        ENDBR
 
-	/* Temporarily save guest's RDI. */
-	push %_ASM_DI
+        /* Temporarily save guest's RDI. */
+        push    %_ASM_DI
 
-	/* Reload @vmx to RDI. */
-	mov 2*WORD_SIZE(%_ASM_SP), %_ASM_DI
+        /* Reload @vmx to RDI. */
+        mov     2*WORD_SIZE(%_ASM_SP), %_ASM_DI
 
 	/*
 	 * Save all guest registers, including RDI from the stack. Intentionally
 	 * omit %_ASM_SP as it's context switched by hardware
 	 */
-	STORE_REGS %_ASM_DI, VMX_vcpu_arch_regs, \
-		   %_ASM_AX, %_ASM_CX, %_ASM_DX, %_ASM_BX, %_ASM_BP, %_ASM_SI
-	POP_REGS   %_ASM_DI, VMX_vcpu_arch_regs, %_ASM_DI
+        STORE_REGS %_ASM_DI, VMX_vcpu_arch_regs, \
+                %_ASM_AX, %_ASM_CX, %_ASM_DX, %_ASM_BX, %_ASM_BP, %_ASM_SI
+        POP_REGS %_ASM_DI, VMX_vcpu_arch_regs, %_ASM_DI
 #ifdef CONFIG_X86_64
-	STORE_REGS %_ASM_DI, VMX_vcpu_arch_regs, \
-		   %r8, %r9, %r10, %r11, %r12, %r13, %r14, %r15
+        STORE_REGS %_ASM_DI, VMX_vcpu_arch_regs, \
+                %r8, %r9, %r10, %r11, %r12, %r13, %r14, %r15
 #endif
 
-	/* Clear return value to indicate VM-Exit (as opposed to VM-Fail). */
-	xor %ebx, %ebx
+        /* Clear return value to indicate VM-Exit (as opposed to VM-Fail). */
+        xor     %ebx, %ebx
 
 .Lclear_regs:
 	/*
@@ -151,9 +151,9 @@ SYM_INNER_LABEL_ALIGN(vmx_vmexit, SYM_L_GLOBAL)
 	 * VM-Exit and RBX is explicitly loaded with 0 or 1 to hold the return
 	 * value.
 	 */
-	CLEAR_REGS %eax, %ecx, %edx, %ebp, %esi, %edi
+        CLEAR_REGS %eax, %ecx, %edx, %ebp, %esi, %edi
 #ifdef CONFIG_X86_64
-	CLEAR_REGS %r8d, %r9d, %r10d, %r11d, %r12d, %r13d, %r14d, %r15d
+        CLEAR_REGS %r8d, %r9d, %r10d, %r11d, %r12d, %r13d, %r14d, %r15d
 #endif
 
 	/*
@@ -168,13 +168,13 @@ SYM_INNER_LABEL_ALIGN(vmx_vmexit, SYM_L_GLOBAL)
 	 * single call to retire, before the first unbalanced RET.
 	 */
 
-	FILL_RETURN_BUFFER %_ASM_CX, RSB_CLEAR_LOOPS, X86_FEATURE_RSB_VMEXIT,\
-			   X86_FEATURE_RSB_VMEXIT_LITE
+        FILL_RETURN_BUFFER %_ASM_CX, RSB_CLEAR_LOOPS, X86_FEATURE_RSB_VMEXIT,\
+                X86_FEATURE_RSB_VMEXIT_LITE
 
-	/* Clobbers RAX, RCX, RDX, RSI.  */
-	ALTERNATIVE "jmp .Lspec_ctrl_host_done", "", X86_FEATURE_MSR_SPEC_CTRL
-	mov WORD_SIZE(%_ASM_SP), %_ASM_DI
-	RESTORE_HOST_SPEC_CTRL_BODY VMX_spec_ctrl(%_ASM_DI), (%_ASM_SP), .Lspec_ctrl_host_done
+        /* Clobbers RAX, RCX, RDX, RSI.  */
+        ALTERNATIVE "jmp .Lspec_ctrl_host_done", "", X86_FEATURE_MSR_SPEC_CTRL
+        mov     WORD_SIZE(%_ASM_SP), %_ASM_DI
+        RESTORE_HOST_SPEC_CTRL_BODY VMX_spec_ctrl(%_ASM_DI), (%_ASM_SP), .Lspec_ctrl_host_done
 .Lspec_ctrl_host_done:
 
 	/*
@@ -184,40 +184,40 @@ SYM_INNER_LABEL_ALIGN(vmx_vmexit, SYM_L_GLOBAL)
 	 * can go all the way to the RET below while MSR_IA32_SPEC_CTRL
 	 * still holds the guest value.
 	 */
-	ALTERNATIVE_2 "", "lfence", X86_FEATURE_MSR_SPEC_CTRL, \
-		"", X86_FEATURE_KERNEL_IBRS
+        ALTERNATIVE_2 "", "lfence", X86_FEATURE_MSR_SPEC_CTRL, \
+                "", X86_FEATURE_KERNEL_IBRS
 
-	CLEAR_BRANCH_HISTORY_VMEXIT
+        CLEAR_BRANCH_HISTORY_VMEXIT
 
-	/* Put return value in AX */
-	mov %_ASM_BX, %_ASM_AX
+        /* Put return value in AX */
+        mov     %_ASM_BX, %_ASM_AX
 
-	/* Pop our saved arguments from the stack */
-	pop %_ASM_BX
-	pop %_ASM_BX
+        /* Pop our saved arguments from the stack */
+        pop     %_ASM_BX
+        pop     %_ASM_BX
 
-	/* ... and then the callee-save registers */
-	pop %_ASM_BX
+        /* ... and then the callee-save registers */
+        pop     %_ASM_BX
 #ifdef CONFIG_X86_64
-	pop %r12
-	pop %r13
-	pop %r14
-	pop %r15
+        pop     %r12
+        pop     %r13
+        pop     %r14
+        pop     %r15
 #else
-	pop %esi
-	pop %edi
+        pop     %esi
+        pop     %edi
 #endif
-	pop %_ASM_BP
-	RET
+        pop     %_ASM_BP
+        RET
 
 .Lfixup:
-	cmpb $0, _ASM_RIP(virt_rebooting)
-	jne .Lvmfail
-	ud2
+        cmpb    $0, _ASM_RIP(virt_rebooting)
+        jne     .Lvmfail
+        ud2
 .Lvmfail:
-	/* VM-Fail: set return value to 1 */
-	mov $1, %_ASM_BX
-	jmp .Lclear_regs
+        /* VM-Fail: set return value to 1 */
+        mov     $1, %_ASM_BX
+        jmp     .Lclear_regs
 
 SYM_FUNC_END(__vmx_vcpu_run)
 
@@ -232,43 +232,43 @@ SYM_FUNC_END(__vmx_vcpu_run)
  * all parameters are passed on the stack.
  */
 SYM_FUNC_START(vmread_error_trampoline)
-	push %_ASM_BP
-	mov  %_ASM_SP, %_ASM_BP
+        push    %_ASM_BP
+        mov     %_ASM_SP, %_ASM_BP
 
-	push %_ASM_AX
-	push %_ASM_CX
-	push %_ASM_DX
+        push    %_ASM_AX
+        push    %_ASM_CX
+        push    %_ASM_DX
 #ifdef CONFIG_X86_64
-	push %rdi
-	push %rsi
-	push %r8
-	push %r9
-	push %r10
-	push %r11
+        push    %rdi
+        push    %rsi
+        push    %r8
+        push    %r9
+        push    %r10
+        push    %r11
 #endif
 
-	/* Load @field and @fault to arg1 and arg2 respectively. */
-	mov 3*WORD_SIZE(%_ASM_BP), %_ASM_ARG2
-	mov 2*WORD_SIZE(%_ASM_BP), %_ASM_ARG1
+        /* Load @field and @fault to arg1 and arg2 respectively. */
+        mov     3*WORD_SIZE(%_ASM_BP), %_ASM_ARG2
+        mov     2*WORD_SIZE(%_ASM_BP), %_ASM_ARG1
 
-	call vmread_error_trampoline2
+        call    vmread_error_trampoline2
 
-	/* Zero out @fault, which will be popped into the result register. */
-	_ASM_MOV $0, 3*WORD_SIZE(%_ASM_BP)
+        /* Zero out @fault, which will be popped into the result register. */
+        _ASM_MOV $0, 3*WORD_SIZE(%_ASM_BP)
 
 #ifdef CONFIG_X86_64
-	pop %r11
-	pop %r10
-	pop %r9
-	pop %r8
-	pop %rsi
-	pop %rdi
+        pop     %r11
+        pop     %r10
+        pop     %r9
+        pop     %r8
+        pop     %rsi
+        pop     %rdi
 #endif
-	pop %_ASM_DX
-	pop %_ASM_CX
-	pop %_ASM_AX
-	pop %_ASM_BP
+        pop     %_ASM_DX
+        pop     %_ASM_CX
+        pop     %_ASM_AX
+        pop     %_ASM_BP
 
-	RET
+        RET
 SYM_FUNC_END(vmread_error_trampoline)
 #endif

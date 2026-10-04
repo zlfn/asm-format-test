@@ -14,11 +14,11 @@ EXTERN __SMSlib_MDKeysStatus
 
 asm_SMSlib_getMDKeysStatus:
 
-   ; unsigned int SMS_getMDKeysStatus (void)
-   ;
-   ; exit : hl = (_MDKeysStatus)
-   ;
-   ; uses : hl
+        ; unsigned int SMS_getMDKeysStatus (void)
+        ;
+        ; exit : hl = (_MDKeysStatus)
+        ;
+        ; uses : hl
 
-   ld hl,(__SMSlib_MDKeysStatus)
-   ret
+        ld      hl, (__SMSlib_MDKeysStatus)
+        ret

@@ -9,14 +9,13 @@ EXTERN asm_tshc_pxy2aaddr
 
 tshc_pxy2aaddr_callee:
 
-   pop hl
-   ex (sp),hl
+        pop     hl
+        ex      (sp), hl
 
-   jp asm_tshc_pxy2aaddr
+        jp      asm_tshc_pxy2aaddr
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _tshc_pxy2aaddr_callee
 defc _tshc_pxy2aaddr_callee = tshc_pxy2aaddr_callee
 ENDIF
-

@@ -9,8 +9,8 @@ PUBLIC _bfx_51
 
 _bfx_51:
 
-   ; Gulp
+        ; Gulp
 
-   defb 1 ;tone
-   defw 50,200,500,65516,128
-   defb 0
+        defb    1       ;tone
+        defw    50, 200, 500, 65516, 128
+        defb    0

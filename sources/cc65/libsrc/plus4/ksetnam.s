@@ -4,9 +4,9 @@
 ; SETNAM replacement function
 ;
 
-        .export         SETNAM
+        .export SETNAM
 
-        .include        "plus4.inc"
+        .include "plus4.inc"
 
 ; This function is special in that the name must reside in low memory,
 ; otherwise it is not accessible by the ROM code.
@@ -21,21 +21,21 @@
 
 ; Check if we have to copy the name to low memory
 
-        cmp     #$00                    ; Length zero?
-        beq     @L3                     ; Yes: Copying not needed
-        cpy     #$00                    ; Is the name in low memory?
-        bpl     @L3                     ; Yes: Copying not needed
+        cmp     #$00    ; Length zero?
+        beq     @L3     ; Yes: Copying not needed
+        cpy     #$00    ; Is the name in low memory?
+        bpl     @L3     ; Yes: Copying not needed
 
 ; Store the length and the pointer to the name
 
         stx     TMPPTR
-        sty     TMPPTR+1                ; Store pointer to name in TMPPTR
+        sty     TMPPTR+1        ; Store pointer to name in TMPPTR
 
 ; Copy the given name into FNBUF.
 
         ldy     #$00
-@L2:    lda     (TMPPTR),y
-        sta     FNBUF,y
+@L2:    lda     (TMPPTR), y
+        sta     FNBUF,    y
         iny
         cpy     FNAM_LEN
         bne     @L2
@@ -55,5 +55,3 @@
         rts
 
 .endproc
-
-

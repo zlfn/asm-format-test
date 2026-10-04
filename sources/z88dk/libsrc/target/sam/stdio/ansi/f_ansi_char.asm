@@ -22,46 +22,44 @@
 ;   Frode Tennebø - 29/12/2002
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_CHAR
+        SECTION code_clib
+        PUBLIC  ansi_CHAR
 
-    EXTERN  __console_y
-    EXTERN  __console_x
+        EXTERN  __console_y
+        EXTERN  __console_x
 
-    PUBLIC  UNDRLN
+        PUBLIC  UNDRLN
 
-    EXTERN  THIS_FUNCTION_ONLY_WORKS_WITH_BASIC_SUBTYPE
-    PUBLIC  ___ansi_char_native_protection
-    defc    ___ansi_char_native_protection=THIS_FUNCTION_ONLY_WORKS_WITH_BASIC_SUBTYPE
-
+        EXTERN  THIS_FUNCTION_ONLY_WORKS_WITH_BASIC_SUBTYPE
+        PUBLIC  ___ansi_char_native_protection
+        defc    ___ansi_char_native_protection=THIS_FUNCTION_ONLY_WORKS_WITH_BASIC_SUBTYPE
 
 ansi_CHAR:
-    ld      b, a                        ; Save char to print
+        ld      b, a    ; Save char to print
 
-    ld      a, 255                      ;stop scroll
-    ld      (0x5C8C), a
+        ld      a, 255  ;stop scroll
+        ld      (0x5C8C), a
 
-    ld      a, 22                       ; AT
-    rst     16
-    ld      a, (__console_y)
-    rst     16
-    ld      a, (__console_x)
-    rst     16
-    ld      a, b                        ; char
-    rst     16
+        ld      a, 22   ; AT
+        rst     16
+        ld      a, (__console_y)
+        rst     16
+        ld      a, (__console_x)
+        rst     16
+        ld      a, b    ; char
+        rst     16
 
-    ld      a, (UNDRLN)                 ; check for underline
-    and     a
-    jr      z, nounderline
+        ld      a, (UNDRLN)     ; check for underline
+        and     a
+        jr      z, nounderline
 
-    ld      a, 8                        ; LEFT
-    rst     16
-    ld      a, '_'
-    rst     16
+        ld      a, 8    ; LEFT
+        rst     16
+        ld      a, '_'
+        rst     16
 
 nounderline:
-    ret
-
+        ret
 
 ; .ansi_CHAR
 ;   ld (char+1),a
@@ -228,7 +226,6 @@ nounderline:
 ;   jr nz,PRE
 ;   ret
 
-
 ; ; The font
 ; ; 9 dots: MAX 28 columns
 ; ; 8 dots: MAX 32 columns The only one perfecly color aligned
@@ -240,7 +237,6 @@ nounderline:
 ; ; 2 dots: MAX 128 columns (useful for ANSI graphics only.. maybe)
 ; ; Address 15360 for ROM Font
 
-
 ; IF ROMFONT
 ;  ; nothing here !
 ; ELSE
@@ -248,6 +244,6 @@ nounderline:
 ;         BINARY  "classic/stdio/ansi/F4PACK.BIN" ; <- put the FONT name here !
 ; ENDIF
 
-    SECTION bss_clib
+        SECTION bss_clib
 UNDRLN:
-    defb    0
+        defb    0

@@ -10,13 +10,13 @@ EXTERN asm_b_vector_write_block
 
 _b_vector_write_block_callee:
 
-   pop af
-   exx
-   pop hl
-   exx
-   pop de
-   pop hl
-   pop bc
-   push af
+        pop     af
+        exx
+        pop     hl
+        exx
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
 
-   jp asm_b_vector_write_block
+        jp      asm_b_vector_write_block

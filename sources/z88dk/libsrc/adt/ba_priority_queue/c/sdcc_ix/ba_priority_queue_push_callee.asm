@@ -10,15 +10,15 @@ EXTERN asm_ba_priority_queue_push
 
 _ba_priority_queue_push_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
 
 l0_ba_priority_queue_push_callee:
 
-   push ix
-   call asm_ba_priority_queue_push
-   pop ix
-   
-   ret
+        push    ix
+        call    asm_ba_priority_queue_push
+        pop     ix
+
+        ret

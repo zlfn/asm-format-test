@@ -2,13 +2,12 @@
 ; Ullrich von Bassewitz, 2009-10-30
 ;
 
+        .include "tgi-kernel.inc"
+        .include "tgi-vectorfont.inc"
+        .include "zeropage.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-vectorfont.inc"
-        .include        "zeropage.inc"
-
-        .import         _strlen, _toascii
-        .import         umul8x16r16
+        .import _strlen, _toascii
+        .import umul8x16r16
 
 ;-----------------------------------------------------------------------------
 ; Aliases for zero page locations
@@ -16,8 +15,6 @@
 Width   := ptr1
 WTab    := ptr2
 Text    := ptr3
-
-
 
 ;-----------------------------------------------------------------------------
 ; unsigned __fastcall__ tgi_gettextwidth (const char* s);
@@ -32,7 +29,7 @@ Text    := ptr3
 .proc   _tgi_gettextwidth
 
         ldy     _tgi_font
-        bne     @L1                     ; Jump if vector font
+        bne     @L1     ; Jump if vector font
 
 ; Return the width of the string for the bitmap font
 
@@ -47,12 +44,12 @@ Text    := ptr3
 ; be slightly different.
 
 @L1:    sta     Text
-        stx     Text+1                  ; Save pointer to string
+        stx     Text+1  ; Save pointer to string
 
         lda     _tgi_vectorfont+1
         tax
         ora     _tgi_vectorfont
-        beq     @L9                     ; Return zero if no font
+        beq     @L9     ; Return zero if no font
 
         lda     _tgi_vectorfont
         clc
@@ -64,16 +61,16 @@ Text    := ptr3
 
         ldy     #0
         sty     Width
-        sty     Width+1                 ; Zero the total width
+        sty     Width+1 ; Zero the total width
 
 ; Sum up the widths of the single characters
 
 @L2:    ldy     #0
-        lda     (Text),y                ; Get next char
-        beq     @L4                     ; Bail out if end of text reached
-        jsr     _toascii                ; Convert to ascii
+        lda     (Text), y       ; Get next char
+        beq     @L4             ; Bail out if end of text reached
+        jsr     _toascii        ; Convert to ascii
         tay
-        lda     (WTab),y                ; Get width of this char
+        lda     (WTab), y       ; Get width of this char
         clc
         adc     Width
         sta     Width
@@ -95,6 +92,3 @@ Text    := ptr3
 @L9:    rts
 
 .endproc
-
-
-

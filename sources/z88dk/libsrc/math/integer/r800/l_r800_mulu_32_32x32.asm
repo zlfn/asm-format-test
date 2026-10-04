@@ -19,62 +19,62 @@ SECTION code_math
 PUBLIC l_r800_mulu_32_32x32
 PUBLIC l_mulu_32_32x32
 
-   ; compute:  dehl = dehl * dehl'
-   ;
-   ; enter : de hl  = 32-bit operand B (active set)
-   ;         de'hl' = 32-bit operand A (exx set)
-   ;
-   ; exit  : dehl = 32-bit product, carry reset
-   ;
-   ; uses  : af, bc, de, hl, bc', de', hl'
+        ; compute:  dehl = dehl * dehl'
+        ;
+        ; enter : de hl  = 32-bit operand B (active set)
+        ;         de'hl' = 32-bit operand A (exx set)
+        ;
+        ; exit  : dehl = 32-bit product, carry reset
+        ;
+        ; uses  : af, bc, de, hl, bc', de', hl'
 
 l_r800_mulu_32_32x32:
 l_mulu_32_32x32:
 
-    ; stash the six operand halves needed for the three partials, in the
-    ; order they'll be popped: A_lo,B_hi, A_hi,B_lo, A_lo,B_lo
-    push hl                     ; B_lo
-    exx
-    push hl                     ; A_lo
-    exx
-    push hl                     ; B_lo
-    exx
-    push de                     ; A_hi
-    exx
-    push de                     ; B_hi
-    exx
-    push hl                     ; A_lo
-    exx
+        ; stash the six operand halves needed for the three partials, in the
+        ; order they'll be popped: A_lo,B_hi, A_hi,B_lo, A_lo,B_lo
+        push    hl      ; B_lo
+        exx
+        push    hl      ; A_lo
+        exx
+        push    hl      ; B_lo
+        exx
+        push    de      ; A_hi
+        exx
+        push    de      ; B_hi
+        exx
+        push    hl      ; A_lo
+        exx
 
-    ; mul2: A_lo * B_hi -> only the low word matters (16-bit accumulator seed)
-    pop hl
-    pop de
-    defb $ED,$D3                ; muluw hl,de
-    ld b,h
-    ld c,l
+        ; mul2: A_lo * B_hi -> only the low word matters (16-bit accumulator seed)
+        pop     hl
+        pop     de
+        defb    $ED, $D3        ; muluw hl,de
+        ld      b,   h
+        ld      c,   l
 
-    ; mul3: A_hi * B_lo -> low word, add into the accumulator
-    pop hl
-    pop de
-    defb $ED,$D3                ; muluw hl,de
-    ld a,c
-    add a,l
-    ld c,a
-    ld a,b
-    adc a,h
-    ld b,a
+        ; mul3: A_hi * B_lo -> low word, add into the accumulator
+        pop     hl
+        pop     de
+        defb    $ED, $D3        ; muluw hl,de
+        ld      a,   c
+        add     a,   l
+        ld      c,   a
+        ld      a,   b
+        adc     a,   h
+        ld      b,   a
 
-    ; mul1: A_lo * B_lo -> full 32-bit; low word is the final answer as-is,
-    ; high word adds into the same accumulator
-    pop hl
-    pop de
-    defb $ED,$D3                ; muluw hl,de
-    ld a,e
-    add a,c
-    ld e,a
-    ld a,d
-    adc a,b
-    ld d,a
+        ; mul1: A_lo * B_lo -> full 32-bit; low word is the final answer as-is,
+        ; high word adds into the same accumulator
+        pop     hl
+        pop     de
+        defb    $ED, $D3        ; muluw hl,de
+        ld      a,   e
+        add     a,   c
+        ld      e,   a
+        ld      a,   d
+        adc     a,   b
+        ld      d,   a
 
-    xor a                        ; carry reset
-    ret                          ; dehl = 32-bit product
+        xor     a       ; carry reset
+        ret             ; dehl = 32-bit product

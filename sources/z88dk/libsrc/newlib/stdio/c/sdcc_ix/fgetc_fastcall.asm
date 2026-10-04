@@ -15,14 +15,14 @@ PUBLIC _fgetc_fastcall
 EXTERN asm_fgetc
 
 _fgetc_fastcall:
-   
-   push hl
-   ex (sp),ix
 
-   call asm_fgetc
-   
-   pop ix
-   ret
+        push    hl
+        ex      (sp), ix
+
+        call    asm_fgetc
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

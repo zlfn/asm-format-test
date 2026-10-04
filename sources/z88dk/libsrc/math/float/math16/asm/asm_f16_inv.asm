@@ -27,10 +27,10 @@ EXTERN asm_f16_div_callee
 PUBLIC asm_f16_inv
 
 .asm_f16_inv
-    push hl                     ; x
-    ld hl,$3c00                 ; 1.0
-    ex de,hl
-    pop hl                      ; HL = x
-    push de                     ; stack = 1.0
-    call asm_f16_div_callee
-    ret
+        push    hl              ; x
+        ld      hl, $3c00       ; 1.0
+        ex      de, hl
+        pop     hl              ; HL = x
+        push    de              ; stack = 1.0
+        call    asm_f16_div_callee
+        ret

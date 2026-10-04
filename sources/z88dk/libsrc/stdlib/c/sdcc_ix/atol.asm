@@ -10,10 +10,10 @@ EXTERN asm_atol
 
 _atol:
 
-   pop af
-   pop hl
+        pop     af
+        pop     hl
 
-   push hl
-   push af
+        push    hl
+        push    af
 
-   jp asm_atol
+        jp      asm_atol

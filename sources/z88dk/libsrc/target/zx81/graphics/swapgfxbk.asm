@@ -6,21 +6,21 @@
 ;	$Id: __gfx_vram_page_in.asm,v 1.11 2017-01-02 22:58:00 aralbrec Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  __gfx_vram_page_in
-    PUBLIC  ___gfx_vram_page_in
+        SECTION code_clib
+        PUBLIC  __gfx_vram_page_in
+        PUBLIC  ___gfx_vram_page_in
 
-    PUBLIC  __gfx_vram_page_out
-    PUBLIC  ___gfx_vram_page_out
+        PUBLIC  __gfx_vram_page_out
+        PUBLIC  ___gfx_vram_page_out
 
-		;EXTERN	save81
-		;EXTERN	restore81
+        ;EXTERN	save81
+        ;EXTERN	restore81
 
 __gfx_vram_page_in:
 ___gfx_vram_page_in:
-	        ;jp	$2E7	;setfast
-    ret
-		;jp	save81
+        ;jp	$2E7	;setfast
+        ret
+        ;jp	save81
 __gfx_vram_page_out:
 ___gfx_vram_page_out:
 
@@ -30,6 +30,6 @@ ___gfx_vram_page_out:
 ; This will become IY when swapped !
 ;    ld      ix, 16384
 
-		;jp	$207
-    ret
-                ;jp	restore81
+        ;jp	$207
+        ret
+        ;jp	restore81

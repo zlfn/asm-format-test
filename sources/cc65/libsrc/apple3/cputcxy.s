@@ -7,25 +7,24 @@
 ; void __fastcall__ gotoy (unsigned char y);
 ;
 
-        .export         _cputcxy, _gotoxy, _gotox, _gotoy, gotoxy
-        .export         xyref, yref
-        .import         consref, popa
-        .import         setconioscr, consscrflg
+        .export _cputcxy, _gotoxy, _gotox, _gotoy, gotoxy
+        .export xyref,    yref
+        .import consref,  popa
+        .import setconioscr, consscrflg
 
-        .include        "apple3.inc"
-        .include        "sos.inc"
+        .include "apple3.inc"
+        .include "sos.inc"
 
         .code
 
-
 _cputcxy:
         sta     xybuf+4
-        jsr     popa            ; Get Y
+        jsr     popa    ; Get Y
         sta     xybuf+3
-        jsr     popa            ; Get X
+        jsr     popa    ; Get X
         sta     xybuf+1
 
-        bit     consscrflg    ; check if scroll is off
+        bit     consscrflg      ; check if scroll is off
         beq     :+
         jsr     setconioscr
 :
@@ -33,14 +32,14 @@ _cputcxy:
         bne     dowrite         ; bra
 
 gotoxy:
-        jsr     popa            ; Get Y
+        jsr     popa    ; Get Y
 
 _gotoxy:
         sta     xybuf+3
-        jsr     popa            ; Get X
+        jsr     popa    ; Get X
         sta     xybuf+1
         lda     #4
-        bne     dowrite         ; bra
+        bne     dowrite ; bra
 
 _gotox:
         sta     xybuf+1
@@ -60,7 +59,6 @@ _gotoy:
         .word   ycon
         rts
 
-
         .data
 
 ; xy param list
@@ -75,8 +73,8 @@ yref:   .byte   0
         .word   ybuf
         .word   2
 
-xybuf:  .byte   24  ; horizontal pso
+xybuf:  .byte   24      ; horizontal pso
         .byte   00
-ybuf:   .byte   25  ; vertical pos
+ybuf:   .byte   25      ; vertical pos
         .byte   00
         .byte   00

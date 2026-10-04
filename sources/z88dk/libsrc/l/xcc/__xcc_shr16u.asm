@@ -12,11 +12,11 @@ PUBLIC __xcc_shr16u
 ; A zero count must return early: djnz with B = 0 would run 256 times.
 
 __xcc_shr16u:
-    ld a,b
-    or a
-    ret z
+        ld      a, b
+        or      a
+        ret     z
 xcc_shr16u_loop:
-    srl h
-    rr l
-    djnz xcc_shr16u_loop
-    ret
+        srl     h
+        rr      l
+        djnz    xcc_shr16u_loop
+        ret

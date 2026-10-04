@@ -13,7 +13,7 @@
 ;
 ; Other stdio messages are treated as errors or no-ops
 ; as appropriate.
-; 
+;
 ; ;;;;;;;;;;;;;;;;;;;;
 ; DRIVER CLASS DIAGRAM
 ; ;;;;;;;;;;;;;;;;;;;;
@@ -44,7 +44,7 @@
 ; * OTERM_MSG_PUTC
 ;
 ;   Source of character is stdio.
-;     
+;
 ;   enter   :  c = ascii code
 ;   can use : af, bc, de, hl, af'
 ;
@@ -69,19 +69,19 @@ EXTERN error_znc, error_lznc, error_enotsup_zc
 
 console_01_output_terminal:
 
-   cp STDIO_MSG_WRIT
-   jp z, console_01_output_stdio_msg_writ
-   
-   cp STDIO_MSG_PUTC
-   jp z, console_01_output_stdio_msg_putc
-   
-   cp STDIO_MSG_SEEK
-   jp z, error_lznc            ; do nothing, report no error
-   
-   cp STDIO_MSG_FLSH
-   jp z, error_znc             ; do nothing, report no error
-   
-   cp STDIO_MSG_CLOS
-   jp z, error_znc             ; do nothing, report no error
-   
-   jp error_enotsup_zc         ; hl = 0 puts FILE stream in error state
+        cp      STDIO_MSG_WRIT
+        jp      z, console_01_output_stdio_msg_writ
+
+        cp      STDIO_MSG_PUTC
+        jp      z, console_01_output_stdio_msg_putc
+
+        cp      STDIO_MSG_SEEK
+        jp      z, error_lznc   ; do nothing, report no error
+
+        cp      STDIO_MSG_FLSH
+        jp      z, error_znc    ; do nothing, report no error
+
+        cp      STDIO_MSG_CLOS
+        jp      z, error_znc    ; do nothing, report no error
+
+        jp      error_enotsup_zc        ; hl = 0 puts FILE stream in error state

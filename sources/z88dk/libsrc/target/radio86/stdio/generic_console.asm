@@ -2,70 +2,67 @@
 ; Generic console that maps into RK86 codes
 ;
 
+        SECTION code_clib
 
-    SECTION code_clib
+        PUBLIC  generic_console_cls
+        PUBLIC  generic_console_vpeek
+        PUBLIC  generic_console_scrollup
+        PUBLIC  generic_console_printc
+        PUBLIC  generic_console_ioctl
+        PUBLIC  generic_console_set_ink
+        PUBLIC  generic_console_set_paper
+        PUBLIC  generic_console_set_attribute
 
-    PUBLIC  generic_console_cls
-    PUBLIC  generic_console_vpeek
-    PUBLIC  generic_console_scrollup
-    PUBLIC  generic_console_printc
-    PUBLIC  generic_console_ioctl
-    PUBLIC  generic_console_set_ink
-    PUBLIC  generic_console_set_paper
-    PUBLIC  generic_console_set_attribute
+        EXTERN  CONSOLE_COLUMNS
+        EXTERN  CONSOLE_ROWS
 
-    EXTERN  CONSOLE_COLUMNS
-    EXTERN  CONSOLE_ROWS
+        INCLUDE "ioctl.def"
+        PUBLIC  CLIB_GENCON_CAPS
+        defc    CLIB_GENCON_CAPS=0
 
-    INCLUDE "ioctl.def"
-    PUBLIC  CLIB_GENCON_CAPS
-    defc    CLIB_GENCON_CAPS=0
-
-    INCLUDE "target/radio86/def/radio86.h"
+        INCLUDE "target/radio86/def/radio86.h"
 
 generic_console_ioctl:
-    scf
+        scf
 generic_console_set_attribute:
-    ret
+        ret
 
 generic_console_set_ink:
-    ret
+        ret
 
 generic_console_set_paper:
-    ret
+        ret
 
 generic_console_cls:
-    ld      c, $1f
-    jp      M_PUTCHAR
+        ld      c, $1f
+        jp      M_PUTCHAR
 
 generic_console_scrollup:
-    push    de
-    push    bc
-    ld      hl, $2038
-    ld      (printc_str+2), hl
-    ld      a, 10
-    ld      (printc_str+4), a
-    ld      hl, printc_str
-    call    M_PRINTSTR
-    pop     bc
-    pop     hl
-    ret
-
-
+        push    de
+        push    bc
+        ld      hl, $2038
+        ld      (printc_str+2), hl
+        ld      a, 10
+        ld      (printc_str+4), a
+        ld      hl, printc_str
+        call    M_PRINTSTR
+        pop     bc
+        pop     hl
+        ret
 
 ; c = x
 ; b = y
 ; a = d = character to print
 ; e = raw
 generic_console_printc:
-    ld      h, c
-    ld      l, b
-    ld      de, $2020
-    add     hl, de
-    ld      (printc_str+2), hl
-    ld      (printc_str+4), a
-    ld      hl, printc_str
-    jp      M_PRINTSTR
+        ld      h,  c
+        ld      l,  b
+        ld      de, $2020
+        add     hl, de
+        ld      (printc_str+2), hl
+        ld      (printc_str+4), a
+        ld      hl, printc_str
+        jp      M_PRINTSTR
 
 ;Entry: c = x,
 ;       b = y
@@ -74,22 +71,20 @@ generic_console_printc:
 ;        a = character,
 ;        c = failure
 generic_console_vpeek:
-    ld      h, c
-    ld      l, b
-    ld      de, $2020
-    add     hl, de
-    ld      (printc_str+2), hl
-    xor     a
-    ld      (printc_str+4), a
-    ld      hl, printc_str
-    call    M_PRINTSTR
-    call    M_VPEEK
-    and     a
-    ret
+        ld      h,  c
+        ld      l,  b
+        ld      de, $2020
+        add     hl, de
+        ld      (printc_str+2), hl
+        xor     a
+        ld      (printc_str+4), a
+        ld      hl, printc_str
+        call    M_PRINTSTR
+        call    M_VPEEK
+        and     a
+        ret
 
-    SECTION data_clib
+        SECTION data_clib
 
 printc_str:
-    defb    $1b, $59, $20, $20, $20, $00
-
-
+        defb    $1b, $59, $20, $20, $20, $00

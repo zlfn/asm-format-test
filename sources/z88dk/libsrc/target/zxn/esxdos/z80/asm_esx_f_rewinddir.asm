@@ -11,28 +11,27 @@ EXTERN __esxdos_error_mc
 
 asm_esx_f_rewinddir:
 
-   ; enter :  l = handle
-   ;
-   ; exit  : success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl
-   
-   ld a,l
-   
-   rst __ESX_RST_SYS
-   defb __ESX_F_REWINDDIR
-   
-   jp nc, error_znc
-   jp __esxdos_error_mc
+        ; enter :  l = handle
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl
 
+        ld      a, l
+
+        rst     __ESX_RST_SYS
+        defb    __ESX_F_REWINDDIR
+
+        jp      nc, error_znc
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * F_REWINDDIR ($a7) *

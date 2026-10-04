@@ -5,14 +5,14 @@
 ; void gotoxy (unsigned char x, unsigned char y);
 ;
 
-        .export         gotoxy, _gotoxy
+        .export gotoxy, _gotoxy
 
-        .import         setcursor
-        .import         popa
+        .import setcursor
+        .import popa
 
-        .include        "creativision.inc"
+        .include "creativision.inc"
 
-gotoxy: jsr     popa            ; Get Y
+gotoxy: jsr     popa    ; Get Y
 
 .proc   _gotoxy
 

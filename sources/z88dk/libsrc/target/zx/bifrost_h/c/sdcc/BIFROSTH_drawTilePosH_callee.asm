@@ -16,12 +16,12 @@ EXTERN asm_BIFROSTH_drawTilePosH
 
 _BIFROSTH_drawTilePosH_callee:
 
-   pop hl
-	pop bc
-	dec sp
-	ex (sp),hl
-	ld d,c          ; D = lin
-	ld e,b          ; E = col
-	ld c,h          ; C = attr
-	
-	jp asm_BIFROSTH_drawTilePosH
+        pop     hl
+        pop     bc
+        dec     sp
+        ex      (sp), hl
+        ld      d,    c ; D = lin
+        ld      e,    b ; E = col
+        ld      c,    h ; C = attr
+
+        jp      asm_BIFROSTH_drawTilePosH

@@ -26,21 +26,21 @@ EXTERN asm_disk_write
 ;   Stack: return address (2 bytes)
 
 disk_write_callee:
-    ; Store return address in unused pdrv location
-    pop de      ; Return address in DE
-    ld hl,8     ; DE = SP + 8 = address of pdrv
-    add hl,sp
-    ld (hl),e   ; Store return address
-    inc hl
-    ld (hl),d
+        ; Store return address in unused pdrv location
+        pop     de      ; Return address in DE
+        ld      hl,   8 ; DE = SP + 8 = address of pdrv
+        add     hl,   sp
+        ld      (hl), e ; Store return address
+        inc     hl
+        ld      (hl), d
 
-    pop bc      ; get UINT sector count to a
-    ld a,c
+        pop     bc      ; get UINT sector count to a
+        ld      a, c
 
-    pop de      ; start sector to bcde
-    pop bc
+        pop     de      ; start sector to bcde
+        pop     bc
 
-    pop hl      ; get *buff
+        pop     hl      ; get *buff
 
-    ; Stack has return address
-    jp asm_disk_write
+        ; Stack has return address
+        jp      asm_disk_write

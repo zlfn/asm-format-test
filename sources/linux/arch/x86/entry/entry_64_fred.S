@@ -13,20 +13,20 @@
 
 #include "calling.h"
 
-	.code64
-	.section .noinstr.text, "ax"
+        .code64
+        .section .noinstr.text, "ax"
 
 .macro FRED_ENTER
-	UNWIND_HINT_END_OF_STACK
-	ANNOTATE_NOENDBR
-	PUSH_AND_CLEAR_REGS
-	ENCODE_FRAME_POINTER
-	movq	%rsp, %rdi	/* %rdi -> pt_regs */
+        UNWIND_HINT_END_OF_STACK
+        ANNOTATE_NOENDBR
+        PUSH_AND_CLEAR_REGS
+        ENCODE_FRAME_POINTER
+        movq    %rsp, %rdi      /* %rdi -> pt_regs */
 .endm
 
 .macro FRED_EXIT
-	UNWIND_HINT_REGS
-	POP_REGS
+        UNWIND_HINT_REGS
+        POP_REGS
 .endm
 
 /*
@@ -34,16 +34,16 @@
  * IA32_FRED_CONFIG & ~FFFH for events that occur in ring 3.
  * Thus the FRED ring 3 entry point must be 4K page aligned.
  */
-	.align 4096
+        .align  4096
 
 SYM_CODE_START_NOALIGN(asm_fred_entrypoint_user)
-	FRED_ENTER
-	call	fred_entry_from_user
+        FRED_ENTER
+        call    fred_entry_from_user
 SYM_INNER_LABEL(asm_fred_exit_user, SYM_L_GLOBAL)
-	FRED_EXIT
-1:	ERETU
+        FRED_EXIT
+1:      ERETU
 
-	_ASM_EXTABLE_TYPE(1b, asm_fred_entrypoint_user, EX_TYPE_ERETU)
+        _ASM_EXTABLE_TYPE(1b, asm_fred_entrypoint_user, EX_TYPE_ERETU)
 SYM_CODE_END(asm_fred_entrypoint_user)
 
 /*
@@ -51,21 +51,21 @@ SYM_CODE_END(asm_fred_entrypoint_user)
  * (IA32_FRED_CONFIG & ~FFFH) + 256 for events that occur in
  * ring 0, i.e., asm_fred_entrypoint_user + 256.
  */
-	.org asm_fred_entrypoint_user + 256, 0xcc
+        .org    asm_fred_entrypoint_user + 256, 0xcc
 SYM_CODE_START_NOALIGN(asm_fred_entrypoint_kernel)
-	FRED_ENTER
-	call	fred_entry_from_kernel
-	FRED_EXIT
-	ERETS
+        FRED_ENTER
+        call    fred_entry_from_kernel
+        FRED_EXIT
+        ERETS
 SYM_CODE_END(asm_fred_entrypoint_kernel)
 
 #if IS_ENABLED(CONFIG_KVM_INTEL)
 SYM_FUNC_START(asm_fred_entry_from_kvm)
-	ANNOTATE_NOENDBR
-	push %rbp
-	mov %rsp, %rbp
+        ANNOTATE_NOENDBR
+        push    %rbp
+        mov     %rsp, %rbp
 
-	UNWIND_HINT_SAVE
+        UNWIND_HINT_SAVE
 
 	/*
 	 * Both IRQ and NMI from VMX can be handled on current task stack
@@ -76,8 +76,8 @@ SYM_FUNC_START(asm_fred_entry_from_kvm)
 	 *
 	 * Emulate the FRED-defined redzone and stack alignment.
 	 */
-	sub $(FRED_CONFIG_REDZONE_AMOUNT << 6), %rsp
-	and $FRED_STACK_FRAME_RSP_MASK, %rsp
+        sub     $(FRED_CONFIG_REDZONE_AMOUNT << 6), %rsp
+        and     $FRED_STACK_FRAME_RSP_MASK, %rsp
 
 	/*
 	 * Start to push a FRED stack frame, which is always 64 bytes:
@@ -95,12 +95,12 @@ SYM_FUNC_START(asm_fred_entry_from_kvm)
 	 * |   7:0  | Error Code      |
 	 * +--------+-----------------+
 	 */
-	push $0				/* Reserved, must be 0 */
-	push $0				/* Event data, 0 for IRQ/NMI */
-	push %rdi			/* fred_ss handed in by the caller */
-	push %rbp
-	pushf
-	push $__KERNEL_CS
+        push    $0      /* Reserved, must be 0 */
+        push    $0      /* Event data, 0 for IRQ/NMI */
+        push    %rdi    /* fred_ss handed in by the caller */
+        push    %rbp
+        pushf
+        push    $__KERNEL_CS
 
 	/*
 	 * Unlike the IDT event delivery, FRED _always_ pushes an error code
@@ -110,13 +110,13 @@ SYM_FUNC_START(asm_fred_entry_from_kvm)
 	 *
 	 * Use LEA to get the return RIP and push it, then push an error code.
 	 */
-	lea 1f(%rip), %rax
-	push %rax				/* Return RIP */
-	push $0					/* Error code, 0 for IRQ/NMI */
+        lea     1f(%rip), %rax
+        push    %rax    /* Return RIP */
+        push    $0      /* Error code, 0 for IRQ/NMI */
 
-	PUSH_AND_CLEAR_REGS clear_callee=0 unwind_hint=0
+        PUSH_AND_CLEAR_REGS clear_callee=0 unwind_hint=0
 
-	movq %rsp, %rdi				/* %rdi -> pt_regs */
+        movq    %rsp, %rdi      /* %rdi -> pt_regs */
 	/*
 	 * At this point: {rdi, rsi, rdx, rcx, r8, r9}, {r10, r11}, {rax, rdx}
 	 * are clobbered, which corresponds to: arguments, extra caller-saved
@@ -128,25 +128,25 @@ SYM_FUNC_START(asm_fred_entry_from_kvm)
 	 *
 	 * Further calling another C function will not alter this state.
 	 */
-	call __fred_entry_from_kvm		/* Call the C entry point */
+        call    __fred_entry_from_kvm   /* Call the C entry point */
 
 	/*
 	 * When FRED, use ERETS to potentially clear NMIs, otherwise simply
 	 * restore the stack pointer.
 	 */
-	ALTERNATIVE "nop; nop; mov %rbp, %rsp", \
-	            __stringify(add $C_PTREGS_SIZE, %rsp; ERETS), \
-		    X86_FEATURE_FRED
+        ALTERNATIVE "nop; nop; mov %rbp, %rsp",               \
+                __stringify(add $C_PTREGS_SIZE, %rsp; ERETS), \
+                X86_FEATURE_FRED
 
-1:	/*
+1:              /*
 	 * Objtool doesn't understand ERETS, and the cfi register state is
 	 * different from initial_func_cfi due to PUSH_REGS. Tell it the state
 	 * is similar to where UNWIND_HINT_SAVE is.
 	 */
-	UNWIND_HINT_RESTORE
+        UNWIND_HINT_RESTORE
 
-	pop %rbp
-	RET
+        pop     %rbp
+        RET
 
 SYM_FUNC_END(asm_fred_entry_from_kvm)
 #endif

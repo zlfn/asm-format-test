@@ -28,22 +28,22 @@ SECTION .text
 ;                              ptrdiff_t line_size)
 INIT_XMM sse2
 cglobal get_pixels_8x4_sym, 3,3,5, block, pixels, linesize
-    pxor      m4,       m4
-    movq      m0,       [pixelsq]
-    add       pixelsq,  linesizeq
-    movq      m1,       [pixelsq]
-    movq      m2,       [pixelsq+linesizeq]
-    movq      m3,       [pixelsq+linesizeq*2]
-    punpcklbw m0,       m4
-    punpcklbw m1,       m4
-    punpcklbw m2,       m4
-    punpcklbw m3,       m4
-    mova  [blockq    ], m0
-    mova  [blockq+16 ], m1
-    mova  [blockq+32 ], m2
-    mova  [blockq+48 ], m3
-    mova  [blockq+64 ], m3
-    mova  [blockq+80 ], m2
-    mova  [blockq+96 ], m1
-    mova  [blockq+112], m0
-    RET
+        pxor    m4, m4
+        movq    m0, [pixelsq]
+        add     pixelsq, linesizeq
+        movq    m1, [pixelsq]
+        movq    m2, [pixelsq+linesizeq]
+        movq    m3, [pixelsq+linesizeq*2]
+        punpcklbw m0, m4
+        punpcklbw m1, m4
+        punpcklbw m2, m4
+        punpcklbw m3, m4
+        mova    [blockq    ], m0
+        mova    [blockq+16 ], m1
+        mova    [blockq+32 ], m2
+        mova    [blockq+48 ], m3
+        mova    [blockq+64 ], m3
+        mova    [blockq+80 ], m2
+        mova    [blockq+96 ], m1
+        mova    [blockq+112], m0
+        RET

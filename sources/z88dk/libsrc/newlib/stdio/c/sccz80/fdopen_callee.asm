@@ -10,8 +10,8 @@ EXTERN asm_fdopen
 
 fdopen_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_fdopen
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_fdopen

@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _PSGCancelLoop
 defc _PSGCancelLoop = PSGCancelLoop
 ENDIF
-

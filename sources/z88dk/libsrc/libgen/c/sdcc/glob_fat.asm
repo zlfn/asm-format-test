@@ -8,12 +8,12 @@ EXTERN l0_glob_fat_callee
 
 _glob_fat:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   jp l0_glob_fat_callee
+        pop     af
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_glob_fat_callee

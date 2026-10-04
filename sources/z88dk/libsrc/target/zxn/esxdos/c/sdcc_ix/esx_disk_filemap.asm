@@ -8,14 +8,14 @@ EXTERN l0_esx_disk_filemap_callee
 
 _esx_disk_filemap:
 
-   pop de
-   dec sp
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   inc sp
-   push de
+        pop     de
+        dec     sp
+        pop     af
+        pop     hl
 
-   jp l0_esx_disk_filemap_callee
+        push    hl
+        push    af
+        inc     sp
+        push    de
+
+        jp      l0_esx_disk_filemap_callee

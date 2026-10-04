@@ -8,35 +8,34 @@
 ; 2018-07-28, Greg King
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-error.inc"
-        .include        "c128.inc"
+        .include "tgi-kernel.inc"
+        .include "tgi-error.inc"
+        .include "c128.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table and constants.
 
-        module_header   _c128_hi_tgi
+        module_header _c128_hi_tgi
 
 ; First part of the header is a structure that has a magic and defines the
 ; capabilities of the driver
 
-        .byte   $74, $67, $69           ; "tgi"
-        .byte   TGI_API_VERSION         ; TGI API version number
-        .addr   $0000                   ; Library reference
-        .word   320                     ; X resolution
-        .word   200                     ; Y resolution
-        .byte   2                       ; Number of drawing colors
-        .byte   1                       ; Number of screens available
-        .byte   8                       ; System font X size
-        .byte   8                       ; System font Y size
-        .word   $00D4                   ; Aspect ratio (based on 4/3 display)
-        .byte   0                       ; TGI driver flags
+        .byte   $74, $67, $69   ; "tgi"
+        .byte   TGI_API_VERSION ; TGI API version number
+        .addr   $0000           ; Library reference
+        .word   320             ; X resolution
+        .word   200             ; Y resolution
+        .byte   2               ; Number of drawing colors
+        .byte   1               ; Number of screens available
+        .byte   8               ; System font X size
+        .byte   8               ; System font Y size
+        .word   $00D4           ; Aspect ratio (based on 4/3 display)
+        .byte   0               ; TGI driver flags
 
 ; Next comes the jump table. With the exception of IRQ, all entries must be
 ; valid and may point to an RTS for test versions (function not implemented).
@@ -84,35 +83,35 @@ OLDCHUNK        := X2+1         ; Ditto
 
 .bss
 
-ERROR:          .res    1       ; Error code
-PALETTE:        .res    2       ; The current palette
+ERROR:  .res    1       ; Error code
+PALETTE: .res   2       ; The current palette
 
-BITMASK:        .res    1       ; $00 = clear, $FF = set pixels
+BITMASK: .res   1       ; $00 = clear, $FF = set pixels
 
 ; Line routine stuff
-DX:             .res    2
-DY:             .res    2
+DX:     .res    2
+DY:     .res    2
 
 ; BAR variables
-X1SAVE:         .res    2
-Y1SAVE:         .res    1
-X2SAVE:         .res    2
-Y2SAVE:         .res    1
+X1SAVE: .res    2
+Y1SAVE: .res    1
+X2SAVE: .res    2
+Y2SAVE: .res    1
 
 ; Text output stuff
-TEXTMAGX:       .res    1
-TEXTMAGY:       .res    1
-TEXTDIR:        .res    1
+TEXTMAGX: .res  1
+TEXTMAGY: .res  1
+TEXTDIR:  .res  1
 
 ; Constants and tables
 
 .rodata
 
-DEFPALETTE:     .byte   $00, $01        ; White on black
+DEFPALETTE: .byte $00, $01      ; White on black
 PALETTESIZE     = * - DEFPALETTE
 
-BITTAB:         .byte   $80,$40,$20,$10,$08,$04,$02,$01
-BITCHUNK:       .byte   $FF,$7F,$3F,$1F,$0F,$07,$03,$01
+BITTAB: .byte   $80, $40, $20, $10, $08, $04, $02, $01
+BITCHUNK: .byte $FF, $7F, $3F, $1F, $0F, $07, $03, $01
 
 CHARROM         := $D000                ; Character ROM base address
 
@@ -132,7 +131,6 @@ CBASE           := $E000                ; Color memory base address
 INSTALL:
 ;       rts                     ; fall through
 
-
 ; ------------------------------------------------------------------------
 ; UNINSTALL routine. Is called before the driver is removed from memory. May
 ; clean up anything done by INSTALL but is probably empty most of the time.
@@ -142,7 +140,6 @@ INSTALL:
 
 UNINSTALL:
         rts
-
 
 ; ------------------------------------------------------------------------
 ; INIT: Changes an already installed device from text mode to graphics
@@ -162,7 +159,7 @@ INIT:
 
 ; Initialize variables.
 
-        ldx     #$FF            ; Foreground color
+        ldx     #$FF    ; Foreground color
         stx     BITMASK
 
 ; Switch into graphics mode.
@@ -174,10 +171,10 @@ INIT:
 ; bank 3 = $00 ($C000-$FFFF) (TGI)
 
         lda     CIA2_PRA
-        and     #<~$03          ; Bank 3
+        and     #<~$03  ; Bank 3
         sta     CIA2_PRA
 
-        lda     #$80            ; color-map at $E000, bitmap at $C000
+        lda     #$80    ; color-map at $E000, bitmap at $C000
         sta     VM2
 
 ; Make the VIC-IIe read RAM instead of the font ROM.
@@ -207,7 +204,7 @@ DONE:
 ; Select the text video bank.
 
         lda     CIA2_PRA
-        ora     #$03            ; Bank 0
+        ora     #$03    ; Bank 0
         sta     CIA2_PRA
 
 ; Make the VIC-IIe read the font ROM instead of RAM.
@@ -220,7 +217,7 @@ DONE:
 
 ; Restore a value that's needed by BASIC's GRAPHIC 1 statement.
 
-        lda     #$78            ; color-map at $1C00, bitmap at $2000
+        lda     #$78    ; color-map at $1C00, bitmap at $2000
         sta     VM2
         rts
 
@@ -256,38 +253,38 @@ CLEAR:
         ldx     #MMU_CFG_RAM0
         sei
         stx     MMU_CR
-@L1:    sta     VBASE+$0000,y
-        sta     VBASE+$0100,y
-        sta     VBASE+$0200,y
-        sta     VBASE+$0300,y
-        sta     VBASE+$0400,y
-        sta     VBASE+$0500,y
-        sta     VBASE+$0600,y
-        sta     VBASE+$0700,y
-        sta     VBASE+$0800,y
-        sta     VBASE+$0900,y
-        sta     VBASE+$0A00,y
-        sta     VBASE+$0B00,y
-        sta     VBASE+$0C00,y
-        sta     VBASE+$0D00,y
-        sta     VBASE+$0E00,y
-        sta     VBASE+$0F00,y
-        sta     VBASE+$1000,y
-        sta     VBASE+$1100,y
-        sta     VBASE+$1200,y
-        sta     VBASE+$1300,y
-        sta     VBASE+$1400,y
-        sta     VBASE+$1500,y
-        sta     VBASE+$1600,y
-        sta     VBASE+$1700,y
-        sta     VBASE+$1800,y
-        sta     VBASE+$1900,y
-        sta     VBASE+$1A00,y
-        sta     VBASE+$1B00,y
-        sta     VBASE+$1C00,y
-        sta     VBASE+$1D00,y
-        sta     VBASE+$1E00,y
-        sta     VBASE+$1F00,y
+@L1:    sta     VBASE+$0000, y
+        sta     VBASE+$0100, y
+        sta     VBASE+$0200, y
+        sta     VBASE+$0300, y
+        sta     VBASE+$0400, y
+        sta     VBASE+$0500, y
+        sta     VBASE+$0600, y
+        sta     VBASE+$0700, y
+        sta     VBASE+$0800, y
+        sta     VBASE+$0900, y
+        sta     VBASE+$0A00, y
+        sta     VBASE+$0B00, y
+        sta     VBASE+$0C00, y
+        sta     VBASE+$0D00, y
+        sta     VBASE+$0E00, y
+        sta     VBASE+$0F00, y
+        sta     VBASE+$1000, y
+        sta     VBASE+$1100, y
+        sta     VBASE+$1200, y
+        sta     VBASE+$1300, y
+        sta     VBASE+$1400, y
+        sta     VBASE+$1500, y
+        sta     VBASE+$1600, y
+        sta     VBASE+$1700, y
+        sta     VBASE+$1800, y
+        sta     VBASE+$1900, y
+        sta     VBASE+$1A00, y
+        sta     VBASE+$1B00, y
+        sta     VBASE+$1C00, y
+        sta     VBASE+$1D00, y
+        sta     VBASE+$1E00, y
+        sta     VBASE+$1F00, y
         iny
         bne     @L1
         ldx     #MMU_CFG_CC65
@@ -339,9 +336,9 @@ SETCOLOR:
 
 SETPALETTE:
         ldy     #PALETTESIZE - 1
-@L1:    lda     (ptr1),y        ; Copy the palette
+@L1:    lda     (ptr1), y       ; Copy the palette
         and     #$0F            ; Make a valid color
-        sta     PALETTE,y
+        sta     PALETTE, y
         dey
         bpl     @L1
 
@@ -361,10 +358,10 @@ SETPALETTE:
         ldx     #MMU_CFG_RAM0
         sei
         stx     MMU_CR
-@L2:    sta     CBASE+$0000,y
-        sta     CBASE+$0100,y
-        sta     CBASE+$0200,y
-        sta     CBASE+$02e8,y
+@L2:    sta     CBASE+$0000, y
+        sta     CBASE+$0100, y
+        sta     CBASE+$0200, y
+        sta     CBASE+$02e8, y
         iny
         bne     @L2
         ldx     #MMU_CFG_CC65
@@ -413,17 +410,17 @@ GETDEFPALETTE:
 ;
 
 SETPIXEL:
-        jsr     CALC            ; Calculate coordinates
+        jsr     CALC    ; Calculate coordinates
 
         lda     #MMU_CFG_RAM0   ; Work behind ROMs
         sei
         sta     MMU_CR
 
-        lda     (POINT),Y
+        lda     (POINT), Y
         eor     BITMASK
-        and     BITTAB,X
-        eor     (POINT),Y
-        sta     (POINT),Y
+        and     BITTAB,  X
+        eor     (POINT), Y
+        sta     (POINT), Y
 
         ldx     #MMU_CFG_CC65
         stx     MMU_CR
@@ -436,23 +433,22 @@ SETPIXEL:
 ; coordinates passed to this function are never outside the visible screen
 ; area, so there is no need for clipping inside this function.
 
-
 GETPIXEL:
-        jsr     CALC            ; Calculate coordinates
+        jsr     CALC    ; Calculate coordinates
 
         lda     #MMU_CFG_RAM0   ; Work behind ROMs
         sei
         sta     MMU_CR
 
-        lda     (POINT),Y
-        and     BITTAB,X
+        lda     (POINT), Y
+        and     BITTAB,  X
         beq     @L1
-        lda     #$01            ; Foreground color
+        lda     #$01    ; Foreground color
 
 @L1:    ldy     #MMU_CFG_CC65
         sty     MMU_CR
         cli
-        ldx     #$00            ; Clear high byte
+        ldx     #$00    ; Clear high byte
         rts
 
 ; ------------------------------------------------------------------------
@@ -467,14 +463,14 @@ GETPIXEL:
 
 LINE:
 
-@CHECK: lda     X2           ;Make sure x1<x2
+@CHECK: lda     X2      ;Make sure x1<x2
         sec
         sbc     X1
         tax
         lda     X2+1
         sbc     X1+1
         bpl     @CONT
-        lda     Y2           ;If not, swap P1 and P2
+        lda     Y2      ;If not, swap P1 and P2
         ldy     Y1
         sta     Y1
         sty     Y2
@@ -495,26 +491,26 @@ LINE:
 @CONT:  sta     DX+1
         stx     DX
 
-        ldx     #$C8         ;INY
-        lda     Y2           ;Calculate dy
+        ldx     #$C8    ;INY
+        lda     Y2      ;Calculate dy
         sec
         sbc     Y1
         tay
         lda     Y2+1
         sbc     Y1+1
-        bpl     @DYPOS       ;Is y2>=y1?
-        lda     Y1           ;Otherwise dy=y1-y2
+        bpl     @DYPOS  ;Is y2>=y1?
+        lda     Y1      ;Otherwise dy=y1-y2
         sec
         sbc     Y2
         tay
-        ldx     #$88         ;DEY
+        ldx     #$88    ;DEY
 
-@DYPOS: sty     DY              ; 8-bit DY -- FIX ME?
+@DYPOS: sty     DY      ; 8-bit DY -- FIX ME?
         stx     YINCDEC
         stx     XINCDEC
 
-        jsr     CALC            ; Set up .X, .Y, and POINT
-        lda     BITCHUNK,X
+        jsr     CALC    ; Set up .X, .Y, and POINT
+        lda     BITCHUNK, X
         sta     OLDCHUNK
         sta     CHUNK
 
@@ -523,8 +519,8 @@ LINE:
         sta     MMU_CR
 
         ldx     DY
-        cpx     DX           ;Who's bigger: dy or dx?
-        bcc     STEPINX      ;If dx, then...
+        cpx     DX      ;Who's bigger: dy or dx?
+        bcc     STEPINX ;If dx, then...
         lda     DX+1
         bne     STEPINX
 
@@ -542,52 +538,52 @@ LINE:
 ;   Y1 AND #$07
 STEPINY:
         lda     #00
-        sta     OLDCHUNK     ;So plotting routine will work right
+        sta     OLDCHUNK        ;So plotting routine will work right
         lda     CHUNK
-        lsr                  ;Strip the bit
+        lsr                     ;Strip the bit
         eor     CHUNK
         sta     CHUNK
         txa
-        beq     YCONT2       ;If dy=0, it's just a point
-@CONT:  lsr                  ;Init counter to dy/2
+        beq     YCONT2          ;If dy=0, it's just a point
+@CONT:  lsr                     ;Init counter to dy/2
 ;
 ; Main loop
 ;
 YLOOP:  sta     TEMP
 
-        lda     (POINT),y
+        lda     (POINT), y
         eor     BITMASK
         and     CHUNK
-        eor     (POINT),y
-        sta     (POINT),y
+        eor     (POINT), y
+        sta     (POINT), y
 YINCDEC:
-        iny                  ;Advance Y coordinate
+        iny                     ;Advance Y coordinate
         cpy     #8
-        bcc     @CONT        ;No prob if Y=0..7
+        bcc     @CONT           ;No prob if Y=0..7
         jsr     FIXY
-@CONT:  lda     TEMP         ;Restore A
+@CONT:  lda     TEMP            ;Restore A
         sec
         sbc     DX
         bcc     YFIXX
-YCONT:  dex                  ;X is counter
+YCONT:  dex                     ;X is counter
         bne     YLOOP
-YCONT2: lda     (POINT),y    ;Plot endpoint
+YCONT2: lda     (POINT), y      ;Plot endpoint
         eor     BITMASK
         and     CHUNK
-        eor     (POINT),y
-        sta     (POINT),y
+        eor     (POINT), y
+        sta     (POINT), y
         ldx     #MMU_CFG_CC65
         stx     MMU_CR
         cli
         rts
 
-YFIXX:                    ;x=x+1
+YFIXX:                  ;x=x+1
         adc     DY
         lsr     CHUNK
-        bne     YCONT        ;If we pass a column boundary...
-        ror     CHUNK        ;then reset CHUNK to $80
+        bne     YCONT   ;If we pass a column boundary...
+        ror     CHUNK   ;then reset CHUNK to $80
         sta     TEMP2
-        lda     POINT        ;And add 8 to POINT
+        lda     POINT   ;And add 8 to POINT
         adc     #8
         sta     POINT
         bcc     @CONT
@@ -605,34 +601,34 @@ YFIXX:                    ;x=x+1
 
 .bss
 COUNTHI:
-        .byte   $00       ;Temporary counter
-                          ;only used once
+        .byte   $00     ;Temporary counter
+                        ;only used once
 .code
 STEPINX:
         ldx     DX
         lda     DX+1
         sta     COUNTHI
         cmp     #$80
-        ror                  ;Need bit for initialization
-        sta     Y1           ;High byte of counter
+        ror             ;Need bit for initialization
+        sta     Y1      ;High byte of counter
         txa
-        bne     @CONT        ;Could be $100
+        bne     @CONT   ;Could be $100
         dec     COUNTHI
 @CONT:  ror
 ;
 ; Main loop
 ;
 XLOOP:  lsr     CHUNK
-        beq     XFIXC        ;If we pass a column boundary...
+        beq     XFIXC   ;If we pass a column boundary...
 XCONT1: sbc     DY
-        bcc     XFIXY        ;Time to step in Y?
+        bcc     XFIXY   ;Time to step in Y?
 XCONT2: dex
         bne     XLOOP
-        dec     COUNTHI      ;High bits set?
+        dec     COUNTHI ;High bits set?
         bpl     XLOOP
 
-        lsr     CHUNK        ;Advance to last point
-        jsr     LINEPLOT     ;Plot the last chunk
+        lsr     CHUNK           ;Advance to last point
+        jsr     LINEPLOT        ;Plot the last chunk
         ldx     #MMU_CFG_CC65
         stx     MMU_CR
         cli
@@ -658,22 +654,22 @@ XFIXC:  sta     TEMP
 ; Check to make sure there isn't a high bit, plot chunk,
 ; and update Y-coordinate.
 ;
-XFIXY:  dec     Y1           ;Maybe high bit set
+XFIXY:  dec     Y1      ;Maybe high bit set
         bpl     XCONT2
         adc     DX
         sta     TEMP
         lda     DX+1
-        adc     #$FF         ;Hi byte
+        adc     #$FF    ;Hi byte
         sta     Y1
 
-        jsr     LINEPLOT     ;Plot chunk
+        jsr     LINEPLOT        ;Plot chunk
         lda     CHUNK
         sta     OLDCHUNK
 
         lda     TEMP
 XINCDEC:
-        iny                  ;Y-coord
-        cpy     #8           ;0..7 is ok
+        iny             ;Y-coord
+        cpy     #8      ;0..7 is ok
         bcc     XCONT2
         sta     TEMP
         jsr     FIXY
@@ -684,25 +680,25 @@ XINCDEC:
 ; Subroutine to plot chunks/points (to save a little
 ; room, gray hair, etc.)
 ;
-LINEPLOT:                       ; Plot the line chunk
-        lda     (POINT),Y
+LINEPLOT:       ; Plot the line chunk
+        lda     (POINT), Y
         eor     BITMASK
         ora     CHUNK
         and     OLDCHUNK
         eor     CHUNK
-        eor     (POINT),Y
-        sta     (POINT),Y
+        eor     (POINT), Y
+        sta     (POINT), Y
         rts
 
 ;
 ; Subroutine to fix up pointer when Y decreases through
 ; zero or increases through 7.
 ;
-FIXY:   cpy     #255         ;Y=255 or Y=8
+FIXY:   cpy     #255    ;Y=255 or Y=8
         beq     @DECPTR
 
-@INCPTR:                     ;Add 320 to pointer
-        ldy     #0           ;Y increased through 7
+@INCPTR:                ;Add 320 to pointer
+        ldy     #0      ;Y increased through 7
         lda     POINT
         adc     #<320
         sta     POINT
@@ -711,8 +707,8 @@ FIXY:   cpy     #255         ;Y=255 or Y=8
         sta     POINT+1
         rts
 
-@DECPTR:                     ;Okay, subtract 320 then
-        ldy     #7           ;Y decreased through 0
+@DECPTR:                ;Okay, subtract 320 then
+        ldy     #7      ;Y decreased through 0
         lda     POINT
         sec
         sbc     #<320
@@ -788,7 +784,6 @@ BAR:
 
 @L4:    rts
 
-
 ; ------------------------------------------------------------------------
 ; TEXTSTYLE: Set the style used when calling OUTTEXT. Text scaling in X and Y
 ; direction is passend in X/Y, the text direction is passed in A.
@@ -801,7 +796,6 @@ TEXTSTYLE:
         sty     TEXTMAGY
         sta     TEXTDIR
         rts
-
 
 ; ------------------------------------------------------------------------
 ; OUTTEXT: Output text at X/Y = ptr1/ptr2 using the current color and the
@@ -818,7 +812,7 @@ OUTTEXT:
 
         ldx     #((>(CHARROM + $0800)) >> 3)
         ldy     #0
-        lda     (TEXT),y
+        lda     (TEXT), y
         bmi     @L1
         ldx     #((>(CHARROM + $0000)) >> 3)
 @L1:    stx     ptr4+1
@@ -830,10 +824,6 @@ OUTTEXT:
         rol     ptr4+1
         sta     ptr4
 
-
-
-
-
         rts
 
 ; ------------------------------------------------------------------------
@@ -844,7 +834,7 @@ CALC:   lda     Y1
         and     #7
         tay
         lda     Y1+1
-        lsr                     ; Neg is possible
+        lsr     ; Neg is possible
         ror     TEMP2
         lsr
         ror     TEMP2
@@ -859,17 +849,17 @@ CALC:   lda     Y1
         ror     POINT
         cmp     #$80
         ror
-        ror     POINT           ; row*64
-        adc     TEMP2           ; +row*256
+        ror     POINT   ; row*64
+        adc     TEMP2   ; +row*256
         clc
-        adc     #>VBASE         ; +bitmap base
+        adc     #>VBASE ; +bitmap base
         sta     POINT+1
 
         lda     X1
         tax
         and     #$F8
         clc
-        adc     POINT           ; +(X AND #$F8)
+        adc     POINT   ; +(X AND #$F8)
         sta     POINT
         lda     X1+1
         adc     POINT+1

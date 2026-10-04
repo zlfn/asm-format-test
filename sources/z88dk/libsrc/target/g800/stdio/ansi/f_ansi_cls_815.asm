@@ -8,11 +8,11 @@
 ;	$Id: f_ansi_cls_815.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_cls
+        SECTION code_clib
+        PUBLIC  ansi_cls
 
-    EXTERN  cleargraphics
+        EXTERN  cleargraphics
 
 ansi_cls:
 
-    jp      cleargraphics
+        jp      cleargraphics

@@ -16,19 +16,18 @@ PUBLIC 	asm_exos_open_channel
 exos_open_channel_callee:
 _exos_open_channel_callee:
 
-	pop hl
-	pop de
-	ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 ; enter : de = char *device
 ;         l = channel number
 
 .asm_exos_open_channel
 
-	ld	a,l		; channel
-	rst   30h
-	defb  1
-	ld	h,0
-	ld	l,a
-	ret
- 
+        ld      a, l    ; channel
+        rst     30h
+        defb    1
+        ld      h, 0
+        ld      l, a
+        ret

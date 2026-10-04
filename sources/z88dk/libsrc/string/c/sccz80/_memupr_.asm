@@ -10,15 +10,15 @@ EXTERN asm__memupr
 
 _memupr_:
 
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   
-   jp asm__memupr
+        pop     de
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    de
+
+        jp      asm__memupr
 
 ; SDCC bridge for Classic
 IF __CLASSIC
@@ -26,10 +26,8 @@ PUBLIC __memupr_
 defc __memupr_ = _memupr_
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ____memupr_
 defc ____memupr_ = _memupr_
 ENDIF
-

@@ -5,13 +5,13 @@
 ;
 ;
 
-        .export         _sleep
-        .import         _get_iigs_speed
-        .import         _set_iigs_speed
-        .import         WAIT
-        .importzp       tmp1
+        .export _sleep
+        .import _get_iigs_speed
+        .import _set_iigs_speed
+        .import WAIT
+        .importzp tmp1
 
-        .include        "accelerator.inc"
+        .include "accelerator.inc"
 
         ; This functions uses the Apple2 WAIT ROM routine to waste a certain
         ; amount of cycles and returns approximately after the numbers of
@@ -39,7 +39,7 @@ sleep_1s:
 sleep_100ms:
         lda     #$C7            ; Sleep about 99ms
         jsr     WAIT
-        lda     #$0D             ; About 1ms
+        lda     #$0D            ; About 1ms
         jsr     WAIT
         dex
         bne     sleep_100ms

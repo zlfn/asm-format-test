@@ -10,12 +10,12 @@ EXTERN asm_z80_inir
 
 _z80_inir:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   inir
-   ret
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+        inir
+        ret

@@ -14,42 +14,41 @@ EXTERN __esxdos_error_mc
 
 asm_esx_m_tapeout_open:
 
-   ; enter : hl = char *appendname
-	;
-	; exit  : success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-	;
-	; uses  : af, bc, de, hl, ix
-	
-	ld b,0
+        ; enter : hl = char *appendname
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl, ix
+
+        ld      b, 0
 
 IF __SDCC_IY
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 ELSE
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 ENDIF
 
 __esx_m_tapeout_call_default_drive:
 
-   ld a,'*'
+        ld      a, '*'
 
 __esx_m_tapeout_call:
 
-   rst __ESX_RST_SYS
-   defb __ESX_M_TAPEOUT
+        rst     __ESX_RST_SYS
+        defb    __ESX_M_TAPEOUT
 
-	jp nc, error_znc
-	jp __esxdos_error_mc
-
+        jp      nc, error_znc
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * M_TAPEOUT ($8c) *

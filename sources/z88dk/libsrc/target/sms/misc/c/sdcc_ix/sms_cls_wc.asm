@@ -9,12 +9,12 @@ EXTERN _sms_cls_wc_callee_0
 
 _sms_cls_wc:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp _sms_cls_wc_callee_0
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      _sms_cls_wc_callee_0

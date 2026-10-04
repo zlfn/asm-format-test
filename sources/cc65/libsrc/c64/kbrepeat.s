@@ -4,11 +4,11 @@
 
         .export _kbrepeat
 
-        .include        "c64.inc"
+        .include "c64.inc"
 
 _kbrepeat:
-        ldx KBDREPEAT           ; get old value
-        sta KBDREPEAT           ; store new value
+        ldx     KBDREPEAT       ; get old value
+        sta     KBDREPEAT       ; store new value
         txa                     ; return old value
-        ldx #0
+        ldx     #0
         rts

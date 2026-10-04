@@ -20,34 +20,34 @@
 #include <asm/assembler.h>
 #include <asm/cp15.h>
 
-	.arch armv7-a
-	.text
+        .arch   armv7-a
+        .text
 /*
  * Returns the coherency base address in r1 (r0 is untouched), or 0 if
  * the coherency fabric is not enabled.
  */
 ENTRY(ll_get_coherency_base)
-	mrc	p15, 0, r1, c1, c0, 0
-	tst	r1, #CR_M @ Check MMU bit enabled
-	bne	1f
+        mrc     p15, 0, r1, c1, c0, 0
+        tst     r1,  #CR_M      @ Check MMU bit enabled
+        bne     1f
 
 	/*
 	 * MMU is disabled, use the physical address of the coherency
 	 * base address, (or 0x0 if the coherency fabric is not mapped)
 	 */
-	adr	r1, 3f
-	ldr	r3, [r1]
-	ldr	r1, [r1, r3]
-	b	2f
+        adr     r1, 3f
+        ldr     r3, [r1]
+        ldr     r1, [r1, r3]
+        b       2f
 1:
 	/*
 	 * MMU is enabled, use the virtual address of the coherency
 	 * base address.
 	 */
-	ldr	r1, =coherency_base
-	ldr	r1, [r1]
+        ldr     r1, =coherency_base
+        ldr     r1, [r1]
 2:
-	ret	lr
+        ret     lr
 ENDPROC(ll_get_coherency_base)
 
 /*
@@ -59,12 +59,12 @@ ENDPROC(ll_get_coherency_base)
  * fabric registers
  */
 ENTRY(ll_get_coherency_cpumask)
-	mrc	p15, 0, r3, cr0, cr0, 5
-	and	r3, r3, #15
-	mov	r2, #(1 << 24)
-	lsl	r3, r2, r3
+        mrc     p15, 0,  r3, cr0, cr0, 5
+        and     r3,  r3, #15
+        mov     r2,  #(1 << 24)
+        lsl     r3,  r2, r3
 ARM_BE8(rev	r3, r3)
-	ret	lr
+        ret     lr
 ENDPROC(ll_get_coherency_cpumask)
 
 /*
@@ -84,21 +84,21 @@ ENTRY(ll_add_cpu_to_smp_group)
 	 * calls. This function is used very early in the secondary
 	 * CPU boot, and no stack is available at this point.
 	 */
-	mov 	r0, lr
-	bl	ll_get_coherency_base
-	/* Bail out if the coherency is not enabled */
-	cmp	r1, #0
-	reteq	r0
-	bl	ll_get_coherency_cpumask
-	mov 	lr, r0
-	add	r0, r1, #ARMADA_XP_CFB_CFG_REG_OFFSET
+        mov     r0, lr
+        bl      ll_get_coherency_base
+        /* Bail out if the coherency is not enabled */
+        cmp     r1, #0
+        reteq   r0
+        bl      ll_get_coherency_cpumask
+        mov     lr, r0
+        add     r0, r1, #ARMADA_XP_CFB_CFG_REG_OFFSET
 1:
-	ldrex	r2, [r0]
-	orr	r2, r2, r3
-	strex	r1, r2, [r0]
-	cmp	r1, #0
-	bne	1b
-	ret	lr
+        ldrex   r2, [r0]
+        orr     r2, r2, r3
+        strex   r1, r2, [r0]
+        cmp     r1, #0
+        bne     1b
+        ret     lr
 ENDPROC(ll_add_cpu_to_smp_group)
 
 ENTRY(ll_enable_coherency)
@@ -109,23 +109,23 @@ ENTRY(ll_enable_coherency)
 	 * calls. This function is used very early in the secondary
 	 * CPU boot, and no stack is available at this point.
 	 */
-	mov r0, lr
-	bl	ll_get_coherency_base
-	/* Bail out if the coherency is not enabled */
-	cmp	r1, #0
-	reteq	r0
-	bl	ll_get_coherency_cpumask
-	mov lr, r0
-	add	r0, r1, #ARMADA_XP_CFB_CTL_REG_OFFSET
+        mov     r0, lr
+        bl      ll_get_coherency_base
+        /* Bail out if the coherency is not enabled */
+        cmp     r1, #0
+        reteq   r0
+        bl      ll_get_coherency_cpumask
+        mov     lr, r0
+        add     r0, r1, #ARMADA_XP_CFB_CTL_REG_OFFSET
 1:
-	ldrex	r2, [r0]
-	orr	r2, r2, r3
-	strex	r1, r2, [r0]
-	cmp	r1, #0
-	bne	1b
-	dsb
-	mov	r0, #0
-	ret	lr
+        ldrex   r2, [r0]
+        orr     r2, r2, r3
+        strex   r1, r2, [r0]
+        cmp     r1, #0
+        bne     1b
+        dsb
+        mov     r0, #0
+        ret     lr
 ENDPROC(ll_enable_coherency)
 
 ENTRY(ll_disable_coherency)
@@ -136,24 +136,24 @@ ENTRY(ll_disable_coherency)
 	 * calls. This function is used very early in the secondary
 	 * CPU boot, and no stack is available at this point.
 	 */
-	mov 	r0, lr
-	bl	ll_get_coherency_base
-	/* Bail out if the coherency is not enabled */
-	cmp	r1, #0
-	reteq	r0
-	bl	ll_get_coherency_cpumask
-	mov 	lr, r0
-	add	r0, r1, #ARMADA_XP_CFB_CTL_REG_OFFSET
+        mov     r0, lr
+        bl      ll_get_coherency_base
+        /* Bail out if the coherency is not enabled */
+        cmp     r1, #0
+        reteq   r0
+        bl      ll_get_coherency_cpumask
+        mov     lr, r0
+        add     r0, r1, #ARMADA_XP_CFB_CTL_REG_OFFSET
 1:
-	ldrex	r2, [r0]
-	bic	r2, r2, r3
-	strex	r1, r2, [r0]
-	cmp	r1, #0
-	bne	1b
-	dsb
-	ret	lr
+        ldrex   r2, [r0]
+        bic     r2, r2, r3
+        strex   r1, r2, [r0]
+        cmp     r1, #0
+        bne     1b
+        dsb
+        ret     lr
 ENDPROC(ll_disable_coherency)
 
-	.align 2
+        .align  2
 3:
-	.long	coherency_phys_base - .
+        .long   coherency_phys_base - .

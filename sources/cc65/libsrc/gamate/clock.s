@@ -2,14 +2,13 @@
 ; clock_t clock (void);
 ;
 
-        .include        "gamate.inc"
-        .include        "extzp.inc"
+        .include "gamate.inc"
+        .include "extzp.inc"
 
-        .export         _clock
-        .forceimport    ticktock
-        .importzp       sreg
-        .constructor    initclock
-
+        .export _clock
+        .forceimport ticktock
+        .importzp sreg
+        .constructor initclock
 
 .proc   _clock
 
@@ -23,11 +22,11 @@
 
 .endproc
 
-        .segment        "ONCE"
+        .segment "ONCE"
 initclock:
         lda     #0
         ldx     #3
-@lp:    sta     tickcount,x
+@lp:    sta     tickcount, x
         dex
         bpl     @lp
         rts

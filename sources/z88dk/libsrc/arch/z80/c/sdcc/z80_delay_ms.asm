@@ -10,10 +10,10 @@ EXTERN asm_z80_delay_ms
 
 _z80_delay_ms:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_z80_delay_ms
+        push    hl
+        push    af
+
+        jp      asm_z80_delay_ms

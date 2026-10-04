@@ -10,10 +10,10 @@ SECTION code_l_sccz80
 PUBLIC l_com
 
 l_com:
-   ld a,h
-   cpl 
-   ld h,a
-   ld a,l
-   cpl
-   ld l,a
-   ret
+        ld      a, h
+        cpl
+        ld      h, a
+        ld      a, l
+        cpl
+        ld      l, a
+        ret

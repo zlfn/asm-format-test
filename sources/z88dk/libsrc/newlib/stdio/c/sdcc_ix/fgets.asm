@@ -16,17 +16,17 @@ EXTERN l0_fgets_callee
 
 _fgets:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
 
-   jp l0_fgets_callee
+        push    de
+        push    bc
+        push    hl
+        push    af
+
+        jp      l0_fgets_callee
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

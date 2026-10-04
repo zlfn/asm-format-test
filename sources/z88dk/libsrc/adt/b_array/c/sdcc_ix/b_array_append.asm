@@ -10,12 +10,12 @@ EXTERN asm_b_array_append
 
 _b_array_append:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   
-   jp asm_b_array_append
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_b_array_append

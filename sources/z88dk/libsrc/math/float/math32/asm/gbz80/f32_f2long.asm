@@ -20,7 +20,6 @@ EXTERN l_f32_zero
 PUBLIC m32_f2slong, m32_f2ulong, m32_f2sint, m32_f2uint
 PUBLIC l_f32_f2slong, l_f32_f2ulong, l_f32_f2sint, l_f32_f2uint
 
-
 ; DEHL = IEEE float → DEHL = integer
 .m32_f2sint
 .m32_f2uint
@@ -30,35 +29,35 @@ PUBLIC l_f32_f2slong, l_f32_f2ulong, l_f32_f2sint, l_f32_f2uint
 .l_f32_f2uint
 .l_f32_f2slong
 .l_f32_f2ulong
-    ld b,d                          ; B = sign | exp[7:1]
-    ld a,d
-    rl e
-    rla                             ; A = exponent (rla forces Z=0)
-    or a
-    jp Z,l_f32_zero
-    cp 07eh+32
-    jp NC,l_f32_zero
+        ld      b, d    ; B = sign | exp[7:1]
+        ld      a, d
+        rl      e
+        rla             ; A = exponent (rla forces Z=0)
+        or      a
+        jp      Z, l_f32_zero
+        cp      07eh+32
+        jp      NC, l_f32_zero
 
-    ld c,a
-    ld a,07eh+32
-    sub c
-    ld c,a                          ; C = shift count (>= 1)
+        ld      c, a
+        ld      a, 07eh+32
+        sub     c
+        ld      c, a    ; C = shift count (>= 1)
 
-    scf
-    rr e                            ; hidden 1
-    ld d,e
-    ld e,h
-    ld h,l
-    ld l,0                          ; DEHL = mant << 8
+        scf
+        rr      e       ; hidden 1
+        ld      d, e
+        ld      e, h
+        ld      h, l
+        ld      l, 0    ; DEHL = mant << 8
 
 .f2_loop
-    srl d
-    rr e
-    rr h
-    rr l
-    dec c
-    jr NZ,f2_loop
+        srl     d
+        rr      e
+        rr      h
+        rr      l
+        dec     c
+        jr      NZ, f2_loop
 
-    rl b                            ; sign → CF
-    call C,l_long_neg
-    ret
+        rl      b       ; sign → CF
+        call    C, l_long_neg
+        ret

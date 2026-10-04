@@ -6,13 +6,12 @@
 ; /* Initialize the random number generator */
 ;
 
-        .export         ___randomize
-        .import         _srand
+        .export ___randomize
+        .import _srand
 
-        .include        "c64.inc"
+        .include "c64.inc"
 
 ___randomize:
         ldx     VIC_HLINE       ; Use VIC rasterline as high byte
         lda     TIME+2          ; Use 60HZ clock as low byte
         jmp     _srand          ; Initialize generator
-

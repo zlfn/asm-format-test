@@ -14,11 +14,11 @@ EXTERN __SMSlib_KeysStatus
 
 asm_SMSlib_getKeysStatus:
 
-   ; unsigned int SMS_getKeysStatus (void)
-   ;
-   ; exit : hl = (_KeysStatus)
-   ;
-   ; uses : hl
+        ; unsigned int SMS_getKeysStatus (void)
+        ;
+        ; exit : hl = (_KeysStatus)
+        ;
+        ; uses : hl
 
-   ld hl,(__SMSlib_KeysStatus)
-   ret
+        ld      hl, (__SMSlib_KeysStatus)
+        ret

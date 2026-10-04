@@ -5,19 +5,19 @@
 
 ; void DrawPoint        (char mode, struct pixel *mypixel);
 
-            .import PointRegs
-            .import popa
-            .importzp tmp1
-            .export _DrawPoint
+        .import PointRegs
+        .import popa
+        .importzp tmp1
+        .export _DrawPoint
 
-            .include "jumptab.inc"
+        .include "jumptab.inc"
 
 _DrawPoint:
-        jsr PointRegs
-        jsr popa
-        sta tmp1
+        jsr     PointRegs
+        jsr     popa
+        sta     tmp1
         clc
-        bit tmp1
-        bvc @1
+        bit     tmp1
+        bvc     @1
         sec
-@1:     jmp DrawPoint
+@1:     jmp     DrawPoint

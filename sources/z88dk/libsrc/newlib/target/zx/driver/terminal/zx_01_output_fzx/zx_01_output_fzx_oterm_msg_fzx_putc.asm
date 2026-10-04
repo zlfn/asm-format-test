@@ -14,17 +14,17 @@ zx_01_output_fzx_oterm_msg_fzx_putc:
 ;     exit   : standard return value for asm_fzx_putc (a, carry)
 ;     can use: af, bc, de, hl
 
-   push hl
-   ex (sp),ix
+        push    hl
+        ex      (sp), ix
 
-   ex af,af'
-   push af
+        ex      af, af'
+        push    af
 
-   call asm_fzx_putc
+        call    asm_fzx_putc
 
-   ex af,af'
-   pop af
-   ex af,af'
+        ex      af, af'
+        pop     af
+        ex      af, af'
 
-   pop ix
-   ret
+        pop     ix
+        ret

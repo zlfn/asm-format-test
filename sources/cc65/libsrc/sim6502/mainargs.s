@@ -2,10 +2,10 @@
 ; Oliver Schmidt, 2013-05-16
 ;
 
-        .constructor    initmainargs, 24
-        .import         __argc, __argv, args
+        .constructor initmainargs, 24
+        .import __argc, __argv, args
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 initmainargs:
         lda     #<__argv

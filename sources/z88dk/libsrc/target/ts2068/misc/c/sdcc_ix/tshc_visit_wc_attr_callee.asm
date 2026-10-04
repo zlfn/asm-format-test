@@ -10,17 +10,17 @@ EXTERN asm_tshc_visit_wc_attr
 
 _tshc_visit_wc_attr_callee:
 
-   pop af
-   pop bc
-   pop de
-   push af
+        pop     af
+        pop     bc
+        pop     de
+        push    af
 
 l0_tshc_visit_wc_attr_callee:
 
-   push bc
-   ex (sp),ix
-   
-   call asm_tshc_visit_wc_attr
-   
-   pop ix
-   ret
+        push    bc
+        ex      (sp), ix
+
+        call    asm_tshc_visit_wc_attr
+
+        pop     ix
+        ret

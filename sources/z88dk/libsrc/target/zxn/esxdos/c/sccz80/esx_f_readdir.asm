@@ -8,20 +8,19 @@ EXTERN asm_esx_f_readdir
 
 esx_f_readdir:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   ld a,e
-   jp asm_esx_f_readdir
+        pop     af
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        ld      a, e
+        jp      asm_esx_f_readdir
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _esx_f_readdir
 defc _esx_f_readdir = esx_f_readdir
 ENDIF
-

@@ -5,13 +5,12 @@
 ; /* Open a file */
 ;
 
-        .export         _fopen
+        .export _fopen
 
-        .import         __fopen, __fdesc
-        .import         pushax, return0
+        .import __fopen, __fdesc
+        .import pushax,  return0
 
-        .include        "errno.inc"
-
+        .include "errno.inc"
 
 ; ------------------------------------------------------------------------
 ; Code
@@ -46,4 +45,3 @@
 @L1:    jmp     __fopen
 
 .endproc
-

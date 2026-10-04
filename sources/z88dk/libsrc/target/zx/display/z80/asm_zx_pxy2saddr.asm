@@ -19,47 +19,47 @@ PUBLIC asm0_zx_pxy2saddr
 
 asm_zx_pxy2saddr:
 
-   ; enter :  l = x coordinate
-   ;          h = valid y coordinate
-   ;
-   ; exit  : hl = screen address of byte containing pixel
-   ;          e = x coordinate
-   ;          d = y coordinate
-   ;
-   ; uses  : af, de, hl
-   
-   or a
+        ; enter :  l = x coordinate
+        ;          h = valid y coordinate
+        ;
+        ; exit  : hl = screen address of byte containing pixel
+        ;          e = x coordinate
+        ;          d = y coordinate
+        ;
+        ; uses  : af, de, hl
+
+        or      a
 
 asm0_zx_pxy2saddr:
 
-   ld a,h
-   rra
-   scf
-   rra
+        ld      a, h
+        rra
+        scf
+        rra
 IF __USE_SPECTRUM_128_SECOND_DFILE
-   ; target $c0 or $e0 (CF 0/1 at asm0_zx_pxy2saddr)
-   scf
+        ; target $c0 or $e0 (CF 0/1 at asm0_zx_pxy2saddr)
+        scf
 ELSE
-   ; target $40 or $60 (CF 0/1 at asm0_zx_pxy2saddr)
-   or a
+        ; target $40 or $60 (CF 0/1 at asm0_zx_pxy2saddr)
+        or      a
 ENDIF
-   rra
-   ld e,a
+        rra
+        ld      e, a
 
-   xor h
-   and %11111000
-   xor h
-   ld d,a
+        xor     h
+        and     %11111000
+        xor     h
+        ld      d, a
 
-   ld a,l
-   xor e
-   and %11111000
-   xor e
+        ld      a, l
+        xor     e
+        and     %11111000
+        xor     e
 
-   rrca
-   rrca
-   rrca
-   ld e,a
+        rrca
+        rrca
+        rrca
+        ld      e, a
 
-   ex de,hl
-   ret
+        ex      de, hl
+        ret

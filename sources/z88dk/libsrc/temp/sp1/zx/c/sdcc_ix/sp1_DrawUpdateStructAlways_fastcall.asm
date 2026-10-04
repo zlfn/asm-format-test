@@ -9,10 +9,10 @@ PUBLIC _sp1_DrawUpdateStructAlways_fastcall
 EXTERN asm_sp1_DrawUpdateStructAlways
 
 _sp1_DrawUpdateStructAlways_fastcall:
-   
-   push ix
-   
-   call asm_sp1_DrawUpdateStructAlways
-   
-   pop ix
-   ret
+
+        push    ix
+
+        call    asm_sp1_DrawUpdateStructAlways
+
+        pop     ix
+        ret

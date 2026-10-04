@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; void *obstack_blank(struct obstack *ob, int size)
 ;
 ; Attempt to resize the currently growing object by
@@ -24,15 +24,14 @@ EXTERN asm_obstack_blank
 
 obstack_blank_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   jp asm_obstack_blank
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_obstack_blank
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _obstack_blank_callee
 defc _obstack_blank_callee = obstack_blank_callee
 ENDIF
-

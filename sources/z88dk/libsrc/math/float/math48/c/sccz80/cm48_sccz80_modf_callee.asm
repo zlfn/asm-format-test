@@ -10,31 +10,31 @@ EXTERN am48_modf, cm48_sccz80p_dstore, cm48_sccz80p_dcallee1
 
 cm48_sccz80_modf_callee:
 
-   pop af
-   pop hl                      ; hl = iptr
-   push af
+        pop     af
+        pop     hl      ; hl = iptr
+        push    af
 
-   call cm48_sccz80p_dcallee1  ; AC'= value
+        call    cm48_sccz80p_dcallee1   ; AC'= value
 
 l0_cm48_sccz80_modf_callee:
 
-   push hl                     ; save iptr
+        push    hl      ; save iptr
 
-   call am48_modf
-   
-   ; AC'= fraction
-   ; AC = integer
-   ; stack = iptr
-   
-   exx
-   
-   ex (sp),hl                  ; hl = iptr
-   call cm48_sccz80p_dstore    ; *iptr = integer
-   
-   pop hl
-   
-   exx
-   
-   ; AC'= fraction
-   
-   ret
+        call    am48_modf
+
+        ; AC'= fraction
+        ; AC = integer
+        ; stack = iptr
+
+        exx
+
+        ex      (sp), hl                ; hl = iptr
+        call    cm48_sccz80p_dstore     ; *iptr = integer
+
+        pop     hl
+
+        exx
+
+        ; AC'= fraction
+
+        ret

@@ -4,6 +4,6 @@
 ; unsigned char __fastcall__ revers (unsigned char onoff)
 ;
 
-        .import         return0
+        .import return0
 
-        .export         _revers := return0      ; no attribute
+        .export _revers := return0      ; no attribute

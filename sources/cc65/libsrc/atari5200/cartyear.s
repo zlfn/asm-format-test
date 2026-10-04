@@ -6,4 +6,4 @@
 
 .segment        "CARTYEAR"
 
-                .byte   '9' + 32,'8' + 32       ; "98", but using playfield 1
+        .byte   '9' + 32, '8' + 32      ; "98", but using playfield 1

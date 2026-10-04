@@ -16,81 +16,81 @@
 // Trap # in AX, args in DI SI DX, return in AX DX
 
 TEXT	·Syscall(SB),NOSPLIT,$0-56
-	CALL	runtime·entersyscall<ABIInternal>(SB)
-	MOVQ	trap+0(FP), AX	// syscall entry
-	MOVQ	a1+8(FP), DI
-	MOVQ	a2+16(FP), SI
-	MOVQ	a3+24(FP), DX
-	SYSCALL
-	JCC	ok
-	MOVQ	$-1, r1+32(FP)	// r1
-	MOVQ	$0, r2+40(FP)	// r2
-	MOVQ	AX, err+48(FP)	// errno
-	CALL	runtime·exitsyscall<ABIInternal>(SB)
-	RET
+        CALL    runtime·entersyscall<ABIInternal>(SB)
+        MOVQ    trap+0(FP), AX  // syscall entry
+        MOVQ    a1+8(FP),   DI
+        MOVQ    a2+16(FP),  SI
+        MOVQ    a3+24(FP),  DX
+        SYSCALL
+        JCC     ok
+        MOVQ    $-1, r1+32(FP)  // r1
+        MOVQ    $0,  r2+40(FP)  // r2
+        MOVQ    AX,  err+48(FP) // errno
+        CALL    runtime·exitsyscall<ABIInternal>(SB)
+        RET
 ok:
-	MOVQ	AX, r1+32(FP)	// r1
-	MOVQ	DX, r2+40(FP)	// r2
-	MOVQ	$0, err+48(FP)	// errno
-	CALL	runtime·exitsyscall<ABIInternal>(SB)
-	RET
+        MOVQ    AX, r1+32(FP)   // r1
+        MOVQ    DX, r2+40(FP)   // r2
+        MOVQ    $0, err+48(FP)  // errno
+        CALL    runtime·exitsyscall<ABIInternal>(SB)
+        RET
 
 TEXT	·Syscall6(SB),NOSPLIT,$0-80
-	CALL	runtime·entersyscall<ABIInternal>(SB)
-	MOVQ	trap+0(FP), AX	// syscall entry
-	MOVQ	a1+8(FP), DI
-	MOVQ	a2+16(FP), SI
-	MOVQ	a3+24(FP), DX
-	MOVQ	a4+32(FP), R10
-	MOVQ	a5+40(FP), R8
-	MOVQ	a6+48(FP), R9
-	SYSCALL
-	JCC	ok6
-	MOVQ	$-1, r1+56(FP)	// r1
-	MOVQ	$0, r2+64(FP)	// r2
-	MOVQ	AX, err+72(FP)  // errno
-	CALL	runtime·exitsyscall<ABIInternal>(SB)
-	RET
+        CALL    runtime·entersyscall<ABIInternal>(SB)
+        MOVQ    trap+0(FP), AX  // syscall entry
+        MOVQ    a1+8(FP),   DI
+        MOVQ    a2+16(FP),  SI
+        MOVQ    a3+24(FP),  DX
+        MOVQ    a4+32(FP),  R10
+        MOVQ    a5+40(FP),  R8
+        MOVQ    a6+48(FP),  R9
+        SYSCALL
+        JCC     ok6
+        MOVQ    $-1, r1+56(FP)  // r1
+        MOVQ    $0,  r2+64(FP)  // r2
+        MOVQ    AX,  err+72(FP) // errno
+        CALL    runtime·exitsyscall<ABIInternal>(SB)
+        RET
 ok6:
-	MOVQ	AX, r1+56(FP)	// r1
-	MOVQ	DX, r2+64(FP)	// r2
-	MOVQ	$0, err+72(FP)	// errno
-	CALL	runtime·exitsyscall<ABIInternal>(SB)
-	RET
+        MOVQ    AX, r1+56(FP)   // r1
+        MOVQ    DX, r2+64(FP)   // r2
+        MOVQ    $0, err+72(FP)  // errno
+        CALL    runtime·exitsyscall<ABIInternal>(SB)
+        RET
 
 TEXT	·RawSyscall(SB),NOSPLIT,$0-56
-	MOVQ	a1+8(FP), DI
-	MOVQ	a2+16(FP), SI
-	MOVQ	a3+24(FP), DX
-	MOVQ	trap+0(FP), AX	// syscall entry
-	SYSCALL
-	JCC	ok1
-	MOVQ	$-1, r1+32(FP)	// r1
-	MOVQ	$0, r2+40(FP)	// r2
-	MOVQ	AX, err+48(FP)	// errno
-	RET
+        MOVQ    a1+8(FP),   DI
+        MOVQ    a2+16(FP),  SI
+        MOVQ    a3+24(FP),  DX
+        MOVQ    trap+0(FP), AX  // syscall entry
+        SYSCALL
+        JCC     ok1
+        MOVQ    $-1, r1+32(FP)  // r1
+        MOVQ    $0,  r2+40(FP)  // r2
+        MOVQ    AX,  err+48(FP) // errno
+        RET
 ok1:
-	MOVQ	AX, r1+32(FP)	// r1
-	MOVQ	DX, r2+40(FP)	// r2
-	MOVQ	$0, err+48(FP)	// errno
-	RET
+        MOVQ    AX, r1+32(FP)   // r1
+        MOVQ    DX, r2+40(FP)   // r2
+        MOVQ    $0, err+48(FP)  // errno
+        RET
 
 TEXT	·RawSyscall6(SB),NOSPLIT,$0-80
-	MOVQ	a1+8(FP), DI
-	MOVQ	a2+16(FP), SI
-	MOVQ	a3+24(FP), DX
-	MOVQ	a4+32(FP), R10
-	MOVQ	a5+40(FP), R8
-	MOVQ	a6+48(FP), R9
-	MOVQ	trap+0(FP), AX	// syscall entry
-	SYSCALL
-	JCC	ok2
-	MOVQ	$-1, r1+56(FP)	// r1
-	MOVQ	$0, r2+64(FP)	// r2
-	MOVQ	AX, err+72(FP)	// errno
-	RET
+        MOVQ    a1+8(FP),   DI
+        MOVQ    a2+16(FP),  SI
+        MOVQ    a3+24(FP),  DX
+        MOVQ    a4+32(FP),  R10
+        MOVQ    a5+40(FP),  R8
+        MOVQ    a6+48(FP),  R9
+        MOVQ    trap+0(FP), AX  // syscall entry
+        SYSCALL
+        JCC     ok2
+        MOVQ    $-1, r1+56(FP)  // r1
+        MOVQ    $0,  r2+64(FP)  // r2
+        MOVQ    AX,  err+72(FP) // errno
+        RET
 ok2:
-	MOVQ	AX, r1+56(FP)	// r1
-	MOVQ	DX, r2+64(FP)	// r2
-	MOVQ	$0, err+72(FP)	// errno
-	RET
+        MOVQ    AX, r1+56(FP)   // r1
+        MOVQ    DX, r2+64(FP)   // r2
+        MOVQ    $0, err+72(FP)  // errno
+        RET

@@ -8,10 +8,8 @@
 ;	$Id: f_ansi_bel.asm,v 1.3 2016-06-12 16:06:42 dom Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_BEL
-
+        SECTION code_clib
+        PUBLIC  ansi_BEL
 
 ansi_BEL:
-    jp      $C060
-
+        jp      $C060

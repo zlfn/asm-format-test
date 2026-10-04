@@ -19,25 +19,25 @@ EXTERN RIsIvalInIval16
 
 .RIsRectInRect16
 
-   call RIsIvalInIval16
-   jp c, maybe
-   
-   pop de
-   ld hl,8
-   add hl,sp
-   ld sp,hl
-   ex de,hl
-   or a
-   jp (hl)
+        call    RIsIvalInIval16
+        jp      c, maybe
+
+        pop     de
+        ld      hl, 8
+        add     hl, sp
+        ld      sp, hl
+        ex      de, hl
+        or      a
+        jp      (hl)
 
 .maybe
 
-   pop hl
-   pop de
-   pop bc
-   exx
-   pop de
-   exx
-   ex (sp),hl
+        pop     hl
+        pop     de
+        pop     bc
+        exx
+        pop     de
+        exx
+        ex      (sp), hl
 
-   jp RIsIvalInIval16
+        jp      RIsIvalInIval16

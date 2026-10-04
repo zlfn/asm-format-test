@@ -8,42 +8,42 @@
 ; Important note: The implementation of cputs() relies on the cputc() function
 ; not clobbering ptr1. Beware when rewriting or changing this function!
 
-        .export         _cputcxy, _cputc, cputdirect, putchar
-        .export         newline
-        .constructor    initconio
-        .import         popa, _gotoxy
-        .import         setcursor
+        .export _cputcxy, _cputc, cputdirect, putchar
+        .export newline
+        .constructor initconio
+        .import popa, _gotoxy
+        .import setcursor
 
-        .importzp       tmp3,tmp4
+        .importzp tmp3, tmp4
 
-        .include        "creativision.inc"
-        .include        "boxchars.inc"
+        .include "creativision.inc"
+        .include "boxchars.inc"
 
 ;-----------------------------------------------------------------------------
 
 .code
 
 _cputcxy:
-        pha                     ; Save C
-        jsr     popa            ; Get Y
-        jsr     _gotoxy         ; Set cursor, drop x
-        pla                     ; Restore C
+        pha             ; Save C
+        jsr     popa    ; Get Y
+        jsr     _gotoxy ; Set cursor, drop x
+        pla             ; Restore C
 
 ; Plot a character - also used as internal function
 
-_cputc: cmp     #$0D            ; CR?
+_cputc: cmp     #$0D    ; CR?
         bne     L1
         lda     #0
         sta     CURSOR_X
-        beq     plot            ; Recalculate pointers
+        beq     plot    ; Recalculate pointers
 
-L1:     cmp     #$0A            ; LF?
-        beq     newline         ; Recalculate pointers
+L1:     cmp     #$0A    ; LF?
+        beq     newline ; Recalculate pointers
 
 ; Printable char of some sort
 
 cputdirect:
-        jsr     putchar         ; Write the character to the screen
+        jsr     putchar ; Write the character to the screen
 
 ; Advance cursor position
 
@@ -65,7 +65,6 @@ newline:
 plot:   ldy     CURSOR_X
         ldx     CURSOR_Y
         jmp     setcursor       ; Set the new cursor
-
 
 ; Write one character to the screen without doing anything else, return X
 ; position in Y
@@ -111,7 +110,7 @@ initconio:
         sta     VDP_CONTROL_W
         ldx     #0
 
-LL:     lda     boxchars,x
+LL:     lda     boxchars, x
         sta     VDP_DATA_W
         inx
         cpx     #48

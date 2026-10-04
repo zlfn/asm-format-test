@@ -11,23 +11,22 @@ EXTERN asm_sp1_Initialize
 
 sp1_Initialize_callee:
 
-   pop bc
-   pop hl
-   pop de
-   ld h,e
-   pop de
-   ld a,e
-   push bc
+        pop     bc
+        pop     hl
+        pop     de
+        ld      h, e
+        pop     de
+        ld      a, e
+        push    bc
 
 ;   jp asm_sp1_Initialize
-   push ix
-   call asm_sp1_Initialize
-   pop ix
-   ret
+        push    ix
+        call    asm_sp1_Initialize
+        pop     ix
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _sp1_Initialize_callee
 defc _sp1_Initialize_callee = sp1_Initialize_callee
 ENDIF
-

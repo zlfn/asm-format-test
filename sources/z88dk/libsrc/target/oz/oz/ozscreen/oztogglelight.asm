@@ -16,23 +16,21 @@
 ; $Id: oztogglelight.asm,v 1.3 2016-06-28 14:48:17 dom Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  oztogglelight
-    PUBLIC  _oztogglelight
+        SECTION code_clib
+        PUBLIC  oztogglelight
+        PUBLIC  _oztogglelight
 
-    EXTERN  ozbacklight
+        EXTERN  ozbacklight
 
-    EXTERN  ozsetlight
-
+        EXTERN  ozsetlight
 
 oztogglelight:
 _oztogglelight:
-    ld      a, (ozbacklight)
-    and     040h
-    xor     040h
-    ld      l, a
-    push    hl
-    call    ozsetlight
-    pop     hl
-    ret
-
+        ld      a, (ozbacklight)
+        and     040h
+        xor     040h
+        ld      l, a
+        push    hl
+        call    ozsetlight
+        pop     hl
+        ret

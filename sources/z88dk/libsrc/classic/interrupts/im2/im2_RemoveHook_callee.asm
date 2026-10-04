@@ -10,14 +10,14 @@ EXTERN IM2RemoveHook
 .im2_RemoveHook_callee
 ._im2_RemoveHook_callee
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 .asm_im2_RemoveHook
 
-   call IM2RemoveHook
-   ld hl,0
-   ret nc
-   inc l
-   ret
+        call    IM2RemoveHook
+        ld      hl, 0
+        ret     nc
+        inc     l
+        ret

@@ -6,11 +6,11 @@
 ; unsigned char __fastcall__ bordercolor (unsigned char color);
 ;
 
-        .export         _textcolor, _bgcolor, _bordercolor
-        .import         return0, consref
+        .export _textcolor, _bgcolor, _bordercolor
+        .import return0,    consref
 
-        .include        "apple3.inc"
-        .include        "sos.inc"
+        .include "apple3.inc"
+        .include "sos.inc"
 
 _textcolor:
         sta     colbuf+1
@@ -41,20 +41,18 @@ _bgcolor:
 
 _bordercolor    := return0
 
-
         .data
 
 ; write console param list
-collist:  .byte   3
-colref:   .byte   0
-          .addr   colbuf
-          .word   2
+collist: .byte  3
+colref: .byte   0
+        .addr   colbuf
+        .word   2
 
-colbuf:   .byte   00
-          .byte   00
+colbuf: .byte   00
+        .byte   00
 
 consforecolor:
         .byte   15
 consbackcolor:
         .byte   0
-

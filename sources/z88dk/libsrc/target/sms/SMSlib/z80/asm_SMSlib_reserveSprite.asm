@@ -15,35 +15,35 @@ EXTERN __SMSlib_SpriteNextFree, __SMSlib_SpriteTableY
 
 asm_SMSlib_reserveSprite:
 
-   ; signed char SMS_reserveSprite (void)
-   ;
-   ; exit : success
-   ;
-   ;           hl = sprite #
-   ;           carry reset
-   ;
-   ;        fail
-   ;
-   ;           hl = -1
-   ;           carry set
-   ;
-   ; uses : af, de, hl
-   
-   ld a,(__SMSlib_SpriteNextFree)
-   
-   cp MAXSPRITES
-   jp nc, error_mc
-   
-   ld e,a
-   ld d,0
-   
-   ld hl,__SMSlib_SpriteTableY
-   add hl,de
-   
-   ld (hl),0xe0
-   
-   inc a
-   ld (__SMSlib_SpriteNextFree),a
-   
-   ex de,hl
-   ret
+        ; signed char SMS_reserveSprite (void)
+        ;
+        ; exit : success
+        ;
+        ;           hl = sprite #
+        ;           carry reset
+        ;
+        ;        fail
+        ;
+        ;           hl = -1
+        ;           carry set
+        ;
+        ; uses : af, de, hl
+
+        ld      a, (__SMSlib_SpriteNextFree)
+
+        cp      MAXSPRITES
+        jp      nc, error_mc
+
+        ld      e, a
+        ld      d, 0
+
+        ld      hl, __SMSlib_SpriteTableY
+        add     hl, de
+
+        ld      (hl), 0xe0
+
+        inc     a
+        ld      (__SMSlib_SpriteNextFree), a
+
+        ex      de, hl
+        ret

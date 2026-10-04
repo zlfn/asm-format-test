@@ -26,8 +26,6 @@
 ;   might be covered by the GNU General Public License.
 ;--------------------------------------------------------------------------
 
-
-
 SECTION code_clib
 SECTION code_l_sccz80
 PUBLIC	___div16_bcde
@@ -52,55 +50,55 @@ ___div16_bcde:
         ;;  and divisor. Quotient is positive if signs are the same, negative
         ;;  if signs are different
         ;; Remainder has same sign as dividend
-        ld      a,b             ; Get high byte of dividend
-        push    af              ; Save as sign of remainder
-        xor     d               ; Xor with high byte of divisor
-        push    af              ; Save sign of quotient
+        ld      a, b    ; Get high byte of dividend
+        push    af      ; Save as sign of remainder
+        xor     d       ; Xor with high byte of divisor
+        push    af      ; Save sign of quotient
 
         ;; Take absolute value of divisor
-        bit     7,d
-        jr      Z,chkde        ; Jump if divisor is positive
+        bit     7, d
+        jr      Z, chkde        ; Jump if divisor is positive
         sub     a               ; Substract divisor from 0
         sub     e
-        ld      e,a
+        ld      e, a
         sbc     a               ; Propagate borrow (A=0xFF if borrow)
         sub     d
-        ld      d,a
+        ld      d, a
         ;; Take absolute value of dividend
 chkde:
-        bit     7,b
-        jr      Z,dodiv        ; Jump if dividend is positive
+        bit     7, b
+        jr      Z, dodiv        ; Jump if dividend is positive
         sub     a               ; Substract dividend from 0
         sub     c
-        ld      c,a
+        ld      c, a
         sbc     a               ; Propagate borrow (A=0xFF if borrow)
         sub     b
-        ld      b,a
+        ld      b, a
         ;; Divide absolute values
 dodiv:
         call    ___divu16_bcde
-        jr      C,exit         ; Exit if divide by zero
+        jr      C, exit ; Exit if divide by zero
         ;; Negate quotient if it is negative
         pop     af              ; recover sign of quotient
         and     0x80
-        jr      Z,dorem        ; Jump if quotient is positive
+        jr      Z, dorem        ; Jump if quotient is positive
         sub     a               ; Substract quotient from 0
         sub     c
-        ld      c,a
+        ld      c, a
         sbc     a               ; Propagate borrow (A=0xFF if borrow)
         sub     b
-        ld      b,a
+        ld      b, a
 dorem:
         ;; Negate remainder if it is negative
-        pop     af              ; recover sign of remainder
+        pop     af      ; recover sign of remainder
         and     0x80
-        ret     Z               ; Return if remainder is positive
-        sub     a               ; Substract remainder from 0
+        ret     Z       ; Return if remainder is positive
+        sub     a       ; Substract remainder from 0
         sub     e
-        ld      e,a
-        sbc     a               ; Propagate remainder (A=0xFF if borrow)
+        ld      e, a
+        sbc     a       ; Propagate remainder (A=0xFF if borrow)
         sub     d
-        ld      d,a
+        ld      d, a
         ret
 exit:
         pop     af
@@ -109,18 +107,18 @@ exit:
 
 ___divu16_bcde:
         ;; Check for division by zero
-        ld      a,e
+        ld      a, e
         or      d
-        jr      NZ,divide      ; Branch if divisor is non-zero
-        ld      bc,0x00        ; Divide by zero error
-        ld      de,bc
+        jr      NZ, divide      ; Branch if divisor is non-zero
+        ld      bc, 0x00        ; Divide by zero error
+        ld      de, bc
         scf                     ; Set carry, invalid result
         ret
 divide:
-        ld      hl,bc           ; HL = dividend/quotient
-        ld      bc,0x00        ; BC = remainder
+        ld      hl, bc          ; HL = dividend/quotient
+        ld      bc, 0x00        ; BC = remainder
         or      a               ; Clear carry to start
-        ld      a,16           ; 16 bits in dividend
+        ld      a, 16           ; 16 bits in dividend
 dvloop:
         ;; Shift next bit of quotient into bit 0 of dividend
         ;; Shift next MSB of dividend into LSB of remainder
@@ -129,44 +127,44 @@ dvloop:
         ;; HL holds remainder
         ;; Do a 32-bit left shift, shifting carry to L, L to H,
         ;;  H to C, C to B
-        push    af              ; save number of bits remaining
-        rl      l               ; Carry (next bit of quotient) to bit 0
-        rl      h               ; Shift remaining bytes
+        push    af      ; save number of bits remaining
+        rl      l       ; Carry (next bit of quotient) to bit 0
+        rl      h       ; Shift remaining bytes
         rl      c
-        rl      b               ; Clears carry since BC was 0
+        rl      b       ; Clears carry since BC was 0
         ;; If remainder is >= divisor, next bit of quotient is 1. This
         ;;  bit goes to carry
-        push    bc              ; Save current remainder
-        ld      a,c             ; Substract divisor from remainder
+        push    bc      ; Save current remainder
+        ld      a, c    ; Substract divisor from remainder
         sbc     e
-        ld      c,a
-        ld      a,b
+        ld      c, a
+        ld      a, b
         sbc     d
-        ld      b,a
-        ccf                     ; Complement borrow so 1 indicates a
-                                ;  successful substraction (this is the
-                                ;  next bit of quotient)
-        jr      C,drop         ; Jump if remainder is >= dividend
-        pop     bc              ; Otherwise, restore remainder
-        pop     af              ; recover # bits remaining, carry flag destroyed
+        ld      b, a
+        ccf             ; Complement borrow so 1 indicates a
+                        ;  successful substraction (this is the
+                        ;  next bit of quotient)
+        jr      C, drop ; Jump if remainder is >= dividend
+        pop     bc      ; Otherwise, restore remainder
+        pop     af      ; recover # bits remaining, carry flag destroyed
         dec     a
-        or      a               ; restore (clear) the carry flag
-        jr      NZ,dvloop
+        or      a       ; restore (clear) the carry flag
+        jr      NZ, dvloop
         jr      nodrop
 drop:
         inc     sp
         inc     sp
-        pop     af              ; recover # bits remaining, carry flag destroyed
+        pop     af      ; recover # bits remaining, carry flag destroyed
         dec     a
-        scf                     ; restore (set) the carry flag
-        jr      NZ,dvloop
+        scf             ; restore (set) the carry flag
+        jr      NZ, dvloop
         jr      nodrop
 nodrop:
         ;; Shift last carry bit into quotient
-        ld      de,bc           ; DE = remainder
-        rl      l               ; Carry to L
-        ld      c,l             ; C = low byte of quotient
+        ld      de, bc  ; DE = remainder
+        rl      l       ; Carry to L
+        ld      c, l    ; C = low byte of quotient
         rl      h
-        ld      b,h             ; B = high byte of quotient
-        or      a               ; Clear carry, valid result
+        ld      b, h    ; B = high byte of quotient
+        or      a       ; Clear carry, valid result
         ret

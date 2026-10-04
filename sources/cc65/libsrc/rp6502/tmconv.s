@@ -2,11 +2,11 @@
 ; RIA struct tm transfer for gmtime and localtime.
 ;
 
-        .export         __rp6502_tm_call
+        .export __rp6502_tm_call
 
-        .import         _ria_call_int
+        .import _ria_call_int
 
-        .include        "rp6502.inc"
+        .include "rp6502.inc"
 
 ;--------------------------------------------------------------------------
 ; Run a RIA op that returns a struct tm on the xstack. Op in A.
@@ -17,7 +17,7 @@ __rp6502_tm_call:
         bmi     @fail           ; negative = error, errno set by OS
         ldy     #0
 @loop:  lda     RIA_XSTACK
-        sta     __rp6502_tm,y
+        sta     __rp6502_tm, y
         iny
         cpy     #18             ; sizeof(struct tm)
         bne     @loop
@@ -31,4 +31,4 @@ __rp6502_tm_call:
 ;--------------------------------------------------------------------------
         .bss
 
-__rp6502_tm:    .res 18
+__rp6502_tm: .res 18

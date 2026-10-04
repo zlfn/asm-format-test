@@ -26,21 +26,18 @@ EXTERN asm_am9511_popf
 
 PUBLIC asm_am9511_log10, asm_am9511_log10_fastcall
 
-
 .asm_am9511_log10
-    call asm_am9511_pushf           ; x
+        call    asm_am9511_pushf        ; x
 
-    ld a,__IO_APU_OP_LOG
-    AM9511_OUT_APU_CONTROL        ; log10(x)
+        ld      a, __IO_APU_OP_LOG
+        AM9511_OUT_APU_CONTROL  ; log10(x)
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf
 
 .asm_am9511_log10_fastcall
-    call asm_am9511_pushf_fastcall  ; x
+        call    asm_am9511_pushf_fastcall       ; x
 
-    ld a,__IO_APU_OP_LOG
-    AM9511_OUT_APU_CONTROL        ; log10(x)
+        ld      a, __IO_APU_OP_LOG
+        AM9511_OUT_APU_CONTROL  ; log10(x)
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf

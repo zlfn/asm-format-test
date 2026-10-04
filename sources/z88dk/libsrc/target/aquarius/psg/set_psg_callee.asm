@@ -11,26 +11,23 @@
 ;
 
         SECTION code_clib
-	PUBLIC	set_psg_callee
-	PUBLIC	_set_psg_callee
+        PUBLIC  set_psg_callee
+        PUBLIC  _set_psg_callee
 
-	PUBLIC asm_set_psg
+        PUBLIC  asm_set_psg
 
-	
 set_psg_callee:
 _set_psg_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-	
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
 .asm_set_psg
 
-    LD	BC,$F7
-	OUT	(C),l
+        LD      BC,  $F7
+        OUT     (C), l
 
-	dec c
-	OUT	(C),e
-	ret
-
-
+        dec     c
+        OUT     (C), e
+        ret

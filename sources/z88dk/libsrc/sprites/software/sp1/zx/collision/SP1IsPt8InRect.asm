@@ -21,28 +21,28 @@ EXTERN RIsPtInRect8
 
 .SP1IsPt8InRect
 
-   ld a,c
-   srl b
-   rra
-   srl b
-   rra
-   srl b
-   rra
-   ex af,af                  ; a' = 8-bit x coord
-   ld a,e
-   srl d
-   rra
-   srl d
-   rra
-   srl d
-   rra                       ; a = 8-bit y coord
-   ld d,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
-   inc hl
-   ld e,(hl)
-   ld l,a
-   ex af,af
-   jp RIsPtInRect8
+        ld      a, c
+        srl     b
+        rra
+        srl     b
+        rra
+        srl     b
+        rra
+        ex      af, af  ; a' = 8-bit x coord
+        ld      a,  e
+        srl     d
+        rra
+        srl     d
+        rra
+        srl     d
+        rra             ; a = 8-bit y coord
+        ld      d, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
+        inc     hl
+        ld      e,  (hl)
+        ld      l,  a
+        ex      af, af
+        jp      RIsPtInRect8

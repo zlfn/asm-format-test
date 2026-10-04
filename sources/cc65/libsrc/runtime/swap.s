@@ -5,17 +5,17 @@
 ; CC65 runtime: swap ax with TOS
 ;
 
-        .export         swapstk
-        .importzp       c_sp, ptr4
+        .export swapstk
+        .importzp c_sp, ptr4
 
 swapstk:
         sta     ptr4
         stx     ptr4+1
-        ldy     #1              ; index
-        lda     (c_sp),y
+        ldy     #1      ; index
+        lda     (c_sp), y
         tax
         lda     ptr4+1
-        sta     (c_sp),y
+        sta     (c_sp), y
 .if .cap(CPU_HAS_ZPIND)
         lda     (c_sp)
         tay
@@ -24,10 +24,10 @@ swapstk:
         tya
 .else
         dey
-        lda     (c_sp),y
+        lda     (c_sp), y
         pha
         lda     ptr4
-        sta     (c_sp),y
+        sta     (c_sp), y
         pla
 .endif
-        rts                     ; whew!
+        rts     ; whew!

@@ -3,7 +3,7 @@
 .data
 
 t1_long BYTE 1
-t1_short DB 1
+t1_short DB     1
 t1_signed SBYTE -1
 
 ; CHECK-LABEL: t1_long:
@@ -14,7 +14,7 @@ t1_signed SBYTE -1
 ; CHECK: .byte -1
 
 t2_long WORD 2
-t2_short DW 2
+t2_short DW     2
 t2_signed SWORD -2
 
 ; CHECK-LABEL: t2_long:
@@ -25,7 +25,7 @@ t2_signed SWORD -2
 ; CHECK: .short -2
 
 t3_long DWORD 3
-t3_short DD 3
+t3_short DD     3
 t3_signed SDWORD -3
 
 ; CHECK-LABEL: t3_long:
@@ -36,7 +36,7 @@ t3_signed SDWORD -3
 ; CHECK: .long -3
 
 t4_long FWORD 4
-t4_short DF 4
+t4_short DF     4
 t4_long_large FWORD 4294967298
 t4_short_large FWORD 4294967298
 
@@ -54,7 +54,7 @@ t4_short_large FWORD 4294967298
 ; CHECK-NEXT: .short 1
 
 t5_long QWORD 4611686018427387904
-t5_short DQ 4611686018427387904
+t5_short DQ     4611686018427387904
 t5_signed SQWORD -4611686018427387904
 
 ; CHECK-LABEL: t5_long:

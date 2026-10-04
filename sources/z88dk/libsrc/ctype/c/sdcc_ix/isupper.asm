@@ -10,10 +10,10 @@ EXTERN _isupper_fastcall
 
 _isupper:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _isupper_fastcall
+        push    hl
+        push    af
+
+        jp      _isupper_fastcall

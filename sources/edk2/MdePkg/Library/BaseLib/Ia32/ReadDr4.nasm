@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINTN
@@ -26,13 +26,12 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmReadDr4)
 ASM_PFX(AsmReadDr4):
-    ;
-    ; DR4 is alias to DR6 only if DE (in CR4) is cleared. Otherwise, reading
-    ; this register will cause a #UD exception.
-    ;
-    ; MS assembler doesn't support this instruction since no one would use it
-    ; under normal circumstances.
-    ;
-    mov     eax, dr4
-    ret
-
+        ;
+        ; DR4 is alias to DR6 only if DE (in CR4) is cleared. Otherwise, reading
+        ; this register will cause a #UD exception.
+        ;
+        ; MS assembler doesn't support this instruction since no one would use it
+        ; under normal circumstances.
+        ;
+        mov     eax, dr4
+        ret

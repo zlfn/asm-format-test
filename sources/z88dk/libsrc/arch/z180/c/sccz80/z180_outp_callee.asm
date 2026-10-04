@@ -10,9 +10,9 @@ EXTERN asm_z180_outp
 
 z180_outp_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_z180_outp
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_z180_outp

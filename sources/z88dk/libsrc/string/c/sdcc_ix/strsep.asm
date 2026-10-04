@@ -10,12 +10,12 @@ EXTERN asm_strsep
 
 _strsep:
 
-   pop af
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push af
-   
-   jp asm_strsep
+        pop     af
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    af
+
+        jp      asm_strsep

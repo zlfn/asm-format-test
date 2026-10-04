@@ -9,14 +9,14 @@ EXTERN asm_SMSlib_VRAMmemsetW
 
 _SMS_VRAMmemsetW:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
 
-   jp asm_SMSlib_VRAMmemsetW
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_SMSlib_VRAMmemsetW

@@ -10,4 +10,4 @@
 
 .rodata
 
-_ser_stddrv:    .asciiz "plus4-stdser.ser"
+_ser_stddrv: .asciiz "plus4-stdser.ser"

@@ -10,10 +10,10 @@ EXTERN __random_uniform_xor_32__fastcall
 
 __random_uniform_xor_32_:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp __random_uniform_xor_32__fastcall
+        push    hl
+        push    af
+
+        jp      __random_uniform_xor_32__fastcall

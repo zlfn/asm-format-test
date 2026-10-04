@@ -57,122 +57,122 @@
 */
 
 DEFINE_COMPILERRT_FUNCTION(__arm_sc_memcpy)
-	cmp	count, 128
-	b.hi	3f  // copy_long
-	cntb	vlen
-	cmp	count, vlen, lsl 1
-	b.hi	0f  // copy32_128
+        cmp     count, 128
+        b.hi    3f      // copy_long
+        cntb    vlen
+        cmp     count, vlen, lsl 1
+        b.hi    0f      // copy32_128
 
-	whilelo p0.b, xzr, count
-	whilelo p1.b, vlen, count
-	ld1b	z0.b, p0/z, [src, 0, mul vl]
-	ld1b	z1.b, p1/z, [src, 1, mul vl]
-	st1b	z0.b, p0, [dstin, 0, mul vl]
-	st1b	z1.b, p1, [dstin, 1, mul vl]
-	ret
+        whilelo p0.b, xzr,  count
+        whilelo p1.b, vlen, count
+        ld1b    z0.b, p0/z, [src, 0, mul vl]
+        ld1b    z1.b, p1/z, [src, 1, mul vl]
+        st1b    z0.b, p0,   [dstin, 0, mul vl]
+        st1b    z1.b, p1,   [dstin, 1, mul vl]
+        ret
 
-	/* Medium copies: 33..128 bytes.  */
-0:  // copy32_128
-	add	srcend, src, count
-	add	dstend, dstin, count
-	ldp	A_q, B_q, [src]
-	ldp	C_q, D_q, [srcend, -32]
-	cmp	count, 64
-	b.hi	1f  // copy128
-	stp	A_q, B_q, [dstin]
-	stp	C_q, D_q, [dstend, -32]
-	ret
+        /* Medium copies: 33..128 bytes.  */
+0:                      // copy32_128
+        add     srcend, src,   count
+        add     dstend, dstin, count
+        ldp     A_q,    B_q,   [src]
+        ldp     C_q,    D_q,   [srcend, -32]
+        cmp     count,  64
+        b.hi    1f      // copy128
+        stp     A_q, B_q, [dstin]
+        stp     C_q, D_q, [dstend, -32]
+        ret
 
-	/* Copy 65..128 bytes.  */
-1:  // copy128
-	ldp	E_q, F_q, [src, 32]
-	cmp	count, 96
-	b.ls	2f  // copy96
-	ldp	G_q, H_q, [srcend, -64]
-	stp	G_q, H_q, [dstend, -64]
-2:  // copy96
-	stp	A_q, B_q, [dstin]
-	stp	E_q, F_q, [dstin, 32]
-	stp	C_q, D_q, [dstend, -32]
-	ret
+        /* Copy 65..128 bytes.  */
+1:                      // copy128
+        ldp     E_q,   F_q, [src, 32]
+        cmp     count, 96
+        b.ls    2f      // copy96
+        ldp     G_q, H_q, [srcend, -64]
+        stp     G_q, H_q, [dstend, -64]
+2:                      // copy96
+        stp     A_q, B_q, [dstin]
+        stp     E_q, F_q, [dstin, 32]
+        stp     C_q, D_q, [dstend, -32]
+        ret
 
-	/* Copy more than 128 bytes.  */
-3:  // copy_long
-	add	srcend, src, count
-	add	dstend, dstin, count
+        /* Copy more than 128 bytes.  */
+3:              // copy_long
+        add     srcend, src,   count
+        add     dstend, dstin, count
 
-	/* Use backwards copy if there is an overlap.  */
-	sub	tmp1, dstin, src
-	cmp	tmp1, count
-	b.lo	6f  // copy_long_backwards
+        /* Use backwards copy if there is an overlap.  */
+        sub     tmp1, dstin, src
+        cmp     tmp1, count
+        b.lo    6f      // copy_long_backwards
 
-	/* Copy 16 bytes and then align src to 16-byte alignment.  */
-	ldr	D_q, [src]
-	and	tmp1, src, 15
-	bic	src, src, 15
-	sub	dst, dstin, tmp1
-	add	count, count, tmp1	/* Count is now 16 too large.  */
-	ldp	A_q, B_q, [src, 16]
-	str	D_q, [dstin]
-	ldp	C_q, D_q, [src, 48]
-	subs	count, count, 128 + 16	/* Test and readjust count.  */
-	b.ls	5f  // copy64_from_end
-4:  // loop64
-	stp	A_q, B_q, [dst, 16]
-	ldp	A_q, B_q, [src, 80]
-	stp	C_q, D_q, [dst, 48]
-	ldp	C_q, D_q, [src, 112]
-	add	src, src, 64
-	add	dst, dst, 64
-	subs	count, count, 64
-	b.hi	4b  // loop64
+        /* Copy 16 bytes and then align src to 16-byte alignment.  */
+        ldr     D_q,   [src]
+        and     tmp1,  src,   15
+        bic     src,   src,   15
+        sub     dst,   dstin, tmp1
+        add     count, count, tmp1      /* Count is now 16 too large.  */
+        ldp     A_q,   B_q,   [src, 16]
+        str     D_q,   [dstin]
+        ldp     C_q,   D_q,   [src, 48]
+        subs    count, count, 128 + 16  /* Test and readjust count.  */
+        b.ls    5f                      // copy64_from_end
+4:                                      // loop64
+        stp     A_q,   B_q,   [dst, 16]
+        ldp     A_q,   B_q,   [src, 80]
+        stp     C_q,   D_q,   [dst, 48]
+        ldp     C_q,   D_q,   [src, 112]
+        add     src,   src,   64
+        add     dst,   dst,   64
+        subs    count, count, 64
+        b.hi    4b                      // loop64
 
-	/* Write the last iteration and copy 64 bytes from the end.  */
-5:  // copy64_from_end
-	ldp	E_q, F_q, [srcend, -64]
-	stp	A_q, B_q, [dst, 16]
-	ldp	A_q, B_q, [srcend, -32]
-	stp	C_q, D_q, [dst, 48]
-	stp	E_q, F_q, [dstend, -64]
-	stp	A_q, B_q, [dstend, -32]
-	ret
+        /* Write the last iteration and copy 64 bytes from the end.  */
+5:              // copy64_from_end
+        ldp     E_q, F_q, [srcend, -64]
+        stp     A_q, B_q, [dst, 16]
+        ldp     A_q, B_q, [srcend, -32]
+        stp     C_q, D_q, [dst, 48]
+        stp     E_q, F_q, [dstend, -64]
+        stp     A_q, B_q, [dstend, -32]
+        ret
 
 	/* Large backwards copy for overlapping copies.
 	   Copy 16 bytes and then align srcend to 16-byte alignment.  */
-6:  // copy_long_backwards
-	cbz	tmp1, 9f  // return
-	ldr	D_q, [srcend, -16]
-	and	tmp1, srcend, 15
-	bic	srcend, srcend, 15
-	sub	count, count, tmp1
-	ldp	A_q, B_q, [srcend, -32]
-	str	D_q, [dstend, -16]
-	ldp	C_q, D_q, [srcend, -64]
-	sub	dstend, dstend, tmp1
-	subs	count, count, 128
-	b.ls	8f  // copy64_from_start
+6:                              // copy_long_backwards
+        cbz     tmp1,   9f      // return
+        ldr     D_q,    [srcend, -16]
+        and     tmp1,   srcend, 15
+        bic     srcend, srcend, 15
+        sub     count,  count,  tmp1
+        ldp     A_q,    B_q,    [srcend, -32]
+        str     D_q,    [dstend, -16]
+        ldp     C_q,    D_q,    [srcend, -64]
+        sub     dstend, dstend, tmp1
+        subs    count,  count,  128
+        b.ls    8f              // copy64_from_start
 
-7:  // loop64_backwards
-	str	B_q, [dstend, -16]
-	str	A_q, [dstend, -32]
-	ldp	A_q, B_q, [srcend, -96]
-	str	D_q, [dstend, -48]
-	str	C_q, [dstend, -64]!
-	ldp	C_q, D_q, [srcend, -128]
-	sub	srcend, srcend, 64
-	subs	count, count, 64
-	b.hi	7b  // loop64_backwards
+7:                      // loop64_backwards
+        str     B_q,    [dstend, -16]
+        str     A_q,    [dstend, -32]
+        ldp     A_q,    B_q,    [srcend, -96]
+        str     D_q,    [dstend, -48]
+        str     C_q,    [dstend, -64]!
+        ldp     C_q,    D_q,    [srcend, -128]
+        sub     srcend, srcend, 64
+        subs    count,  count,  64
+        b.hi    7b      // loop64_backwards
 
-	/* Write the last iteration and copy 64 bytes from the start.  */
-8:  // copy64_from_start
-	ldp	E_q, F_q, [src, 32]
-	stp	A_q, B_q, [dstend, -32]
-	ldp	A_q, B_q, [src]
-	stp	C_q, D_q, [dstend, -64]
-	stp	E_q, F_q, [dstin, 32]
-	stp	A_q, B_q, [dstin]
-9: // return
-	ret
+        /* Write the last iteration and copy 64 bytes from the start.  */
+8:              // copy64_from_start
+        ldp     E_q, F_q, [src, 32]
+        stp     A_q, B_q, [dstend, -32]
+        ldp     A_q, B_q, [src]
+        stp     C_q, D_q, [dstend, -64]
+        stp     E_q, F_q, [dstin, 32]
+        stp     A_q, B_q, [dstin]
+9:              // return
+        ret
 END_COMPILERRT_FUNCTION (__arm_sc_memcpy)
 
 DEFINE_COMPILERRT_FUNCTION_ALIAS(__arm_sc_memmove, __arm_sc_memcpy)

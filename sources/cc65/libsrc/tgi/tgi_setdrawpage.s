@@ -4,8 +4,7 @@
 ; void __fastcall__ tgi_setdrawpage (unsigned char page);
 ; /* Set the drawable page */
 
-
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
 .proc   _tgi_setdrawpage
 
@@ -15,4 +14,3 @@
 @L1:    jmp     tgi_inv_arg     ; Invalid argument
 
 .endproc
-

@@ -5,15 +5,15 @@
 ; status, set carry flag and return
 ;
 
-        .export         checkst
+        .export checkst
 
-        .include        "pet.inc"
+        .include "pet.inc"
 
 .proc   checkst
 
         lda     STATUS
         beq     @L1
-        lda     #5              ; ### Device not present
+        lda     #5      ; ### Device not present
         sec
         rts
 

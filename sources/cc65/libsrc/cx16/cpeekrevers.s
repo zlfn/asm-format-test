@@ -8,11 +8,10 @@
 ; */
 ;
 
-        .export         _cpeekrevers
+        .export _cpeekrevers
 
-        .include        "cx16.inc"
-        .macpack        generic
-
+        .include "cx16.inc"
+        .macpack generic
 
 screen_addr     :=      $1B000  ; VRAM address of text screen
 

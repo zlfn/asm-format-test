@@ -10,15 +10,15 @@ EXTERN asm_im2_remove_generic_callback
 
 _im2_remove_generic_callback:
 
-   pop af
-   dec sp
-   pop hl
-   pop de
+        pop     af
+        dec     sp
+        pop     hl
+        pop     de
 
-   push de
-   push hl
-   inc sp
-   push af
+        push    de
+        push    hl
+        inc     sp
+        push    af
 
-   ld l,h
-   jp asm_im2_remove_generic_callback
+        ld      l, h
+        jp      asm_im2_remove_generic_callback

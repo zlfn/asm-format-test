@@ -10,9 +10,9 @@ EXTERN asm_b_array_erase_range
 
 _b_array_erase_range_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   jp asm_b_array_erase_range
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_b_array_erase_range

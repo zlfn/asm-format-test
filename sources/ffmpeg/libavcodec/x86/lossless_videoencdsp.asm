@@ -35,111 +35,111 @@ SECTION .text
 %if ARCH_X86_32
 cglobal diff_bytes, 3,5,2, dst, src1, src2
 %define wq r4q
-    DECLARE_REG_TMP 3
-    mov               wq, r3mp
+        DECLARE_REG_TMP 3
+        mov     wq, r3mp
 %else
 cglobal diff_bytes, 4,5,2, dst, src1, src2, w
-    DECLARE_REG_TMP 4
+        DECLARE_REG_TMP 4
 %endif ; ARCH_X86_32
 %define i t0q
 %endmacro
 
 ; labels to jump to if w < regsize and w < 0
 %macro DIFF_BYTES_LOOP_PREP 2
-    mov                i, wq
-    and                i, -2 * regsize
-        js            %2
-        jz            %1
-    add             dstq, i
-    add            src1q, i
-    add            src2q, i
-    neg                i
+        mov     i, wq
+        and     i, -2 * regsize
+        js      %2
+        jz      %1
+        add     dstq,  i
+        add     src1q, i
+        add     src2q, i
+        neg     i
 %endmacro
 
 ; mov type used for src1q, dstq, first reg, second reg
 %macro DIFF_BYTES_LOOP_CORE 4
 %if mmsize != 16
-    mov%1             %3, [src1q + i]
-    mov%1             %4, [src1q + i + regsize]
-    psubb             %3, [src2q + i]
-    psubb             %4, [src2q + i + regsize]
-    mov%2           [dstq + i], %3
-    mov%2 [regsize + dstq + i], %4
+        mov%1   %3, [src1q + i]
+        mov%1   %4, [src1q + i + regsize]
+        psubb   %3, [src2q + i]
+        psubb   %4, [src2q + i + regsize]
+        mov%2   [dstq + i], %3
+        mov%2   [regsize + dstq + i], %4
 %else
-    ; SSE enforces alignment of psubb operand
-    mov%1             %3, [src1q + i]
-    movu              %4, [src2q + i]
-    psubb             %3, %4
-    mov%2     [dstq + i], %3
-    mov%1             %3, [src1q + i + regsize]
-    movu              %4, [src2q + i + regsize]
-    psubb             %3, %4
-    mov%2 [regsize + dstq + i], %3
+        ; SSE enforces alignment of psubb operand
+        mov%1   %3, [src1q + i]
+        movu    %4, [src2q + i]
+        psubb   %3, %4
+        mov%2   [dstq + i], %3
+        mov%1   %3, [src1q + i + regsize]
+        movu    %4, [src2q + i + regsize]
+        psubb   %3, %4
+        mov%2   [regsize + dstq + i], %3
 %endif
 %endmacro
 
 %macro DIFF_BYTES_BODY 2 ; mov type used for src1q, for dstq
-    %define regsize mmsize
+        %define regsize mmsize
 .loop_%1%2:
-    DIFF_BYTES_LOOP_CORE %1, %2, m0, m1
-    add                i, 2 * regsize
-        jl    .loop_%1%2
+        DIFF_BYTES_LOOP_CORE %1, %2, m0, m1
+        add     i, 2 * regsize
+        jl      .loop_%1%2
 .skip_main_%1%2:
-    and               wq, 2 * regsize - 1
-        jz     .end_%1%2
+        and     wq, 2 * regsize - 1
+        jz      .end_%1%2
 %if mmsize > 16
-    ; fall back to narrower xmm
-    %define regsize (mmsize / 2)
-    DIFF_BYTES_LOOP_PREP .setup_loop_gpr_aa, .end_aa
+        ; fall back to narrower xmm
+        %define regsize (mmsize / 2)
+        DIFF_BYTES_LOOP_PREP .setup_loop_gpr_aa, .end_aa
 .loop2_%1%2:
-    DIFF_BYTES_LOOP_CORE %1, %2, xm0, xm1
-    add                i, 2 * regsize
-        jl   .loop2_%1%2
+        DIFF_BYTES_LOOP_CORE %1, %2, xm0, xm1
+        add     i, 2 * regsize
+        jl      .loop2_%1%2
 .setup_loop_gpr_%1%2:
-    and               wq, 2 * regsize - 1
-        jz     .end_%1%2
+        and     wq, 2 * regsize - 1
+        jz      .end_%1%2
 %endif
-    add             dstq, wq
-    add            src1q, wq
-    add            src2q, wq
-    neg               wq
+        add     dstq,  wq
+        add     src1q, wq
+        add     src2q, wq
+        neg     wq
 .loop_gpr_%1%2:
-    mov              t0b, [src1q + wq]
-    sub              t0b, [src2q + wq]
-    mov      [dstq + wq], t0b
-    inc               wq
-        jl .loop_gpr_%1%2
+        mov     t0b, [src1q + wq]
+        sub     t0b, [src2q + wq]
+        mov     [dstq + wq], t0b
+        inc     wq
+        jl      .loop_gpr_%1%2
 .end_%1%2:
-    RET
+        RET
 %endmacro
 
 INIT_XMM sse2
 DIFF_BYTES_PROLOGUE
-    %define regsize mmsize
-    DIFF_BYTES_LOOP_PREP .skip_main_aa, .end_aa
-    test            dstq, regsize - 1
+        %define regsize mmsize
+        DIFF_BYTES_LOOP_PREP .skip_main_aa, .end_aa
+        test    dstq, regsize - 1
         jnz     .loop_uu
-    test           src1q, regsize - 1
+        test    src1q, regsize - 1
         jnz     .loop_ua
-    DIFF_BYTES_BODY    a, a
-    DIFF_BYTES_BODY    u, a
-    DIFF_BYTES_BODY    u, u
+        DIFF_BYTES_BODY a, a
+        DIFF_BYTES_BODY u, a
+        DIFF_BYTES_BODY u, u
 %undef i
 
 %if HAVE_AVX2_EXTERNAL
 INIT_YMM avx2
 DIFF_BYTES_PROLOGUE
-    %define regsize mmsize
-    ; Directly using unaligned SSE2 version is marginally faster than
-    ; branching based on arguments.
-    DIFF_BYTES_LOOP_PREP .skip_main_uu, .end_uu
-    test            dstq, regsize - 1
+        %define regsize mmsize
+        ; Directly using unaligned SSE2 version is marginally faster than
+        ; branching based on arguments.
+        DIFF_BYTES_LOOP_PREP .skip_main_uu, .end_uu
+        test    dstq, regsize - 1
         jnz     .loop_uu
-    test           src1q, regsize - 1
+        test    src1q, regsize - 1
         jnz     .loop_ua
-    DIFF_BYTES_BODY    a, a
-    DIFF_BYTES_BODY    u, a
-    DIFF_BYTES_BODY    u, u
+        DIFF_BYTES_BODY a, a
+        DIFF_BYTES_BODY u, a
+        DIFF_BYTES_BODY u, u
 %undef i
 %endif
 
@@ -150,38 +150,38 @@ DIFF_BYTES_PROLOGUE
 
 INIT_XMM sse2
 cglobal sub_median_pred, 6, 7, 6, dst, src1, src2, w, l, lt
-    movu          m0, [src1q]       ; LT
-    movu          m4, [src2q]       ; L
-    movd          m1, [ltq]         ; LT
-    movd          m3, [lq]          ; L
-    xor          r6d, r6d
-    pslldq        m0, 1
-    pslldq        m4, 1
-    por           m0, m1            ; LT
-    por           m4, m3            ; L
-    jmp .first_iteration
+        movu    m0,  [src1q]            ; LT
+        movu    m4,  [src2q]            ; L
+        movd    m1,  [ltq]              ; LT
+        movd    m3,  [lq]               ; L
+        xor     r6d, r6d
+        pslldq  m0,  1
+        pslldq  m4,  1
+        por     m0,  m1                 ; LT
+        por     m4,  m3                 ; L
+        jmp     .first_iteration
 .loop:
-    movu          m4, [src2q+r6q-1] ; L
-    movu          m0, [src1q+r6q-1] ; LT
+        movu    m4, [src2q+r6q-1]       ; L
+        movu    m0, [src1q+r6q-1]       ; LT
 .first_iteration:
-    movu          m1, [src1q+r6q]   ; T
-    movu          m3, [src2q+r6q]   ; X
-    psubb         m2, m4, m0        ; L - LT
-    paddb         m2, m1            ; L + T - LT
-    pmaxub        m5, m4, m1        ; max(T, L)
-    pminub        m1, m4            ; min(T, L)
-    pminub        m5, m2
-    pmaxub        m5, m1
-    psubb         m3, m5            ; dst - pred
-    movu  [dstq+r6q], m3
-    add          r6d, 16
-    cmp          r6d, wd
-    jb         .loop
-    movzx      src1d, BYTE [src1q+wq-1]
-    movzx      src2d, BYTE [src2q+wq-1]
-    mov        [ltq], src1d
-    mov         [lq], src2d
-    RET
+        movu    m1, [src1q+r6q]         ; T
+        movu    m3, [src2q+r6q]         ; X
+        psubb   m2, m4, m0              ; L - LT
+        paddb   m2, m1                  ; L + T - LT
+        pmaxub  m5, m4, m1              ; max(T, L)
+        pminub  m1, m4                  ; min(T, L)
+        pminub  m5, m2
+        pmaxub  m5, m1
+        psubb   m3, m5                  ; dst - pred
+        movu    [dstq+r6q], m3
+        add     r6d, 16
+        cmp     r6d, wd
+        jb      .loop
+        movzx   src1d, BYTE [src1q+wq-1]
+        movzx   src2d, BYTE [src2q+wq-1]
+        mov     [ltq], src1d
+        mov     [lq],  src2d
+        RET
 
 ;--------------------------------------------------------------------------------------------------
 ;void sub_left_predict(uint8_t *dst, const uint8_t *src, ptrdiff_t stride, ptrdiff_t width, int height)
@@ -189,36 +189,36 @@ cglobal sub_median_pred, 6, 7, 6, dst, src1, src2, w, l, lt
 
 INIT_XMM avx
 cglobal sub_left_predict, 5,6,5, dst, src, stride, width, height, x
-    mova             m1, [pb_80] ; prev initial
-    add            dstq, widthq
-    add            srcq, widthq
-    lea              xd, [widthq-1]
-    neg          widthq
-    and              xd, 15
-    pinsrb           m4, m1, xd, 15
-    mov              xq, widthq
+        mova    m1,   [pb_80]   ; prev initial
+        add     dstq, widthq
+        add     srcq, widthq
+        lea     xd,   [widthq-1]
+        neg     widthq
+        and     xd, 15
+        pinsrb  m4, m1, xd, 15
+        mov     xq, widthq
 
-    .loop:
-        movu                     m0, [srcq + widthq]
-        palignr                  m2, m0, m1, 15
-        movu                     m1, [srcq + widthq + 16]
-        palignr                  m3, m1, m0, 15
-        psubb                    m2, m0, m2
-        psubb                    m3, m1, m3
-        movu        [dstq + widthq], m2
-        movu   [dstq + widthq + 16], m3
-        add                  widthq, 2 * 16
-        jl .loop
+.loop:
+        movu    m0, [srcq + widthq]
+        palignr m2, m0, m1, 15
+        movu    m1, [srcq + widthq + 16]
+        palignr m3, m1, m0, 15
+        psubb   m2, m0, m2
+        psubb   m3, m1, m3
+        movu    [dstq + widthq], m2
+        movu    [dstq + widthq + 16], m3
+        add     widthq, 2 * 16
+        jl      .loop
 
-    add   srcq, strideq
-    sub   dstq, xq ; dst + width
-    test    xd, 16
-    jz .mod32
-    mova    m1, m0
+        add     srcq, strideq
+        sub     dstq, xq        ; dst + width
+        test    xd,   16
+        jz      .mod32
+        mova    m1, m0
 
 .mod32:
-    pshufb    m1, m4
-    mov   widthq, xq
-    dec  heightd
-    jg .loop
-    RET
+        pshufb  m1,     m4
+        mov     widthq, xq
+        dec     heightd
+        jg      .loop
+        RET

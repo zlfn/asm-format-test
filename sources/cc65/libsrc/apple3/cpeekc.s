@@ -5,10 +5,10 @@
 ; char cpeekc (void);
 ;
 
-        .export         _cpeekc
-        .import         statcons
+        .export _cpeekc
+        .import statcons
 
-        .include        "apple3.inc"
+        .include "apple3.inc"
 
 _cpeekc:
         lda     #STAT_READ_SCR

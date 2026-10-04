@@ -13,31 +13,31 @@ PUBLIC _adt_ListCurr
 ;        hl = current item in list and carry set
 ; uses : af, hl
 
-   ld a,(hl)
-   inc hl
-   or (hl)
-   jr z, nothing             ; zero items in list
-   
-   inc hl
-   ld a,(hl)
-   dec a
-   jr nz, nothing            ; current ptr not INLIST
-   
-   inc hl
-   ld a,(hl)
-   inc hl
-   ld l,(hl)
-   ld h,a                    ; hl = current adt_ListNode
-   
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a                    ; hl = item
-   
-   scf
-   ret
+        ld      a, (hl)
+        inc     hl
+        or      (hl)
+        jr      z, nothing      ; zero items in list
+
+        inc     hl
+        ld      a, (hl)
+        dec     a
+        jr      nz, nothing     ; current ptr not INLIST
+
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        ld      l, (hl)
+        ld      h, a    ; hl = current adt_ListNode
+
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a    ; hl = item
+
+        scf
+        ret
 
 .nothing
 
-   ld hl,0
-   ret
+        ld      hl, 0
+        ret

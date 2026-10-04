@@ -12,27 +12,27 @@ PUBLIC asm_SMSlib_zeroSpritePalette
 
 asm_SMSlib_zeroSpritePalette:
 
-   ; void SMS_zeroSpritePalette (void)
-   ;
-   ; uses : af, b
-   
-   di
-   
-   ld a,+(SMS_CRAMAddress+0x10)&0xff
-   out (VDPControlPort),a
-   
-   ld a,+(SMS_CRAMAddress+0x10)/256
-   out (VDPControlPort),a
-   
-   ei
-   
-   xor a
-   ld b,16
+        ; void SMS_zeroSpritePalette (void)
+        ;
+        ; uses : af, b
+
+        di
+
+        ld      a, +(SMS_CRAMAddress+0x10)&0xff
+        out     (VDPControlPort), a
+
+        ld      a, +(SMS_CRAMAddress+0x10)/256
+        out     (VDPControlPort), a
+
+        ei
+
+        xor     a
+        ld      b, 16
 
 loop:
 
-   out (VDPDataPort),a
-   nop
+        out     (VDPDataPort), a
+        nop
 
-   djnz loop
-   ret
+        djnz    loop
+        ret

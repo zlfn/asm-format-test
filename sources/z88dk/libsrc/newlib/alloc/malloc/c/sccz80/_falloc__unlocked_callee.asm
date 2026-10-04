@@ -10,9 +10,9 @@ EXTERN asm__falloc_unlocked
 
 _falloc__unlocked_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
 
-   jp asm__falloc_unlocked
+        jp      asm__falloc_unlocked

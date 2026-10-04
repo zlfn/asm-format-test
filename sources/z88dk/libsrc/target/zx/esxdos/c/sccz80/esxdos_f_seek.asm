@@ -9,24 +9,24 @@ EXTERN asm_esxdos_f_seek
 
 esxdos_f_seek:
 
-   pop af
-   pop ix
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push de
-   push af
-   
-   ld a,l
+        pop     af
+        pop     ix
+        pop     de
+        pop     bc
+        pop     hl
 
-   push ix
-   pop hl
+        push    hl
+        push    bc
+        push    de
+        push    de
+        push    af
 
-   jp asm_esxdos_f_seek
+        ld      a, l
+
+        push    ix
+        pop     hl
+
+        jp      asm_esxdos_f_seek
 
 ; SDCC bridge for Classic
 IF __CLASSIC

@@ -190,18 +190,18 @@
  */
 .align 8
 SYM_FUNC_START_LOCAL(roundsm16_x0_x1_x2_x3_x4_x5_x6_x7_y0_y1_y2_y3_y4_y5_y6_y7_cd)
-	roundsm16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		  %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14, %xmm15,
-		  %rcx, (%r9));
-	RET;
+        roundsm16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14, %xmm15,
+        %rcx,   (%r9));
+        RET;
 SYM_FUNC_END(roundsm16_x0_x1_x2_x3_x4_x5_x6_x7_y0_y1_y2_y3_y4_y5_y6_y7_cd)
 
 .align 8
 SYM_FUNC_START_LOCAL(roundsm16_x4_x5_x6_x7_x0_x1_x2_x3_y4_y5_y6_y7_y0_y1_y2_y3_ab)
-	roundsm16(%xmm4, %xmm5, %xmm6, %xmm7, %xmm0, %xmm1, %xmm2, %xmm3,
-		  %xmm12, %xmm13, %xmm14, %xmm15, %xmm8, %xmm9, %xmm10, %xmm11,
-		  %rax, (%r9));
-	RET;
+        roundsm16(%xmm4, %xmm5, %xmm6, %xmm7, %xmm0, %xmm1, %xmm2, %xmm3,
+        %xmm12, %xmm13, %xmm14, %xmm15, %xmm8, %xmm9, %xmm10, %xmm11,
+        %rax,   (%r9));
+        RET;
 SYM_FUNC_END(roundsm16_x4_x5_x6_x7_x0_x1_x2_x3_y4_y5_y6_y7_y0_y1_y2_y3_ab)
 
 /*
@@ -572,7 +572,6 @@ SYM_FUNC_END(roundsm16_x4_x5_x6_x7_x0_x1_x2_x3_y4_y5_y6_y7_y0_y1_y2_y3_ab)
 	vmovdqu y6, 14 * 16(rio); \
 	vmovdqu y7, 15 * 16(rio);
 
-
 /* NB: section is mergeable, all elements must be aligned 16-byte blocks */
 .section	.rodata.cst16, "aM", @progbits, 16
 .align 16
@@ -581,13 +580,13 @@ SYM_FUNC_END(roundsm16_x4_x5_x6_x7_x0_x1_x2_x3_y4_y5_y6_y7_y0_y1_y2_y3_ab)
 	0 + (idx), 4 + (idx), 8 + (idx), 12 + (idx)
 
 .Lshufb_16x16b:
-	.byte SHUFB_BYTES(0), SHUFB_BYTES(1), SHUFB_BYTES(2), SHUFB_BYTES(3);
+        .byte   SHUFB_BYTES(0), SHUFB_BYTES(1), SHUFB_BYTES(2), SHUFB_BYTES(3);
 
 .Lpack_bswap:
-	.long 0x00010203
-	.long 0x04050607
-	.long 0x80808080
-	.long 0x80808080
+        .long   0x00010203
+        .long   0x04050607
+        .long   0x80808080
+        .long   0x80808080
 
 /*
  * pre-SubByte transform
@@ -604,11 +603,11 @@ SYM_FUNC_END(roundsm16_x4_x5_x6_x7_x0_x1_x2_x3_y4_y5_y6_y7_y0_y1_y2_y3_ab)
  * (note: '⊕ 0xc5' inside camellia_f())
  */
 .Lpre_tf_lo_s1:
-	.byte 0x45, 0xe8, 0x40, 0xed, 0x2e, 0x83, 0x2b, 0x86
-	.byte 0x4b, 0xe6, 0x4e, 0xe3, 0x20, 0x8d, 0x25, 0x88
+        .byte   0x45, 0xe8, 0x40, 0xed, 0x2e, 0x83, 0x2b, 0x86
+        .byte   0x4b, 0xe6, 0x4e, 0xe3, 0x20, 0x8d, 0x25, 0x88
 .Lpre_tf_hi_s1:
-	.byte 0x00, 0x51, 0xf1, 0xa0, 0x8a, 0xdb, 0x7b, 0x2a
-	.byte 0x09, 0x58, 0xf8, 0xa9, 0x83, 0xd2, 0x72, 0x23
+        .byte   0x00, 0x51, 0xf1, 0xa0, 0x8a, 0xdb, 0x7b, 0x2a
+        .byte   0x09, 0x58, 0xf8, 0xa9, 0x83, 0xd2, 0x72, 0x23
 
 /*
  * pre-SubByte transform
@@ -625,11 +624,11 @@ SYM_FUNC_END(roundsm16_x4_x5_x6_x7_x0_x1_x2_x3_y4_y5_y6_y7_y0_y1_y2_y3_ab)
  * (note: '⊕ 0xc5' inside camellia_f())
  */
 .Lpre_tf_lo_s4:
-	.byte 0x45, 0x40, 0x2e, 0x2b, 0x4b, 0x4e, 0x20, 0x25
-	.byte 0x14, 0x11, 0x7f, 0x7a, 0x1a, 0x1f, 0x71, 0x74
+        .byte   0x45, 0x40, 0x2e, 0x2b, 0x4b, 0x4e, 0x20, 0x25
+        .byte   0x14, 0x11, 0x7f, 0x7a, 0x1a, 0x1f, 0x71, 0x74
 .Lpre_tf_hi_s4:
-	.byte 0x00, 0xf1, 0x8a, 0x7b, 0x09, 0xf8, 0x83, 0x72
-	.byte 0xad, 0x5c, 0x27, 0xd6, 0xa4, 0x55, 0x2e, 0xdf
+        .byte   0x00, 0xf1, 0x8a, 0x7b, 0x09, 0xf8, 0x83, 0x72
+        .byte   0xad, 0x5c, 0x27, 0xd6, 0xa4, 0x55, 0x2e, 0xdf
 
 /*
  * post-SubByte transform
@@ -648,11 +647,11 @@ SYM_FUNC_END(roundsm16_x4_x5_x6_x7_x0_x1_x2_x3_y4_y5_y6_y7_y0_y1_y2_y3_ab)
  * (note: '⊕ 0x6e' inside camellia_h())
  */
 .Lpost_tf_lo_s1:
-	.byte 0x3c, 0xcc, 0xcf, 0x3f, 0x32, 0xc2, 0xc1, 0x31
-	.byte 0xdc, 0x2c, 0x2f, 0xdf, 0xd2, 0x22, 0x21, 0xd1
+        .byte   0x3c, 0xcc, 0xcf, 0x3f, 0x32, 0xc2, 0xc1, 0x31
+        .byte   0xdc, 0x2c, 0x2f, 0xdf, 0xd2, 0x22, 0x21, 0xd1
 .Lpost_tf_hi_s1:
-	.byte 0x00, 0xf9, 0x86, 0x7f, 0xd7, 0x2e, 0x51, 0xa8
-	.byte 0xa4, 0x5d, 0x22, 0xdb, 0x73, 0x8a, 0xf5, 0x0c
+        .byte   0x00, 0xf9, 0x86, 0x7f, 0xd7, 0x2e, 0x51, 0xa8
+        .byte   0xa4, 0x5d, 0x22, 0xdb, 0x73, 0x8a, 0xf5, 0x0c
 
 /*
  * post-SubByte transform
@@ -671,11 +670,11 @@ SYM_FUNC_END(roundsm16_x4_x5_x6_x7_x0_x1_x2_x3_y4_y5_y6_y7_y0_y1_y2_y3_ab)
  * (note: '⊕ 0x6e' inside camellia_h())
  */
 .Lpost_tf_lo_s2:
-	.byte 0x78, 0x99, 0x9f, 0x7e, 0x64, 0x85, 0x83, 0x62
-	.byte 0xb9, 0x58, 0x5e, 0xbf, 0xa5, 0x44, 0x42, 0xa3
+        .byte   0x78, 0x99, 0x9f, 0x7e, 0x64, 0x85, 0x83, 0x62
+        .byte   0xb9, 0x58, 0x5e, 0xbf, 0xa5, 0x44, 0x42, 0xa3
 .Lpost_tf_hi_s2:
-	.byte 0x00, 0xf3, 0x0d, 0xfe, 0xaf, 0x5c, 0xa2, 0x51
-	.byte 0x49, 0xba, 0x44, 0xb7, 0xe6, 0x15, 0xeb, 0x18
+        .byte   0x00, 0xf3, 0x0d, 0xfe, 0xaf, 0x5c, 0xa2, 0x51
+        .byte   0x49, 0xba, 0x44, 0xb7, 0xe6, 0x15, 0xeb, 0x18
 
 /*
  * post-SubByte transform
@@ -694,22 +693,22 @@ SYM_FUNC_END(roundsm16_x4_x5_x6_x7_x0_x1_x2_x3_y4_y5_y6_y7_y0_y1_y2_y3_ab)
  * (note: '⊕ 0x6e' inside camellia_h())
  */
 .Lpost_tf_lo_s3:
-	.byte 0x1e, 0x66, 0xe7, 0x9f, 0x19, 0x61, 0xe0, 0x98
-	.byte 0x6e, 0x16, 0x97, 0xef, 0x69, 0x11, 0x90, 0xe8
+        .byte   0x1e, 0x66, 0xe7, 0x9f, 0x19, 0x61, 0xe0, 0x98
+        .byte   0x6e, 0x16, 0x97, 0xef, 0x69, 0x11, 0x90, 0xe8
 .Lpost_tf_hi_s3:
-	.byte 0x00, 0xfc, 0x43, 0xbf, 0xeb, 0x17, 0xa8, 0x54
-	.byte 0x52, 0xae, 0x11, 0xed, 0xb9, 0x45, 0xfa, 0x06
+        .byte   0x00, 0xfc, 0x43, 0xbf, 0xeb, 0x17, 0xa8, 0x54
+        .byte   0x52, 0xae, 0x11, 0xed, 0xb9, 0x45, 0xfa, 0x06
 
 /* For isolating SubBytes from AESENCLAST, inverse shift row */
 .Linv_shift_row:
-	.byte 0x00, 0x0d, 0x0a, 0x07, 0x04, 0x01, 0x0e, 0x0b
-	.byte 0x08, 0x05, 0x02, 0x0f, 0x0c, 0x09, 0x06, 0x03
+        .byte   0x00, 0x0d, 0x0a, 0x07, 0x04, 0x01, 0x0e, 0x0b
+        .byte   0x08, 0x05, 0x02, 0x0f, 0x0c, 0x09, 0x06, 0x03
 
 /* 4-bit mask */
 .section	.rodata.cst4.L0f0f0f0f, "aM", @progbits, 4
 .align 4
 .L0f0f0f0f:
-	.long 0x0f0f0f0f
+        .long   0x0f0f0f0f
 
 .text
 
@@ -722,81 +721,81 @@ SYM_FUNC_START_LOCAL(__camellia_enc_blk16)
 	 *	%xmm0..%xmm15: 16 encrypted blocks, order swapped:
 	 *       7, 8, 6, 5, 4, 3, 2, 1, 0, 15, 14, 13, 12, 11, 10, 9, 8
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	leaq 8 * 16(%rax), %rcx;
+        leaq    8 * 16(%rax), %rcx;
 
-	inpack16_post(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		      %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		      %xmm15, %rax, %rcx);
+        inpack16_post(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, %rax, %rcx);
 
-	enc_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		     %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		     %xmm15, %rax, %rcx, 0);
+        enc_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, %rax, %rcx, 0);
 
-	fls16(%rax, %xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-	      %rcx, %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-	      %xmm15,
-	      ((key_table + (8) * 8) + 0)(CTX),
-	      ((key_table + (8) * 8) + 4)(CTX),
-	      ((key_table + (8) * 8) + 8)(CTX),
-	      ((key_table + (8) * 8) + 12)(CTX));
+        fls16(%rax, %xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %rcx,   %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15,
+        ((key_table + (8) * 8) + 0)(CTX),
+        ((key_table + (8) * 8) + 4)(CTX),
+        ((key_table + (8) * 8) + 8)(CTX),
+        ((key_table + (8) * 8) + 12)(CTX));
 
-	enc_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		     %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		     %xmm15, %rax, %rcx, 8);
+        enc_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, %rax, %rcx, 8);
 
-	fls16(%rax, %xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-	      %rcx, %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-	      %xmm15,
-	      ((key_table + (16) * 8) + 0)(CTX),
-	      ((key_table + (16) * 8) + 4)(CTX),
-	      ((key_table + (16) * 8) + 8)(CTX),
-	      ((key_table + (16) * 8) + 12)(CTX));
+        fls16(%rax, %xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %rcx,   %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15,
+        ((key_table + (16) * 8) + 0)(CTX),
+        ((key_table + (16) * 8) + 4)(CTX),
+        ((key_table + (16) * 8) + 8)(CTX),
+        ((key_table + (16) * 8) + 12)(CTX));
 
-	enc_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		     %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		     %xmm15, %rax, %rcx, 16);
+        enc_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, %rax, %rcx, 16);
 
-	movl $24, %r8d;
-	cmpl $16, key_length(CTX);
-	jne .Lenc_max32;
+        movl    $24, %r8d;
+        cmpl    $16, key_length(CTX);
+        jne     .Lenc_max32;
 
 .Lenc_done:
-	/* load CD for output */
-	vmovdqu 0 * 16(%rcx), %xmm8;
-	vmovdqu 1 * 16(%rcx), %xmm9;
-	vmovdqu 2 * 16(%rcx), %xmm10;
-	vmovdqu 3 * 16(%rcx), %xmm11;
-	vmovdqu 4 * 16(%rcx), %xmm12;
-	vmovdqu 5 * 16(%rcx), %xmm13;
-	vmovdqu 6 * 16(%rcx), %xmm14;
-	vmovdqu 7 * 16(%rcx), %xmm15;
+        /* load CD for output */
+        vmovdqu 0 * 16(%rcx), %xmm8;
+        vmovdqu 1 * 16(%rcx), %xmm9;
+        vmovdqu 2 * 16(%rcx), %xmm10;
+        vmovdqu 3 * 16(%rcx), %xmm11;
+        vmovdqu 4 * 16(%rcx), %xmm12;
+        vmovdqu 5 * 16(%rcx), %xmm13;
+        vmovdqu 6 * 16(%rcx), %xmm14;
+        vmovdqu 7 * 16(%rcx), %xmm15;
 
-	outunpack16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		    %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		    %xmm15, (key_table)(CTX, %r8, 8), (%rax), 1 * 16(%rax));
+        outunpack16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, (key_table)(CTX, %r8, 8), (%rax), 1 * 16(%rax));
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 
 .align 8
 .Lenc_max32:
-	movl $32, %r8d;
+        movl    $32, %r8d;
 
-	fls16(%rax, %xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-	      %rcx, %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-	      %xmm15,
-	      ((key_table + (24) * 8) + 0)(CTX),
-	      ((key_table + (24) * 8) + 4)(CTX),
-	      ((key_table + (24) * 8) + 8)(CTX),
-	      ((key_table + (24) * 8) + 12)(CTX));
+        fls16(%rax, %xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %rcx,   %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15,
+        ((key_table + (24) * 8) + 0)(CTX),
+        ((key_table + (24) * 8) + 4)(CTX),
+        ((key_table + (24) * 8) + 8)(CTX),
+        ((key_table + (24) * 8) + 12)(CTX));
 
-	enc_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		     %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		     %xmm15, %rax, %rcx, 24);
+        enc_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, %rax, %rcx, 24);
 
-	jmp .Lenc_done;
+        jmp     .Lenc_done;
 SYM_FUNC_END(__camellia_enc_blk16)
 
 SYM_FUNC_START_LOCAL(__camellia_dec_blk16)
@@ -809,78 +808,78 @@ SYM_FUNC_START_LOCAL(__camellia_dec_blk16)
 	 *	%xmm0..%xmm15: 16 plaintext blocks, order swapped:
 	 *       7, 8, 6, 5, 4, 3, 2, 1, 0, 15, 14, 13, 12, 11, 10, 9, 8
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	leaq 8 * 16(%rax), %rcx;
+        leaq    8 * 16(%rax), %rcx;
 
-	inpack16_post(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		      %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		      %xmm15, %rax, %rcx);
+        inpack16_post(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, %rax, %rcx);
 
-	cmpl $32, %r8d;
-	je .Ldec_max32;
+        cmpl    $32, %r8d;
+        je      .Ldec_max32;
 
 .Ldec_max24:
-	dec_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		     %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		     %xmm15, %rax, %rcx, 16);
+        dec_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, %rax, %rcx, 16);
 
-	fls16(%rax, %xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-	      %rcx, %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-	      %xmm15,
-	      ((key_table + (16) * 8) + 8)(CTX),
-	      ((key_table + (16) * 8) + 12)(CTX),
-	      ((key_table + (16) * 8) + 0)(CTX),
-	      ((key_table + (16) * 8) + 4)(CTX));
+        fls16(%rax, %xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %rcx,   %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15,
+        ((key_table + (16) * 8) + 8)(CTX),
+        ((key_table + (16) * 8) + 12)(CTX),
+        ((key_table + (16) * 8) + 0)(CTX),
+        ((key_table + (16) * 8) + 4)(CTX));
 
-	dec_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		     %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		     %xmm15, %rax, %rcx, 8);
+        dec_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, %rax, %rcx, 8);
 
-	fls16(%rax, %xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-	      %rcx, %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-	      %xmm15,
-	      ((key_table + (8) * 8) + 8)(CTX),
-	      ((key_table + (8) * 8) + 12)(CTX),
-	      ((key_table + (8) * 8) + 0)(CTX),
-	      ((key_table + (8) * 8) + 4)(CTX));
+        fls16(%rax, %xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %rcx,   %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15,
+        ((key_table + (8) * 8) + 8)(CTX),
+        ((key_table + (8) * 8) + 12)(CTX),
+        ((key_table + (8) * 8) + 0)(CTX),
+        ((key_table + (8) * 8) + 4)(CTX));
 
-	dec_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		     %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		     %xmm15, %rax, %rcx, 0);
+        dec_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, %rax, %rcx, 0);
 
-	/* load CD for output */
-	vmovdqu 0 * 16(%rcx), %xmm8;
-	vmovdqu 1 * 16(%rcx), %xmm9;
-	vmovdqu 2 * 16(%rcx), %xmm10;
-	vmovdqu 3 * 16(%rcx), %xmm11;
-	vmovdqu 4 * 16(%rcx), %xmm12;
-	vmovdqu 5 * 16(%rcx), %xmm13;
-	vmovdqu 6 * 16(%rcx), %xmm14;
-	vmovdqu 7 * 16(%rcx), %xmm15;
+        /* load CD for output */
+        vmovdqu 0 * 16(%rcx), %xmm8;
+        vmovdqu 1 * 16(%rcx), %xmm9;
+        vmovdqu 2 * 16(%rcx), %xmm10;
+        vmovdqu 3 * 16(%rcx), %xmm11;
+        vmovdqu 4 * 16(%rcx), %xmm12;
+        vmovdqu 5 * 16(%rcx), %xmm13;
+        vmovdqu 6 * 16(%rcx), %xmm14;
+        vmovdqu 7 * 16(%rcx), %xmm15;
 
-	outunpack16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		    %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		    %xmm15, (key_table)(CTX), (%rax), 1 * 16(%rax));
+        outunpack16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, (key_table)(CTX), (%rax), 1 * 16(%rax));
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 
 .align 8
 .Ldec_max32:
-	dec_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		     %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		     %xmm15, %rax, %rcx, 24);
+        dec_rounds16(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, %rax, %rcx, 24);
 
-	fls16(%rax, %xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-	      %rcx, %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-	      %xmm15,
-	      ((key_table + (24) * 8) + 8)(CTX),
-	      ((key_table + (24) * 8) + 12)(CTX),
-	      ((key_table + (24) * 8) + 0)(CTX),
-	      ((key_table + (24) * 8) + 4)(CTX));
+        fls16(%rax, %xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %rcx,   %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15,
+        ((key_table + (24) * 8) + 8)(CTX),
+        ((key_table + (24) * 8) + 12)(CTX),
+        ((key_table + (24) * 8) + 0)(CTX),
+        ((key_table + (24) * 8) + 4)(CTX));
 
-	jmp .Ldec_max24;
+        jmp     .Ldec_max24;
 SYM_FUNC_END(__camellia_dec_blk16)
 
 SYM_TYPED_FUNC_START(camellia_ecb_enc_16way)
@@ -889,23 +888,23 @@ SYM_TYPED_FUNC_START(camellia_ecb_enc_16way)
 	 *	%rsi: dst (16 blocks)
 	 *	%rdx: src (16 blocks)
 	 */
-	 FRAME_BEGIN
+        FRAME_BEGIN
 
-	inpack16_pre(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		     %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		     %xmm15, %rdx, (key_table)(CTX));
+        inpack16_pre(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, %rdx, (key_table)(CTX));
 
-	/* now dst can be used as temporary buffer (even in src == dst case) */
-	movq	%rsi, %rax;
+        /* now dst can be used as temporary buffer (even in src == dst case) */
+        movq    %rsi, %rax;
 
-	call __camellia_enc_blk16;
+        call    __camellia_enc_blk16;
 
-	write_output(%xmm7, %xmm6, %xmm5, %xmm4, %xmm3, %xmm2, %xmm1, %xmm0,
-		     %xmm15, %xmm14, %xmm13, %xmm12, %xmm11, %xmm10, %xmm9,
-		     %xmm8, %rsi);
+        write_output(%xmm7, %xmm6, %xmm5, %xmm4, %xmm3, %xmm2, %xmm1, %xmm0,
+        %xmm15, %xmm14, %xmm13, %xmm12, %xmm11, %xmm10, %xmm9,
+        %xmm8,  %rsi);
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(camellia_ecb_enc_16way)
 
 SYM_TYPED_FUNC_START(camellia_ecb_dec_16way)
@@ -914,28 +913,28 @@ SYM_TYPED_FUNC_START(camellia_ecb_dec_16way)
 	 *	%rsi: dst (16 blocks)
 	 *	%rdx: src (16 blocks)
 	 */
-	 FRAME_BEGIN
+        FRAME_BEGIN
 
-	cmpl $16, key_length(CTX);
-	movl $32, %r8d;
-	movl $24, %eax;
-	cmovel %eax, %r8d; /* max */
+        cmpl    $16,  key_length(CTX);
+        movl    $32,  %r8d;
+        movl    $24,  %eax;
+        cmovel  %eax, %r8d; /* max */
 
-	inpack16_pre(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		     %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		     %xmm15, %rdx, (key_table)(CTX, %r8, 8));
+        inpack16_pre(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, %rdx, (key_table)(CTX, %r8, 8));
 
-	/* now dst can be used as temporary buffer (even in src == dst case) */
-	movq	%rsi, %rax;
+        /* now dst can be used as temporary buffer (even in src == dst case) */
+        movq    %rsi, %rax;
 
-	call __camellia_dec_blk16;
+        call    __camellia_dec_blk16;
 
-	write_output(%xmm7, %xmm6, %xmm5, %xmm4, %xmm3, %xmm2, %xmm1, %xmm0,
-		     %xmm15, %xmm14, %xmm13, %xmm12, %xmm11, %xmm10, %xmm9,
-		     %xmm8, %rsi);
+        write_output(%xmm7, %xmm6, %xmm5, %xmm4, %xmm3, %xmm2, %xmm1, %xmm0,
+        %xmm15, %xmm14, %xmm13, %xmm12, %xmm11, %xmm10, %xmm9,
+        %xmm8,  %rsi);
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(camellia_ecb_dec_16way)
 
 SYM_TYPED_FUNC_START(camellia_cbc_dec_16way)
@@ -944,47 +943,47 @@ SYM_TYPED_FUNC_START(camellia_cbc_dec_16way)
 	 *	%rsi: dst (16 blocks)
 	 *	%rdx: src (16 blocks)
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	cmpl $16, key_length(CTX);
-	movl $32, %r8d;
-	movl $24, %eax;
-	cmovel %eax, %r8d; /* max */
+        cmpl    $16,  key_length(CTX);
+        movl    $32,  %r8d;
+        movl    $24,  %eax;
+        cmovel  %eax, %r8d; /* max */
 
-	inpack16_pre(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
-		     %xmm8, %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
-		     %xmm15, %rdx, (key_table)(CTX, %r8, 8));
+        inpack16_pre(%xmm0, %xmm1, %xmm2, %xmm3, %xmm4, %xmm5, %xmm6, %xmm7,
+        %xmm8,  %xmm9, %xmm10, %xmm11, %xmm12, %xmm13, %xmm14,
+        %xmm15, %rdx, (key_table)(CTX, %r8, 8));
 
 	/*
 	 * dst might still be in-use (in case dst == src), so use stack for
 	 * temporary storage.
 	 */
-	subq $(16 * 16), %rsp;
-	movq %rsp, %rax;
+        subq    $(16 * 16), %rsp;
+        movq    %rsp, %rax;
 
-	call __camellia_dec_blk16;
+        call    __camellia_dec_blk16;
 
-	addq $(16 * 16), %rsp;
+        addq    $(16 * 16), %rsp;
 
-	vpxor (0 * 16)(%rdx), %xmm6, %xmm6;
-	vpxor (1 * 16)(%rdx), %xmm5, %xmm5;
-	vpxor (2 * 16)(%rdx), %xmm4, %xmm4;
-	vpxor (3 * 16)(%rdx), %xmm3, %xmm3;
-	vpxor (4 * 16)(%rdx), %xmm2, %xmm2;
-	vpxor (5 * 16)(%rdx), %xmm1, %xmm1;
-	vpxor (6 * 16)(%rdx), %xmm0, %xmm0;
-	vpxor (7 * 16)(%rdx), %xmm15, %xmm15;
-	vpxor (8 * 16)(%rdx), %xmm14, %xmm14;
-	vpxor (9 * 16)(%rdx), %xmm13, %xmm13;
-	vpxor (10 * 16)(%rdx), %xmm12, %xmm12;
-	vpxor (11 * 16)(%rdx), %xmm11, %xmm11;
-	vpxor (12 * 16)(%rdx), %xmm10, %xmm10;
-	vpxor (13 * 16)(%rdx), %xmm9, %xmm9;
-	vpxor (14 * 16)(%rdx), %xmm8, %xmm8;
-	write_output(%xmm7, %xmm6, %xmm5, %xmm4, %xmm3, %xmm2, %xmm1, %xmm0,
-		     %xmm15, %xmm14, %xmm13, %xmm12, %xmm11, %xmm10, %xmm9,
-		     %xmm8, %rsi);
+        vpxor   (0 * 16)(%rdx),  %xmm6,  %xmm6;
+        vpxor   (1 * 16)(%rdx),  %xmm5,  %xmm5;
+        vpxor   (2 * 16)(%rdx),  %xmm4,  %xmm4;
+        vpxor   (3 * 16)(%rdx),  %xmm3,  %xmm3;
+        vpxor   (4 * 16)(%rdx),  %xmm2,  %xmm2;
+        vpxor   (5 * 16)(%rdx),  %xmm1,  %xmm1;
+        vpxor   (6 * 16)(%rdx),  %xmm0,  %xmm0;
+        vpxor   (7 * 16)(%rdx),  %xmm15, %xmm15;
+        vpxor   (8 * 16)(%rdx),  %xmm14, %xmm14;
+        vpxor   (9 * 16)(%rdx),  %xmm13, %xmm13;
+        vpxor   (10 * 16)(%rdx), %xmm12, %xmm12;
+        vpxor   (11 * 16)(%rdx), %xmm11, %xmm11;
+        vpxor   (12 * 16)(%rdx), %xmm10, %xmm10;
+        vpxor   (13 * 16)(%rdx), %xmm9,  %xmm9;
+        vpxor   (14 * 16)(%rdx), %xmm8,  %xmm8;
+        write_output(%xmm7, %xmm6, %xmm5, %xmm4, %xmm3, %xmm2, %xmm1, %xmm0,
+        %xmm15, %xmm14, %xmm13, %xmm12, %xmm11, %xmm10, %xmm9,
+        %xmm8,  %rsi);
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(camellia_cbc_dec_16way)

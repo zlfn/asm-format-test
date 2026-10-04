@@ -9,9 +9,9 @@ EXTERN asm_SMSlib_updateSpriteImage
 
 _SMS_updateSpriteImage_callee:
 
-   pop af
-   pop de
-   push af
-   
-   ld a,d
-   jp asm_SMSlib_updateSpriteImage
+        pop     af
+        pop     de
+        push    af
+
+        ld      a, d
+        jp      asm_SMSlib_updateSpriteImage

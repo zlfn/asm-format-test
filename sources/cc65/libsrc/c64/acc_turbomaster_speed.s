@@ -30,10 +30,10 @@
 ; * make sure you use 'detect_turbomaster();' before using.
 ; */
 
-        .export         _set_turbomaster_speed
-        .export         _get_turbomaster_speed
+        .export _set_turbomaster_speed
+        .export _get_turbomaster_speed
 
-        .include        "accelerator.inc"
+        .include "accelerator.inc"
 
 _set_turbomaster_speed:
         tay
@@ -53,4 +53,3 @@ is_high_speed:
         lda     #SPEED_4X
 is_slow_speed:
         rts
-

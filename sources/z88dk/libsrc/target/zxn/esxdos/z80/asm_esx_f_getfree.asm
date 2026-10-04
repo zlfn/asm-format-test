@@ -10,35 +10,34 @@ EXTERN __esxdos_error_mc
 
 asm_esx_f_getfree:
 
-   ; enter : none
-   ;
-   ; exit  : success
-   ;
-   ;            dehl = number of 512 byte blocks available on default drive
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            dehl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl
-   
-   ld a,'*'
-   
-   rst __ESX_RST_SYS
-   defb __ESX_F_GETFREE
-   
-   ld l,c
-   ld h,b
-   
-   ex de,hl
-   
-   ret nc
-   
-   ld de,-1
-   jp __esxdos_error_mc
+        ; enter : none
+        ;
+        ; exit  : success
+        ;
+        ;            dehl = number of 512 byte blocks available on default drive
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            dehl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl
 
+        ld      a, '*'
+
+        rst     __ESX_RST_SYS
+        defb    __ESX_F_GETFREE
+
+        ld      l, c
+        ld      h, b
+
+        ex      de, hl
+
+        ret     nc
+
+        ld      de, -1
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * F_GETFREE ($b1) *

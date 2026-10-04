@@ -10,8 +10,8 @@
 .segment "LOWCODE" ; Stay out of ROM area.
 
 .proc   GETIN
-        sta ENABLE_ROM
-        jsr KERNAL::GETIN
-        sta ENABLE_RAM
+        sta     ENABLE_ROM
+        jsr     KERNAL::GETIN
+        sta     ENABLE_RAM
         rts
 .endproc

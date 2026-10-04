@@ -10,4 +10,4 @@
 
 .rodata
 
-_joy_stddrv:    .asciiz "atmos-pase.joy"
+_joy_stddrv: .asciiz "atmos-pase.joy"

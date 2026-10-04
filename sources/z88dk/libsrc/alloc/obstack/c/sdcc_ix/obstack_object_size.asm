@@ -10,10 +10,10 @@ EXTERN asm_obstack_object_size
 
 _obstack_object_size:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_obstack_object_size
+        push    hl
+        push    af
+
+        jp      asm_obstack_object_size

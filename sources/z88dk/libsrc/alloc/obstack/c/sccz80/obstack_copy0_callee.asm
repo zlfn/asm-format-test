@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; void *obstack_copy0(struct obstack *ob, void *address, size_t size)
 ;
 ; Attempt to allocate size+1 bytes from the obstack and initialize
@@ -20,16 +20,15 @@ EXTERN asm_obstack_copy0
 
 obstack_copy0_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   
-   jp asm_obstack_copy0
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_obstack_copy0
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _obstack_copy0_callee
 defc _obstack_copy0_callee = obstack_copy0_callee
 ENDIF
-

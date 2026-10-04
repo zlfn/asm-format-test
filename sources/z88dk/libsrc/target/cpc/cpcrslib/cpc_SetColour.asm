@@ -13,10 +13,10 @@
 ;       $Id: cpc_SetColour.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_SetColour
-        PUBLIC    _cpc_SetColour
-        EXTERN     asm_cpc_SetColour
+        SECTION code_clib
+        PUBLIC  cpc_SetColour
+        PUBLIC  _cpc_SetColour
+        EXTERN  asm_cpc_SetColour
 
 .cpc_SetColour
 ._cpc_SetColour
@@ -26,4 +26,4 @@
         push    de
         push    hl
         push    bc
-        jp asm_cpc_SetColour
+        jp      asm_cpc_SetColour

@@ -3,12 +3,9 @@
 ;
 ;       Xor pixel at (x,y) coordinate.
 
-
-    SECTION code_clib
-    PUBLIC  xorpixel
-
+        SECTION code_clib
+        PUBLIC  xorpixel
 
 xorpixel:
-    defc    NEEDxor=1
-    INCLUDE "pixel6.inc"
-
+        defc    NEEDxor=1
+        INCLUDE "pixel6.inc"

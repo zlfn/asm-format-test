@@ -9,13 +9,13 @@ EXTERN asm_esxdos_f_readdir
 
 esxdos_f_readdir_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   ld a,e
-   jp asm_esxdos_f_readdir
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        ld      a, e
+        jp      asm_esxdos_f_readdir
 
 ; SDCC bridge for Classic
 IF __CLASSIC

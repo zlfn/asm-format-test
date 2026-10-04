@@ -8,8 +8,8 @@ SECTION code_l_sccz80
 PUBLIC l_gint2sp
 
 l_gint2sp:
-   push de
-   ld de,sp+6
-   ld hl,(de)
-   pop de
-   ret
+        push    de
+        ld      de, sp+6
+        ld      hl, (de)
+        pop     de
+        ret

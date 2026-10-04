@@ -11,60 +11,58 @@
 ;	$Id: w_xorpixl.asm $
 ;
 
+        INCLUDE "classic/gfx/grafix.inc"
 
-    INCLUDE "classic/gfx/grafix.inc"
+        SECTION smc_clib
+        PUBLIC  w_xorpixel
 
-    SECTION smc_clib
-    PUBLIC  w_xorpixel
-
-    EXTERN  l_cmp
-    EXTERN  plot_setup
+        EXTERN  l_cmp
+        EXTERN  plot_setup
 
 w_xorpixel:
-    push    hl
-    ld      hl, _GFX_MAXY
-    call    l_cmp
-    pop     hl
-    ret     nc                          ; Return if Y overflows
+        push    hl
+        ld      hl, _GFX_MAXY
+        call    l_cmp
+        pop     hl
+        ret     nc      ; Return if Y overflows
 
-    push    de
-    ld      de, _GFX_MAXX
-    call    l_cmp
-    pop     de
-    ret     c                           ; Return if X overflows
+        push    de
+        ld      de, _GFX_MAXX
+        call    l_cmp
+        pop     de
+        ret     c       ; Return if X overflows
 
-    call    plot_setup
+        call    plot_setup
 
-    AND     0E7H                        ; mask for SMC code
-    OR      B
-    XOR     18H                         ; @11000: mask for the the 2 changed bits
+        AND     0E7H    ; mask for SMC code
+        OR      B
+        XOR     18H     ; @11000: mask for the the 2 changed bits
 
-    LD      (GRFBIT+1), A               ; RES
-    OR      40h
-    LD      (GRFBIT1+1), A              ; SET
-    and     7Fh
-    LD      (GRFBIT0+1), A              ; BIT
+        LD      (GRFBIT+1), A   ; RES
+        OR      40h
+        LD      (GRFBIT1+1), A  ; SET
+        and     7Fh
+        LD      (GRFBIT0+1), A  ; BIT
 
-						;CALL	XDDR			; SET X ADDRESS
-    LD      A, L                        ; X COORDINATE IN [HL]
-    AND     0FCH                        ; @11111100, mask out the 2 rightmost bits
-    OR      H
-    RRCA
-    RRCA
+        ;CALL	XDDR			; SET X ADDRESS
+        LD      A, L    ; X COORDINATE IN [HL]
+        AND     0FCH    ; @11111100, mask out the 2 rightmost bits
+        OR      H
+        RRCA
+        RRCA
 
-    LD      B, A
-    LD      C, 0FEH                     ; DISPLAY DATA
-    IN      A, (C)
+        LD      B, A
+        LD      C, 0FEH ; DISPLAY DATA
+        IN      A, (C)
 GRFBIT0:
-    BIT     0, A                        ; MODIFIED BIT TEST
+        BIT     0, A    ; MODIFIED BIT TEST
 GRFBIT:
-    RES     0, A                        ; MODIFIED BIT RESET
-    JP      nz, is_reset
+        RES     0,  A   ; MODIFIED BIT RESET
+        JP      nz, is_reset
 GRFBIT1:
-    SET     0, A                        ; MODIFIED BIT SET
+        SET     0, A    ; MODIFIED BIT SET
 is_reset:
-    OUT     (C), A
+        OUT     (C), A
 
-    EI
-    RET
-
+        EI
+        RET

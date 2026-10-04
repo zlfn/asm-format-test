@@ -30,33 +30,32 @@ SECTION code_fp_math16
 
 PUBLIC asm_f16_classify
 
-
 .asm_f16_classify
-    ; enter : hl = half x
-    ; exit  : hl = half x (unchanged)
-    ;            a = 0 number, 1 zero, 2 nan, 3 inf
-    ; uses  : af
+        ; enter : hl = half x
+        ; exit  : hl = half x (unchanged)
+        ;            a = 0 number, 1 zero, 2 nan, 3 inf
+        ; uses  : af
 
-    ld a,h
-    and 07ch                    ; exp field H[6:2]
-    jr Z,f16class_zero
+        ld      a, h
+        and     07ch    ; exp field H[6:2]
+        jr      Z, f16class_zero
 
-    cp 07ch                     ; all five exp bits set?
-    jr NZ,f16class_number
+        cp      07ch    ; all five exp bits set?
+        jr      NZ, f16class_number
 
-    ; exp == 31: inf if mantissa bits are 0, else NaN
-    ld a,h
-    and 003h                    ; H[1:0] mant
-    or l
-    ld a,3                      ; inf
-    ret Z
-    dec a                       ; nan (2)
-    ret
+        ; exp == 31: inf if mantissa bits are 0, else NaN
+        ld      a, h
+        and     003h    ; H[1:0] mant
+        or      l
+        ld      a, 3    ; inf
+        ret     Z
+        dec     a       ; nan (2)
+        ret
 
 .f16class_number
-    xor a                       ; 0 = number
-    ret
+        xor     a       ; 0 = number
+        ret
 
 .f16class_zero
-    ld a,1                      ; 1 = zero
-    ret
+        ld      a, 1    ; 1 = zero
+        ret

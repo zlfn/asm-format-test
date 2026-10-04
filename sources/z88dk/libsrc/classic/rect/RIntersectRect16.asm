@@ -24,38 +24,37 @@ EXTERN RIntersectIval16
 
 .RIntersectRect16
 
-   call RIntersectIval16
-   jr nc, exitearly
-   
-   ld (ix+0),c
-   ld (ix+1),b
-   ld (ix+2),e
-   ld (ix+3),d
-   
-   pop hl
-   pop de
-   pop bc
-   exx
-   pop de
-   exx
-   ex (sp),hl
+        call    RIntersectIval16
+        jr      nc, exitearly
 
-   call RIntersectIval16
-   ret nc
-   
-   ld (ix+4),c
-   ld (ix+5),b
-   ld (ix+6),e
-   ld (ix+7),d
-   ret
-   
+        ld      (ix+0), c
+        ld      (ix+1), b
+        ld      (ix+2), e
+        ld      (ix+3), d
+
+        pop     hl
+        pop     de
+        pop     bc
+        exx
+        pop     de
+        exx
+        ex      (sp), hl
+
+        call    RIntersectIval16
+        ret     nc
+
+        ld      (ix+4), c
+        ld      (ix+5), b
+        ld      (ix+6), e
+        ld      (ix+7), d
+        ret
+
 .exitearly
 
-   pop de
-   ld hl,8
-   add hl,sp
-   ld sp,hl
-   ex de,hl
-   or a
-   jp (hl)
-
+        pop     de
+        ld      hl, 8
+        add     hl, sp
+        ld      sp, hl
+        ex      de, hl
+        or      a
+        jp      (hl)

@@ -31,16 +31,11 @@
 ;/*                                                                           */
 ;/*****************************************************************************/
 
-
-
 ; Struct utsname
 .struct utsname
-        sysname         .byte   17
-        nodename        .byte   9
-        release         .byte   9
-        version         .byte   9
-        machine         .byte   25
+        sysname .byte   17
+        nodename .byte   9
+        release .byte   9
+        version .byte   9
+        machine .byte   25
 .endstruct
-
-
-

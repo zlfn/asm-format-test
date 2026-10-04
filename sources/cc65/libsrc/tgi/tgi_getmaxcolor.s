@@ -7,7 +7,7 @@
 ; */
 ;
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
 .proc   _tgi_getmaxcolor
 

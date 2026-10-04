@@ -2,11 +2,9 @@
 ;       Generic pseudo graphics routines for text-only platforms
 ;
 
-
-
-    SECTION code_clib
-    PUBLIC  xorpixel
+        SECTION code_clib
+        PUBLIC  xorpixel
 
 xorpixel:
-    defc    NEEDxor=1
-    INCLUDE "pixel2.inc"
+        defc    NEEDxor=1
+        INCLUDE "pixel2.inc"

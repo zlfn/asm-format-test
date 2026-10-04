@@ -31,111 +31,111 @@ SECTION .text
 
 INIT_XMM sse2
 cglobal add_bytes_l2, 4, 6, 2, dst, src1, src2, wa, w, i
-    xor                 id, id
+        xor     id, id
 
-    ; vector loop
-    mov                 wd, wad
-    and                wad, ~(mmsize*2-1)
-    jz               .tail
+        ; vector loop
+        mov     wd,  wad
+        and     wad, ~(mmsize*2-1)
+        jz      .tail
 
 .loop_v:
-    movu                m0, [src2q+iq]
-    movu                m1, [src2q+iq+mmsize]
-    paddb               m0, [src1q+iq]
-    paddb               m1, [src1q+iq+mmsize]
-    movu  [dstq+iq       ], m0
-    movu  [dstq+iq+mmsize], m1
-    add                 id, mmsize*2
-    cmp                 id, wad
-    jl .loop_v
+        movu    m0, [src2q+iq]
+        movu    m1, [src2q+iq+mmsize]
+        paddb   m0, [src1q+iq]
+        paddb   m1, [src1q+iq+mmsize]
+        movu    [dstq+iq       ], m0
+        movu    [dstq+iq+mmsize], m1
+        add     id, mmsize*2
+        cmp     id, wad
+        jl      .loop_v
 
-    ; vector loop
+        ; vector loop
 .tail:
-    mov                wad, wd
-    and                wad, ~7
-    jmp .end_l
+        mov     wad, wd
+        and     wad, ~7
+        jmp     .end_l
 .loop_l:
-    movq                m0, [src2q+iq]
-    movq                m1, [src1q+iq]
-    paddb               m0, m1
-    movq  [dstq+iq       ], m0
-    add                 id, 8
+        movq    m0, [src2q+iq]
+        movq    m1, [src1q+iq]
+        paddb   m0, m1
+        movq    [dstq+iq       ], m0
+        add     id, 8
 .end_l:
-    cmp                 id, wad
-    jl .loop_l
+        cmp     id, wad
+        jl      .loop_l
 
-    ; scalar loop for leftover
-    jmp .end_s
+        ; scalar loop for leftover
+        jmp     .end_s
 .loop_s:
-    mov                wab, [src1q+iq]
-    add                wab, [src2q+iq]
-    mov          [dstq+iq], wab
-    inc                 id
+        mov     wab, [src1q+iq]
+        add     wab, [src2q+iq]
+        mov     [dstq+iq], wab
+        inc     id
 .end_s:
-    cmp                 id, wd
-    jl .loop_s
-    RET
+        cmp     id, wd
+        jl      .loop_s
+        RET
 
 INIT_XMM ssse3
 cglobal png_add_paeth_prediction, 5, 7, 8, dst, src, top, w, bpp, end, cntr
 %if ARCH_X86_64
-    movsxd            bppq, bppd
-    movsxd              wq, wd
+        movsxd  bppq, bppd
+        movsxd  wq,   wd
 %endif
-    lea               endq, [dstq+wq-(mmsize/4-1)]
-    sub               topq, dstq
-    sub               srcq, dstq
-    sub               dstq, bppq
-    pxor                m7, m7
+        lea     endq, [dstq+wq-(mmsize/4-1)]
+        sub     topq, dstq
+        sub     srcq, dstq
+        sub     dstq, bppq
+        pxor    m7,   m7
 
-    PUSH              dstq
-    lea              cntrq, [bppq-1]
-    shr              cntrq, 2 + mmsize/32
+        PUSH    dstq
+        lea     cntrq, [bppq-1]
+        shr     cntrq, 2 + mmsize/32
 .bpp_loop:
-    lea               dstq, [dstq+cntrq*(mmsize/4)]
-    movd                m0, [dstq]
-    movd                m1, [topq+dstq]
-    punpcklbw           m0, m7
-    punpcklbw           m1, m7
-    add               dstq, bppq
+        lea     dstq, [dstq+cntrq*(mmsize/4)]
+        movd    m0,   [dstq]
+        movd    m1,   [topq+dstq]
+        punpcklbw m0, m7
+        punpcklbw m1, m7
+        add     dstq, bppq
 .loop:
-    mova                m2, m1
-    movd                m1, [topq+dstq]
-    mova                m3, m2
-    punpcklbw           m1, m7
-    mova                m4, m2
-    psubw               m3, m1
-    psubw               m4, m0
-    mova                m5, m3
-    paddw               m5, m4
-    pabsw               m3, m3
-    pabsw               m4, m4
-    pabsw               m5, m5
-    mova                m6, m4
-    pminsw              m6, m5
-    pcmpgtw             m3, m6
-    pcmpgtw             m4, m5
-    mova                m6, m4
-    pand                m4, m3
-    pandn               m6, m3
-    pandn               m3, m0
-    movd                m0, [srcq+dstq]
-    pand                m6, m1
-    pand                m2, m4
-    punpcklbw           m0, m7
-    paddw               m0, m6
-    paddw               m3, m2
-    paddw               m0, m3
-    pand                m0, [pw_255]
-    mova                m3, m0
-    packuswb            m3, m3
-    movd            [dstq], m3
-    add               dstq, bppq
-    cmp               dstq, endq
-    jl .loop
+        mova    m2, m1
+        movd    m1, [topq+dstq]
+        mova    m3, m2
+        punpcklbw m1, m7
+        mova    m4, m2
+        psubw   m3, m1
+        psubw   m4, m0
+        mova    m5, m3
+        paddw   m5, m4
+        pabsw   m3, m3
+        pabsw   m4, m4
+        pabsw   m5, m5
+        mova    m6, m4
+        pminsw  m6, m5
+        pcmpgtw m3, m6
+        pcmpgtw m4, m5
+        mova    m6, m4
+        pand    m4, m3
+        pandn   m6, m3
+        pandn   m3, m0
+        movd    m0, [srcq+dstq]
+        pand    m6, m1
+        pand    m2, m4
+        punpcklbw m0, m7
+        paddw   m0, m6
+        paddw   m3, m2
+        paddw   m0, m3
+        pand    m0, [pw_255]
+        mova    m3, m0
+        packuswb m3, m3
+        movd    [dstq], m3
+        add     dstq,   bppq
+        cmp     dstq,   endq
+        jl      .loop
 
-    mov               dstq, [rsp]
-    dec              cntrq
-    jge .bpp_loop
-    POP               dstq
-    RET
+        mov     dstq, [rsp]
+        dec     cntrq
+        jge     .bpp_loop
+        POP     dstq
+        RET

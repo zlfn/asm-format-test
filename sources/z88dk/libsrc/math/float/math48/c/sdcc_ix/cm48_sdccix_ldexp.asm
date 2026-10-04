@@ -10,20 +10,20 @@ EXTERN l0_cm48_sdccix_ldexp_callee
 
 cm48_sdccix_ldexp:
 
-   pop af
-   
-   pop de
-   pop hl                      ; hlde'= float x
-   
-   exx
-   
-   pop hl                      ; hl = exp
-   
-   push hl
-   
-   push hl
-   push de
-   
-   push af
+        pop     af
 
-   jp l0_cm48_sdccix_ldexp_callee
+        pop     de
+        pop     hl      ; hlde'= float x
+
+        exx
+
+        pop     hl      ; hl = exp
+
+        push    hl
+
+        push    hl
+        push    de
+
+        push    af
+
+        jp      l0_cm48_sdccix_ldexp_callee

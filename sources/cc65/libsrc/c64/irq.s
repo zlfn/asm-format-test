@@ -2,10 +2,10 @@
 ; IRQ handling (C64 version)
 ;
 
-        .export         initirq, doneirq
-        .import         callirq
+        .export initirq, doneirq
+        .import callirq
 
-        .include        "c64.inc"
+        .include "c64.inc"
 
 ; ------------------------------------------------------------------------
 
@@ -38,9 +38,9 @@ setvec: sei
 .segment        "LOWCODE"
 
 IRQStub:
-        cld                             ; Just to be sure
-        jsr     callirq                 ; Call the functions
-        jmp     IRQInd                  ; Jump to the saved IRQ vector
+        cld             ; Just to be sure
+        jsr     callirq ; Call the functions
+        jmp     IRQInd  ; Jump to the saved IRQ vector
 
 ; ------------------------------------------------------------------------
 

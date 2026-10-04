@@ -10,10 +10,10 @@ EXTERN asm_zx_cls
 
 _zx_cls:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_zx_cls
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_zx_cls

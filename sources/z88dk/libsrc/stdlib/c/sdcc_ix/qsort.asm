@@ -10,17 +10,17 @@ EXTERN l0_qsort_callee
 
 _qsort:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   exx
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        exx
+        pop     bc
 
-   jp l0_qsort_callee
+        push    bc
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        jp      l0_qsort_callee

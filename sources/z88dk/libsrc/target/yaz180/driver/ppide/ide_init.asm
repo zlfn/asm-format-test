@@ -21,13 +21,13 @@ EXTERN ideStatus
 ; initialize the ide drive
 
 ide_init:
-    push af
-    push de
-    xor a
-    ld (ideStatus), a       ;set master device
-    ld e, 11100000b
-    ld a, __IO_PIO_IDE_HEAD
-    call ide_write_byte     ;select the master device, LBA mode
-    pop de 
-    pop af
-    jp ide_wait_ready
+        push    af
+        push    de
+        xor     a
+        ld      (ideStatus), a  ;set master device
+        ld      e, 11100000b
+        ld      a, __IO_PIO_IDE_HEAD
+        call    ide_write_byte  ;select the master device, LBA mode
+        pop     de
+        pop     af
+        jp      ide_wait_ready

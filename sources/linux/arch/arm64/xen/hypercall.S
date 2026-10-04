@@ -52,7 +52,6 @@
 #include <asm/asm-uaccess.h>
 #include <xen/interface/xen.h>
 
-
 #define XEN_IMM 0xEA1
 
 #define HYPERCALL_SIMPLE(hypercall)		\
@@ -69,7 +68,7 @@ SYM_FUNC_END(HYPERVISOR_##hypercall)
 #define HYPERCALL4 HYPERCALL_SIMPLE
 #define HYPERCALL5 HYPERCALL_SIMPLE
 
-                .text
+        .text
 
 HYPERCALL2(xen_version);
 HYPERCALL3(console_io);
@@ -85,8 +84,8 @@ HYPERCALL2(multicall);
 HYPERCALL2(vm_assist);
 
 SYM_FUNC_START(HYPERVISOR_dm_op)
-	mov x16, #__HYPERVISOR_dm_op;	\
-	/*
+        mov     x16, #__HYPERVISOR_dm_op;	\
+                /*
 	 * dm_op hypercalls are issued by the userspace. The kernel needs to
 	 * enable access to TTBR0_EL1 as the hypervisor would issue stage 1
 	 * translations to user memory via AT instructions. Since AT
@@ -94,23 +93,23 @@ SYM_FUNC_START(HYPERVISOR_dm_op)
 	 * need the explicit uaccess_enable/disable if the TTBR0 PAN emulation
 	 * is enabled (it implies that hardware UAO and PAN disabled).
 	 */
-	uaccess_ttbr0_enable x6, x7, x8
-	hvc XEN_IMM
+        uaccess_ttbr0_enable x6, x7, x8
+        hvc     XEN_IMM
 
 	/*
 	 * Disable userspace access from kernel once the hyp call completed.
 	 */
-	uaccess_ttbr0_disable x6, x7
-	ret
+        uaccess_ttbr0_disable x6, x7
+        ret
 SYM_FUNC_END(HYPERVISOR_dm_op);
 
 SYM_FUNC_START(privcmd_call)
-	mov x16, x0
-	mov x0, x1
-	mov x1, x2
-	mov x2, x3
-	mov x3, x4
-	mov x4, x5
+        mov     x16, x0
+        mov     x0,  x1
+        mov     x1,  x2
+        mov     x2,  x3
+        mov     x3,  x4
+        mov     x4,  x5
 	/*
 	 * Privcmd calls are issued by the userspace. The kernel needs to
 	 * enable access to TTBR0_EL1 as the hypervisor would issue stage 1
@@ -119,12 +118,12 @@ SYM_FUNC_START(privcmd_call)
 	 * need the explicit uaccess_enable/disable if the TTBR0 PAN emulation
 	 * is enabled (it implies that hardware UAO and PAN disabled).
 	 */
-	uaccess_ttbr0_enable x6, x7, x8
-	hvc XEN_IMM
+        uaccess_ttbr0_enable x6, x7, x8
+        hvc     XEN_IMM
 
 	/*
 	 * Disable userspace access from kernel once the hyp call completed.
 	 */
-	uaccess_ttbr0_disable x6, x7
-	ret
+        uaccess_ttbr0_disable x6, x7
+        ret
 SYM_FUNC_END(privcmd_call);

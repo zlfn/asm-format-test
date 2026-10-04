@@ -1,8 +1,7 @@
-    SECTION bss_clib
+        SECTION bss_clib
 
-    PUBLIC  __MODE1_attr
+        PUBLIC  __MODE1_attr
 
-
-    SECTION data_clib
+        SECTION data_clib
 __MODE1_attr:
-    defb    @000000011, @00000000
+        defb    @000000011, @00000000

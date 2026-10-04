@@ -7,13 +7,13 @@
 ;   $Id: hdos_decode.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  hdos_decode
-    PUBLIC  _hdos_decode
+        SECTION code_clib
+        PUBLIC  hdos_decode
+        PUBLIC  _hdos_decode
 
-    EXTERN    asm_hdos_decode
+        EXTERN  asm_hdos_decode
 
-    INCLUDE "target/hdos/def/hdos.def"
+        INCLUDE "target/hdos/def/hdos.def"
 
 hdos_decode:
 _hdos_decode:

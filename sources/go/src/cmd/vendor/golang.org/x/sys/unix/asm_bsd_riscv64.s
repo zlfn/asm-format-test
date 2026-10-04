@@ -12,16 +12,16 @@
 // The runtime may know about them.
 
 TEXT	·Syscall(SB),NOSPLIT,$0-56
-	JMP	syscall·Syscall(SB)
+        JMP     syscall·Syscall(SB)
 
 TEXT	·Syscall6(SB),NOSPLIT,$0-80
-	JMP	syscall·Syscall6(SB)
+        JMP     syscall·Syscall6(SB)
 
 TEXT	·Syscall9(SB),NOSPLIT,$0-104
-	JMP	syscall·Syscall9(SB)
+        JMP     syscall·Syscall9(SB)
 
 TEXT	·RawSyscall(SB),NOSPLIT,$0-56
-	JMP	syscall·RawSyscall(SB)
+        JMP     syscall·RawSyscall(SB)
 
 TEXT	·RawSyscall6(SB),NOSPLIT,$0-80
-	JMP	syscall·RawSyscall6(SB)
+        JMP     syscall·RawSyscall6(SB)

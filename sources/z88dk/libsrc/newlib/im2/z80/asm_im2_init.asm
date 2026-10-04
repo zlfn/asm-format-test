@@ -16,11 +16,11 @@ PUBLIC asm_im2_init
 
 asm_im2_init:
 
-   ; enter : hl = im2_table address (must be on page boundary)
-   ;
-   ; uses  : af
-   
-   ld a,h
-   ld i,a
-   im 2
-   ret
+        ; enter : hl = im2_table address (must be on page boundary)
+        ;
+        ; uses  : af
+
+        ld      a, h
+        ld      i, a
+        im      2
+        ret

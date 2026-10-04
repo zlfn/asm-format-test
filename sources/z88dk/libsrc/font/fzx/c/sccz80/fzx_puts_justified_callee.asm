@@ -10,10 +10,10 @@ EXTERN asm_fzx_puts_justified
 
 fzx_puts_justified_callee:
 
-   pop af
-   pop bc
-   pop hl
-   pop ix
-   push af
-   
-   jp asm_fzx_puts_justified
+        pop     af
+        pop     bc
+        pop     hl
+        pop     ix
+        push    af
+
+        jp      asm_fzx_puts_justified

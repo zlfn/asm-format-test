@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; int ffs(int i)
 ;
 ; Return bit position of least significant bit set.  Bit
@@ -19,33 +19,33 @@ PUBLIC asm0_ffs, asm1_ffs, asm2_ffs
 
 asm_ffs:
 
-   ; enter : hl = int
-   ;
-   ; exit  : hl = bit pos or 0 if no set bits
-   ;         carry set if set bit present
-   ;
-   ; uses  : af, hl
+        ; enter : hl = int
+        ;
+        ; exit  : hl = bit pos or 0 if no set bits
+        ;         carry set if set bit present
+        ;
+        ; uses  : af, hl
 
-   ld a,l
-   or a
-   jr NZ,bits_1_8
+        ld      a, l
+        or      a
+        jr      NZ, bits_1_8
 
-   ld a,h
-   or a
-   ret Z
+        ld      a, h
+        or      a
+        ret     Z
 
 asm1_ffs:
 bits_9_16:
-   ld hl,9
+        ld      hl, 9
 
 asm2_ffs:
 loop:
-   rra
-   ret c
-   inc l
-   jr loop
+        rra
+        ret     c
+        inc     l
+        jr      loop
 
 asm0_ffs:
 bits_1_8:
-   ld hl,1
-   jr loop
+        ld      hl, 1
+        jr      loop

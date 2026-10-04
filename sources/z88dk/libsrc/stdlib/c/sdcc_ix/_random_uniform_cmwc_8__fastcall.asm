@@ -10,9 +10,9 @@ EXTERN asm_random_uniform_cmwc_8
 
 __random_uniform_cmwc_8__fastcall:
 
-   call asm_random_uniform_cmwc_8
-   
-   ld l,a
-   ld h,0
-   
-   ret
+        call    asm_random_uniform_cmwc_8
+
+        ld      l, a
+        ld      h, 0
+
+        ret

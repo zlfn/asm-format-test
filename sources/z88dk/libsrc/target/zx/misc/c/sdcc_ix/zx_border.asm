@@ -10,10 +10,10 @@ EXTERN asm_zx_border
 
 _zx_border:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_zx_border
+        push    hl
+        push    af
+
+        jp      asm_zx_border

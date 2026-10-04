@@ -15,5 +15,5 @@ defc l_mult = l_muls_16_16x16
 
 ; Multiply two 16 bit numbers hl=bc*de (signed)
 .l_mult_0
-    ld hl,bc
-    jp l_muls_16_16x16
+        ld      hl, bc
+        jp      l_muls_16_16x16

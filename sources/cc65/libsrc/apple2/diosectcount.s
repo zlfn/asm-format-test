@@ -4,12 +4,12 @@
 ; unsigned __fastcall__ dio_query_sectcount (dhandle_t handle);
 ;
 
-        .export         _dio_query_sectcount
-        .import         _dio_query_sectsize, _malloc, _free
+        .export _dio_query_sectcount
+        .import _dio_query_sectsize, _malloc, _free
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "mli.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "mli.inc"
 
 _dio_query_sectcount:
 
@@ -45,7 +45,7 @@ _dio_query_sectcount:
         .assert MLI::RW_BLOCK::DATA_BUFFER = MLI::ON_LINE::DATA_BUFFER, error
 
         ; Read volume directory key block
-        tax                     ; A = 0
+        tax     ; A = 0
         lda     #$02
         sta     mliparam + MLI::RW_BLOCK::BLOCK_NUM
         stx     mliparam + MLI::RW_BLOCK::BLOCK_NUM+1
@@ -56,10 +56,10 @@ _dio_query_sectcount:
 
         ; Get and save total blocks from volume directory header
         ldy     #$29
-        lda     (ptr4),y
+        lda     (ptr4), y
         pha
         iny
-        lda     (ptr4),y
+        lda     (ptr4), y
         pha
 
         ; Cleanup buffer
@@ -73,17 +73,17 @@ done:   lda     ptr4
         pla
         rts
 
-nomem:  lda     #$FF            ; Error code for sure not used by MLI
+nomem:  lda     #$FF    ; Error code for sure not used by MLI
 oserr:  sta     ___oserror
 
         ; Save total blocks for failure
         lda     #$00
         pha
         pha
-        beq     done            ; Branch always
+        beq     done    ; Branch always
 
         ; Check for non-ProDOS disk
-check:  cmp     #$52            ; "Not a ProDOS volume"
+check:  cmp     #$52    ; "Not a ProDOS volume"
         bne     oserr
         sta     ___oserror
 
@@ -92,4 +92,4 @@ check:  cmp     #$52            ; "Not a ProDOS volume"
         pha
         lda     #>280
         pha
-        bne     done            ; Branch always
+        bne     done    ; Branch always

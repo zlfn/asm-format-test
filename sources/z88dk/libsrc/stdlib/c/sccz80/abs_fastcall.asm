@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _abs_fastcall
 defc _abs_fastcall = abs_fastcall
 ENDIF
-

@@ -9,10 +9,10 @@ EXTERN ASMDISP_SP1_INSERTCHARSTRUCT_CALLEE
 
 .sp1_InsertCharStruct
 
-   pop bc
-   pop hl
-   pop de
-   push de
-   push hl
-   push bc
-   jp sp1_InsertCharStruct_callee + ASMDISP_SP1_INSERTCHARSTRUCT_CALLEE
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      sp1_InsertCharStruct_callee + ASMDISP_SP1_INSERTCHARSTRUCT_CALLEE

@@ -44,107 +44,107 @@
 		/* Jump to save UART address */ \
 		beq	91f
 
-		.macro  addruart, rp, rv, tmp
-		adr	\rp, 99f		@ actual addr of 99f
-		ldr	\rv, [\rp]		@ linked addr is stored there
-		sub	\rv, \rv, \rp		@ offset between the two
-		ldr	\rp, [\rp, #4]		@ linked brcmstb_uart_config
-		sub	\tmp, \rp, \rv		@ actual brcmstb_uart_config
-		ldr	\rp, [\tmp]		@ Load brcmstb_uart_config
-		cmp	\rp, #1			@ needs initialization?
-		bne	100f			@ no; go load the addresses
-		mov	\rv, #0			@ yes; record init is done
-		str	\rv, [\tmp]
+        .macro  addruart, rp, rv, tmp
+                adr     \rp,  99f       @ actual addr of 99f
+                ldr     \rv,  [\rp]     @ linked addr is stored there
+                sub     \rv,  \rv, \rp  @ offset between the two
+                ldr     \rp,  [\rp, #4] @ linked brcmstb_uart_config
+                sub     \tmp, \rp, \rv  @ actual brcmstb_uart_config
+                ldr     \rp,  [\tmp]    @ Load brcmstb_uart_config
+                cmp     \rp,  #1        @ needs initialization?
+                bne     100f            @ no; go load the addresses
+                mov     \rv, #0         @ yes; record init is done
+                str     \rv, [\tmp]
 
-		/* Check for V7 memory map if B53 */
-		mrc	p15, 0, \rv, c0, c0, 0	@ get Main ID register
-		ldr	\rp, =ARM_CPU_PART_MASK
-		and	\rv, \rv, \rp
-		ldr	\rp, =ARM_CPU_PART_BRAHMA_B53	@ check for B53 CPU
-		cmp	\rv, \rp
-		bne	10f
+                /* Check for V7 memory map if B53 */
+                mrc     p15, 0,   \rv, c0, c0, 0        @ get Main ID register
+                ldr     \rp, =ARM_CPU_PART_MASK
+                and     \rv, \rv, \rp
+                ldr     \rp, =ARM_CPU_PART_BRAHMA_B53   @ check for B53 CPU
+                cmp     \rv, \rp
+                bne     10f
 
-		/* if PERIPHBASE doesn't overlap REG_PHYS_BASE use V7 map */
-		mrc	p15, 1, \rv, c15, c3, 0	@ get PERIPHBASE from CBAR
-		ands	\rv, \rv, #REG_PHYS_BASE
-		ldreq	\rp, =SUN_TOP_CTRL_BASE_V7
+                /* if PERIPHBASE doesn't overlap REG_PHYS_BASE use V7 map */
+                mrc     p15, 1,   \rv, c15, c3, 0       @ get PERIPHBASE from CBAR
+                ands    \rv, \rv, #REG_PHYS_BASE
+                ldreq   \rp, =SUN_TOP_CTRL_BASE_V7
 
-		/* Check SUN_TOP_CTRL base */
-10:		ldrne	\rp, =SUN_TOP_CTRL_BASE	@ load SUN_TOP_CTRL PA
-		ldr	\rv, [\rp, #0]		@ get register contents
+                /* Check SUN_TOP_CTRL base */
+10:             ldrne   \rp, =SUN_TOP_CTRL_BASE @ load SUN_TOP_CTRL PA
+                ldr     \rv, [\rp, #0]          @ get register contents
 ARM_BE8(	rev	\rv, \rv )
-		and	\rv, \rv, #0xffffff00	@ strip revision bits [7:0]
+                and     \rv, \rv, #0xffffff00   @ strip revision bits [7:0]
 
-		/* Chip specific detection starts here */
-20:		checkuart(\rp, \rv, 0x33900000, 3390)
-21:		checkuart(\rp, \rv, 0x07211600, 72116)
-22:		checkuart(\rp, \rv, 0x72160000, 7216)
-23:		checkuart(\rp, \rv, 0x07216400, 72164)
-24:		checkuart(\rp, \rv, 0x07216500, 72165)
-25:		checkuart(\rp, \rv, 0x72500000, 7250)
-26:		checkuart(\rp, \rv, 0x72550000, 7255)
-27:		checkuart(\rp, \rv, 0x72600000, 7260)
-28:		checkuart(\rp, \rv, 0x72680000, 7268)
-29:		checkuart(\rp, \rv, 0x72710000, 7271)
-30:		checkuart(\rp, \rv, 0x72780000, 7278)
-31:		checkuart(\rp, \rv, 0x73640000, 7364)
-32:		checkuart(\rp, \rv, 0x73660000, 7366)
-33:		checkuart(\rp, \rv, 0x07416500, 74165)
-34:		checkuart(\rp, \rv, 0x07437100, 74371)
-35:		checkuart(\rp, \rv, 0x74390000, 7439)
-36:		checkuart(\rp, \rv, 0x74450000, 7445)
+                /* Chip specific detection starts here */
+20:             checkuart(\rp, \rv, 0x33900000, 3390)
+21:             checkuart(\rp, \rv, 0x07211600, 72116)
+22:             checkuart(\rp, \rv, 0x72160000, 7216)
+23:             checkuart(\rp, \rv, 0x07216400, 72164)
+24:             checkuart(\rp, \rv, 0x07216500, 72165)
+25:             checkuart(\rp, \rv, 0x72500000, 7250)
+26:             checkuart(\rp, \rv, 0x72550000, 7255)
+27:             checkuart(\rp, \rv, 0x72600000, 7260)
+28:             checkuart(\rp, \rv, 0x72680000, 7268)
+29:             checkuart(\rp, \rv, 0x72710000, 7271)
+30:             checkuart(\rp, \rv, 0x72780000, 7278)
+31:             checkuart(\rp, \rv, 0x73640000, 7364)
+32:             checkuart(\rp, \rv, 0x73660000, 7366)
+33:             checkuart(\rp, \rv, 0x07416500, 74165)
+34:             checkuart(\rp, \rv, 0x07437100, 74371)
+35:             checkuart(\rp, \rv, 0x74390000, 7439)
+36:             checkuart(\rp, \rv, 0x74450000, 7445)
 
-		/* No valid UART found */
-90:		mov	\rp, #0
-		/* fall through */
+                /* No valid UART found */
+90:             mov     \rp, #0
+                /* fall through */
 
-		/* Record whichever UART we chose */
-91:		str	\rp, [\tmp, #4]		@ Store in brcmstb_uart_phys
-		cmp	\rp, #0			@ Valid UART address?
-		bne	92f			@ Yes, go process it
-		str	\rp, [\tmp, #8]		@ Store 0 in brcmstb_uart_virt
-		b	100f			@ Done
-92:		and     \rv, \rp, #0xffffff	@ offset within 16MB section
-		add	\rv, \rv, #REG_VIRT_BASE
-		str	\rv, [\tmp, #8]		@ Store in brcmstb_uart_virt
-		b	100f
+                /* Record whichever UART we chose */
+91:             str     \rp, [\tmp, #4]         @ Store in brcmstb_uart_phys
+                cmp     \rp, #0                 @ Valid UART address?
+                bne     92f                     @ Yes, go process it
+                str     \rp, [\tmp, #8]         @ Store 0 in brcmstb_uart_virt
+                b       100f                    @ Done
+92:             and     \rv, \rp, #0xffffff     @ offset within 16MB section
+                add     \rv, \rv, #REG_VIRT_BASE
+                str     \rv, [\tmp, #8]         @ Store in brcmstb_uart_virt
+                b       100f
 
-		.align
-99:		.word	.
-		.word	brcmstb_uart_config
-		.ltorg
+                .align
+99:             .word   .
+                .word   brcmstb_uart_config
+                .ltorg
 
-		/* Load previously selected UART address */
-100:		ldr	\rp, [\tmp, #4]		@ Load brcmstb_uart_phys
-		ldr	\rv, [\tmp, #8]		@ Load brcmstb_uart_virt
-		.endm
+                /* Load previously selected UART address */
+100:            ldr     \rp, [\tmp, #4] @ Load brcmstb_uart_phys
+                ldr     \rv, [\tmp, #8] @ Load brcmstb_uart_virt
+        .endm
 
-		.macro	store, rd, rx:vararg
+        .macro  store, rd, rx:vararg
 ARM_BE8(	rev	\rd, \rd )
-		str	\rd, \rx
-		.endm
+                str     \rd, \rx
+        .endm
 
-		.macro	load, rd, rx:vararg
-		ldr	\rd, \rx
+        .macro  load, rd, rx:vararg
+                ldr     \rd, \rx
 ARM_BE8(	rev	\rd, \rd )
-		.endm
+        .endm
 
-		.macro	senduart,rd,rx
-		store	\rd, [\rx, #UART_TX << UART_SHIFT]
-		.endm
+        .macro  senduart, rd, rx
+                store   \rd, [\rx, #UART_TX << UART_SHIFT]
+        .endm
 
-		.macro	busyuart,rd,rx
-1002:		load	\rd, [\rx, #UART_LSR << UART_SHIFT]
-		and	\rd, \rd, #UART_LSR_TEMT | UART_LSR_THRE
-		teq	\rd, #UART_LSR_TEMT | UART_LSR_THRE
-		bne	1002b
-		.endm
+        .macro  busyuart, rd, rx
+1002:           load    \rd, [\rx, #UART_LSR << UART_SHIFT]
+                and     \rd, \rd, #UART_LSR_TEMT | UART_LSR_THRE
+                teq     \rd, #UART_LSR_TEMT | UART_LSR_THRE
+                bne     1002b
+        .endm
 
-		.macro	waituarttxrdy,rd,rx
-		.endm
+        .macro  waituarttxrdy, rd, rx
+        .endm
 
-		.macro	waituartcts,rd,rx
-		.endm
+        .macro  waituartcts, rd, rx
+        .endm
 
 /*
  * Storage for the state maintained by the macros above.
@@ -165,10 +165,10 @@ ARM_BE8(	rev	\rd, \rd )
  */
 #if defined(ZIMAGE)
 brcmstb_uart_config:
-	/* Debug UART initialization required */
-	.word 1
-	/* Debug UART physical address */
-	.word 0
-	/* Debug UART virtual address */
-	.word 0
+        /* Debug UART initialization required */
+        .word   1
+        /* Debug UART physical address */
+        .word   0
+        /* Debug UART virtual address */
+        .word   0
 #endif

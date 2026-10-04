@@ -19,8 +19,8 @@ _z80rabbit:
         ld      de, 1
         push    de
         defb    $ed
-        defb    $54                     ; ex (sp),hl ONLY IF we're on a Rabbic Control Module
-        nop                             ; this could help z80 clones not to hurt too much
+        defb    $54     ; ex (sp),hl ONLY IF we're on a Rabbic Control Module
+        nop             ; this could help z80 clones not to hurt too much
         nop
         pop     de
         ret

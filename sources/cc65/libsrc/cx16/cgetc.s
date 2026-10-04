@@ -5,18 +5,17 @@
 ; /* Return a character from the keyboard. */
 ;
 
-        .export         _cgetc
+        .export _cgetc
 
-        .import         _kbhit, cursor, GETIN
+        .import _kbhit, cursor, GETIN
 
-        .include        "cx16.inc"
-        .macpack        generic
-
+        .include "cx16.inc"
+        .macpack generic
 
 screen_addr     :=      $1B000  ; VRAM address of text screen
 
 _cgetc: jsr     _kbhit
-        bnz     L3              ; Jump if there are already chars waiting
+        bnz     L3      ; Jump if there are already chars waiting
 
 ; Switch the cursor on if wanted.
 
@@ -34,12 +33,12 @@ L1:     jsr     _kbhit
 ; revisions.  Use an official function; but, make sure that it reads
 ; the keyboard.
 
-L3:     ldy     IN_DEV          ; Save current input device
-        stz     IN_DEV          ; Keyboard
+L3:     ldy     IN_DEV  ; Save current input device
+        stz     IN_DEV  ; Keyboard
         phy
-        jsr     GETIN           ; Read char, and return in .A
+        jsr     GETIN   ; Read char, and return in .A
         ply
-        sty     IN_DEV          ; Restore input device
+        sty     IN_DEV  ; Restore input device
         ldx     #>$0000
         rts
 
@@ -57,20 +56,20 @@ setcursor:
 ; Restore the current character in video RAM.
 ; Restore that character's colors.
 
-        stz     VERA::CTRL      ; Use port 0
+        stz     VERA::CTRL                      ; Use port 0
         lda     CURS_Y
         add     #<(>screen_addr)
-        sta     VERA::ADDR+1    ; Set row number
+        sta     VERA::ADDR+1                    ; Set row number
         lda     #VERA::INC1 | ^screen_addr      ; Increment address by one
         sta     VERA::ADDR+2
-        lda     CURS_X          ; Get character column
+        lda     CURS_X                          ; Get character column
         asl     a
         sta     VERA::ADDR
         ldx     CURS_CHAR
         stx     VERA::DATA0
         ldx     CURS_COLOR
         stx     VERA::DATA0
-        stz     CURS_STATE      ; Cursor not displayed
+        stz     CURS_STATE                      ; Cursor not displayed
 crs9:   rts
 
 seton:  stz     CURS_FLAG

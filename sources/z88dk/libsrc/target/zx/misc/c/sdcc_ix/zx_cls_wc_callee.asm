@@ -10,18 +10,18 @@ EXTERN asm_zx_cls_wc
 
 _zx_cls_wc_callee:
 
-   pop hl
-   pop bc
-   dec sp
-   ex (sp),hl
-   ld l,h
+        pop     hl
+        pop     bc
+        dec     sp
+        ex      (sp), hl
+        ld      l,    h
 
 l0_zx_cls_wc_callee:
-   
-   push bc
-   ex (sp),ix
-   
-   call asm_zx_cls_wc
-   
-   pop ix
-   ret
+
+        push    bc
+        ex      (sp), ix
+
+        call    asm_zx_cls_wc
+
+        pop     ix
+        ret

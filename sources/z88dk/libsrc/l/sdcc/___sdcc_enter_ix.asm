@@ -8,22 +8,22 @@ ___sdcc_enter_ix:
 
 IF __SDCC_IX
 
-   ex (sp),ix
-	push ix
-	
-	ld ix,2
-	add ix,sp
-	
-	ret
+        ex      (sp), ix
+        push    ix
+
+        ld      ix, 2
+        add     ix, sp
+
+        ret
 
 ELSE
 
-   ex (sp),iy
-	push iy
-	
-	ld iy,2
-	add iy,sp
-	
-	ret
+        ex      (sp), iy
+        push    iy
+
+        ld      iy, 2
+        add     iy, sp
+
+        ret
 
 ENDIF

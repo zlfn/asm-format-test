@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT32
@@ -26,9 +26,8 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalSyncIncrement)
 ASM_PFX(InternalSyncIncrement):
-    mov       ecx, [esp + 4]
-    mov       eax, 1
-    lock xadd dword [ecx], eax
-    inc       eax
-    ret
-
+        mov     ecx, [esp + 4]
+        mov     eax, 1
+        lock xadd dword [ecx], eax
+        inc     eax
+        ret

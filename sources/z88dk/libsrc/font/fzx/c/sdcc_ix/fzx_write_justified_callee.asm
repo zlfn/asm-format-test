@@ -10,22 +10,22 @@ EXTERN asm_fzx_write_justified
 
 _fzx_write_justified_callee:
 
-   pop hl
-   exx
-   pop bc
-   exx
-   pop de
-   pop bc
-   ex (sp),hl
+        pop     hl
+        exx
+        pop     bc
+        exx
+        pop     de
+        pop     bc
+        ex      (sp), hl
 
 l0_fzx_write_justified_callee:
-   
-   exx
-   push bc
-   exx
-   ex (sp),ix
-   
-   call asm_fzx_write_justified
-   
-   pop ix
-   ret
+
+        exx
+        push    bc
+        exx
+        ex      (sp), ix
+
+        call    asm_fzx_write_justified
+
+        pop     ix
+        ret

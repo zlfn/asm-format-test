@@ -9,14 +9,14 @@ EXTERN asm_sp1_TileEntry
 
 _sp1_TileEntry:
 
-   ld hl,2
-   add hl,sp
-   
-   ld c,(hl)
-   inc hl
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
+        ld      hl, 2
+        add     hl, sp
 
-   jp asm_sp1_TileEntry
+        ld      c, (hl)
+        inc     hl
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+
+        jp      asm_sp1_TileEntry

@@ -7,19 +7,19 @@
 #include "textflag.h"
 
 TEXT ·archFloor(SB),NOSPLIT,$0
-	FMOVD   x+0(FP), F0
-	FRIM	F0, F0
-	FMOVD   F0, ret+8(FP)
-	RET
+        FMOVD   x+0(FP), F0
+        FRIM    F0, F0
+        FMOVD   F0, ret+8(FP)
+        RET
 
 TEXT ·archCeil(SB),NOSPLIT,$0
-	FMOVD   x+0(FP), F0
-	FRIP    F0, F0
-	FMOVD	F0, ret+8(FP)
-	RET
+        FMOVD   x+0(FP), F0
+        FRIP    F0, F0
+        FMOVD   F0, ret+8(FP)
+        RET
 
 TEXT ·archTrunc(SB),NOSPLIT,$0
-	FMOVD   x+0(FP), F0
-	FRIZ    F0, F0
-	FMOVD   F0, ret+8(FP)
-	RET
+        FMOVD   x+0(FP), F0
+        FRIZ    F0, F0
+        FMOVD   F0, ret+8(FP)
+        RET

@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; int obstack_grow(struct obstack *ob, void *data, size_t size)
 ;
 ; Grow the current object by appending size bytes read from
@@ -19,16 +19,15 @@ EXTERN asm_obstack_grow
 
 obstack_grow_callee:
 
-   pop hl
-   pop bc
-   pop de
-   ex (sp),hl
-   
-   jp asm_obstack_grow
+        pop     hl
+        pop     bc
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_obstack_grow
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _obstack_grow_callee
 defc _obstack_grow_callee = obstack_grow_callee
 ENDIF
-

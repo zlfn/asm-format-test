@@ -30,10 +30,9 @@
 ;	The system time stamp.
 ;
 
-    SECTION data_driver
+        SECTION data_driver
 
-    PUBLIC __system_time_fraction, __system_time
+        PUBLIC  __system_time_fraction, __system_time
 
-    __system_time_fraction: DEFB    0   ; uint8_t (1/256) fractional time
-    __system_time:          DEFS    4   ; uint32_t time_t
-
+__system_time_fraction: DEFB 0  ; uint8_t (1/256) fractional time
+__system_time:          DEFS 4  ; uint32_t time_t

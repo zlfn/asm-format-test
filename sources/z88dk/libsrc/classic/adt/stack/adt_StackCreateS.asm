@@ -11,5 +11,5 @@ EXTERN l_setmem
 .adt_StackCreateS
 ._adt_StackCreateS
 
-   xor a
-   jp l_setmem-7
+        xor     a
+        jp      l_setmem-7

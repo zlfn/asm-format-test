@@ -11,26 +11,23 @@
 ;       $Id: cpc_PrintGphStrM12X.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_PrintGphStrM12X
-        PUBLIC    _cpc_PrintGphStrM12X
-		
-        EXTERN    cpc_PrintGphStr0M1
+        SECTION code_clib
+        PUBLIC  cpc_PrintGphStrM12X
+        PUBLIC  _cpc_PrintGphStrM12X
 
+        EXTERN  cpc_PrintGphStr0M1
 
 .cpc_PrintGphStrM12X
 ._cpc_PrintGphStrM12X
 
-	ld ix,2
-	add ix,sp
-	
-	ld l,(ix+0)
-	ld h,(ix+1)	;destino
-	
-   	ld e,(ix+2)
-	ld d,(ix+3)	;texto origen
-	ld a,1
+        ld      ix, 2
+        add     ix, sp
 
-    
- JP cpc_PrintGphStr0M1
- 
+        ld      l, (ix+0)
+        ld      h, (ix+1)       ;destino
+
+        ld      e, (ix+2)
+        ld      d, (ix+3)       ;texto origen
+        ld      a, 1
+
+        JP      cpc_PrintGphStr0M1

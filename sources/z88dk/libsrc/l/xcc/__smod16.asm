@@ -15,4 +15,4 @@ EXTERN l_divs_16_16x16
 
 __smod16:
 __modsint:
-   jp l_divs_16_16x16
+        jp      l_divs_16_16x16

@@ -10,9 +10,9 @@
 ; int isxdigit (int c);
 ;
 
-        .export         _isxdigit
-        .include        "ctype.inc"
-        .import         ctypemask
+        .export _isxdigit
+        .include "ctype.inc"
+        .import ctypemask
 
 _isxdigit:
         jsr     ctypemask       ; (always clears X)

@@ -4,10 +4,10 @@
 ; unsigned char wherey (void);
 ;
 
-        .export         _wherey
+        .export _wherey
 
-        .include        "pce.inc"
-        .include        "extzp.inc"
+        .include "pce.inc"
+        .include "extzp.inc"
 
 .proc   _wherey
 

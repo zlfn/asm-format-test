@@ -10,6 +10,4 @@
 
 .rodata
 
-_mouse_stddrv:  .asciiz "c128-1351.mou"
-
-
+_mouse_stddrv: .asciiz "c128-1351.mou"

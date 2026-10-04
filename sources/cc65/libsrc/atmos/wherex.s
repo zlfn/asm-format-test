@@ -4,9 +4,9 @@
 ; unsigned char wherex (void);
 ;
 
-        .export         _wherex
+        .export _wherex
 
-        .include        "atmos.inc"
+        .include "atmos.inc"
 
 .proc   _wherex
 
@@ -15,4 +15,3 @@
         rts
 
 .endproc
-

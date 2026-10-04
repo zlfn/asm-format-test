@@ -6,7 +6,7 @@
 ; /* Library errors go here. */
 ;
 
-        .include        "errno.inc"
+        .include "errno.inc"
 
 .bss
 

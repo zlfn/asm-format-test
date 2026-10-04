@@ -8,17 +8,16 @@ EXTERN asm_esx_disk_filemap
 
 esx_disk_filemap_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   ld a,e
-   jp asm_esx_disk_filemap
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        ld      a, e
+        jp      asm_esx_disk_filemap
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _esx_disk_filemap_callee
 defc _esx_disk_filemap_callee = esx_disk_filemap_callee
 ENDIF
-

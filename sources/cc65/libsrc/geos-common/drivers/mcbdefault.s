@@ -10,12 +10,12 @@
 ;
 
 ;       .constructor    init_pointer
-        .export         _mouse_def_callbacks
+        .export _mouse_def_callbacks
 
 ;       .include        "mouse-kernel.inc"
 ;       .include        "const.inc"
 ;       .include        "geossym.inc"
-        .include        "jumptab.inc"
+        .include "jumptab.inc"
 
 ;       .macpack        generic
 

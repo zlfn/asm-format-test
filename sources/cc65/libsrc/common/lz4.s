@@ -61,11 +61,11 @@
 ;   }
 ; }
 
-        .importzp       c_sp, sreg, regsave, regbank
-        .importzp       tmp1, tmp2, tmp3, tmp4, ptr1, ptr2, ptr3, ptr4
-        .macpack        longbranch
-        .import         memcpy_upwards,pushax,popax
-        .export         _decompress_lz4
+        .importzp c_sp, sreg, regsave, regbank
+        .importzp tmp1, tmp2, tmp3,    tmp4, ptr1, ptr2, ptr3, ptr4
+        .macpack longbranch
+        .import memcpy_upwards, pushax, popax
+        .export _decompress_lz4
 
 out = regsave
 end = regsave + 2
@@ -111,8 +111,8 @@ in = sreg
 ;
 get_token:
         ldy     #$00
-        lda     (in),y
-        tay                   ; Backup token to Y
+        lda     (in), y
+        tay     ; Backup token to Y
 
         inc     in
         bne     :+
@@ -133,7 +133,7 @@ get_token:
 ; token &= 0xf;
 ; token += 4; // Minmatch
 ;
-        tya                   ; Get token back from Y
+        tya     ; Get token back from Y
         and     #$0F
         clc
         adc     #$04
@@ -149,7 +149,7 @@ moreliterals:
 ; tmp = *in++;
 ;
         ldy     #$00
-        lda     (in),y
+        lda     (in), y
         sta     tmp
 
         inc     in
@@ -234,10 +234,10 @@ check_end:
 ;
 end_not_reached:
         ldy     #$00
-        lda     (in),y
+        lda     (in), y
         sta     offset
         iny
-        lda     (in),y
+        lda     (in), y
         sta     offset+1
 ;
 ; in += 2;
@@ -277,7 +277,7 @@ morematches:
 ; tmp = *in++;
 ;
         ldy     #$00
-        lda     (in),y
+        lda     (in), y
         sta     tmp
 
         inc     in
@@ -320,7 +320,7 @@ token_not_19:
         sta     out
         txa
         adc     offset+1
-        sta     out+1     ; 0 on the first loop iteration
+        sta     out+1   ; 0 on the first loop iteration
 check_len:
 ;
 ; while (out < end) {

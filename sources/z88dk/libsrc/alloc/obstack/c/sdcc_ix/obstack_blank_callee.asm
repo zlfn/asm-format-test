@@ -10,9 +10,9 @@ EXTERN asm_obstack_blank
 
 _obstack_blank_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_obstack_blank
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_obstack_blank

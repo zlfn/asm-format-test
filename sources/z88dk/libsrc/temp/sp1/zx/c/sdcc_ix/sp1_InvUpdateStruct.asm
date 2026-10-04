@@ -10,10 +10,10 @@ EXTERN asm_sp1_InvUpdateStruct
 
 _sp1_InvUpdateStruct:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_sp1_InvUpdateStruct
+        push    hl
+        push    af
+
+        jp      asm_sp1_InvUpdateStruct

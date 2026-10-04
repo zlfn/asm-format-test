@@ -10,10 +10,10 @@ EXTERN asm_cpm_get_offset
 
 _cpm_get_offset:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_cpm_get_offset
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_cpm_get_offset

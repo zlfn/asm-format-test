@@ -9,8 +9,8 @@ EXTERN asm_SMSlib_setSpritePaletteColor
 
 _SMS_setSpritePaletteColor_callee:
 
-   pop hl
-	ex (sp),hl
-	
-	ld a,h
-   jp asm_SMSlib_setSpritePaletteColor
+        pop     hl
+        ex      (sp), hl
+
+        ld      a, h
+        jp      asm_SMSlib_setSpritePaletteColor

@@ -10,6 +10,6 @@ EXTERN mlib2d, asm_atof
 
 .atof
 
-    call asm_atof
+        call    asm_atof
 
-    jp mlib2d                   ; to sccz80_float
+        jp      mlib2d  ; to sccz80_float

@@ -10,12 +10,12 @@ EXTERN asm_dzx7_standard_back
 
 _dzx7_standard_back:
 
-   pop af
-   pop hl
-   pop de
+        pop     af
+        pop     hl
+        pop     de
 
-   push de
-   push hl
-   push af
+        push    de
+        push    hl
+        push    af
 
-   jp asm_dzx7_standard_back
+        jp      asm_dzx7_standard_back

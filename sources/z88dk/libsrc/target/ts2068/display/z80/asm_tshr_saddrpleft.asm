@@ -17,31 +17,31 @@ PUBLIC asm_tshr_saddrpleft
 
 asm_tshr_saddrpleft:
 
-   ; enter : hl = screen address
-   ;          e = bitmask
-   ;
-   ; exit  : hl = screen address moved left one pixel
-   ;          e = bitmask moved left one pixel
-   ;         carry set if pixel at leftmost edge
-   ;
-   ; uses  : af, e, hl
+        ; enter : hl = screen address
+        ;          e = bitmask
+        ;
+        ; exit  : hl = screen address moved left one pixel
+        ;          e = bitmask moved left one pixel
+        ;         carry set if pixel at leftmost edge
+        ;
+        ; uses  : af, e, hl
 
-   rlc e
-   ret nc
+        rlc     e
+        ret     nc
 
-   bit 5,h
-   res 5,h
-   ret nz
-   set 5,h
-   
-   ld a,l
-   dec l
-   and $1f
-   ret nz
-   
-   inc l
-   ld e,$80
-   res 5,h
-   
-   scf
-   ret
+        bit     5, h
+        res     5, h
+        ret     nz
+        set     5, h
+
+        ld      a, l
+        dec     l
+        and     $1f
+        ret     nz
+
+        inc     l
+        ld      e, $80
+        res     5, h
+
+        scf
+        ret

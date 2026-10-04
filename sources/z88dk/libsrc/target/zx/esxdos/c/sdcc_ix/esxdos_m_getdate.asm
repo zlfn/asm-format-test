@@ -9,11 +9,11 @@ EXTERN asm_esxdos_m_getdate
 
 _esxdos_m_getdate:
 
-   push ix
-   push iy
-   
-   call asm_esxdos_m_getdate
-   
-   pop iy
-   pop ix
-   ret
+        push    ix
+        push    iy
+
+        call    asm_esxdos_m_getdate
+
+        pop     iy
+        pop     ix
+        ret

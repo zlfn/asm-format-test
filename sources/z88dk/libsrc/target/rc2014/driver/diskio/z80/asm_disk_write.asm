@@ -23,38 +23,38 @@ EXTERN ide_write_sector
 ;
 
 .asm_disk_write
-    or a                        ; check sectors != 0
-    jr Z,dresult_error
+        or      a       ; check sectors != 0
+        jr      Z, dresult_error
 
-    push af                     ; save number of sectors
+        push    af                      ; save number of sectors
 .loop
-    push bc                     ; save LBA
-    push de
-    call ide_write_sector       ; with the logical block address in bcde, write one sector
+        push    bc                      ; save LBA
+        push    de
+        call    ide_write_sector        ; with the logical block address in bcde, write one sector
 
-    pop de
-    pop bc
-    jr NC,dresult_error
+        pop     de
+        pop     bc
+        jr      NC, dresult_error
 
-    pop af
-    dec a
-    jr Z,dresult_ok
+        pop     af
+        dec     a
+        jr      Z, dresult_ok
 
-    push af                     ; save number of sectors, free a for LBA increment testing
-    inc de                      ; increment the LBA lower word
-    ld a,e
-    or a,d                      ; lower de word non-zero, therefore no carry to bc
-    jp NZ,loop
+        push    af      ; save number of sectors, free a for LBA increment testing
+        inc     de      ; increment the LBA lower word
+        ld      a,  e
+        or      a,  d   ; lower de word non-zero, therefore no carry to bc
+        jp      NZ, loop
 
-    inc bc                      ; otherwise increment LBA upper word
-    jp loop
+        inc     bc      ; otherwise increment LBA upper word
+        jp      loop
 
 .dresult_ok
-    ld hl,0                     ; set DRESULT RES_OK
-    scf
-    ret
+        ld      hl, 0   ; set DRESULT RES_OK
+        scf
+        ret
 
 .dresult_error
-    ld hl,1                     ; set DRESULT RES_ERROR
-    pop af
-    ret
+        ld      hl, 1   ; set DRESULT RES_ERROR
+        pop     af
+        ret

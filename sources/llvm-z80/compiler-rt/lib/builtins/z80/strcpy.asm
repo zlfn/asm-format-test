@@ -1,6 +1,6 @@
 ; SPDX-License-Identifier: Zlib OR Apache-2.0 WITH LLVM-exception OR MIT
-	.area _CODE
-	.globl _strcpy
+        .area   _CODE
+        .globl  _strcpy
 
 ;===------------------------------------------------------------------------===;
 ; _strcpy - Copy string
@@ -9,16 +9,16 @@
 ; Output: DE = dest
 ;===------------------------------------------------------------------------===;
 _strcpy:
-	push	hl		; save dest for return
-	ex	de, hl		; HL = src, DE = dest
+        push    hl      ; save dest for return
+        ex      de, hl  ; HL = src, DE = dest
 _strcpy_loop:
-	ld	a, (hl)
-	ld	(de), a
-	or	a
-	jr	z, _strcpy_done
-	inc	hl
-	inc	de
-	jr	_strcpy_loop
+        ld      a,    (hl)
+        ld      (de), a
+        or      a
+        jr      z, _strcpy_done
+        inc     hl
+        inc     de
+        jr      _strcpy_loop
 _strcpy_done:
-	pop	de		; DE = original dest
-	ret
+        pop     de      ; DE = original dest
+        ret

@@ -6,25 +6,25 @@ PUBLIC ____sdcc_ll_copy_src_deix_dst_hl
 
 ____sdcc_ll_copy_src_deix_dst_hl:
 
-   push hl
-   
+        push    hl
+
 IFDEF __SDCC_IX
 
-   push ix
-   pop hl
+        push    ix
+        pop     hl
 
 ELSE
 
-   push iy
-   pop hl
-   
-ENDIF
-   
-   add hl,de
-   
-   pop de
-   
-   ld bc,8
-   ldir
+        push    iy
+        pop     hl
 
-   ret
+ENDIF
+
+        add     hl, de
+
+        pop     de
+
+        ld      bc, 8
+        ldir
+
+        ret

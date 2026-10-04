@@ -13,13 +13,13 @@ PUBLIC l_neg_bc
 ; uses  : af, bc, carry unaffected
 
 .l_neg_bc
-    ld a,c
-    cpl
-    ld c,a
+        ld      a, c
+        cpl
+        ld      c, a
 
-    ld a,b
-    cpl
-    ld b,a
+        ld      a, b
+        cpl
+        ld      b, a
 
-    inc bc
-    ret
+        inc     bc
+        ret

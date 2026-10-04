@@ -10,22 +10,20 @@ EXTERN asm_dzx0_agile_rcs
 
 dzx0_agile_rcs_callee:
 IF __CPU_GBZ80__
-   pop bc
-   pop de
-   pop hl
-   push bc
+        pop     bc
+        pop     de
+        pop     hl
+        push    bc
 ELSE
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 ENDIF
-   
-   jp asm_dzx0_agile_rcs
+
+        jp      asm_dzx0_agile_rcs
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _dzx0_agile_rcs_callee
 defc _dzx0_agile_rcs_callee = dzx0_agile_rcs_callee
 ENDIF
-
-

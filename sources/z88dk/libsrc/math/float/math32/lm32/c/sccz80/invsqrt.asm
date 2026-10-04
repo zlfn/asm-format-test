@@ -9,13 +9,13 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 invsqrt:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_invsqrtf
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_invsqrtf
 
 ; SDCC bridge for Classic
 PUBLIC _invsqrt

@@ -6,15 +6,15 @@
 ; char cgetc (void);
 ;
 
-        .export         soft80mono_cgetc
-        .import         soft80mono_internal_cellcolor, soft80mono_internal_cursorxlsb
-        .import         soft80mono_internal_nibble
-        .import         cursor
-        .importzp       tmp1
+        .export soft80mono_cgetc
+        .import soft80mono_internal_cellcolor, soft80mono_internal_cursorxlsb
+        .import soft80mono_internal_nibble
+        .import cursor
+        .importzp tmp1
 
-        .include        "cbm_kernal.inc"
-        .include        "c64.inc"
-        .include        "soft80.inc"
+        .include "cbm_kernal.inc"
+        .include "c64.inc"
+        .include "soft80.inc"
 
 soft80mono_cgetc:
         lda     KEY_COUNT       ; Get number of characters
@@ -27,7 +27,7 @@ soft80mono_cgetc:
 
         jsr     invertcursor    ; set cursor on or off accordingly
 
-@L3:    jsr     KBDREAD         ; Read char and return in A
+@L3:    jsr     KBDREAD ; Read char and return in A
         ldx     #0
         rts
 
@@ -40,7 +40,7 @@ invertcursor:
 @invert:
 
         sei
-        lda     $01             ; enable RAM under I/O
+        lda     $01     ; enable RAM under I/O
         pha
         lda     #$34
         sta     $01
@@ -48,15 +48,15 @@ invertcursor:
         ldy     #$00
         ldx     soft80mono_internal_cursorxlsb
 @lp1:
-        lda     (SCREEN_PTR),y
-        eor     soft80mono_internal_nibble,x
-        sta     (SCREEN_PTR),y
+        lda     (SCREEN_PTR), y
+        eor     soft80mono_internal_nibble, x
+        sta     (SCREEN_PTR), y
         iny
         cpy     #8
         bne     @lp1
 
         pla
-        sta     $01             ; enable I/O
+        sta     $01     ; enable I/O
         cli
         rts
 

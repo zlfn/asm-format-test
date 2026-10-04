@@ -9,15 +9,15 @@ EXTERN asm_zx_tape_verify_block
 
 zx_tape_verify_block:
 
-   pop af
-   pop bc
-   pop de
-   pop ix
-   
-   push de
-   push de
-   push bc
-   push af
-   
-   ld a,c
-   jp asm_zx_tape_verify_block
+        pop     af
+        pop     bc
+        pop     de
+        pop     ix
+
+        push    de
+        push    de
+        push    bc
+        push    af
+
+        ld      a, c
+        jp      asm_zx_tape_verify_block

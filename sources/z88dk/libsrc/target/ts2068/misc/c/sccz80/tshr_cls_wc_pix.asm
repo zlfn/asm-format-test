@@ -9,19 +9,18 @@ EXTERN asm_tshr_cls_wc_pix
 
 tshr_cls_wc_pix:
 
-   pop af
-   pop hl
-   pop ix
-   
-   push hl
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     ix
 
-   jp asm_tshr_cls_wc_pix
+        push    hl
+        push    hl
+        push    af
+
+        jp      asm_tshr_cls_wc_pix
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _tshr_cls_wc_pix
 defc _tshr_cls_wc_pix = tshr_cls_wc_pix
 ENDIF
-

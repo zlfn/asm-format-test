@@ -10,12 +10,12 @@ EXTERN asm_dzx7_turbo
 
 dzx7_turbo:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp asm_dzx7_turbo
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_dzx7_turbo

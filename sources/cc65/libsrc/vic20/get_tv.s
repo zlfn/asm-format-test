@@ -6,7 +6,7 @@
 ; /* Return the video mode the machine is using */
 ;
 
-        .include        "get_tv.inc"
+        .include "get_tv.inc"
 
 ;--------------------------------------------------------------------------
 ; _get_tv
@@ -16,10 +16,10 @@
         ; detect the system
         lda     #TV::NTSC
         tax
-        ldy     $EDE4           ; VIC init table
+        ldy     $EDE4   ; VIC init table
         cpy     #5
         beq     @L0
         lda     #TV::PAL
-@L0:    rts                     ; system detected: 0 for NTSC, 1 for PAL
+@L0:    rts             ; system detected: 0 for NTSC, 1 for PAL
 
 .endproc

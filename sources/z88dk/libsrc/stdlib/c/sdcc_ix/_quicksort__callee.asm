@@ -10,22 +10,22 @@ EXTERN asm_quicksort
 
 __quicksort__callee:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   exx
-   pop bc
-   push af
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        exx
+        pop     bc
+        push    af
 
 l0__quicksort__callee:
 
-   push bc
-   exx
-   
-   ex (sp),ix
-   
-   call asm_quicksort
-   
-   pop ix
-   ret
+        push    bc
+        exx
+
+        ex      (sp), ix
+
+        call    asm_quicksort
+
+        pop     ix
+        ret

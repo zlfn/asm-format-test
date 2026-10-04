@@ -8,10 +8,10 @@ EXTERN asm_check_version_core
 
 _check_version_core:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_check_version_core
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_check_version_core

@@ -10,19 +10,18 @@ EXTERN asm_p_list_push_front
 
 p_list_push_front:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     hl
 
-   jp asm_p_list_push_front
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_p_list_push_front
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _p_list_push_front
 defc _p_list_push_front = p_list_push_front
 ENDIF
-

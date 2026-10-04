@@ -10,10 +10,10 @@ EXTERN _sp1_DrawUpdateStructIfNotRem_fastcall
 
 _sp1_DrawUpdateStructIfNotRem:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp _sp1_DrawUpdateStructIfNotRem_fastcall
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      _sp1_DrawUpdateStructIfNotRem_fastcall

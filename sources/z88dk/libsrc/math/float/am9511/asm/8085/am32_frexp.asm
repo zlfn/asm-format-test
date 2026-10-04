@@ -33,58 +33,57 @@ SECTION code_fp_am9511
 
 PUBLIC asm_am9511_frexp_callee
 
-
 ; float frexpf (float x, int *pw2);
 .asm_am9511_frexp_callee
-    ; evaluation of fraction and exponent
-    ;
-    ; enter : stack = float *pw2, float x, ret
-    ;
-    ; exit  : dehl  = 32-bit result
-    ;         carry reset
-    ;
-    ; uses  : af, bc, de, hl
+        ; evaluation of fraction and exponent
+        ;
+        ; enter : stack = float *pw2, float x, ret
+        ;
+        ; exit  : dehl  = 32-bit result
+        ;         carry reset
+        ;
+        ; uses  : af, bc, de, hl
 
-    ld de,sp+4                  ; point to mantissa and exponent
-    ld hl,(de)
+        ld      de, sp+4        ; point to mantissa and exponent
+        ld      hl, (de)
 
-    add hl,hl                   ; get the exponent and mantissa
-    ld a,h
-    or a
-    jp Z,zero
+        add     hl, hl  ; get the exponent and mantissa
+        ld      a,  h
+        or      a
+        jp      Z, zero
 
-    ld h,$7e                    ; remove exponent excess (bias-1)
-    sub h                       ; mantissa between 0.5 and 1
+        ld      h, $7e  ; remove exponent excess (bias-1)
+        sub     h       ; mantissa between 0.5 and 1
 
 .zero
-    ld de,sp+6                  ; point to (int8_t*)pw2
-    ex de,hl
-    ld c,(hl)                   ; get pw2
-    inc hl
-    ld b,(hl)
-    ex de,hl
+        ld      de, sp+6        ; point to (int8_t*)pw2
+        ex      de, hl
+        ld      c,  (hl)        ; get pw2
+        inc     hl
+        ld      b,  (hl)
+        ex      de, hl
 
-    ld (bc),a                   ; and store in pw2
-    inc bc
-    rlca
-    sbc a
-    ld (bc),a
+        ld      (bc), a ; and store in pw2
+        inc     bc
+        rlca
+        sbc     a
+        ld      (bc), a
 
-    ld de,sp+5                  ; point to original sign and exponent
-    ld a,(de)                   ; get sign and exponent
-    rla                         ; capture sign
-    ld a,h
-    rra                         ; new sign and exponent
-    ld d,a
+        ld      de, sp+5        ; point to original sign and exponent
+        ld      a,  (de)        ; get sign and exponent
+        rla                     ; capture sign
+        ld      a, h
+        rra                     ; new sign and exponent
+        ld      d, a
 
-    ld a,l                      ; new exponent and mantissa
-    rra
-    ld e,a
+        ld      a, l    ; new exponent and mantissa
+        rra
+        ld      e, a
 
-    pop bc                      ; pop return
-    pop hl                      ; valid mantissa
-    pop af                      ; discard old mantissa and exponent
-    pop af                      ; discard (int8_t*)pw2
-    push bc                     ; replace return
+        pop     bc      ; pop return
+        pop     hl      ; valid mantissa
+        pop     af      ; discard old mantissa and exponent
+        pop     af      ; discard (int8_t*)pw2
+        push    bc      ; replace return
 
-    ret                         ; return IEEE DEHL fraction
+        ret     ; return IEEE DEHL fraction

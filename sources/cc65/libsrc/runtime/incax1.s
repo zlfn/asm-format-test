@@ -4,14 +4,14 @@
 ; CC65 runtime: Increment ax by 1
 ;
 
-        .export         incax1
+        .export incax1
 
-        .macpack        generic
+        .macpack generic
 
 .proc   incax1
 
 .if .cap(CPU_HAS_INA)
-        ina                     ; 65C02 version
+        ina     ; 65C02 version
         bne     @L9
 .else
         add     #1

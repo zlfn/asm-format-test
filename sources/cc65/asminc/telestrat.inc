@@ -58,13 +58,11 @@ SCRNB           := $28          ; Id of the current window
 
 ADKBD           := $2A          ; Address ASCII conversion table
 
-
 PTR_READ_DEST   := $2C          ; Used for XFREAD and XWRITE only in Orix
 
 ADCLK           := $40          ; Address for clock display
 TIMEUS          := $42
 TIMEUD          := $44          ; Counter clock (1/10 of a second)
-
 
 HRSX            := $46
 HRSY            := $47
@@ -134,7 +132,6 @@ ACC3            := $6F
 ACC4E           := $73
 ACC4M           := $74
 
-
 FLDT0           := $74
 FLDT1           := $75
 FLDT2           := $76
@@ -183,7 +180,6 @@ IER     .byte                   ; Interrupt Enable Register
 PRA2    .byte                   ; Port Register A without handshaking
 .endstruct
 
-
 .struct VIA2                    ; Versatile Interface Adapter
         .res    $0320
 PRB     .byte                   ; Port Register B
@@ -211,7 +207,6 @@ CTRL    .byte                   ; Control register
 .endstruct
 
 SCREEN          := $BB80
-
 
 ; ---------------------------------------------------------------------------
 ; ROM entries
@@ -368,7 +363,6 @@ PWD_PTR          = $00
 ;
 BUFTRV           := $100
 
-
 ; ---------------------------------------------------------------------------
 ; Page $200
 BNKST            := $200        ; Used to store signature of 8 bank (length : 8 bytes)
@@ -435,7 +429,6 @@ FLGJCK           := $28C
 JCGVAL           := $28D
 JCDVAL           := $28E
 JCKTAB           := $29D
-
 
 HRSPAT           := $2AA        ; Hires pattern : it's used to draw pattern for a line or a circle
 HRSERR           := $2AB
@@ -542,5 +535,5 @@ XRWTS            := $FFAA
 ; MACRO
 
 .macro  BRK_TELEMON   value
-        .byte $00,value
+        .byte   $00, value
 .endmacro

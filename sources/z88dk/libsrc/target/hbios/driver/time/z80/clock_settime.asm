@@ -25,33 +25,33 @@
 ; ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ; POSSIBILITY OF SUCH DAMAGE.
 
-    INCLUDE "config_private.inc"
+        INCLUDE "config_private.inc"
 
-    SECTION code_driver
-    
-    PUBLIC    asm_clock_settime
+        SECTION code_driver
 
-    EXTERN  asm_hbios
-    
-    ; HL contains address of struct timespec
-    ;   struct  timespec { time_t      tv_sec;     /* seconds */
-    ;                   nseconds_t  tv_nsec;}   /* and nanoseconds */
-    ;
-    ; ROMWBW always has 50 ticks per second
+        PUBLIC  asm_clock_settime
+
+        EXTERN  asm_hbios
+
+        ; HL contains address of struct timespec
+        ;   struct  timespec { time_t      tv_sec;     /* seconds */
+        ;                   nseconds_t  tv_nsec;}   /* and nanoseconds */
+        ;
+        ; ROMWBW always has 50 ticks per second
 
 .asm_clock_settime
-    ld c,(hl)                       ; &timespec
-    inc hl
-    ld b,(hl)
-    inc hl
-    ld e,(hl)
-    inc hl
-    ld d,(hl)
-    ld l,c
-    ld h,b
+        ld      c, (hl) ; &timespec
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        ld      l, c
+        ld      h, b
 
-    ld bc,__BF_SYSSET<<8|__BF_SYSSET_SECS
-    call asm_hbios                  ; set seconds count value from DE:HL
+        ld      bc, __BF_SYSSET<<8|__BF_SYSSET_SECS
+        call    asm_hbios       ; set seconds count value from DE:HL
 
-    ld hl,0                         ; return null
-    ret
+        ld      hl, 0   ; return null
+        ret

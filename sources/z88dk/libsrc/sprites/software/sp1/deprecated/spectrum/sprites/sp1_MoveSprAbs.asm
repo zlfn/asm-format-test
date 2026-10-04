@@ -9,23 +9,23 @@ EXTERN ASMDISP_SP1_MOVESPRABS_CALLEE
 
 .sp1_MoveSprAbs
 
-   pop af
-   pop de
-   pop bc
-   ld b,e
-   pop de
-   pop hl
-   ld d,l
-   pop hl
-   pop iy
-   pop ix
-   push hl
-   push hl
-   push hl
-   push hl
-   push de
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        ld      b, e
+        pop     de
+        pop     hl
+        ld      d, l
+        pop     hl
+        pop     iy
+        pop     ix
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    de
+        push    bc
+        push    de
+        push    af
 
-   jp sp1_MoveSprAbs_callee + ASMDISP_SP1_MOVESPRABS_CALLEE
+        jp      sp1_MoveSprAbs_callee + ASMDISP_SP1_MOVESPRABS_CALLEE

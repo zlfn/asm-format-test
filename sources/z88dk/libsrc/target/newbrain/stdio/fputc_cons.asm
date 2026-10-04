@@ -7,17 +7,17 @@
 ;
 ;	$Id: fputc_cons.asm,v 1.5+ (now on GIT) $
 ;
-    SECTION code_clib
-    PUBLIC  fputc_cons_native
+        SECTION code_clib
+        PUBLIC  fputc_cons_native
 
 fputc_cons_native:
-    ld      hl, 2
-    add     hl, sp
-    ld      a, (hl)
+        ld      hl, 2
+        add     hl, sp
+        ld      a,  (hl)
 
-    cp      12
-    jr      nz, nocls
-    ld      a, 31                       ; clear screen
+        cp      12
+        jr      nz, nocls
+        ld      a,  31  ; clear screen
 nocls:
 
 ; This fix works for 80 columns, but it wouldn't scroll anymore in default mode
@@ -29,21 +29,21 @@ nocls:
 ;	ld	a,$1c		; cursor home left (13 wasn't good in 80 columns mode)
 ;.nocrlf
 
-  IF    STANDARDESCAPECHARS
-    cp      10
-    jr      nz, nocrlf
-    call    doprint
-    ld      a, 13
-  ELSE
-    cp      13
-    jr      nz, nocrlf
-    call    doprint
-    ld      a, 10
-  ENDIF
+        IF      STANDARDESCAPECHARS
+                cp      10
+                jr      nz, nocrlf
+                call    doprint
+                ld      a, 13
+        ELSE
+                cp      13
+                jr      nz, nocrlf
+                call    doprint
+                ld      a, 10
+        ENDIF
 nocrlf:
 
 doprint:
-    ld      e, 0
-    rst     20h
-    defb    30h
-    ret
+        ld      e, 0
+        rst     20h
+        defb    30h
+        ret

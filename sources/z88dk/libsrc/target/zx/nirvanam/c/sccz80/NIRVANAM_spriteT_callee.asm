@@ -16,19 +16,18 @@ EXTERN asm_NIRVANAM_spriteT
 
 NIRVANAM_spriteT_callee:
 
-        pop hl          ; RET address
-        pop de          ; col
-        pop bc
-        ld d,c          ; lin
-        pop bc
-        ld a,c          ; tile
-        ex (sp),hl      ; sprite
+        pop     hl              ; RET address
+        pop     de              ; col
+        pop     bc
+        ld      d, c            ; lin
+        pop     bc
+        ld      a,    c         ; tile
+        ex      (sp), hl        ; sprite
 
-	jp asm_NIRVANAM_spriteT
+        jp      asm_NIRVANAM_spriteT
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _NIRVANAM_spriteT_callee
 defc _NIRVANAM_spriteT_callee = NIRVANAM_spriteT_callee
 ENDIF
-

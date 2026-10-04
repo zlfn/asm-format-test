@@ -6,5 +6,5 @@ EXTERN m32_f2slong
 EXTERN cm32_sdcc_fsread1_callee
 
 cm32_sdcc___fs2slong_callee:
-	call	cm32_sdcc_fsread1_callee
-	jp	m32_f2slong
+        call    cm32_sdcc_fsread1_callee
+        jp      m32_f2slong

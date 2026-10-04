@@ -10,7 +10,7 @@ EXTERN asm_balloc_firstfit
 
 _balloc_firstfit_callee:
 
-   pop hl
-   ex (sp),hl
+        pop     hl
+        ex      (sp), hl
 
-   jp asm_balloc_firstfit
+        jp      asm_balloc_firstfit

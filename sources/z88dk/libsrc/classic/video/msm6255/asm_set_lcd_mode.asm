@@ -1,11 +1,9 @@
 
+        SECTION code_clib
 
-    SECTION code_clib
+        PUBLIC  asm_set_lcd_mode
 
-    PUBLIC  asm_set_lcd_mode
-
-    INCLUDE "msm6255.inc"
-
+        INCLUDE "msm6255.inc"
 
 ;	Set the mode of LCD controller
 
@@ -16,11 +14,9 @@
 ;	00x00000 -> TEXT Cursor ON/OFF
 ;	0x000000 -> TEXT Blinking time
 
-
-	; Useful modes on Bondwell 2
-	; 0x75	;DISPLAY OFF
-	; 0x7D	;DISPLAY ON (TEXT CSR. ON, useless on BW2)
-
+        ; Useful modes on Bondwell 2
+        ; 0x75	;DISPLAY OFF
+        ; 0x7D	;DISPLAY ON (TEXT CSR. ON, useless on BW2)
 
 ;
 ; Uses: af, l, bc (on some targets)
@@ -28,20 +24,19 @@
 
 asm_set_lcd_mode:
 
-    xor     a
+        xor     a
 IF  address_w>256
-    ld      bc, address_w
-    out     (c), a
+        ld      bc,  address_w
+        out     (c), a
 ELSE
-    out     (address_w), a
+        out     (address_w), a
 ENDIF
 
 IF  register_w>256
-    ld      bc, register_w
-    out     (c), l
+        ld      bc,  register_w
+        out     (c), l
 ELSE
-    ld      a, l
-    out     (register_w), a
+        ld      a, l
+        out     (register_w), a
 ENDIF
-    ret
-
+        ret

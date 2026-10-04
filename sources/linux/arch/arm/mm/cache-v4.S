@@ -17,7 +17,7 @@
  *	Unconditionally clean and invalidate the entire icache.
  */
 SYM_TYPED_FUNC_START(v4_flush_icache_all)
-	ret	lr
+        ret     lr
 SYM_FUNC_END(v4_flush_icache_all)
 
 /*
@@ -37,11 +37,11 @@ SYM_FUNC_ALIAS(v4_flush_user_cache_all, v4_flush_kern_cache_all)
  */
 SYM_TYPED_FUNC_START(v4_flush_kern_cache_all)
 #ifdef CONFIG_CPU_CP15
-	mov	r0, #0
-	mcr	p15, 0, r0, c7, c7, 0		@ flush ID cache
-	ret	lr
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c7, 0   @ flush ID cache
+        ret     lr
 #else
-	ret	lr
+        ret     lr
 #endif
 SYM_FUNC_END(v4_flush_kern_cache_all)
 
@@ -57,11 +57,11 @@ SYM_FUNC_END(v4_flush_kern_cache_all)
  */
 SYM_TYPED_FUNC_START(v4_flush_user_cache_range)
 #ifdef CONFIG_CPU_CP15
-	mov	ip, #0
-	mcr	p15, 0, ip, c7, c7, 0		@ flush ID cache
-	ret	lr
+        mov     ip,  #0
+        mcr     p15, 0, ip, c7, c7, 0   @ flush ID cache
+        ret     lr
 #else
-	ret	lr
+        ret     lr
 #endif
 SYM_FUNC_END(v4_flush_user_cache_range)
 
@@ -76,7 +76,7 @@ SYM_FUNC_END(v4_flush_user_cache_range)
  *	- end	 - virtual end address
  */
 SYM_TYPED_FUNC_START(v4_coherent_kern_range)
-	ret	lr
+        ret     lr
 SYM_FUNC_END(v4_coherent_kern_range)
 
 /*
@@ -90,8 +90,8 @@ SYM_FUNC_END(v4_coherent_kern_range)
  *	- end	 - virtual end address
  */
 SYM_TYPED_FUNC_START(v4_coherent_user_range)
-	mov	r0, #0
-	ret	lr
+        mov     r0, #0
+        ret     lr
 SYM_FUNC_END(v4_coherent_user_range)
 
 /*
@@ -105,7 +105,7 @@ SYM_FUNC_END(v4_coherent_user_range)
  */
 SYM_TYPED_FUNC_START(v4_flush_kern_dcache_area)
 #ifdef CONFIG_CFI /* Fallthrough if !CFI */
-	b	v4_dma_flush_range
+        b       v4_dma_flush_range
 #endif
 SYM_FUNC_END(v4_flush_kern_dcache_area)
 
@@ -119,10 +119,10 @@ SYM_FUNC_END(v4_flush_kern_dcache_area)
  */
 SYM_TYPED_FUNC_START(v4_dma_flush_range)
 #ifdef CONFIG_CPU_CP15
-	mov	r0, #0
-	mcr	p15, 0, r0, c7, c7, 0		@ flush ID cache
+        mov     r0,  #0
+        mcr     p15, 0, r0, c7, c7, 0   @ flush ID cache
 #endif
-	ret	lr
+        ret     lr
 SYM_FUNC_END(v4_dma_flush_range)
 
 /*
@@ -132,9 +132,9 @@ SYM_FUNC_END(v4_dma_flush_range)
  *	- dir	- DMA direction
  */
 SYM_TYPED_FUNC_START(v4_dma_unmap_area)
-	teq	r2, #DMA_TO_DEVICE
-	bne	v4_dma_flush_range
-	ret	lr
+        teq     r2, #DMA_TO_DEVICE
+        bne     v4_dma_flush_range
+        ret     lr
 SYM_FUNC_END(v4_dma_unmap_area)
 
 /*
@@ -144,5 +144,5 @@ SYM_FUNC_END(v4_dma_unmap_area)
  *	- dir	- DMA direction
  */
 SYM_TYPED_FUNC_START(v4_dma_map_area)
-	ret	lr
+        ret     lr
 SYM_FUNC_END(v4_dma_map_area)

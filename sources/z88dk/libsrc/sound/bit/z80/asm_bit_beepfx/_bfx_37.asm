@@ -9,8 +9,8 @@ PUBLIC _bfx_37
 
 _bfx_37:
 
-   ; Score
+        ; Score
 
-   defb 1 ;tone
-   defw 5,1800,1000,1000,65408
-   defb 0
+        defb    1       ;tone
+        defw    5, 1800, 1000, 1000, 65408
+        defb    0

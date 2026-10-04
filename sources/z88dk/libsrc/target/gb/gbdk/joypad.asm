@@ -1,12 +1,10 @@
 
-
-
         MODULE  joypad
 
         PUBLIC  joypad
         PUBLIC  _joypad
 
-	GLOBAL	asm_jpad
+        GLOBAL  asm_jpad
 
         SECTION code_driver
 
@@ -14,9 +12,8 @@
 
 joypad:
 _joypad:
-	call	asm_jpad
-	ld	e,a
-	ld	l,a
-	ld	h,0
-	ret
-
+        call    asm_jpad
+        ld      e, a
+        ld      l, a
+        ld      h, 0
+        ret

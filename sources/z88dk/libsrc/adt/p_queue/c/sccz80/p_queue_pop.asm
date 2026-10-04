@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _p_queue_pop
 defc _p_queue_pop = p_queue_pop
 ENDIF
-

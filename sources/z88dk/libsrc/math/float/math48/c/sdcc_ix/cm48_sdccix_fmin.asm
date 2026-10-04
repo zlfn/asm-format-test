@@ -10,9 +10,9 @@ EXTERN cm48_sdccixp_dread2, l0_cm48_sdccix_fmin_callee
 
 cm48_sdccix_fmin:
 
-   call cm48_sdccixp_dread2
-   
-   ; AC'= y
-   ; AC = x
+        call    cm48_sdccixp_dread2
 
-   jp l0_cm48_sdccix_fmin_callee
+        ; AC'= y
+        ; AC = x
+
+        jp      l0_cm48_sdccix_fmin_callee

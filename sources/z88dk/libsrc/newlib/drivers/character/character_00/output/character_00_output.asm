@@ -78,25 +78,25 @@ EXTERN error_znc, error_lznc, error_enotsup_zc
 
 character_00_output:
 
-   cp OCHAR_MSG_PUTC_BIN
-   jp z, character_00_output_ochar_msg_putc_bin
+        cp      OCHAR_MSG_PUTC_BIN
+        jp      z, character_00_output_ochar_msg_putc_bin
 
-   cp STDIO_MSG_WRIT
-   jp z, character_00_output_stdio_msg_writ
-   
-   cp STDIO_MSG_PUTC
-   jp z, character_00_output_stdio_msg_putc
-   
-   cp STDIO_MSG_SEEK
-   jp z, error_lznc            ; do nothing, report no error
-   
-   cp STDIO_MSG_FLSH
-   jp z, error_znc             ; do nothing, report no error
+        cp      STDIO_MSG_WRIT
+        jp      z, character_00_output_stdio_msg_writ
 
-   cp STDIO_MSG_ICTL
-   jp z, character_00_output_stdio_msg_ictl
+        cp      STDIO_MSG_PUTC
+        jp      z, character_00_output_stdio_msg_putc
 
-   cp STDIO_MSG_CLOS
-   jp z, error_znc             ; do nothing, report no error
-   
-   jp error_enotsup_zc         ; hl = 0 puts FILE stream in error state
+        cp      STDIO_MSG_SEEK
+        jp      z, error_lznc   ; do nothing, report no error
+
+        cp      STDIO_MSG_FLSH
+        jp      z, error_znc    ; do nothing, report no error
+
+        cp      STDIO_MSG_ICTL
+        jp      z, character_00_output_stdio_msg_ictl
+
+        cp      STDIO_MSG_CLOS
+        jp      z, error_znc    ; do nothing, report no error
+
+        jp      error_enotsup_zc        ; hl = 0 puts FILE stream in error state

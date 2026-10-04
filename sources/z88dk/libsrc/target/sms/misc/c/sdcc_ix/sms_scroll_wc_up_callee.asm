@@ -10,19 +10,19 @@ EXTERN asm_sms_scroll_wc_up
 
 _sms_scroll_wc_up_callee:
 
-   pop hl
-   pop bc
-   dec sp
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        dec     sp
+        pop     de
+        ex      (sp), hl
 
 _sms_scroll_wc_up_callee_0:
 
-   push bc
-   ex (sp),ix
+        push    bc
+        ex      (sp), ix
 
-   ld e,d
-   call asm_sms_scroll_wc_up
-   
-   pop ix
-   ret
+        ld      e, d
+        call    asm_sms_scroll_wc_up
+
+        pop     ix
+        ret

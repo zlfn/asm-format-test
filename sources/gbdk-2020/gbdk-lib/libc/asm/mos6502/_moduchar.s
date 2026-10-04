@@ -26,17 +26,17 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _moduchar
+        .module _moduchar
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __moduchar   ; arguments in A and X, result in AX
-	
+        .globl  __moduchar      ; arguments in A and X, result in AX
+
 ;--------------------------------------------------------
 ; overlayable function parameters in zero page
 ;--------------------------------------------------------
-	.area	OSEG    (PAG, OVR)
+        .area   OSEG    (PAG, OVR)
 
 ;--------------------------------------------------------
 ; local aliases
@@ -45,11 +45,10 @@
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 __moduchar:
-	stx	*__moduint_PARM_2
-	ldx	#0x00
-	stx	*(__moduint_PARM_2 + 1)
-	jmp	__moduint
-
+        stx     *__moduint_PARM_2
+        ldx     #0x00
+        stx     *(__moduint_PARM_2 + 1)
+        jmp     __moduint

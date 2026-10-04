@@ -10,9 +10,9 @@ EXTERN asm__memlwr
 
 __memlwr__callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-      
-   jp asm__memlwr
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm__memlwr

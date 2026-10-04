@@ -16,6 +16,6 @@
  */
 .global boot_inst
 boot_inst:
-	ldr	pc, [pc, #140]
+        ldr     pc, [pc, #140]
 
-	.align
+        .align

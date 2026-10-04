@@ -9,15 +9,15 @@ EXTERN asm_esx_m_tapeout_info
 
 _esx_m_tapeout_info_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 l0_esx_m_tapeout_info_callee:
 
-   push ix
-   
-   call asm_esx_m_tapeout_info
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_m_tapeout_info
+
+        pop     ix
+        ret

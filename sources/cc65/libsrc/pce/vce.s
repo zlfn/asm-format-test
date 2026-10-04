@@ -1,8 +1,8 @@
-        .export         vce_init
+        .export vce_init
 
-        .include        "pce.inc"
+        .include "pce.inc"
 
-        .segment        "ONCE"
+        .segment "ONCE"
 vce_init:
         ; Set CTA to zero
         stz     VCE_ADDR_LO

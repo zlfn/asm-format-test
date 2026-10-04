@@ -9,42 +9,40 @@
 ;   $Id: plotpixl.asm $
 ;
 
+        INCLUDE "classic/gfx/grafix.inc"
 
-    INCLUDE "classic/gfx/grafix.inc"
+        SECTION code_clib
+        PUBLIC  plotpixel
 
-    SECTION code_clib
-    PUBLIC  plotpixel
-
-    EXTERN  __gfx_coords
-    EXTERN  __asm_pixeladdr
-    INCLUDE "target/m100/def/romcalls.def"
-
+        EXTERN  __gfx_coords
+        EXTERN  __asm_pixeladdr
+        INCLUDE "target/m100/def/romcalls.def"
 
 plotpixel:
 
 IF  _GFX_MAXX<>256
-    ld      a, h
-    cp      _GFX_MAXX
-    ret     nc
+        ld      a, h
+        cp      _GFX_MAXX
+        ret     nc
 ENDIF
 
 IF  _GFX_MAXY<>256
-    ld      a, l
-    cp      _GFX_MAXY
-    ret     nc                          ; y0    out of range
+        ld      a, l
+        cp      _GFX_MAXY
+        ret     nc      ; y0    out of range
 ENDIF
 
-    push    bc
-    ld      d, h
-    ld      e, l
-    ld      (__gfx_coords), hl
-    
-    call    __asm_pixeladdr
+        push    bc
+        ld      d, h
+        ld      e, l
+        ld      (__gfx_coords), hl
 
-    OR (HL)
+        call    __asm_pixeladdr
 
-    ROMCALL
-    defw KY_LCDSET_TAIL
+        OR      (HL)
+
+        ROMCALL
+        defw    KY_LCDSET_TAIL
 
 ;  KY_LCDSET_TAIL in ROM being like:
 ;------------------------------------
@@ -55,8 +53,5 @@ ENDIF
 ;  JP SET_CLOCK_HL_16
 ;------------------------------------
 
-    POP  BC
-    RET
-
-
- 
+        POP     BC
+        RET

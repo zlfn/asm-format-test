@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_loadSpritePalette
 defc _SMS_loadSpritePalette = SMS_loadSpritePalette
 ENDIF
-

@@ -14,11 +14,11 @@ EXTERN __SMSlib_theLineInterruptHandler
 
 asm_SMSlib_setLineInterruptHandler:
 
-   ; void SMS_setLineInterruptHandler (void (*theHandlerFunction)(void))
-   ;
-   ; enter : hl = void (*theHandlerFunction)(void)
-   ;
-   ; uses  : none
+        ; void SMS_setLineInterruptHandler (void (*theHandlerFunction)(void))
+        ;
+        ; enter : hl = void (*theHandlerFunction)(void)
+        ;
+        ; uses  : none
 
-   ld (__SMSlib_theLineInterruptHandler),hl
-   ret
+        ld      (__SMSlib_theLineInterruptHandler), hl
+        ret

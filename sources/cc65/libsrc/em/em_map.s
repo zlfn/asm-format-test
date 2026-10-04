@@ -6,8 +6,6 @@
 ; ** a pointer to the location of the page in memory.
 ; */
 
+        .include "em-kernel.inc"
 
-        .include        "em-kernel.inc"
-
-        _em_map         = emd_map               ; Use driver entry
-
+        _em_map = emd_map       ; Use driver entry

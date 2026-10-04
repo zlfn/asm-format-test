@@ -10,11 +10,11 @@
 ;
 ;	$Id: _clg_hr.asm$
 ;
-    SECTION code_clib
-    PUBLIC  _clg_hr
-    PUBLIC  __clg_hr
-    EXTERN  base_graphics
-    EXTERN  hr_rows
+        SECTION code_clib
+        PUBLIC  _clg_hr
+        PUBLIC  __clg_hr
+        EXTERN  base_graphics
+        EXTERN  hr_rows
 
 _clg_hr:
 __clg_hr:
@@ -28,59 +28,59 @@ __clg_hr:
 ;
 ;----------------------------------------------------------------
 
-    ld      hl, (base_graphics)
-    ld      a, (hr_rows)                ; 8, 24 or 48 (interlaced)
+        ld      hl, (base_graphics)
+        ld      a,  (hr_rows)   ; 8, 24 or 48 (interlaced)
 
-    ld      b, a                        ; * 256
-    ld      c, 0
-    add     hl, bc
-    ld      (HRG_ClearSpReg), sp
-    ld      sp, hl
+        ld      b,  a   ; * 256
+        ld      c,  0
+        add     hl, bc
+        ld      (HRG_ClearSpReg), sp
+        ld      sp, hl
 
-    ld      hl, 0
+        ld      hl, 0
 
-    add     a                           ; 8, 24 or 48 (interlaced)
-    add     a                           ; * 4
-    ld      b, a
+        add     a       ; 8, 24 or 48 (interlaced)
+        add     a       ; * 4
+        ld      b, a
 
 HRG_ClearLoop:
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    push    hl
-    djnz    HRG_ClearLoop
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        djnz    HRG_ClearLoop
 
-    ld      sp, (HRG_ClearSpReg)
+        ld      sp, (HRG_ClearSpReg)
 
-    ret
+        ret
 
 HRG_ClearSpReg:
-    defw    0
+        defw    0

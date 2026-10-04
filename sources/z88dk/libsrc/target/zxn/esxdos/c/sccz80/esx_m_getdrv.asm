@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_m_getdrv
 defc _esx_m_getdrv = esx_m_getdrv
 ENDIF
-

@@ -11,8 +11,8 @@ EXTERN asm_esxdos_f_chdir
 
 esxdos_f_chdir:
 
-   ld a,__ESXDOS_DRIVE_CURRENT
-   jp asm_esxdos_f_chdir
+        ld      a, __ESXDOS_DRIVE_CURRENT
+        jp      asm_esxdos_f_chdir
 
 ; SDCC bridge for Classic
 IF __CLASSIC

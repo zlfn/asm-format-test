@@ -4,19 +4,19 @@
 ; unsigned char __fastcall__ get_iigs_speed(void)
 ;
 
-        .export         _get_iigs_speed
-        .import         ostype, return0
+        .export _get_iigs_speed
+        .import ostype, return0
 
-        .include        "apple2.inc"
-        .include        "accelerator.inc"
+        .include "apple2.inc"
+        .include "accelerator.inc"
 
 _get_iigs_speed:
-        lda     ostype          ; Return SLOW if not IIgs
+        lda     ostype  ; Return SLOW if not IIgs
         bpl     :+
-        lda     CYAREG          ; Check current setting
+        lda     CYAREG  ; Check current setting
         bpl     :+
         lda     #SPEED_FAST
         ldx     #>$0000
         rts
         .assert SPEED_SLOW = 0, error
-:       jmp     return0         ; SPEED_SLOW
+:       jmp     return0 ; SPEED_SLOW

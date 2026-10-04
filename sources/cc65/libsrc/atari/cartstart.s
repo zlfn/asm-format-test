@@ -13,8 +13,8 @@
 ; start routine of cartridge
 ; copy data segment to RAM and chain to entry point of crt0.s
 
-cartstart:      jsr     copydata
-                jsr     start                   ; run program
-                jmp     (DOSVEC)                ; return to DOS
+cartstart: jsr  copydata
+        jsr     start           ; run program
+        jmp     (DOSVEC)        ; return to DOS
 
 .endif  ; .ifndef __ATARIXL__

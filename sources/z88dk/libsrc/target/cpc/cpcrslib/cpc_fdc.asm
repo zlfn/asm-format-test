@@ -8,7 +8,7 @@
 ;; and the same control method to read/write to the discs
 ;; using the controller (polling).
 ;;
-;; But the NEC765 controller is accessed through different 
+;; But the NEC765 controller is accessed through different
 ;; I/O port addressess for each controller.
 ;;
 ;; This example attempts to send a "invalid" command to the NEC765
@@ -17,19 +17,17 @@
 
 ;
 ; int cpc_fdc();
-; 
+;
 ; Results:
 ;    0 - no valid floppy controller found
 ;    1 - Amstrad FDC
 ;    2 - Vortex FDC
 
-
 ;; $Id: cpc_fdc.asm,v 1.4 2016-06-10 21:12:36 dom Exp $
 
-
-        SECTION   code_clib
-        PUBLIC cpc_fdc
-        PUBLIC _cpc_fdc
+        SECTION code_clib
+        PUBLIC  cpc_fdc
+        PUBLIC  _cpc_fdc
 
 ;;------------------------------------
 
@@ -60,7 +58,6 @@ ret
 .dd2
 ld hl,0
 ret
-
 
 ;;-----------------------------------------------------------------
 ;; Entry conditions:
@@ -177,4 +174,3 @@ ret
 ;; failed
 scf
 ret
-

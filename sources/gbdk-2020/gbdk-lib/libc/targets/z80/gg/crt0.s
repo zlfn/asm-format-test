@@ -1,4 +1,4 @@
-        .include        "global.s"
+        .include "global.s"
 
         .title  "Runtime"
         .module Runtime
@@ -9,14 +9,14 @@
 
         .globl  .OUTI32
 
-        .org    0x00            ; Reset 00h
-        di                      ; disable interrupt
-        im 1                    ; interrupt mode 1 (this won't change)
-        jp .init
+        .org    0x00    ; Reset 00h
+        di              ; disable interrupt
+        im      1       ; interrupt mode 1 (this won't change)
+        jp      .init
 
 ;        .org    0x08            ; --profile handler
 
-        .org    0x10            ; RST 0x10: VDP_WRITE_CMD
+        .org    0x10    ; RST 0x10: VDP_WRITE_CMD
 
 _WRITE_VDP_CMD::
         VDP_WRITE_CMD h, l
@@ -24,7 +24,7 @@ _WRITE_VDP_CMD::
 
 ;        .org    0x18            ; unusable
 
-        .org    0x20            ; RST 0x20: VDP_WRITE_DATA
+        .org    0x20    ; RST 0x20: VDP_WRITE_DATA
 
 _WRITE_VDP_DATA::
         VDP_WRITE_DATA h, l
@@ -32,97 +32,97 @@ _WRITE_VDP_DATA::
 
 ;       .org    0x28             ; unusable
 
-        .org    0x30            ; RST 0x30: call HL
+        .org    0x30    ; RST 0x30: call HL
 .call_hl::
         jp      (HL)
 
-        .org    0x38            ; handle IRQ
-        jp _INT_ISR
+        .org    0x38    ; handle IRQ
+        jp      _INT_ISR
 
-        .org    0x66            ; handle NMI
-        jp _NMI_ISR
+        .org    0x66    ; handle NMI
+        jp      _NMI_ISR
 
         .org    0x80
 
 .init::
-        ld sp, #.STACK          ; set stack pointer at end of RAM
+        ld      sp, #.STACK     ; set stack pointer at end of RAM
 
-        ld a, (#.BIOS)
-        push af
+        ld      a, (#.BIOS)
+        push    af
 
-        ld bc, #(l__DATA - 1)   ; clear WRAM (assuming l__DATA >= 2, which is always so)
-        ld hl, #s__DATA
-        ld (hl), #0
-        ld de, #(s__DATA + 1)
+        ld      bc,   #(l__DATA - 1)    ; clear WRAM (assuming l__DATA >= 2, which is always so)
+        ld      hl,   #s__DATA
+        ld      (hl), #0
+        ld      de,   #(s__DATA + 1)
         ldir
 
-        pop af
-        ld (#__BIOS), a         ; save BIOS value
+        pop     af
+        ld      (#__BIOS), a    ; save BIOS value
 
-        ld hl, #_shadow_OAM
-        ld de, #(_shadow_OAM + 1)
-        ld bc, #64
-        ld (hl), #0xc0
+        ld      hl,   #_shadow_OAM
+        ld      de,   #(_shadow_OAM + 1)
+        ld      bc,   #64
+        ld      (hl), #0xc0
         ldir
-        ld (hl), #0
-        ld bc, #(128 - 1)
+        ld      (hl), #0
+        ld      bc,   #(128 - 1)
         ldir
 
-        ld hl,#0x0000           ; initialize mappers
-        ld (#.RAM_CONTROL),hl   ; [.RAM_CONTROL]=$00, [.MAP_FRAME0]=$00
-        ld hl,#0x0201
-        ld (#.MAP_FRAME1),hl    ; [.MAP_FRAME1]=$01, [.MAP_FRAME2]=$02
+        ld      hl, #0x0000             ; initialize mappers
+        ld      (#.RAM_CONTROL), hl     ; [.RAM_CONTROL]=$00, [.MAP_FRAME0]=$00
+        ld      hl, #0x0201
+        ld      (#.MAP_FRAME1), hl      ; [.MAP_FRAME1]=$01, [.MAP_FRAME2]=$02
 
         ; Initialise global variables
-        call .gsinit
+        call    .gsinit
 
         ; Clear VRAM and Initialize VDP
 
-        ld hl, #((.VDP_R1 << 8) | (.R1_DEFAULT | .R1_DISP_OFF))
-        ld c, #.VDP_CMD
-        out (c), l
-        out (c), h
+        ld      hl,  #((.VDP_R1 << 8) | (.R1_DEFAULT | .R1_DISP_OFF))
+        ld      c,   #.VDP_CMD
+        out     (c), l
+        out     (c), h
 
         ; clear VRAM
-        call .clear_VRAM
+        call    .clear_VRAM
 
         ; set default palette
-        call .set_default_palette
+        call    .set_default_palette
 
         ; set VDP registers
-        ld c, #.VDP_CMD
-        ld b, #(.shadow_VDP_end - .shadow_VDP)
-        ld hl,#(.shadow_VDP_end - 1)
+        ld      c,  #.VDP_CMD
+        ld      b,  #(.shadow_VDP_end - .shadow_VDP)
+        ld      hl, #(.shadow_VDP_end - 1)
 1$:
         outd
 
-        ld a, b
-        or #.VDP_REG_MASK
-        out (c), a
+        ld      a, b
+        or      #.VDP_REG_MASK
+        out     (c), a
 
-        ld a, b
-        or a
-        jr nz, 1$
+        ld      a, b
+        or      a
+        jr      nz, 1$
 
         ; detect PAL/NTSC
-        in a, (.GG_STATE)
-        and #.GGSTATE_NNTS
-        jr nz, 2$
-        ld a, #.SYSTEM_NTSC
-        jr 3$
+        in      a, (.GG_STATE)
+        and     #.GGSTATE_NNTS
+        jr      nz, 2$
+        ld      a,  #.SYSTEM_NTSC
+        jr      3$
 2$:
-        ld a, #.SYSTEM_PAL
+        ld      a, #.SYSTEM_PAL
 3$:
-        ld (#__SYSTEM), a
+        ld      (#__SYSTEM), a
 
         VDP_CANCEL_INT
 
-        ei                      ; re-enable interrupts before going to main()
+        ei      ; re-enable interrupts before going to main()
 
-        call _main
+        call    _main
 10$:
         halt
-        jr 10$
+        jr      10$
 
         ; Ordering of segments for the linker.
         .area   _HOME
@@ -145,9 +145,9 @@ _WRITE_VDP_DATA::
         .area   _GSINIT
 .gsinit::
         ; initialize static storage variables (assuming l__INITIALIZER > 0, which is always so)
-        ld bc, #l__INITIALIZER
-        ld hl, #s__INITIALIZER
-        ld de, #s__INITIALIZED
+        ld      bc, #l__INITIALIZER
+        ld      hl, #s__INITIALIZER
+        ld      de, #s__INITIALIZED
         ldir
 
         .area   _GSFINAL
@@ -157,78 +157,78 @@ _WRITE_VDP_DATA::
         .area   _HOME
 
 .clear_VRAM:
-        ld hl, #.VDP_VRAM
-        ld c, #.VDP_CMD
-        out (c), l
-        out (c), h
-        xor a
-        ld bc, #0x4101
-        jr 6$
+        ld      hl,  #.VDP_VRAM
+        ld      c,   #.VDP_CMD
+        out     (c), l
+        out     (c), h
+        xor     a
+        ld      bc, #0x4101
+        jr      6$
 5$:
-        out (.VDP_DATA), a
+        out     (.VDP_DATA), a
 6$:
-        dec c
-        jr nz, 5$
-        dec b
-        jr nz, 5$
+        dec     c
+        jr      nz, 5$
+        dec     b
+        jr      nz, 5$
         ret
 
 .set_default_palette:
-        ld hl, #.VDP_CRAM
-        ld c, #.VDP_CMD
-        out (c), l
-        out (c), h
-        ld c, #.VDP_DATA
-        ld hl, #.CRT_DEFAULT_PALETTE
-        call .OUTI32
-        ld hl, #.CRT_DEFAULT_PALETTE
-        jp .OUTI32
+        ld      hl,  #.VDP_CRAM
+        ld      c,   #.VDP_CMD
+        out     (c), l
+        out     (c), h
+        ld      c,   #.VDP_DATA
+        ld      hl,  #.CRT_DEFAULT_PALETTE
+        call    .OUTI32
+        ld      hl, #.CRT_DEFAULT_PALETTE
+        jp      .OUTI32
 
 .CRT_DEFAULT_PALETTE::
-        .dw 0b0000111111111111
-        .dw 0b0000100010001000
-        .dw 0b0000010001000100
-        .dw 0b0000000000000000
-        .dw 0b0000000000001000
-        .dw 0b0000000010000000
-        .dw 0b0000100000000000
-        .dw 0b0000000010001000
-        .dw 0b0000100010000000
-        .dw 0b0000100000001000
-        .dw 0b0000000000001111
-        .dw 0b0000000011110000
-        .dw 0b0000111100000000
-        .dw 0b0000000011111111
-        .dw 0b0000111111110000
-        .dw 0b0000111100001111
+        .dw     0b0000111111111111
+        .dw     0b0000100010001000
+        .dw     0b0000010001000100
+        .dw     0b0000000000000000
+        .dw     0b0000000000001000
+        .dw     0b0000000010000000
+        .dw     0b0000100000000000
+        .dw     0b0000000010001000
+        .dw     0b0000100010000000
+        .dw     0b0000100000001000
+        .dw     0b0000000000001111
+        .dw     0b0000000011110000
+        .dw     0b0000111100000000
+        .dw     0b0000000011111111
+        .dw     0b0000111111110000
+        .dw     0b0000111100001111
 
         ; Wait for VBL interrupt to be finished
 .wait_vbl_done::
 _wait_vbl_done::
 _vsync::
-        ld  a, (_shadow_VDP_R1)
-        and #.R1_DISP_ON
-        ret z
+        ld      a, (_shadow_VDP_R1)
+        and     #.R1_DISP_ON
+        ret     z
 
-        xor a
-        ld (.vbl_done), a
+        xor     a
+        ld      (.vbl_done), a
 1$:
         halt
-        ld a, (.vbl_done)
-        or a
-        jr z, 1$
+        ld      a, (.vbl_done)
+        or      a
+        jr      z, 1$
         ret
 
         .area   _DATA
 
 .start_crt_globals:
 __BIOS::
-        .ds     0x01            ; GB type (GB, PGB, CGB)
+        .ds     0x01    ; GB type (GB, PGB, CGB)
 __SYSTEM::
-        .ds     0x01            ; PAL/NTSC
+        .ds     0x01    ; PAL/NTSC
 .end_crt_globals:
 
-        .area _INITIALIZED
+        .area   _INITIALIZED
 .shadow_VDP:
 _shadow_VDP_R0::
         .ds     0x01
@@ -273,25 +273,25 @@ __shadow_OAM_OFF::
 __sprites_OFF::
         .ds     0x01
 .mode::
-        .ds     0x01            ; Current mode
+        .ds     0x01    ; Current mode
 
-        .area _INITIALIZER
+        .area   _INITIALIZER
 
-        .db .R0_DEFAULT
-        .db #(.R1_DEFAULT | .R1_DISP_ON | .R1_IE)       ; VBLANK
-        .db .R2_MAP_0x1800                              ; .R2_MAP_0x3800
-        .db 0xFF
-        .db 0xFF
-        .db .R5_SAT_0x1F00                              ; .R5_SAT_0x3F00
-        .db .R6_DATA_0x2000
-        .db #(0 | .R7_COLOR_MASK)
-        .db 0                   ; SCX
-        .db 0                   ; SCY
-        .db .R10_INT_OFF
-        .dw 0x0000              ; .sys_time
-        .db 0                   ; .vbl_done
-        .db 0                   ; _VDP_ATTR_SHIFT
-        .db #>_shadow_OAM       ; __shadow_OAM_base
-        .db 0                   ; __shadow_OAM_OFF
-        .db 0                   ; __sprites_OFF
-        .db .T_MODE_INOUT       ; .mode
+        .db     .R0_DEFAULT
+        .db     #(.R1_DEFAULT | .R1_DISP_ON | .R1_IE)   ; VBLANK
+        .db     .R2_MAP_0x1800                          ; .R2_MAP_0x3800
+        .db     0xFF
+        .db     0xFF
+        .db     .R5_SAT_0x1F00                          ; .R5_SAT_0x3F00
+        .db     .R6_DATA_0x2000
+        .db     #(0 | .R7_COLOR_MASK)
+        .db     0                                       ; SCX
+        .db     0                                       ; SCY
+        .db     .R10_INT_OFF
+        .dw     0x0000                                  ; .sys_time
+        .db     0                                       ; .vbl_done
+        .db     0                                       ; _VDP_ATTR_SHIFT
+        .db     #>_shadow_OAM                           ; __shadow_OAM_base
+        .db     0                                       ; __shadow_OAM_OFF
+        .db     0                                       ; __sprites_OFF
+        .db     .T_MODE_INOUT                           ; .mode

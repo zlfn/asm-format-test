@@ -46,83 +46,83 @@ GLOBL ·atanxmone<> + 0(SB), RODATA, $8
 // with coefficients determined with a Remez exchange algorithm.
 
 TEXT	·atanAsm(SB), NOSPLIT, $0-16
-	FMOVD	x+0(FP), F0
-	//special case Atan(±0) = ±0
-	FMOVD   $(0.0), F1
-	FCMPU   F0, F1
-	BEQ     atanIsZero
+        FMOVD   x+0(FP), F0
+        //special case Atan(±0) = ±0
+        FMOVD   $(0.0), F1
+        FCMPU   F0,     F1
+        BEQ     atanIsZero
 
-	MOVD	$·atanrodataL8<>+0(SB), R5
-	MOVH	$0x3FE0, R3
-	LGDR	F0, R1
-	RISBGNZ	$32, $63, $32, R1, R1
-	RLL	$16, R1, R2
-	ANDW	$0x7FF0, R2
-	MOVW	R2, R6
-	MOVW	R3, R7
-	CMPUBLE	R6, R7, L6
-	MOVD	$·atanxmone<>+0(SB), R3
-	FMOVD	0(R3), F2
-	WFDDB	V0, V2, V0
-	RISBGZ	$63, $63, $33, R1, R1
-	MOVD	$·atanxpi2h<>+0(SB), R3
-	MOVWZ	R1, R1
-	SLD	$3, R1, R1
-	WORD	$0x68813000	//ld	%f8,0(%r1,%r3)
+        MOVD    $·atanrodataL8<>+0(SB), R5
+        MOVH    $0x3FE0, R3
+        LGDR    F0,  R1
+        RISBGNZ $32, $63, $32, R1, R1
+        RLL     $16, R1,  R2
+        ANDW    $0x7FF0, R2
+        MOVW    R2, R6
+        MOVW    R3, R7
+        CMPUBLE R6, R7, L6
+        MOVD    $·atanxmone<>+0(SB), R3
+        FMOVD   0(R3), F2
+        WFDDB   V0,    V2,  V0
+        RISBGZ  $63,   $63, $33, R1, R1
+        MOVD    $·atanxpi2h<>+0(SB), R3
+        MOVWZ   R1, R1
+        SLD     $3, R1, R1
+        WORD    $0x68813000     //ld	%f8,0(%r1,%r3)
 L6:
-	WFMDB	V0, V0, V2
-	FMOVD	152(R5), F6
-	FMOVD	144(R5), F1
-	FMOVD	136(R5), F7
-	VLEG	$0, 128(R5), V16
-	FMOVD	120(R5), F4
-	FMOVD	112(R5), F5
-	WFMADB	V2, V4, V6, V4
-	WFMADB	V2, V5, V1, V5
-	WFMDB	V2, V2, V6
-	FMOVD	104(R5), F3
-	FMOVD	96(R5), F1
-	WFMADB	V2, V3, V7, V3
-	MOVH	$0x3FE0, R1
-	FMOVD	88(R5), F7
-	WFMADB	V2, V1, V7, V1
-	FMOVD	80(R5), F7
-	WFMADB	V6, V3, V1, V3
-	WFMADB	V6, V4, V5, V4
-	WFMDB	V6, V6, V1
-	FMOVD	72(R5), F5
-	WFMADB	V2, V5, V7, V5
-	FMOVD	64(R5), F7
-	WFMADB	V2, V7, V16, V7
-	VLEG	$0, 56(R5), V16
-	WFMADB	V6, V5, V7, V5
-	WFMADB	V1, V4, V3, V4
-	FMOVD	48(R5), F7
-	FMOVD	40(R5), F3
-	WFMADB	V2, V3, V7, V3
-	FMOVD	32(R5), F7
-	WFMADB	V2, V7, V16, V7
-	VLEG	$0, 24(R5), V16
-	WFMADB	V1, V4, V5, V4
-	FMOVD	16(R5), F5
-	WFMADB	V6, V3, V7, V3
-	FMOVD	8(R5), F7
-	WFMADB	V2, V7, V5, V7
-	FMOVD	0(R5), F5
-	WFMADB	V2, V5, V16, V5
-	WFMADB	V1, V4, V3, V4
-	WFMADB	V6, V7, V5, V6
-	FMUL	F0, F2
-	FMADD	F4, F1, F6
-	FMADD	F6, F2, F0
-	MOVW	R2, R6
-	MOVW	R1, R7
-	CMPUBLE	R6, R7, L1
-	MOVD	$·atanxpim<>+0(SB), R1
-	WORD	$0xED801000	//madb	%f0,%f8,0(%r1)
-	BYTE	$0x00
-	BYTE	$0x1E
+        WFMDB   V0, V0, V2
+        FMOVD   152(R5), F6
+        FMOVD   144(R5), F1
+        FMOVD   136(R5), F7
+        VLEG    $0, 128(R5), V16
+        FMOVD   120(R5), F4
+        FMOVD   112(R5), F5
+        WFMADB  V2, V4, V6, V4
+        WFMADB  V2, V5, V1, V5
+        WFMDB   V2, V2, V6
+        FMOVD   104(R5), F3
+        FMOVD   96(R5),  F1
+        WFMADB  V2, V3, V7, V3
+        MOVH    $0x3FE0, R1
+        FMOVD   88(R5),  F7
+        WFMADB  V2,     V1,     V7,  V1
+        FMOVD   80(R5), F7
+        WFMADB  V6,     V3,     V1,  V3
+        WFMADB  V6,     V4,     V5,  V4
+        WFMDB   V6,     V6,     V1
+        FMOVD   72(R5), F5
+        WFMADB  V2,     V5,     V7,  V5
+        FMOVD   64(R5), F7
+        WFMADB  V2,     V7,     V16, V7
+        VLEG    $0,     56(R5), V16
+        WFMADB  V6,     V5,     V7,  V5
+        WFMADB  V1,     V4,     V3,  V4
+        FMOVD   48(R5), F7
+        FMOVD   40(R5), F3
+        WFMADB  V2,     V3,     V7,  V3
+        FMOVD   32(R5), F7
+        WFMADB  V2,     V7,     V16, V7
+        VLEG    $0,     24(R5), V16
+        WFMADB  V1,     V4,     V5,  V4
+        FMOVD   16(R5), F5
+        WFMADB  V6,     V3,     V7,  V3
+        FMOVD   8(R5),  F7
+        WFMADB  V2,     V7,     V5,  V7
+        FMOVD   0(R5),  F5
+        WFMADB  V2,     V5,     V16, V5
+        WFMADB  V1,     V4,     V3,  V4
+        WFMADB  V6,     V7,     V5,  V6
+        FMUL    F0,     F2
+        FMADD   F4,     F1,     F6
+        FMADD   F6,     F2,     F0
+        MOVW    R2,     R6
+        MOVW    R1,     R7
+        CMPUBLE R6,     R7,     L1
+        MOVD    $·atanxpim<>+0(SB), R1
+        WORD    $0xED801000     //madb	%f0,%f8,0(%r1)
+        BYTE    $0x00
+        BYTE    $0x1E
 L1:
 atanIsZero:
-	FMOVD	F0, ret+8(FP)
-	RET
+        FMOVD   F0, ret+8(FP)
+        RET

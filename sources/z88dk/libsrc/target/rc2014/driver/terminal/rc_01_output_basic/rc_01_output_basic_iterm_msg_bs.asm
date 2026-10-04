@@ -7,15 +7,15 @@ PUBLIC rc_01_output_basic_iterm_msg_bs
 
 rc_01_output_basic_iterm_msg_bs:
 
-   ; backspace
-   ; can use:  af, bc, de, hl, ix
+        ; backspace
+        ; can use:  af, bc, de, hl, ix
 
-   call backspace
+        call    backspace
 
-   ld a,' '
-   rst 0x08
+        ld      a, ' '
+        rst     0x08
 
 backspace:
 
-   ld a,CHAR_BS
-   jp 0x08
+        ld      a, CHAR_BS
+        jp      0x08

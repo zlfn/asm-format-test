@@ -5,13 +5,12 @@
 ; /* Rewind a file */
 ;
 
-        .export         _rewind
+        .export _rewind
 
-        .import         _fseek, _clearerr
-        .import         pushax, pushl0, popax
+        .import _fseek, _clearerr
+        .import pushax, pushl0, popax
 
-        .include        "stdio.inc"
-
+        .include "stdio.inc"
 
 ; ------------------------------------------------------------------------
 ; Code

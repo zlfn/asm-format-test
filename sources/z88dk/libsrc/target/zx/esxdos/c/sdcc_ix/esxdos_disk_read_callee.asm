@@ -10,20 +10,20 @@ EXTERN asm_esxdos_disk_read
 
 _esxdos_disk_read_callee:
 
-   pop hl
-   dec sp
-   pop af
-   pop de
-   pop bc
-   ex (sp),hl
+        pop     hl
+        dec     sp
+        pop     af
+        pop     de
+        pop     bc
+        ex      (sp), hl
 
 l0_esxdos_disk_read_callee:
 
-   push ix
-   push iy
-   
-   call asm_esxdos_disk_read
+        push    ix
+        push    iy
 
-   pop iy
-   pop ix
-   ret
+        call    asm_esxdos_disk_read
+
+        pop     iy
+        pop     ix
+        ret

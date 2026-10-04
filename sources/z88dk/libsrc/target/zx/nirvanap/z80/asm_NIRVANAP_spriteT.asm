@@ -16,7 +16,7 @@ PUBLIC asm_NIRVANAP_spriteT
 ; will be hidden outside the screen.
 ;
 ; Params:
-;     
+;
 ; Parameters:
 ;     HL = sprite number (0-7)
 ;      A = tile index (0-255)
@@ -31,15 +31,15 @@ PUBLIC asm_NIRVANAP_spriteT
 
 asm_NIRVANAP_spriteT:
 
-        add hl,hl
-        add hl,hl
-        add hl,hl       ; HL=sprite*8
-        ld bc,56472
-        add hl,bc       ; HL=56472+sprite*8
-        ld (hl),a       ; tile
-        dec l
-        dec l
-        ld (hl),d       ; lin
-        dec hl
-        ld (hl),e       ; col
+        add     hl,   hl
+        add     hl,   hl
+        add     hl,   hl        ; HL=sprite*8
+        ld      bc,   56472
+        add     hl,   bc        ; HL=56472+sprite*8
+        ld      (hl), a         ; tile
+        dec     l
+        dec     l
+        ld      (hl), d         ; lin
+        dec     hl
+        ld      (hl), e         ; col
         ret

@@ -9,11 +9,11 @@ EXTERN asm_zx_tape_load_block
 
 zx_tape_load_block_callee:
 
-   pop af
-   pop bc
-   pop de
-   pop ix
-   push af
-   
-   ld a,c
-   jp asm_zx_tape_load_block
+        pop     af
+        pop     bc
+        pop     de
+        pop     ix
+        push    af
+
+        ld      a, c
+        jp      asm_zx_tape_load_block

@@ -4,14 +4,14 @@
 ; Apple ProDOS 8 MLI
 ;
 
-        .import         __dos_type
+        .import __dos_type
 
-        .include        "apple2.inc"
-        .include        "mli.inc"
+        .include "apple2.inc"
+        .include "mli.inc"
 
         .bss
 
-mliparam:.tag   MLI
+mliparam: .tag  MLI
 
         .data
 
@@ -31,7 +31,7 @@ callmli:
         pha
 
         ; Call MLI
-        jsr     $BF00           ; MLI call entry point
+        jsr     $BF00   ; MLI call entry point
 call:   .byte   $00
         .addr   mliparam
 
@@ -45,6 +45,6 @@ call:   .byte   $00
         rts
 
         ; Load oserror code and return
-oserr:  lda     #$01            ; "Bad system call number"
+oserr:  lda     #$01    ; "Bad system call number"
         sec
         rts

@@ -4,11 +4,11 @@
 ; unsigned char __fastcall__ _sysremove (const char* name);
 ;
 
-        .export         __sysremove
-        .import         pushname, popname, mli_set_pathname_tos
+        .export __sysremove
+        .import pushname, popname, mli_set_pathname_tos
 
-        .include        "zeropage.inc"
-        .include        "mli.inc"
+        .include "zeropage.inc"
+        .include "mli.inc"
 
 __sysremove:
         ; Push name
@@ -24,6 +24,6 @@ __sysremove:
         jsr     callmli
 
         ; Cleanup name
-        jsr     popname         ; Preserves A
+        jsr     popname ; Preserves A
 
 oserr:  rts

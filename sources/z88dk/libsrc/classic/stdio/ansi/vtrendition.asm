@@ -10,5 +10,5 @@ EXTERN ansi_attr
 .vtrendition
 ._vtrendition
 
-	ld	a,l
-	jp	ansi_attr
+        ld      a, l
+        jp      ansi_attr

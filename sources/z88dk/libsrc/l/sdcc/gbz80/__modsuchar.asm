@@ -5,13 +5,12 @@
 
         GLOBAL  l_div8_signexte
 
-
 __modsuchar:
-        ld      hl,sp+3
+        ld      hl, sp+3
 
-        ld      e,(hl)
+        ld      e, (hl)
         dec     hl
-        ld      c,(hl)
-        ld      b,0
+        ld      c, (hl)
+        ld      b, 0
 
-        jp    l_div8_signexte
+        jp      l_div8_signexte

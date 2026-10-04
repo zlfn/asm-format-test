@@ -10,15 +10,14 @@ EXTERN asm_b_array_resize
 
 b_array_resize_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_b_array_resize
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_b_array_resize
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _b_array_resize_callee
 defc _b_array_resize_callee = b_array_resize_callee
 ENDIF
-

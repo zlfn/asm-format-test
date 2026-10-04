@@ -1,9 +1,9 @@
-    .include "global.s"
+        .include "global.s"
 
-    .globl .fg_colour, .bg_colour
+        .globl  .fg_colour, .bg_colour
 
-    .area _HOME
+        .area   _HOME
 _font_color::
-    sta	.fg_colour
-    stx	.bg_colour
-    rts
+        sta     .fg_colour
+        stx     .bg_colour
+        rts

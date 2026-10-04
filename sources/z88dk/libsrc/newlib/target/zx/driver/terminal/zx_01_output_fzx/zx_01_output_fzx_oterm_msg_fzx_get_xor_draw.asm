@@ -12,5 +12,5 @@ zx_01_output_fzx_oterm_msg_fzx_get_xor_draw:
 ;     exit   : bc = & fzx xor draw function
 ;     can use: af, bc, de, hl
 
-   ld bc,__fzx_draw_xor
-   ret
+        ld      bc, __fzx_draw_xor
+        ret

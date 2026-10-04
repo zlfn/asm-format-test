@@ -4,13 +4,13 @@
 ;       Stefano Bodrato 2021
 ;
 
-    SECTION code_graphics
+        SECTION code_graphics
 
-    PUBLIC  w_pixeladdress
+        PUBLIC  w_pixeladdress
 
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
-		;EXTERN   base_graphics
+        ;EXTERN   base_graphics
 
 ;
 ;       $Id: w_pixladdr.asm $
@@ -32,48 +32,47 @@
 ;
 
 w_pixeladdress:
-    push    bc
+        push    bc
 
-    ld      b, h
-    ld      c, l
-                                ;calc (y * 80) + (x / 8) + bit map start
-    ld      l, e                        ;hl = y
-    ld      h, d
+        ld      b, h
+        ld      c, l
+        ;calc (y * 80) + (x / 8) + bit map start
+        ld      l, e    ;hl = y
+        ld      h, d
 
-    add     hl, hl                      ;hl = y * 16
-    add     hl, hl
-    add     hl, hl
-    add     hl, hl
-    ld      d, h
-    ld      e, l
-    add     hl, hl                      ;hl = y*64
-    add     hl, hl
+        add     hl, hl  ;hl = y * 16
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        ld      d,  h
+        ld      e,  l
+        add     hl, hl  ;hl = y*64
+        add     hl, hl
 
-    add     hl, de                      ;hl = (y * 64)+(y * 16)
+        add     hl, de  ;hl = (y * 64)+(y * 16)
 
-    ld      e, c                        ;de = x
-    ld      d, b
+        ld      e, c    ;de = x
+        ld      d, b
 
-    srl     d                           ;de = x / 8
-    rr      e
-    srl     d
-    rr      e
-    srl     d
-    rr      e
+        srl     d       ;de = x / 8
+        rr      e
+        srl     d
+        rr      e
+        srl     d
+        rr      e
 
-    add     hl, de                      ;hl = (y * 80) + (x / 8)
-    ld      de, 0
-    add     hl, de                      ;hl = (y * 80) + (x / 8) + bit map offset
+        add     hl, de  ;hl = (y * 80) + (x / 8)
+        ld      de, 0
+        add     hl, de  ;hl = (y * 80) + (x / 8) + bit map offset
 
-    ld      a, c                        ;a = x low byte
-    and     07h                         ;a = x mod 8
+        ld      a, c    ;a = x low byte
+        and     07h     ;a = x mod 8
 
-    pop     bc
+        pop     bc
 
-    ld      d, h
-    ld      e, l
+        ld      d, h
+        ld      e, l
 
-    xor     7
+        xor     7
 
-    ret
-
+        ret

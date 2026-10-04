@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT64
@@ -29,9 +29,8 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(AsmMonitor)
 ASM_PFX(AsmMonitor):
-    mov     eax, ecx
-    mov     ecx, edx
-    mov     edx, r8d
-    monitor
-    ret
-
+        mov     eax, ecx
+        mov     ecx, edx
+        mov     edx, r8d
+        monitor
+        ret

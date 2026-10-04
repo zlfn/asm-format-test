@@ -9,11 +9,11 @@ EXTERN asm_sms_memset_vram_unsafe
 
 _sms_memset_vram_unsafe_callee:
 
-   pop hl
-   pop de
-   dec sp
-   pop af
-   pop bc
-   push hl
-   
-   jp asm_sms_memset_vram_unsafe
+        pop     hl
+        pop     de
+        dec     sp
+        pop     af
+        pop     bc
+        push    hl
+
+        jp      asm_sms_memset_vram_unsafe

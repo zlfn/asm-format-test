@@ -41,7 +41,7 @@
 ;
 ; * IOCTL_ICHAR_CRLF
 ;   enable / disable crlf processing
-; 
+;
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; BYTES RESERVED IN FDSTRUCT
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -64,10 +64,10 @@ EXTERN cpm_00_input_cons_ichar_msg_getc, cpm_00_input_cons_stdio_msg_flsh, chara
 
 cpm_00_input_cons:
 
-   cp ICHAR_MSG_GETC
-   jp z, cpm_00_input_cons_ichar_msg_getc
-   
-   cp STDIO_MSG_FLSH
-   jp z, cpm_00_input_cons_stdio_msg_flsh
+        cp      ICHAR_MSG_GETC
+        jp      z, cpm_00_input_cons_ichar_msg_getc
 
-   jp character_00_input       ; forward to library
+        cp      STDIO_MSG_FLSH
+        jp      z, cpm_00_input_cons_stdio_msg_flsh
+
+        jp      character_00_input      ; forward to library

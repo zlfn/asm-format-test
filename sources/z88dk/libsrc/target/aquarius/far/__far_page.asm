@@ -11,29 +11,29 @@ INCLUDE "target/aquarius/def/aqplus.def"
 ;
 ; Corrupts: d,a
 __far_page:
-    ld      a,e        ;With e=0 it refers to local memory
-    and     a
-    jr      z,localfar
-    ld      d,e
-    ld      a,b
-    rla
-    rl      d
-    rla
-    rl      d
-    ; d is now which bank we should look at
-    ld      a,b
-    and     @00111111      ;Take mod 16384
-    or      @11000000	   ;Map to 0xc000 page
-    ld      h,a
-    ld      l,c
-    ; hl = offset within bank
-    ld      a,d
-    out     (PORT_BANK3),a
-    ret
+        ld      a, e    ;With e=0 it refers to local memory
+        and     a
+        jr      z, localfar
+        ld      d, e
+        ld      a, b
+        rla
+        rl      d
+        rla
+        rl      d
+        ; d is now which bank we should look at
+        ld      a, b
+        and     @00111111       ;Take mod 16384
+        or      @11000000       ;Map to 0xc000 page
+        ld      h, a
+        ld      l, c
+        ; hl = offset within bank
+        ld      a, d
+        out     (PORT_BANK3), a
+        ret
 
 localfar:
-    ex     af,af
-    out    (PORT_BANK3),a
-    ex     af,af
-    ld     hl,bc
-    ret
+        ex      af, af
+        out     (PORT_BANK3), a
+        ex      af, af
+        ld      hl, bc
+        ret

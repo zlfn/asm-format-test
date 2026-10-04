@@ -7,31 +7,31 @@
 ; void cputc (char c);
 ;
 
-        .export         soft80_cputcxy, soft80_cputc
-        .export         soft80_cputdirect, soft80_putchar
-        .export         soft80_newline, soft80_plot
-        .export         soft80_checkchar
+        .export soft80_cputcxy,    soft80_cputc
+        .export soft80_cputdirect, soft80_putchar
+        .export soft80_newline,    soft80_plot
+        .export soft80_checkchar
 
-        .import         gotoxy
+        .import gotoxy
 
-        .import         soft80_kplot
-        .import         soft80_internal_bgcolor, soft80_internal_cellcolor
-        .import         soft80_internal_cursorxlsb
+        .import soft80_kplot
+        .import soft80_internal_bgcolor, soft80_internal_cellcolor
+        .import soft80_internal_cursorxlsb
 
-        .importzp       tmp4,tmp3
+        .importzp tmp4, tmp3
 
-        .include        "c64.inc"
-        .include        "soft80.inc"
+        .include "c64.inc"
+        .include "soft80.inc"
 
 soft80_cputcxy:
-        pha                     ; Save C
-        jsr     gotoxy          ; Set cursor, drop x and y
-        pla                     ; Restore C
+        pha             ; Save C
+        jsr     gotoxy  ; Set cursor, drop x and y
+        pla             ; Restore C
 
 ; Plot a character - also used as internal function
 
 soft80_cputc:
-        cmp     #$0A            ; CR?
+        cmp     #$0A    ; CR?
         bne     L1
 
         lda     #0
@@ -72,7 +72,7 @@ soft80_cputdirect:
         jsr     soft80_putchar  ; Write the character to the screen
 
         ; Advance cursor position
-        iny                     ; contains CURS_X
+        iny     ; contains CURS_X
         cpy     #charsperline
         beq     @L3
 
@@ -95,8 +95,8 @@ soft80_cputdirect:
 @L5:
         rts
 @L3:
-        inc     CURS_Y          ; new line
-        ldy     #0              ; + cr
+        inc     CURS_Y  ; new line
+        ldy     #0      ; + cr
         sty     CURS_X
         jmp     soft80_plot
 
@@ -132,13 +132,13 @@ soft80_newline:
 
 ; output inverted space (odd)
 draw_spaceinvers_odd:
-        .repeat 8,line
-        lda     (SCREEN_PTR),y
-        and     #$f0
-        sta     (SCREEN_PTR),y
-        .if line < 7
-        iny
-        .endif
+        .repeat 8, line
+                lda     (SCREEN_PTR), y
+                and     #$f0
+                sta     (SCREEN_PTR), y
+                .if     line < 7
+                        iny
+                .endif
         .endrepeat
         jmp     draw_back
 
@@ -150,32 +150,32 @@ draw_spaceinvers:
         jsr     soft80_putcolor
 .else
         lda     soft80_internal_cellcolor
-        sta     (CRAM_PTR),y    ; vram
+        sta     (CRAM_PTR), y   ; vram
 .endif
 
         lda     soft80_internal_cursorxlsb
         bne     draw_spaceinvers_odd
 
 ; output inverted space (even)
-        .repeat 8,line
-        lda     (SCREEN_PTR),y
-        and     #$0f
-        sta     (SCREEN_PTR),y
-        .if line < 7
-        iny
-        .endif
+        .repeat 8, line
+                lda     (SCREEN_PTR), y
+                and     #$0f
+                sta     (SCREEN_PTR), y
+                .if     line < 7
+                        iny
+                .endif
         .endrepeat
         jmp     draw_back
 
 ; output space (odd)
 draw_space_odd:
-        .repeat 8,line
-        lda     (SCREEN_PTR),y
-        ora     #$0f
-        sta     (SCREEN_PTR),y
-        .if line < 7
-        iny
-        .endif
+        .repeat 8, line
+                lda     (SCREEN_PTR), y
+                ora     #$0f
+                sta     (SCREEN_PTR), y
+                .if     line < 7
+                        iny
+                .endif
         .endrepeat
         jmp     draw_back
 
@@ -195,13 +195,13 @@ draw_space:
         bne     draw_space_odd
 
 ; output space (even)
-        .repeat 8,line
-        lda     (SCREEN_PTR),y
-        ora     #$f0
-        sta     (SCREEN_PTR),y
-        .if (line < 7)
-        iny
-        .endif
+        .repeat 8, line
+                lda     (SCREEN_PTR), y
+                ora     #$f0
+                sta     (SCREEN_PTR), y
+                .if     (line < 7)
+                        iny
+                .endif
         .endrepeat
         jmp     draw_back
 .endif
@@ -215,18 +215,18 @@ draw_space:
 ; out:  Y: CURS_X
 ;
 soft80_putchar:
-        sta     tmp3            ; remember charcode
+        sta     tmp3    ; remember charcode
 
         sei
         ldx     $01
         stx     tmp4
         ldx     #$34
 
-        stx     $01             ; will stay $34 for space
-        ldy     #$00            ; will be $00 from now on
+        stx     $01     ; will stay $34 for space
+        ldy     #$00    ; will be $00 from now on
 
 .if SOFT80FASTSPACE = 1
-        cmp     #' '            ; space is a special (optimized) case
+        cmp     #' '    ; space is a special (optimized) case
         beq     draw_space
 .endif
 
@@ -234,11 +234,11 @@ soft80_putchar:
         jsr     soft80_putcolor
 .else
         lda     soft80_internal_cellcolor
-        sta     (CRAM_PTR),y    ; vram
+        sta     (CRAM_PTR), y   ; vram
 .endif
 
 ; output character
-        ldx     tmp3            ; get charcode
+        ldx     tmp3    ; get charcode
 
         lda     RVS
         beq     @skp
@@ -248,27 +248,27 @@ soft80_putchar:
         bne     draw_char_even
 
 ; output character (odd)
-        .repeat 8,line
-        lda     (SCREEN_PTR),y
-        and     #$0f
-        ora     soft80_hi_charset+(line*$80),x
-        sta     (SCREEN_PTR),y
-        .if line < 7
-        iny
-        .endif
+        .repeat 8, line
+                lda     (SCREEN_PTR), y
+                and     #$0f
+                ora     soft80_hi_charset+(line*$80), x
+                sta     (SCREEN_PTR), y
+                .if     line < 7
+                        iny
+                .endif
         .endrepeat
         jmp     draw_back
 
 ; output character (even)
 draw_char_even:
-        .repeat 8,line
-        lda     (SCREEN_PTR),y
-        and     #$f0
-        ora     soft80_lo_charset+(line*$80),x
-        sta     (SCREEN_PTR),y
-        .if line < 7
-        iny
-        .endif
+        .repeat 8, line
+                lda     (SCREEN_PTR), y
+                and     #$f0
+                ora     soft80_lo_charset+(line*$80), x
+                sta     (SCREEN_PTR), y
+                .if     line < 7
+                        iny
+                .endif
         .endrepeat
 
 draw_back:
@@ -281,14 +281,14 @@ draw_back:
 
 ; output inverted character (odd)
 draw_charinvers_odd:
-        .repeat 8,line
-        lda     (SCREEN_PTR),y
-        ora     #$0f
-        eor     soft80_lo_charset+(line*$80),x
-        sta     (SCREEN_PTR),y
-        .if line < 7
-        iny
-        .endif
+        .repeat 8, line
+                lda     (SCREEN_PTR), y
+                ora     #$0f
+                eor     soft80_lo_charset+(line*$80), x
+                sta     (SCREEN_PTR), y
+                .if     line < 7
+                        iny
+                .endif
         .endrepeat
         jmp     draw_back
 
@@ -297,14 +297,14 @@ draw_charinvers:
         lda     soft80_internal_cursorxlsb
         bne     draw_charinvers_odd
 
-        .repeat 8,line
-        lda     (SCREEN_PTR),y
-        ora     #$f0
-        eor     soft80_hi_charset+(line*$80),x
-        sta     (SCREEN_PTR),y
-        .if line < 7
-        iny
-        .endif
+        .repeat 8, line
+                lda     (SCREEN_PTR), y
+                ora     #$f0
+                eor     soft80_hi_charset+(line*$80), x
+                sta     (SCREEN_PTR), y
+                .if     line < 7
+                        iny
+                .endif
         .endrepeat
         jmp     draw_back
 
@@ -347,7 +347,7 @@ remcolor:
         ; if the textcolor in vram is equal to the background color, then
         ; no (visible) character is in the current cell and we can exit
         ; immediately.
-        lda     (CRAM_PTR),y    ; vram (textcolor)
+        lda     (CRAM_PTR), y   ; vram (textcolor)
         and     #$0f
         cmp     soft80_internal_bgcolor
         beq     @sk1            ; yes, vram==bgcolor
@@ -355,7 +355,7 @@ remcolor:
         ; now check if the textcolor in color ram is equal the background color,
         ; if yes then there is only one (visible) character in the current cell
         inc     $01             ; $35
-        lda     (CRAM_PTR),y    ; colram (2nd textcolor)
+        lda     (CRAM_PTR), y   ; colram (2nd textcolor)
         stx     $01             ; $34
         and     #$0f
         cmp     soft80_internal_bgcolor
@@ -368,15 +368,15 @@ remcolor:
         bne     @sk3
 
         ; vram = colram
-        lda     (CRAM_PTR),y    ; vram
+        lda     (CRAM_PTR), y   ; vram
         and     #$f0
         ora     tmp3            ; colram value
-        sta     (CRAM_PTR),y    ; vram
+        sta     (CRAM_PTR), y   ; vram
 @sk3:
         ; colram = bgcolor
         lda     soft80_internal_bgcolor
         inc     $01             ; $35
-        sta     (CRAM_PTR),y    ; colram
+        sta     (CRAM_PTR), y   ; colram
         stx     $01             ; $34
 
         rts
@@ -386,13 +386,13 @@ remcolor:
         ; => only one char in cell used
 
         jsr     soft80_checkchar
-        bcs     @sk1            ; space at current position
+        bcs     @sk1    ; space at current position
 
         ; vram (textcolor) = bgcolor
-        lda     (CRAM_PTR),y    ; vram
+        lda     (CRAM_PTR), y   ; vram
         and     #$f0
         ora     soft80_internal_bgcolor
-        sta     (CRAM_PTR),y    ; vram
+        sta     (CRAM_PTR), y   ; vram
 @sk1:
         rts
 
@@ -417,7 +417,7 @@ soft80_putcolor:
 
         ;ldy     #$00            ; is still $00
 
-        lda     (CRAM_PTR),y    ; vram
+        lda     (CRAM_PTR), y   ; vram
         and     #$0f
         cmp     soft80_internal_bgcolor
         beq     @sk1            ; vram==bgcolor => first char in cell
@@ -425,7 +425,7 @@ soft80_putcolor:
         ; vram!=bgcolor => second char in cell
 
         inc     $01             ; $35
-        lda     (CRAM_PTR),y    ; colram
+        lda     (CRAM_PTR), y   ; colram
         stx     $01             ; $34
         and     #$0f
         cmp     soft80_internal_bgcolor
@@ -434,38 +434,38 @@ soft80_putcolor:
         ; botch characters in the cell are used
 
         lda     soft80_internal_cursorxlsb
-        bne     @sk2            ; jump if odd xpos
+        bne     @sk2    ; jump if odd xpos
 
         ; vram = textcol
         lda     soft80_internal_cellcolor
-        sta     (CRAM_PTR),y    ; vram
+        sta     (CRAM_PTR), y   ; vram
         rts
 
 @l2s:
         ; one character in cell is already used
         jsr     soft80_checkchar
-        bcc     @sk1            ; char at current position => overwrite 1st
+        bcc     @sk1    ; char at current position => overwrite 1st
 
         lda     soft80_internal_cursorxlsb
-        beq     @sk3            ; jump if even xpos
+        beq     @sk3    ; jump if even xpos
 @sk2:
         ; colram = textcol
         lda     CHARCOLOR
         inc     $01             ; $35
-        sta     (CRAM_PTR),y    ; colram
+        sta     (CRAM_PTR), y   ; colram
         stx     $01             ; $34
         rts
 
 @sk3:
         ; colram=vram
-        lda     (CRAM_PTR),y    ; vram
+        lda     (CRAM_PTR), y   ; vram
         inc     $01             ; $35
-        sta     (CRAM_PTR),y    ; colram
+        sta     (CRAM_PTR), y   ; colram
         stx     $01             ; $34
 @sk1:
         ; vram = textcol
         lda     soft80_internal_cellcolor
-        sta     (CRAM_PTR),y    ; vram
+        sta     (CRAM_PTR), y   ; vram
         rts
 
 ;
@@ -488,14 +488,14 @@ soft80_checkchar:
         ; second to bottom row, this will likely be faster in average.
 
         ldy     #7
-        .repeat 8,line
-        lda     (SCREEN_PTR),y
-        and     #$f0
-        cmp     #$f0
-        bne     @ischar
-        .if (line < 7)
-        dey
-        .endif
+        .repeat 8, line
+                lda     (SCREEN_PTR), y
+                and     #$f0
+                cmp     #$f0
+                bne     @ischar
+                .if     (line < 7)
+                        dey
+                .endif
         .endrepeat
         ;ldy     #$00                            ; is 0
         ;sec                                     ; is set
@@ -506,14 +506,14 @@ soft80_checkchar:
         rts
 @l1a:
         ldy     #$07
-        .repeat 8,line
-        lda     (SCREEN_PTR),y
-        and     #$0f
-        cmp     #$0f
-        bne     @ischar
-        .if line < 7
-        dey
-        .endif
+        .repeat 8, line
+                lda     (SCREEN_PTR), y
+                and     #$0f
+                cmp     #$0f
+                bne     @ischar
+                .if     line < 7
+                        dey
+                .endif
         .endrepeat
         ;ldy     #$00                            ; is 0
         ;sec                                     ; is set

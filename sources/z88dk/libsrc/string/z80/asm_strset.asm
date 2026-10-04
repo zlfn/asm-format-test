@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Jan 2015
 ; ===============================================================
-; 
+;
 ; char* strset(char *s, int c)
 ;
 ; Fill the string with char c.
@@ -18,21 +18,21 @@ EXTERN l_ret
 
 asm_strset:
 
-   ; enter : hl = char *s
-   ;          e = int c
-   ;
-   ; exit  : hl = char *s
-   ;
-   ; uses  : af
-   
-   push hl
-   xor a
-   
+        ; enter : hl = char *s
+        ;          e = int c
+        ;
+        ; exit  : hl = char *s
+        ;
+        ; uses  : af
+
+        push    hl
+        xor     a
+
 loop:
-   cp (hl)
-   jp Z,l_ret - 1
+        cp      (hl)
+        jp      Z, l_ret - 1
 
-   ld (hl),e
-   inc hl
+        ld      (hl), e
+        inc     hl
 
-   jr loop
+        jr      loop

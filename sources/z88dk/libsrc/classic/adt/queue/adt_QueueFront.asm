@@ -11,20 +11,20 @@ PUBLIC _adt_QueueFront
 .adt_QueueFront
 ._adt_QueueFront
 
-   inc hl
-   inc hl
+        inc     hl
+        inc     hl
 
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a
-   
-   or h
-   ret z
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
 
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a
-   scf
-   ret
+        or      h
+        ret     z
+
+        ld      a, (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
+        scf
+        ret

@@ -9,15 +9,15 @@ EXTERN asm_esx_m_tapein_info
 
 _esx_m_tapein_info_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
 l0_esx_m_tapein_info_callee:
 
-   push ix
-   
-   call asm_esx_m_tapein_info
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_m_tapein_info
+
+        pop     ix
+        ret

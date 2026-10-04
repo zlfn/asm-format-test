@@ -7,11 +7,11 @@
 ;
 
         .export _putenv
-        .import _malloc, _free
+        .import _malloc,   _free
         .import searchenv, copyenvptr
         .import __environ, __envcount, __envsize
-        .import return0, ___directerrno
-        .import ptr1:zp, ptr2:zp, ptr3:zp, tmp1:zp
+        .import return0,   ___directerrno
+        .import ptr1:zp,   ptr2:zp,    ptr3:zp, tmp1:zp
 
         .include "errno.inc"
 
@@ -24,7 +24,7 @@
 
         sta     ptr1
         sta     name
-        stx     ptr1+1                  ; Save name
+        stx     ptr1+1  ; Save name
         stx     name+1
 
 ; Loop over the name to find the '='. If there is no '=', set errno to EINVAL
@@ -32,10 +32,10 @@
 
         ldy     #$FF
 @L0:    iny
-        lda     (ptr1),y
+        lda     (ptr1), y
         bne     @L1
         lda     #EINVAL
-        jmp     error                   ; End of string without '=' found
+        jmp     error   ; End of string without '=' found
 @L1:    cmp     #'='
         bne     @L0
 
@@ -43,7 +43,7 @@
 
         sty     tmp1
         lda     #$00
-        sta     (ptr1),y
+        sta     (ptr1), y
 
 ; Search for the string in the environment. searchenv will set the N flag if
 ; the string is not found, otherwise X contains the index of the entry, ptr2
@@ -56,12 +56,12 @@
 
         ldy     tmp1
         lda     #'='
-        sta     (ptr1),y
+        sta     (ptr1), y
 
 ; Check the result of searchenv
 
-        txa                             ; Did we find the entry?
-        bpl     addentry                ; Jump if yes
+        txa                     ; Did we find the entry?
+        bpl     addentry        ; Jump if yes
 
 ; We didn't find the entry, so we have to add a new one. Before doing so, we
 ; must check if the size of the _environ array must be increased.
@@ -70,7 +70,7 @@
         ldx     __envcount
         inx
         cpx     __envsize
-        bcc     addnewentry             ; Jump if space enough
+        bcc     addnewentry     ; Jump if space enough
 
 ; We need to increase the size of the environ array. Calculate the new size.
 ; We will not support a size larger than 64 entries, double the size with
@@ -78,14 +78,14 @@
 
         lda     __envsize
         bne     @L2
-        lda     #4                      ; Start with 4*2 entries
-@L2:    asl     a                       ; Double current size
-        bmi     nomem                   ; Bail out if > 64
-        sta     newsize                 ; Remember the new size
+        lda     #4      ; Start with 4*2 entries
+@L2:    asl     a       ; Double current size
+        bmi     nomem   ; Bail out if > 64
+        sta     newsize ; Remember the new size
 
 ; Call malloc() and store the result in ptr2
 
-        asl     a                       ; Make words
+        asl     a       ; Make words
         ldx     #$00
         jsr     _malloc
         sta     ptr2
@@ -99,10 +99,10 @@
 ; Copy the old environment pointer to ptr3, and the new one to __environ.
 
         ldx     #1
-@L3:    lda     __environ,x
-        sta     ptr3,x
-        lda     ptr2,x
-        sta     __environ,x
+@L3:    lda     __environ, x
+        sta     ptr3, x
+        lda     ptr2, x
+        sta     __environ, x
         dex
         bpl     @L3
 
@@ -117,8 +117,8 @@
         asl     a
         tay
         jmp     @L5
-@L4:    lda     (ptr3),y
-        sta     (ptr2),y
+@L4:    lda     (ptr3), y
+        sta     (ptr2), y
 @L5:    dey
         bpl     @L4
 
@@ -130,7 +130,7 @@
 
 ; Since free() has destroyed ptr2, we need another copy ...
 
-        jsr     copyenvptr              ; Copy __environ to ptr2
+        jsr     copyenvptr      ; Copy __environ to ptr2
 
 ; Bump the environment count and remember it in X. Add the final NULL entry.
 
@@ -141,9 +141,9 @@ addnewentry:
         asl     a
         tay
         lda     #$00
-        sta     (ptr2),y
+        sta     (ptr2), y
         iny
-        sta     (ptr2),y
+        sta     (ptr2), y
 
 ; The index of the new entry is the old environment count.
 
@@ -157,10 +157,10 @@ addentry:
         asl     a
         tay
         lda     name
-        sta     (ptr2),y
+        sta     (ptr2), y
         iny
         lda     name+1
-        sta     (ptr2),y
+        sta     (ptr2), y
 
 ; Done
 
@@ -173,11 +173,10 @@ error:  jmp     ___directerrno
 
 .endproc
 
-
 ;----------------------------------------------------------------------------
 ; data
 
 .bss
 
-name:           .addr   0               ; Pointer to name
-newsize:        .byte   0               ; New environment size
+name:   .addr   0       ; Pointer to name
+newsize: .byte  0       ; New environment size

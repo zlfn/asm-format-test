@@ -4,19 +4,19 @@
 ; int __fastcall__ read (int fd, void* buf, unsigned count);
 ;
 
-        .constructor    initprompt
-        .export         _read
-        .import         rwprolog, rwcommon
-        .import         RDKEY, COUT
+        .constructor initprompt
+        .export _read
+        .import rwprolog, rwcommon
+        .import RDKEY,    COUT
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "fcntl.inc"
-        .include        "mli.inc"
-        .include        "filedes.inc"
-        .include        "apple2.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "fcntl.inc"
+        .include "mli.inc"
+        .include "filedes.inc"
+        .include "apple2.inc"
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 initprompt:
         ; Set prompt <> ']' and currently executed Applesoft
@@ -35,15 +35,15 @@ _read:
         ; Get parameters
         jsr     rwprolog
         bcs     errno
-        tax                     ; Save fd
+        tax     ; Save fd
 
         ; Check for read access
-        lda     fdtab + FD::FLAGS,y
+        lda     fdtab + FD::FLAGS, y
         and     #O_RDONLY
         beq     einval
 
         ; Check for device
-        txa                     ; Restore fd
+        txa     ; Restore fd
         bmi     device
 
         ; Do read
@@ -81,7 +81,7 @@ next:   jsr     RDKEY
         sty     ptr2+1
 
         ; Put char into buf
-:       sta     (ptr1),y
+:       sta     (ptr1), y
 
         ; Increment pointer
         inc     ptr1

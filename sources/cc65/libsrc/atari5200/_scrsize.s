@@ -4,9 +4,9 @@
 ; Screen size variables
 ;
 
-        .export         screensize
-        .importzp       screen_width, screen_height
-        .include        "atari.inc"
+        .export screensize
+        .importzp screen_width, screen_height
+        .include "atari.inc"
 
 .proc   screensize
 
@@ -15,5 +15,3 @@
         rts
 
 .endproc
-
-

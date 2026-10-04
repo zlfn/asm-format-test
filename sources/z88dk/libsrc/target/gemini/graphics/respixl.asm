@@ -1,10 +1,10 @@
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  respixel
-    EXTERN  putvid_a
+        PUBLIC  respixel
+        EXTERN  putvid_a
 
-    EXTERN  __gfx_coords
+        EXTERN  __gfx_coords
 
 ;
 ;	$Id: respixl.asm $
@@ -19,23 +19,23 @@
 ;
 ;
 respixel:
-    ld      a, h
-    cp      160
-    ret     nc
-    ld      a, l
-				;cp	maxy
-    cp      75
-    ret     nc                          ; y0	out of range
+        ld      a, h
+        cp      160
+        ret     nc
+        ld      a, l
+        ;cp	maxy
+        cp      75
+        ret     nc      ; y0	out of range
 
-    ld      (__gfx_coords), hl
+        ld      (__gfx_coords), hl
 
-    ld      a, 27
-    call    putvid_a
-    ld      a, 'R'
-    call    putvid_a
-    ld      a, h
-    add     32
-    call    putvid_a
-    ld      a, l
-    add     32
-    jp      putvid_a
+        ld      a, 27
+        call    putvid_a
+        ld      a, 'R'
+        call    putvid_a
+        ld      a, h
+        add     32
+        call    putvid_a
+        ld      a, l
+        add     32
+        jp      putvid_a

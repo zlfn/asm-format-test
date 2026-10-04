@@ -10,14 +10,14 @@ EXTERN l0_fzx_string_partition_callee
 
 _fzx_string_partition:
 
-   pop af
-   pop bc
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     de
+        pop     hl
 
-   jp l0_fzx_string_partition_callee
+        push    hl
+        push    de
+        push    bc
+        push    af
+
+        jp      l0_fzx_string_partition_callee

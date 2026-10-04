@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _extended_sna_load
 defc _extended_sna_load = extended_sna_load
 ENDIF
-

@@ -18,32 +18,31 @@
 #include "../assembly.h"
 #include "crt_endian.h"
 
-  .syntax unified
-  .text
-  .p2align 2
-
+        .syntax unified
+        .text
+        .p2align 2
 
 op0h .req xh
 op0l .req xl
 op1h .req yh
 op1l .req yl
 .macro SetReturnRegister
-  mov r0, #0
-  movhi r0, #1
-  movlo r0, #-1
+        mov     r0, #0
+        movhi   r0, #1
+        movlo   r0, #-1
 .endm
 .macro SetReturnRegisterNE
-  movne r0, #-1
-  movhi r0, #1
+        movne   r0, #-1
+        movhi   r0, #1
 .endm
 
 #if __ARM_PCS_VFP
 DEFINE_COMPILERRT_FUNCTION(__cmpdf2)
-  push {r4, lr}
-  VMOV_FROM_DOUBLE(r0, r1, d0)
-  VMOV_FROM_DOUBLE(r2, r3, d1)
-  bl __compiler_rt_softfp_cmpdf2
-  pop {r4, pc}
+        push    {r4, lr}
+        VMOV_FROM_DOUBLE(r0, r1, d0)
+        VMOV_FROM_DOUBLE(r2, r3, d1)
+        bl      __compiler_rt_softfp_cmpdf2
+        pop     {r4, pc}
 #else
 DEFINE_COMPILERRT_FUNCTION_ALIAS(__cmpdf2, __compiler_rt_softfp_cmpdf2)
 #endif
@@ -53,11 +52,11 @@ DEFINE_COMPILERRT_FUNCTION_ALIAS(__eqdf2, __cmpdf2)
 DEFINE_COMPILERRT_FUNCTION_ALIAS(__nedf2, __cmpdf2)
 
 DEFINE_COMPILERRT_FUNCTION(__compiler_rt_softfp_cmpdf2)
-  #include "dcmp.h"
+        #include "dcmp.h"
 
 LOCAL_LABEL(NaN):
-  mov r0, #+1
-  bx lr
+        mov     r0, #+1
+        bx      lr
 
 END_COMPILERRT_FUNCTION(__compiler_rt_softfp_cmpdf2)
 

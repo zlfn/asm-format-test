@@ -18,7 +18,7 @@
 
 xorborder_callee:
 _xorborder_callee:
-        ld      hl, retaddr
+        ld      hl,   retaddr
         ex      (sp), hl
         ld      (retaddr0+1), hl
         ld      hl, xorborder
@@ -32,4 +32,3 @@ retaddr:
 retaddr0:
         ld      hl, 0
         jp      (hl)
-

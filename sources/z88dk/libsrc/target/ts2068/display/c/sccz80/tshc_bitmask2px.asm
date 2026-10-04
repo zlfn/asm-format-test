@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _tshc_bitmask2px
 defc _tshc_bitmask2px = tshc_bitmask2px
 ENDIF
-

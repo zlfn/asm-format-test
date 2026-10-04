@@ -7,18 +7,18 @@
 ; unsigned char __fastcall__ bgcolor (unsigned char color);
 ;
 
-        .export         soft80mono_textcolor, soft80mono_bgcolor
-        .import         soft80mono_internal_cellcolor, soft80mono_internal_bgcolor
+        .export soft80mono_textcolor, soft80mono_bgcolor
+        .import soft80mono_internal_cellcolor, soft80mono_internal_bgcolor
 
-        .importzp       tmp1
+        .importzp tmp1
 
-        .include        "c64.inc"
-        .include        "soft80.inc"
+        .include "c64.inc"
+        .include "soft80.inc"
 
 soft80mono_textcolor:
-        ldx     CHARCOLOR                       ; get old value
-        stx     tmp1                            ; save old value
-        sta     CHARCOLOR                       ; set new value
+        ldx     CHARCOLOR       ; get old value
+        stx     tmp1            ; save old value
+        sta     CHARCOLOR       ; set new value
 
 mkcharcolor:
         lda     soft80mono_internal_bgcolor
@@ -31,24 +31,24 @@ mkcharcolor:
 
         sei
         ldy     $01
-        lda     #$34                            ; enable RAM under I/O
+        lda     #$34    ; enable RAM under I/O
         sta     $01
 
         lda     soft80mono_internal_cellcolor
         ; clear loop for vram
         ldx     #$00
 @lp1:
-        sta     soft80_vram,x
-        sta     soft80_vram+$100,x
-        sta     soft80_vram+$200,x
-        sta     soft80_vram+$2e8,x
+        sta     soft80_vram, x
+        sta     soft80_vram+$100, x
+        sta     soft80_vram+$200, x
+        sta     soft80_vram+$2e8, x
         inx
         bne     @lp1
 
         sty     $01
         cli
 
-        lda     tmp1                            ; get old value
+        lda     tmp1    ; get old value
         rts
 
 soft80mono_bgcolor:

@@ -11,22 +11,20 @@
 ;       $Id: cpc_PrintGphStr_callee.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_PrintGphStr_callee
-        PUBLIC    _cpc_PrintGphStr_callee
-		
-        EXTERN    cpc_GetScrAddress0
-        EXTERN    cpc_PrintGphStr0
-		
+        SECTION code_clib
+        PUBLIC  cpc_PrintGphStr_callee
+        PUBLIC  _cpc_PrintGphStr_callee
+
+        EXTERN  cpc_GetScrAddress0
+        EXTERN  cpc_PrintGphStr0
 
 .cpc_PrintGphStr_callee
 ._cpc_PrintGphStr_callee
 
+        pop     bc
+        pop     hl      ; address
+        pop     de      ; text
+        push    bc      ; ret addr
+        xor     a
 
-	pop bc
-	pop hl		; address
-	pop de		; text
-	push bc	; ret addr
-	xor a
-    
- JP cpc_PrintGphStr0
+        JP      cpc_PrintGphStr0

@@ -10,24 +10,23 @@ EXTERN asm_b_vector_insert_n
 
 b_vector_insert_n:
 
-   pop ix
-   pop de
-   ld a,e
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push de
-   push ix
+        pop     ix
+        pop     de
+        ld      a, e
+        pop     de
+        pop     bc
+        pop     hl
 
-   jp asm_b_vector_insert_n
+        push    hl
+        push    bc
+        push    de
+        push    de
+        push    ix
+
+        jp      asm_b_vector_insert_n
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _b_vector_insert_n
 defc _b_vector_insert_n = b_vector_insert_n
 ENDIF
-

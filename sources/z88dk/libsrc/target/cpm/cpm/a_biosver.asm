@@ -9,19 +9,18 @@
 ;       $Id: a_biosver.asm,v 1.2 2017-01-02 20:06:48 aralbrec Exp $
 ;
 
-	SECTION code_clib
+        SECTION code_clib
 
-	PUBLIC	a_biosver
-   PUBLIC   _a_biosver
-	
-	EXTERN	subuserf
-	INCLUDE	"target/cpc/def/amstrad_userf.def"
+        PUBLIC  a_biosver
+        PUBLIC  _a_biosver
+
+        EXTERN  subuserf
+        INCLUDE "target/cpc/def/amstrad_userf.def"
 
 a_biosver:
 _a_biosver:
-	call subuserf
-	defw CD_VERSION
-	ld h,b
-	ld l,c
-	ret
-
+        call    subuserf
+        defw    CD_VERSION
+        ld      h, b
+        ld      l, c
+        ret

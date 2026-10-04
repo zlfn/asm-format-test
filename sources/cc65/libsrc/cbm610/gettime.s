@@ -7,15 +7,14 @@
 ; int __fastcall__ clock_gettime (clockid_t clk_id, struct timespec *tp);
 ;
 
-        .include        "time.inc"
-        .include        "cbm610.inc"
-        .include        "extzp.inc"
+        .include "time.inc"
+        .include "cbm610.inc"
+        .include "extzp.inc"
 
-        .import         pushax, pusheax, tosmul0ax, steaxspidx, incsp1
-        .import         sys_bank, restore_bank
-        .import         TM, load_tenth
-        .importzp       sreg, tmp1, tmp2
-
+        .import pushax,   pusheax, tosmul0ax, steaxspidx, incsp1
+        .import sys_bank, restore_bank
+        .import TM, load_tenth
+        .importzp sreg, tmp1, tmp2
 
 ;----------------------------------------------------------------------------
 .code
@@ -27,14 +26,14 @@
 
         jsr     sys_bank
         ldy     #CIA::TODHR
-        lda     (cia),y
+        lda     (cia), y
         sed
-        tax                     ; Save PM flag
+        tax             ; Save PM flag
         and     #%01111111
-        cmp     #$12            ; 12 AM/PM
+        cmp     #$12    ; 12 AM/PM
         bcc     @L1
         sbc     #$12
-@L1:    inx                     ; Get PM flag
+@L1:    inx             ; Get PM flag
         bpl     @L2
         clc
         adc     #$12
@@ -42,15 +41,15 @@
         jsr     BCD2dec
         sta     TM + tm::tm_hour
         ldy     #CIA::TODMIN
-        lda     (cia),y
+        lda     (cia), y
         jsr     BCD2dec
         sta     TM + tm::tm_min
         ldy     #CIA::TODSEC
-        lda     (cia),y
+        lda     (cia), y
         jsr     BCD2dec
         sta     TM + tm::tm_sec
         ldy     #CIA::TOD10
-        lda     (cia),y
+        lda     (cia), y
         jsr     restore_bank
         pha
         lda     #<TM

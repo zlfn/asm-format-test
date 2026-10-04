@@ -4,27 +4,26 @@
 ; Ullrich von Bassewitz, 1.12.2000
 ;
 
-        .export         _fprintf
-        .import         addysp, decsp4, _vfprintf
-        .importzp       c_sp, ptr1
+        .export _fprintf
+        .import addysp, decsp4, _vfprintf
+        .importzp c_sp, ptr1
 
-        .macpack        generic
+        .macpack generic
 
 ; ----------------------------------------------------------------------------
 ; Data
 
 .bss
 
-ParamSize:      .res    1               ; Number of parameter bytes
+ParamSize: .res 1       ; Number of parameter bytes
 
 ; ----------------------------------------------------------------------------
 ; Code
 
 .code
 
-
 _fprintf:
-        sty     ParamSize               ; Number of param bytes passed in Y
+        sty     ParamSize       ; Number of param bytes passed in Y
 
 ; We have to push f and format, both in the order they already have on stack.
 ; To make this somewhat more efficient, we will create space on the stack and
@@ -48,8 +47,8 @@ _fprintf:
 ; Now copy both, f and format
 
         ldy     #4-1
-@L2:    lda     (ptr1),y
-        sta     (c_sp),y
+@L2:    lda     (ptr1), y
+        sta     (c_sp), y
         dey
         bpl     @L2
 
@@ -66,4 +65,3 @@ _fprintf:
 
         ldy     ParamSize
         jmp     addysp
-

@@ -8,12 +8,12 @@ PUBLIC am48_cos
 
 EXTERN mm48_cos
 
-   ; compute cos(x)
-   ;
-   ; enter : AC' = double x in radians
-   ;
-   ; exit  : AC' = cos(x)
-   ;
-   ; uses  : af, af', bc', de', hl'
+        ; compute cos(x)
+        ;
+        ; enter : AC' = double x in radians
+        ;
+        ; exit  : AC' = cos(x)
+        ;
+        ; uses  : af, af', bc', de', hl'
 
 defc am48_cos = mm48_cos

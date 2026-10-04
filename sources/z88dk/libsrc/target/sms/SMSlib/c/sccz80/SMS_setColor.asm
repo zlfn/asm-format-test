@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_setColor
 defc _SMS_setColor = SMS_setColor
 ENDIF
-

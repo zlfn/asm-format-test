@@ -10,9 +10,9 @@ EXTERN asm_printf_unlocked
 
 _printf_unlocked:
 
-   push ix
-   
-   call asm_printf_unlocked
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_printf_unlocked
+
+        pop     ix
+        ret

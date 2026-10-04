@@ -11,14 +11,14 @@ PUBLIC l_or
 
 l_or:
 
-   ; "or" HL and DE into HL
+        ; "or" HL and DE into HL
 
-   ld a,l
-   or e
-   ld l,a
-   
-   ld a,h
-   or d
-   ld h,a
-   
-   ret
+        ld      a, l
+        or      e
+        ld      l, a
+
+        ld      a, h
+        or      d
+        ld      h, a
+
+        ret

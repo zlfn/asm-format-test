@@ -10,13 +10,13 @@ EXTERN asm_adt_ListSearch
 .adt_ListSearch
 ._adt_ListSearch
 
-   pop bc
-   pop de
-   pop iy
-   pop hl
-   push hl
-   push hl
-   push de
-   push bc
-   
-   jp asm_adt_ListSearch
+        pop     bc
+        pop     de
+        pop     iy
+        pop     hl
+        push    hl
+        push    hl
+        push    de
+        push    bc
+
+        jp      asm_adt_ListSearch

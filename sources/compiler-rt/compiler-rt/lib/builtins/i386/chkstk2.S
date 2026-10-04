@@ -31,25 +31,25 @@
 DEFINE_COMPILERRT_FUNCTION(_alloca) // _chkstk and _alloca are the same function
 // This gets decorated into "___chkstk"; GCC < 4.6 references this symbol.
 DEFINE_COMPILERRT_FUNCTION(__chkstk)
-        push   %ecx
-        cmp    $0x1000,%eax
-        lea    8(%esp),%ecx     // esp before calling this routine -> ecx
-        jb     1f
+        push    %ecx
+        cmp     $0x1000, %eax
+        lea     8(%esp), %ecx   // esp before calling this routine -> ecx
+        jb      1f
 2:
-        sub    $0x1000,%ecx
-        test   %ecx,(%ecx)
-        sub    $0x1000,%eax
-        cmp    $0x1000,%eax
-        ja     2b
+        sub     $0x1000, %ecx
+        test    %ecx,    (%ecx)
+        sub     $0x1000, %eax
+        cmp     $0x1000, %eax
+        ja      2b
 1:
-        sub    %eax,%ecx
-        test   %ecx,(%ecx)
+        sub     %eax, %ecx
+        test    %ecx, (%ecx)
 
-        lea    4(%esp),%eax     // load pointer to the return address into eax
-        mov    %ecx,%esp        // install the new top of stack pointer into esp
-        mov    -4(%eax),%ecx    // restore ecx
-        push   (%eax)           // push return address onto the stack
-        sub    %esp,%eax        // restore the original value in eax
+        lea     4(%esp),  %eax  // load pointer to the return address into eax
+        mov     %ecx,     %esp  // install the new top of stack pointer into esp
+        mov     -4(%eax), %ecx  // restore ecx
+        push    (%eax)          // push return address onto the stack
+        sub     %esp, %eax      // restore the original value in eax
         ret
 END_COMPILERRT_FUNCTION(__chkstk)
 END_COMPILERRT_FUNCTION(_alloca)

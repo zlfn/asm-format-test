@@ -5,11 +5,11 @@
 ; SPDX-License-Identifier: BSD-2-Clause-Patent
 ;;
 
-    SECTION .text
+        SECTION .text
 
 %include    "PushPopRegsNasm.inc"
 
-STACK_SAVED_RAX_OFFSET       EQU   8 * 7 ; size of a general purpose register * rax index
+STACK_SAVED_RAX_OFFSET EQU 8 * 7        ; size of a general purpose register * rax index
 
 ;
 ; Following functions will be provided in C
@@ -31,51 +31,50 @@ extern ASM_PFX(AsmGetFspInfoHeader)
 ;----------------------------------------------------------------------------
 global ASM_PFX(FspApiCommon)
 ASM_PFX(FspApiCommon):
-  ;
-  ; RAX holds the API index
-  ;
+        ;
+        ; RAX holds the API index
+        ;
 
-  ;
-  ; Stack must be ready
-  ;
-  push   rax
-  add    rsp, 8
-  cmp    rax, [rsp - 8]
-  jz     FspApiCommon1
-  mov    rax, 08000000000000003h
-  jmp    exit
+        ;
+        ; Stack must be ready
+        ;
+        push    rax
+        add     rsp, 8
+        cmp     rax, [rsp - 8]
+        jz      FspApiCommon1
+        mov     rax, 08000000000000003h
+        jmp     exit
 
 FspApiCommon1:
-  ;
-  ; Verify the calling condition
-  ;
-  PUSHA_64
-  mov    rdx, rcx           ; move ApiParam to rdx
-  mov    rcx, rax           ; move ApiIdx to rcx
-  sub    rsp, 0x28
-  call   ASM_PFX(FspApiCallingCheck)
-  add    rsp, 0x28
-  cmp    rax, 0
-  jz     FspApiCommon2
-  mov    [rsp + STACK_SAVED_RAX_OFFSET], rax
-  POPA_64
+        ;
+        ; Verify the calling condition
+        ;
+        PUSHA_64
+        mov     rdx, rcx        ; move ApiParam to rdx
+        mov     rcx, rax        ; move ApiIdx to rcx
+        sub     rsp, 0x28
+        call    ASM_PFX(FspApiCallingCheck)
+        add     rsp, 0x28
+        cmp     rax, 0
+        jz      FspApiCommon2
+        mov     [rsp + STACK_SAVED_RAX_OFFSET], rax
+        POPA_64
 exit:
-  ret
+        ret
 
 FspApiCommon2:
-  POPA_64
-  cmp    rax, 3   ; FspMemoryInit API
-  jz     FspApiCommon3
+        POPA_64
+        cmp     rax, 3  ; FspMemoryInit API
+        jz      FspApiCommon3
 
-  cmp    rax, 6   ; FspMultiPhaseSiInitApiIndex API
-  jz     FspApiCommon3
+        cmp     rax, 6  ; FspMultiPhaseSiInitApiIndex API
+        jz      FspApiCommon3
 
-  cmp    rax, 8   ; FspMultiPhaseMemInitApiIndex API
-  jz     FspApiCommon3
+        cmp     rax, 8  ; FspMultiPhaseMemInitApiIndex API
+        jz      FspApiCommon3
 
-  call   ASM_PFX(AsmGetFspInfoHeader)
-  jmp    ASM_PFX(Loader2PeiSwitchStack)
+        call    ASM_PFX(AsmGetFspInfoHeader)
+        jmp     ASM_PFX(Loader2PeiSwitchStack)
 
 FspApiCommon3:
-  jmp    ASM_PFX(FspApiCommonContinue)
-
+        jmp     ASM_PFX(FspApiCommonContinue)

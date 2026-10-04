@@ -16,12 +16,12 @@ EXTERN asm_calloc
 
 _calloc_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_calloc
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_calloc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

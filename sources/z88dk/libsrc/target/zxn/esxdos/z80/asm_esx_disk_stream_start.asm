@@ -15,63 +15,62 @@ EXTERN error_mnc, __esxdos_error_zc
 
 asm_esx_disk_stream_start:
 
-   ; enter : hl = struct esx_filemap_entry *
-   ;
-   ; exit  : success
-   ;
-   ;            hl = -1
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = 0
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl, ix
-   
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   ld c,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
+        ; enter : hl = struct esx_filemap_entry *
+        ;
+        ; exit  : success
+        ;
+        ;            hl = -1
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = 0
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl, ix
 
-   push bc
-   
-   ld c,(hl)
-   inc hl
-   ld b,(hl)
-   
-   pop hl
-   
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+
+        push    bc
+
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl)
+
+        pop     hl
+
 IF __SDCC_IY
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 ELSE
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 ENDIF
 
-   ld (__esx_stream_protocol_address),de
-   ld (__esx_stream_protocol_address + 2),hl
-   
-   ld (__esx_stream_protocol_sectors),bc
+        ld      (__esx_stream_protocol_address),     de
+        ld      (__esx_stream_protocol_address + 2), hl
 
-   ; ixde = card address
-   ;   bc = sectors
-   
-   ld a,(__esx_stream_card_flags)
-   
-   rst __ESX_RST_SYS
-   defb __ESX_DISK_STRMSTART
+        ld      (__esx_stream_protocol_sectors), bc
 
-   jp c, __esxdos_error_zc
-   
-   ld (__esx_stream_protocol),bc
-   jp error_mnc
+        ; ixde = card address
+        ;   bc = sectors
 
+        ld      a, (__esx_stream_card_flags)
+
+        rst     __ESX_RST_SYS
+        defb    __ESX_DISK_STRMSTART
+
+        jp      c, __esxdos_error_zc
+
+        ld      (__esx_stream_protocol), bc
+        jp      error_mnc
 
 ; ***************************************************************************
 ; * DISK_STRMSTART ($86) *

@@ -10,9 +10,9 @@ EXTERN asm_fmemopen
 
 fmemopen_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   jp asm_fmemopen
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_fmemopen

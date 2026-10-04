@@ -10,12 +10,12 @@ EXTERN asm_bv_priority_queue_reserve
 
 _bv_priority_queue_reserve:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     bc
 
-   jp asm_bv_priority_queue_reserve
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_bv_priority_queue_reserve

@@ -1,16 +1,15 @@
-	INCLUDE "classic/gfx/grafix.inc"
-        SECTION   code_clib
-	PUBLIC	fill
-	PUBLIC	_fill
-	EXTERN	w_pixeladdress
-	EXTERN	l_cmp
-
+        INCLUDE "classic/gfx/grafix.inc"
+        SECTION code_clib
+        PUBLIC  fill
+        PUBLIC  _fill
+        EXTERN  w_pixeladdress
+        EXTERN  l_cmp
 
 fill:
 _fill:
         pop     bc
-        pop     de                      ; y
-        pop     hl                      ; x
+        pop     de              ; y
+        pop     hl              ; x
         push    hl
         push    de
         push    bc
@@ -23,46 +22,46 @@ _fill:
         call    w_pixeladdress
         ld      b, a
         ld      a, 1
-        jr      z, cont                 ; pixel is at bit 0...
+        jr      z, cont         ; pixel is at bit 0...
 loop3:
         rlca
         djnz    loop3
 cont:
-        ld      hl, sline
+        ld      hl,    sline
         ld      (ws1), hl
-        ld      b, a
-        set     2, c                    ; semafor = 1
-        res     3, c                    ; indeks_ws = 0
+        ld      b,     a
+        set     2,     c        ; semafor = 1
+        res     3,     c        ; indeks_ws = 0
         call    segm
 
-        push    ix                      ; save callers
+        push    ix      ; save callers
 petelka:
-        pop     ix                      ; restore callers
-        bit     3, c                    ; indeks_ws1 == 0
+        pop     ix      ; restore callers
+        bit     3, c    ; indeks_ws1 == 0
         ret     z
-        res     3, c                    ; indeks_ws1 = 0
-        push    ix                      ; save callers
+        res     3, c    ; indeks_ws1 = 0
+        push    ix      ; save callers
 dalej2:
         push    hl
-        pop     ix                      ; W = ws1
+        pop     ix      ; W = ws1
         ld      hl, (ws1)
         ld      (index), hl
-        bit     2, c
-        jr      z, w_sline
-        res     2, c
-        ld      hl, sline2
+        bit     2,     c
+        jr      z,     w_sline
+        res     2,     c
+        ld      hl,    sline2
         ld      (ws1), hl
         jr      inner_loop
 w_sline:
-        set     2, c
-        ld      hl, sline
+        set     2,     c
+        ld      hl,    sline
         ld      (ws1), hl
 
 inner_loop:
         ld      a, (index)
         cp      ixl
         jr      nz, dalej
-        ld      a, (index+1)
+        ld      a,  (index+1)
         cp      ixh
         jr      z, petelka
 dalej:
@@ -88,20 +87,20 @@ write:
 test_up_down:
         ld      a, (de)
         or      b
-        ld      (de), a                 ; plot(x,y)
+        ld      (de), a ; plot(x,y)
         push    de
         call    decy
         jr      c, down
         ld      a, (de)
-        and     b                       ; point(x, y - 1)
+        and     b       ; point(x, y - 1)
         jr      z, test_write
         set     0, c
         jr      down
 
 test_write:
-        bit     0, c                    ; if (is_above) {
+        bit     0, c    ; if (is_above) {
         jr      z, down
-        res     0, c                    ; is_above = 0;
+        res     0, c    ; is_above = 0;
         call    write
 
 down:
@@ -111,26 +110,25 @@ down:
         jr      c, wypad
 
         ld      a, (de)
-        and     b                       ; point(x, y + 1)
+        and     b       ; point(x, y + 1)
         jr      z, test_write2
         set     1, c
         jr      wypad
 
 test_write2:
-        bit     1, c                    ; if (is_below) {
+        bit     1, c    ; if (is_below) {
         jr      z, wypad
-        res     1, c                    ; is_below = 0;
+        res     1, c    ; is_below = 0;
         call    write
 wypad:
         pop     de
         ret
 
-
 segm:
 ; de - address
 ; b - mask of the pixel
         set     0, c
-        set     1, c                    ; is_above = 1, is_below = 1
+        set     1, c    ; is_above = 1, is_below = 1
         push    de
         ld      a, b
         push    af
@@ -155,7 +153,6 @@ loop2:
         call    test_up_down
         jr      loop2
 
-
 ; enter: de = valid screen address
 ;        b = uchar mask
 ; exit : carry = moved off screen
@@ -166,10 +163,10 @@ loop2:
 decx:
         rlc     b
         ret     nc
-        bit     5, d
+        bit     5,  d
         jr      nz, first_1
-        set     5, d
-        ld      a, e
+        set     5,  d
+        ld      a,  e
         dec     e
         and     $1f
         ret     nz
@@ -185,9 +182,9 @@ first_1:
 incx:
         rrc     b
         ret     nc
-        bit     5, d
+        bit     5,  d
         jr      nz, first
-        set     5, d
+        set     5,  d
         or      a
         ret
 first:
@@ -283,7 +280,6 @@ incy:
 ;	int xs;
 ;	int y;
 ;};
-
 
 ;struct segment sline[2 * 2 * 512 + 4];
 ;struct segment *ws1 = sline;

@@ -5,6 +5,6 @@
 ; /* Read a particular joystick */
 ;
 
-        .include        "joy-kernel.inc"
+        .include "joy-kernel.inc"
 
-        _joy_read       = joy_read              ; Use driver entry
+        _joy_read = joy_read    ; Use driver entry

@@ -4,11 +4,11 @@
 ; void screensize (unsigned char* x, unsigned char* y);
 ;
 
-        .export         _screensize
+        .export _screensize
 
-        .import         popptr1
-        .import         screensize
-        .importzp       ptr1, ptr2
+        .import popptr1
+        .import screensize
+        .importzp ptr1, ptr2
 
 .proc   _screensize
 
@@ -24,11 +24,10 @@
         sta     (ptr1)
 .else
         ldy     #0
-        sta     (ptr2),y
+        sta     (ptr2), y
         txa
-        sta     (ptr1),y
+        sta     (ptr1), y
 .endif
         rts
 
 .endproc
-

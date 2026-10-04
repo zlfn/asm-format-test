@@ -9,7 +9,7 @@
 ;*
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID
@@ -19,15 +19,15 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(SetCodeSelector)
 ASM_PFX(SetCodeSelector):
-    mov     ecx, [esp+4]
-    sub     esp, 0x10
-    lea     eax, [setCodeSelectorLongJump]
-    mov     [esp], eax
-    mov     [esp+4], cx
-    jmp     dword far [esp]
+        mov     ecx,     [esp+4]
+        sub     esp,     0x10
+        lea     eax,     [setCodeSelectorLongJump]
+        mov     [esp],   eax
+        mov     [esp+4], cx
+        jmp     dword far [esp]
 setCodeSelectorLongJump:
-    add     esp, 0x10
-    ret
+        add     esp, 0x10
+        ret
 
 ;------------------------------------------------------------------------------
 ; VOID
@@ -37,11 +37,10 @@ setCodeSelectorLongJump:
 ;------------------------------------------------------------------------------
 global ASM_PFX(SetDataSelectors)
 ASM_PFX(SetDataSelectors):
-    mov     ecx, [esp+4]
+        mov     ecx, [esp+4]
 o16 mov     ss, cx
 o16 mov     ds, cx
 o16 mov     es, cx
 o16 mov     fs, cx
 o16 mov     gs, cx
-    ret
-
+        ret

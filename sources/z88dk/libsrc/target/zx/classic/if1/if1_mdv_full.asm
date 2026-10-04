@@ -12,30 +12,28 @@
 ;       $Id: if1_mdv_full.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  if1_mdv_full
-    PUBLIC  _if1_mdv_full
-
-
+        SECTION code_clib
+        PUBLIC  if1_mdv_full
+        PUBLIC  _if1_mdv_full
 
 if1_mdv_full:
 _if1_mdv_full:
 
 ; __FASTCALL__
-    EX      DE, HL
-    LD      HL, 0                       ; '
+        EX      DE, HL
+        LD      HL, 0   ; '
 
-    LD      B, $20
+        LD      B, $20
 NXT_B_MAP:
-    LD      A, (DE)
-    CP      $FF
-    SCF
-    CCF
-    RET     NZ
+        LD      A, (DE)
+        CP      $FF
+        SCF
+        CCF
+        RET     NZ
 
-    INC     DE
-    DJNZ    NXT_B_MAP
+        INC     DE
+        DJNZ    NXT_B_MAP
 
-    SCF
-    DEC     HL                          ; -1
-    RET
+        SCF
+        DEC     HL      ; -1
+        RET

@@ -6,11 +6,10 @@
 ; and, check if the co-ordinates are valid. Return carry clear if so.
 ;
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
-        .import         popax
-        .importzp       ptr1, ptr2
-
+        .import popax
+        .importzp ptr1, ptr2
 
 .proc   tgi_getset
 
@@ -18,10 +17,10 @@
 
 ; Are the co-ordinates out of range? First, check if any coord is negative.
 
-        txa                     ; (.X = ptr2+1 from tgi_popxy)
+        txa             ; (.X = ptr2+1 from tgi_popxy)
         ora     ptr1+1
-        sec                     ; Return carry set if number is negative
-        bmi     @L9             ; Bail out if negative
+        sec             ; Return carry set if number is negative
+        bmi     @L9     ; Bail out if negative
 
 ; Check if X is larger than the maximum x coord. If so, bail out.
 

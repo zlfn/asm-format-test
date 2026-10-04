@@ -9,5 +9,5 @@ EXTERN asm_sms_vram_read_hl
 
 defc asm_sms_vdp_set_read_address = asm_sms_vram_read_hl
 
-   ; enter : hl = unsigned int addr
-   ; uses  : af
+        ; enter : hl = unsigned int addr
+        ; uses  : af

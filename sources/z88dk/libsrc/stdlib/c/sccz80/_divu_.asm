@@ -10,21 +10,20 @@ EXTERN asm__divu
 
 _divu_:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push de
-   push af
-   
-   jp asm__divu
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    de
+        push    af
+
+        jp      asm__divu
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC __divu_
 defc __divu_ = _divu_
 ENDIF
-

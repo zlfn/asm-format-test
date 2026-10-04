@@ -14,14 +14,14 @@
 ;	$Id: f_ansi_char.asm,v 1.7 2016-07-20 05:45:02 stefano Exp $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_CHAR
+        SECTION code_clib
+        PUBLIC  ansi_CHAR
 
-    EXTERN  generic_console_printc
-    EXTERN  __console_x
+        EXTERN  generic_console_printc
+        EXTERN  __console_x
 
 ansi_CHAR:
-    ld      bc, (__console_x)
-    ld      d, a
-    ld      e, 0                        ;not in raw mode
-    jp      generic_console_printc
+        ld      bc, (__console_x)
+        ld      d,  a
+        ld      e,  0   ;not in raw mode
+        jp      generic_console_printc

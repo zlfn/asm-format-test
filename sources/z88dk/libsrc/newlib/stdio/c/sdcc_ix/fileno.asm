@@ -16,13 +16,13 @@ EXTERN _fileno_fastcall
 
 _fileno:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _fileno_fastcall
+        push    hl
+        push    af
+
+        jp      _fileno_fastcall
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

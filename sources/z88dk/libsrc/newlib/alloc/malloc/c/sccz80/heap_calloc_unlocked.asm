@@ -10,14 +10,14 @@ EXTERN asm_heap_calloc_unlocked
 
 heap_calloc_unlocked:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push bc
-   push af
-   
-   jp asm_heap_calloc_unlocked
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_heap_calloc_unlocked

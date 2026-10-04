@@ -10,18 +10,18 @@ EXTERN asm_esxdos_disk_info
 
 _esxdos_disk_info_callee:
 
-   pop hl
-   dec sp
-   pop af
-   ex (sp),hl
+        pop     hl
+        dec     sp
+        pop     af
+        ex      (sp), hl
 
 l0_esxdos_disk_info_callee:
 
-   push ix
-   push iy
-   
-   call asm_esxdos_disk_info
+        push    ix
+        push    iy
 
-   pop iy
-   pop ix
-   ret
+        call    asm_esxdos_disk_info
+
+        pop     iy
+        pop     ix
+        ret

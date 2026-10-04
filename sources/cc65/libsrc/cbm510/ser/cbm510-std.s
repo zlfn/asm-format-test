@@ -21,24 +21,23 @@
 ; interrupt handling assumes that the 65816 is in 6502-emulation mode.
 ;
 
-        .include        "zeropage.inc"
-        .include        "../extzp.inc"
-        .include        "ser-kernel.inc"
-        .include        "ser-error.inc"
-        .include        "cbm510.inc"
+        .include "zeropage.inc"
+        .include "../extzp.inc"
+        .include "ser-kernel.inc"
+        .include "ser-error.inc"
+        .include "cbm510.inc"
 
-        .macpack        module
-
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _cbm510_std_ser
+        module_header _cbm510_std_ser
 
 ; Driver signature
 
-        .byte   $73, $65, $72           ; "ser"
-        .byte   SER_API_VERSION         ; Serial API version number
+        .byte   $73, $65, $72   ; "ser"
+        .byte   SER_API_VERSION ; Serial API version number
 
 ; Library reference
 
@@ -62,62 +61,62 @@
 ;
 
 .bss
-RecvHead:       .res    1       ; Head of receive buffer
-RecvTail:       .res    1       ; Tail of receive buffer
-RecvFreeCnt:    .res    1       ; Number of bytes in receive buffer
-SendHead:       .res    1       ; Head of send buffer
-SendTail:       .res    1       ; Tail of send buffer
-SendFreeCnt:    .res    1       ; Number of bytes in send buffer
+RecvHead:    .res 1     ; Head of receive buffer
+RecvTail:    .res 1     ; Tail of receive buffer
+RecvFreeCnt: .res 1     ; Number of bytes in receive buffer
+SendHead:    .res 1     ; Head of send buffer
+SendTail:    .res 1     ; Tail of send buffer
+SendFreeCnt: .res 1     ; Number of bytes in send buffer
 
-Stopped:        .res    1       ; Flow-stopped flag
-RtsOff:         .res    1       ;
+Stopped: .res   1       ; Flow-stopped flag
+RtsOff: .res    1       ;
 
 ; Send and receive buffers: 256 bytes each
-RecvBuf:        .res    256
-SendBuf:        .res    256
+RecvBuf: .res   256
+SendBuf: .res   256
 
 .rodata
 
 ; Tables used to translate RS232 params into register values
 
-BaudTable:                      ; bit7 = 1 means setting is invalid
-        .byte   $FF             ; SER_BAUD_45_5
-        .byte   $01             ; SER_BAUD_50
-        .byte   $02             ; SER_BAUD_75
-        .byte   $03             ; SER_BAUD_110
-        .byte   $04             ; SER_BAUD_134_5
-        .byte   $05             ; SER_BAUD_150
-        .byte   $06             ; SER_BAUD_300
-        .byte   $07             ; SER_BAUD_600
-        .byte   $08             ; SER_BAUD_1200
-        .byte   $09             ; SER_BAUD_1800
-        .byte   $0A             ; SER_BAUD_2400
-        .byte   $0B             ; SER_BAUD_3600
-        .byte   $0C             ; SER_BAUD_4800
-        .byte   $0D             ; SER_BAUD_7200
-        .byte   $0E             ; SER_BAUD_9600
-        .byte   $0F             ; SER_BAUD_19200
-        .byte   $FF             ; SER_BAUD_38400
-        .byte   $FF             ; SER_BAUD_57600
-        .byte   $FF             ; SER_BAUD_115200
-        .byte   $FF             ; SER_BAUD_230400
+BaudTable:              ; bit7 = 1 means setting is invalid
+        .byte   $FF     ; SER_BAUD_45_5
+        .byte   $01     ; SER_BAUD_50
+        .byte   $02     ; SER_BAUD_75
+        .byte   $03     ; SER_BAUD_110
+        .byte   $04     ; SER_BAUD_134_5
+        .byte   $05     ; SER_BAUD_150
+        .byte   $06     ; SER_BAUD_300
+        .byte   $07     ; SER_BAUD_600
+        .byte   $08     ; SER_BAUD_1200
+        .byte   $09     ; SER_BAUD_1800
+        .byte   $0A     ; SER_BAUD_2400
+        .byte   $0B     ; SER_BAUD_3600
+        .byte   $0C     ; SER_BAUD_4800
+        .byte   $0D     ; SER_BAUD_7200
+        .byte   $0E     ; SER_BAUD_9600
+        .byte   $0F     ; SER_BAUD_19200
+        .byte   $FF     ; SER_BAUD_38400
+        .byte   $FF     ; SER_BAUD_57600
+        .byte   $FF     ; SER_BAUD_115200
+        .byte   $FF     ; SER_BAUD_230400
 
 BitTable:
-        .byte   $60             ; SER_BITS_5
-        .byte   $40             ; SER_BITS_6
-        .byte   $20             ; SER_BITS_7
-        .byte   $00             ; SER_BITS_8
+        .byte   $60     ; SER_BITS_5
+        .byte   $40     ; SER_BITS_6
+        .byte   $20     ; SER_BITS_7
+        .byte   $00     ; SER_BITS_8
 
 StopTable:
-        .byte   $00             ; SER_STOP_1
-        .byte   $80             ; SER_STOP_2
+        .byte   $00     ; SER_STOP_1
+        .byte   $80     ; SER_STOP_2
 
 ParityTable:
-        .byte   $00             ; SER_PAR_NONE
-        .byte   $20             ; SER_PAR_ODD
-        .byte   $60             ; SER_PAR_EVEN
-        .byte   $A0             ; SER_PAR_MARK
-        .byte   $E0             ; SER_PAR_SPACE
+        .byte   $00     ; SER_PAR_NONE
+        .byte   $20     ; SER_PAR_ODD
+        .byte   $60     ; SER_PAR_EVEN
+        .byte   $A0     ; SER_PAR_MARK
+        .byte   $E0     ; SER_PAR_SPACE
 
 .code
 
@@ -162,7 +161,7 @@ SER_OPEN:
 ; Check if the handshake setting is valid
 
         ldy     #SER_PARAMS::HANDSHAKE  ; Handshake
-        lda     (ptr1),y
+        lda     (ptr1), y
         cmp     #SER_HS_HW              ; This is all we support
         bne     InvParam
 
@@ -174,7 +173,7 @@ SER_OPEN:
         stx     RecvTail
         stx     SendHead
         stx     SendTail
-        dex                             ; X = 255
+        dex     ; X = 255
         stx     RecvFreeCnt
         stx     SendFreeCnt
 
@@ -182,23 +181,23 @@ SER_OPEN:
 ; length and the baud rate.
 
         ldy     #SER_PARAMS::BAUDRATE
-        lda     (ptr1),y                ; Baudrate index
+        lda     (ptr1), y       ; Baudrate index
         tay
-        lda     BaudTable,y             ; Get 6551 value
-        bmi     InvBaud                 ; Branch if rate not supported
+        lda     BaudTable, y    ; Get 6551 value
+        bmi     InvBaud         ; Branch if rate not supported
         sta     tmp1
 
         ldy     #SER_PARAMS::DATABITS   ; Databits
-        lda     (ptr1),y
+        lda     (ptr1), y
         tay
-        lda     BitTable,y
+        lda     BitTable, y
         ora     tmp1
         sta     tmp1
 
         ldy     #SER_PARAMS::STOPBITS   ; Stopbits
-        lda     (ptr1),y
+        lda     (ptr1), y
         tay
-        lda     StopTable,y
+        lda     StopTable, y
         ora     tmp1
         ora     #%00010000              ; Receiver clock source = baudrate
         ldy     #ACIA::CTRL
@@ -208,9 +207,9 @@ SER_OPEN:
 ; RtsOff, since we will have to manipulate ACIA_CMD often.
 
         ldy     #SER_PARAMS::PARITY     ; Parity
-        lda     (ptr1),y
+        lda     (ptr1), y
         tay
-        lda     ParityTable,y
+        lda     ParityTable, y
         ora     #%00000001              ; DTR active
         sta     RtsOff
         ora     #%00001000              ; Enable receive interrupts
@@ -227,14 +226,14 @@ SER_OPEN:
 
 InvParam:
         lda     #SER_ERR_INIT_FAILED
-        ldx     #0 ; return value is char
+        ldx     #0      ; return value is char
         rts
 
 ; Baud rate not available
 
 InvBaud:
         lda     #SER_ERR_BAUD_UNAVAIL
-        ldx     #0 ; return value is char
+        ldx     #0      ; return value is char
         rts
 
 ;----------------------------------------------------------------------------
@@ -244,8 +243,8 @@ InvBaud:
 ;
 
 SER_GET:
-        ldx     SendFreeCnt             ; Send data if necessary
-        inx                             ; X == $FF?
+        ldx     SendFreeCnt     ; Send data if necessary
+        inx                     ; X == $FF?
         beq     @L1
         lda     #$00
         jsr     TryToSend
@@ -256,7 +255,7 @@ SER_GET:
         cmp     #$ff
         bne     @L2
         lda     #SER_ERR_NO_DATA
-        ldx     #0 ; return value is char
+        ldx     #0      ; return value is char
         rts
 
 ; Check for flow stopped & enough free: release flow control
@@ -274,12 +273,12 @@ SER_GET:
 ; Get byte from buffer
 
 @L3:    ldx     RecvHead
-        lda     RecvBuf,x
+        lda     RecvBuf, x
         inc     RecvHead
         inc     RecvFreeCnt
         ldx     #$00
         sta     (ptr1,x)
-        txa                             ; Return code = 0
+        txa     ; Return code = 0
         rts
 
 ;----------------------------------------------------------------------------
@@ -292,7 +291,7 @@ SER_PUT:
 ; Try to send
 
         ldx     SendFreeCnt
-        cpx     #$FF                   ; Nothing to flush
+        cpx     #$FF    ; Nothing to flush
         beq     @L2
         pha
         lda     #$00
@@ -303,13 +302,13 @@ SER_PUT:
 
         ldx     SendFreeCnt
         bne     @L2
-        lda     #SER_ERR_OVERFLOW      ; X is already zero
+        lda     #SER_ERR_OVERFLOW       ; X is already zero
         rts
 
 ; Put byte into send buffer & send
 
 @L2:    ldx     SendTail
-        sta     SendBuf,x
+        sta     SendBuf, x
         inc     SendTail
         dec     SendFreeCnt
         lda     #$ff
@@ -328,7 +327,7 @@ SER_STATUS:
         lda     #$0F
         sta     IndReg
         ldy     #ACIA::STATUS
-        lda     (acia),y
+        lda     (acia), y
         ldx     #0
         sta     (ptr1,x)
         lda     IndReg
@@ -345,7 +344,7 @@ SER_STATUS:
 
 SER_IOCTL:
         lda     #SER_ERR_INV_IOCTL      ; We don't support ioclts for now
-        ldx     #0 ; return value is char
+        ldx     #0                      ; return value is char
         rts
 
 ;----------------------------------------------------------------------------
@@ -359,15 +358,15 @@ SER_IRQ:
         lda     #$0F
         sta     IndReg          ; Switch to the system bank
         ldy     #ACIA::STATUS
-        lda     (acia),y        ; Check ACIA status for receive interrupt
+        lda     (acia), y       ; Check ACIA status for receive interrupt
         and     #$08
         beq     @L9             ; Jump if no ACIA interrupt (carry still clear)
         ldy     #ACIA::DATA
-        lda     (acia),y        ; Get byte from ACIA
+        lda     (acia), y       ; Get byte from ACIA
         ldx     RecvFreeCnt     ; Check if we have free space left
         beq     @L1             ; Jump if no space in receive buffer
         ldy     RecvTail        ; Load buffer pointer
-        sta     RecvBuf,y       ; Store received byte in buffer
+        sta     RecvBuf, y      ; Store received byte in buffer
         inc     RecvTail        ; Increment buffer pointer
         dec     RecvFreeCnt     ; Decrement free space counter
         cpx     #33             ; Check for buffer space low
@@ -377,9 +376,9 @@ SER_IRQ:
 
 @L1:    lda     RtsOff
         ldy     #ACIA::CMD
-        sta     (acia),y
+        sta     (acia), y
         sta     Stopped
-        sec                     ; Interrupt handled
+        sec     ; Interrupt handled
 
 ; Done, switch back to the execution segment
 
@@ -392,25 +391,25 @@ SER_IRQ:
 
 .proc   TryToSend
 
-        sta     tmp1            ; Remember tryHard flag
+        sta     tmp1    ; Remember tryHard flag
         lda     #$0F
-        sta     IndReg          ; Switch to the system bank
+        sta     IndReg  ; Switch to the system bank
 @L0:    lda     SendFreeCnt
         cmp     #$ff
-        beq     @L2             ; Bail out
+        beq     @L2     ; Bail out
 
 ; Check for flow stopped
 
 @L1:    lda     Stopped
-        bne     @L2             ; Bail out
+        bne     @L2     ; Bail out
 
 ; Check that swiftlink is ready to send
 
         ldy     #ACIA::STATUS
-        lda     (acia),y
+        lda     (acia), y
         and     #$10
         bne     @L3
-        bit     tmp1            ; Keep trying if must try hard
+        bit     tmp1    ; Keep trying if must try hard
         bmi     @L1
 
 ; Switch back the bank and return
@@ -422,15 +421,14 @@ SER_IRQ:
 ; Send byte and try again
 
 @L3:    ldx     SendHead
-        lda     SendBuf,x
+        lda     SendBuf, x
         ldy     #ACIA::DATA
-        sta     (acia),y
+        sta     (acia), y
         inc     SendHead
         inc     SendFreeCnt
         jmp     @L0
 
 .endproc
-
 
 ;----------------------------------------------------------------------------
 ; Write to the ACIA changing the indirect segment. Offset is in Y, value in A.
@@ -441,7 +439,7 @@ write:  pha
         lda     #$0F
         sta     IndReg
         pla
-        sta     (acia),y
+        sta     (acia), y
         lda     ExecReg
         sta     IndReg
         rts

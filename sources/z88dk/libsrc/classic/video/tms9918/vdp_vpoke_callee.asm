@@ -10,37 +10,35 @@
 ;        $Id: vdp_vpoke_callee.asm$
 ;
 
-    SECTION code_video_vdp
-    PUBLIC  vdp_vpoke_callee
-    PUBLIC  _vdp_vpoke_callee
+        SECTION code_video_vdp
+        PUBLIC  vdp_vpoke_callee
+        PUBLIC  _vdp_vpoke_callee
 
-    PUBLIC  vdp_vpoke_direct
+        PUBLIC  vdp_vpoke_direct
 
-    PUBLIC  asm_vdp_vpoke
-    EXTERN  SETWRT
+        PUBLIC  asm_vdp_vpoke
+        EXTERN  SETWRT
 
-    INCLUDE "classic/video/tms9918/vdp.inc"
-
+        INCLUDE "classic/video/tms9918/vdp.inc"
 
 vdp_vpoke_callee:
 _vdp_vpoke_callee:
 
-    pop     bc
-    pop     de                          ; value
-    pop     hl                          ; VRAM address
-    push    bc
+        pop     bc
+        pop     de      ; value
+        pop     hl      ; VRAM address
+        push    bc
 
 asm_vdp_vpoke:
-    ld      a, e
+        ld      a, e
 vdp_vpoke_direct:
-    ex      af, af
+        ex      af, af
 
-    call    SETWRT
+        call    SETWRT
 
 IF  VDP_DATA>=256
-    ld      bc, VDP_DATA
+        ld      bc, VDP_DATA
 ENDIF
-    ex      af,af
-    VDPOUT  (VDP_DATA)
-    ret
-
+        ex      af, af
+        VDPOUT  (VDP_DATA)
+        ret

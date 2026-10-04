@@ -9,8 +9,8 @@ PUBLIC _bfx_6
 
 _bfx_6:
 
-   ; Drop_2
+        ; Drop_2
 
-   defb 2 ;noise
-   defw 100,50,356
-   defb 0
+        defb    2       ;noise
+        defw    100, 50, 356
+        defb    0

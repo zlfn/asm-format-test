@@ -6,10 +6,10 @@
 ; instead, mirroring how remove.s/chdir.s bypass __mappederrno.
 ;
 
-        .export         _mkdir
+        .export _mkdir
 
-        .import         _f_mkdir
-        .import         addysp, popax
+        .import _f_mkdir
+        .import addysp, popax
 
 ;--------------------------------------------------------------------------
 

@@ -7,13 +7,11 @@
 ;
 ;
 
-	SECTION rodata_clib
-	PUBLIC	textpixl
-
+        SECTION rodata_clib
+        PUBLIC  textpixl
 
 .textpixl
-		defb	 32,      29,      27,     175
-		defb	 28,     181,     182,     191
-		defb	 26,      30,     234,     239
-		defb	 31,     253,     254,     255
-
+        defb    32, 29,  27,  175
+        defb    28, 181, 182, 191
+        defb    26, 30,  234, 239
+        defb    31, 253, 254, 255

@@ -9,18 +9,18 @@ EXTERN asm_esxdos_disk_write
 
 esxdos_disk_write_callee:
 
-   pop hl
-   pop ix
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   ld a,l
+        pop     hl
+        pop     ix
+        pop     de
+        pop     bc
+        ex      (sp), hl
 
-   push ix
-   pop hl
+        ld      a, l
 
-   jp asm_esxdos_disk_write
+        push    ix
+        pop     hl
+
+        jp      asm_esxdos_disk_write
 
 ; SDCC bridge for Classic
 IF __CLASSIC

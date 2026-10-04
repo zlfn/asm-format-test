@@ -9,15 +9,15 @@ EXTERN asm_z180_otdmr
 
 z180_otdmr:
 
-   pop af
-   pop de
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push de
-   push af
+        pop     af
+        pop     de
+        pop     bc
+        pop     hl
 
-   ld b,e
-   jp asm_z180_otdmr
+        push    hl
+        push    bc
+        push    de
+        push    af
+
+        ld      b, e
+        jp      asm_z180_otdmr

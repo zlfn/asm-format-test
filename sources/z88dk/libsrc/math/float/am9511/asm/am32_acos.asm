@@ -26,21 +26,18 @@ EXTERN asm_am9511_popf
 
 PUBLIC asm_am9511_acos, asm_am9511_acos_fastcall
 
-
 .asm_am9511_acos
-    call asm_am9511_pushf           ; x
+        call    asm_am9511_pushf        ; x
 
-    ld a,__IO_APU_OP_ACOS
-    AM9511_OUT_APU_CONTROL        ; acos(x)
+        ld      a, __IO_APU_OP_ACOS
+        AM9511_OUT_APU_CONTROL  ; acos(x)
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf
 
 .asm_am9511_acos_fastcall
-    call asm_am9511_pushf_fastcall  ; x
+        call    asm_am9511_pushf_fastcall       ; x
 
-    ld a,__IO_APU_OP_ACOS
-    AM9511_OUT_APU_CONTROL        ; acos(x)
+        ld      a, __IO_APU_OP_ACOS
+        AM9511_OUT_APU_CONTROL  ; acos(x)
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf

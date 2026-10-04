@@ -12,18 +12,18 @@
 ; -----
 ; $Id: exit.asm,v 1.8 2016-03-06 22:03:07 dom Exp $
 
-    SECTION code_clib
-    PUBLIC  exit
-    PUBLIC  _exit
-    PUBLIC  ___exit
-    PUBLIC  exit_fastcall
-    PUBLIC  _exit_fastcall
+        SECTION code_clib
+        PUBLIC  exit
+        PUBLIC  _exit
+        PUBLIC  ___exit
+        PUBLIC  exit_fastcall
+        PUBLIC  _exit_fastcall
 
-    EXTERN  __Exit, __exit_atexit_funcs, __exit_atexit_count
+        EXTERN  __Exit, __exit_atexit_funcs, __exit_atexit_count
 
-    EXTERN  l_jphl
+        EXTERN  l_jphl
 
-    PUBLIC  asm_exit
+        PUBLIC  asm_exit
 
 ; FASTCALL
 
@@ -33,58 +33,57 @@
 exit:
 _exit:
 ___exit:
-    pop     de
-    pop     hl
-    push    hl
-    push    de
+        pop     de
+        pop     hl
+        push    hl
+        push    de
 
 exit_fastcall:
 _exit_fastcall:
 asm_exit:
 
-    push    hl                          ; save exit value
+        push    hl      ; save exit value
 
-    ld      a, (__exit_atexit_count)
-    or      a
-    jr      z, end
+        ld      a, (__exit_atexit_count)
+        or      a
+        jr      z, end
 
-    ld      b, a                        ; b = number of registered functions
-    add     a, a
-    ld      e, a
-    ld      d, 0
+        ld      b, a    ; b = number of registered functions
+        add     a, a
+        ld      e, a
+        ld      d, 0
 IF  __CPU_GBZ80__
-    ld      hl, __exit_atexit_funcs
-    ld      a, (hl+)
-    ld      h, (hl)
-    ld      l, a
+        ld      hl, __exit_atexit_funcs
+        ld      a,  (hl+)
+        ld      h,  (hl)
+        ld      l,  a
 ELSE
-    ld      hl, (__exit_atexit_funcs)                ; hl = & atexit stack
+        ld      hl, (__exit_atexit_funcs)       ; hl = & atexit stack
 ENDIF
-    add     hl, de                      ; hl = & last function in exit stack + 2b
+        add     hl, de  ; hl = & last function in exit stack + 2b
 
-loop:                                   ; now traverse atexit stack in reverse order
+loop:           ; now traverse atexit stack in reverse order
 
-    push    bc
-    dec     hl
-    ld      a, (hl)
-    dec     hl
-    push    hl
-    ld      l, (hl)
-    ld      h, a                        ; hl = atexit function
-    call    l_jphl
-    pop     hl
-    pop     bc
+        push    bc
+        dec     hl
+        ld      a, (hl)
+        dec     hl
+        push    hl
+        ld      l, (hl)
+        ld      h, a    ; hl = atexit function
+        call    l_jphl
+        pop     hl
+        pop     bc
 
 IF  __CPU_INTEL__
-    dec     b
-    jp      NZ, loop
+        dec     b
+        jp      NZ, loop
 ELSE
-    djnz    loop
+        djnz    loop
 ENDIF
 
-end:                                    ; disrupt stack completely and exit with error value
+end:            ; disrupt stack completely and exit with error value
 
-    pop     hl
-    ld      a, l                        ; was here so left as is, something to do with z88?
-    jp      __Exit                      ;  perhaps should be in the z88 crt0?
-
+        pop     hl
+        ld      a, l    ; was here so left as is, something to do with z88?
+        jp      __Exit  ;  perhaps should be in the z88 crt0?

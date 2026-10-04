@@ -9,10 +9,10 @@ EXTERN asm_balloc_reset
 
 _balloc_reset:
 
-   pop af
-   pop hl
+        pop     af
+        pop     hl
 
-   push hl
-   push af
+        push    hl
+        push    af
 
-   jp asm_balloc_reset
+        jp      asm_balloc_reset

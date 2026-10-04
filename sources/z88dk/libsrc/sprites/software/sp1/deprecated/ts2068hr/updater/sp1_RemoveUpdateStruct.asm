@@ -18,34 +18,34 @@ PUBLIC sp1_RemoveUpdateStruct
 
 .sp1_RemoveUpdateStruct
 
-   ld (hl),$c1           ; invalidated & removed, # occluding sprites + 1 = 1
-   inc hl
-   inc hl
-   inc hl                ; hl = sprite list
+        ld      (hl), $c1       ; invalidated & removed, # occluding sprites + 1 = 1
+        inc     hl
+        inc     hl
+        inc     hl              ; hl = sprite list
 
-   ld a,(hl)
-   ld (hl),0             ; mark no sprites in this update struct
-   inc hl
-   ld l,(hl)             ; al = & struct sp1_cs of first sprite in this update char
+        ld      a,    (hl)
+        ld      (hl), 0 ; mark no sprites in this update struct
+        inc     hl
+        ld      l, (hl) ; al = & struct sp1_cs of first sprite in this update char
 
-   or a                  ; if no sprites, done
-   ret z
+        or      a       ; if no sprites, done
+        ret     z
 
-   ld h,a                ; hl = & struct sp1_cs.ss_draw
-   
+        ld      h, a    ; hl = & struct sp1_cs.ss_draw
+
 .loop
 
-   ld de,-4
-   add hl,de             ; hl = & struct sp1_cs.update
-   ld (hl),0             ; this sprite char belongs to no update structs
+        ld      de,   -4
+        add     hl,   de        ; hl = & struct sp1_cs.update
+        ld      (hl), 0         ; this sprite char belongs to no update structs
 
-   ld de,16
-   add hl,de             ; hl = & struct sp1_cs.next_in_upd
-   ld a,(hl)
-   or a
-   ret z
-   inc hl
-   ld l,(hl)
-   ld h,a                ; hl = & next struct sp1_cs.attr_mask
+        ld      de, 16
+        add     hl, de  ; hl = & struct sp1_cs.next_in_upd
+        ld      a,  (hl)
+        or      a
+        ret     z
+        inc     hl
+        ld      l, (hl)
+        ld      h, a    ; hl = & next struct sp1_cs.attr_mask
 
-   jp loop
+        jp      loop

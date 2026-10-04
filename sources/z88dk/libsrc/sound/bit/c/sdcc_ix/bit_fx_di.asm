@@ -10,10 +10,10 @@ EXTERN _bit_fx_di_fastcall
 
 _bit_fx_di:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _bit_fx_di_fastcall
+        push    hl
+        push    af
+
+        jp      _bit_fx_di_fastcall

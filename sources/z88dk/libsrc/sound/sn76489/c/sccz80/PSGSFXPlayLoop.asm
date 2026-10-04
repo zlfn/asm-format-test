@@ -9,18 +9,17 @@ EXTERN asm_PSGlib_SFXPlayLoop
 
 PSGSFXPlayLoop:
 
-   pop af
-	pop bc
-	pop de
-	push de
-	push bc
-	push af
+        pop     af
+        pop     bc
+        pop     de
+        push    de
+        push    bc
+        push    af
 
-   jp asm_PSGlib_SFXPlayLoop
+        jp      asm_PSGlib_SFXPlayLoop
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _PSGSFXPlayLoop
 defc _PSGSFXPlayLoop = PSGSFXPlayLoop
 ENDIF
-

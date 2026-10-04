@@ -1,17 +1,14 @@
 
+        SECTION code_clib
 
+        PUBLIC  clg
+        PUBLIC  _clg
 
-    SECTION code_clib
+        EXTERN  __x07_buffer
 
-    PUBLIC  clg
-    PUBLIC  _clg
-
-    EXTERN  __x07_buffer
-
-    INCLUDE "target/x07/def/x07.h"
+        INCLUDE "target/x07/def/x07.h"
 
 clg:
 _clg:
-    ld      a,SUB_CLS
-    jp      SUB_EXEC_CMD
-
+        ld      a, SUB_CLS
+        jp      SUB_EXEC_CMD

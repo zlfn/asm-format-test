@@ -4,11 +4,11 @@
 ; void waitvsync (void);
 ;
 
-        .export         _waitvsync
+        .export _waitvsync
 
-        .forceimport    ticktock        ; make sure that tickcount changes
+        .forceimport ticktock   ; make sure that tickcount changes
 
-        .include        "extzp.inc"
+        .include "extzp.inc"
 
 .proc   _waitvsync
         lda     tickcount

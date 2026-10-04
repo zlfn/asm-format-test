@@ -10,12 +10,12 @@ EXTERN rc_01_output_siob_oterm_msg_putc_send
 
 rc_01_output_siob_oterm_msg_bell:
 
-   ;   can use:  af, bc, de, hl
+        ;   can use:  af, bc, de, hl
 
-   bit 0,(ix+7)
-   ret z                       ; if bell disabled
+        bit     0, (ix+7)
+        ret     z       ; if bell disabled
 
 rc_01_output_siob_oterm_msg_bell_0:
 
-   ld c,CHAR_BELL
-   jp rc_01_output_siob_oterm_msg_putc_send
+        ld      c, CHAR_BELL
+        jp      rc_01_output_siob_oterm_msg_putc_send

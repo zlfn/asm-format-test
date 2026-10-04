@@ -9,16 +9,15 @@ EXTERN asm_zx_visit_wc_pix
 
 tshc_visit_wc_pix_callee:
 
-   pop af
-   pop de
-   pop ix
-   push af
-   
-   jp asm_zx_visit_wc_pix
+        pop     af
+        pop     de
+        pop     ix
+        push    af
+
+        jp      asm_zx_visit_wc_pix
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _tshc_visit_wc_pix_callee
 defc _tshc_visit_wc_pix_callee = tshc_visit_wc_pix_callee
 ENDIF
-

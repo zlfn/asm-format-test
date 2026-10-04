@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _b_vector_read_block
 defc _b_vector_read_block = b_vector_read_block
 ENDIF
-

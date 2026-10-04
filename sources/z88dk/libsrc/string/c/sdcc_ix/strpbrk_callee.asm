@@ -10,9 +10,9 @@ EXTERN asm_strpbrk
 
 _strpbrk_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_strpbrk
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_strpbrk

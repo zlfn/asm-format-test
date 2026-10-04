@@ -4,9 +4,9 @@
 ; void waitvsync (void);
 ;
 
-        .export         _waitvsync
+        .export _waitvsync
 
-        .include        "c128.inc"
+        .include "c128.inc"
 
 _waitvsync:
 

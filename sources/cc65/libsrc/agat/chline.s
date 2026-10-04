@@ -7,27 +7,26 @@
 ; void chline (unsigned char length);
 ;
 
-        .export         _chlinexy, _chline, chlinedirect
-        .import         gotoxy, putchar
+        .export _chlinexy, _chline, chlinedirect
+        .import gotoxy,    putchar
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
 _chlinexy:
-        pha                     ; Save the length
-        jsr     gotoxy          ; Call this one, will pop params
-        pla                     ; Restore the length and run into _chline
+        pha             ; Save the length
+        jsr     gotoxy  ; Call this one, will pop params
+        pla             ; Restore the length and run into _chline
 
 _chline:
-        ldx     #$1B            ; horizontal line character
+        ldx     #$1B    ; horizontal line character
 
 chlinedirect:
         stx     tmp1
-        cmp     #$00            ; Is the length zero?
-        beq     done            ; Jump if done
+        cmp     #$00    ; Is the length zero?
+        beq     done    ; Jump if done
         sta     tmp2
-:       lda     tmp1            ; Screen code
-        jsr     putchar         ; Direct output
+:       lda     tmp1    ; Screen code
+        jsr     putchar ; Direct output
         dec     tmp2
         bne     :-
 done:   rts
-

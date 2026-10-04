@@ -10,10 +10,10 @@ EXTERN asm_sp1_RemoveUpdateStruct
 
 _sp1_RemoveUpdateStruct:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_sp1_RemoveUpdateStruct
+        push    hl
+        push    af
+
+        jp      asm_sp1_RemoveUpdateStruct

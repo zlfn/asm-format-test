@@ -4,12 +4,12 @@
 
 oversize_string_test PROC
 
-  mov rax, "abcdefghi"
-  mov rax, 'abcdefghi'
+        mov     rax, "abcdefghi"
+        mov     rax, 'abcdefghi'
 ; CHECK: error: literal value out of range
 ; CHECK: error: literal value out of range
 
-  ret
+        ret
 oversize_string_test ENDP
 
 end

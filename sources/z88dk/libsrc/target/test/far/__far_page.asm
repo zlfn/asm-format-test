@@ -11,33 +11,33 @@ EXTERN  __msx_bank_mappings
 ;
 ; Corrupts: d,a
 __far_page:
-    ld      a,e        ;With e=0 it refers to local memory
-    and     a
-    jr      z,localfar
-    ld      d,e
-    ld      a,b
-    rla
-    rl      d
-    rla
-    rl      d
-    inc     d
-    inc     d
-    inc     d
-    inc     d
-    ; d is now which bank we should look at
-    ld      a,b
-    and     @00111111      ;Take mod 16384
-    or      @10000000	;Map to 0x8000 page
-    ld      h,a
-    ld      l,c
-    ; hl = offset within bank
-    ld      a,d
-    out     ($fe),a
-    ret
+        ld      a, e    ;With e=0 it refers to local memory
+        and     a
+        jr      z, localfar
+        ld      d, e
+        ld      a, b
+        rla
+        rl      d
+        rla
+        rl      d
+        inc     d
+        inc     d
+        inc     d
+        inc     d
+        ; d is now which bank we should look at
+        ld      a, b
+        and     @00111111       ;Take mod 16384
+        or      @10000000       ;Map to 0x8000 page
+        ld      h, a
+        ld      l, c
+        ; hl = offset within bank
+        ld      a,     d
+        out     ($fe), a
+        ret
 
 localfar:
-    ex     af,af
-    out    ($fe),a
-    ex     af,af
-    ld     hl,bc
-    ret
+        ex      af,    af
+        out     ($fe), a
+        ex      af,    af
+        ld      hl,    bc
+        ret

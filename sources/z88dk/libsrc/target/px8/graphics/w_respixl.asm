@@ -1,10 +1,9 @@
-    INCLUDE "classic/gfx/grafix.inc"
+        INCLUDE "classic/gfx/grafix.inc"
 
-    SECTION code_clib
-    PUBLIC  w_respixel
+        SECTION code_clib
+        PUBLIC  w_respixel
 
-    EXTERN  w_pixel
-
+        EXTERN  w_pixel
 
 ; ******************************************************************
 ;
@@ -20,5 +19,5 @@
 ;
 
 w_respixel:
-    ld      a, 1
-    jp      w_pixel
+        ld      a, 1
+        jp      w_pixel

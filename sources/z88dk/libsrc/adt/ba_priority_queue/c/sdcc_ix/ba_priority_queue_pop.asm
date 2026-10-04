@@ -10,10 +10,10 @@ EXTERN _ba_priority_queue_pop_fastcall
 
 _ba_priority_queue_pop:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _ba_priority_queue_pop_fastcall
+        push    hl
+        push    af
+
+        jp      _ba_priority_queue_pop_fastcall

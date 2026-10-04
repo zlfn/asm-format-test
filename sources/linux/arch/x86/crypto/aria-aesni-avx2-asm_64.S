@@ -756,22 +756,22 @@
 #define SHUFB_BYTES(idx) \
 	0 + (idx), 4 + (idx), 8 + (idx), 12 + (idx)
 .Lshufb_16x16b:
-	.byte SHUFB_BYTES(0), SHUFB_BYTES(1), SHUFB_BYTES(2), SHUFB_BYTES(3)
-	.byte SHUFB_BYTES(0), SHUFB_BYTES(1), SHUFB_BYTES(2), SHUFB_BYTES(3)
+        .byte   SHUFB_BYTES(0), SHUFB_BYTES(1), SHUFB_BYTES(2), SHUFB_BYTES(3)
+        .byte   SHUFB_BYTES(0), SHUFB_BYTES(1), SHUFB_BYTES(2), SHUFB_BYTES(3)
 
 .section	.rodata.cst16, "aM", @progbits, 16
 .align 16
 /* For isolating SubBytes from AESENCLAST, inverse shift row */
 .Linv_shift_row:
-	.byte 0x00, 0x0d, 0x0a, 0x07, 0x04, 0x01, 0x0e, 0x0b
-	.byte 0x08, 0x05, 0x02, 0x0f, 0x0c, 0x09, 0x06, 0x03
+        .byte   0x00, 0x0d, 0x0a, 0x07, 0x04, 0x01, 0x0e, 0x0b
+        .byte   0x08, 0x05, 0x02, 0x0f, 0x0c, 0x09, 0x06, 0x03
 .Lshift_row:
-	.byte 0x00, 0x05, 0x0a, 0x0f, 0x04, 0x09, 0x0e, 0x03
-	.byte 0x08, 0x0d, 0x02, 0x07, 0x0c, 0x01, 0x06, 0x0b
+        .byte   0x00, 0x05, 0x0a, 0x0f, 0x04, 0x09, 0x0e, 0x03
+        .byte   0x08, 0x0d, 0x02, 0x07, 0x0c, 0x01, 0x06, 0x0b
 /* For CTR-mode IV byteswap */
 .Lbswap128_mask:
-	.byte 0x0f, 0x0e, 0x0d, 0x0c, 0x0b, 0x0a, 0x09, 0x08
-	.byte 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00
+        .byte   0x0f, 0x0e, 0x0d, 0x0c, 0x0b, 0x0a, 0x09, 0x08
+        .byte   0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00
 
 /* AES inverse affine and S2 combined:
  *      1 1 0 0 0 0 0 1     x0     0
@@ -784,9 +784,9 @@
  *      1 1 1 0 0 1 1 1     x7     1
  */
 .Ltf_lo__inv_aff__and__s2:
-	.octa 0x92172DA81A9FA520B2370D883ABF8500
+        .octa   0x92172DA81A9FA520B2370D883ABF8500
 .Ltf_hi__inv_aff__and__s2:
-	.octa 0x2B15FFC1AF917B45E6D8320C625CB688
+        .octa   0x2B15FFC1AF917B45E6D8320C625CB688
 
 /* X2 and AES forward affine combined:
  *      1 0 1 1 0 0 0 1     x0     0
@@ -799,76 +799,76 @@
  *      0 1 0 0 1 0 1 0     x7     0
  */
 .Ltf_lo__x2__and__fwd_aff:
-	.octa 0xEFAE0544FCBD1657B8F95213ABEA4100
+        .octa   0xEFAE0544FCBD1657B8F95213ABEA4100
 .Ltf_hi__x2__and__fwd_aff:
-	.octa 0x3F893781E95FE1576CDA64D2BA0CB204
+        .octa   0x3F893781E95FE1576CDA64D2BA0CB204
 
 .section	.rodata.cst8, "aM", @progbits, 8
 .align 8
 /* AES affine: */
 #define tf_aff_const BV8(1, 1, 0, 0, 0, 1, 1, 0)
 .Ltf_aff_bitmatrix:
-	.quad BM8X8(BV8(1, 0, 0, 0, 1, 1, 1, 1),
-		    BV8(1, 1, 0, 0, 0, 1, 1, 1),
-		    BV8(1, 1, 1, 0, 0, 0, 1, 1),
-		    BV8(1, 1, 1, 1, 0, 0, 0, 1),
-		    BV8(1, 1, 1, 1, 1, 0, 0, 0),
-		    BV8(0, 1, 1, 1, 1, 1, 0, 0),
-		    BV8(0, 0, 1, 1, 1, 1, 1, 0),
-		    BV8(0, 0, 0, 1, 1, 1, 1, 1))
+        .quad   BM8X8(BV8(1, 0, 0, 0, 1, 1, 1, 1),
+        BV8(1,  1, 0, 0, 0, 1, 1, 1),
+        BV8(1,  1, 1, 0, 0, 0, 1, 1),
+        BV8(1,  1, 1, 1, 0, 0, 0, 1),
+        BV8(1,  1, 1, 1, 1, 0, 0, 0),
+        BV8(0,  1, 1, 1, 1, 1, 0, 0),
+        BV8(0,  0, 1, 1, 1, 1, 1, 0),
+        BV8(0,  0, 0, 1, 1, 1, 1, 1))
 
 /* AES inverse affine: */
 #define tf_inv_const BV8(1, 0, 1, 0, 0, 0, 0, 0)
 .Ltf_inv_bitmatrix:
-	.quad BM8X8(BV8(0, 0, 1, 0, 0, 1, 0, 1),
-		    BV8(1, 0, 0, 1, 0, 0, 1, 0),
-		    BV8(0, 1, 0, 0, 1, 0, 0, 1),
-		    BV8(1, 0, 1, 0, 0, 1, 0, 0),
-		    BV8(0, 1, 0, 1, 0, 0, 1, 0),
-		    BV8(0, 0, 1, 0, 1, 0, 0, 1),
-		    BV8(1, 0, 0, 1, 0, 1, 0, 0),
-		    BV8(0, 1, 0, 0, 1, 0, 1, 0))
+        .quad   BM8X8(BV8(0, 0, 1, 0, 0, 1, 0, 1),
+        BV8(1,  0, 0, 1, 0, 0, 1, 0),
+        BV8(0,  1, 0, 0, 1, 0, 0, 1),
+        BV8(1,  0, 1, 0, 0, 1, 0, 0),
+        BV8(0,  1, 0, 1, 0, 0, 1, 0),
+        BV8(0,  0, 1, 0, 1, 0, 0, 1),
+        BV8(1,  0, 0, 1, 0, 1, 0, 0),
+        BV8(0,  1, 0, 0, 1, 0, 1, 0))
 
 /* S2: */
 #define tf_s2_const BV8(0, 1, 0, 0, 0, 1, 1, 1)
 .Ltf_s2_bitmatrix:
-	.quad BM8X8(BV8(0, 1, 0, 1, 0, 1, 1, 1),
-		    BV8(0, 0, 1, 1, 1, 1, 1, 1),
-		    BV8(1, 1, 1, 0, 1, 1, 0, 1),
-		    BV8(1, 1, 0, 0, 0, 0, 1, 1),
-		    BV8(0, 1, 0, 0, 0, 0, 1, 1),
-		    BV8(1, 1, 0, 0, 1, 1, 1, 0),
-		    BV8(0, 1, 1, 0, 0, 0, 1, 1),
-		    BV8(1, 1, 1, 1, 0, 1, 1, 0))
+        .quad   BM8X8(BV8(0, 1, 0, 1, 0, 1, 1, 1),
+        BV8(0,  0, 1, 1, 1, 1, 1, 1),
+        BV8(1,  1, 1, 0, 1, 1, 0, 1),
+        BV8(1,  1, 0, 0, 0, 0, 1, 1),
+        BV8(0,  1, 0, 0, 0, 0, 1, 1),
+        BV8(1,  1, 0, 0, 1, 1, 1, 0),
+        BV8(0,  1, 1, 0, 0, 0, 1, 1),
+        BV8(1,  1, 1, 1, 0, 1, 1, 0))
 
 /* X2: */
 #define tf_x2_const BV8(0, 0, 1, 1, 0, 1, 0, 0)
 .Ltf_x2_bitmatrix:
-	.quad BM8X8(BV8(0, 0, 0, 1, 1, 0, 0, 0),
-		    BV8(0, 0, 1, 0, 0, 1, 1, 0),
-		    BV8(0, 0, 0, 0, 1, 0, 1, 0),
-		    BV8(1, 1, 1, 0, 0, 0, 1, 1),
-		    BV8(1, 1, 1, 0, 1, 1, 0, 0),
-		    BV8(0, 1, 1, 0, 1, 0, 1, 1),
-		    BV8(1, 0, 1, 1, 1, 1, 0, 1),
-		    BV8(1, 0, 0, 1, 0, 0, 1, 1))
+        .quad   BM8X8(BV8(0, 0, 0, 1, 1, 0, 0, 0),
+        BV8(0,  0, 1, 0, 0, 1, 1, 0),
+        BV8(0,  0, 0, 0, 1, 0, 1, 0),
+        BV8(1,  1, 1, 0, 0, 0, 1, 1),
+        BV8(1,  1, 1, 0, 1, 1, 0, 0),
+        BV8(0,  1, 1, 0, 1, 0, 1, 1),
+        BV8(1,  0, 1, 1, 1, 1, 0, 1),
+        BV8(1,  0, 0, 1, 0, 0, 1, 1))
 
 /* Identity matrix: */
 .Ltf_id_bitmatrix:
-	.quad BM8X8(BV8(1, 0, 0, 0, 0, 0, 0, 0),
-		    BV8(0, 1, 0, 0, 0, 0, 0, 0),
-		    BV8(0, 0, 1, 0, 0, 0, 0, 0),
-		    BV8(0, 0, 0, 1, 0, 0, 0, 0),
-		    BV8(0, 0, 0, 0, 1, 0, 0, 0),
-		    BV8(0, 0, 0, 0, 0, 1, 0, 0),
-		    BV8(0, 0, 0, 0, 0, 0, 1, 0),
-		    BV8(0, 0, 0, 0, 0, 0, 0, 1))
+        .quad   BM8X8(BV8(1, 0, 0, 0, 0, 0, 0, 0),
+        BV8(0,  1, 0, 0, 0, 0, 0, 0),
+        BV8(0,  0, 1, 0, 0, 0, 0, 0),
+        BV8(0,  0, 0, 1, 0, 0, 0, 0),
+        BV8(0,  0, 0, 0, 1, 0, 0, 0),
+        BV8(0,  0, 0, 0, 0, 1, 0, 0),
+        BV8(0,  0, 0, 0, 0, 0, 1, 0),
+        BV8(0,  0, 0, 0, 0, 0, 0, 1))
 
 /* 4-bit mask */
 .section	.rodata.cst4.L0f0f0f0f, "aM", @progbits, 4
 .align 4
 .L0f0f0f0f:
-	.long 0x0f0f0f0f
+        .long   0x0f0f0f0f
 
 .text
 
@@ -880,85 +880,85 @@ SYM_FUNC_START_LOCAL(__aria_aesni_avx2_crypt_32way)
 	 *      %ymm0..%ymm15: byte-sliced blocks
 	 */
 
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	movq %rsi, %rax;
-	leaq 8 * 32(%rax), %r8;
+        movq    %rsi, %rax;
+        leaq    8 * 32(%rax), %r8;
 
-	inpack16_post(%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
-		      %ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		      %ymm15, %rax, %r8);
-	aria_fo(%ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14, %ymm15,
-		%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
-		%rax, %r9, 0);
-	aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		%ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		%ymm15, %rax, %r9, 1);
-	aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
-		%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
-		%rax, %r9, 2);
-	aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		%ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		%ymm15, %rax, %r9, 3);
-	aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
-		%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
-		%rax, %r9, 4);
-	aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		%ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		%ymm15, %rax, %r9, 5);
-	aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
-		%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
-		%rax, %r9, 6);
-	aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		%ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		%ymm15, %rax, %r9, 7);
-	aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
-		%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
-		%rax, %r9, 8);
-	aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		%ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		%ymm15, %rax, %r9, 9);
-	aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
-		%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
-		%rax, %r9, 10);
-	cmpl $12, ARIA_CTX_rounds(CTX);
-	jne .Laria_192;
-	aria_ff(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		%ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		%ymm15, %rax, %r9, 11, 12);
-	jmp .Laria_end;
+        inpack16_post(%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r8);
+        aria_fo(%ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
+        %rax,   %r9, 0);
+        aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 1);
+        aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
+        %rax,   %r9, 2);
+        aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 3);
+        aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
+        %rax,   %r9, 4);
+        aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 5);
+        aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
+        %rax,   %r9, 6);
+        aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 7);
+        aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
+        %rax,   %r9, 8);
+        aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 9);
+        aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
+        %rax,   %r9, 10);
+        cmpl    $12, ARIA_CTX_rounds(CTX);
+        jne     .Laria_192;
+        aria_ff(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 11, 12);
+        jmp     .Laria_end;
 .Laria_192:
-	aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		%ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		%ymm15, %rax, %r9, 11);
-	aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
-		%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
-		%rax, %r9, 12);
-	cmpl $14, ARIA_CTX_rounds(CTX);
-	jne .Laria_256;
-	aria_ff(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		%ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		%ymm15, %rax, %r9, 13, 14);
-	jmp .Laria_end;
+        aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 11);
+        aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
+        %rax,   %r9, 12);
+        cmpl    $14, ARIA_CTX_rounds(CTX);
+        jne     .Laria_256;
+        aria_ff(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 13, 14);
+        jmp     .Laria_end;
 .Laria_256:
-	aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		%ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		%ymm15, %rax, %r9, 13);
-	aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
-		%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
-		%rax, %r9, 14);
-	aria_ff(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		%ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		%ymm15, %rax, %r9, 15, 16);
+        aria_fe(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 13);
+        aria_fo(%ymm9, %ymm8, %ymm11, %ymm10, %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
+        %rax,   %r9, 14);
+        aria_ff(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 15, 16);
 .Laria_end:
-	debyteslice_16x16b(%ymm8, %ymm12, %ymm1, %ymm4,
-			   %ymm9, %ymm13, %ymm0, %ymm5,
-			   %ymm10, %ymm14, %ymm3, %ymm6,
-			   %ymm11, %ymm15, %ymm2, %ymm7,
-			   (%rax), (%r8));
+        debyteslice_16x16b(%ymm8, %ymm12, %ymm1, %ymm4,
+        %ymm9,  %ymm13, %ymm0, %ymm5,
+        %ymm10, %ymm14, %ymm3, %ymm6,
+        %ymm11, %ymm15, %ymm2, %ymm7,
+        (%rax), (%r8));
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(__aria_aesni_avx2_crypt_32way)
 
 SYM_TYPED_FUNC_START(aria_aesni_avx2_encrypt_32way)
@@ -968,23 +968,23 @@ SYM_TYPED_FUNC_START(aria_aesni_avx2_encrypt_32way)
 	 *      %rdx: src
 	 */
 
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	leaq ARIA_CTX_enc_key(CTX), %r9;
+        leaq    ARIA_CTX_enc_key(CTX), %r9;
 
-	inpack16_pre(%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rdx);
+        inpack16_pre(%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rdx);
 
-	call __aria_aesni_avx2_crypt_32way;
+        call    __aria_aesni_avx2_crypt_32way;
 
-	write_output(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rax);
+        write_output(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax);
 
-	vzeroupper;
-	FRAME_END
-	RET;
+        vzeroupper;
+        FRAME_END
+        RET;
 SYM_FUNC_END(aria_aesni_avx2_encrypt_32way)
 
 SYM_TYPED_FUNC_START(aria_aesni_avx2_decrypt_32way)
@@ -994,23 +994,23 @@ SYM_TYPED_FUNC_START(aria_aesni_avx2_decrypt_32way)
 	 *      %rdx: src
 	 */
 
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	leaq ARIA_CTX_dec_key(CTX), %r9;
+        leaq    ARIA_CTX_dec_key(CTX), %r9;
 
-	inpack16_pre(%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rdx);
+        inpack16_pre(%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rdx);
 
-	call __aria_aesni_avx2_crypt_32way;
+        call    __aria_aesni_avx2_crypt_32way;
 
-	write_output(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rax);
+        write_output(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax);
 
-	vzeroupper;
-	FRAME_END
-	RET;
+        vzeroupper;
+        FRAME_END
+        RET;
 SYM_FUNC_END(aria_aesni_avx2_decrypt_32way)
 
 SYM_FUNC_START_LOCAL(__aria_aesni_avx2_ctr_gen_keystream_32way)
@@ -1022,153 +1022,153 @@ SYM_FUNC_START_LOCAL(__aria_aesni_avx2_ctr_gen_keystream_32way)
 	 *      %r8: iv (big endian, 128bit)
 	 */
 
-	FRAME_BEGIN
-	movq 8(%r8), %r11;
-	bswapq %r11;
+        FRAME_BEGIN
+        movq    8(%r8), %r11;
+        bswapq  %r11;
 
-	vbroadcasti128 .Lbswap128_mask (%rip), %ymm6;
-	vpcmpeqd %ymm0, %ymm0, %ymm0;
-	vpsrldq $8, %ymm0, %ymm0;   /* ab: -1:0 ; cd: -1:0 */
-	vpaddq %ymm0, %ymm0, %ymm5; /* ab: -2:0 ; cd: -2:0 */
+        vbroadcasti128 .Lbswap128_mask (%rip), %ymm6;
+        vpcmpeqd %ymm0, %ymm0, %ymm0;
+        vpsrldq $8,    %ymm0, %ymm0;   /* ab: -1:0 ; cd: -1:0 */
+        vpaddq  %ymm0, %ymm0, %ymm5; /* ab: -2:0 ; cd: -2:0 */
 
-	/* load IV and byteswap */
-	vmovdqu (%r8), %xmm7;
-	vpshufb %xmm6, %xmm7, %xmm7;
-	vmovdqa %xmm7, %xmm3;
-	inc_le128(%xmm7, %xmm0, %xmm4);
-	vinserti128 $1, %xmm7, %ymm3, %ymm3;
-	vpshufb %ymm6, %ymm3, %ymm8; /* +1 ; +0 */
+        /* load IV and byteswap */
+        vmovdqu (%r8), %xmm7;
+        vpshufb %xmm6, %xmm7, %xmm7;
+        vmovdqa %xmm7, %xmm3;
+        inc_le128(%xmm7, %xmm0, %xmm4);
+        vinserti128 $1, %xmm7, %ymm3, %ymm3;
+        vpshufb %ymm6, %ymm3, %ymm8; /* +1 ; +0 */
 
-	/* check need for handling 64-bit overflow and carry */
-	cmpq $(0xffffffffffffffff - 32), %r11;
-	ja .Lhandle_ctr_carry;
+        /* check need for handling 64-bit overflow and carry */
+        cmpq    $(0xffffffffffffffff - 32), %r11;
+        ja      .Lhandle_ctr_carry;
 
-	/* construct IVs */
-	vpsubq %ymm5, %ymm3, %ymm3; /* +3 ; +2 */
-	vpshufb %ymm6, %ymm3, %ymm9;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +5 ; +4 */
-	vpshufb %ymm6, %ymm3, %ymm10;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +7 ; +6 */
-	vpshufb %ymm6, %ymm3, %ymm11;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +9 ; +8 */
-	vpshufb %ymm6, %ymm3, %ymm12;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +11 ; +10 */
-	vpshufb %ymm6, %ymm3, %ymm13;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +13 ; +12 */
-	vpshufb %ymm6, %ymm3, %ymm14;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +15 ; +14 */
-	vpshufb %ymm6, %ymm3, %ymm15;
-	vmovdqu %ymm8, (0 * 32)(%rcx);
-	vmovdqu %ymm9, (1 * 32)(%rcx);
-	vmovdqu %ymm10, (2 * 32)(%rcx);
-	vmovdqu %ymm11, (3 * 32)(%rcx);
-	vmovdqu %ymm12, (4 * 32)(%rcx);
-	vmovdqu %ymm13, (5 * 32)(%rcx);
-	vmovdqu %ymm14, (6 * 32)(%rcx);
-	vmovdqu %ymm15, (7 * 32)(%rcx);
+        /* construct IVs */
+        vpsubq  %ymm5,  %ymm3, %ymm3; /* +3 ; +2 */
+        vpshufb %ymm6,  %ymm3, %ymm9;
+        vpsubq  %ymm5,  %ymm3, %ymm3; /* +5 ; +4 */
+        vpshufb %ymm6,  %ymm3, %ymm10;
+        vpsubq  %ymm5,  %ymm3, %ymm3; /* +7 ; +6 */
+        vpshufb %ymm6,  %ymm3, %ymm11;
+        vpsubq  %ymm5,  %ymm3, %ymm3; /* +9 ; +8 */
+        vpshufb %ymm6,  %ymm3, %ymm12;
+        vpsubq  %ymm5,  %ymm3, %ymm3; /* +11 ; +10 */
+        vpshufb %ymm6,  %ymm3, %ymm13;
+        vpsubq  %ymm5,  %ymm3, %ymm3; /* +13 ; +12 */
+        vpshufb %ymm6,  %ymm3, %ymm14;
+        vpsubq  %ymm5,  %ymm3, %ymm3; /* +15 ; +14 */
+        vpshufb %ymm6,  %ymm3, %ymm15;
+        vmovdqu %ymm8,  (0 * 32)(%rcx);
+        vmovdqu %ymm9,  (1 * 32)(%rcx);
+        vmovdqu %ymm10, (2 * 32)(%rcx);
+        vmovdqu %ymm11, (3 * 32)(%rcx);
+        vmovdqu %ymm12, (4 * 32)(%rcx);
+        vmovdqu %ymm13, (5 * 32)(%rcx);
+        vmovdqu %ymm14, (6 * 32)(%rcx);
+        vmovdqu %ymm15, (7 * 32)(%rcx);
 
-	vpsubq %ymm5, %ymm3, %ymm3; /* +17 ; +16 */
-	vpshufb %ymm6, %ymm3, %ymm8;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +19 ; +18 */
-	vpshufb %ymm6, %ymm3, %ymm9;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +21 ; +20 */
-	vpshufb %ymm6, %ymm3, %ymm10;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +23 ; +22 */
-	vpshufb %ymm6, %ymm3, %ymm11;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +25 ; +24 */
-	vpshufb %ymm6, %ymm3, %ymm12;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +27 ; +26 */
-	vpshufb %ymm6, %ymm3, %ymm13;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +29 ; +28 */
-	vpshufb %ymm6, %ymm3, %ymm14;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +31 ; +30 */
-	vpshufb %ymm6, %ymm3, %ymm15;
-	vpsubq %ymm5, %ymm3, %ymm3; /* +32 */
-	vpshufb %xmm6, %xmm3, %xmm3;
-	vmovdqu %xmm3, (%r8);
-	vmovdqu (0 * 32)(%rcx), %ymm0;
-	vmovdqu (1 * 32)(%rcx), %ymm1;
-	vmovdqu (2 * 32)(%rcx), %ymm2;
-	vmovdqu (3 * 32)(%rcx), %ymm3;
-	vmovdqu (4 * 32)(%rcx), %ymm4;
-	vmovdqu (5 * 32)(%rcx), %ymm5;
-	vmovdqu (6 * 32)(%rcx), %ymm6;
-	vmovdqu (7 * 32)(%rcx), %ymm7;
-	jmp .Lctr_carry_done;
+        vpsubq  %ymm5, %ymm3, %ymm3; /* +17 ; +16 */
+        vpshufb %ymm6, %ymm3, %ymm8;
+        vpsubq  %ymm5, %ymm3, %ymm3; /* +19 ; +18 */
+        vpshufb %ymm6, %ymm3, %ymm9;
+        vpsubq  %ymm5, %ymm3, %ymm3; /* +21 ; +20 */
+        vpshufb %ymm6, %ymm3, %ymm10;
+        vpsubq  %ymm5, %ymm3, %ymm3; /* +23 ; +22 */
+        vpshufb %ymm6, %ymm3, %ymm11;
+        vpsubq  %ymm5, %ymm3, %ymm3; /* +25 ; +24 */
+        vpshufb %ymm6, %ymm3, %ymm12;
+        vpsubq  %ymm5, %ymm3, %ymm3; /* +27 ; +26 */
+        vpshufb %ymm6, %ymm3, %ymm13;
+        vpsubq  %ymm5, %ymm3, %ymm3; /* +29 ; +28 */
+        vpshufb %ymm6, %ymm3, %ymm14;
+        vpsubq  %ymm5, %ymm3, %ymm3; /* +31 ; +30 */
+        vpshufb %ymm6, %ymm3, %ymm15;
+        vpsubq  %ymm5, %ymm3, %ymm3; /* +32 */
+        vpshufb %xmm6, %xmm3, %xmm3;
+        vmovdqu %xmm3, (%r8);
+        vmovdqu (0 * 32)(%rcx), %ymm0;
+        vmovdqu (1 * 32)(%rcx), %ymm1;
+        vmovdqu (2 * 32)(%rcx), %ymm2;
+        vmovdqu (3 * 32)(%rcx), %ymm3;
+        vmovdqu (4 * 32)(%rcx), %ymm4;
+        vmovdqu (5 * 32)(%rcx), %ymm5;
+        vmovdqu (6 * 32)(%rcx), %ymm6;
+        vmovdqu (7 * 32)(%rcx), %ymm7;
+        jmp     .Lctr_carry_done;
 
-	.Lhandle_ctr_carry:
-	/* construct IVs */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm9; /* +3 ; +2 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm10; /* +5 ; +4 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm11; /* +7 ; +6 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm12; /* +9 ; +8 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm13; /* +11 ; +10 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm14; /* +13 ; +12 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm15; /* +15 ; +14 */
-	vmovdqu %ymm8, (0 * 32)(%rcx);
-	vmovdqu %ymm9, (1 * 32)(%rcx);
-	vmovdqu %ymm10, (2 * 32)(%rcx);
-	vmovdqu %ymm11, (3 * 32)(%rcx);
-	vmovdqu %ymm12, (4 * 32)(%rcx);
-	vmovdqu %ymm13, (5 * 32)(%rcx);
-	vmovdqu %ymm14, (6 * 32)(%rcx);
-	vmovdqu %ymm15, (7 * 32)(%rcx);
+.Lhandle_ctr_carry:
+        /* construct IVs */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm9; /* +3 ; +2 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm10; /* +5 ; +4 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm11; /* +7 ; +6 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm12; /* +9 ; +8 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm13; /* +11 ; +10 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm14; /* +13 ; +12 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6,  %ymm3, %ymm15; /* +15 ; +14 */
+        vmovdqu %ymm8,  (0 * 32)(%rcx);
+        vmovdqu %ymm9,  (1 * 32)(%rcx);
+        vmovdqu %ymm10, (2 * 32)(%rcx);
+        vmovdqu %ymm11, (3 * 32)(%rcx);
+        vmovdqu %ymm12, (4 * 32)(%rcx);
+        vmovdqu %ymm13, (5 * 32)(%rcx);
+        vmovdqu %ymm14, (6 * 32)(%rcx);
+        vmovdqu %ymm15, (7 * 32)(%rcx);
 
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm8; /* +17 ; +16 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm9; /* +19 ; +18 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm10; /* +21 ; +20 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm11; /* +23 ; +22 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm12; /* +25 ; +24 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm13; /* +27 ; +26 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm14; /* +29 ; +28 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vpshufb %ymm6, %ymm3, %ymm15; /* +31 ; +30 */
-	inc_le128(%ymm3, %ymm0, %ymm4);
-	vextracti128 $1, %ymm3, %xmm3;
-	vpshufb %xmm6, %xmm3, %xmm3; /* +32 */
-	vmovdqu %xmm3, (%r8);
-	vmovdqu (0 * 32)(%rcx), %ymm0;
-	vmovdqu (1 * 32)(%rcx), %ymm1;
-	vmovdqu (2 * 32)(%rcx), %ymm2;
-	vmovdqu (3 * 32)(%rcx), %ymm3;
-	vmovdqu (4 * 32)(%rcx), %ymm4;
-	vmovdqu (5 * 32)(%rcx), %ymm5;
-	vmovdqu (6 * 32)(%rcx), %ymm6;
-	vmovdqu (7 * 32)(%rcx), %ymm7;
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm8; /* +17 ; +16 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm9; /* +19 ; +18 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm10; /* +21 ; +20 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm11; /* +23 ; +22 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm12; /* +25 ; +24 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm13; /* +27 ; +26 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm14; /* +29 ; +28 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vpshufb %ymm6, %ymm3, %ymm15; /* +31 ; +30 */
+        inc_le128(%ymm3, %ymm0, %ymm4);
+        vextracti128 $1, %ymm3, %xmm3;
+        vpshufb %xmm6, %xmm3, %xmm3; /* +32 */
+        vmovdqu %xmm3, (%r8);
+        vmovdqu (0 * 32)(%rcx), %ymm0;
+        vmovdqu (1 * 32)(%rcx), %ymm1;
+        vmovdqu (2 * 32)(%rcx), %ymm2;
+        vmovdqu (3 * 32)(%rcx), %ymm3;
+        vmovdqu (4 * 32)(%rcx), %ymm4;
+        vmovdqu (5 * 32)(%rcx), %ymm5;
+        vmovdqu (6 * 32)(%rcx), %ymm6;
+        vmovdqu (7 * 32)(%rcx), %ymm7;
 
-	.Lctr_carry_done:
+.Lctr_carry_done:
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(__aria_aesni_avx2_ctr_gen_keystream_32way)
 
 SYM_TYPED_FUNC_START(aria_aesni_avx2_ctr_crypt_32way)
@@ -1179,41 +1179,41 @@ SYM_TYPED_FUNC_START(aria_aesni_avx2_ctr_crypt_32way)
 	 *      %rcx: keystream
 	 *      %r8: iv (big endian, 128bit)
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	call __aria_aesni_avx2_ctr_gen_keystream_32way;
+        call    __aria_aesni_avx2_ctr_gen_keystream_32way;
 
-	leaq (%rsi), %r10;
-	leaq (%rdx), %r11;
-	leaq (%rcx), %rsi;
-	leaq (%rcx), %rdx;
-	leaq ARIA_CTX_enc_key(CTX), %r9;
+        leaq    (%rsi), %r10;
+        leaq    (%rdx), %r11;
+        leaq    (%rcx), %rsi;
+        leaq    (%rcx), %rdx;
+        leaq    ARIA_CTX_enc_key(CTX), %r9;
 
-	call __aria_aesni_avx2_crypt_32way;
+        call    __aria_aesni_avx2_crypt_32way;
 
-	vpxor (0 * 32)(%r11), %ymm1, %ymm1;
-	vpxor (1 * 32)(%r11), %ymm0, %ymm0;
-	vpxor (2 * 32)(%r11), %ymm3, %ymm3;
-	vpxor (3 * 32)(%r11), %ymm2, %ymm2;
-	vpxor (4 * 32)(%r11), %ymm4, %ymm4;
-	vpxor (5 * 32)(%r11), %ymm5, %ymm5;
-	vpxor (6 * 32)(%r11), %ymm6, %ymm6;
-	vpxor (7 * 32)(%r11), %ymm7, %ymm7;
-	vpxor (8 * 32)(%r11), %ymm8, %ymm8;
-	vpxor (9 * 32)(%r11), %ymm9, %ymm9;
-	vpxor (10 * 32)(%r11), %ymm10, %ymm10;
-	vpxor (11 * 32)(%r11), %ymm11, %ymm11;
-	vpxor (12 * 32)(%r11), %ymm12, %ymm12;
-	vpxor (13 * 32)(%r11), %ymm13, %ymm13;
-	vpxor (14 * 32)(%r11), %ymm14, %ymm14;
-	vpxor (15 * 32)(%r11), %ymm15, %ymm15;
-	write_output(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		     %ymm15, %r10);
+        vpxor   (0 * 32)(%r11),  %ymm1,  %ymm1;
+        vpxor   (1 * 32)(%r11),  %ymm0,  %ymm0;
+        vpxor   (2 * 32)(%r11),  %ymm3,  %ymm3;
+        vpxor   (3 * 32)(%r11),  %ymm2,  %ymm2;
+        vpxor   (4 * 32)(%r11),  %ymm4,  %ymm4;
+        vpxor   (5 * 32)(%r11),  %ymm5,  %ymm5;
+        vpxor   (6 * 32)(%r11),  %ymm6,  %ymm6;
+        vpxor   (7 * 32)(%r11),  %ymm7,  %ymm7;
+        vpxor   (8 * 32)(%r11),  %ymm8,  %ymm8;
+        vpxor   (9 * 32)(%r11),  %ymm9,  %ymm9;
+        vpxor   (10 * 32)(%r11), %ymm10, %ymm10;
+        vpxor   (11 * 32)(%r11), %ymm11, %ymm11;
+        vpxor   (12 * 32)(%r11), %ymm12, %ymm12;
+        vpxor   (13 * 32)(%r11), %ymm13, %ymm13;
+        vpxor   (14 * 32)(%r11), %ymm14, %ymm14;
+        vpxor   (15 * 32)(%r11), %ymm15, %ymm15;
+        write_output(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %r10);
 
-	vzeroupper;
-	FRAME_END
-	RET;
+        vzeroupper;
+        FRAME_END
+        RET;
 SYM_FUNC_END(aria_aesni_avx2_ctr_crypt_32way)
 
 SYM_FUNC_START_LOCAL(__aria_aesni_avx2_gfni_crypt_32way)
@@ -1224,121 +1224,121 @@ SYM_FUNC_START_LOCAL(__aria_aesni_avx2_gfni_crypt_32way)
 	 *      %ymm0..%ymm15: 16 byte-sliced blocks
 	 */
 
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	movq %rsi, %rax;
-	leaq 8 * 32(%rax), %r8;
+        movq    %rsi, %rax;
+        leaq    8 * 32(%rax), %r8;
 
-	inpack16_post(%ymm0, %ymm1, %ymm2, %ymm3,
-		      %ymm4, %ymm5, %ymm6, %ymm7,
-		      %ymm8, %ymm9, %ymm10, %ymm11,
-		      %ymm12, %ymm13, %ymm14,
-		      %ymm15, %rax, %r8);
-	aria_fo_gfni(%ymm8, %ymm9, %ymm10, %ymm11,
-		     %ymm12, %ymm13, %ymm14, %ymm15,
-		     %ymm0, %ymm1, %ymm2, %ymm3,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %rax, %r9, 0);
-	aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11,
-		     %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rax, %r9, 1);
-	aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
-		     %ymm12, %ymm13, %ymm14, %ymm15,
-		     %ymm0, %ymm1, %ymm2, %ymm3,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %rax, %r9, 2);
-	aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11,
-		     %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rax, %r9, 3);
-	aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
-		     %ymm12, %ymm13, %ymm14, %ymm15,
-		     %ymm0, %ymm1, %ymm2, %ymm3,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %rax, %r9, 4);
-	aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11,
-		     %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rax, %r9, 5);
-	aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
-		     %ymm12, %ymm13, %ymm14, %ymm15,
-		     %ymm0, %ymm1, %ymm2, %ymm3,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %rax, %r9, 6);
-	aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11,
-		     %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rax, %r9, 7);
-	aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
-		     %ymm12, %ymm13, %ymm14, %ymm15,
-		     %ymm0, %ymm1, %ymm2, %ymm3,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %rax, %r9, 8);
-	aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11,
-		     %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rax, %r9, 9);
-	aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
-		     %ymm12, %ymm13, %ymm14, %ymm15,
-		     %ymm0, %ymm1, %ymm2, %ymm3,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %rax, %r9, 10);
-	cmpl $12, ARIA_CTX_rounds(CTX);
-	jne .Laria_gfni_192;
-	aria_ff_gfni(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		%ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		%ymm15, %rax, %r9, 11, 12);
-	jmp .Laria_gfni_end;
+        inpack16_post(%ymm0, %ymm1, %ymm2, %ymm3,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %ymm8,  %ymm9,  %ymm10, %ymm11,
+        %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r8);
+        aria_fo_gfni(%ymm8, %ymm9, %ymm10, %ymm11,
+        %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1,  %ymm2,  %ymm3,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %rax,   %r9, 0);
+        aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %ymm8,  %ymm9,  %ymm10, %ymm11,
+        %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 1);
+        aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
+        %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1,  %ymm2,  %ymm3,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %rax,   %r9, 2);
+        aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %ymm8,  %ymm9,  %ymm10, %ymm11,
+        %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 3);
+        aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
+        %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1,  %ymm2,  %ymm3,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %rax,   %r9, 4);
+        aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %ymm8,  %ymm9,  %ymm10, %ymm11,
+        %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 5);
+        aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
+        %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1,  %ymm2,  %ymm3,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %rax,   %r9, 6);
+        aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %ymm8,  %ymm9,  %ymm10, %ymm11,
+        %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 7);
+        aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
+        %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1,  %ymm2,  %ymm3,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %rax,   %r9, 8);
+        aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %ymm8,  %ymm9,  %ymm10, %ymm11,
+        %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 9);
+        aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
+        %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1,  %ymm2,  %ymm3,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %rax,   %r9, 10);
+        cmpl    $12, ARIA_CTX_rounds(CTX);
+        jne     .Laria_gfni_192;
+        aria_ff_gfni(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 11, 12);
+        jmp     .Laria_gfni_end;
 .Laria_gfni_192:
-	aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11,
-		     %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rax, %r9, 11);
-	aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
-		     %ymm12, %ymm13, %ymm14, %ymm15,
-		     %ymm0, %ymm1, %ymm2, %ymm3,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %rax, %r9, 12);
-	cmpl $14, ARIA_CTX_rounds(CTX);
-	jne .Laria_gfni_256;
-	aria_ff_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11,
-		     %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rax, %r9, 13, 14);
-	jmp .Laria_gfni_end;
+        aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %ymm8,  %ymm9,  %ymm10, %ymm11,
+        %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 11);
+        aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
+        %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1,  %ymm2,  %ymm3,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %rax,   %r9, 12);
+        cmpl    $14, ARIA_CTX_rounds(CTX);
+        jne     .Laria_gfni_256;
+        aria_ff_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %ymm8,  %ymm9,  %ymm10, %ymm11,
+        %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 13, 14);
+        jmp     .Laria_gfni_end;
 .Laria_gfni_256:
-	aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11,
-		     %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rax, %r9, 13);
-	aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
-		     %ymm12, %ymm13, %ymm14, %ymm15,
-		     %ymm0, %ymm1, %ymm2, %ymm3,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %rax, %r9, 14);
-	aria_ff_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
-		     %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11,
-		     %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rax, %r9, 15, 16);
+        aria_fe_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %ymm8,  %ymm9,  %ymm10, %ymm11,
+        %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 13);
+        aria_fo_gfni(%ymm9, %ymm8, %ymm11, %ymm10,
+        %ymm12, %ymm13, %ymm14, %ymm15,
+        %ymm0,  %ymm1,  %ymm2,  %ymm3,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %rax,   %r9, 14);
+        aria_ff_gfni(%ymm1, %ymm0, %ymm3, %ymm2,
+        %ymm4,  %ymm5,  %ymm6,  %ymm7,
+        %ymm8,  %ymm9,  %ymm10, %ymm11,
+        %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax, %r9, 15, 16);
 .Laria_gfni_end:
-	debyteslice_16x16b(%ymm8, %ymm12, %ymm1, %ymm4,
-			   %ymm9, %ymm13, %ymm0, %ymm5,
-			   %ymm10, %ymm14, %ymm3, %ymm6,
-			   %ymm11, %ymm15, %ymm2, %ymm7,
-			   (%rax), (%r8));
+        debyteslice_16x16b(%ymm8, %ymm12, %ymm1, %ymm4,
+        %ymm9,  %ymm13, %ymm0, %ymm5,
+        %ymm10, %ymm14, %ymm3, %ymm6,
+        %ymm11, %ymm15, %ymm2, %ymm7,
+        (%rax), (%r8));
 
-	FRAME_END
-	RET;
+        FRAME_END
+        RET;
 SYM_FUNC_END(__aria_aesni_avx2_gfni_crypt_32way)
 
 SYM_TYPED_FUNC_START(aria_aesni_avx2_gfni_encrypt_32way)
@@ -1348,23 +1348,23 @@ SYM_TYPED_FUNC_START(aria_aesni_avx2_gfni_encrypt_32way)
 	 *      %rdx: src
 	 */
 
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	leaq ARIA_CTX_enc_key(CTX), %r9;
+        leaq    ARIA_CTX_enc_key(CTX), %r9;
 
-	inpack16_pre(%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rdx);
+        inpack16_pre(%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rdx);
 
-	call __aria_aesni_avx2_gfni_crypt_32way;
+        call    __aria_aesni_avx2_gfni_crypt_32way;
 
-	write_output(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rax);
+        write_output(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax);
 
-	vzeroupper;
-	FRAME_END
-	RET;
+        vzeroupper;
+        FRAME_END
+        RET;
 SYM_FUNC_END(aria_aesni_avx2_gfni_encrypt_32way)
 
 SYM_TYPED_FUNC_START(aria_aesni_avx2_gfni_decrypt_32way)
@@ -1374,23 +1374,23 @@ SYM_TYPED_FUNC_START(aria_aesni_avx2_gfni_decrypt_32way)
 	 *      %rdx: src
 	 */
 
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	leaq ARIA_CTX_dec_key(CTX), %r9;
+        leaq    ARIA_CTX_dec_key(CTX), %r9;
 
-	inpack16_pre(%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rdx);
+        inpack16_pre(%ymm0, %ymm1, %ymm2, %ymm3, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rdx);
 
-	call __aria_aesni_avx2_gfni_crypt_32way;
+        call    __aria_aesni_avx2_gfni_crypt_32way;
 
-	write_output(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		     %ymm15, %rax);
+        write_output(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %rax);
 
-	vzeroupper;
-	FRAME_END
-	RET;
+        vzeroupper;
+        FRAME_END
+        RET;
 SYM_FUNC_END(aria_aesni_avx2_gfni_decrypt_32way)
 
 SYM_TYPED_FUNC_START(aria_aesni_avx2_gfni_ctr_crypt_32way)
@@ -1401,39 +1401,39 @@ SYM_TYPED_FUNC_START(aria_aesni_avx2_gfni_ctr_crypt_32way)
 	 *      %rcx: keystream
 	 *      %r8: iv (big endian, 128bit)
 	 */
-	FRAME_BEGIN
+        FRAME_BEGIN
 
-	call __aria_aesni_avx2_ctr_gen_keystream_32way
+        call    __aria_aesni_avx2_ctr_gen_keystream_32way
 
-	leaq (%rsi), %r10;
-	leaq (%rdx), %r11;
-	leaq (%rcx), %rsi;
-	leaq (%rcx), %rdx;
-	leaq ARIA_CTX_enc_key(CTX), %r9;
+        leaq    (%rsi), %r10;
+        leaq    (%rdx), %r11;
+        leaq    (%rcx), %rsi;
+        leaq    (%rcx), %rdx;
+        leaq    ARIA_CTX_enc_key(CTX), %r9;
 
-	call __aria_aesni_avx2_gfni_crypt_32way;
+        call    __aria_aesni_avx2_gfni_crypt_32way;
 
-	vpxor (0 * 32)(%r11), %ymm1, %ymm1;
-	vpxor (1 * 32)(%r11), %ymm0, %ymm0;
-	vpxor (2 * 32)(%r11), %ymm3, %ymm3;
-	vpxor (3 * 32)(%r11), %ymm2, %ymm2;
-	vpxor (4 * 32)(%r11), %ymm4, %ymm4;
-	vpxor (5 * 32)(%r11), %ymm5, %ymm5;
-	vpxor (6 * 32)(%r11), %ymm6, %ymm6;
-	vpxor (7 * 32)(%r11), %ymm7, %ymm7;
-	vpxor (8 * 32)(%r11), %ymm8, %ymm8;
-	vpxor (9 * 32)(%r11), %ymm9, %ymm9;
-	vpxor (10 * 32)(%r11), %ymm10, %ymm10;
-	vpxor (11 * 32)(%r11), %ymm11, %ymm11;
-	vpxor (12 * 32)(%r11), %ymm12, %ymm12;
-	vpxor (13 * 32)(%r11), %ymm13, %ymm13;
-	vpxor (14 * 32)(%r11), %ymm14, %ymm14;
-	vpxor (15 * 32)(%r11), %ymm15, %ymm15;
-	write_output(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
-		     %ymm8, %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
-		     %ymm15, %r10);
+        vpxor   (0 * 32)(%r11),  %ymm1,  %ymm1;
+        vpxor   (1 * 32)(%r11),  %ymm0,  %ymm0;
+        vpxor   (2 * 32)(%r11),  %ymm3,  %ymm3;
+        vpxor   (3 * 32)(%r11),  %ymm2,  %ymm2;
+        vpxor   (4 * 32)(%r11),  %ymm4,  %ymm4;
+        vpxor   (5 * 32)(%r11),  %ymm5,  %ymm5;
+        vpxor   (6 * 32)(%r11),  %ymm6,  %ymm6;
+        vpxor   (7 * 32)(%r11),  %ymm7,  %ymm7;
+        vpxor   (8 * 32)(%r11),  %ymm8,  %ymm8;
+        vpxor   (9 * 32)(%r11),  %ymm9,  %ymm9;
+        vpxor   (10 * 32)(%r11), %ymm10, %ymm10;
+        vpxor   (11 * 32)(%r11), %ymm11, %ymm11;
+        vpxor   (12 * 32)(%r11), %ymm12, %ymm12;
+        vpxor   (13 * 32)(%r11), %ymm13, %ymm13;
+        vpxor   (14 * 32)(%r11), %ymm14, %ymm14;
+        vpxor   (15 * 32)(%r11), %ymm15, %ymm15;
+        write_output(%ymm1, %ymm0, %ymm3, %ymm2, %ymm4, %ymm5, %ymm6, %ymm7,
+        %ymm8,  %ymm9, %ymm10, %ymm11, %ymm12, %ymm13, %ymm14,
+        %ymm15, %r10);
 
-	vzeroupper;
-	FRAME_END
-	RET;
+        vzeroupper;
+        FRAME_END
+        RET;
 SYM_FUNC_END(aria_aesni_avx2_gfni_ctr_crypt_32way)

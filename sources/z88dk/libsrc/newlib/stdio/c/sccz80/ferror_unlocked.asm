@@ -10,7 +10,7 @@ EXTERN asm_ferror_unlocked
 
 ferror_unlocked:
 
-   push hl
-   pop ix
-   
-   jp asm_ferror_unlocked
+        push    hl
+        pop     ix
+
+        jp      asm_ferror_unlocked

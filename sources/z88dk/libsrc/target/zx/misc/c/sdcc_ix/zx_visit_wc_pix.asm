@@ -9,12 +9,12 @@ EXTERN l0_zx_visit_wc_pix_callee
 
 _zx_visit_wc_pix:
 
-   pop hl
-	pop bc
-	pop de
-	
-	push de
-	push bc
-	push hl
+        pop     hl
+        pop     bc
+        pop     de
 
-   jp l0_zx_visit_wc_pix_callee
+        push    de
+        push    bc
+        push    hl
+
+        jp      l0_zx_visit_wc_pix_callee

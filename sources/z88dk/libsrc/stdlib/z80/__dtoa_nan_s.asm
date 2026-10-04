@@ -6,5 +6,5 @@ PUBLIC __dtoa_nan_s
 
 __dtoa_nan_s:
 
-   defm "nan"
-   defb 0
+        defm    "nan"
+        defb    0

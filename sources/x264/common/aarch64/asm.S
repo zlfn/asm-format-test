@@ -66,7 +66,7 @@
 #   define FUNC #
 #endif
 
-        .arch AS_ARCH_LEVEL
+        .arch   AS_ARCH_LEVEL
 #if HAVE_AS_ARCHEXT_DOTPROD_DIRECTIVE
 #define ENABLE_DOTPROD  .arch_extension dotprod
 #define DISABLE_DOTPROD .arch_extension nodotprod
@@ -107,185 +107,183 @@ DISABLE_SVE
 DISABLE_SVE2
 
 .macro  function name, export=0, align=2
-    .macro endfunc
+        .macro  endfunc
 .if \export
 ELF     .size   EXTERN_ASM\name, . - EXTERN_ASM\name
 .else
 ELF     .size   \name, . - \name
 .endif
 FUNC    .endfunc
-        .purgem endfunc
-    .endm
+                .purgem endfunc
+        .endm
         .text
-        .align          \align
-    .if \export
-        .global EXTERN_ASM\name
+        .align  \align
+        .if     \export
+                .global EXTERN_ASM\name
 ELF     .type   EXTERN_ASM\name, %function
 FUNC    .func   EXTERN_ASM\name
 EXTERN_ASM\name:
-    .else
+        .else
 ELF     .type   \name, %function
 FUNC    .func   \name
 \name:
-    .endif
+        .endif
 .endm
 
 .macro  const   name, align=2
-    .macro endconst
+        .macro  endconst
 ELF     .size   \name, . - \name
-        .purgem endconst
-    .endm
+                .purgem endconst
+        .endm
 ELF     .section        .rodata
 MACH    .const_data
-        .align          \align
+        .align  \align
 \name:
 .endm
 
 .macro  movrel rd, val, offset=0
 #if defined(__APPLE__)
-  .if \offset < 0
-        adrp            \rd, \val@PAGE
-        add             \rd, \rd, \val@PAGEOFF
-        sub             \rd, \rd, -(\offset)
-  .else
-        adrp            \rd, \val+(\offset)@PAGE
-        add             \rd, \rd, \val+(\offset)@PAGEOFF
-  .endif
+        .if     \offset < 0
+                adrp    \rd, \val@PAGE
+                add     \rd, \rd, \val@PAGEOFF
+                sub     \rd, \rd, -(\offset)
+        .else
+                adrp    \rd, \val+(\offset)@PAGE
+                add     \rd, \rd, \val+(\offset)@PAGEOFF
+        .endif
 #elif defined(PIC) && defined(_WIN32)
-  .if \offset < 0
-        adrp            \rd, \val
-        add             \rd, \rd, :lo12:\val
-        sub             \rd, \rd, -(\offset)
-  .else
-        adrp            \rd, \val+(\offset)
-        add             \rd, \rd, :lo12:\val+(\offset)
-  .endif
+        .if     \offset < 0
+                adrp    \rd, \val
+                add     \rd, \rd, :lo12:\val
+                sub     \rd, \rd, -(\offset)
+        .else
+                adrp    \rd, \val+(\offset)
+                add     \rd, \rd, :lo12:\val+(\offset)
+        .endif
 #elif defined(PIC)
-        adrp            \rd, \val+(\offset)
-        add             \rd, \rd, :lo12:\val+(\offset)
+        adrp    \rd, \val+(\offset)
+        add     \rd, \rd, :lo12:\val+(\offset)
 #else
-        ldr             \rd, =\val+\offset
+        ldr     \rd, =\val+\offset
 #endif
 .endm
 
 #define FDEC_STRIDE 32
 #define FENC_STRIDE 16
 
-
 .macro SUMSUB_AB   sum, sub, a, b
-    add         \sum,  \a,  \b
-    sub         \sub,  \a,  \b
+        add     \sum, \a, \b
+        sub     \sub, \a, \b
 .endm
 
 .macro unzip t1, t2, s1, s2
-    uzp1        \t1,  \s1,  \s2
-    uzp2        \t2,  \s1,  \s2
+        uzp1    \t1, \s1, \s2
+        uzp2    \t2, \s1, \s2
 .endm
 
 .macro transpose t1, t2, s1, s2
-    trn1        \t1,  \s1,  \s2
-    trn2        \t2,  \s1,  \s2
+        trn1    \t1, \s1, \s2
+        trn2    \t2, \s1, \s2
 .endm
 
 .macro transpose4x4.h v0, v1, v2, v3, t0, t1, t2, t3
-    transpose   \t0\().2s,  \t2\().2s,  \v0\().2s,  \v2\().2s
-    transpose   \t1\().2s,  \t3\().2s,  \v1\().2s,  \v3\().2s
-    transpose   \v0\().4h,  \v1\().4h,  \t0\().4h,  \t1\().4h
-    transpose   \v2\().4h,  \v3\().4h,  \t2\().4h,  \t3\().4h
+        transpose \t0\().2s, \t2\().2s, \v0\().2s, \v2\().2s
+        transpose \t1\().2s, \t3\().2s, \v1\().2s, \v3\().2s
+        transpose \v0\().4h, \v1\().4h, \t0\().4h, \t1\().4h
+        transpose \v2\().4h, \v3\().4h, \t2\().4h, \t3\().4h
 .endm
 
 .macro transpose4x8.h v0, v1, v2, v3, t0, t1, t2, t3
-    transpose   \t0\().4s,  \t2\().4s,  \v0\().4s,  \v2\().4s
-    transpose   \t1\().4s,  \t3\().4s,  \v1\().4s,  \v3\().4s
-    transpose   \v0\().8h,  \v1\().8h,  \t0\().8h,  \t1\().8h
-    transpose   \v2\().8h,  \v3\().8h,  \t2\().8h,  \t3\().8h
+        transpose \t0\().4s, \t2\().4s, \v0\().4s, \v2\().4s
+        transpose \t1\().4s, \t3\().4s, \v1\().4s, \v3\().4s
+        transpose \v0\().8h, \v1\().8h, \t0\().8h, \t1\().8h
+        transpose \v2\().8h, \v3\().8h, \t2\().8h, \t3\().8h
 .endm
 
-
 .macro transpose8x8.h r0, r1, r2, r3, r4, r5, r6, r7, r8, r9
-    trn1        \r8\().8h,  \r0\().8h,  \r1\().8h
-    trn2        \r9\().8h,  \r0\().8h,  \r1\().8h
-    trn1        \r1\().8h,  \r2\().8h,  \r3\().8h
-    trn2        \r3\().8h,  \r2\().8h,  \r3\().8h
-    trn1        \r0\().8h,  \r4\().8h,  \r5\().8h
-    trn2        \r5\().8h,  \r4\().8h,  \r5\().8h
-    trn1        \r2\().8h,  \r6\().8h,  \r7\().8h
-    trn2        \r7\().8h,  \r6\().8h,  \r7\().8h
+        trn1    \r8\().8h, \r0\().8h, \r1\().8h
+        trn2    \r9\().8h, \r0\().8h, \r1\().8h
+        trn1    \r1\().8h, \r2\().8h, \r3\().8h
+        trn2    \r3\().8h, \r2\().8h, \r3\().8h
+        trn1    \r0\().8h, \r4\().8h, \r5\().8h
+        trn2    \r5\().8h, \r4\().8h, \r5\().8h
+        trn1    \r2\().8h, \r6\().8h, \r7\().8h
+        trn2    \r7\().8h, \r6\().8h, \r7\().8h
 
-    trn1        \r4\().4s,  \r0\().4s,  \r2\().4s
-    trn2        \r2\().4s,  \r0\().4s,  \r2\().4s
-    trn1        \r6\().4s,  \r5\().4s,  \r7\().4s
-    trn2        \r7\().4s,  \r5\().4s,  \r7\().4s
-    trn1        \r5\().4s,  \r9\().4s,  \r3\().4s
-    trn2        \r9\().4s,  \r9\().4s,  \r3\().4s
-    trn1        \r3\().4s,  \r8\().4s,  \r1\().4s
-    trn2        \r8\().4s,  \r8\().4s,  \r1\().4s
+        trn1    \r4\().4s, \r0\().4s, \r2\().4s
+        trn2    \r2\().4s, \r0\().4s, \r2\().4s
+        trn1    \r6\().4s, \r5\().4s, \r7\().4s
+        trn2    \r7\().4s, \r5\().4s, \r7\().4s
+        trn1    \r5\().4s, \r9\().4s, \r3\().4s
+        trn2    \r9\().4s, \r9\().4s, \r3\().4s
+        trn1    \r3\().4s, \r8\().4s, \r1\().4s
+        trn2    \r8\().4s, \r8\().4s, \r1\().4s
 
-    trn1        \r0\().2d,  \r3\().2d,  \r4\().2d
-    trn2        \r4\().2d,  \r3\().2d,  \r4\().2d
+        trn1    \r0\().2d, \r3\().2d, \r4\().2d
+        trn2    \r4\().2d, \r3\().2d, \r4\().2d
 
-    trn1        \r1\().2d,  \r5\().2d,  \r6\().2d
-    trn2        \r5\().2d,  \r5\().2d,  \r6\().2d
+        trn1    \r1\().2d, \r5\().2d, \r6\().2d
+        trn2    \r5\().2d, \r5\().2d, \r6\().2d
 
-    trn2        \r6\().2d,  \r8\().2d,  \r2\().2d
-    trn1        \r2\().2d,  \r8\().2d,  \r2\().2d
+        trn2    \r6\().2d, \r8\().2d, \r2\().2d
+        trn1    \r2\().2d, \r8\().2d, \r2\().2d
 
-    trn1        \r3\().2d,  \r9\().2d,  \r7\().2d
-    trn2        \r7\().2d,  \r9\().2d,  \r7\().2d
+        trn1    \r3\().2d, \r9\().2d, \r7\().2d
+        trn2    \r7\().2d, \r9\().2d, \r7\().2d
 .endm
 
 .macro  transpose_8x16.b r0, r1, r2, r3, r4, r5, r6, r7, t0, t1
-    trn1        \t0\().16b, \r0\().16b, \r1\().16b
-    trn2        \t1\().16b, \r0\().16b, \r1\().16b
-    trn1        \r1\().16b, \r2\().16b, \r3\().16b
-    trn2        \r3\().16b, \r2\().16b, \r3\().16b
-    trn1        \r0\().16b, \r4\().16b, \r5\().16b
-    trn2        \r5\().16b, \r4\().16b, \r5\().16b
-    trn1        \r2\().16b, \r6\().16b, \r7\().16b
-    trn2        \r7\().16b, \r6\().16b, \r7\().16b
+        trn1    \t0\().16b, \r0\().16b, \r1\().16b
+        trn2    \t1\().16b, \r0\().16b, \r1\().16b
+        trn1    \r1\().16b, \r2\().16b, \r3\().16b
+        trn2    \r3\().16b, \r2\().16b, \r3\().16b
+        trn1    \r0\().16b, \r4\().16b, \r5\().16b
+        trn2    \r5\().16b, \r4\().16b, \r5\().16b
+        trn1    \r2\().16b, \r6\().16b, \r7\().16b
+        trn2    \r7\().16b, \r6\().16b, \r7\().16b
 
-    trn1        \r4\().8h,  \r0\().8h,  \r2\().8h
-    trn2        \r2\().8h,  \r0\().8h,  \r2\().8h
-    trn1        \r6\().8h,  \r5\().8h,  \r7\().8h
-    trn2        \r7\().8h,  \r5\().8h,  \r7\().8h
-    trn1        \r5\().8h,  \t1\().8h,  \r3\().8h
-    trn2        \t1\().8h,  \t1\().8h,  \r3\().8h
-    trn1        \r3\().8h,  \t0\().8h,  \r1\().8h
-    trn2        \t0\().8h,  \t0\().8h,  \r1\().8h
+        trn1    \r4\().8h, \r0\().8h, \r2\().8h
+        trn2    \r2\().8h, \r0\().8h, \r2\().8h
+        trn1    \r6\().8h, \r5\().8h, \r7\().8h
+        trn2    \r7\().8h, \r5\().8h, \r7\().8h
+        trn1    \r5\().8h, \t1\().8h, \r3\().8h
+        trn2    \t1\().8h, \t1\().8h, \r3\().8h
+        trn1    \r3\().8h, \t0\().8h, \r1\().8h
+        trn2    \t0\().8h, \t0\().8h, \r1\().8h
 
-    trn1        \r0\().4s,  \r3\().4s,  \r4\().4s
-    trn2        \r4\().4s,  \r3\().4s,  \r4\().4s
+        trn1    \r0\().4s, \r3\().4s, \r4\().4s
+        trn2    \r4\().4s, \r3\().4s, \r4\().4s
 
-    trn1        \r1\().4s,  \r5\().4s,  \r6\().4s
-    trn2        \r5\().4s,  \r5\().4s,  \r6\().4s
+        trn1    \r1\().4s, \r5\().4s, \r6\().4s
+        trn2    \r5\().4s, \r5\().4s, \r6\().4s
 
-    trn2        \r6\().4s,  \t0\().4s,  \r2\().4s
-    trn1        \r2\().4s,  \t0\().4s,  \r2\().4s
+        trn2    \r6\().4s, \t0\().4s, \r2\().4s
+        trn1    \r2\().4s, \t0\().4s, \r2\().4s
 
-    trn1        \r3\().4s,  \t1\().4s,  \r7\().4s
-    trn2        \r7\().4s,  \t1\().4s,  \r7\().4s
+        trn1    \r3\().4s, \t1\().4s, \r7\().4s
+        trn2    \r7\().4s, \t1\().4s, \r7\().4s
 .endm
 
 .macro  transpose_4x16.b r0, r1, r2, r3, t4, t5, t6, t7
-    trn1        \t4\().16b, \r0\().16b,  \r1\().16b
-    trn2        \t5\().16b, \r0\().16b,  \r1\().16b
-    trn1        \t6\().16b, \r2\().16b,  \r3\().16b
-    trn2        \t7\().16b, \r2\().16b,  \r3\().16b
+        trn1    \t4\().16b, \r0\().16b, \r1\().16b
+        trn2    \t5\().16b, \r0\().16b, \r1\().16b
+        trn1    \t6\().16b, \r2\().16b, \r3\().16b
+        trn2    \t7\().16b, \r2\().16b, \r3\().16b
 
-    trn1        \r0\().8h,  \t4\().8h,  \t6\().8h
-    trn2        \r2\().8h,  \t4\().8h,  \t6\().8h
-    trn1        \r1\().8h,  \t5\().8h,  \t7\().8h
-    trn2        \r3\().8h,  \t5\().8h,  \t7\().8h
+        trn1    \r0\().8h, \t4\().8h, \t6\().8h
+        trn2    \r2\().8h, \t4\().8h, \t6\().8h
+        trn1    \r1\().8h, \t5\().8h, \t7\().8h
+        trn2    \r3\().8h, \t5\().8h, \t7\().8h
 .endm
 
 .macro  transpose_4x8.b  r0, r1, r2, r3, t4, t5, t6, t7
-    trn1        \t4\().8b,  \r0\().8b,  \r1\().8b
-    trn2        \t5\().8b,  \r0\().8b,  \r1\().8b
-    trn1        \t6\().8b,  \r2\().8b,  \r3\().8b
-    trn2        \t7\().8b,  \r2\().8b,  \r3\().8b
+        trn1    \t4\().8b, \r0\().8b, \r1\().8b
+        trn2    \t5\().8b, \r0\().8b, \r1\().8b
+        trn1    \t6\().8b, \r2\().8b, \r3\().8b
+        trn2    \t7\().8b, \r2\().8b, \r3\().8b
 
-    trn1        \r0\().4h,  \t4\().4h,  \t6\().4h
-    trn2        \r2\().4h,  \t4\().4h,  \t6\().4h
-    trn1        \r1\().4h,  \t5\().4h,  \t7\().4h
-    trn2        \r3\().4h,  \t5\().4h,  \t7\().4h
+        trn1    \r0\().4h, \t4\().4h, \t6\().4h
+        trn2    \r2\().4h, \t4\().4h, \t6\().4h
+        trn1    \r1\().4h, \t5\().4h, \t7\().4h
+        trn2    \r3\().4h, \t5\().4h, \t7\().4h
 .endm

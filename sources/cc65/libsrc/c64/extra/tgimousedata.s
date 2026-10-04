@@ -17,5 +17,5 @@
 
 COLORMAP        :=      $D000
 
-        .export         mcb_spritepointer := COLORMAP + $03F8
-        .export         mcb_spritememory  := COLORMAP + $0400
+        .export mcb_spritepointer := COLORMAP + $03F8
+        .export mcb_spritememory  := COLORMAP + $0400

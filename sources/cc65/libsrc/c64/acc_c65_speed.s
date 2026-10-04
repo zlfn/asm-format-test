@@ -28,10 +28,10 @@
 ; * make sure you use 'detect_c65();' before using.
 ; */
 
-        .export         _set_c65_speed
-        .export         _get_c65_speed
+        .export _set_c65_speed
+        .export _get_c65_speed
 
-        .include        "accelerator.inc"
+        .include "accelerator.inc"
 
 _set_c65_speed:
         tay
@@ -54,7 +54,7 @@ _get_c65_speed:
 return_c65_speed:
         sta     C65_VICIII_KEY
         and     #$40
-        beq     speed_is_slow              ; when this branch is taken then register A is already set to SPEED_SLOW
+        beq     speed_is_slow   ; when this branch is taken then register A is already set to SPEED_SLOW
         lda     #SPEED_3X
 speed_is_slow:
         ldx     #$00

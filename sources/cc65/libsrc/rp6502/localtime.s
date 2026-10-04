@@ -2,13 +2,13 @@
 ; struct tm* __fastcall__ localtime (const time_t* timep);
 ;
 
-        .export         _localtime
+        .export _localtime
 
-        .import         __rp6502_tm_call
-        .import         ldeaxi
-        .import         _ria_push_long
+        .import __rp6502_tm_call
+        .import ldeaxi
+        .import _ria_push_long
 
-        .include        "rp6502.inc"
+        .include "rp6502.inc"
 
 _localtime:
         cpx     #$00

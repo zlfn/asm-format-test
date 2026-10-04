@@ -65,16 +65,16 @@
 */
 
 DEFINE_COMPILERRT_FUNCTION(__arm_sc_memcpy)
-        add     srcend1, src, count
+        add     srcend1, src,   count
         add     dstend1, dstin, count
-        cmp     count, 128
-        b.hi    7f  // copy_long
+        cmp     count,   128
+        b.hi    7f      // copy_long
         cmp     count, 32
-        b.hi    4f  // copy32_128
+        b.hi    4f      // copy32_128
 
         /* Small copies: 0..32 bytes.  */
         cmp     count, 16
-        b.lo    0f  // copy16
+        b.lo    0f      // copy16
         ldp     A_l, A_h, [src]
         ldp     D_l, D_h, [srcend1, -16]
         stp     A_l, A_h, [dstin]
@@ -82,46 +82,46 @@ DEFINE_COMPILERRT_FUNCTION(__arm_sc_memcpy)
         ret
 
         /* Copy 8-15 bytes.  */
-0:  // copy16
-        tbz     count, 3, 1f  // copy8
-        ldr     A_l, [src]
-        ldr     A_h, [srcend1, -8]
-        str     A_l, [dstin]
-        str     A_h, [dstend1, -8]
+0:                              // copy16
+        tbz     count, 3, 1f    // copy8
+        ldr     A_l,   [src]
+        ldr     A_h,   [srcend1, -8]
+        str     A_l,   [dstin]
+        str     A_h,   [dstend1, -8]
         ret
 
         .p2align 3
         /* Copy 4-7 bytes.  */
-1:  // copy8
-        tbz     count, 2, 2f  // copy4
-        ldr     A_lw, [src]
-        ldr     B_lw, [srcend1, -4]
-        str     A_lw, [dstin]
-        str     B_lw, [dstend1, -4]
+1:                              // copy8
+        tbz     count, 2, 2f    // copy4
+        ldr     A_lw,  [src]
+        ldr     B_lw,  [srcend1, -4]
+        str     A_lw,  [dstin]
+        str     B_lw,  [dstend1, -4]
         ret
 
         /* Copy 0..3 bytes using a branchless sequence.  */
-2:  // copy4
-        cbz     count, 3f // copy0
-        lsr     tmp1, count, 1
-        ldrb    A_lw, [src]
-        ldrb    C_lw, [srcend1, -1]
-        ldrb    B_lw, [src, tmp1]
-        strb    A_lw, [dstin]
-        strb    B_lw, [dstin, tmp1]
-        strb    C_lw, [dstend1, -1]
-3:  // copy0
+2:                              // copy4
+        cbz     count, 3f       // copy0
+        lsr     tmp1,  count, 1
+        ldrb    A_lw,  [src]
+        ldrb    C_lw,  [srcend1, -1]
+        ldrb    B_lw,  [src, tmp1]
+        strb    A_lw,  [dstin]
+        strb    B_lw,  [dstin, tmp1]
+        strb    C_lw,  [dstend1, -1]
+3:                              // copy0
         ret
 
         .p2align 4
         /* Medium copies: 33..128 bytes.  */
-4:  // copy32_128
-        ldp     A_l, A_h, [src]
-        ldp     B_l, B_h, [src, 16]
-        ldp     C_l, C_h, [srcend1, -32]
-        ldp     D_l, D_h, [srcend1, -16]
+4:                      // copy32_128
+        ldp     A_l,   A_h, [src]
+        ldp     B_l,   B_h, [src, 16]
+        ldp     C_l,   C_h, [srcend1, -32]
+        ldp     D_l,   D_h, [srcend1, -16]
         cmp     count, 64
-        b.hi    5f  // copy128
+        b.hi    5f      // copy128
         stp     A_l, A_h, [dstin]
         stp     B_l, B_h, [dstin, 16]
         stp     C_l, C_h, [dstend1, -32]
@@ -130,16 +130,16 @@ DEFINE_COMPILERRT_FUNCTION(__arm_sc_memcpy)
 
         .p2align 4
         /* Copy 65..128 bytes.  */
-5:  // copy128
-        ldp     E_l, E_h, [src, 32]
-        ldp     F_l, F_h, [src, 48]
+5:                      // copy128
+        ldp     E_l,   E_h, [src, 32]
+        ldp     F_l,   F_h, [src, 48]
         cmp     count, 96
-        b.ls    6f  // copy96
+        b.ls    6f      // copy96
         ldp     G_l, G_h, [srcend1, -64]
         ldp     H_l, H_h, [srcend1, -48]
         stp     G_l, G_h, [dstend1, -64]
         stp     H_l, H_h, [dstend1, -48]
-6:  // copy96
+6:                      // copy96
         stp     A_l, A_h, [dstin]
         stp     B_l, B_h, [dstin, 16]
         stp     E_l, E_h, [dstin, 32]
@@ -150,41 +150,41 @@ DEFINE_COMPILERRT_FUNCTION(__arm_sc_memcpy)
 
         .p2align 4
         /* Copy more than 128 bytes.  */
-7:  // copy_long
+7:              // copy_long
         /* Use backwards copy if there is an overlap.  */
         sub     tmp1, dstin, src
-        cbz     tmp1, 3b  // copy0
+        cbz     tmp1, 3b        // copy0
         cmp     tmp1, count
-        b.lo    10f //copy_long_backwards
+        b.lo    10f             //copy_long_backwards
 
         /* Copy 16 bytes and then align dst to 16-byte alignment.  */
 
-        ldp     D_l, D_h, [src]
-        and     tmp1, dstin, 15
-        bic     dst, dstin, 15
-        sub     src, src, tmp1
+        ldp     D_l,   D_h,   [src]
+        and     tmp1,  dstin, 15
+        bic     dst,   dstin, 15
+        sub     src,   src,   tmp1
         add     count, count, tmp1      /* Count is now 16 too large.  */
-        ldp     A_l, A_h, [src, 16]
-        stp     D_l, D_h, [dstin]
-        ldp     B_l, B_h, [src, 32]
-        ldp     C_l, C_h, [src, 48]
-        ldp     D_l, D_h, [src, 64]!
+        ldp     A_l,   A_h,   [src, 16]
+        stp     D_l,   D_h,   [dstin]
+        ldp     B_l,   B_h,   [src, 32]
+        ldp     C_l,   C_h,   [src, 48]
+        ldp     D_l,   D_h,   [src, 64]!
         subs    count, count, 128 + 16  /* Test and readjust count.  */
-        b.ls    9f  // copy64_from_end
-8:  // loop64
-        stp     A_l, A_h, [dst, 16]
-        ldp     A_l, A_h, [src, 16]
-        stp     B_l, B_h, [dst, 32]
-        ldp     B_l, B_h, [src, 32]
-        stp     C_l, C_h, [dst, 48]
-        ldp     C_l, C_h, [src, 48]
-        stp     D_l, D_h, [dst, 64]!
-        ldp     D_l, D_h, [src, 64]!
+        b.ls    9f                      // copy64_from_end
+8:                                      // loop64
+        stp     A_l,   A_h,   [dst, 16]
+        ldp     A_l,   A_h,   [src, 16]
+        stp     B_l,   B_h,   [dst, 32]
+        ldp     B_l,   B_h,   [src, 32]
+        stp     C_l,   C_h,   [dst, 48]
+        ldp     C_l,   C_h,   [src, 48]
+        stp     D_l,   D_h,   [dst, 64]!
+        ldp     D_l,   D_h,   [src, 64]!
         subs    count, count, 64
-        b.hi    8b  // loop64
+        b.hi    8b                      // loop64
 
         /* Write the last iteration and copy 64 bytes from the end.  */
-9:  // copy64_from_end
+9:              // copy64_from_end
         ldp     E_l, E_h, [srcend1, -64]
         stp     A_l, A_h, [dst, 16]
         ldp     A_l, A_h, [srcend1, -48]
@@ -203,34 +203,34 @@ DEFINE_COMPILERRT_FUNCTION(__arm_sc_memcpy)
 
         /* Large backwards copy for overlapping copies.
            Copy 16 bytes and then align dst to 16-byte alignment.  */
-10: // copy_long_backwards
-        ldp     D_l, D_h, [srcend1, -16]
-        and     tmp1, dstend1, 15
+10:                     // copy_long_backwards
+        ldp     D_l,     D_h,     [srcend1, -16]
+        and     tmp1,    dstend1, 15
         sub     srcend1, srcend1, tmp1
-        sub     count, count, tmp1
-        ldp     A_l, A_h, [srcend1, -16]
-        stp     D_l, D_h, [dstend1, -16]
-        ldp     B_l, B_h, [srcend1, -32]
-        ldp     C_l, C_h, [srcend1, -48]
-        ldp     D_l, D_h, [srcend1, -64]!
+        sub     count,   count,   tmp1
+        ldp     A_l,     A_h,     [srcend1, -16]
+        stp     D_l,     D_h,     [dstend1, -16]
+        ldp     B_l,     B_h,     [srcend1, -32]
+        ldp     C_l,     C_h,     [srcend1, -48]
+        ldp     D_l,     D_h,     [srcend1, -64]!
         sub     dstend1, dstend1, tmp1
-        subs    count, count, 128
-        b.ls    12f // copy64_from_start
+        subs    count,   count,   128
+        b.ls    12f     // copy64_from_start
 
-11: // loop64_backwards
-        stp     A_l, A_h, [dstend1, -16]
-        ldp     A_l, A_h, [srcend1, -16]
-        stp     B_l, B_h, [dstend1, -32]
-        ldp     B_l, B_h, [srcend1, -32]
-        stp     C_l, C_h, [dstend1, -48]
-        ldp     C_l, C_h, [srcend1, -48]
-        stp     D_l, D_h, [dstend1, -64]!
-        ldp     D_l, D_h, [srcend1, -64]!
+11:                     // loop64_backwards
+        stp     A_l,   A_h,   [dstend1, -16]
+        ldp     A_l,   A_h,   [srcend1, -16]
+        stp     B_l,   B_h,   [dstend1, -32]
+        ldp     B_l,   B_h,   [srcend1, -32]
+        stp     C_l,   C_h,   [dstend1, -48]
+        ldp     C_l,   C_h,   [srcend1, -48]
+        stp     D_l,   D_h,   [dstend1, -64]!
+        ldp     D_l,   D_h,   [srcend1, -64]!
         subs    count, count, 64
-        b.hi    11b // loop64_backwards
+        b.hi    11b     // loop64_backwards
 
         /* Write the last iteration and copy 64 bytes from the start.  */
-12: // copy64_from_start
+12:             // copy64_from_start
         ldp     G_l, G_h, [src, 48]
         stp     A_l, A_h, [dstend1, -16]
         ldp     A_l, A_h, [src, 32]

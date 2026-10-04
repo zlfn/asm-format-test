@@ -1,15 +1,15 @@
 
-        .export         PLOT
+        .export PLOT
 
-        .include        "gamate.inc"
-        .include        "extzp.inc"
+        .include "gamate.inc"
+        .include "extzp.inc"
 
 PLOT:
         bcs     @getpos
 
         sty     LCD_X
         ;clc                    ; already cleared
-        lda     _plotlo,x
+        lda     _plotlo, x
         sta     LCD_Y
 
 @getpos:
@@ -17,12 +17,12 @@ PLOT:
         ldy     CURS_X
         rts
 
-        .export         _plotlo
+        .export _plotlo
         .rodata
 
 _plotlo:
-        .repeat screenrows,line
-        .byte   <($0000+(line*$8))
+        .repeat screenrows, line
+                .byte   <($0000+(line*$8))
         .endrepeat
 
 ;-------------------------------------------------------------------------------

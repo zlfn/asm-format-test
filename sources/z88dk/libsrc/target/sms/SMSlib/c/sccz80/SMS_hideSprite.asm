@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_hideSprite
 defc _SMS_hideSprite = SMS_hideSprite
 ENDIF
-

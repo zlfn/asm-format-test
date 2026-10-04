@@ -7,7 +7,7 @@ EXTERN _NIRVANAM_ISR_STOP
 
 asm_NIRVANAM_stop:
 
-   ld hl,_NIRVANAM_ISR_STOP
-   ld ($fdfe),hl
-   
-   ret
+        ld      hl, _NIRVANAM_ISR_STOP
+        ld      ($fdfe), hl
+
+        ret

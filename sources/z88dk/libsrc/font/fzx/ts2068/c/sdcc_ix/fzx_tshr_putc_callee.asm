@@ -10,22 +10,22 @@ EXTERN asm_fzx_tshr_putc
 
 _fzx_tshr_putc_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
 
 l0_fzx_tshr_putc_callee:
 
-   push hl
-   ex (sp),ix
+        push    hl
+        ex      (sp), ix
 
-   call asm_fzx_tshr_putc
-   
-   pop ix
-   ret nc
-   
-   ld l,a
-   ld h,0
-   
-   ret
+        call    asm_fzx_tshr_putc
+
+        pop     ix
+        ret     nc
+
+        ld      l, a
+        ld      h, 0
+
+        ret

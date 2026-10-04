@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_m_getdate
 defc _esx_m_getdate = esx_m_getdate
 ENDIF
-

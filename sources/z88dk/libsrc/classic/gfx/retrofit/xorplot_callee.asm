@@ -12,7 +12,6 @@
 ; CALLER LINKAGE FOR FUNCTION POINTERS
 ; ----- void  xorplot(int x, int y)
 
-
         SECTION code_graphics
 
         PUBLIC  xorplot_callee
@@ -22,10 +21,10 @@
 
 xorplot_callee:
 _xorplot_callee:
-        pop     af                      ; ret addr
+        pop     af      ; ret addr
         pop     bc
         pop     de
-        push    af                      ; ret addr
+        push    af      ; ret addr
         push    de
         push    bc
 

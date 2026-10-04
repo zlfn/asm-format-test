@@ -6,12 +6,12 @@ PUBLIC error_lzc
 
 EXTERN error_zc
 
-   pop hl
+        pop     hl
 
 error_lzc:
 
-   ; set dehl = 0
-   ; set carry flag
-   
-   ld de,0
-   jp error_zc
+        ; set dehl = 0
+        ; set carry flag
+
+        ld      de, 0
+        jp      error_zc

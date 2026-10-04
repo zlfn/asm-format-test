@@ -10,25 +10,22 @@
 ;	$Id: xordrawr_callee.asm $
 ;
 
-    SECTION code_graphics
+        SECTION code_graphics
 
-    PUBLIC  xordrawr_callee
-    PUBLIC  _xordrawr_callee
+        PUBLIC  xordrawr_callee
+        PUBLIC  _xordrawr_callee
 
-    PUBLIC  asm_xordrawr
+        PUBLIC  asm_xordrawr
 
-    EXTERN  do_drawr
-
+        EXTERN  do_drawr
 
 xordrawr_callee:
 _xordrawr_callee:
-    pop     af                          ; ret addr
-    pop     de                          ; y
-    pop     hl                          ; x
-    push    af                          ; ret addr
+        pop     af      ; ret addr
+        pop     de      ; y
+        pop     hl      ; x
+        push    af      ; ret addr
 
 asm_xordrawr:
-    ld      a, 3
-    jp      do_drawr
-
-
+        ld      a, 3
+        jp      do_drawr

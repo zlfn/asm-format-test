@@ -2,9 +2,9 @@
 ; Stefan Haubenthal, 2023-01-16
 ;
 
-        .export         initst
+        .export initst
 
-        .include        "pet.inc"
+        .include "pet.inc"
 
 .proc   initst
 

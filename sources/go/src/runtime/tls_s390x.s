@@ -21,15 +21,15 @@
 //
 // NOTE: setg_gcc<> and mcall assume this clobbers only R10 and R11.
 TEXT runtime·save_g(SB),NOSPLIT|NOFRAME,$0-0
-	MOVB	runtime·iscgo(SB),  R10
-	CMPBEQ	R10, $0, nocgo
-	MOVW	AR0, R11
-	SLD	$32, R11
-	MOVW	AR1, R11
-	MOVD	runtime·tls_g(SB), R10
-	MOVD	g, 0(R10)(R11*1)
+        MOVB    runtime·iscgo(SB), R10
+        CMPBEQ  R10, $0, nocgo
+        MOVW    AR0, R11
+        SLD     $32, R11
+        MOVW    AR1, R11
+        MOVD    runtime·tls_g(SB), R10
+        MOVD    g, 0(R10)(R11*1)
 nocgo:
-	RET
+        RET
 
 // load_g loads the g register from pthread-provided
 // thread-local memory, for use after calling externally compiled
@@ -41,11 +41,11 @@ nocgo:
 //
 // NOTE: _cgo_topofstack assumes this only clobbers g (R13), R10 and R11.
 TEXT runtime·load_g(SB),NOSPLIT|NOFRAME,$0-0
-	MOVW	AR0, R11
-	SLD	$32, R11
-	MOVW	AR1, R11
-	MOVD	runtime·tls_g(SB), R10
-	MOVD	0(R10)(R11*1), g
-	RET
+        MOVW    AR0, R11
+        SLD     $32, R11
+        MOVW    AR1, R11
+        MOVD    runtime·tls_g(SB), R10
+        MOVD    0(R10)(R11*1),     g
+        RET
 
 GLOBL runtime·tls_g+0(SB),TLSBSS,$8

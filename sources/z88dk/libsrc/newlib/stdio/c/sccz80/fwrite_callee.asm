@@ -16,13 +16,13 @@ EXTERN asm_fwrite
 
 fwrite_callee:
 
-   pop hl
-   pop ix
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   jp asm_fwrite
+        pop     hl
+        pop     ix
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_fwrite
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -33,7 +33,7 @@ PUBLIC fwrite_callee
 EXTERN fwrite_unlocked_callee
 
 defc fwrite_callee = fwrite_unlocked_callee
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

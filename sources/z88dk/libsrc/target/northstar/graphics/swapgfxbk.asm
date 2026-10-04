@@ -17,29 +17,27 @@
 ;   $Id: __gfx_vram_page_in.asm $
 ;
 
-    SECTION code_graphics
-    PUBLIC  __gfx_vram_page_in
-    PUBLIC  ___gfx_vram_page_in
+        SECTION code_graphics
+        PUBLIC  __gfx_vram_page_in
+        PUBLIC  ___gfx_vram_page_in
 
-    PUBLIC  __gfx_vram_page_out
-    PUBLIC  ___gfx_vram_page_out
-
+        PUBLIC  __gfx_vram_page_out
+        PUBLIC  ___gfx_vram_page_out
 
 __gfx_vram_page_in:
 ___gfx_vram_page_in:
-    di
-    ret
-
+        di
+        ret
 
 __gfx_vram_page_out:
 ___gfx_vram_page_out:
-    ex      af, af
+        ex      af, af
 
-    xor     a
-    out     (0A1h),a
-    ex      af, af
-    ei
-    ret
+        xor     a
+        out     (0A1h), a
+        ex      af,     af
+        ei
+        ret
 
 ;    SECTION code_crt_init
 ;
@@ -51,4 +49,3 @@ ___gfx_vram_page_out:
 ;    ld      de, __HIMEM_head
 ;    ld      bc, __HIMEM_END_tail-__HIMEM_head
 ;    ldir
-

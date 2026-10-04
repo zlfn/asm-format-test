@@ -5,25 +5,24 @@
 ; Ullrich von Bassewitz, 2002-12-09, 2003-12-27
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "em-kernel.inc"
-        .include        "em-error.inc"
-        .include        "cbm510.inc"
+        .include "em-kernel.inc"
+        .include "em-error.inc"
+        .include "cbm510.inc"
 
-        .macpack        generic
-        .macpack        module
-
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
-        module_header   _cbm510_ram_emd
+        module_header _cbm510_ram_emd
 
 ; Driver signature
 
-        .byte   $65, $6d, $64           ; "emd"
-        .byte   EMD_API_VERSION         ; EM API version number
+        .byte   $65, $6d, $64   ; "emd"
+        .byte   EMD_API_VERSION ; EM API version number
 
 ; Library reference
 
@@ -50,11 +49,10 @@ OFFS    = 2
 ; Data.
 
 .bss
-curpage:        .res    1               ; Current page number
+curpage: .res   1       ; Current page number
 
-window:         .res    256             ; Memory "window"
-pagecount:      .res    1               ; Number of available pages
-
+window: .res    256     ; Memory "window"
+pagecount: .res 1       ; Number of available pages
 
 .code
 
@@ -67,14 +65,14 @@ pagecount:      .res    1               ; Number of available pages
 
 INSTALL:
         lda     #$FF
-        sta     curpage                 ; Invalidate the current page
-        sta     pagecount               ; Assume all memory available
+        sta     curpage         ; Invalidate the current page
+        sta     pagecount       ; Assume all memory available
 
         sec
-        jsr     $FF99                   ; MEMTOP
+        jsr     $FF99   ; MEMTOP
 
-        cmp     #RAMBANK                ; Top of memory in bank 2?
-        bne     @L1                     ; No: We can use all the memory
+        cmp     #RAMBANK        ; Top of memory in bank 2?
+        bne     @L1             ; No: We can use all the memory
         txa
         sub     #OFFS
         tya
@@ -94,7 +92,6 @@ INSTALL:
 UNINSTALL:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; PAGECOUNT: Return the total number of available pages in a/x.
 ;
@@ -110,7 +107,7 @@ PAGECOUNT:
 ; by the driver.
 ;
 
-MAP:    sta     curpage                 ; Remember the new page
+MAP:    sta     curpage ; Remember the new page
 
         sta     ptr1+1
         lda     #OFFS
@@ -124,8 +121,8 @@ MAP:    sta     curpage                 ; Remember the new page
 
         ldy     #$00
 @L1:    .repeat 2
-        lda     (ptr1),y
-        sta     window,y
+        lda     (ptr1), y
+        sta     window, y
         iny
         .endrepeat
         bne     @L1
@@ -135,23 +132,23 @@ MAP:    sta     curpage                 ; Remember the new page
 ; Return the memory window
 
         lda     #<window
-        ldx     #>window                ; Return the window address
+        ldx     #>window        ; Return the window address
         rts
 
 ; ------------------------------------------------------------------------
 ; USE: Tell the driver that the window is now associated with a given page.
 
-USE:    sta     curpage                 ; Remember the page
+USE:    sta     curpage         ; Remember the page
         lda     #<window
-        ldx     #>window                ; Return the window
+        ldx     #>window        ; Return the window
         rts
 
 ; ------------------------------------------------------------------------
 ; COMMIT: Commit changes in the memory window to extended storage.
 
-COMMIT: lda     curpage                 ; Get the current page
+COMMIT: lda     curpage ; Get the current page
         cmp     #$FF
-        beq     done                    ; Jump if no page mapped
+        beq     done    ; Jump if no page mapped
 
         sta     ptr1+1
         lda     #OFFS
@@ -165,8 +162,8 @@ COMMIT: lda     curpage                 ; Get the current page
 
         ldy     #$00
 @L1:    .repeat 2
-        lda     window,y
-        sta     (ptr1),y
+        lda     window, y
+        sta     (ptr1), y
         iny
         .endrepeat
         bne     @L1
@@ -221,7 +218,6 @@ COPYFROM:
 
         rts
 
-
 ; ------------------------------------------------------------------------
 ; COPYTO: Copy from linear into extended memory. A pointer to a structure
 ; describing the request is passed in a/x.
@@ -270,29 +266,29 @@ COPYTO: jsr     setup
 ;
 
 setup:  sta     ptr3
-        stx     ptr3+1                  ; Save the passed em_copy pointer
+        stx     ptr3+1  ; Save the passed em_copy pointer
 
         ldy     #EM_COPY::OFFS
-        lda     (ptr3),y
+        lda     (ptr3), y
         add     #OFFS
         sta     ptr1
         ldy     #EM_COPY::PAGE
-        lda     (ptr3),y
+        lda     (ptr3), y
         adc     #$00
         sta     ptr1+1
 
         ldy     #EM_COPY::COUNT
-        lda     (ptr3),y
+        lda     (ptr3), y
         sta     ptr2
         iny
-        lda     (ptr3),y
-        sta     ptr2+1                  ; Get count into ptr2
+        lda     (ptr3), y
+        sta     ptr2+1  ; Get count into ptr2
 
         ldy     #EM_COPY::BUF+1
-        lda     (ptr3),y
+        lda     (ptr3), y
         tax
         dey
-        lda     (ptr3),y                ; Get the buffer pointer into a/x
+        lda     (ptr3), y       ; Get the buffer pointer into a/x
 
         ldy     #RAMBANK
         sty     IndReg
@@ -306,9 +302,9 @@ setup:  sta     ptr3
 
 .data
 copyfrom:
-        lda     (ptr1),y
+        lda     (ptr1), y
 copyfrom_buf = * + 1
-        sta     $0000,y
+        sta     $0000, y
         iny
         dex
         bne     copyfrom
@@ -320,10 +316,9 @@ copyfrom_buf = * + 1
 .data
 copyto:
 copyto_buf = * + 1
-        lda     $0000,y
-        sta     (ptr1),y
+        lda     $0000,  y
+        sta     (ptr1), y
         iny
         dex
         bne     copyto
         rts
-

@@ -4,11 +4,11 @@
 ; void clrscr (void);
 ;
 
-        .export         _clrscr
-        .import         plot
-        .importzp       ptr1
+        .export _clrscr
+        .import plot
+        .importzp ptr1
 
-        .include        "pet.inc"
+        .include "pet.inc"
 
 _clrscr:
 
@@ -29,9 +29,9 @@ _clrscr:
 
 ; Clear the screen
 
-L1:     lda     #$20            ; Screen code for blank
+L1:     lda     #$20    ; Screen code for blank
         ldy     #$00
-L2:     sta     (ptr1),y
+L2:     sta     (ptr1), y
         iny
         bne     L2
         inc     ptr1+1
@@ -46,4 +46,3 @@ L2:     sta     (ptr1),y
         jmp     plot
 
         rts
-

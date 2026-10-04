@@ -10,14 +10,14 @@ EXTERN l_neg_hl, asm_fzx_puts
 
 fzx_puts_callee:
 
-   pop af
-   pop de
-   pop ix
-   push af
+        pop     af
+        pop     de
+        pop     ix
+        push    af
 
 fzx0_puts_callee:
 
-   call asm_fzx_puts
-   ret nc
-   
-   jp l_neg_hl
+        call    asm_fzx_puts
+        ret     nc
+
+        jp      l_neg_hl

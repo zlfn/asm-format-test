@@ -15,133 +15,126 @@
 ;	$Id: __ansichar_4x4.asm $
 ;
 
+        SECTION code_graphics
 
-    SECTION code_graphics
-
-    PUBLIC  __ansichar_4x4
+        PUBLIC  __ansichar_4x4
 
 ;    EXTERN  __console_w
 ;    EXTERN  __console_h
 
-    EXTERN  __console_y
-    EXTERN  __console_x
+        EXTERN  __console_y
+        EXTERN  __console_x
 
 ;    EXTERN  CONSOLE_COLUMNS
 ;    EXTERN  CONSOLE_ROWS
 
-
-    EXTERN  plot
-    EXTERN  unplot
-    EXTERN  __graphics_end
-
+        EXTERN  plot
+        EXTERN  unplot
+        EXTERN  __graphics_end
 
 __ansichar_4x4:
 
-    sub     32
-    ld      (chr), a
+        sub     32
+        ld      (chr), a
 
-    ld      a, (__console_x)
-    add     a
-    add     a
-    ld      (x_4x4),a
-    ld      a, (__console_y)
-    add     a
-    add     a
-    ld      (y_4x4),a
-
+        ld      a, (__console_x)
+        add     a
+        add     a
+        ld      (x_4x4), a
+        ld      a, (__console_y)
+        add     a
+        add     a
+        ld      (y_4x4), a
 
 IF  !__CPU_INTEL__&!__CPU_GBZ80__
-    push    ix
+        push    ix
 ENDIF
 IFDEF _GFX_PAGE_VRAM
-    call    __gfx_vram_page_in
+        call    __gfx_vram_page_in
 ENDIF
 
-    ld      a, (chr)
-    rra
+        ld      a, (chr)
+        rra
 
-    add     a                            ; x2
+        add     a       ; x2
 ;    add     a
 
-    ld      d, 0
-    ld      e, a
-    ld      hl, font4x4
-    add     hl, de
-    add     hl, de                       ; x4
+        ld      d,  0
+        ld      e,  a
+        ld      hl, font4x4
+        add     hl, de
+        add     hl, de  ; x4
 
-
-    ld      b, 4
+        ld      b, 4
 rowloop:
-    push    bc
-    push    hl
-    ld      a, (chr)
-    rra                                 ; even odd ?
-    ld      a, (hl)
-    jr      nc, iseven
-    rla
-    rla
-    rla
-    rla
+        push    bc
+        push    hl
+        ld      a, (chr)
+        rra     ; even odd ?
+        ld      a,  (hl)
+        jr      nc, iseven
+        rla
+        rla
+        rla
+        rla
 iseven:
-    ld      b, 4
-    ld      c, a
+        ld      b, 4
+        ld      c, a
 
-    ld      a, (x_4x4)
-    ld      d, 0
-    ld      e, a
+        ld      a, (x_4x4)
+        ld      d, 0
+        ld      e, a
 colloop:
 IF  __CPU_INTEL__
-    ld      a, c
-    rla
-    ld      c, a
+        ld      a, c
+        rla
+        ld      c, a
 ELSE
-    rl      c                           ; cy = pixel status
+        rl      c       ; cy = pixel status
 ENDIF
-    push    bc
-    push    de
-    ld      a, (y_4x4)
-    ld      e, a
-    push    de
+        push    bc
+        push    de
+        ld      a, (y_4x4)
+        ld      e, a
+        push    de
 
-    jr      nc, noplot
-    call    plot
-    jr      nores
+        jr      nc, noplot
+        call    plot
+        jr      nores
 noplot:
-    call    unplot
+        call    unplot
 nores:
-    pop     de
-    pop     de
-    inc     e
+        pop     de
+        pop     de
+        inc     e
 
-    pop     bc
-    djnz    colloop
+        pop     bc
+        djnz    colloop
 
-    ld      hl, y_4x4
-    inc     (hl)
+        ld      hl, y_4x4
+        inc     (hl)
 
-    pop     hl
-    inc     hl
-    pop     bc
-    djnz    rowloop
+        pop     hl
+        inc     hl
+        pop     bc
+        djnz    rowloop
 
 IF  _GFX_PAGE_VRAM
-    jp      __graphics_end
+        jp      __graphics_end
 ELSE
-  IF    !__CPU_INTEL__&!__CPU_GBZ80__
-    pop     ix
-  ENDIF
-    ret
+        IF      !__CPU_INTEL__&!__CPU_GBZ80__
+                pop     ix
+        ENDIF
+        ret
 ENDIF
 
+        SECTION bss_graphics
 
-    SECTION bss_graphics
+x_4x4:  defb    0
+y_4x4:  defb    0
+chr:    defb    0
 
-x_4x4:  defb 0
-y_4x4:  defb 0
-chr:    defb 0
-
-
-    SECTION rodata_clib
+        SECTION rodata_clib
 font4x4:
 defb 0x04 , 0x04 , 0x00 , 0x04
 defb 0xA8 , 0x0E , 0x0E , 0x02
@@ -191,4 +184,3 @@ defb 0x00 , 0xAA , 0x44 , 0xA8
 defb 0x06 , 0xCC , 0x66 , 0x00
 defb 0x4C , 0x46 , 0x4C , 0x00
 defb 0x50 , 0xA0 , 0x00 , 0x00
-

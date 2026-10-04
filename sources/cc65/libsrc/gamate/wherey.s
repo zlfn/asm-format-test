@@ -4,10 +4,10 @@
 ; unsigned char wherey (void);
 ;
 
-        .export         _wherey
+        .export _wherey
 
-        .include        "gamate.inc"
-        .include        "extzp.inc"
+        .include "gamate.inc"
+        .include "extzp.inc"
 
 .proc   _wherey
 
@@ -16,5 +16,3 @@
         rts
 
 .endproc
-
-

@@ -5,9 +5,9 @@
 ; CC65 runtime: or on ints
 ;
 
-        .export         tosora0, tosorax
-        .import         addysp1
-        .importzp       c_sp, tmp1
+        .export tosora0, tosorax
+        .import addysp1
+        .importzp c_sp, tmp1
 
 tosora0:
         ldx     #$00
@@ -17,13 +17,12 @@ tosorax:
         ldy     #1
 .else
         ldy     #0
-        ora     (c_sp),y
+        ora     (c_sp), y
         iny
 .endif
         sta     tmp1
         txa
-        ora     (c_sp),y
+        ora     (c_sp), y
         tax
         lda     tmp1
-        jmp     addysp1         ; drop TOS, set condition codes
-
+        jmp     addysp1 ; drop TOS, set condition codes

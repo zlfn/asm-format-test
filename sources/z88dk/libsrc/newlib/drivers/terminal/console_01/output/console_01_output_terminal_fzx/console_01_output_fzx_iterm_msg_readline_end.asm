@@ -17,37 +17,37 @@ EXTERN ITERM_MSG_READLINE_SCROLL_LIMIT
 
 console_01_output_fzx_iterm_msg_readline_end:
 
-   ; input terminal has completed editing
-   ; can use: af, bc, de, hl, ix
-   
-   ; restore fzx variables saved during editing
-   
-   ld hl,23
-   call l_offset_ix_de
-   
-   ex de,hl                    ; de = & FDSTRUCT.temp_fzx_draw_mode
-   
-   ld hl,8
-   add hl,de                   ; hl = & FDSTRUCT.fzx_draw
+        ; input terminal has completed editing
+        ; can use: af, bc, de, hl, ix
 
-   ex de,hl
-   
-   ldi                         ; restore fzx_draw_mode
-   ldi
+        ; restore fzx variables saved during editing
 
-   ld a,(ix+29)
-   ld (ix+49),a                ; restore space_expand
-   
-   ; input terminal readline ends
-   
-   res 7,(ix+7)                ; indicate readline not in progress
+        ld      hl, 23
+        call    l_offset_ix_de
 
-   ; opportunity to adjust scroll limit set by derived driver
+        ex      de, hl  ; de = & FDSTRUCT.temp_fzx_draw_mode
 
-   ld c,(ix+20)
-   
-   ld a,ITERM_MSG_READLINE_SCROLL_LIMIT
-   call l_jpix
+        ld      hl, 8
+        add     hl, de  ; hl = & FDSTRUCT.fzx_draw
 
-   ld (ix+20),c   
-   ret
+        ex      de, hl
+
+        ldi     ; restore fzx_draw_mode
+        ldi
+
+        ld      a, (ix+29)
+        ld      (ix+49), a      ; restore space_expand
+
+        ; input terminal readline ends
+
+        res     7, (ix+7)       ; indicate readline not in progress
+
+        ; opportunity to adjust scroll limit set by derived driver
+
+        ld      c, (ix+20)
+
+        ld      a, ITERM_MSG_READLINE_SCROLL_LIMIT
+        call    l_jpix
+
+        ld      (ix+20), c
+        ret

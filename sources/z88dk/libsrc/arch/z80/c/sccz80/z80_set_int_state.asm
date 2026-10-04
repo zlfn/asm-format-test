@@ -18,4 +18,3 @@ IF __CLASSIC
 PUBLIC _z80_set_int_state
 defc _z80_set_int_state = z80_set_int_state
 ENDIF
-

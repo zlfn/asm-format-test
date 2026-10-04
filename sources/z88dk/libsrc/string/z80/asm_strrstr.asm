@@ -1,7 +1,7 @@
 ; ===============================================================
 ; Jan 2007
 ; ===============================================================
-; 
+;
 ; char *strrstr(const char *s, const char *w)
 ;
 ; Return ptr in s to last occurrence of substring w.
@@ -18,83 +18,83 @@ EXTERN error_zc
 
 asm_strrstr:
 
-   ; enter : hl = char *s
-   ;         de = char *w = substring
-   ;
-   ; exit  : de = char *w = substring
-   ;
-   ;         found
-   ;
-   ;            carry reset
-   ;            hl = ptr in s to substring w
-   ;
-   ;         not found
-   ;
-   ;            carry set
-   ;            hl = 0
-   ;
-   ; uses  : af, bc, de, hl
-   
-   ; first find end of s and len(s)
+        ; enter : hl = char *s
+        ;         de = char *w = substring
+        ;
+        ; exit  : de = char *w = substring
+        ;
+        ;         found
+        ;
+        ;            carry reset
+        ;            hl = ptr in s to substring w
+        ;
+        ;         not found
+        ;
+        ;            carry set
+        ;            hl = 0
+        ;
+        ; uses  : af, bc, de, hl
 
-   xor a
-   ld c,a
-   ld b,a
+        ; first find end of s and len(s)
+
+        xor     a
+        ld      c, a
+        ld      b, a
 IF __CPU_INTEL__ || __CPU_GBZ80__
-   EXTERN __z80asm__cpir
-   call __z80asm__cpir
+        EXTERN  __z80asm__cpir
+        call    __z80asm__cpir
 ELSE
-   cpir
+        cpir
 ENDIF
-   dec hl
+        dec     hl
 
-   ; de = char *w
-   ; hl = & terminating 0 in s
-   ; bc = -(length of s) - 1
+        ; de = char *w
+        ; hl = & terminating 0 in s
+        ; bc = -(length of s) - 1
 
-   ; degenerate case
+        ; degenerate case
 
-   ld a,(de)
-   or a
-   ret Z
+        ld      a, (de)
+        or      a
+        ret     Z
 
 loop1:
-   dec hl
-   inc bc
+        dec     hl
+        inc     bc
 
-   ld a,b
-   or c
+        ld      a, b
+        or      c
 
-   jp Z,error_zc               ; if no match
+        jp      Z, error_zc     ; if no match
 
-   ld a,(de)
-   cp (hl)
+        ld      a, (de)
+        cp      (hl)
 
-   jr NZ,loop1
+        jr      NZ, loop1
 
-   push hl                     ; save s
-   push de                     ; save w
+        push    hl      ; save s
+        push    de      ; save w
 
 loop2:
-   inc de
+        inc     de
 
-   ld a,(de)
-   or a
+        ld      a, (de)
+        or      a
 
-   jr Z,match
-   inc hl
+        jr      Z, match
+        inc     hl
 
-   cp (hl)
-   jr Z,loop2
+        cp      (hl)
+        jr      Z, loop2
 
-   pop de
-   pop hl
+        pop     de
+        pop     hl
 
-   jr loop1
+        jr      loop1
 
 match:
 
-   pop de
-   pop hl
-   
-   ret
+        pop     de
+        pop     hl
+
+        ret

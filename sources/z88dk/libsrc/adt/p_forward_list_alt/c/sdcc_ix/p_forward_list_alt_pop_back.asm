@@ -10,10 +10,10 @@ EXTERN asm_p_forward_list_alt_pop_back
 
 _p_forward_list_alt_pop_back:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_p_forward_list_alt_pop_back
+        push    hl
+        push    af
+
+        jp      asm_p_forward_list_alt_pop_back

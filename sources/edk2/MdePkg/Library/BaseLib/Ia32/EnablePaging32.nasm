@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID
@@ -29,20 +29,19 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalX86EnablePaging32)
 ASM_PFX(InternalX86EnablePaging32):
-    mov     ebx, [esp + 4]
-    mov     ecx, [esp + 8]
-    mov     edx, [esp + 12]
-    pushfd
-    pop     edi                         ; save flags in edi
-    cli
-    mov     eax, cr0
-    bts     eax, 31
-    mov     esp, [esp + 16]
-    mov     cr0, eax
-    push    edi
-    popfd                               ; restore flags
-    push    edx
-    push    ecx
-    call    ebx
-    jmp     $
-
+        mov     ebx, [esp + 4]
+        mov     ecx, [esp + 8]
+        mov     edx, [esp + 12]
+        pushfd
+        pop     edi     ; save flags in edi
+        cli
+        mov     eax, cr0
+        bts     eax, 31
+        mov     esp, [esp + 16]
+        mov     cr0, eax
+        push    edi
+        popfd           ; restore flags
+        push    edx
+        push    ecx
+        call    ebx
+        jmp     $

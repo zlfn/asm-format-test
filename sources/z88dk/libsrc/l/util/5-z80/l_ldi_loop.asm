@@ -26,50 +26,50 @@ EXTERN l_ldi_64, l_ldi_32, l_ldi_16
 
 l_ldi_loop:
 
-   ld a,b
-   
-   or a
-   jp z, fine
+        ld      a, b
+
+        or      a
+        jp      z, fine
 
 l_ldi_loop_0:
 coarse:
 
-   call l_ldi_256
-   
-   dec a
-   jp nz, coarse
+        call    l_ldi_256
+
+        dec     a
+        jp      nz, coarse
 
 l_ldi_loop_small:
 fine:
 
-   ld a,c
+        ld      a, c
 
-   cp 16
-   jp c, sub_16
+        cp      16
+        jp      c, sub_16
 
-   add a,a
-   call c, l_ldi_128
+        add     a, a
+        call    c, l_ldi_128
 
-   add a,a
-   call c, l_ldi_64
-   
-   add a,a
-   call c, l_ldi_32
+        add     a, a
+        call    c, l_ldi_64
 
-   add a,a
-   call c, l_ldi_16
+        add     a, a
+        call    c, l_ldi_32
 
-   ret z
-   
-   ldir
-   ret
+        add     a, a
+        call    c, l_ldi_16
+
+        ret     z
+
+        ldir
+        ret
 
 sub_16:
 
-   or a
-   ret z
+        or      a
+        ret     z
 
-   ldir
-   ret
+        ldir
+        ret
 
 ENDIF

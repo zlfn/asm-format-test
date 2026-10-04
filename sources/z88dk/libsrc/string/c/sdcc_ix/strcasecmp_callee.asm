@@ -10,8 +10,8 @@ EXTERN asm_strcasecmp
 
 _strcasecmp_callee:
 
-   pop hl
-   pop de
-   ex (sp),hl
-   
-   jp asm_strcasecmp
+        pop     hl
+        pop     de
+        ex      (sp), hl
+
+        jp      asm_strcasecmp

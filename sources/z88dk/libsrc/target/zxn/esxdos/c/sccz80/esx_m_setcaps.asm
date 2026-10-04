@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_m_setcaps
 defc _esx_m_setcaps = esx_m_setcaps
 ENDIF
-

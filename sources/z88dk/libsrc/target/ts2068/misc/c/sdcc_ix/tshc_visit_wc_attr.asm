@@ -9,12 +9,12 @@ EXTERN l0_tshc_visit_wc_attr_callee
 
 _tshc_visit_wc_attr:
 
-   pop af
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push af
-   
-   jp l0_tshc_visit_wc_attr_callee
+        pop     af
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    af
+
+        jp      l0_tshc_visit_wc_attr_callee

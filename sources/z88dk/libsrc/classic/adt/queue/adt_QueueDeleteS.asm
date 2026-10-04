@@ -10,11 +10,11 @@ EXTERN asm_adt_QueueDeleteS
 .adt_QueueDeleteS
 ._adt_QueueDeleteS
 
-   pop bc
-   pop de
-   pop hl
-   push hl
-   push de
-   push bc
-   
-   jp asm_adt_QueueDeleteS
+        pop     bc
+        pop     de
+        pop     hl
+        push    hl
+        push    de
+        push    bc
+
+        jp      asm_adt_QueueDeleteS

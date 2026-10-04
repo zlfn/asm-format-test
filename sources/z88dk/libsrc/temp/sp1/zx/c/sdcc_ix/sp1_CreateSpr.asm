@@ -9,26 +9,26 @@ EXTERN l0_sp1_CreateSpr_callee
 
 _sp1_CreateSpr:
 
-   ld hl,2
-   add hl,sp
-   
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   inc hl
-   ld a,(hl)
-   inc hl
-   inc hl
-   push de
-   ld e,(hl)
-   inc hl
-   ld d,(hl)
-   inc hl
-   ld c,(hl)
-   pop hl
-   ex de,hl
+        ld      hl, 2
+        add     hl, sp
 
-   jp l0_sp1_CreateSpr_callee
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        inc     hl
+        ld      a, (hl)
+        inc     hl
+        inc     hl
+        push    de
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      c, (hl)
+        pop     hl
+        ex      de, hl
+
+        jp      l0_sp1_CreateSpr_callee

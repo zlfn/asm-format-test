@@ -5,15 +5,15 @@
 ; 2016-03-18, Greg King
 ;
 
-        .export         _exit
-        .export         __STARTUP__ : absolute = 1      ; Mark as startup
+        .export _exit
+        .export __STARTUP__ : absolute = 1      ; Mark as startup
 
-        .import         initlib, donelib
-        .import         callmain, zerobss
-        .import         __MAIN_START__, __MAIN_SIZE__
+        .import initlib,  donelib
+        .import callmain, zerobss
+        .import __MAIN_START__, __MAIN_SIZE__
 
-        .include        "zeropage.inc"
-        .include        "atmos.inc"
+        .include "zeropage.inc"
+        .include "atmos.inc"
 
 ; ------------------------------------------------------------------------
 ; Place the startup code in a special segment.
@@ -21,7 +21,7 @@
 .segment        "STARTUP"
 
         tsx
-        stx     spsave          ; Save system stk ptr
+        stx     spsave  ; Save system stk ptr
 
 ; Save space by putting some of the start-up code in a segment
 ; that will be re-used.
@@ -50,8 +50,8 @@ _exit:  jsr     donelib
 ; Copy back the zero-page stuff.
 
         ldx     #zpspace - 1
-L2:     lda     zpsave,x
-        sta     c_sp,x
+L2:     lda     zpsave, x
+        sta     c_sp,   x
         dex
         bpl     L2
 
@@ -68,8 +68,8 @@ L2:     lda     zpsave,x
 ; Save the zero-page area that we're about to use.
 
 init:   ldx     #zpspace - 1
-L1:     lda     c_sp,x
-        sta     zpsave,x
+L1:     lda     c_sp,   x
+        sta     zpsave, x
         dex
         bpl     L1
 
@@ -86,7 +86,7 @@ L1:     lda     c_sp,x
         lda     #<(__MAIN_START__ + __MAIN_SIZE__)
         ldx     #>(__MAIN_START__ + __MAIN_SIZE__)
         sta     c_sp
-        stx     c_sp+1          ; Set argument stack ptr
+        stx     c_sp+1  ; Set argument stack ptr
 
 ; Call the module constructors.
 

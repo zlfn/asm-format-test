@@ -4,18 +4,18 @@
 ; Low level init code for the monochrome soft80 screen output/console input
 ;
 
-        .constructor    soft80mono_init, 8
-        .destructor     soft80mono_shutdown
+        .constructor soft80mono_init, 8
+        .destructor soft80mono_shutdown
 
-        .import         soft80mono_kclrscr, soft80_charset
-        .export         soft80mono_internal_bgcolor, soft80mono_internal_cellcolor
-        .export         soft80mono_internal_cursorxlsb
-        .export         soft80mono_internal_nibble
+        .import soft80mono_kclrscr, soft80_charset
+        .export soft80mono_internal_bgcolor, soft80mono_internal_cellcolor
+        .export soft80mono_internal_cursorxlsb
+        .export soft80mono_internal_nibble
 
-        .importzp       ptr1, ptr2, ptr3
+        .importzp ptr1, ptr2, ptr3
 
-        .include        "c64.inc"
-        .include        "soft80.inc"
+        .include "c64.inc"
+        .include "soft80.inc"
 
 soft80mono_init:
         lda     soft80mono_first_init
@@ -26,11 +26,11 @@ soft80mono_init:
         ; colorram being set up as expected, which is why we cant use the
         ; _bgcolor and _textcolor functions here.
 
-        lda     CHARCOLOR                       ; use current textcolor
-        and     #$0f                            ; make sure the upper nibble is 0s
+        lda     CHARCOLOR       ; use current textcolor
+        and     #$0f            ; make sure the upper nibble is 0s
         sta     CHARCOLOR
 
-        lda     VIC_BG_COLOR0                   ; use current bgcolor
+        lda     VIC_BG_COLOR0   ; use current bgcolor
         and     #$0f
         sta     soft80mono_internal_bgcolor
         asl     a
@@ -88,13 +88,13 @@ firstinit:
 @l2:
         ldy     #0
 @l1:
-        lda     (ptr1),y
-        sta     (ptr2),y
+        lda     (ptr1), y
+        sta     (ptr2), y
         asl     a
         asl     a
         asl     a
         asl     a
-        sta     (ptr3),y
+        sta     (ptr3), y
         iny
         bne     @l1
         inc     ptr1+1
@@ -106,10 +106,10 @@ firstinit:
         ; copy the kplot tables to ram under I/O
         ;ldx     #0              ; is 0
 @l3:
-        lda     soft80_tables_data_start,x
-        sta     soft80_bitmapxlo,x
-        lda     soft80_tables_data_start + (soft80_tables_data_end - soft80_tables_data_start - $100) ,x
-        sta     soft80_bitmapxlo + (soft80_tables_data_end - soft80_tables_data_start - $100),x
+        lda     soft80_tables_data_start, x
+        sta     soft80_bitmapxlo, x
+        lda     soft80_tables_data_start + (soft80_tables_data_end - soft80_tables_data_start - $100) , x
+        sta     soft80_bitmapxlo + (soft80_tables_data_end - soft80_tables_data_start - $100), x
         inx
         bne     @l3
 
@@ -122,29 +122,29 @@ firstinit:
 soft80_tables_data_start:
 
 soft80_bitmapxlo_data:
-        .repeat 80,col
-        .byte <((col/2)*8)
+        .repeat 80, col
+                .byte   <((col/2)*8)
         .endrepeat
 soft80_bitmapxhi_data:
-        .repeat 80,col
-        .byte >((col/2)*8)
+        .repeat 80, col
+                .byte   >((col/2)*8)
         .endrepeat
 soft80_vramlo_data:
-        .repeat 25,row
-        .byte <(soft80_vram+(row*40))
+        .repeat 25, row
+                .byte   <(soft80_vram+(row*40))
         .endrepeat
-        .byte 0,0,0,0,0,0,0     ; padding to next page
+        .byte   0, 0, 0, 0, 0, 0, 0     ; padding to next page
 soft80_vramhi_data:
-        .repeat 25,row
-        .byte >(soft80_vram+(row*40))
+        .repeat 25, row
+                .byte   >(soft80_vram+(row*40))
         .endrepeat
 soft80_bitmapylo_data:
-        .repeat 25,row
-        .byte <(soft80_bitmap+(row*40*8))
+        .repeat 25, row
+                .byte   <(soft80_bitmap+(row*40*8))
         .endrepeat
 soft80_bitmapyhi_data:
-        .repeat 25,row
-        .byte >(soft80_bitmap+(row*40*8))
+        .repeat 25, row
+                .byte   >(soft80_bitmap+(row*40*8))
         .endrepeat
 
 soft80_tables_data_end:
@@ -152,17 +152,16 @@ soft80_tables_data_end:
 ;-------------------------------------------------------------------------------
         .segment "INIT"
 soft80mono_internal_cellcolor:
-        .res 1
+        .res    1
 soft80mono_internal_bgcolor:
-        .res 1
+        .res    1
 soft80mono_internal_cursorxlsb:
-        .res 1
+        .res    1
 
         .data
 soft80mono_first_init:
-        .byte 0         ; flag to check first init, this really must be in .data
+        .byte   0       ; flag to check first init, this really must be in .data
 
         .rodata
 soft80mono_internal_nibble:
-        .byte $f0, $0f
-
+        .byte   $f0, $0f

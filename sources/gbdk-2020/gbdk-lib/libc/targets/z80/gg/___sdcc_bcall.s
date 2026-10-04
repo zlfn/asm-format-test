@@ -2,8 +2,8 @@
 
         .area   _CODE
 
-        .globl ___sdcc_bcall
-        .globl ___sdcc_bcall_abc
+        .globl  ___sdcc_bcall
+        .globl  ___sdcc_bcall_abc
 ;
 ; trampoline to call banked functions
 ; used when legacy banking is enabled only
@@ -14,7 +14,7 @@
 ;
 ___sdcc_bcall::
         ex      (sp), hl
-        ld      c, (hl)
+        ld      c,    (hl)
         inc     hl
         ld      b, (hl)
         inc     hl

@@ -16,17 +16,16 @@ EXTERN asm_BIFROSTH_drawTilePosH
 
 BIFROSTH_drawTilePosH_callee:
 
-        pop hl          ; RET address
-        pop bc          ; C=attrib
-        pop de          ; E=col
-        ex (sp),hl      ; L=lin
-        ld d,l          ; D=lin
+        pop     hl              ; RET address
+        pop     bc              ; C=attrib
+        pop     de              ; E=col
+        ex      (sp), hl        ; L=lin
+        ld      d,    l         ; D=lin
 
-        jp asm_BIFROSTH_drawTilePosH        ; execute 'draw_tile_pos'
+        jp      asm_BIFROSTH_drawTilePosH       ; execute 'draw_tile_pos'
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _BIFROSTH_drawTilePosH_callee
 defc _BIFROSTH_drawTilePosH_callee = BIFROSTH_drawTilePosH_callee
 ENDIF
-

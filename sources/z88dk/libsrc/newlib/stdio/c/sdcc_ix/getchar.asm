@@ -16,12 +16,12 @@ EXTERN asm_getchar
 
 _getchar:
 
-   push ix
-   
-   call asm_getchar
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_getchar
+
+        pop     ix
+        ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

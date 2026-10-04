@@ -180,7 +180,7 @@
 ; 21..22                    font address
 ;   23                      text colour
 ;   24                      text colour mask (set bits = keep bgnd)
-;   25                      background colour (cls colour) 
+;   25                      background colour (cls colour)
 
 SECTION code_driver
 SECTION code_driver_terminal_output
@@ -199,27 +199,27 @@ EXTERN zx_01_output_char_32_oterm_msg_pause, zx_01_output_char_32_oterm_msg_bell
 
 zx_01_output_char_64:
 
-   cp OTERM_MSG_PRINTC
-   jp z, zx_01_output_char_64_oterm_msg_printc
-   
-   cp ITERM_MSG_BELL
-   jp z, zx_01_output_char_32_iterm_msg_bell
-   
-   cp STDIO_MSG_ICTL
-   jp z, zx_01_output_char_32_stdio_msg_ictl
+        cp      OTERM_MSG_PRINTC
+        jp      z, zx_01_output_char_64_oterm_msg_printc
 
-   cp OTERM_MSG_SCROLL
-   jp z, zx_01_output_char_64_oterm_msg_scroll
+        cp      ITERM_MSG_BELL
+        jp      z, zx_01_output_char_32_iterm_msg_bell
 
-   jp c, console_01_output_terminal_char  ; forward to library
+        cp      STDIO_MSG_ICTL
+        jp      z, zx_01_output_char_32_stdio_msg_ictl
 
-   cp OTERM_MSG_CLS
-   jp z, zx_01_output_char_64_oterm_msg_cls
-   
-   cp OTERM_MSG_PAUSE
-   jp z, zx_01_output_char_32_oterm_msg_pause
-   
-   cp OTERM_MSG_BELL
-   jp z, zx_01_output_char_32_oterm_msg_bell
+        cp      OTERM_MSG_SCROLL
+        jp      z, zx_01_output_char_64_oterm_msg_scroll
 
-   jp console_01_output_terminal_char     ; forward to library
+        jp      c, console_01_output_terminal_char      ; forward to library
+
+        cp      OTERM_MSG_CLS
+        jp      z, zx_01_output_char_64_oterm_msg_cls
+
+        cp      OTERM_MSG_PAUSE
+        jp      z, zx_01_output_char_32_oterm_msg_pause
+
+        cp      OTERM_MSG_BELL
+        jp      z, zx_01_output_char_32_oterm_msg_bell
+
+        jp      console_01_output_terminal_char ; forward to library

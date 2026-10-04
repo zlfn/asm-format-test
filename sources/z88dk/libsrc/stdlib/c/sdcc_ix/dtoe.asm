@@ -10,28 +10,28 @@ EXTERN d2mlib, l0_dtoe_callee
 
 _dtoe:
 
-   pop af
-   
-   pop de
-   pop hl
-   
-   exx
-   
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   
-   exx
-   
-   push hl
-   push de
-   
-   push af
-   
-   call d2mlib
-   
-   jp l0_dtoe_callee
+        pop     af
+
+        pop     de
+        pop     hl
+
+        exx
+
+        pop     hl
+        pop     de
+        pop     bc
+
+        push    bc
+        push    de
+        push    hl
+
+        exx
+
+        push    hl
+        push    de
+
+        push    af
+
+        call    d2mlib
+
+        jp      l0_dtoe_callee

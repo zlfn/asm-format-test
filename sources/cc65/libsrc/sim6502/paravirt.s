@@ -7,8 +7,8 @@
 ; int __fastcall__ write (int fd, const void* buf, unsigned count);
 ;
 
-        .export         exit, args, _open, _close, _read, _write, _lseek
-        .export         __sysremove, ___osmaperrno
+        .export exit, args, _open, _close, _read, _write, _lseek
+        .export __sysremove, ___osmaperrno
 
 _lseek          := $FFF1
 __sysremove     := $FFF2
@@ -20,4 +20,4 @@ _write          := $FFF7
 args            := $FFF8
 exit            := $FFF9
 
-                ; $FFFA-FFFF are hardware vectors, extend before not after!
+        ; $FFFA-FFFF are hardware vectors, extend before not after!

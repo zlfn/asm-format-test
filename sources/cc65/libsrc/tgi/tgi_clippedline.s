@@ -4,7 +4,6 @@
 ; Clips line coordinates to the screen coordinates and calls tgi_line
 ;
 
-
         .import umul16x16r32, udiv32by16r16
         .import negax
 
@@ -19,16 +18,15 @@
 .bss
 
 ; Outcodes for both ends
-tgi_clip_o1:    .res    1
-tgi_clip_o2:    .res    1
+tgi_clip_o1: .res 1
+tgi_clip_o2: .res 1
 
 ; Line deltas
-tgi_clip_d:     .res    1
-tgi_clip_dx:    .res    2
-tgi_clip_dy:    .res    2
+tgi_clip_d:  .res 1
+tgi_clip_dx: .res 2
+tgi_clip_dy: .res 2
 
-tgi_clip_sign:  .res    1
-
+tgi_clip_sign: .res 1
 
 ;----------------------------------------------------------------------------
 ; Calculate outcodes for both ends of the line
@@ -54,7 +52,6 @@ tgi_clip_sign:  .res    1
 
 .endproc
 
-
 ;----------------------------------------------------------------------------
 ; Negate tgi_clip_dxy
 ;
@@ -62,19 +59,18 @@ tgi_clip_sign:  .res    1
 .code
 .proc   negate
 
-        lda     tgi_clip_dx,y
+        lda     tgi_clip_dx, y
         eor     #$FF
         clc
         adc     #1
-        sta     tgi_clip_dx,y
-        lda     tgi_clip_dx+1,y
+        sta     tgi_clip_dx,   y
+        lda     tgi_clip_dx+1, y
         eor     #$FF
         adc     #$00
-        sta     tgi_clip_dx+1,y
+        sta     tgi_clip_dx+1, y
         rts
 
 .endproc
-
 
 ;----------------------------------------------------------------------------
 ; Calculate the absolute values of dx and dy and store the combined sign in
@@ -117,7 +113,6 @@ tgi_clip_sign:  .res    1
 
 .endproc
 
-
 ;----------------------------------------------------------------------------
 ; Helper routine. Generate the absolute value of y/a and calculate the sign
 ; of the final result
@@ -126,11 +121,11 @@ tgi_clip_sign:  .res    1
 .code
 .proc   prepare_coord
 
-        tax                             ; Remember high byte
+        tax             ; Remember high byte
         eor     tgi_clip_sign
-        sta     tmp1                    ; Sign of result
+        sta     tmp1    ; Sign of result
         tya
-        cpx     #0                      ; Check sign
+        cpx     #0      ; Check sign
         bpl     @L1
         jsr     negax
 @L1:    sta     ptr1
@@ -138,7 +133,6 @@ tgi_clip_sign:  .res    1
         rts
 
 .endproc
-
 
 ;----------------------------------------------------------------------------
 ; Helper routine. Move the value in eax to ptr1:ptr2
@@ -157,7 +151,6 @@ tgi_clip_sign:  .res    1
 
 .endproc
 
-
 ;----------------------------------------------------------------------------
 ; Multiply value in y/a by dy, then divide by dx.
 ;
@@ -175,8 +168,8 @@ tgi_clip_sign:  .res    1
 ; operations and apply the final result later, after rounding.
 
         lda     tgi_clip_dy
-        ldx     tgi_clip_dy+1           ; rhs
-        jsr     umul16x16r32            ; Multiply
+        ldx     tgi_clip_dy+1   ; rhs
+        jsr     umul16x16r32    ; Multiply
 
 ; Move the result of the multiplication into ptr1:ptr2
 
@@ -196,8 +189,6 @@ done:   bit     tmp1
 
 .endproc
 
-
-
 ;----------------------------------------------------------------------------
 ; Multiply value in y/a by dx, then divide by dy.
 ;
@@ -215,8 +206,8 @@ done:   bit     tmp1
 ; operations and apply the final result later, after rounding.
 
         lda     tgi_clip_dx
-        ldx     tgi_clip_dx+1           ; rhs
-        jsr     umul16x16r32            ; Multiply
+        ldx     tgi_clip_dx+1   ; rhs
+        jsr     umul16x16r32    ; Multiply
 
 ; Move the result of the multiplication into ptr1:ptr2
 
@@ -233,8 +224,6 @@ done:   bit     tmp1
         jmp     muldiv_dydx::done
 
 .endproc
-
-
 
 ;----------------------------------------------------------------------------
 ; Clip a line using Cohen Sutherland
@@ -264,8 +253,8 @@ Loop:   lda     tgi_clip_o1
 ; Copy the coordinates into ptr1-4 and draw the line
 
         ldx     #7
-L0:     lda     tgi_clip_x1,x
-        sta     ptr1,x
+L0:     lda     tgi_clip_x1, x
+        sta     ptr1, x
         dex
         bpl     L0
         jmp     tgi_line
@@ -275,12 +264,12 @@ L0:     lda     tgi_clip_x1,x
 L1:     lda     tgi_clip_o1
         and     tgi_clip_o2
         beq     L2
-        rts                             ; Nothing to draw
+        rts     ; Nothing to draw
 
 ; We must clip. If we haven't already done so, calculate dx/dy.
 
-L2:     lda     tgi_clip_d              ; Deltas already calculated?
-        bne     HaveDeltas              ; Jump if yes
+L2:     lda     tgi_clip_d      ; Deltas already calculated?
+        bne     HaveDeltas      ; Jump if yes
         inc     tgi_clip_d
         jsr     calcdeltas
 
@@ -292,7 +281,7 @@ HaveDeltas:
 
 ; Need to clip X1/Y1
 
-        lsr     a                       ; Check for TGI_CLIP_LEFT
+        lsr     a       ; Check for TGI_CLIP_LEFT
         bcc     L3
 
 ; tgi_clip_y1 += (0 - tgi_clip_x1) * tgi_clip_dy / tgi_clip_dx;
@@ -302,7 +291,7 @@ HaveDeltas:
         tax
         beq     L4
 
-L3:     lsr     a                       ; Check for TGI_CLIP_RIGHT
+L3:     lsr     a       ; Check for TGI_CLIP_RIGHT
         bcc     L5
 
 ; tgi_clip_y1 += (tgi_xmax - tgi_clip_x1) * tgi_clip_dy / tgi_clip_dx;
@@ -334,7 +323,7 @@ L4:     tay
         lda     tgi_clip_o1
         lsr     a
         lsr     a
-L5:     lsr     a                               ; Check for TGI_CLIP_BOTTOM
+L5:     lsr     a       ; Check for TGI_CLIP_BOTTOM
         bcc     L6
 
 ; tgi_clip_x1 = (0 - tgi_clip_y1) * tgi_clip_dx / tgi_clip_dy;
@@ -344,7 +333,7 @@ L5:     lsr     a                               ; Check for TGI_CLIP_BOTTOM
         tax
         beq     L7
 
-L6:     lsr     a                               ; Check for TGI_CLIP_TOP
+L6:     lsr     a       ; Check for TGI_CLIP_TOP
         bcc     L8
 
 ; tgi_clip_x1 += (tgi_ymax - tgi_clip_y1) * tgi_clip_dx / tgi_clip_dy;
@@ -382,7 +371,7 @@ L10:    lda     tgi_clip_o2
 
 ; Need to clip X2/Y2
 
-        lsr     a                       ; Check for TGI_CLIP_LEFT
+        lsr     a       ; Check for TGI_CLIP_LEFT
         bcc     L11
 
 ; tgi_clip_y2 += (0 - tgi_clip_x2) * tgi_clip_dy / tgi_clip_dx;
@@ -392,7 +381,7 @@ L10:    lda     tgi_clip_o2
         tax
         beq     L12
 
-L11:    lsr     a                       ; Check for TGI_CLIP_RIGHT
+L11:    lsr     a       ; Check for TGI_CLIP_RIGHT
         bcc     L13
 
 ; tgi_clip_y2 += (tgi_xmax - tgi_clip_x2) * tgi_clip_dy / tgi_clip_dx;
@@ -424,7 +413,7 @@ L12:    tay
         lda     tgi_clip_o2
         lsr     a
         lsr     a
-L13:    lsr     a                       ; Check for TGI_CLIP_BOTTOM
+L13:    lsr     a       ; Check for TGI_CLIP_BOTTOM
         bcc     L14
 
 ; tgi_clip_x2 += (0 - tgi_clip_y2) * tgi_clip_dx / tgi_clip_dy;
@@ -434,7 +423,7 @@ L13:    lsr     a                       ; Check for TGI_CLIP_BOTTOM
         tax
         beq     L15
 
-L14:    lsr     a                       ; Check for TGI_CLIP_TOP
+L14:    lsr     a       ; Check for TGI_CLIP_TOP
         bcc     L16
 
 ; tgi_clip_x2 += (tgi_ymax - tgi_clip_y2) * tgi_clip_dx / tgi_clip_dy;
@@ -470,7 +459,3 @@ L16:    jsr     outcode2
         jmp     Loop
 
 .endproc
-
-
-
-

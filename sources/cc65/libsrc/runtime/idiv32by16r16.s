@@ -4,11 +4,10 @@
 ; CC65 runtime: 32by16 => 16 signed division
 ;
 
-        .export         idiv32by16r16
-        .import         negax, udiv32by16r16m
+        .export idiv32by16r16
+        .import negax, udiv32by16r16m
 
-        .include        "zeropage.inc"
-
+        .include "zeropage.inc"
 
 ;---------------------------------------------------------------------------
 ; 32by16 division. Divide ptr1:ptr2 by ptr3. Result is in ptr1, remainder
@@ -18,7 +17,6 @@
 ; -----------------------------------------------------------------------
 ;   ptr1:ptr2   ptr3          ax          ptr1              sreg
 ;
-
 
 idiv32by16r16:
         stx     tmp1
@@ -40,8 +38,8 @@ idiv32by16r16:
         ldy     #4
 ;       sec
 @L2:    lda     #$00
-        sbc     ptr1,x
-        sta     ptr1,x
+        sbc     ptr1, x
+        sta     ptr1, x
         inx
         dey
         bne     @L2
@@ -60,4 +58,3 @@ idiv32by16r16:
 ; remainder!
 
 @L4:    jmp     negax
-

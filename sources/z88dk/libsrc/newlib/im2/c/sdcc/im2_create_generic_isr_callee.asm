@@ -10,10 +10,10 @@ EXTERN asm_im2_create_generic_isr
 
 _im2_create_generic_isr_callee:
 
-   pop hl
-   dec sp
-   pop af
-   pop de
-   push hl
+        pop     hl
+        dec     sp
+        pop     af
+        pop     de
+        push    hl
 
-   jp asm_im2_create_generic_isr
+        jp      asm_im2_create_generic_isr

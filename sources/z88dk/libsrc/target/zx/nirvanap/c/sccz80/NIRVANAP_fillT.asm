@@ -15,21 +15,20 @@ EXTERN asm_NIRVANAP_fillT_di
 
 NIRVANAP_fillT:
 
-   	ld hl,2
-   	add hl,sp
-   	ld e,(hl)       ; col
-   	inc hl
-   	inc hl
-   	ld d,(hl)       ; lin
-   	inc hl
-   	inc hl
-   	ld a,(hl)       ; attr
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)        ; col
+        inc     hl
+        inc     hl
+        ld      d, (hl)         ; lin
+        inc     hl
+        inc     hl
+        ld      a, (hl)         ; attr
 
-   	jp asm_NIRVANAP_fillT_di
+        jp      asm_NIRVANAP_fillT_di
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _NIRVANAP_fillT
 defc _NIRVANAP_fillT = NIRVANAP_fillT
 ENDIF
-

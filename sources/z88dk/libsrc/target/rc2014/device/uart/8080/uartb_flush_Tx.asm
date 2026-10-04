@@ -13,21 +13,20 @@ PUBLIC _uartb_flush_tx
 
 ._uartb_flush_tx_di
 
-    push af
+        push    af
 
-    call _uartb_flush_tx
+        call    _uartb_flush_tx
 
-    pop af
-    ret
+        pop     af
+        ret
 
 ._uartb_flush_tx
 
-    ; enable and reset the Tx FIFO
-    ld a,__IO_UART_FCR_FIFO_01|__IO_UART_FCR_FIFO_TX_RESET|__IO_UART_FCR_FIFO_ENABLE
-    out (__IO_UARTB_FCR_REGISTER),a
+        ; enable and reset the Tx FIFO
+        ld      a, __IO_UART_FCR_FIFO_01|__IO_UART_FCR_FIFO_TX_RESET|__IO_UART_FCR_FIFO_ENABLE
+        out     (__IO_UARTB_FCR_REGISTER), a
 
-    ret
+        ret
 
 EXTERN _uart_need
 defc NEED = _uart_need
-

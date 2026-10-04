@@ -10,14 +10,14 @@ EXTERN am48_fdim, cm48_sdccixp_dcallee2, cm48_sdccixp_m482d
 
 cm48_sdccix_fdim_callee:
 
-   call cm48_sdccixp_dcallee2
-   
-   ; AC'= y
-   ; AC = x
+        call    cm48_sdccixp_dcallee2
+
+        ; AC'= y
+        ; AC = x
 
 l0_cm48_sdccix_fdim_callee:
 
-   exx
-   call am48_fdim
+        exx
+        call    am48_fdim
 
-   jp cm48_sdccixp_m482d
+        jp      cm48_sdccixp_m482d

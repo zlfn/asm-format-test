@@ -15,12 +15,12 @@ EXTERN asm_NIRVANAM_fillT_di
 
 _NIRVANAM_fillT:
 
-	ld hl,2
-	add hl,sp
-	ld a,(hl)       ; attr
-   inc hl
-	ld d,(hl)       ; lin
-	inc hl
-	ld e,(hl)       ; col
-   
-   jp asm_NIRVANAM_fillT_di
+        ld      hl, 2
+        add     hl, sp
+        ld      a,  (hl)        ; attr
+        inc     hl
+        ld      d, (hl)         ; lin
+        inc     hl
+        ld      e, (hl)         ; col
+
+        jp      asm_NIRVANAM_fillT_di

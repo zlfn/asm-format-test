@@ -8,7 +8,7 @@
 #include <linux/kern_levels.h>
 #include <linux/linkage.h>
 #include <asm/assembler.h>
-		.text
+        .text
 
 /* fp is 0 or stack frame */
 
@@ -22,10 +22,9 @@
 ENTRY(c_backtrace)
 
 #if !defined(CONFIG_FRAME_POINTER) || !defined(CONFIG_PRINTK)
-		ret	lr
+        ret     lr
 ENDPROC(c_backtrace)
 #else
-
 
 /*
  * Clang does not store pc or sp in function prologues so we don't know exactly
@@ -96,21 +95,21 @@ ENDPROC(c_backtrace)
  * {[R0-R3] }
  */
 
-		stmfd	sp!, {r4 - r9, fp, lr}	@ Save an extra register
-						@ to ensure 8 byte alignment
-		movs	frame, r0		@ if frame pointer is zero
-		beq	no_frame		@ we have no stack frames
-		mov	loglvl, r2
-		tst	r1, #0x10		@ 26 or 32-bit mode?
-		moveq	mask, #0xfc000003
-		movne	mask, #0		@ mask for 32-bit
+        stmfd   sp!, {r4 - r9, fp, lr}  @ Save an extra register
+                                        @ to ensure 8 byte alignment
+        movs    frame, r0               @ if frame pointer is zero
+        beq     no_frame                @ we have no stack frames
+        mov     loglvl, r2
+        tst     r1,     #0x10           @ 26 or 32-bit mode?
+        moveq   mask,   #0xfc000003
+        movne   mask,   #0              @ mask for 32-bit
 
 /*
  * Switches the current frame to be the frame for dump_stack.
  */
-		add	frame, sp, #24		@ switch to false frame
-for_each_frame:	tst	frame, mask		@ Check for address exceptions
-		bne	no_frame
+        add     frame, sp, #24  @ switch to false frame
+for_each_frame: tst frame, mask @ Check for address exceptions
+        bne     no_frame
 
 /*
  * sv_fp is the stack frame with the locals for the current considered
@@ -121,11 +120,11 @@ for_each_frame:	tst	frame, mask		@ Check for address exceptions
  * start. This value gets updated to be the function start later if it is
  * possible.
  */
-1001:		ldr	sv_pc, [frame, #4]	@ get saved 'pc'
-1002:		ldr	sv_fp, [frame, #0]	@ get saved fp
+1001:   ldr     sv_pc, [frame, #4]      @ get saved 'pc'
+1002:   ldr     sv_fp, [frame, #0]      @ get saved fp
 
-		teq	sv_fp, mask		@ make sure next frame exists
-		beq	no_frame
+        teq     sv_fp, mask     @ make sure next frame exists
+        beq     no_frame
 
 /*
  * sv_lr is the lr from the function that called the current function. This is
@@ -142,35 +141,35 @@ for_each_frame:	tst	frame, mask		@ Check for address exceptions
  * registers for the current function, but the stacktrace is still printed
  * properly.
  */
-1003:		ldr	sv_lr, [sv_fp, #4]	@ get saved lr from next frame
+1003:   ldr     sv_lr, [sv_fp, #4]      @ get saved lr from next frame
 
-1004:		ldr	r0, [sv_lr, #-4]	@ get call instruction
-		ldr	r3, .Lopcode+4
-		and	r2, r3, r0		@ is this a bl call
-		teq	r2, r3
-		bne	finished_setup		@ give up if it's not
-		and	r0, #0xffffff		@ get call offset 24-bit int
-		lsl	r0, r0, #8		@ sign extend offset
-		asr	r0, r0, #8
-		ldr	sv_pc, [sv_fp, #4]	@ get lr address
-		add	sv_pc, sv_pc, #-4	@ get call instruction address
-		add	sv_pc, sv_pc, #8	@ take care of prefetch
-		add	sv_pc, sv_pc, r0, lsl #2@ find function start
+1004:   ldr     r0, [sv_lr, #-4]                @ get call instruction
+        ldr     r3, .Lopcode+4
+        and     r2, r3, r0                      @ is this a bl call
+        teq     r2, r3
+        bne     finished_setup                  @ give up if it's not
+        and     r0,    #0xffffff                @ get call offset 24-bit int
+        lsl     r0,    r0,    #8                @ sign extend offset
+        asr     r0,    r0,    #8
+        ldr     sv_pc, [sv_fp, #4]              @ get lr address
+        add     sv_pc, sv_pc, #-4               @ get call instruction address
+        add     sv_pc, sv_pc, #8                @ take care of prefetch
+        add     sv_pc, sv_pc, r0, lsl #2        @ find function start
 
 finished_setup:
 
-		bic	sv_pc, sv_pc, mask	@ mask PC/LR for the mode
+        bic     sv_pc, sv_pc, mask      @ mask PC/LR for the mode
 
 /*
  * Print the function (sv_pc) and where it was called from (sv_lr).
  */
-		mov	r0, sv_pc
+        mov     r0, sv_pc
 
-		mov	r1, sv_lr
-		mov	r2, frame
-		bic	r1, r1, mask		@ mask PC/LR for the mode
-		mov	r3, loglvl
-		bl	dump_backtrace_entry
+        mov     r1, sv_lr
+        mov     r2, frame
+        bic     r1, r1, mask    @ mask PC/LR for the mode
+        mov     r3, loglvl
+        bl      dump_backtrace_entry
 
 /*
  * Test if the function start is a stmfd instruction to determine which
@@ -180,51 +179,51 @@ finished_setup:
  * pointer the comparison will fail and no registers will print. Unwinding will
  * continue as if there had been no registers stored in this frame.
  */
-1005:		ldr	r1, [sv_pc, #0]		@ if stmfd sp!, {..., fp, lr}
-		ldr	r3, .Lopcode		@ instruction exists,
-		teq	r3, r1, lsr #11
-		ldr	r0, [frame]		@ locals are stored in
-						@ the preceding frame
-		subeq	r0, r0, #4
-		mov	r2, loglvl
-		bleq	dump_backtrace_stm	@ dump saved registers
+1005:   ldr     r1, [sv_pc, #0]         @ if stmfd sp!, {..., fp, lr}
+        ldr     r3, .Lopcode            @ instruction exists,
+        teq     r3, r1, lsr #11
+        ldr     r0, [frame]             @ locals are stored in
+                                        @ the preceding frame
+        subeq   r0, r0, #4
+        mov     r2, loglvl
+        bleq    dump_backtrace_stm      @ dump saved registers
 
 /*
  * If we are out of frames or if the next frame is invalid.
  */
-		teq	sv_fp, #0		@ zero saved fp means
-		beq	no_frame		@ no further frames
+        teq     sv_fp, #0       @ zero saved fp means
+        beq     no_frame        @ no further frames
 
-		cmp	sv_fp, frame		@ next frame must be
-		mov	frame, sv_fp		@ above the current frame
+        cmp     sv_fp, frame    @ next frame must be
+        mov     frame, sv_fp    @ above the current frame
 #ifdef CONFIG_IRQSTACKS
-		@
-		@ Kernel stacks may be discontiguous in memory. If the next
-		@ frame is below the previous frame, accept it as long as it
-		@ lives in kernel memory.
-		@
-		cmpls	sv_fp, #PAGE_OFFSET
+        @
+        @ Kernel stacks may be discontiguous in memory. If the next
+        @ frame is below the previous frame, accept it as long as it
+        @ lives in kernel memory.
+        @
+        cmpls   sv_fp, #PAGE_OFFSET
 #endif
-		bhi	for_each_frame
+        bhi     for_each_frame
 
-1006:		adr	r0, .Lbad
-		mov	r1, loglvl
-		mov	r2, frame
-		bl	_printk
-no_frame:	ldmfd	sp!, {r4 - r9, fp, pc}
+1006:   adr     r0, .Lbad
+        mov     r1, loglvl
+        mov     r2, frame
+        bl      _printk
+no_frame: ldmfd sp!, {r4 - r9, fp, pc}
 ENDPROC(c_backtrace)
-		.pushsection __ex_table,"a"
-		.align	3
-		.long	1001b, 1006b
-		.long	1002b, 1006b
-		.long	1003b, 1006b
-		.long	1004b, finished_setup
-		.long   1005b, 1006b
-		.popsection
+        .pushsection __ex_table, "a"
+        .align  3
+        .long   1001b, 1006b
+        .long   1002b, 1006b
+        .long   1003b, 1006b
+        .long   1004b, finished_setup
+        .long   1005b, 1006b
+        .popsection
 
-.Lbad:		.asciz	"%sBacktrace aborted due to bad frame pointer <%p>\n"
-		.align
-.Lopcode:	.word	0xe92d4800 >> 11	@ stmfd sp!, {... fp, lr}
-		.word	0x0b000000		@ bl if these bits are set
+.Lbad:  .asciz  "%sBacktrace aborted due to bad frame pointer <%p>\n"
+        .align
+.Lopcode: .word 0xe92d4800 >> 11        @ stmfd sp!, {... fp, lr}
+        .word   0x0b000000              @ bl if these bits are set
 
 #endif

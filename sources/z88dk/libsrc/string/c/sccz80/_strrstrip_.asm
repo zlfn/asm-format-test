@@ -16,10 +16,8 @@ PUBLIC __strrstrip_
 defc __strrstrip_ = _strrstrip_
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ____strrstrip_
 defc ____strrstrip_ = _strrstrip_
 ENDIF
-

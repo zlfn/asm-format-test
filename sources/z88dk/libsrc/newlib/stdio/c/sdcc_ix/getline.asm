@@ -16,13 +16,13 @@ EXTERN l0_getline_callee
 
 _getline:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        push    af
 
-   jp l0_getline_callee
+        jp      l0_getline_callee
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

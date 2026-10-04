@@ -29,29 +29,29 @@ SECTION .text
 
 INIT_XMM sse
 cglobal vorbis_inverse_coupling, 3, 3, 6, mag, ang, block_size
-    mova                     m5, [pdw_80000000]
-    shl             block_sized, 2
-    add                    magq, block_sizeq
-    add                    angq, block_sizeq
-    neg             block_sizeq
+        mova    m5, [pdw_80000000]
+        shl     block_sized, 2
+        add     magq, block_sizeq
+        add     angq, block_sizeq
+        neg     block_sizeq
 
 align 16
 .loop:
-    mova                     m0, [magq+block_sizeq]
-    mova                     m1, [angq+block_sizeq]
-    xorps                    m2, m2
-    xorps                    m3, m3
-    cmpltps                  m2, m0     ; m < 0.0
-    cmpltps                  m3, m1     ; a < 0.0
-    andps                    m2, m5     ; keep only the sign bit
-    xorps                    m1, m2
-    mova                     m4, m3
-    andps                    m3, m1
-    andnps                   m4, m1
-    addps                    m3, m0     ; a = m + ((a < 0) & (a ^ sign(m)))
-    subps                    m0, m4     ; m = m + ((a > 0) & (a ^ sign(m)))
-    mova     [angq+block_sizeq], m3
-    mova     [magq+block_sizeq], m0
-    add             block_sizeq, mmsize
-    jl .loop
-    RET
+        mova    m0, [magq+block_sizeq]
+        mova    m1, [angq+block_sizeq]
+        xorps   m2, m2
+        xorps   m3, m3
+        cmpltps m2, m0  ; m < 0.0
+        cmpltps m3, m1  ; a < 0.0
+        andps   m2, m5  ; keep only the sign bit
+        xorps   m1, m2
+        mova    m4, m3
+        andps   m3, m1
+        andnps  m4, m1
+        addps   m3, m0  ; a = m + ((a < 0) & (a ^ sign(m)))
+        subps   m0, m4  ; m = m + ((a > 0) & (a ^ sign(m)))
+        mova    [angq+block_sizeq], m3
+        mova    [magq+block_sizeq], m0
+        add     block_sizeq, mmsize
+        jl      .loop
+        RET

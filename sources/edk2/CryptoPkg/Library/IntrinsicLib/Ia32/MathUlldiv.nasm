@@ -13,7 +13,7 @@
 ;
 ;*******************************************************************************
 
-    SECTION .text
+        SECTION .text
 
 ;***
 ;ulldiv - unsigned long divide
@@ -81,16 +81,16 @@ ASM_PFX(_aulldiv):
 ;
 
         mov     eax, dword [esp + DVSR_OFFSET + HIWORD_OFFSET] ; check to see if divisor < 4194304K
-        or      eax,eax
+        or      eax, eax
         jnz     short L1        ; nope, gotta do this the hard way
         mov     ecx, dword [esp + DVSR_OFFSET + LOWORD_OFFSET] ; load divisor
         mov     eax, dword [esp + DVND_OFFSET + HIWORD_OFFSET] ; load high word of dividend
-        xor     edx,edx
+        xor     edx, edx
         div     ecx             ; get high order bits of quotient
-        mov     ebx,eax         ; save high bits of quotient
+        mov     ebx, eax        ; save high bits of quotient
         mov     eax, dword [esp + DVND_OFFSET + LOWORD_OFFSET] ; edx:eax <- remainder:lo word of dividend
         div     ecx             ; get low order bits of quotient
-        mov     edx,ebx         ; edx:eax <- quotient hi:quotient lo
+        mov     edx, ebx        ; edx:eax <- quotient hi:quotient lo
         jmp     short L2        ; restore stack and return
 
 ;
@@ -98,19 +98,19 @@ ASM_PFX(_aulldiv):
 ;
 
 L1:
-        mov     ecx,eax         ; ecx:ebx <- divisor
+        mov     ecx, eax        ; ecx:ebx <- divisor
         mov     ebx, dword [esp + DVSR_OFFSET + LOWORD_OFFSET]
         mov     edx, dword [esp + DVND_OFFSET + HIWORD_OFFSET] ; edx:eax <- dividend
         mov     eax, dword [esp + DVND_OFFSET + LOWORD_OFFSET]
 L3:
-        shr     ecx,1           ; shift divisor right one bit; hi bit <- 0
-        rcr     ebx,1
-        shr     edx,1           ; shift dividend right one bit; hi bit <- 0
-        rcr     eax,1
-        or      ecx,ecx
+        shr     ecx, 1          ; shift divisor right one bit; hi bit <- 0
+        rcr     ebx, 1
+        shr     edx, 1          ; shift dividend right one bit; hi bit <- 0
+        rcr     eax, 1
+        or      ecx, ecx
         jnz     short L3        ; loop until divisor < 4194304K
         div     ebx             ; now divide, ignore remainder
-        mov     esi,eax         ; save quotient
+        mov     esi, eax        ; save quotient
 
 ;
 ; We may be off by one, so to check, we will multiply the quotient
@@ -120,10 +120,10 @@ L3:
 ;
 
         mul     dword [esp + DVSR_OFFSET + HIWORD_OFFSET] ; QUOT * HIWORD(DVSR)
-        mov     ecx,eax
+        mov     ecx, eax
         mov     eax, dword [esp + DVSR_OFFSET + LOWORD_OFFSET]
         mul     esi             ; QUOT * LOWORD(DVSR)
-        add     edx,ecx         ; EDX:EAX = QUOT * DVSR
+        add     edx, ecx        ; EDX:EAX = QUOT * DVSR
         jc      short L4        ; carry means Quotient is off by 1
 
 ;
@@ -140,8 +140,8 @@ L3:
 L4:
         dec     esi             ; subtract 1 from quotient
 L5:
-        xor     edx,edx         ; edx:eax <- quotient
-        mov     eax,esi
+        xor     edx, edx        ; edx:eax <- quotient
+        mov     eax, esi
 
 ;
 ; Just the cleanup left to do.  edx:eax contains the quotient.

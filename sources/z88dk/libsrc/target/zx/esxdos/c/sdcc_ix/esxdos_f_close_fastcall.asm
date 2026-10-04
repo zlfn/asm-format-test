@@ -9,11 +9,11 @@ EXTERN asm_esxdos_f_close
 
 _esxdos_f_close_fastcall:
 
-   push ix
-   push iy
-   
-   call asm_esxdos_f_close
-   
-   pop iy
-   pop ix
-   ret
+        push    ix
+        push    iy
+
+        call    asm_esxdos_f_close
+
+        pop     iy
+        pop     ix
+        ret

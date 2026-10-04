@@ -5,7 +5,7 @@
 ; /* Returns the number of screen pages available. */
 ;
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
 .proc   _tgi_getpagecount
 

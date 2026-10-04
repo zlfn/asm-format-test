@@ -8,11 +8,11 @@
 ;	$Id: f_ansi_cls_850.asm $
 ;
 
-    SECTION code_clib
-    PUBLIC  ansi_cls
+        SECTION code_clib
+        PUBLIC  ansi_cls
 
-    EXTERN  init_screen
+        EXTERN  init_screen
 
 ansi_cls:
 
-    jp      init_screen
+        jp      init_screen

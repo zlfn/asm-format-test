@@ -3,4 +3,4 @@
 // license that can be found in the LICENSE file.
 
 TEXT	·Fn0(SB), 0, $0-0
-	RET
+        RET

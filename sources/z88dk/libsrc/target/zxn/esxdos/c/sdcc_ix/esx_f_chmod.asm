@@ -8,12 +8,12 @@ EXTERN l0_esx_f_chmod_callee
 
 _esx_f_chmod:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   
-   jp l0_esx_f_chmod_callee
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+
+        jp      l0_esx_f_chmod_callee

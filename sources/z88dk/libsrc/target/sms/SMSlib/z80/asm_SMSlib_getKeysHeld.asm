@@ -14,20 +14,20 @@ EXTERN __SMSlib_KeysStatus, __SMSlib_PreviousKeysStatus
 
 asm_SMSlib_getKeysHeld:
 
-   ; unsigned int SMS_getKeysHeld (void)
-   ;
-   ; exit : hl = keys held
-   ;
-   ; uses : af, hl
+        ; unsigned int SMS_getKeysHeld (void)
+        ;
+        ; exit : hl = keys held
+        ;
+        ; uses : af, hl
 
-   ld hl,(__SMSlib_KeysStatus)
-   
-   ld a,(__SMSlib_PreviousKeysStatus)
-   and l
-   ld l,a
-   
-   ld a,(__SMSlib_PreviousKeysStatus+1)
-   and h
-   ld h,a
-   
-   ret
+        ld      hl, (__SMSlib_KeysStatus)
+
+        ld      a, (__SMSlib_PreviousKeysStatus)
+        and     l
+        ld      l, a
+
+        ld      a, (__SMSlib_PreviousKeysStatus+1)
+        and     h
+        ld      h, a
+
+        ret

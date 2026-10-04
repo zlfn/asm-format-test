@@ -16,8 +16,8 @@ EXTERN asm_BIFROSTH_getTile
 
 _BIFROSTH_getTile_callee:
 
-   pop hl
-	ex (sp),hl      ; L = px
-	ld c,h          ; C = py
+        pop     hl
+        ex      (sp), hl        ; L = px
+        ld      c,    h         ; C = py
 
-   jp asm_BIFROSTH_getTile
+        jp      asm_BIFROSTH_getTile

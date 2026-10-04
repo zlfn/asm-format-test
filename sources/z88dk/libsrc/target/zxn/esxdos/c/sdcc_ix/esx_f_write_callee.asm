@@ -9,18 +9,18 @@ EXTERN asm_esx_f_write
 
 _esx_f_write_callee:
 
-   pop de
-   dec sp
-   pop af
-   pop hl
-   pop bc
-   push de
+        pop     de
+        dec     sp
+        pop     af
+        pop     hl
+        pop     bc
+        push    de
 
 l0_esx_f_write_callee:
 
-   push ix
-   
-   call asm_esx_f_write
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_write
+
+        pop     ix
+        ret

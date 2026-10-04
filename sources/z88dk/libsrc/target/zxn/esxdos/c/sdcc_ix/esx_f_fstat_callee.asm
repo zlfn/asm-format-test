@@ -9,16 +9,16 @@ EXTERN asm_esx_f_fstat
 
 _esx_f_fstat_callee:
 
-   pop hl
-   dec sp
-   pop af
-   ex (sp),hl
+        pop     hl
+        dec     sp
+        pop     af
+        ex      (sp), hl
 
 l0_esx_f_fstat_callee:
 
-   push ix
-   
-   call asm_esx_f_fstat
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_fstat
+
+        pop     ix
+        ret

@@ -14,14 +14,14 @@ mm48_equal:
 ;     OFFSET:    36H
 ;     STACK:     6 bytes.
 
-   push bc
-   push de
-   push hl
-   
-   exx
-   
-   pop hl
-   pop de
-   pop bc
-   
-   ret
+        push    bc
+        push    de
+        push    hl
+
+        exx
+
+        pop     hl
+        pop     de
+        pop     bc
+
+        ret

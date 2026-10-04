@@ -14,11 +14,10 @@ PUBLIC i2c_set_speed_callee
 ;   extern void __LIB__ i2c_set_speed_callee(uint8_t device,enum i2c_speed_mode) __smallc __z88dk_callee;
 
 .i2c_set_speed_callee
-    pop bc                              ;ret
-    pop hl                              ;speed_mode
-    dec sp
-    pop af                              ;device address
-    inc sp
-    push bc                             ;ret
-    jp asm_i2c_set_speed
-
+        pop     bc      ;ret
+        pop     hl      ;speed_mode
+        dec     sp
+        pop     af      ;device address
+        inc     sp
+        push    bc      ;ret
+        jp      asm_i2c_set_speed

@@ -8,14 +8,14 @@ EXTERN asm_am9511_imul
 
 cam32_sdcc___mulsint2slong_callee:
 
-   ; 16-bit multiplication, 32-bit result
-   ;
-   ; enter : stack = multiplicand, multiplicand, ret
-   ;
-   ; exit  : dehl = product
+        ; 16-bit multiplication, 32-bit result
+        ;
+        ; enter : stack = multiplicand, multiplicand, ret
+        ;
+        ; exit  : dehl = product
 
-   pop hl
-   pop de
-   ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
-   jp asm_am9511_imul       ; product in dehl
+        jp      asm_am9511_imul ; product in dehl

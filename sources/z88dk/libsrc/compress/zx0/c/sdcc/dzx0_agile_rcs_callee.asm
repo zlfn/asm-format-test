@@ -10,9 +10,9 @@ EXTERN asm_dzx0_agile_rcs
 
 _dzx0_agile_rcs_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
-   
-   jp asm_dzx0_agile_rcs
+        pop     af
+        pop     hl
+        pop     de
+        push    af
+
+        jp      asm_dzx0_agile_rcs

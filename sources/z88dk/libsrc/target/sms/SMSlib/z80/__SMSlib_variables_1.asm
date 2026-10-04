@@ -11,8 +11,8 @@ PUBLIC __SMSlib_PreviousMDKeysStatus
 
 __SMSlib_MDKeysStatus:
 
-   defw 0                      ; /* variables for pad handling */
+        defw    0       ; /* variables for pad handling */
 
 __SMSlib_PreviousMDKeysStatus:
 
-   defw 0
+        defw    0

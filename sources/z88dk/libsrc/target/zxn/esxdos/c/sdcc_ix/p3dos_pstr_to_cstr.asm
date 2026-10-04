@@ -8,10 +8,10 @@ EXTERN asm_p3dos_pstr_to_cstr
 
 _p3dos_pstr_to_cstr:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
-   
-   jp asm_p3dos_pstr_to_cstr
+        pop     af
+        pop     hl
+
+        push    hl
+        push    af
+
+        jp      asm_p3dos_pstr_to_cstr

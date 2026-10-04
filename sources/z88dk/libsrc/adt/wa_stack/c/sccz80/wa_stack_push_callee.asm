@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _wa_stack_push_callee
 defc _wa_stack_push_callee = wa_stack_push_callee
 ENDIF
-

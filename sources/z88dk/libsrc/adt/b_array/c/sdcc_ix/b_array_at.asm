@@ -10,12 +10,12 @@ EXTERN asm_b_array_at
 
 _b_array_at:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-   
-   jp asm_b_array_at
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm_b_array_at

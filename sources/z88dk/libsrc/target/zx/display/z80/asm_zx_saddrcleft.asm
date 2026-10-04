@@ -17,22 +17,22 @@ PUBLIC asm_zx_saddrcleft
 
 asm_zx_saddrcleft:
 
-   ; enter : hl = screen address
-   ;
-   ; exit  : hl = screen address moved left one character
-   ;         carry set if new screen address is off screen
-   ;
-   ; uses  : af, hl
+        ; enter : hl = screen address
+        ;
+        ; exit  : hl = screen address moved left one character
+        ;         carry set if new screen address is off screen
+        ;
+        ; uses  : af, hl
 
-   ld a,l
-   dec l
-   or a
-   ret nz
-   
-   ld a,h
-   sub $08
-   ld h,a
+        ld      a, l
+        dec     l
+        or      a
+        ret     nz
 
-   and $18
-   add a,$e8
-   ret
+        ld      a, h
+        sub     $08
+        ld      h, a
+
+        and     $18
+        add     a, $e8
+        ret

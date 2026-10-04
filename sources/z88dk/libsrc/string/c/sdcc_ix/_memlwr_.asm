@@ -10,12 +10,12 @@ EXTERN asm__memlwr
 
 __memlwr_:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
-      
-   jp asm__memlwr
+        pop     af
+        pop     hl
+        pop     bc
+
+        push    bc
+        push    hl
+        push    af
+
+        jp      asm__memlwr

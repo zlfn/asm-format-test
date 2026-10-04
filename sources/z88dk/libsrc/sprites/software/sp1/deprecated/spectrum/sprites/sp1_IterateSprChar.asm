@@ -9,10 +9,10 @@ EXTERN ASMDISP_SP1_ITERATESPRCHAR_CALLEE
 
 .sp1_IterateSprChar
 
-   pop bc
-   pop ix
-   pop hl
-   push hl
-   push hl
-   push bc
-   jp sp1_IterateSprChar_callee + ASMDISP_SP1_ITERATESPRCHAR_CALLEE
+        pop     bc
+        pop     ix
+        pop     hl
+        push    hl
+        push    hl
+        push    bc
+        jp      sp1_IterateSprChar_callee + ASMDISP_SP1_ITERATESPRCHAR_CALLEE

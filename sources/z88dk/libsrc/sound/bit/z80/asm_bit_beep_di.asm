@@ -19,11 +19,11 @@ EXTERN asm_bit_beep, asm_cpu_push_di, asm0_cpu_pop_ei
 
 asm_bit_beep_di:
 
-   ; enter : hl = note_frequency
-   ;         de = duration_ms
-   ;
-   ; uses  : af, bc, de, hl, (bc', de', hl', ix for integer division)
+        ; enter : hl = note_frequency
+        ;         de = duration_ms
+        ;
+        ; uses  : af, bc, de, hl, (bc', de', hl', ix for integer division)
 
-   call asm_cpu_push_di
-   call asm_bit_beep
-   jp asm0_cpu_pop_ei
+        call    asm_cpu_push_di
+        call    asm_bit_beep
+        jp      asm0_cpu_pop_ei

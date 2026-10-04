@@ -5,26 +5,23 @@
 ; 2004-12-21, Greg King
 ;
 
-        .export         _vfscanf
-        .import         _fgetc, _ungetc, _ferror
+        .export _vfscanf
+        .import _fgetc, _ungetc, _ferror
 
-        .include        "zeropage.inc"
-        .include        "_scanf.inc"
-        .include        "stdio.inc"
-
+        .include "zeropage.inc"
+        .include "_scanf.inc"
+        .include "stdio.inc"
 
 count   :=      ptr3            ; Result of scan
-
 
 ; ----------------------------------------------------------------------------
 ; Static scanfdata structure for the _vfscanf routine
 ;
 
 .data
-d:      .addr   _fgetc          ; GET
-        .addr   _ungetc         ; UNGET
-        .addr   0               ; data
-
+d:      .addr   _fgetc  ; GET
+        .addr   _ungetc ; UNGET
+        .addr   0       ; data
 
 ; ----------------------------------------------------------------------------
 ; int __fastcall__ vfscanf (FILE* f, const char* format, va_list ap)
@@ -56,21 +53,21 @@ d:      .addr   _fgetc          ; GET
 
 .code
 _vfscanf:
-        pha                     ; Save low byte of ap
+        pha     ; Save low byte of ap
 
 ; Swap f against &d on the stack, placing f into d.data
 
-        ldy     #2              ; Offset of f on the stack
-        lda     (c_sp),y
+        ldy     #2      ; Offset of f on the stack
+        lda     (c_sp), y
         sta     d + SCANFDATA::DATA
         lda     #<d
-        sta     (c_sp),y
+        sta     (c_sp), y
 
-        iny                     ; High byte
-        lda     (c_sp),y
+        iny     ; High byte
+        lda     (c_sp), y
         sta     d + SCANFDATA::DATA + 1
         lda     #>d
-        sta     (c_sp),y
+        sta     (c_sp), y
 
 ; Restore the low byte of ap, and call the _scanf function
 
@@ -95,4 +92,3 @@ _vfscanf:
 L1:     lda     count
         ldx     count+1
         rts
-

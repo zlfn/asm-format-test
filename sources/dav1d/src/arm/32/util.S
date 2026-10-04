@@ -35,55 +35,55 @@
 
 .macro v4bx rd
 #if __ARM_ARCH >= 5 || defined(__ARM_ARCH_4T__)
-        bx              \rd
+        bx      \rd
 #else
-        mov             pc, \rd
+        mov     pc, \rd
 #endif
 .endm
 
 .macro v4blx rd
 #if __ARM_ARCH >= 5
-        blx             \rd
+        blx     \rd
 #else
-        mov             lr,  pc
-        v4bx            \rd
+        mov     lr, pc
+        v4bx    \rd
 #endif
 .endm
 
 .macro movrel_local rd, val, offset=0
 #if (__ARM_ARCH >= 7 || defined(__ARM_ARCH_6T2__)) && !defined(PIC)
-        movw            \rd, #:lower16:\val+\offset
-        movt            \rd, #:upper16:\val+\offset
+        movw    \rd, #:lower16:\val+\offset
+        movt    \rd, #:upper16:\val+\offset
 #else
-        ldr             \rd,  90001f
-        b               90002f
+        ldr     \rd, 90001f
+        b       90002f
 90001:
-        .word           \val + \offset - (90002f + 8 - 4 * CONFIG_THUMB)
+        .word   \val + \offset - (90002f + 8 - 4 * CONFIG_THUMB)
 90002:
-        add             \rd,  \rd,  pc
+        add     \rd, \rd, pc
 #endif
 .endm
 
 .macro movrel rd, val, offset=0
 #if defined(PIC) && defined(__APPLE__)
-        ldr             \rd,  1f
-        b               2f
+        ldr     \rd, 1f
+        b       2f
 1:
-        .word           3f - (2f + 8 - 4 * CONFIG_THUMB)
+        .word   3f - (2f + 8 - 4 * CONFIG_THUMB)
 2:
-        ldr             \rd,  [pc, \rd]
+        ldr     \rd, [pc, \rd]
 .if \offset < 0
-        sub             \rd,  \rd,  #-(\offset)
+        sub     \rd, \rd, #-(\offset)
 .elseif \offset > 0
-        add             \rd,  \rd,  #\offset
+        add     \rd, \rd, #\offset
 .endif
         .non_lazy_symbol_pointer
 3:
         .indirect_symbol \val
-        .word       0
+        .word   0
         .text
 #else
-        movrel_local    \rd, \val, \offset
+        movrel_local \rd, \val, \offset
 #endif
 .endm
 
@@ -92,111 +92,111 @@
 // the caller can use.
 .macro sub_sp_align space
 #if CONFIG_THUMB
-        mov             r7,  sp
-        and             r7,  r7,  #15
+        mov     r7, sp
+        and     r7, r7, #15
 #else
-        and             r7,  sp,  #15
+        and     r7, sp, #15
 #endif
-        sub             sp,  sp,  r7
+        sub     sp, sp, r7
         // Now the stack is aligned, store the amount of adjustment back
         // on the stack, as we don't want to waste a register as frame
         // pointer.
-        str             r7,  [sp, #-16]!
+        str     r7, [sp, #-16]!
 #ifdef _WIN32
 .if \space > 8192
         // Here, we'd need to touch two (or more) pages while decrementing
         // the stack pointer.
-        .error          "sub_sp_align doesn't support values over 8K at the moment"
+        .error  "sub_sp_align doesn't support values over 8K at the moment"
 .elseif \space > 4096
-        sub             r7,  sp,  #4096
-        ldr             r12, [r7]
-        sub             r7,  r7,  #(\space - 4096)
-        mov             sp,  r7
+        sub     r7,  sp, #4096
+        ldr     r12, [r7]
+        sub     r7,  r7, #(\space - 4096)
+        mov     sp,  r7
 .else
-        sub             sp,  sp,  #\space
+        sub     sp, sp, #\space
 .endif
 #else
 .if \space >= 4096
-        sub             sp,  sp,  #(\space)/4096*4096
+        sub     sp, sp, #(\space)/4096*4096
 .endif
 .if (\space % 4096) != 0
-        sub             sp,  sp,  #(\space)%4096
+        sub     sp, sp, #(\space)%4096
 .endif
 #endif
 .endm
 
 .macro add_sp_align space
 .if \space >= 4096
-        add             sp,  sp,  #(\space)/4096*4096
+        add     sp, sp, #(\space)/4096*4096
 .endif
 .if (\space % 4096) != 0
-        add             sp,  sp,  #(\space)%4096
+        add     sp, sp, #(\space)%4096
 .endif
-        ldr             r7,  [sp], #16
+        ldr     r7, [sp], #16
         // Add back the original stack adjustment
-        add             sp,  sp,  r7
+        add     sp, sp, r7
 .endm
 
 .macro transpose_8x8b q0, q1, q2, q3, r0, r1, r2, r3, r4, r5, r6, r7
-        vtrn.32         \q0,  \q2
-        vtrn.32         \q1,  \q3
+        vtrn.32 \q0, \q2
+        vtrn.32 \q1, \q3
 
-        vtrn.16         \r0,  \r2
-        vtrn.16         \r1,  \r3
-        vtrn.16         \r4,  \r6
-        vtrn.16         \r5,  \r7
+        vtrn.16 \r0, \r2
+        vtrn.16 \r1, \r3
+        vtrn.16 \r4, \r6
+        vtrn.16 \r5, \r7
 
-        vtrn.8          \r0,  \r1
-        vtrn.8          \r2,  \r3
-        vtrn.8          \r4,  \r5
-        vtrn.8          \r6,  \r7
+        vtrn.8  \r0, \r1
+        vtrn.8  \r2, \r3
+        vtrn.8  \r4, \r5
+        vtrn.8  \r6, \r7
 .endm
 
 .macro transpose_8x8h r0, r1, r2, r3, r4, r5, r6, r7, d0, d1, d2, d3, d4, d5, d6, d7
-        vswp            \d0,  \d4
-        vswp            \d1,  \d5
-        vswp            \d2,  \d6
-        vswp            \d3,  \d7
+        vswp    \d0, \d4
+        vswp    \d1, \d5
+        vswp    \d2, \d6
+        vswp    \d3, \d7
 
-        vtrn.32         \r0,  \r2
-        vtrn.32         \r1,  \r3
-        vtrn.32         \r4,  \r6
-        vtrn.32         \r5,  \r7
+        vtrn.32 \r0, \r2
+        vtrn.32 \r1, \r3
+        vtrn.32 \r4, \r6
+        vtrn.32 \r5, \r7
 
-        vtrn.16         \r0,  \r1
-        vtrn.16         \r2,  \r3
-        vtrn.16         \r4,  \r5
-        vtrn.16         \r6,  \r7
+        vtrn.16 \r0, \r1
+        vtrn.16 \r2, \r3
+        vtrn.16 \r4, \r5
+        vtrn.16 \r6, \r7
 .endm
 
 .macro transpose_4x8b q0, q1, r0, r1, r2, r3
-        vtrn.16         \q0,  \q1
+        vtrn.16 \q0, \q1
 
-        vtrn.8          \r0,  \r1
-        vtrn.8          \r2,  \r3
+        vtrn.8  \r0, \r1
+        vtrn.8  \r2, \r3
 .endm
 
 .macro transpose_4x4s q0, q1, q2, q3, r0, r1, r2, r3, r4, r5, r6, r7
-        vswp            \r1,  \r4 // vtrn.64 \q0, \q2
-        vswp            \r3,  \r6 // vtrn.64 \q1, \q3
+        vswp    \r1, \r4        // vtrn.64 \q0, \q2
+        vswp    \r3, \r6        // vtrn.64 \q1, \q3
 
-        vtrn.32         \q0,  \q1
-        vtrn.32         \q2,  \q3
+        vtrn.32 \q0, \q1
+        vtrn.32 \q2, \q3
 .endm
 
 .macro transpose_4x4h q0, q1, r0, r1, r2, r3
-        vtrn.32         \q0,  \q1
+        vtrn.32 \q0, \q1
 
-        vtrn.16         \r0,  \r1
-        vtrn.16         \r2,  \r3
+        vtrn.16 \r0, \r1
+        vtrn.16 \r2, \r3
 .endm
 
 .macro transpose_4x8h r0, r1, r2, r3
-        vtrn.32         \r0,  \r2
-        vtrn.32         \r1,  \r3
+        vtrn.32 \r0, \r2
+        vtrn.32 \r1, \r3
 
-        vtrn.16         \r0,  \r1
-        vtrn.16         \r2,  \r3
+        vtrn.16 \r0, \r1
+        vtrn.16 \r2, \r3
 .endm
 
 #endif /* DAV1D_SRC_ARM_32_UTIL_S */

@@ -13,7 +13,7 @@ EXTERN _BIFROST2_ISR_STOP
 
 asm_BIFROST2_stop:
 
-   ld hl,_BIFROST2_ISR_STOP
-   ld ($fdfe),hl
-   
-   ret
+        ld      hl, _BIFROST2_ISR_STOP
+        ld      ($fdfe), hl
+
+        ret

@@ -15,8 +15,8 @@
 ;
 ;------------------------------------------------------------------------------
 
-    DEFAULT REL
-    SECTION .text
+        DEFAULT REL
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; VOID
@@ -27,5 +27,5 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalX86WriteFsBase)
 ASM_PFX(InternalX86WriteFsBase):
-    wrfsbase rcx
-    ret
+        wrfsbase rcx
+        ret

@@ -50,48 +50,48 @@ SYM_CODE_START(swsusp_arch_suspend_exit)
 	 * We execute from ttbr0, change ttbr1 to our copied linear map tables
 	 * with a break-before-make via the zero page
 	 */
-	break_before_make_ttbr_switch	x5, x0, x6, x8
+        break_before_make_ttbr_switch x5, x0, x6, x8
 
-	mov	x21, x1
-	mov	x30, x2
-	mov	x24, x4
-	mov	x25, x5
+        mov     x21, x1
+        mov     x30, x2
+        mov     x24, x4
+        mov     x25, x5
 
-	/* walk the restore_pblist and use copy_page() to over-write memory */
-	mov	x19, x3
+        /* walk the restore_pblist and use copy_page() to over-write memory */
+        mov     x19, x3
 
-1:	ldr	x10, [x19, #HIBERN_PBE_ORIG]
-	mov	x0, x10
-	ldr	x1, [x19, #HIBERN_PBE_ADDR]
+1:      ldr     x10, [x19, #HIBERN_PBE_ORIG]
+        mov     x0,  x10
+        ldr     x1,  [x19, #HIBERN_PBE_ADDR]
 
-	copy_page	x0, x1, x2, x3, x4, x5, x6, x7, x8, x9
+        copy_page x0, x1, x2, x3, x4, x5, x6, x7, x8, x9
 
-	add	x1, x10, #PAGE_SIZE
-	/* Clean the copied page to PoU - based on caches_clean_inval_pou() */
-	raw_dcache_line_size x2, x3
-	sub	x3, x2, #1
-	bic	x4, x10, x3
-2:	/* clean D line / unified line */
+        add     x1, x10, #PAGE_SIZE
+        /* Clean the copied page to PoU - based on caches_clean_inval_pou() */
+        raw_dcache_line_size x2, x3
+        sub     x3, x2,  #1
+        bic     x4, x10, x3
+2:              /* clean D line / unified line */
 alternative_insn "dc cvau, x4",  "dc civac, x4",  ARM64_WORKAROUND_CLEAN_CACHE
-	add	x4, x4, x2
-	cmp	x4, x1
-	b.lo	2b
+        add     x4, x4, x2
+        cmp     x4, x1
+        b.lo    2b
 
-	ldr	x19, [x19, #HIBERN_PBE_NEXT]
-	cbnz	x19, 1b
-	dsb	ish		/* wait for PoU cleaning to finish */
+        ldr     x19, [x19, #HIBERN_PBE_NEXT]
+        cbnz    x19, 1b
+        dsb     ish     /* wait for PoU cleaning to finish */
 
-	/* switch to the restored kernels page tables */
-	break_before_make_ttbr_switch	x25, x21, x6, x8
+        /* switch to the restored kernels page tables */
+        break_before_make_ttbr_switch x25, x21, x6, x8
 
-	ic	ialluis
-	dsb	ish
-	isb
+        ic      ialluis
+        dsb     ish
+        isb
 
-	cbz	x24, 3f		/* Do we need to re-initialise EL2? */
-	mov	x1, x24
-	mov	x0, #HVC_SET_VECTORS
-	hvc	#0
-3:	ret
+        cbz     x24, 3f /* Do we need to re-initialise EL2? */
+        mov     x1,  x24
+        mov     x0,  #HVC_SET_VECTORS
+        hvc     #0
+3:      ret
 SYM_CODE_END(swsusp_arch_suspend_exit)
 .popsection

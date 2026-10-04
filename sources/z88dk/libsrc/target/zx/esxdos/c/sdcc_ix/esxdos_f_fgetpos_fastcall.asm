@@ -9,11 +9,11 @@ EXTERN asm_esxdos_f_fgetpos
 
 _esxdos_f_fgetpos_fastcall:
 
-   push ix
-   push iy
-   
-   call asm_esxdos_f_fgetpos
-   
-   pop iy
-   pop ix
-   ret
+        push    ix
+        push    iy
+
+        call    asm_esxdos_f_fgetpos
+
+        pop     iy
+        pop     ix
+        ret

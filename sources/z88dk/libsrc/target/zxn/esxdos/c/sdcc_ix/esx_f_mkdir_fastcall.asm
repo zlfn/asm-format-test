@@ -8,9 +8,9 @@ EXTERN asm_esx_f_mkdir
 
 _esx_f_mkdir_fastcall:
 
-   push ix
-   
-   call asm_esx_f_mkdir
+        push    ix
 
-   pop ix
-   ret
+        call    asm_esx_f_mkdir
+
+        pop     ix
+        ret

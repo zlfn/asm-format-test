@@ -9,10 +9,10 @@ PUBLIC _bit_play_tritone_di_fastcall
 EXTERN asm_bit_play_tritone_di
 
 _bit_play_tritone_di_fastcall:
-   
-   push ix
-   
-   call asm_bit_play_tritone_di
-   
-   pop ix
-   ret
+
+        push    ix
+
+        call    asm_bit_play_tritone_di
+
+        pop     ix
+        ret

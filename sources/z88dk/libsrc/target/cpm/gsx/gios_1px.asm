@@ -19,13 +19,13 @@ EXTERN	gios_ptsin
 gios_1px:
 _gios_1px:
 
-	pop	af
-	pop	hl
-	pop	bc
-	pop de
-	push de
-	push bc
-	push hl
-	push af
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        push    de
+        push    bc
+        push    hl
+        push    af
 
-	jp asm_gios_1px
+        jp      asm_gios_1px

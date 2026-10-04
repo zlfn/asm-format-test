@@ -17,118 +17,118 @@ EXTERN __PSGlib_Chan0Volume, __PSGlib_Chan1Volume, __PSGlib_Chan2Volume, __PSGli
 
 asm_PSGlib_SetMusicVolumeAttenuation:
 
-   ; void PSGSetMusicVolumeAttenutation (void)
-   ; sets the volume attenuation for the music (0-15)
-   ;
-	; enter : l = volume attenuation (0-15)
-	;
-   ; uses  : af
+        ; void PSGSetMusicVolumeAttenutation (void)
+        ; sets the volume attenuation for the music (0-15)
+        ;
+        ; enter : l = volume attenuation (0-15)
+        ;
+        ; uses  : af
 
-   ld a,l
-	ld (__PSGlib_MusicVolumeAttenuation),a
-	
-	ld a,(__PSGlib_MusicStatus)
-	or a
-	ret z
-	
-   ld a,(__PSGlib_Chan0Volume)
+        ld      a, l
+        ld      (__PSGlib_MusicVolumeAttenuation), a
 
-   add a,l
-   cp 16
-   
-   jr c, outchan0
-   ld a,15
-   
+        ld      a, (__PSGlib_MusicStatus)
+        or      a
+        ret     z
+
+        ld      a, (__PSGlib_Chan0Volume)
+
+        add     a, l
+        cp      16
+
+        jr      c, outchan0
+        ld      a, 15
+
 outchan0:
 
-   or PSGLatch|PSGChannel0|PSGVolumeData
+        or      PSGLatch|PSGChannel0|PSGVolumeData
 IF SN76489_HAS_16BIT_IO
-  push bc
-  ld bc,PSGDataPort
-  out (c),a
-  pop bc
+        push    bc
+        ld      bc,  PSGDataPort
+        out     (c), a
+        pop     bc
 ELSE
-  out (PSGPort),a
- IF SN76489_HAS_LATCH_PORT
-  in a,(PSGLatchPort)
- ENDIF
+        out     (PSGPort), a
+        IF      SN76489_HAS_LATCH_PORT
+                in      a, (PSGLatchPort)
+        ENDIF
 ENDIF
-	ld a,(__PSGlib_Chan1Volume)
-   
-   add a,l
-   cp 16
-   
-   jr c, outchan1
-   ld a,15
+        ld      a, (__PSGlib_Chan1Volume)
+
+        add     a, l
+        cp      16
+
+        jr      c, outchan1
+        ld      a, 15
 
 outchan1:
 
-   or PSGLatch|PSGChannel1|PSGVolumeData
+        or      PSGLatch|PSGChannel1|PSGVolumeData
 IF SN76489_HAS_16BIT_IO
-  push bc
-  ld bc,PSGDataPort
-  out (c),a
-  pop bc
+        push    bc
+        ld      bc,  PSGDataPort
+        out     (c), a
+        pop     bc
 ELSE
-  out (PSGPort),a
- IF SN76489_HAS_LATCH_PORT
-  in a,(PSGLatchPort)
- ENDIF
+        out     (PSGPort), a
+        IF      SN76489_HAS_LATCH_PORT
+                in      a, (PSGLatchPort)
+        ENDIF
 ENDIF
-	ld a,(__PSGlib_Channel2SFX)
-	or a
-	jr nz, skipchan2
+        ld      a, (__PSGlib_Channel2SFX)
+        or      a
+        jr      nz, skipchan2
 
-	ld a,(__PSGlib_Chan2Volume)
-   
-   add a,l
-   cp 16
-   
-   jr c, outchan2
-   ld a,15
+        ld      a, (__PSGlib_Chan2Volume)
+
+        add     a, l
+        cp      16
+
+        jr      c, outchan2
+        ld      a, 15
 
 outchan2:
 
-   or PSGLatch|PSGChannel2|PSGVolumeData
+        or      PSGLatch|PSGChannel2|PSGVolumeData
 IF SN76489_HAS_16BIT_IO
-  push bc
-  ld bc,PSGDataPort
-  out (c),a
-  pop bc
+        push    bc
+        ld      bc,  PSGDataPort
+        out     (c), a
+        pop     bc
 ELSE
-  out (PSGPort),a
- IF SN76489_HAS_LATCH_PORT
-  in a,(PSGLatchPort)
- ENDIF
+        out     (PSGPort), a
+        IF      SN76489_HAS_LATCH_PORT
+                in      a, (PSGLatchPort)
+        ENDIF
 ENDIF
-	
+
 skipchan2:
 
-   ld a,(__PSGlib_Channel3SFX)
-	or a
-	ret nz
-	
-	ld a,(__PSGlib_Chan3Volume)
-   
-   add a,l
-   cp 16
-   
-   jr c, outchan3
-   ld a,15
+        ld      a, (__PSGlib_Channel3SFX)
+        or      a
+        ret     nz
+
+        ld      a, (__PSGlib_Chan3Volume)
+
+        add     a, l
+        cp      16
+
+        jr      c, outchan3
+        ld      a, 15
 
 outchan3:
 
-   or PSGLatch|PSGChannel3|PSGVolumeData
+        or      PSGLatch|PSGChannel3|PSGVolumeData
 IF SN76489_HAS_16BIT_IO
-  push bc
-  ld bc,PSGDataPort
-  out (c),a
-  pop bc
+        push    bc
+        ld      bc,  PSGDataPort
+        out     (c), a
+        pop     bc
 ELSE
-  out (PSGPort),a
- IF SN76489_HAS_LATCH_PORT
-  in a,(PSGLatchPort)
- ENDIF
+        out     (PSGPort), a
+        IF      SN76489_HAS_LATCH_PORT
+                in      a, (PSGLatchPort)
+        ENDIF
 ENDIF
-	
-	ret
+
+        ret

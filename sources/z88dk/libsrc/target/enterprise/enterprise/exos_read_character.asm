@@ -9,16 +9,16 @@
 ;
 
         SECTION code_clib
-	PUBLIC	exos_read_character
-	PUBLIC	_exos_read_character
+        PUBLIC  exos_read_character
+        PUBLIC  _exos_read_character
 
 exos_read_character:
 _exos_read_character:
 
-	ld	a,l
-	rst   30h
-	defb  5
-	ld	h,0
-	ld	l,b
+        ld      a, l
+        rst     30h
+        defb    5
+        ld      h, 0
+        ld      l, b
 
-	ret
+        ret

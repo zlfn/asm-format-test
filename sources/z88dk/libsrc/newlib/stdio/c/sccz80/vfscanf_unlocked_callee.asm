@@ -10,10 +10,10 @@ EXTERN asm_vfscanf_unlocked
 
 vfscanf_unlocked_callee:
 
-   pop af
-   pop bc
-   pop de
-   pop ix
-   push af
-   
-   jp asm_vfscanf_unlocked
+        pop     af
+        pop     bc
+        pop     de
+        pop     ix
+        push    af
+
+        jp      asm_vfscanf_unlocked

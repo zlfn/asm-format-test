@@ -10,10 +10,10 @@ EXTERN asm_zx_bitmask2px
 
 _zx_bitmask2px:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_zx_bitmask2px
+        push    hl
+        push    af
+
+        jp      asm_zx_bitmask2px

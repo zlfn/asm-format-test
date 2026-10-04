@@ -10,15 +10,14 @@ EXTERN asm_w_vector_reserve
 
 w_vector_reserve_callee:
 
-   pop hl
-   pop bc
-   ex (sp),hl
-   
-   jp asm_w_vector_reserve
+        pop     hl
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_w_vector_reserve
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _w_vector_reserve_callee
 defc _w_vector_reserve_callee = w_vector_reserve_callee
 ENDIF
-

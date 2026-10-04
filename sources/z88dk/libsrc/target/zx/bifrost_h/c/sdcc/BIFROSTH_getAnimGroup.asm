@@ -15,8 +15,8 @@ EXTERN asm_BIFROSTH_getAnimGroup
 
 _BIFROSTH_getAnimGroup:
 
-   ld hl,2
-	add hl,sp
-	ld l,(hl)       ; L = tile
-	
-	jp asm_BIFROSTH_getAnimGroup
+        ld      hl, 2
+        add     hl, sp
+        ld      l,  (hl)        ; L = tile
+
+        jp      asm_BIFROSTH_getAnimGroup

@@ -14,9 +14,8 @@ PUBLIC _i2c_interrupt_attach_callee
 ;   void i2c_interrupt_attach( uint8_t device, uint8_t *isr ) __z88dk_callee
 
 ._i2c_interrupt_attach_callee
-    pop hl                              ;ret
-    dec sp                              
-    pop af                              ;device address
-    ex (sp),hl                          ;*isr <> ret
-    jp asm_i2c_interrupt_attach
-
+        pop     hl              ;ret
+        dec     sp
+        pop     af              ;device address
+        ex      (sp), hl        ;*isr <> ret
+        jp      asm_i2c_interrupt_attach

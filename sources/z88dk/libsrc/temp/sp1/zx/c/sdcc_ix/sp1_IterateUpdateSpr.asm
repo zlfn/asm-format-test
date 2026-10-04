@@ -9,12 +9,12 @@ EXTERN l0_sp1_IterateUpdateSpr
 
 _sp1_IterateUpdateSpr:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     bc
 
-   jp l0_sp1_IterateUpdateSpr
+        push    bc
+        push    hl
+        push    af
+
+        jp      l0_sp1_IterateUpdateSpr

@@ -13,9 +13,9 @@ EXTERN asm_disk_status
 
 disk_status:
 
-    pop af
-    pop hl
-    push hl
-    push af
+        pop     af
+        pop     hl
+        push    hl
+        push    af
 
-    jp asm_disk_status
+        jp      asm_disk_status

@@ -11,17 +11,17 @@ EXTERN l0_wa_priority_queue_init_callee
 
 _wa_priority_queue_init:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   exx
-   pop bc
-   
-   push bc
-   push bc
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
+        exx
+        pop     bc
 
-   jp l0_wa_priority_queue_init_callee
+        push    bc
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_wa_priority_queue_init_callee

@@ -10,10 +10,10 @@ EXTERN asm_heap_realloc_unlocked
 
 _heap_realloc_unlocked_callee:
 
-   pop af
-   pop de
-   pop hl
-   pop bc
-   push af
-   
-   jp asm_heap_realloc_unlocked
+        pop     af
+        pop     de
+        pop     hl
+        pop     bc
+        push    af
+
+        jp      asm_heap_realloc_unlocked

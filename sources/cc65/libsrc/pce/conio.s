@@ -1,15 +1,15 @@
-        .constructor    initconio, 24
+        .constructor initconio, 24
 
-        .import         vdc_init
-        .import         psg_init
-        .import         colors
-        .import         _pce_font
-        .importzp       ptr1, tmp1
+        .import vdc_init
+        .import psg_init
+        .import colors
+        .import _pce_font
+        .importzp ptr1, tmp1
 
-        .include        "pce.inc"
-        .include        "extzp.inc"
+        .include "pce.inc"
+        .include "extzp.inc"
 
-        .segment        "ONCE"
+        .segment "ONCE"
 initconio:
         jsr     vdc_init
         jsr     psg_init
@@ -20,21 +20,21 @@ set_palette:
         stz     VCE_ADDR_HI
 
         clx
-@lp:    ldy     #16             ; size of a palette
+@lp:    ldy     #16     ; size of a palette
 
-@lp1:   lda     colors,x
+@lp1:   lda     colors, x
         sta     VCE_DATA_LO
-        lda     colors+1,x
+        lda     colors+1, x
         sta     VCE_DATA_HI
         dey
         bne     @lp1
 
         inx
         inx
-        cpx     #16 * 2         ; 16 palettes
+        cpx     #16 * 2 ; 16 palettes
         bne     @lp
 
-        sty     BGCOLOR         ; white on black
+        sty     BGCOLOR ; white on black
         iny
         sty     CHARCOLOR
 
@@ -46,10 +46,10 @@ load_font:
         VREG    VDC_MAWR, $2000
         st0     #VDC_VWR
 
-        stz     tmp1            ; #%00000000
-        bsr     copy            ; make normal characters
+        stz     tmp1    ; #%00000000
+        bsr     copy    ; make normal characters
 
-        dec     tmp1            ; #%11111111
+        dec     tmp1    ; #%11111111
 ;       bsr     copy            ; make reversed characters
 ;       rts                     ; (fall through)
 

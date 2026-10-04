@@ -3,7 +3,7 @@
 ;
 ; NOTE: These are indices into the default palette
 
-        .include        "tgi-kernel.inc"
+        .include "tgi-kernel.inc"
 
-        .export         tgi_color_black:zp = $00
-        .export         tgi_color_white:zp = $03
+        .export tgi_color_black:zp = $00
+        .export tgi_color_white:zp = $03

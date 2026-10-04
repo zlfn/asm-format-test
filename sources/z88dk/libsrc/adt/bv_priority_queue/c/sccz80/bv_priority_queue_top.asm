@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _bv_priority_queue_top
 defc _bv_priority_queue_top = bv_priority_queue_top
 ENDIF
-

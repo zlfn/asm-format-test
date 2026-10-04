@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT64
@@ -28,15 +28,14 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalSyncCompareExchange64)
 ASM_PFX(InternalSyncCompareExchange64):
-    push    esi
-    push    ebx
-    mov     esi, [esp + 12]
-    mov     eax, [esp + 16]
-    mov     edx, [esp + 20]
-    mov     ebx, [esp + 24]
-    mov     ecx, [esp + 28]
-    lock    cmpxchg8b [esi]
-    pop     ebx
-    pop     esi
-    ret
-
+        push    esi
+        push    ebx
+        mov     esi, [esp + 12]
+        mov     eax, [esp + 16]
+        mov     edx, [esp + 20]
+        mov     ebx, [esp + 24]
+        mov     ecx, [esp + 28]
+        lock    cmpxchg8b [esi]
+        pop     ebx
+        pop     esi
+        ret

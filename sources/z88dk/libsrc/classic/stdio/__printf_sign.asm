@@ -19,36 +19,36 @@ PUBLIC __stdio_printf_sign_0
 
 __stdio_printf_sign_0:
 
-   add a,a
-   jr nc, not_negative
+        add     a,  a
+        jr      nc, not_negative
 
-   ; number is negative
+        ; number is negative
 
-   ld (hl),'-'                 ; write negative sign to buffer
-   inc hl
+        ld      (hl), '-'       ; write negative sign to buffer
+        inc     hl
 
-   ret
+        ret
 
 not_negative:
 
-   add a,a
-   jr nc, not_plus
+        add     a,  a
+        jr      nc, not_plus
 
-   ; '+' flag
+        ; '+' flag
 
-   ld (hl),'+'                 ; write positive sign to buffer
-   inc hl
+        ld      (hl), '+'       ; write positive sign to buffer
+        inc     hl
 
-   ret
+        ret
 
 not_plus:
 
-   add a,a
-   ret nc
+        add     a, a
+        ret     nc
 
-   ; ' ' flag
+        ; ' ' flag
 
-   ld (hl),' '                 ; write space to buffer
-   inc hl
+        ld      (hl), ' '       ; write space to buffer
+        inc     hl
 
-   ret
+        ret

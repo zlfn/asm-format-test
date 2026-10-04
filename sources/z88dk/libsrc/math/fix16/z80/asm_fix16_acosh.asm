@@ -1,7 +1,7 @@
 
-    SECTION code_clib
-    
-    PUBLIC  asm_fix16_acosh
-    EXTERN  _fix16_acosh
+        SECTION code_clib
 
-    defc    asm_fix16_acosh = _fix16_acosh
+        PUBLIC  asm_fix16_acosh
+        EXTERN  _fix16_acosh
+
+        defc    asm_fix16_acosh = _fix16_acosh

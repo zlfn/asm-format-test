@@ -11,60 +11,60 @@
 
 // func archMax(x, y float64) float64
 TEXT ·archMax(SB),NOSPLIT,$0
-	MOVD	x+0(FP), F0
-	MOVD	y+8(FP), F1
-	FCLASSD	F0, X5
-	FCLASSD	F1, X6
+        MOVD    x+0(FP), F0
+        MOVD    y+8(FP), F1
+        FCLASSD F0, X5
+        FCLASSD F1, X6
 
-	// +Inf special cases
-	MOV	$PosInf, X7
-	BEQ	X7, X5, isMaxX
-	BEQ	X7, X6, isMaxY
+        // +Inf special cases
+        MOV     $PosInf, X7
+        BEQ     X7, X5, isMaxX
+        BEQ     X7, X6, isMaxY
 
-	// NaN special cases
-	MOV	$NaN, X7
-	BEQ	X7, X5, isMaxX
-	BEQ	X7, X6, isMaxY
+        // NaN special cases
+        MOV     $NaN, X7
+        BEQ     X7,   X5, isMaxX
+        BEQ     X7,   X6, isMaxY
 
-	// normal case
-	FMAXD	F0, F1, F0
-	MOVD	F0, ret+16(FP)
-	RET
+        // normal case
+        FMAXD   F0, F1, F0
+        MOVD    F0, ret+16(FP)
+        RET
 
-isMaxX: // return x
-	MOVD	F0, ret+16(FP)
-	RET
+isMaxX:         // return x
+        MOVD    F0, ret+16(FP)
+        RET
 
-isMaxY: // return y
-	MOVD	F1, ret+16(FP)
-	RET
+isMaxY:         // return y
+        MOVD    F1, ret+16(FP)
+        RET
 
 // func archMin(x, y float64) float64
 TEXT ·archMin(SB),NOSPLIT,$0
-	MOVD	x+0(FP), F0
-	MOVD	y+8(FP), F1
-	FCLASSD	F0, X5
-	FCLASSD	F1, X6
+        MOVD    x+0(FP), F0
+        MOVD    y+8(FP), F1
+        FCLASSD F0, X5
+        FCLASSD F1, X6
 
-	// -Inf special cases
-	MOV	$NegInf, X7
-	BEQ	X7, X5, isMinX
-	BEQ	X7, X6, isMinY
+        // -Inf special cases
+        MOV     $NegInf, X7
+        BEQ     X7, X5, isMinX
+        BEQ     X7, X6, isMinY
 
-	// NaN special cases
-	MOV	$NaN, X7
-	BEQ	X7, X5, isMinX
-	BEQ	X7, X6, isMinY
+        // NaN special cases
+        MOV     $NaN, X7
+        BEQ     X7,   X5, isMinX
+        BEQ     X7,   X6, isMinY
 
-	// normal case
-	FMIND	F0, F1, F0
-	MOVD	F0, ret+16(FP)
-	RET
+        // normal case
+        FMIND   F0, F1, F0
+        MOVD    F0, ret+16(FP)
+        RET
 
-isMinX: // return x
-	MOVD	F0, ret+16(FP)
-	RET
+isMinX:         // return x
+        MOVD    F0, ret+16(FP)
+        RET
 
-isMinY: // return y
-	MOVD	F1, ret+16(FP)
-	RET
+isMinY:         // return y
+        MOVD    F1, ret+16(FP)
+        RET

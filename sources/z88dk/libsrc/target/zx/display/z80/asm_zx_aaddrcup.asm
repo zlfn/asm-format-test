@@ -18,29 +18,29 @@ PUBLIC asm_zx_aaddrcup
 
 asm_zx_aaddrcup:
 
-   ; enter : hl = attribute address
-   ;
-   ; exit  : hl = attribute address up one character
-   ;         carry set if new attribute address is off screen
-   ;
-   ; uses  : af, hl
+        ; enter : hl = attribute address
+        ;
+        ; exit  : hl = attribute address up one character
+        ;         carry set if new attribute address is off screen
+        ;
+        ; uses  : af, hl
 
-   ld a,l
-   sub $20
-   ld l,a
-   ret nc
-   
-   dec h
-   
-   ld a,h
+        ld      a, l
+        sub     $20
+        ld      l, a
+        ret     nc
+
+        dec     h
+
+        ld      a, h
 
 IF __USE_SPECTRUM_128_SECOND_DFILE
-   cp $d8
+        cp      $d8
 ELIF __USE_OFFSET_SCREEN
-   EXTERN SCREEN_BASE
-   cp +(SCREEN_BASE/256) + $18
+        EXTERN  SCREEN_BASE
+        cp      +(SCREEN_BASE/256) + $18
 ELSE
-   cp $58
+        cp      $58
 ENDIF
 
-   ret
+        ret

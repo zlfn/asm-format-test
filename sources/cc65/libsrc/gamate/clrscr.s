@@ -1,6 +1,6 @@
 
-        .include        "gamate.inc"
-        .include        "extzp.inc"
+        .include "gamate.inc"
+        .include "extzp.inc"
 
         .import plot
         .export _clrscr
@@ -31,5 +31,5 @@ colloop:
 ;-------------------------------------------------------------------------------
 ; force the init constructor to be imported
 
-                .import initconio
+        .import initconio
 conio_init      = initconio

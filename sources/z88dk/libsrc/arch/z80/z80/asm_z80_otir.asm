@@ -28,15 +28,15 @@ ELSE
 asm_z80_otir:
 asm_cpu_otir:
 
-   ; enter : hl = void *src
-   ;          c = port
-   ;          b = num
-   ;
-   ; exit  : hl = void *src_nxt (address of byte after last written)
-   ;
-   ; uses  : f, b, hl
-   
-   otir
-   ret
+        ; enter : hl = void *src
+        ;          c = port
+        ;          b = num
+        ;
+        ; exit  : hl = void *src_nxt (address of byte after last written)
+        ;
+        ; uses  : f, b, hl
+
+        otir
+        ret
 
 ENDIF

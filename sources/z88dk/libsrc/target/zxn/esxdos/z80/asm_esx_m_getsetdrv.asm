@@ -14,42 +14,41 @@ asm_esx_m_getdrv:
 
 IF __ZXNEXT
 
-   xor a
-   jr join
+        xor     a
+        jr      join
 
 ELSE
 
-   ld l,0
+        ld      l, 0
 
 ENDIF
 
 asm_esx_m_setdrv:
 
-   ; enter :  l = drive
-   ;
-   ; exit  :  l = default drive
-   ;
-   ; uses  : af, bc, de, hl
-   
-   ld a,l
+        ; enter :  l = drive
+        ;
+        ; exit  :  l = default drive
+        ;
+        ; uses  : af, bc, de, hl
+
+        ld      a, l
 
 IF __ZXNEXT
 
-   or $01
+        or      $01
 
 join:
 
 ENDIF
-   
-   rst  __ESX_RST_SYS
-   defb __ESX_M_GETSETDRV
-   
-   ld l,a
-   ld h,0
-   
-   ret nc
-   jp __esxdos_error_mc
 
+        rst     __ESX_RST_SYS
+        defb    __ESX_M_GETSETDRV
+
+        ld      l, a
+        ld      h, 0
+
+        ret     nc
+        jp      __esxdos_error_mc
 
 ; ***************************************************************************
 ; * M_GETSETDRV ($89) *

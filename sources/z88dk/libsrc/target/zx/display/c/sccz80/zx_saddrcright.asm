@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _zx_saddrcright
 defc _zx_saddrcright = zx_saddrcright
 ENDIF
-

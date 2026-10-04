@@ -6,7 +6,7 @@ EXTERN asm_f16_add_callee
 ; enter stack: left, right, ret
 ; callee wants: right in HL, stack left, ret
 .cm16_sccz80_add
-    pop bc                      ; ret
-    pop hl                      ; right
-    push bc                     ; ret
-    jp asm_f16_add_callee
+        pop     bc      ; ret
+        pop     hl      ; right
+        push    bc      ; ret
+        jp      asm_f16_add_callee

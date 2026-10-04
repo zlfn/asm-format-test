@@ -13,4 +13,3 @@ IF __CLASSIC
 PUBLIC _esx_m_drvapi
 defc _esx_m_drvapi = esx_m_drvapi
 ENDIF
-

@@ -26,38 +26,38 @@ VFP     vdup.32         q1,  d0[1]
 VFP     vdup.32         q0,  d0[0]
 NOVFP   vdup.32         q0,  r3
 NOVFP   vld1.32         {d2[],d3[]}, [sp]
-        vld1.f32        {q2},[r1,:128]!
-        vmin.f32        q10, q2,  q1
-        vld1.f32        {q3},[r1,:128]!
-        vmin.f32        q11, q3,  q1
-1:      vmax.f32        q8,  q10, q0
-        vmax.f32        q9,  q11, q0
-        subs            r2,  r2,  #8
-        beq             2f
-        vld1.f32        {q2},[r1,:128]!
-        vmin.f32        q10, q2,  q1
-        vld1.f32        {q3},[r1,:128]!
-        vmin.f32        q11, q3,  q1
-        vst1.f32        {q8},[r0,:128]!
-        vst1.f32        {q9},[r0,:128]!
-        b               1b
-2:      vst1.f32        {q8},[r0,:128]!
-        vst1.f32        {q9},[r0,:128]!
-        bx              lr
+        vld1.f32 {q2}, [r1,:128]!
+        vmin.f32 q10,  q2,  q1
+        vld1.f32 {q3}, [r1,:128]!
+        vmin.f32 q11,  q3,  q1
+1:      vmax.f32 q8,   q10, q0
+        vmax.f32 q9,   q11, q0
+        subs    r2, r2, #8
+        beq     2f
+        vld1.f32 {q2}, [r1,:128]!
+        vmin.f32 q10,  q2, q1
+        vld1.f32 {q3}, [r1,:128]!
+        vmin.f32 q11,  q3, q1
+        vst1.f32 {q8}, [r0,:128]!
+        vst1.f32 {q9}, [r0,:128]!
+        b       1b
+2:      vst1.f32 {q8}, [r0,:128]!
+        vst1.f32 {q9}, [r0,:128]!
+        bx      lr
 endfunc
 
 function ff_vector_clip_int32_neon, export=1
-        vdup.32         q0,  r2
-        vdup.32         q1,  r3
-        ldr             r2,  [sp]
+        vdup.32 q0, r2
+        vdup.32 q1, r3
+        ldr     r2, [sp]
 1:
-        vld1.32         {q2-q3},  [r1,:128]!
-        vmin.s32        q2,  q2,  q1
-        vmin.s32        q3,  q3,  q1
-        vmax.s32        q2,  q2,  q0
-        vmax.s32        q3,  q3,  q0
-        vst1.32         {q2-q3},  [r0,:128]!
-        subs            r2,  r2,  #8
-        bgt             1b
-        bx              lr
+        vld1.32 {q2-q3}, [r1,:128]!
+        vmin.s32 q2, q2, q1
+        vmin.s32 q3, q3, q1
+        vmax.s32 q2, q2, q0
+        vmax.s32 q3, q3, q0
+        vst1.32 {q2-q3}, [r0,:128]!
+        subs    r2, r2, #8
+        bgt     1b
+        bx      lr
 endfunc

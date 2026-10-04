@@ -11,7 +11,7 @@
 #define M4IF_MCR0_FDVFS				(0x1 << 11)
 #define M4IF_MCR0_FDVACK			(0x1 << 27)
 
-	.align 3
+        .align  3
 
 /*
  * ==================== low level suspend ====================
@@ -39,94 +39,94 @@
 #define SUSPEND_INFO_MX53_IO_STATE_OFFSET	0xc
 
 ENTRY(imx53_suspend)
-	stmfd	sp!, {r4,r5,r6,r7}
+        stmfd   sp!, {r4,r5,r6,r7}
 
-	/* Save pad config */
-	ldr	r1, [r0, #SUSPEND_INFO_MX53_IO_COUNT_OFFSET]
-	cmp	r1, #0
-	beq	skip_pad_conf_1
+        /* Save pad config */
+        ldr     r1, [r0, #SUSPEND_INFO_MX53_IO_COUNT_OFFSET]
+        cmp     r1, #0
+        beq     skip_pad_conf_1
 
-	add	r2, r0, #SUSPEND_INFO_MX53_IO_STATE_OFFSET
-	ldr	r3, [r0, #SUSPEND_INFO_MX53_IOMUXC_V_OFFSET]
+        add     r2, r0, #SUSPEND_INFO_MX53_IO_STATE_OFFSET
+        ldr     r3, [r0, #SUSPEND_INFO_MX53_IOMUXC_V_OFFSET]
 
 1:
-	ldr	r5, [r2], #12	/* IOMUXC register offset */
-	ldr	r6, [r3, r5]	/* current value */
-	str	r6, [r2], #4	/* save area */
-	subs	r1, r1, #1
-	bne	1b
+        ldr     r5, [r2], #12   /* IOMUXC register offset */
+        ldr     r6, [r3, r5]    /* current value */
+        str     r6, [r2], #4    /* save area */
+        subs    r1, r1,   #1
+        bne     1b
 
 skip_pad_conf_1:
-	/* Set FDVFS bit of M4IF_MCR0 to request DDR to enter self-refresh */
-	ldr	r1, [r0, #SUSPEND_INFO_MX53_M4IF_V_OFFSET]
-	ldr	r2,[r1, #M4IF_MCR0_OFFSET]
-	orr	r2, r2, #M4IF_MCR0_FDVFS
-	str	r2,[r1, #M4IF_MCR0_OFFSET]
+        /* Set FDVFS bit of M4IF_MCR0 to request DDR to enter self-refresh */
+        ldr     r1, [r0, #SUSPEND_INFO_MX53_M4IF_V_OFFSET]
+        ldr     r2, [r1, #M4IF_MCR0_OFFSET]
+        orr     r2, r2, #M4IF_MCR0_FDVFS
+        str     r2, [r1, #M4IF_MCR0_OFFSET]
 
-	/* Poll FDVACK bit of M4IF_MCR to wait for DDR to enter self-refresh */
+        /* Poll FDVACK bit of M4IF_MCR to wait for DDR to enter self-refresh */
 wait_sr_ack:
-	ldr	r2,[r1, #M4IF_MCR0_OFFSET]
-	ands	r2, r2, #M4IF_MCR0_FDVACK
-	beq	wait_sr_ack
+        ldr     r2, [r1, #M4IF_MCR0_OFFSET]
+        ands    r2, r2, #M4IF_MCR0_FDVACK
+        beq     wait_sr_ack
 
-	/* Set pad config */
-	ldr	r1, [r0, #SUSPEND_INFO_MX53_IO_COUNT_OFFSET]
-	cmp	r1, #0
-	beq	skip_pad_conf_2
+        /* Set pad config */
+        ldr     r1, [r0, #SUSPEND_INFO_MX53_IO_COUNT_OFFSET]
+        cmp     r1, #0
+        beq     skip_pad_conf_2
 
-	add	r2, r0, #SUSPEND_INFO_MX53_IO_STATE_OFFSET
-	ldr	r3, [r0, #SUSPEND_INFO_MX53_IOMUXC_V_OFFSET]
+        add     r2, r0, #SUSPEND_INFO_MX53_IO_STATE_OFFSET
+        ldr     r3, [r0, #SUSPEND_INFO_MX53_IOMUXC_V_OFFSET]
 
 2:
-	ldr	r5, [r2], #4	/* IOMUXC register offset */
-	ldr	r6, [r2], #4	/* clear */
-	ldr	r7, [r3, r5]
-	bic	r7, r7, r6
-	ldr	r6, [r2], #8	/* set */
-	orr	r7, r7, r6
-	str	r7, [r3, r5]
-	subs	r1, r1, #1
-	bne	2b
+        ldr     r5, [r2], #4    /* IOMUXC register offset */
+        ldr     r6, [r2], #4    /* clear */
+        ldr     r7, [r3, r5]
+        bic     r7, r7,   r6
+        ldr     r6, [r2], #8    /* set */
+        orr     r7, r7,   r6
+        str     r7, [r3, r5]
+        subs    r1, r1,   #1
+        bne     2b
 
 skip_pad_conf_2:
-	/* Zzz, enter stop mode */
-	wfi
-	nop
-	nop
-	nop
-	nop
+        /* Zzz, enter stop mode */
+        wfi
+        nop
+        nop
+        nop
+        nop
 
-	/* Restore pad config */
-	ldr	r1, [r0, #SUSPEND_INFO_MX53_IO_COUNT_OFFSET]
-	cmp	r1, #0
-	beq	skip_pad_conf_3
+        /* Restore pad config */
+        ldr     r1, [r0, #SUSPEND_INFO_MX53_IO_COUNT_OFFSET]
+        cmp     r1, #0
+        beq     skip_pad_conf_3
 
-	add	r2, r0, #SUSPEND_INFO_MX53_IO_STATE_OFFSET
-	ldr	r3, [r0, #SUSPEND_INFO_MX53_IOMUXC_V_OFFSET]
+        add     r2, r0, #SUSPEND_INFO_MX53_IO_STATE_OFFSET
+        ldr     r3, [r0, #SUSPEND_INFO_MX53_IOMUXC_V_OFFSET]
 
 3:
-	ldr	r5, [r2], #12	/* IOMUXC register offset */
-	ldr	r6, [r2], #4	/* saved value */
-	str	r6, [r3, r5]
-	subs	r1, r1, #1
-	bne	3b
+        ldr     r5, [r2], #12   /* IOMUXC register offset */
+        ldr     r6, [r2], #4    /* saved value */
+        str     r6, [r3, r5]
+        subs    r1, r1,   #1
+        bne     3b
 
 skip_pad_conf_3:
-	/* Clear FDVFS bit of M4IF_MCR0 to request DDR to exit self-refresh */
-	ldr	r1, [r0, #SUSPEND_INFO_MX53_M4IF_V_OFFSET]
-	ldr	r2,[r1, #M4IF_MCR0_OFFSET]
-	bic	r2, r2, #M4IF_MCR0_FDVFS
-	str	r2,[r1, #M4IF_MCR0_OFFSET]
+        /* Clear FDVFS bit of M4IF_MCR0 to request DDR to exit self-refresh */
+        ldr     r1, [r0, #SUSPEND_INFO_MX53_M4IF_V_OFFSET]
+        ldr     r2, [r1, #M4IF_MCR0_OFFSET]
+        bic     r2, r2, #M4IF_MCR0_FDVFS
+        str     r2, [r1, #M4IF_MCR0_OFFSET]
 
-	/* Poll FDVACK bit of M4IF_MCR to wait for DDR to exit self-refresh */
+        /* Poll FDVACK bit of M4IF_MCR to wait for DDR to exit self-refresh */
 wait_ar_ack:
-	ldr	r2,[r1, #M4IF_MCR0_OFFSET]
-	ands	r2, r2, #M4IF_MCR0_FDVACK
-	bne	wait_ar_ack
+        ldr     r2, [r1, #M4IF_MCR0_OFFSET]
+        ands    r2, r2, #M4IF_MCR0_FDVACK
+        bne     wait_ar_ack
 
-	/* Restore registers */
-	ldmfd	sp!, {r4,r5,r6,r7}
-	mov	pc, lr
+        /* Restore registers */
+        ldmfd   sp!, {r4,r5,r6,r7}
+        mov     pc,  lr
 
 ENDPROC(imx53_suspend)
 

@@ -31,17 +31,15 @@
 ;*                                                                           */
 ;*****************************************************************************/
 
+        .include "o65.inc"
+        .include "modload.inc"
+        .include "zeropage.inc"
 
+        .import pushax,  pusha0, push0, push1, decax1
+        .import _malloc, _free,  _bzero
+        .import __ZP_START__    ; Linker generated
 
-        .include        "o65.inc"
-        .include        "modload.inc"
-        .include        "zeropage.inc"
-
-        .import         pushax, pusha0, push0, push1, decax1
-        .import         _malloc, _free, _bzero
-        .import         __ZP_START__    ; Linker generated
-
-        .macpack        generic
+        .macpack generic
 
 ;------------------------------------------------------------------------------
 ; Variables stored in the register bank in the zero page. Placing the variables
@@ -57,13 +55,13 @@ TPtr            = regbank+4             ; Pointer to module data for relocation
 .bss
 
 ; Save areas and error recovery data
-Stack:          .byte   0               ; Old stackpointer
-RegBankSave:    .res    regbanksize     ; Save area for register bank
+Stack:  .byte   0               ; Old stackpointer
+RegBankSave: .res regbanksize   ; Save area for register bank
 
 ; The header of the o65 file. Since we don't need the first 8 bytes any
 ; longer, once we've checked them, we will overlay them with other data to
 ; save a few bytes.
-Header:         .tag    O65_HDR         ; The o65 header
+Header: .tag    O65_HDR ; The o65 header
 
 ; Input
 InputByte       = Header                ; Byte read from input
@@ -72,17 +70,16 @@ InputByte       = Header                ; Byte read from input
 RelocVal        = Header + 1            ; Relocation value
 
 .data
-Read:   jmp     $FFFF                   ; Jump to read routine
+Read:   jmp     $FFFF   ; Jump to read routine
 
 .rodata
 ExpectedHdr:
         .byte   O65_MARKER_0, O65_MARKER_1              ; non C64 marker
-        .byte   O65_MAGIC_0, O65_MAGIC_1, O65_MAGIC_2   ; Magic ("o65")
+        .byte   O65_MAGIC_0,  O65_MAGIC_1, O65_MAGIC_2  ; Magic ("o65")
         .byte   O65_VERSION                             ; Version
         .word   O65_MODE_CC65                           ; Mode word
 
 ExpectedHdrSize = * - ExpectedHdr
-
 
 ;------------------------------------------------------------------------------
 ; PushCallerData: Push the callerdata member from control structure onto the
@@ -91,10 +88,10 @@ ExpectedHdrSize = * - ExpectedHdr
 .code
 PushCallerData:
         ldy     #MOD_CTRL::CALLERDATA+1
-        lda     (Ctrl),y
+        lda     (Ctrl), y
         tax
         dey
-        lda     (Ctrl),y
+        lda     (Ctrl), y
         jmp     pushax
 
 ;------------------------------------------------------------------------------
@@ -104,8 +101,8 @@ PushCallerData:
 .code
 RestoreRegBank:
         ldx     #6
-@L1:    lda     RegBankSave-1,x
-        sta     regbank-1,x
+@L1:    lda     RegBankSave-1, x
+        sta     regbank-1,     x
         dex
         bne     @L1
         rts
@@ -125,7 +122,7 @@ GetReloc:
 ; Text, data and bss segment
 
         lda     Module
-        ldx     Module+1                ; Return start address of buffer
+        ldx     Module+1        ; Return start address of buffer
         rts
 
 ; Zero page relocation
@@ -139,7 +136,7 @@ GetReloc:
 ; ReadAndCheckError: Call read with the current C stack and check for errors.
 
 .bss
-ReadSize:       .res    2
+ReadSize: .res  2
 
 .code
 ReadByte:
@@ -165,13 +162,13 @@ ReadAndCheckError:
         cmp     ReadSize
         bne     @L1
         cpx     ReadSize+1
-        beq     @L2                     ; Jump if ok
+        beq     @L2     ; Jump if ok
 @L1:    lda     #MLOAD_ERR_READ
         bne     CleanupAndExit
 
 ; Done
 
-@L2:    lda     InputByte               ; If called ReadByte, load the byte read
+@L2:    lda     InputByte       ; If called ReadByte, load the byte read
 Done:   rts
 
 ;------------------------------------------------------------------------------
@@ -203,9 +200,9 @@ CleanupAndExit:
         lda     Module
         ldx     Module+1
         bne     @L1
-        tay                             ; Test high byte
+        tay             ; Test high byte
         beq     @L2
-@L1:    jsr     _free                   ; Free the allocated block
+@L1:    jsr     _free   ; Free the allocated block
 
 ; Restore the register bank
 
@@ -213,7 +210,7 @@ CleanupAndExit:
 
 ; Restore the  error code and return to the caller
 
-        ldx     #$00                    ; Load the high byte
+        ldx     #$00    ; Load the high byte
         pla
         rts
 
@@ -222,14 +219,14 @@ CleanupAndExit:
 
 .code
 RelocSeg:
-        jsr     decax1                  ; Start value is segment-1
+        jsr     decax1  ; Start value is segment-1
         sta     TPtr
         stx     TPtr+1
 
-Loop:   jsr     ReadByte                ; Read byte from relocation table
-        beq     Done                    ; Bail out if end of table reached
+Loop:   jsr     ReadByte        ; Read byte from relocation table
+        beq     Done            ; Bail out if end of table reached
 
-        cmp     #255                    ; Special offset?
+        cmp     #255    ; Special offset?
         bne     @L1
 
 ; Increment offset by 254 and continue
@@ -282,16 +279,16 @@ RelocLow:
 ; Relocate a high byte
 
 RelocHigh:
-        jsr     ReadByte                ; Read low byte from relocation table
+        jsr     ReadByte        ; Read low byte from relocation table
         ldy     #0
         clc
-        adc     RelocVal                ; We just need the carry
+        adc     RelocVal        ; We just need the carry
 AddHigh:
         lda     RelocVal+1
 AddCommon:
-        adc     (TPtr),y
-        sta     (TPtr),y
-        jmp     Loop                    ; Done, next entry
+        adc     (TPtr), y
+        sta     (TPtr), y
+        jmp     Loop            ; Done, next entry
 
 ; Relocate a word
 
@@ -299,10 +296,10 @@ RelocWord:
         ldy     #0
         clc
         lda     RelocVal
-        adc     (TPtr),y
-        sta     (TPtr),y
+        adc     (TPtr), y
+        sta     (TPtr), y
         iny
-        bne     AddHigh                 ; Branch always (add high byte)
+        bne     AddHigh ; Branch always (add high byte)
 
 ;------------------------------------------------------------------------------
 ; mod_load: Load and relocate an o65 module
@@ -314,8 +311,8 @@ _mod_load:
 
         pha
         ldy     #6
-@L1:    lda     regbank-1,y
-        sta     RegBankSave-1,y
+@L1:    lda     regbank-1,     y
+        sta     RegBankSave-1, y
         dey
         bne     @L1
         sty     Module
@@ -336,10 +333,10 @@ _mod_load:
 ; our call vector
 
         ldy     #MOD_CTRL::READ
-        lda     (Ctrl),y
+        lda     (Ctrl), y
         sta     Read+1
         iny
-        lda     (Ctrl),y
+        lda     (Ctrl), y
         sta     Read+2
 
 ; Read the o65 header: C->read (C->callerdata, &H, sizeof (H))
@@ -356,8 +353,8 @@ _mod_load:
 
         ldy     #ExpectedHdrSize-1
 ValidateHeader:
-        lda     Header,y
-        cmp     ExpectedHdr,y
+        lda     Header, y
+        cmp     ExpectedHdr, y
         bne     HeaderError
         dey
         bpl     ValidateHeader
@@ -366,43 +363,43 @@ ValidateHeader:
 ; OS option and ignore all others. The OS option contains a version number
 ; and the module id as additional data.
 
-        iny                             ; Y = $00
-        sty     TPtr+1                  ; Flag for OS option read
-Opt:    jsr     ReadByte                ; Read the length byte
-        beq     OptDone                 ; Jump if done
-        sta     TPtr                    ; Use TPtr as a counter
+        iny                     ; Y = $00
+        sty     TPtr+1          ; Flag for OS option read
+Opt:    jsr     ReadByte        ; Read the length byte
+        beq     OptDone         ; Jump if done
+        sta     TPtr            ; Use TPtr as a counter
 
 ; An option has a length of at least 2 bytes
 
         cmp     #2
-        bcc     HeaderError             ; Must be 2 bytes total at least
+        bcc     HeaderError     ; Must be 2 bytes total at least
 
 ; Check for the OS option
 
         dec     TPtr
-        jsr     ReadByte                ; Get the option type
-        cmp     #O65_OPT_OS             ; OS option?
-        bne     SkipOpt                 ; No: Skip
+        jsr     ReadByte        ; Get the option type
+        cmp     #O65_OPT_OS     ; OS option?
+        bne     SkipOpt         ; No: Skip
 
-        lda     TPtr                    ; Get remaining length+1
-        cmp     #5                      ; CC65 has 6 bytes total
+        lda     TPtr    ; Get remaining length+1
+        cmp     #5      ; CC65 has 6 bytes total
         bne     OSError
 
-        jsr     ReadByte                ; Get the operating system
+        jsr     ReadByte        ; Get the operating system
         cmp     #O65_OS_CC65
-        bne     OSError                 ; Wrong operating system
+        bne     OSError         ; Wrong operating system
 
-        jsr     ReadByte                ; Get the version number, expect zero
-        bne     OSError                 ; Wrong version
+        jsr     ReadByte        ; Get the version number, expect zero
+        bne     OSError         ; Wrong version
 
-        jsr     ReadByte                ; Get low byte of id
+        jsr     ReadByte        ; Get low byte of id
         ldy     #MOD_CTRL::MODULE_ID
-        sta     (Ctrl),y
+        sta     (Ctrl), y
         jsr     ReadByte
         ldy     #MOD_CTRL::MODULE_ID+1
-        sta     (Ctrl),y
+        sta     (Ctrl), y
 
-        inc     TPtr+1                  ; Remember that we got the OS
+        inc     TPtr+1  ; Remember that we got the OS
 
         jmp     Opt
 
@@ -410,8 +407,8 @@ Opt:    jsr     ReadByte                ; Read the length byte
 
 SkipOpt:
         dec     TPtr
-        beq     Opt                     ; Next option
-        jsr     ReadByte                ; Skip one byte
+        beq     Opt             ; Next option
+        jsr     ReadByte        ; Skip one byte
         jmp     SkipOpt
 
 ; Operating system error
@@ -446,15 +443,15 @@ CalcSizes:
         sta     TPtr+1
         lda     TPtr
         add     Header + O65_HDR::BLEN
-        pha                             ; Save low byte of total size
+        pha     ; Save low byte of total size
         ldy     #MOD_CTRL::MODULE_SIZE
-        sta     (Ctrl),y
+        sta     (Ctrl), y
         lda     TPtr+1
         adc     Header + O65_HDR::BLEN + 1
         iny
-        sta     (Ctrl),y
+        sta     (Ctrl), y
         tax
-        pla                             ; Restore low byte of total size
+        pla     ; Restore low byte of total size
 
 ; Total memory size is now in a/x. Allocate memory and remember the result,
 ; both, locally and in the control structure so it the caller can access
@@ -465,10 +462,10 @@ CalcSizes:
         stx     Module+1
 
         ldy     #MOD_CTRL::MODULE
-        sta     (Ctrl),y
+        sta     (Ctrl), y
         txa
         iny
-        sta     (Ctrl),y
+        sta     (Ctrl), y
         ora     Module
         bne     GotMem
 
@@ -484,13 +481,13 @@ GotMem: lda     Module
         add     TPtr
         pha
         lda     Module+1
-        adc     TPtr+1                  ; Module + tlen + dlen
+        adc     TPtr+1  ; Module + tlen + dlen
         tax
         pla
         jsr     pushax
         lda     Header + O65_HDR::BLEN
         ldx     Header + O65_HDR::BLEN+1
-        jsr     _bzero                  ; bzero (bss, bss_size);
+        jsr     _bzero  ; bzero (bss, bss_size);
 
 ; Load code and data segment into memory. The sum of the sizes of
 ; code+data segment is still in TPtr.
@@ -518,7 +515,7 @@ Undef:  jmp     FormatError
 ; for code and data segment. Relocate the code segment
 
 Reloc:  lda     Module
-        ldx     Module + 1              ; Code segment address
+        ldx     Module + 1      ; Code segment address
         jsr     RelocSeg
 
 ; Relocate the data segment
@@ -529,12 +526,11 @@ Reloc:  lda     Module
         lda     Module + 1
         adc     Header + O65_HDR::TLEN + 1
         tax
-        pla                             ; Data segment address in a/x
+        pla     ; Data segment address in a/x
         jsr     RelocSeg
 
 ; We're done. Restore the register bank and return a success code
 
-        jsr     RestoreRegBank          ; X will be zero on return
+        jsr     RestoreRegBank  ; X will be zero on return
         lda     #MLOAD_OK
         rts
-

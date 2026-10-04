@@ -1,13 +1,12 @@
 
-    SECTION code_clib
+        SECTION code_clib
 
-    PUBLIC  getk
-    PUBLIC  _getk
-
+        PUBLIC  getk
+        PUBLIC  _getk
 
 getk:
 _getk:
-    call    $85
-    ld      l, a
-    ld      h, 0
-    ret
+        call    $85
+        ld      l, a
+        ld      h, 0
+        ret

@@ -10,7 +10,7 @@
 ;-------------------------------------------------------------------------
 ;  asm_am9511_3_popi - am9511 APU pop integer
 ;-------------------------------------------------------------------------
-; 
+;
 ;  Load integer from Am9511 APU stack
 ;
 ;-------------------------------------------------------------------------
@@ -27,53 +27,52 @@ PUBLIC asm_am9511_3_popi_hl
 PUBLIC asm_am9511_3_popi
 
 .am9511_3_popi_hl_wait
-    ex (sp),hl
-    ex (sp),hl
-    
+        ex      (sp), hl
+        ex      (sp), hl
+
 .asm_am9511_3_popi_hl
 
-    ; float primitive
-    ; pop an integer from the Am9511 stack.
-    ;
-    ; enter : stack = ret1, ret0
-    ;       :    hl = pointer to integer
-    ;
-    ; exit  : stack = long, ret1
-    ; 
-    ; uses  : af, bc, hl
+        ; float primitive
+        ; pop an integer from the Am9511 stack.
+        ;
+        ; enter : stack = ret1, ret0
+        ;       :    hl = pointer to integer
+        ;
+        ; exit  : stack = long, ret1
+        ;
+        ; uses  : af, bc, hl
 
-    in a,(__IO_APU3_STATUS)     ; read the APU status register
-    rlca                        ; busy? __IO_APU_STATUS_BUSY
-    jr C,am9511_3_popi_hl_wait
+        in      a, (__IO_APU3_STATUS)   ; read the APU status register
+        rlca                            ; busy? __IO_APU_STATUS_BUSY
+        jr      C, am9511_3_popi_hl_wait
 
-    ld bc,__IO_APU3_DATA        ; the address of the APU data port in bc
-    inc hl
-    ind                         ; load LSW into APU
-    inc b
-    ind
-    ret
+        ld      bc, __IO_APU3_DATA      ; the address of the APU data port in bc
+        inc     hl
+        ind                             ; load LSW into APU
+        inc     b
+        ind
+        ret
 
 .am9511_3_popi_wait
-    ex (sp),hl
-    ex (sp),hl
+        ex      (sp), hl
+        ex      (sp), hl
 
 .asm_am9511_3_popi
 
-    ; float primitive
-    ; pop an integer from the Am9511 stack.
-    ;
-    ; enter : stack = ret0
-    ;
-    ; exit  :  dehl = integer
-    ; 
-    ; uses  : af, bc, hl
+        ; float primitive
+        ; pop an integer from the Am9511 stack.
+        ;
+        ; enter : stack = ret0
+        ;
+        ; exit  :  dehl = integer
+        ;
+        ; uses  : af, bc, hl
 
-    in a,(__IO_APU3_STATUS)     ; read the APU status register
-    rlca                        ; busy? and __IO_APU_STATUS_BUSY
-    jr C,am9511_3_popi_wait
+        in      a, (__IO_APU3_STATUS)   ; read the APU status register
+        rlca                            ; busy? and __IO_APU_STATUS_BUSY
+        jr      C, am9511_3_popi_wait
 
-    ld bc,__IO_APU3_DATA        ; the address of the APU data port in bc
-    in h,(c)                    ; load LSW from APU
-    in l,(c)
-    ret
-
+        ld      bc, __IO_APU3_DATA      ; the address of the APU data port in bc
+        in      h,  (c)                 ; load LSW from APU
+        in      l,  (c)
+        ret

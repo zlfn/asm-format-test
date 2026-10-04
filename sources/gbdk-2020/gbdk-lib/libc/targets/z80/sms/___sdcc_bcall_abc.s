@@ -2,7 +2,7 @@
 
         .area   _CODE
 
-        .globl ___sdcc_bcall_abc
+        .globl  ___sdcc_bcall_abc
 
 ;
 ; trampoline to call banked functions with __z88dk_fastcall calling convention

@@ -17,57 +17,57 @@ PUBLIC asm_u32_f24
 
 .asm_i32_f24
 .asm_u32_f24
-    ld b,e                      ; sign
-    ld a,d
-    and a
-    jr Z,lzero
-    cp $7e + 32
-    jp NC,lmax
-    ld de,hl
-    ld hl,0
-    ld c,a                      ; exp counter
+        ld      b, e    ; sign
+        ld      a, d
+        and     a
+        jr      Z, lzero
+        cp      $7e + 32
+        jp      NC, lmax
+        ld      de, hl
+        ld      hl, 0
+        ld      c,  a   ; exp counter
 .lloop
-    or a
-    ld a,d
-    rra
-    ld d,a
-    ld a,e
-    rra
-    ld e,a
-    ld a,h
-    rra
-    ld h,a
-    ld a,l
-    rra
-    ld l,a
-    inc c
-    ld a,c
-    cp $7e + 32
-    jr NZ,lloop
-    ld a,b
-    rla
-    jr NC,ldone
-    xor a
-    sub l
-    ld l,a
-    ld a,0
-    sbc a,h
-    ld h,a
-    ld a,0
-    sbc a,e
-    ld e,a
-    ld a,0
-    sbc a,d
-    ld d,a
+        or      a
+        ld      a, d
+        rra
+        ld      d, a
+        ld      a, e
+        rra
+        ld      e, a
+        ld      a, h
+        rra
+        ld      h, a
+        ld      a, l
+        rra
+        ld      l, a
+        inc     c
+        ld      a, c
+        cp      $7e + 32
+        jr      NZ, lloop
+        ld      a,  b
+        rla
+        jr      NC, ldone
+        xor     a
+        sub     l
+        ld      l, a
+        ld      a, 0
+        sbc     a, h
+        ld      h, a
+        ld      a, 0
+        sbc     a, e
+        ld      e, a
+        ld      a, 0
+        sbc     a, d
+        ld      d, a
 .ldone
-    ret
+        ret
 
 .lzero
-    ld de,0
-    ld hl,0
-    ret
+        ld      de, 0
+        ld      hl, 0
+        ret
 
 .lmax
-    ld de,0FFh
-    ld hl,0FFh
-    ret
+        ld      de, 0FFh
+        ld      hl, 0FFh
+        ret

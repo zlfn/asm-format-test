@@ -10,10 +10,10 @@ EXTERN asm_zx_px2bitmask
 
 _zx_px2bitmask:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_zx_px2bitmask
+        push    hl
+        push    af
+
+        jp      asm_zx_px2bitmask

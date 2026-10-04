@@ -2,17 +2,16 @@
 ; Start-up code for cc65 (CX16 r39 version)
 ;
 
-        .export         _exit
-        .export         __STARTUP__ : absolute = 1      ; Mark as start-up
+        .export _exit
+        .export __STARTUP__ : absolute = 1      ; Mark as start-up
 
-        .import         initlib, donelib
-        .import         zerobss, callmain
-        .import         CHROUT
-        .import         __MAIN_START__, __MAIN_SIZE__   ; Linker-generated
+        .import initlib, donelib
+        .import zerobss, callmain
+        .import CHROUT
+        .import __MAIN_START__, __MAIN_SIZE__   ; Linker-generated
 
-        .include        "zeropage.inc"
-        .include        "cx16.inc"
-
+        .include "zeropage.inc"
+        .include "cx16.inc"
 
 ; ------------------------------------------------------------------------
 ; Start-up code
@@ -20,7 +19,7 @@
 .segment        "STARTUP"
 
 Start:  tsx
-        stx     spsave          ; Save the system stack ptr.
+        stx     spsave  ; Save the system stack ptr.
 
 ; Save space by putting some of the start-up code in the ONCE segment
 ; which will be re-used by the BSS segment, the heap, and the C stack.
@@ -59,7 +58,6 @@ _exit:
 
         rts
 
-
 ; ------------------------------------------------------------------------
 
 .segment        "ONCE"
@@ -72,7 +70,7 @@ init:
 ; Change to the second RAM bank.
 
         lda     RAM_BANK
-        sta     ramsave         ; Save the current RAM bank number
+        sta     ramsave ; Save the current RAM bank number
         lda     #$01
         sta     RAM_BANK
 
@@ -81,7 +79,7 @@ init:
         lda     #<(__MAIN_START__ + __MAIN_SIZE__)
         ldx     #>(__MAIN_START__ + __MAIN_SIZE__)
         sta     c_sp
-        stx     c_sp+1          ; Set argument stack ptr
+        stx     c_sp+1  ; Set argument stack ptr
 
 ; Switch to the lower/UPPER PetSCII charset.
 
@@ -91,7 +89,6 @@ init:
 ; Call the module constructors.
 
         jmp     initlib
-
 
 ; ------------------------------------------------------------------------
 ; Data

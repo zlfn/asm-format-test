@@ -10,27 +10,26 @@
 ; be called from an interrupt handler
 ;
 
-        .export         _mouse_txt_callbacks
-        .importzp       tmp4
-        .import         _mul40
-        .importzp       mouse_txt_char          ; screen code of mouse cursor
+        .export _mouse_txt_callbacks
+        .importzp tmp4
+        .import _mul40
+        .importzp mouse_txt_char        ; screen code of mouse cursor
 
-        .include        "atari.inc"
+        .include "atari.inc"
 
 ; ------------------------------------------------------------------------
 
         .bss
 
 backup: .res    1
-visible:.res    1
+visible: .res   1
 
 ; ------------------------------------------------------------------------
 
-        .segment        "EXTZP" : zeropage
+        .segment "EXTZP" : zeropage
 scrptr: .res    2
 
 ; ------------------------------------------------------------------------
-
 
         .rodata
 
@@ -50,13 +49,13 @@ _mouse_txt_callbacks:
 ; setcursor
 
 getcursor:
-column: ldy     #$00            ; Patched at runtime
-        lda     (scrptr),y
+column: ldy     #$00    ; Patched at runtime
+        lda     (scrptr), y
         rts
 
 setcursor:
-column2:ldy     #$00            ; Patched at runtime
-        sta     (scrptr),y
+column2: ldy    #$00    ; Patched at runtime
+        sta     (scrptr), y
         rts
 
 ; ------------------------------------------------------------------------
@@ -91,12 +90,11 @@ draw:
         lda     #mouse_txt_char
         jmp     setcursor       ; Draw cursor
 
-
 ; Move the mouse cursor x position to the value in A/X.
 movex:
         cpx     #1
         ror     a
-        lsr     a               ; convert to character position
+        lsr     a       ; convert to character position
         lsr     a
         sta     column+1
         sta     column2+1
@@ -104,15 +102,15 @@ movex:
 
 ; Move the mouse cursor y position to the value in A/X.
 movey:
-        ldy     tmp4            ; mul40 uses tmp4, save in Y
-        lsr     a               ; convert y position to character line
+        ldy     tmp4    ; mul40 uses tmp4, save in Y
+        lsr     a       ; convert y position to character line
         lsr     a
         lsr     a
-        jsr     _mul40          ; carry is cleared by _mul40
+        jsr     _mul40  ; carry is cleared by _mul40
         adc     SAVMSC
         sta     scrptr
         txa
         adc     SAVMSC+1
         sta     scrptr+1
-        sty     tmp4            ; restore tmp4
+        sty     tmp4    ; restore tmp4
         rts

@@ -10,9 +10,9 @@ EXTERN asm_putchar_unlocked
 
 _putchar_unlocked_fastcall:
 
-   push ix
-   
-   call asm_putchar_unlocked
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_putchar_unlocked
+
+        pop     ix
+        ret

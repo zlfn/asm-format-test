@@ -16,10 +16,10 @@ EXTERN asm_ftell
 
 ftell:
 
-   push hl
-   pop ix
-   
-   jp asm_ftell
+        push    hl
+        pop     ix
+
+        jp      asm_ftell
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

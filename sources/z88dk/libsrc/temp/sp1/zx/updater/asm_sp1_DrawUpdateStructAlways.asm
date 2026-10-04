@@ -21,13 +21,13 @@ EXTERN SP1DrawUpdateStruct
 
 asm_sp1_DrawUpdateStructAlways:
 
-   bit 6,(hl)
-   jr nz, skipval
-   res 7,(hl)
+        bit     6,  (hl)
+        jr      nz, skipval
+        res     7,  (hl)
 
 .skipval
 
-   ld a,(hl)
-   and $3f
-   ld b,a
-   jp SP1DrawUpdateStruct
+        ld      a, (hl)
+        and     $3f
+        ld      b, a
+        jp      SP1DrawUpdateStruct

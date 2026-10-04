@@ -15,23 +15,22 @@ EXTERN asm_NIRVANAM_paintC
 
 NIRVANAM_paintC:
 
-   	ld hl,2
-   	add hl,sp
-   	ld e,(hl)       ; col
-   	inc hl
-   	inc hl
-   	ld d,(hl)       ; lin
-   	inc hl
-   	inc hl
-   	ld c,(hl)
-   	inc hl
-   	ld b,(hl)       ; attrs
+        ld      hl, 2
+        add     hl, sp
+        ld      e,  (hl)        ; col
+        inc     hl
+        inc     hl
+        ld      d, (hl)         ; lin
+        inc     hl
+        inc     hl
+        ld      c, (hl)
+        inc     hl
+        ld      b, (hl)         ; attrs
 
-   	jp asm_NIRVANAM_paintC
+        jp      asm_NIRVANAM_paintC
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _NIRVANAM_paintC
 defc _NIRVANAM_paintC = NIRVANAM_paintC
 ENDIF
-

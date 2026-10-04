@@ -10,10 +10,10 @@ EXTERN _isbdigit_fastcall
 
 _isbdigit:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _isbdigit_fastcall
+        push    hl
+        push    af
+
+        jp      _isbdigit_fastcall

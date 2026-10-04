@@ -264,60 +264,60 @@ SYM_FUNC_START(sm4_neon_crypt)
 	 *   x2: src
 	 *   w3: nblocks
 	 */
-	SM4_PREPARE()
+        SM4_PREPARE()
 
 .Lcrypt_loop_8x:
-	sub		w3, w3, #8
-	tbnz		w3, #31, .Lcrypt_4x
+        sub     w3, w3,  #8
+        tbnz    w3, #31, .Lcrypt_4x
 
-	ld4		{v0.4s-v3.4s}, [x2], #64
-	ld4		{v4.4s-v7.4s}, [x2], #64
+        ld4     {v0.4s-v3.4s}, [x2], #64
+        ld4     {v4.4s-v7.4s}, [x2], #64
 
-	SM4_CRYPT_BLK8(v0, v1, v2, v3, v4, v5, v6, v7)
+        SM4_CRYPT_BLK8(v0, v1, v2, v3, v4, v5, v6, v7)
 
-	st1		{v0.16b-v3.16b}, [x1], #64
-	st1		{v4.16b-v7.16b}, [x1], #64
+        st1     {v0.16b-v3.16b}, [x1], #64
+        st1     {v4.16b-v7.16b}, [x1], #64
 
-	cbz		w3, .Lcrypt_end
-	b		.Lcrypt_loop_8x
+        cbz     w3, .Lcrypt_end
+        b       .Lcrypt_loop_8x
 
 .Lcrypt_4x:
-	add		w3, w3, #8
-	cmp		w3, #4
-	blt		.Lcrypt_tail
+        add     w3, w3, #8
+        cmp     w3, #4
+        blt     .Lcrypt_tail
 
-	sub		w3, w3, #4
+        sub     w3, w3, #4
 
-	ld4		{v0.4s-v3.4s}, [x2], #64
+        ld4     {v0.4s-v3.4s}, [x2], #64
 
-	SM4_CRYPT_BLK4(v0, v1, v2, v3)
+        SM4_CRYPT_BLK4(v0, v1, v2, v3)
 
-	st1		{v0.16b-v3.16b}, [x1], #64
+        st1     {v0.16b-v3.16b}, [x1], #64
 
-	cbz		w3, .Lcrypt_end
+        cbz     w3, .Lcrypt_end
 
 .Lcrypt_tail:
-	cmp		w3, #2
-	ld1		{v0.16b}, [x2], #16
-	blt		.Lcrypt_tail_load_done
-	ld1		{v1.16b}, [x2], #16
-	beq		.Lcrypt_tail_load_done
-	ld1		{v2.16b}, [x2], #16
+        cmp     w3, #2
+        ld1     {v0.16b}, [x2], #16
+        blt     .Lcrypt_tail_load_done
+        ld1     {v1.16b}, [x2], #16
+        beq     .Lcrypt_tail_load_done
+        ld1     {v2.16b}, [x2], #16
 
 .Lcrypt_tail_load_done:
-	transpose_4x4(v0, v1, v2, v3)
+        transpose_4x4(v0, v1, v2, v3)
 
-	SM4_CRYPT_BLK4(v0, v1, v2, v3)
+        SM4_CRYPT_BLK4(v0, v1, v2, v3)
 
-	cmp		w3, #2
-	st1		{v0.16b}, [x1], #16
-	blt		.Lcrypt_end
-	st1		{v1.16b}, [x1], #16
-	beq		.Lcrypt_end
-	st1		{v2.16b}, [x1], #16
+        cmp     w3, #2
+        st1     {v0.16b}, [x1], #16
+        blt     .Lcrypt_end
+        st1     {v1.16b}, [x1], #16
+        beq     .Lcrypt_end
+        st1     {v2.16b}, [x1], #16
 
 .Lcrypt_end:
-	ret
+        ret
 SYM_FUNC_END(sm4_neon_crypt)
 
 .align 3
@@ -329,112 +329,112 @@ SYM_FUNC_START(sm4_neon_cbc_dec)
 	 *   x3: iv (big endian, 128 bit)
 	 *   w4: nblocks
 	 */
-	SM4_PREPARE()
+        SM4_PREPARE()
 
-	ld1		{RIV.16b}, [x3]
+        ld1     {RIV.16b}, [x3]
 
 .Lcbc_dec_loop_8x:
-	sub		w4, w4, #8
-	tbnz		w4, #31, .Lcbc_dec_4x
+        sub     w4, w4,  #8
+        tbnz    w4, #31, .Lcbc_dec_4x
 
-	ld4		{v0.4s-v3.4s}, [x2], #64
-	ld4		{v4.4s-v7.4s}, [x2]
+        ld4     {v0.4s-v3.4s}, [x2], #64
+        ld4     {v4.4s-v7.4s}, [x2]
 
-	SM4_CRYPT_BLK8_norotate(v0, v1, v2, v3, v4, v5, v6, v7)
+        SM4_CRYPT_BLK8_norotate(v0, v1, v2, v3, v4, v5, v6, v7)
 
-	/* Avoid overwriting the RIV register */
-	rotate_clockwise_4x4(v0, v1, v2, v3)
-	rotate_clockwise_4x4(v4, v5, v6, v7)
+        /* Avoid overwriting the RIV register */
+        rotate_clockwise_4x4(v0, v1, v2, v3)
+        rotate_clockwise_4x4(v4, v5, v6, v7)
 
-	sub		x2, x2, #64
+        sub     x2, x2, #64
 
-	eor		v0.16b, v0.16b, RIV.16b
+        eor     v0.16b, v0.16b, RIV.16b
 
-	ld1		{RTMP0.16b-RTMP3.16b}, [x2], #64
-	ld1		{RTMP4.16b-RTMP7.16b}, [x2], #64
+        ld1     {RTMP0.16b-RTMP3.16b}, [x2], #64
+        ld1     {RTMP4.16b-RTMP7.16b}, [x2], #64
 
-	eor		v1.16b, v1.16b, RTMP0.16b
-	eor		v2.16b, v2.16b, RTMP1.16b
-	eor		v3.16b, v3.16b, RTMP2.16b
-	eor		v4.16b, v4.16b, RTMP3.16b
-	eor		v5.16b, v5.16b, RTMP4.16b
-	eor		v6.16b, v6.16b, RTMP5.16b
-	eor		v7.16b, v7.16b, RTMP6.16b
+        eor     v1.16b, v1.16b, RTMP0.16b
+        eor     v2.16b, v2.16b, RTMP1.16b
+        eor     v3.16b, v3.16b, RTMP2.16b
+        eor     v4.16b, v4.16b, RTMP3.16b
+        eor     v5.16b, v5.16b, RTMP4.16b
+        eor     v6.16b, v6.16b, RTMP5.16b
+        eor     v7.16b, v7.16b, RTMP6.16b
 
-	mov		RIV.16b, RTMP7.16b
+        mov     RIV.16b, RTMP7.16b
 
-	st1		{v0.16b-v3.16b}, [x1], #64
-	st1		{v4.16b-v7.16b}, [x1], #64
+        st1     {v0.16b-v3.16b}, [x1], #64
+        st1     {v4.16b-v7.16b}, [x1], #64
 
-	cbz		w4, .Lcbc_dec_end
-	b		.Lcbc_dec_loop_8x
+        cbz     w4, .Lcbc_dec_end
+        b       .Lcbc_dec_loop_8x
 
 .Lcbc_dec_4x:
-	add		w4, w4, #8
-	cmp		w4, #4
-	blt		.Lcbc_dec_tail
+        add     w4, w4, #8
+        cmp     w4, #4
+        blt     .Lcbc_dec_tail
 
-	sub		w4, w4, #4
+        sub     w4, w4, #4
 
-	ld1		{v0.16b-v3.16b}, [x2], #64
+        ld1     {v0.16b-v3.16b}, [x2], #64
 
-	rev32		v4.16b, v0.16b
-	rev32		v5.16b, v1.16b
-	rev32		v6.16b, v2.16b
-	rev32		v7.16b, v3.16b
+        rev32   v4.16b, v0.16b
+        rev32   v5.16b, v1.16b
+        rev32   v6.16b, v2.16b
+        rev32   v7.16b, v3.16b
 
-	transpose_4x4(v4, v5, v6, v7)
+        transpose_4x4(v4, v5, v6, v7)
 
-	SM4_CRYPT_BLK4_BE(v4, v5, v6, v7)
+        SM4_CRYPT_BLK4_BE(v4, v5, v6, v7)
 
-	eor		v4.16b, v4.16b, RIV.16b
-	eor		v5.16b, v5.16b, v0.16b
-	eor		v6.16b, v6.16b, v1.16b
-	eor		v7.16b, v7.16b, v2.16b
+        eor     v4.16b, v4.16b, RIV.16b
+        eor     v5.16b, v5.16b, v0.16b
+        eor     v6.16b, v6.16b, v1.16b
+        eor     v7.16b, v7.16b, v2.16b
 
-	mov		RIV.16b, v3.16b
+        mov     RIV.16b, v3.16b
 
-	st1		{v4.16b-v7.16b}, [x1], #64
+        st1     {v4.16b-v7.16b}, [x1], #64
 
-	cbz		w4, .Lcbc_dec_end
+        cbz     w4, .Lcbc_dec_end
 
 .Lcbc_dec_tail:
-	cmp		w4, #2
-	ld1		{v0.16b}, [x2], #16
-	blt		.Lcbc_dec_tail_load_done
-	ld1		{v1.16b}, [x2], #16
-	beq		.Lcbc_dec_tail_load_done
-	ld1		{v2.16b}, [x2], #16
+        cmp     w4, #2
+        ld1     {v0.16b}, [x2], #16
+        blt     .Lcbc_dec_tail_load_done
+        ld1     {v1.16b}, [x2], #16
+        beq     .Lcbc_dec_tail_load_done
+        ld1     {v2.16b}, [x2], #16
 
 .Lcbc_dec_tail_load_done:
-	rev32		v4.16b, v0.16b
-	rev32		v5.16b, v1.16b
-	rev32		v6.16b, v2.16b
+        rev32   v4.16b, v0.16b
+        rev32   v5.16b, v1.16b
+        rev32   v6.16b, v2.16b
 
-	transpose_4x4(v4, v5, v6, v7)
+        transpose_4x4(v4, v5, v6, v7)
 
-	SM4_CRYPT_BLK4_BE(v4, v5, v6, v7)
+        SM4_CRYPT_BLK4_BE(v4, v5, v6, v7)
 
-	cmp		w4, #2
-	eor		v4.16b, v4.16b, RIV.16b
-	mov		RIV.16b, v0.16b
-	st1		{v4.16b}, [x1], #16
-	blt		.Lcbc_dec_end
+        cmp     w4,     #2
+        eor     v4.16b, v4.16b, RIV.16b
+        mov     RIV.16b,  v0.16b
+        st1     {v4.16b}, [x1], #16
+        blt     .Lcbc_dec_end
 
-	eor		v5.16b, v5.16b, v0.16b
-	mov		RIV.16b, v1.16b
-	st1		{v5.16b}, [x1], #16
-	beq		.Lcbc_dec_end
+        eor     v5.16b,   v5.16b, v0.16b
+        mov     RIV.16b,  v1.16b
+        st1     {v5.16b}, [x1],   #16
+        beq     .Lcbc_dec_end
 
-	eor		v6.16b, v6.16b, v1.16b
-	mov		RIV.16b, v2.16b
-	st1		{v6.16b}, [x1], #16
+        eor     v6.16b,   v6.16b, v1.16b
+        mov     RIV.16b,  v2.16b
+        st1     {v6.16b}, [x1],   #16
 
 .Lcbc_dec_end:
-	/* store new IV */
-	st1		{RIV.16b}, [x3]
+        /* store new IV */
+        st1     {RIV.16b}, [x3]
 
-	ret
+        ret
 SYM_FUNC_END(sm4_neon_cbc_dec)
 
 .align 3
@@ -446,15 +446,15 @@ SYM_FUNC_START(sm4_neon_ctr_crypt)
 	 *   x3: ctr (big endian, 128 bit)
 	 *   w4: nblocks
 	 */
-	SM4_PREPARE()
+        SM4_PREPARE()
 
-	ldp		x7, x8, [x3]
-	rev		x7, x7
-	rev		x8, x8
+        ldp     x7, x8, [x3]
+        rev     x7, x7
+        rev     x8, x8
 
 .Lctr_crypt_loop_8x:
-	sub		w4, w4, #8
-	tbnz		w4, #31, .Lctr_crypt_4x
+        sub     w4, w4,  #8
+        tbnz    w4, #31, .Lctr_crypt_4x
 
 #define inc_le128(vctr)                             \
 		mov		vctr.d[1], x8;      \
@@ -463,104 +463,104 @@ SYM_FUNC_START(sm4_neon_ctr_crypt)
 		rev64		vctr.16b, vctr.16b; \
 		adc		x7, x7, xzr;
 
-	/* construct CTRs */
-	inc_le128(v0)			/* +0 */
-	inc_le128(v1)			/* +1 */
-	inc_le128(v2)			/* +2 */
-	inc_le128(v3)			/* +3 */
-	inc_le128(v4)			/* +4 */
-	inc_le128(v5)			/* +5 */
-	inc_le128(v6)			/* +6 */
-	inc_le128(v7)			/* +7 */
+        /* construct CTRs */
+        inc_le128(v0)   /* +0 */
+        inc_le128(v1)   /* +1 */
+        inc_le128(v2)   /* +2 */
+        inc_le128(v3)   /* +3 */
+        inc_le128(v4)   /* +4 */
+        inc_le128(v5)   /* +5 */
+        inc_le128(v6)   /* +6 */
+        inc_le128(v7)   /* +7 */
 
-	transpose_4x4_2x(v0, v1, v2, v3, v4, v5, v6, v7)
+        transpose_4x4_2x(v0, v1, v2, v3, v4, v5, v6, v7)
 
-	SM4_CRYPT_BLK8(v0, v1, v2, v3, v4, v5, v6, v7)
+        SM4_CRYPT_BLK8(v0, v1, v2, v3, v4, v5, v6, v7)
 
-	ld1		{RTMP0.16b-RTMP3.16b}, [x2], #64
-	ld1		{RTMP4.16b-RTMP7.16b}, [x2], #64
+        ld1     {RTMP0.16b-RTMP3.16b}, [x2], #64
+        ld1     {RTMP4.16b-RTMP7.16b}, [x2], #64
 
-	eor		v0.16b, v0.16b, RTMP0.16b
-	eor		v1.16b, v1.16b, RTMP1.16b
-	eor		v2.16b, v2.16b, RTMP2.16b
-	eor		v3.16b, v3.16b, RTMP3.16b
-	eor		v4.16b, v4.16b, RTMP4.16b
-	eor		v5.16b, v5.16b, RTMP5.16b
-	eor		v6.16b, v6.16b, RTMP6.16b
-	eor		v7.16b, v7.16b, RTMP7.16b
+        eor     v0.16b, v0.16b, RTMP0.16b
+        eor     v1.16b, v1.16b, RTMP1.16b
+        eor     v2.16b, v2.16b, RTMP2.16b
+        eor     v3.16b, v3.16b, RTMP3.16b
+        eor     v4.16b, v4.16b, RTMP4.16b
+        eor     v5.16b, v5.16b, RTMP5.16b
+        eor     v6.16b, v6.16b, RTMP6.16b
+        eor     v7.16b, v7.16b, RTMP7.16b
 
-	st1		{v0.16b-v3.16b}, [x1], #64
-	st1		{v4.16b-v7.16b}, [x1], #64
+        st1     {v0.16b-v3.16b}, [x1], #64
+        st1     {v4.16b-v7.16b}, [x1], #64
 
-	cbz		w4, .Lctr_crypt_end
-	b		.Lctr_crypt_loop_8x
+        cbz     w4, .Lctr_crypt_end
+        b       .Lctr_crypt_loop_8x
 
 .Lctr_crypt_4x:
-	add		w4, w4, #8
-	cmp		w4, #4
-	blt		.Lctr_crypt_tail
+        add     w4, w4, #8
+        cmp     w4, #4
+        blt     .Lctr_crypt_tail
 
-	sub		w4, w4, #4
+        sub     w4, w4, #4
 
-	/* construct CTRs */
-	inc_le128(v0)			/* +0 */
-	inc_le128(v1)			/* +1 */
-	inc_le128(v2)			/* +2 */
-	inc_le128(v3)			/* +3 */
+        /* construct CTRs */
+        inc_le128(v0)   /* +0 */
+        inc_le128(v1)   /* +1 */
+        inc_le128(v2)   /* +2 */
+        inc_le128(v3)   /* +3 */
 
-	ld1		{v4.16b-v7.16b}, [x2], #64
+        ld1     {v4.16b-v7.16b}, [x2], #64
 
-	transpose_4x4(v0, v1, v2, v3)
+        transpose_4x4(v0, v1, v2, v3)
 
-	SM4_CRYPT_BLK4(v0, v1, v2, v3)
+        SM4_CRYPT_BLK4(v0, v1, v2, v3)
 
-	eor		v0.16b, v0.16b, v4.16b
-	eor		v1.16b, v1.16b, v5.16b
-	eor		v2.16b, v2.16b, v6.16b
-	eor		v3.16b, v3.16b, v7.16b
+        eor     v0.16b, v0.16b, v4.16b
+        eor     v1.16b, v1.16b, v5.16b
+        eor     v2.16b, v2.16b, v6.16b
+        eor     v3.16b, v3.16b, v7.16b
 
-	st1		{v0.16b-v3.16b}, [x1], #64
+        st1     {v0.16b-v3.16b}, [x1], #64
 
-	cbz		w4, .Lctr_crypt_end
+        cbz     w4, .Lctr_crypt_end
 
 .Lctr_crypt_tail:
-	/* inc_le128 will change the sign bit */
-	ld1		{v4.16b}, [x2], #16
-	inc_le128(v0)
-	cmp		w4, #2
-	blt		.Lctr_crypt_tail_load_done
+        /* inc_le128 will change the sign bit */
+        ld1     {v4.16b}, [x2], #16
+        inc_le128(v0)
+        cmp     w4, #2
+        blt     .Lctr_crypt_tail_load_done
 
-	ld1		{v5.16b}, [x2], #16
-	inc_le128(v1)
-	cmp		w4, #2
-	beq		.Lctr_crypt_tail_load_done
+        ld1     {v5.16b}, [x2], #16
+        inc_le128(v1)
+        cmp     w4, #2
+        beq     .Lctr_crypt_tail_load_done
 
-	ld1		{v6.16b}, [x2], #16
-	inc_le128(v2)
+        ld1     {v6.16b}, [x2], #16
+        inc_le128(v2)
 
 .Lctr_crypt_tail_load_done:
-	transpose_4x4(v0, v1, v2, v3)
+        transpose_4x4(v0, v1, v2, v3)
 
-	SM4_CRYPT_BLK4(v0, v1, v2, v3)
+        SM4_CRYPT_BLK4(v0, v1, v2, v3)
 
-	cmp		w4, #2
+        cmp     w4, #2
 
-	eor		v0.16b, v0.16b, v4.16b
-	st1		{v0.16b}, [x1], #16
-	blt		.Lctr_crypt_end
+        eor     v0.16b,   v0.16b, v4.16b
+        st1     {v0.16b}, [x1],   #16
+        blt     .Lctr_crypt_end
 
-	eor		v1.16b, v1.16b, v5.16b
-	st1		{v1.16b}, [x1], #16
-	beq		.Lctr_crypt_end
+        eor     v1.16b,   v1.16b, v5.16b
+        st1     {v1.16b}, [x1],   #16
+        beq     .Lctr_crypt_end
 
-	eor		v2.16b, v2.16b, v6.16b
-	st1		{v2.16b}, [x1], #16
+        eor     v2.16b,   v2.16b, v6.16b
+        st1     {v2.16b}, [x1],   #16
 
 .Lctr_crypt_end:
-	/* store new CTR */
-	rev		x7, x7
-	rev		x8, x8
-	stp		x7, x8, [x3]
+        /* store new CTR */
+        rev     x7, x7
+        rev     x8, x8
+        stp     x7, x8, [x3]
 
-	ret
+        ret
 SYM_FUNC_END(sm4_neon_ctr_crypt)

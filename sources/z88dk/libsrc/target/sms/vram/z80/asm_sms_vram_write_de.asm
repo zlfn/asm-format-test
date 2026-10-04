@@ -5,21 +5,21 @@ SECTION code_crt_common
 
 PUBLIC asm_sms_vram_write_de
 
-   ex de,hl
+        ex      de, hl
 
 asm_sms_vram_write_de:
 
-   ; enter : de = vram address
-   ;
-   ; uses  : af
+        ; enter : de = vram address
+        ;
+        ; uses  : af
 
-   di
+        di
 
-   ld a,e
-   out (__IO_VDP_COMMAND),a
-   ld a,d
-   or $40
-   out (__IO_VDP_COMMAND),a
+        ld      a, e
+        out     (__IO_VDP_COMMAND), a
+        ld      a, d
+        or      $40
+        out     (__IO_VDP_COMMAND), a
 
-   ei   
-   ret
+        ei
+        ret

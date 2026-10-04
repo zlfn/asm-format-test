@@ -1,6 +1,6 @@
 ; SPDX-License-Identifier: Zlib OR Apache-2.0 WITH LLVM-exception OR MIT
-	.area _CODE
-	.globl ___mulhi3
+        .area   _CODE
+        .globl  ___mulhi3
 
 ;===------------------------------------------------------------------------===;
 ; ___mulhi3 - 16-bit unsigned/signed multiply
@@ -17,27 +17,27 @@
 ;   A  = bit counter
 ;===------------------------------------------------------------------------===;
 ___mulhi3:
-	; Swap DE<->BC: need BC=multiplicand, DE=multiplier
-	push	bc		; save multiplier
-	ld	b, d
-	ld	c, e		; BC = multiplicand
-	pop	de		; DE = multiplier
-	ld	hl, #0		; result accumulator
-	ld	a, d
-	or	a		; test multiplier high byte
-	ld	a, #16
-	jr	nz, ___mulhi3_loop
-	ld	a, #8		; high byte is 0, only 8 iterations
+        ; Swap DE<->BC: need BC=multiplicand, DE=multiplier
+        push    bc      ; save multiplier
+        ld      b, d
+        ld      c, e    ; BC = multiplicand
+        pop     de      ; DE = multiplier
+        ld      hl, #0  ; result accumulator
+        ld      a,  d
+        or      a       ; test multiplier high byte
+        ld      a,  #16
+        jr      nz, ___mulhi3_loop
+        ld      a,  #8  ; high byte is 0, only 8 iterations
 ___mulhi3_loop:
-	srl	d		; DE >>= 1, LSB -> carry
-	rr	e
-	jr	nc, ___mulhi3_skip
-	add	hl, bc		; result += multiplicand
+        srl     d       ; DE >>= 1, LSB -> carry
+        rr      e
+        jr      nc, ___mulhi3_skip
+        add     hl, bc  ; result += multiplicand
 ___mulhi3_skip:
-	sla	c		; BC <<= 1 (multiplicand doubles)
-	rl	b
-	dec	a
-	jr	nz, ___mulhi3_loop
-	ld	c, l		; BC = result
-	ld	b, h
-	ret
+        sla     c       ; BC <<= 1 (multiplicand doubles)
+        rl      b
+        dec     a
+        jr      nz, ___mulhi3_loop
+        ld      c,  l   ; BC = result
+        ld      b,  h
+        ret

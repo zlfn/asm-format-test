@@ -12,15 +12,14 @@ EXTERN _heap
 .sbrk_callee
 ._sbrk_callee
 
-   pop hl
-   pop bc
-   ex (sp),hl
+        pop     hl
+        pop     bc
+        ex      (sp), hl
 
 .asm_sbrk
-   
-   ; bc = size of block in bytes >- 4
-   ; hl = address of block
-   
-   ld de,_heap
-   jp asm_HeapSbrk
 
+        ; bc = size of block in bytes >- 4
+        ; hl = address of block
+
+        ld      de, _heap
+        jp      asm_HeapSbrk

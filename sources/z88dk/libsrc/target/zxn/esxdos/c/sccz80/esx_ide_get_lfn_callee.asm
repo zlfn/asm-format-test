@@ -8,8 +8,8 @@ EXTERN asm_esx_ide_get_lfn
 
 esx_ide_get_lfn_callee:
 
-   pop hl
-	pop de
-	ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
-   jp asm_esx_ide_get_lfn
+        jp      asm_esx_ide_get_lfn

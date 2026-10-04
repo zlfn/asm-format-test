@@ -10,18 +10,18 @@ EXTERN l0_ltoa_callee
 
 _ltoa:
 
-   pop af
-   pop hl
-   pop de
-   exx
-   pop bc
-   exx
-   pop bc
-   
-   push bc
-   push bc
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        exx
+        pop     bc
+        exx
+        pop     bc
 
-   jp l0_ltoa_callee
+        push    bc
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_ltoa_callee

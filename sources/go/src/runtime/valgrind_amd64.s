@@ -18,20 +18,20 @@
 
 // func valgrindClientRequest(uintptr, uintptr, uintptr, uintptr, uintptr, uintptr) (ret uintptr)
 TEXT runtime·valgrindClientRequest(SB), NOSPLIT, $0-56
-	// Load the address of the first of the (contiguous) arguments into AX.
-	LEAQ args+0(FP), AX
+        // Load the address of the first of the (contiguous) arguments into AX.
+        LEAQ    args+0(FP), AX
 
-	// Zero DX, since some requests may not populate it.
-	XORL DX, DX
+        // Zero DX, since some requests may not populate it.
+        XORL    DX, DX
 
-	// Emit the special preabmle.
-	ROLQ $3, DI; ROLQ $13, DI
-	ROLQ $61, DI; ROLQ $51, DI
+        // Emit the special preabmle.
+        ROLQ    $3,  DI; ROLQ $13, DI
+        ROLQ    $61, DI; ROLQ $51, DI
 
-	// "Execute" the client request.
-	XCHGQ BX, BX
+        // "Execute" the client request.
+        XCHGQ   BX, BX
 
-	// Copy the result out of DX.
-	MOVQ DX, ret+48(FP)
+        // Copy the result out of DX.
+        MOVQ    DX, ret+48(FP)
 
-	RET
+        RET

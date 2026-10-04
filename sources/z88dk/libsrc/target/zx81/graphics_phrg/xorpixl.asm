@@ -11,39 +11,38 @@
 ;	$Id: xorpixl.asm $
 ;
 
-    MODULE  __pseudohrg_xorpixel
+        MODULE  __pseudohrg_xorpixel
 
-    SECTION code_clib
-    PUBLIC  xorpixel
+        SECTION code_clib
+        PUBLIC  xorpixel
 
-    EXTERN  pixeladdress
-    EXTERN  __gfx_coords
-    EXTERN  pix_return
+        EXTERN  pixeladdress
+        EXTERN  __gfx_coords
+        EXTERN  pix_return
 
-    INCLUDE "classic/gfx/grafix.inc"
-
+        INCLUDE "classic/gfx/grafix.inc"
 
 xorpixel:
-    ld      a, h
-    cp      _GFX_MAXX
-    ret     nc                          ; x0        out of range
+        ld      a, h
+        cp      _GFX_MAXX
+        ret     nc      ; x0        out of range
 
-    ld      a, l
-    cp      _GFX_MAXY
-    ret     nc                          ; y0        out of range
+        ld      a, l
+        cp      _GFX_MAXY
+        ret     nc      ; y0        out of range
 
-    ld      (__gfx_coords), hl
+        ld      (__gfx_coords), hl
 
-    push    bc
-    call    pixeladdress
-    ld      b, a
-    ld      a, 1
-    jr      z, xor_pixel                ; pixel is at bit 0...
+        push    bc
+        call    pixeladdress
+        ld      b, a
+        ld      a, 1
+        jr      z, xor_pixel    ; pixel is at bit 0...
 plot_position:
-    rlca
-    djnz    plot_position
-    pop     bc
+        rlca
+        djnz    plot_position
+        pop     bc
 
 xor_pixel:
-    xor     (hl)
-    jp      pix_return
+        xor     (hl)
+        jp      pix_return

@@ -31,19 +31,14 @@
 ;/*                                                                           */
 ;/*****************************************************************************/
 
-
-
 ; Error constants
 .enum
-        EM_ERR_OK                       ; No error
-        EM_ERR_NO_DRIVER                ; No driver available
-        EM_ERR_CANNOT_LOAD              ; Error loading driver
-        EM_ERR_INV_DRIVER               ; Invalid driver
-        EM_ERR_NO_DEVICE                ; Device (hardware) not found
-        EM_ERR_INSTALLED                ; A driver is already installed
+        EM_ERR_OK               ; No error
+        EM_ERR_NO_DRIVER        ; No driver available
+        EM_ERR_CANNOT_LOAD      ; Error loading driver
+        EM_ERR_INV_DRIVER       ; Invalid driver
+        EM_ERR_NO_DEVICE        ; Device (hardware) not found
+        EM_ERR_INSTALLED        ; A driver is already installed
 
-        EM_ERR_COUNT                    ; Special: Number of error messages
+        EM_ERR_COUNT    ; Special: Number of error messages
 .endenum
-
-
-

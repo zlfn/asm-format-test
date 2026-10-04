@@ -5,16 +5,16 @@
 ; location $0800 and the cc65 program start address
 ;
 
-        .constructor    initiobuf
-        .export         iobuf_alloc, iobuf_free
-        .import         __MAIN_START__
-        .import         incsp2, popptr1
+        .constructor initiobuf
+        .export iobuf_alloc, iobuf_free
+        .import __MAIN_START__
+        .import incsp2, popptr1
 
-        .include        "zeropage.inc"
-        .include        "errno.inc"
-        .include        "../filedes.inc"
+        .include "zeropage.inc"
+        .include "errno.inc"
+        .include "../filedes.inc"
 
-        .segment        "ONCE"
+        .segment "ONCE"
 
 initiobuf:
         ; Convert end address highbyte to table index
@@ -30,9 +30,9 @@ initiobuf:
 :       cpx     #MAX_FDS
         bcc     :+
         rts
-:       sta     table,x
+:       sta     table, x
         inx
-        bne     :--             ; Branch always
+        bne     :--     ; Branch always
 
 ; ------------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ iobuf_alloc:
 
         ; Search table for free entry
         ldx     #$00
-:       lda     table,x
+:       lda     table, x
         beq     :+
         inx
         cpx     #MAX_FDS
@@ -54,7 +54,7 @@ iobuf_alloc:
         rts
 
         ; Mark table entry as used
-:       dec     table,x
+:       dec     table, x
 
         ; Convert table index to address hibyte
         txa
@@ -68,10 +68,10 @@ iobuf_alloc:
         ; Store address in "memptr"
         ; (Y still equals 0 from popptr1)
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         dey
         tya
-        sta     (ptr1),y
+        sta     (ptr1), y
         rts
 
 iobuf_free:
@@ -84,7 +84,7 @@ iobuf_free:
 
         ; Mark table entry as free
         tax
-        inc     table,x
+        inc     table, x
         rts
 
 ; ------------------------------------------------------------------------

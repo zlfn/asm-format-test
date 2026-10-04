@@ -4,9 +4,9 @@
 ;	Set memory map and saves into the P_SAVE shadow
 ;
 
-    SECTION code_clib
-    PUBLIC  tvc_set_memorymap
-    INCLUDE "target/tvc/def/tvc.def"
+        SECTION code_clib
+        PUBLIC  tvc_set_memorymap
+        INCLUDE "target/tvc/def/tvc.def"
 
 ;
 ; Entry:        The new memory mapping value
@@ -16,9 +16,9 @@
 ;
 tvc_set_memorymap:
 _tvc_set_memorymap:
-    ld      a, l
-    ld      (P_SAVE), a                 ; Store the new value. This is needed for ROM routines. They map SYS to PAGE03
-                            ; but when finished they revert the mapping to the original one stored in P_SAVE.
-    OUT     (PORT_MMAP), a              ; Set the mapping
+        ld      a, l
+        ld      (P_SAVE), a     ; Store the new value. This is needed for ROM routines. They map SYS to PAGE03
+        ; but when finished they revert the mapping to the original one stored in P_SAVE.
+        OUT     (PORT_MMAP), a  ; Set the mapping
 
-    ret
+        ret

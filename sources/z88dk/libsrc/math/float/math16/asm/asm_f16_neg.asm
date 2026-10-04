@@ -25,14 +25,13 @@ PUBLIC asm_f24_neg
 PUBLIC asm_f16_neg
 
 .asm_f24_neg
-    ld a,e
-    xor 080h
-    ld e,a
-    ret
+        ld      a, e
+        xor     080h
+        ld      e, a
+        ret
 
 .asm_f16_neg
-    ld a,h
-    xor 080h
-    ld h,a
-    ret
-
+        ld      a, h
+        xor     080h
+        ld      h, a
+        ret

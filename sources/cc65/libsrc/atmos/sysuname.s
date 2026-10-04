@@ -4,9 +4,9 @@
 ; unsigned char __fastcall__ _sysuname (struct utsname* buf);
 ;
 
-        .export         __sysuname, utsdata
+        .export __sysuname, utsdata
 
-        .import         utscopy
+        .import utscopy
 
         __sysuname = utscopy
 
@@ -17,20 +17,20 @@
 
 utsdata:
         ; sysname
-        .asciiz         "cc65"
+        .asciiz "cc65"
 
         ; nodename
-        .asciiz         ""
+        .asciiz ""
 
         ; release
-        .byte           .string (>.version)
-        .byte           '.'
-        .byte           .string (<.version)
-        .byte           $00
+        .byte   .string (>.version)
+        .byte   '.'
+        .byte   .string (<.version)
+        .byte   $00
 
         ; version
-        .byte           '0'     ; unused
-        .byte           $00
+        .byte   '0'     ; unused
+        .byte   $00
 
         ; machine
-        .asciiz         "Oric Atmos"
+        .asciiz "Oric Atmos"

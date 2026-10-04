@@ -8,15 +8,15 @@ EXTERN am48_dconst_1
 
 am48_derror_onc:
 
-   ; exit : AC'= 1
-   ;        carry reset
-   ;
-   ; uses : af, bc', de', hl'
-   
-   exx
-   call am48_dconst_1
-   exx
-   
-   scf
-   ccf
-   ret
+        ; exit : AC'= 1
+        ;        carry reset
+        ;
+        ; uses : af, bc', de', hl'
+
+        exx
+        call    am48_dconst_1
+        exx
+
+        scf
+        ccf
+        ret

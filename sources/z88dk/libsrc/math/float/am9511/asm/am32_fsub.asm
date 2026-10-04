@@ -29,53 +29,51 @@ EXTERN asm_am9511_spec_add
 
 PUBLIC asm_am9511_fsub, asm_am9511_fsub_callee
 
-
 .asm_am9511_fsub
-    ld a,d
-    xor 080h
-    ld d,a                          ; y := −y for IEEE specials
-    call asm_am9511_spec_add
-    ret C
-    ld a,d
-    xor 080h
-    ld d,a                          ; restore y for APU FSUB
+        ld      a, d
+        xor     080h
+        ld      d, a    ; y := −y for IEEE specials
+        call    asm_am9511_spec_add
+        ret     C
+        ld      a, d
+        xor     080h
+        ld      d, a    ; restore y for APU FSUB
 
-    call asm_am9511_pushf           ; x
+        call    asm_am9511_pushf        ; x
 
-    call asm_am9511_pushf_fastcall  ; y
+        call    asm_am9511_pushf_fastcall       ; y
 
-    ld a,__IO_APU_OP_FSUB
-    AM9511_OUT_APU_CONTROL        ; x - y
+        ld      a, __IO_APU_OP_FSUB
+        AM9511_OUT_APU_CONTROL  ; x - y
 
-    jp asm_am9511_popf
-
+        jp      asm_am9511_popf
 
 .asm_am9511_fsub_callee
-    ld a,d
-    xor 080h
-    ld d,a
-    call asm_am9511_spec_add
-    jr NC,scal_apu
-    pop bc
-    pop af
-    pop af
-    push bc
-    ret
+        ld      a, d
+        xor     080h
+        ld      d, a
+        call    asm_am9511_spec_add
+        jr      NC, scal_apu
+        pop     bc
+        pop     af
+        pop     af
+        push    bc
+        ret
 
 .scal_apu
-    ld a,d
-    xor 080h
-    ld d,a
+        ld      a, d
+        xor     080h
+        ld      d, a
 
-    call asm_am9511_pushf
+        call    asm_am9511_pushf
 
-    call asm_am9511_pushf_fastcall
+        call    asm_am9511_pushf_fastcall
 
-    ld a,__IO_APU_OP_FSUB
-    AM9511_OUT_APU_CONTROL
+        ld      a, __IO_APU_OP_FSUB
+        AM9511_OUT_APU_CONTROL
 
-    pop hl
-    pop de
-    ex (sp),hl
+        pop     hl
+        pop     de
+        ex      (sp), hl
 
-    jp asm_am9511_popf
+        jp      asm_am9511_popf

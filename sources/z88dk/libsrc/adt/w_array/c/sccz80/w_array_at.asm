@@ -10,19 +10,18 @@ EXTERN asm_w_array_at
 
 w_array_at:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
-   
-   jp asm_w_array_at
+        pop     af
+        pop     bc
+        pop     hl
+
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_w_array_at
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _w_array_at
 defc _w_array_at = w_array_at
 ENDIF
-

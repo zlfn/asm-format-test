@@ -9,30 +9,30 @@ EXTERN asm_sp1_CreateSpr
 
 _sp1_CreateSpr_callee:
 
-   exx
-   pop bc
-   exx
+        exx
+        pop     bc
+        exx
 
-   pop de
-   pop bc
-   ld b,c
-   pop hl
-   ld c,l
-   pop hl
-   ex (sp),hl
-   ld a,c
-   ld c,l
-   pop hl
-   
-   exx
-   push bc
-   exx
-   
+        pop     de
+        pop     bc
+        ld      b, c
+        pop     hl
+        ld      c, l
+        pop     hl
+        ex      (sp), hl
+        ld      a,    c
+        ld      c,    l
+        pop     hl
+
+        exx
+        push    bc
+        exx
+
 l0_sp1_CreateSpr_callee:
 
-   push ix
-   
-   call asm_sp1_CreateSpr
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_sp1_CreateSpr
+
+        pop     ix
+        ret

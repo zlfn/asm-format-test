@@ -4,10 +4,9 @@
 ; unsigned char kbhit (void);
 ;
 
-        .export         _kbhit
+        .export _kbhit
 
-        .include        "pet.inc"
-
+        .include "pet.inc"
 
 .proc   _kbhit
 
@@ -18,5 +17,3 @@
 L9:     rts
 
 .endproc
-
-

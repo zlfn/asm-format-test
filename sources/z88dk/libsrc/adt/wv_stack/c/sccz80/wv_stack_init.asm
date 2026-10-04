@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _wv_stack_init
 defc _wv_stack_init = wv_stack_init
 ENDIF
-

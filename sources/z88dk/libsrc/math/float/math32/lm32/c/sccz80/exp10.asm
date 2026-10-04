@@ -9,18 +9,17 @@ ELSE
 ; Classic has a non-fastcall implementation
 
 exp10:
-    pop bc
-    pop hl
-    pop de
-    push de
-    push hl
-    push bc
-    jp _m32_exp10f
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+        jp      _m32_exp10f
 
 ; SDCC bridge for Classic
 PUBLIC _exp10
 defc _exp10 = exp10
-
 
 ; Clang bridge for Classic
 PUBLIC _exp10f

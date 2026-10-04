@@ -9,15 +9,15 @@ EXTERN asm_SMSlib_addSpriteClipping
 
 _SMS_addSpriteClipping:
 
-   pop af
-   pop bc
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push bc
-   push af
-   
-   ld h,l
-   jp asm_SMSlib_addSpriteClipping
+        pop     af
+        pop     bc
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    bc
+        push    af
+
+        ld      h, l
+        jp      asm_SMSlib_addSpriteClipping

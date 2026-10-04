@@ -5,7 +5,7 @@
 ; SPDX-License-Identifier: BSD-2-Clause-Patent
 ;;
 
-    SECTION .text
+        SECTION .text
 
 ;
 ; Following functions will be provided in C
@@ -21,8 +21,8 @@ extern ASM_PFX(FspApiCommon)
 ;----------------------------------------------------------------------------
 global ASM_PFX(NotifyPhaseApi)
 ASM_PFX(NotifyPhaseApi):
-  mov    rax,  2 ; FSP_API_INDEX.NotifyPhaseApiIndex
-  jmp    ASM_PFX(FspApiCommon)
+        mov     rax, 2  ; FSP_API_INDEX.NotifyPhaseApiIndex
+        jmp     ASM_PFX(FspApiCommon)
 
 ;----------------------------------------------------------------------------
 ; FspSiliconInit API
@@ -33,8 +33,8 @@ ASM_PFX(NotifyPhaseApi):
 ;----------------------------------------------------------------------------
 global ASM_PFX(FspSiliconInitApi)
 ASM_PFX(FspSiliconInitApi):
-  mov    rax,  5 ; FSP_API_INDEX.FspSiliconInitApiIndex
-  jmp    ASM_PFX(FspApiCommon)
+        mov     rax, 5  ; FSP_API_INDEX.FspSiliconInitApiIndex
+        jmp     ASM_PFX(FspApiCommon)
 
 ;----------------------------------------------------------------------------
 ; FspApiCommonContinue API
@@ -44,8 +44,8 @@ ASM_PFX(FspSiliconInitApi):
 ;----------------------------------------------------------------------------
 global ASM_PFX(FspApiCommonContinue)
 ASM_PFX(FspApiCommonContinue):
-  jmp    $
-  ret
+        jmp     $
+        ret
 
 ;----------------------------------------------------------------------------
 ; TempRamInit API
@@ -55,13 +55,12 @@ ASM_PFX(FspApiCommonContinue):
 ;----------------------------------------------------------------------------
 global ASM_PFX(TempRamInitApi)
 ASM_PFX(TempRamInitApi):
-  jmp $
-  ret
+        jmp     $
+        ret
 
 ;----------------------------------------------------------------------------
 ; Module Entrypoint API
 ;----------------------------------------------------------------------------
 global ASM_PFX(_ModuleEntryPoint)
 ASM_PFX(_ModuleEntryPoint):
-  jmp $
-
+        jmp     $

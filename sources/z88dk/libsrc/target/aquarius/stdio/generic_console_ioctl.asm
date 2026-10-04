@@ -1,5 +1,4 @@
 
-
         MODULE  generic_console_ioctl
         PUBLIC  generic_console_ioctl
 
@@ -24,12 +23,10 @@
         EXTERN  __console_h
         EXTERN  __console_w
 
-
         ; For AQ+ we have different values
         EXTERN  CLIB_GENCON_CAPS
         defc    CLIB_GENCON_CAPS_TEXT=CLIB_GENCON_CAPS
         defc    CLIB_GENCON_CAPS_BITMAP=CAP_GENCON_CUSTOM_FONT|CAP_GENCON_UDGS|CAP_GENCON_FG_COLOUR|CAP_GENCON_BG_COLOUR|CAP_GENCON_INVERSE|CAP_GENCON_BOLD|CAP_GENCON_UNDERLINE
-
 
 ; a = ioctl
 ; de = arg
@@ -41,7 +38,7 @@ generic_console_ioctl:
         ret     c
 
         ex      de, hl
-        ld      e, (hl)                 ;de = where we point to
+        ld      e,  (hl)        ;de = where we point to
         inc     hl
         ld      d, (hl)
         cp      IOCTL_GENCON_SET_UDGS
@@ -72,11 +69,10 @@ success:
         and     a
         ret
 
-
 ck_mode:
         cp      IOCTL_GENCON_SET_MODE
         jr      nz, failure
-        ld      a, e
+        ld      a,  e
         ; VCTRL_MODE_OFF             = (0 << 1),
         ; VCTRL_TEXT_ENABLE          = (1 << 0),
         ; VCTRL_MODE_TILEMAP         = (1 << 1),
@@ -109,10 +105,10 @@ setWidth:
         ld      (__console_w), a
         ld      a, b
 
-        ld      c, CLIB_GENCON_CAPS_TEXT
-        bit     0, a
+        ld      c,  CLIB_GENCON_CAPS_TEXT
+        bit     0,  a
         jr      nz, set_caps
-        ld      c, CLIB_GENCON_CAPS_BITMAP
+        ld      c,  CLIB_GENCON_CAPS_BITMAP
 set_caps:
         ld      a, 25
         ld      (__console_h), a
@@ -124,4 +120,3 @@ set_caps:
 failure:
         scf
         ret
-

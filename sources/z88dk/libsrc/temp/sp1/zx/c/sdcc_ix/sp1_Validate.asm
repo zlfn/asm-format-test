@@ -9,10 +9,10 @@ EXTERN _sp1_Validate_fastcall
 
 _sp1_Validate:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _sp1_Validate_fastcall
+        push    hl
+        push    af
+
+        jp      _sp1_Validate_fastcall

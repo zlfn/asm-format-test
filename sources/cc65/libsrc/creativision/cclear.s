@@ -3,9 +3,9 @@
 ;* void cclear (unsigned char length);
 ;*
 
-        .export     _cclearxy, _cclear
-        .import     popa, _gotoxy, cputdirect
-        .importzp   tmp1
+        .export _cclearxy, _cclear
+        .import popa, _gotoxy, cputdirect
+        .importzp tmp1
 
 _cclearxy:
         pha             ; Save length

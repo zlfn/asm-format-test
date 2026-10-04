@@ -4,18 +4,18 @@
 ; Handle disk command channels
 ;
 
-        .export         isdisk
-        .export         opencmdchannel
-        .export         closecmdchannel
-        .export         readdiskerror
-        .export         writediskcmd
-        .export         writefndiskcmd
+        .export isdisk
+        .export opencmdchannel
+        .export closecmdchannel
+        .export readdiskerror
+        .export writediskcmd
+        .export writefndiskcmd
 
-        .import         fncmd, fnlen, fnunit
-        .importzp       tmp1, ptr1
+        .import fncmd, fnlen, fnunit
+        .importzp tmp1, ptr1
 
-        .include        "cbm.inc"
-        .include        "filedes.inc"
+        .include "cbm.inc"
+        .include "filedes.inc"
 
 ;--------------------------------------------------------------------------
 ; isdisk: Return carry clear if the unit number in X is a disk, return
@@ -39,42 +39,41 @@
 
 opencmdchannel:
 
-        jsr     isdisk          ; Disk unit?
+        jsr     isdisk  ; Disk unit?
         bcs     success
 
 ; Is this channel already open?
 
-        ldy     opentab-FIRST_DRIVE,x
+        ldy     opentab-FIRST_DRIVE, x
         bne     isopen
 
 ; Open the command channel, Carry is still clear
 
-        stx     tmp1            ; Save the unit number
-        txa                     ; Get unit number
+        stx     tmp1    ; Save the unit number
+        txa             ; Get unit number
         adc     #(LFN_OFFS+MAX_FDS-FIRST_DRIVE)
-        ldy     #15             ; Secondary address for cmd channel
+        ldy     #15     ; Secondary address for cmd channel
         jsr     SETLFS
 
         lda     #0
-        jsr     SETNAM          ; No name supplied to OPEN
+        jsr     SETNAM  ; No name supplied to OPEN
 
         jsr     OPEN
-        bcs     done            ; Error, code is in A
+        bcs     done    ; Error, code is in A
 
 ; Command channel is open now. Increment the count
 
-        ldx     tmp1            ; Unit number
-        ldy     opentab-FIRST_DRIVE,x
+        ldx     tmp1    ; Unit number
+        ldy     opentab-FIRST_DRIVE, x
 isopen: iny
         tya
-        sta     opentab-FIRST_DRIVE,x
+        sta     opentab-FIRST_DRIVE, x
 
 ; Done, return success
 
-success:lda     #$00
-done:   cmp     #$00            ; Set flags for return code
+success: lda    #$00
+done:   cmp     #$00    ; Set flags for return code
         rts
-
 
 ;--------------------------------------------------------------------------
 ; closecmdchannel: Decrement the counter for the disk command channel and
@@ -84,25 +83,25 @@ done:   cmp     #$00            ; Set flags for return code
 
 closecmdchannel:
 
-        jsr     isdisk          ; Disk unit?
+        jsr     isdisk  ; Disk unit?
         bcs     success
 
 ; Is this channel really open?
 
-        ldy     opentab-FIRST_DRIVE,x
-        beq     success         ; OOPS! Channel is not open
+        ldy     opentab-FIRST_DRIVE, x
+        beq     success ; OOPS! Channel is not open
 
 ; Decrement the count and stor it back
 
         dey
         tya
-        sta     opentab-FIRST_DRIVE,x
+        sta     opentab-FIRST_DRIVE, x
 
 ; If the counter is now zero, close the channel. We still have carry clear
 ; when we come here.
 
         bne     success
-        txa                     ; Make LFN from drive number
+        txa     ; Make LFN from drive number
         adc     #(LFN_OFFS+MAX_FDS-FIRST_DRIVE)
         jsr     CLOSE
         bcs     done
@@ -122,23 +121,23 @@ readdiskerror:
 ; open, because this seems to be unnecessary in most cases.
 
         txa
-        clc                     ; Make LFN from drive number
+        clc             ; Make LFN from drive number
         adc     #(LFN_OFFS+MAX_FDS-FIRST_DRIVE)
         tax
-        jsr     CHKIN           ; Make the command channel input
-        bcs     done            ; Bail out with error code in A
+        jsr     CHKIN   ; Make the command channel input
+        bcs     done    ; Bail out with error code in A
 
         jsr     BASIN
-        and     #$0F            ; Make digit value from PETSCII
+        and     #$0F    ; Make digit value from PETSCII
         sta     tmp1
-        asl     a               ; * 2
-        asl     a               ; * 4, carry clear
-        adc     tmp1            ; * 5
-        asl     a               ; * 10
+        asl     a       ; * 2
+        asl     a       ; * 4, carry clear
+        adc     tmp1    ; * 5
+        asl     a       ; * 10
         sta     tmp1
 
         jsr     BASIN
-        and     #$0F            ; Make digit value from PETSCII
+        and     #$0F    ; Make digit value from PETSCII
         clc
         adc     tmp1
 
@@ -176,9 +175,9 @@ writefndiskcmd:
         sta     ptr1+1
 
         ldx     fnlen
-        inx                     ; Account for command char in fncmd
-        txa                     ; Length of name into A
-        ldx     fnunit          ; Unit
+        inx             ; Account for command char in fncmd
+        txa             ; Length of name into A
+        ldx     fnunit  ; Unit
 
 ; Run directly into writediskcmd
 
@@ -192,7 +191,7 @@ writefndiskcmd:
 writediskcmd:
 
         jsr     isdisk
-        bcs     success         ; No disk - already done
+        bcs     success ; No disk - already done
 
 ; Remember the length
 
@@ -201,16 +200,16 @@ writediskcmd:
 ; Write to the command channel.
 
         txa
-        clc                     ; Make LFN from drive number
+        clc             ; Make LFN from drive number
         adc     #(LFN_OFFS+MAX_FDS-FIRST_DRIVE)
         tax
-        jsr     CKOUT           ; Make the command channel output
-        bcs     done            ; Bail out with error code in A
+        jsr     CKOUT   ; Make the command channel output
+        bcs     done    ; Bail out with error code in A
 
         ldy     #$00
 @L1:    cpy     tmp1
         bcs     @L3
-        lda     (ptr1),y
+        lda     (ptr1), y
         iny
         jsr     BSOUT
         bcc     @L1
@@ -224,10 +223,9 @@ writediskcmd:
         lda     #$00
         rts
 
-
 ;--------------------------------------------------------------------------
 ; Data
 
 .bss
 
-opentab:        .res    MAX_DRIVES, 0
+opentab: .res   MAX_DRIVES, 0

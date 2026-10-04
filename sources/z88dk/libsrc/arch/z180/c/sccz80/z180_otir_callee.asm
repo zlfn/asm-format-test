@@ -10,10 +10,10 @@ EXTERN asm_z180_otir
 
 z180_otir_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
 
-   ld b,e
-   jp asm_z180_otir
+        ld      b, e
+        jp      asm_z180_otir

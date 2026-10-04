@@ -4,13 +4,13 @@
 ;* NB: All screen functions assume Graphics Mode 1 in a default configuration.
 ;* Therefore, this is hard coded to use $1000-$12FF as screen VRAM.
 
-        .export         _clrscr
-        .include        "creativision.inc"
+        .export _clrscr
+        .include "creativision.inc"
 
 _clrscr:
 
-        sei             ; Disable interrupts. Default INT handler reads VDP_STATUS
-                        ; and would lose any setup done here.
+        sei     ; Disable interrupts. Default INT handler reads VDP_STATUS
+                ; and would lose any setup done here.
 
         lda     #$00    ; VRAM offset low
         sta     VDP_CONTROL_W
@@ -29,7 +29,7 @@ L1:     sta     VDP_DATA_W
         dey
         bne     L1
 
-        cli             ; Let interrupts go again
+        cli     ; Let interrupts go again
 
         lda     #0
         sta     CURSOR_X

@@ -11,52 +11,51 @@ EXTERN error_znc
 
 asm_esx_m_tapein_info:
 
-   ; enter : hl = char *filename
-   ;         de = uint8_t *drive (0 = does not write)
-   ;
-   ; exit  : success
-   ;
-   ;            hl = 0
-   ;            carry reset
-   ;
-   ;         fail
-   ;
-   ;            hl = -1
-   ;            carry set, errno set
-   ;
-   ; uses  : af, bc, de, hl, ix
-   
-   push de
-   
-   ld b,2
-   
+        ; enter : hl = char *filename
+        ;         de = uint8_t *drive (0 = does not write)
+        ;
+        ; exit  : success
+        ;
+        ;            hl = 0
+        ;            carry reset
+        ;
+        ;         fail
+        ;
+        ;            hl = -1
+        ;            carry set, errno set
+        ;
+        ; uses  : af, bc, de, hl, ix
+
+        push    de
+
+        ld      b, 2
+
 IF __SDCC_IY
-   push hl
-   pop iy
+        push    hl
+        pop     iy
 ELSE
-   push hl
-   pop ix
+        push    hl
+        pop     ix
 ENDIF
 
-   rst __ESX_RST_SYS
-   defb __ESX_M_TAPEIN
-   
-   pop hl
-   
-   jp c, __esxdos_error_mc
-   
-   ld e,a
-   
-   ld a,h
-   or l
-   jr z, exit
-   
-   ld (hl),e
+        rst     __ESX_RST_SYS
+        defb    __ESX_M_TAPEIN
+
+        pop     hl
+
+        jp      c, __esxdos_error_mc
+
+        ld      e, a
+
+        ld      a, h
+        or      l
+        jr      z, exit
+
+        ld      (hl), e
 
 exit:
 
-   jp error_znc
-
+        jp      error_znc
 
 ; ***************************************************************************
 ; * M_TAPEIN ($8b) *

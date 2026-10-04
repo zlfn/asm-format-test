@@ -10,7 +10,7 @@
 ; in tmp1 and that is set to zero after the first round.
 ;
 
-        .constructor    initkbhit
+        .constructor initkbhit
         .export _kbhit
         .include "osic1p.inc"
         .include "extzp.inc"
@@ -19,16 +19,16 @@
 ; Internal state that needs to be preserved across calls.
 .segment        "EXTZP" : zeropage
 
-LASTSCAN:       .res    1       ; Result of previous keyboard scan
-DBNCCNT:        .res    1       ; Debounce counter
-KBDTMP:         .res    1       ; Temporary values
-CTRLSHIFT:      .res    1       ; State of CTRL and SHIFT keys
+LASTSCAN:  .res 1       ; Result of previous keyboard scan
+DBNCCNT:   .res 1       ; Debounce counter
+KBDTMP: .res    1       ; Temporary values
+CTRLSHIFT: .res 1       ; State of CTRL and SHIFT keys
 
 ; Initialize one-character buffer that is filled by kbhit()
-        .segment        "ONCE"
+        .segment "ONCE"
 initkbhit:
         lda     #$00
-        sta     CHARBUF         ; No character in buffer initially
+        sta     CHARBUF ; No character in buffer initially
 
         sta     LASTSCAN        ; Initialize keyboard state
         sta     DBNCCNT
@@ -85,7 +85,7 @@ LFD47:  clc
         tya                     ; Get bit number of pressed key
         adc     KBDTMP          ; Add previously calculated offset for keyboard row*7
         tay
-        lda     LFF3B,y         ; Read ASCII code for key from table
+        lda     LFF3B, y        ; Read ASCII code for key from table
 LFD50:  cmp     LASTSCAN        ; Debounce - same as last key scan?
         bne     LFD3D           ; If not, try again
         dec     DBNCCNT         ; Decrement debounce counter
@@ -159,19 +159,19 @@ LFCBE:  eor     #$FF
 ; Sets Z flag if no keys were pressed.
 ; Saves current value of A.
 
-LFCC6:  pha                     ; Save A
-        jsr     LFCCF           ; Read keyboard column
-        tax                     ; Save in X
-        pla                     ; Restore A
-        dex                     ; Decrement and then increment to
-        inx                     ; preserve value of X but set flags
+LFCC6:  pha             ; Save A
+        jsr     LFCCF   ; Read keyboard column
+        tax             ; Save in X
+        pla             ; Restore A
+        dex             ; Decrement and then increment to
+        inx             ; preserve value of X but set flags
         rts
 
 ; Read keyboard column.
 ; Invert the bits (pressed key(s) will show up as ones).
 
-LFCCF:  lda     KBD             ; Read keyboard hardware
-        eor     #$FF            ; Invert the bits
+LFCCF:  lda     KBD     ; Read keyboard hardware
+        eor     #$FF    ; Invert the bits
         rts
 
 ; Short fixed delay routine.

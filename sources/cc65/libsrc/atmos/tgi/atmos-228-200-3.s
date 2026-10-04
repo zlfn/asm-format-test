@@ -5,14 +5,14 @@
 ; 2014-09-10, Greg King <gregdk@users.sf.net>
 ;
 
-        .include        "zeropage.inc"
+        .include "zeropage.inc"
 
-        .include        "tgi-kernel.inc"
-        .include        "tgi-error.inc"
-        .include        "atmos.inc"
+        .include "tgi-kernel.inc"
+        .include "tgi-error.inc"
+        .include "atmos.inc"
 
-        .macpack        generic
-        .macpack        module
+        .macpack generic
+        .macpack module
 
 XSIZE   =       6               ; System font width
 YSIZE   =       8               ; System font height
@@ -20,7 +20,7 @@ YSIZE   =       8               ; System font height
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table and constants.
 
-        module_header   _atmos_228_200_3_tgi
+        module_header _atmos_228_200_3_tgi
 
 ; The first part of the header is a structure that has a signature,
 ; and defines the capabilities of the driver.
@@ -75,9 +75,9 @@ Y2      :=      ptr4
 
 .bss
 
-ERROR:          .res    1       ; Error code
-MODE:           .res    1       ; Graphics mode
-PALETTE:        .res    2
+ERROR:  .res    1       ; Error code
+MODE:   .res    1       ; Graphics mode
+PALETTE: .res   2
 
 ; Constant table
 
@@ -87,7 +87,7 @@ PALETTE:        .res    2
 ; (The third "color" actually flips a pixel
 ; between the foreground and background colors.)
 ;
-DEFPALETTE:     .byte   0, 1
+DEFPALETTE: .byte 0, 1
 
 .code
 
@@ -222,8 +222,8 @@ SETPALETTE:
         jmp     INK
 
 flipcolor:
-        lda     (ptr1),y
-        sta     PALETTE,y
+        lda     (ptr1),  y
+        sta     PALETTE, y
         cmp     #1
         beq     @flip
         cmp     #7
@@ -367,7 +367,6 @@ BAR:
 TEXTSTYLE:
         rts
 
-
 ; ------------------------------------------------------------------------
 ; OUTTEXT: Output text at x/y = ptr1/ptr2, using the current color and the
 ; current text style. The text to output is given as a zero-terminated
@@ -380,11 +379,11 @@ OUTTEXT:
         lda     Y1
         sub     #(YSIZE - 1)
         sta     PARAM2
-        lda     #3              ; (Move graphics cursor; don't draw)
+        lda     #3      ; (Move graphics cursor; don't draw)
         jsr     mymode
 
         ldy     #0
-@next:  lda     (ptr3),y
+@next:  lda     (ptr3), y
         beq     @end
         sta     PARAM1
         lda     #0

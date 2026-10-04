@@ -24,12 +24,12 @@
 #define SSI_SISR_RFF0		(1 << 2)
 #define SSI_SIER_RFF0_EN	(1 << 2)
 
-		.text
-		.global	imx_ssi_fiq_start
-		.global	imx_ssi_fiq_end
-		.global imx_ssi_fiq_base
-		.global imx_ssi_fiq_rx_buffer
-		.global imx_ssi_fiq_tx_buffer
+        .text
+        .global imx_ssi_fiq_start
+        .global imx_ssi_fiq_end
+        .global imx_ssi_fiq_base
+        .global imx_ssi_fiq_rx_buffer
+        .global imx_ssi_fiq_tx_buffer
 
 /*
  * imx_ssi_fiq_start is _intentionally_ not marked as a function symbol
@@ -39,106 +39,105 @@
  * of an FIQ: calling it directly will not work.
  */
 imx_ssi_fiq_start:
-		ldr r12, .L_imx_ssi_fiq_base
+        ldr     r12, .L_imx_ssi_fiq_base
 
-		/* TX */
-		ldr r13, .L_imx_ssi_fiq_tx_buffer
+        /* TX */
+        ldr     r13, .L_imx_ssi_fiq_tx_buffer
 
-		/* shall we send? */
-		ldr r11, [r12, #SSI_SIER]
-		tst r11, #SSI_SIER_TFE0_EN
-		beq 1f
+        /* shall we send? */
+        ldr     r11, [r12, #SSI_SIER]
+        tst     r11, #SSI_SIER_TFE0_EN
+        beq     1f
 
-		/* TX FIFO empty? */
-		ldr r11, [r12, #SSI_SISR]
-		tst r11, #SSI_SISR_TFE0
-		beq 1f
+        /* TX FIFO empty? */
+        ldr     r11, [r12, #SSI_SISR]
+        tst     r11, #SSI_SISR_TFE0
+        beq     1f
 
-		mov r10, #0x10000
-		sub r10, #1
-		and r10, r10, r8	/* r10: current buffer offset */
+        mov     r10, #0x10000
+        sub     r10, #1
+        and     r10, r10, r8    /* r10: current buffer offset */
 
-		add r13, r13, r10
+        add     r13, r13, r10
 
-		ldrh r11, [r13]
-		strh r11, [r12, #SSI_STX0]
+        ldrh    r11, [r13]
+        strh    r11, [r12, #SSI_STX0]
 
-		ldrh r11, [r13, #2]
-		strh r11, [r12, #SSI_STX0]
+        ldrh    r11, [r13, #2]
+        strh    r11, [r12, #SSI_STX0]
 
-		ldrh r11, [r13, #4]
-		strh r11, [r12, #SSI_STX0]
+        ldrh    r11, [r13, #4]
+        strh    r11, [r12, #SSI_STX0]
 
-		ldrh r11, [r13, #6]
-		strh r11, [r12, #SSI_STX0]
+        ldrh    r11, [r13, #6]
+        strh    r11, [r12, #SSI_STX0]
 
-		add r10, #8
-		lsr r11, r8, #16	/* r11: buffer size */
-		cmp r10, r11
-		lslgt r8, r11, #16
-		addle r8, #8
+        add     r10, #8
+        lsr     r11, r8,  #16   /* r11: buffer size */
+        cmp     r10, r11
+        lslgt   r8,  r11, #16
+        addle   r8,  #8
 1:
-		/* RX */
+        /* RX */
 
-		/* shall we receive? */
-		ldr r11, [r12, #SSI_SIER]
-		tst r11, #SSI_SIER_RFF0_EN
-		beq 1f
+        /* shall we receive? */
+        ldr     r11, [r12, #SSI_SIER]
+        tst     r11, #SSI_SIER_RFF0_EN
+        beq     1f
 
-		/* RX FIFO full? */
-		ldr r11, [r12, #SSI_SISR]
-		tst r11, #SSI_SISR_RFF0
-		beq 1f
+        /* RX FIFO full? */
+        ldr     r11, [r12, #SSI_SISR]
+        tst     r11, #SSI_SISR_RFF0
+        beq     1f
 
-		ldr r13, .L_imx_ssi_fiq_rx_buffer
+        ldr     r13, .L_imx_ssi_fiq_rx_buffer
 
-		mov r10, #0x10000
-		sub r10, #1
-		and r10, r10, r9	/* r10: current buffer offset */
+        mov     r10, #0x10000
+        sub     r10, #1
+        and     r10, r10, r9    /* r10: current buffer offset */
 
-		add r13, r13, r10
+        add     r13, r13, r10
 
-		ldr r11, [r12, #SSI_SACNT]
-		tst r11, #SSI_SACNT_AC97EN
+        ldr     r11, [r12, #SSI_SACNT]
+        tst     r11, #SSI_SACNT_AC97EN
 
-		ldr r11, [r12, #SSI_SRX0]
-		strh r11, [r13]
+        ldr     r11, [r12, #SSI_SRX0]
+        strh    r11, [r13]
 
-		ldr r11, [r12, #SSI_SRX0]
-		strh r11, [r13, #2]
+        ldr     r11, [r12, #SSI_SRX0]
+        strh    r11, [r13, #2]
 
-		/* dummy read to skip slot 12 */
-		ldrne r11, [r12, #SSI_SRX0]
+        /* dummy read to skip slot 12 */
+        ldrne   r11, [r12, #SSI_SRX0]
 
-		ldr r11, [r12, #SSI_SRX0]
-		strh r11, [r13, #4]
+        ldr     r11, [r12, #SSI_SRX0]
+        strh    r11, [r13, #4]
 
-		ldr r11, [r12, #SSI_SRX0]
-		strh r11, [r13, #6]
+        ldr     r11, [r12, #SSI_SRX0]
+        strh    r11, [r13, #6]
 
-		/* dummy read to skip slot 12 */
-		ldrne r11, [r12, #SSI_SRX0]
+        /* dummy read to skip slot 12 */
+        ldrne   r11, [r12, #SSI_SRX0]
 
-		add r10, #8
-		lsr r11, r9, #16	/* r11: buffer size */
-		cmp r10, r11
-		lslgt r9, r11, #16
-		addle r9, #8
+        add     r10, #8
+        lsr     r11, r9,  #16   /* r11: buffer size */
+        cmp     r10, r11
+        lslgt   r9,  r11, #16
+        addle   r9,  #8
 
 1:
-		@ return from FIQ
-		subs	pc, lr, #4
+        @ return from FIQ
+        subs    pc, lr, #4
 
-		.align
+        .align
 .L_imx_ssi_fiq_base:
 imx_ssi_fiq_base:
-		.word 0x0
+        .word   0x0
 .L_imx_ssi_fiq_rx_buffer:
 imx_ssi_fiq_rx_buffer:
-		.word 0x0
+        .word   0x0
 .L_imx_ssi_fiq_tx_buffer:
 imx_ssi_fiq_tx_buffer:
-		.word 0x0
+        .word   0x0
 .L_imx_ssi_fiq_end:
 imx_ssi_fiq_end:
-

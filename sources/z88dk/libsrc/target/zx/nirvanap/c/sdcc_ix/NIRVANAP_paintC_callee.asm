@@ -16,10 +16,10 @@ EXTERN asm_NIRVANAP_paintC
 
 _NIRVANAP_paintC_callee:
 
-   pop hl
-   pop bc          ; bc = attrs
-   ex (sp),hl
-   ld d,l          ; d = lin
-   ld e,h          ; e = col
+        pop     hl
+        pop     bc      ; bc = attrs
+        ex      (sp), hl
+        ld      d,    l ; d = lin
+        ld      e,    h ; e = col
 
-	jp asm_NIRVANAP_paintC
+        jp      asm_NIRVANAP_paintC

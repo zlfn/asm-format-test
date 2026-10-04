@@ -14,9 +14,9 @@
  * Purpose : obtain information about current prefetch abort.
  */
 
-	.align	5
+        .align  5
 ENTRY(legacy_pabort)
-	mov	r0, r4
-	mov	r1, #5
-	b	do_PrefetchAbort
+        mov     r0, r4
+        mov     r1, #5
+        b       do_PrefetchAbort
 ENDPROC(legacy_pabort)

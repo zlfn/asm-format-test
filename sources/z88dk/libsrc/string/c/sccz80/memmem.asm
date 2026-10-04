@@ -11,35 +11,35 @@ EXTERN asm_memmem
 
 memmem:
 
-   pop af
-   pop bc
-   pop de
-   pop hl
+        pop     af
+        pop     bc
+        pop     de
+        pop     hl
 IF __CLASSIC
-   exx
-   pop bc
-   push bc
-   exx
+        exx
+        pop     bc
+        push    bc
+        exx
 ELSE
-   pop ix
-   
-   push ix
+        pop     ix
+
+        push    ix
 ENDIF
-   push hl
-   push de
-   push bc
-   push af
-   
+        push    hl
+        push    de
+        push    bc
+        push    af
+
 IF __CLASSIC
-   exx
-   push bc
-   exx
-   ex  (sp),ix
-   call asm_memmem
-   pop ix
-   ret
+        exx
+        push    bc
+        exx
+        ex      (sp), ix
+        call    asm_memmem
+        pop     ix
+        ret
 ELSE
-   jp asm_memmem
+        jp      asm_memmem
 ENDIF
 
 ; SDCC bridge for Classic
@@ -48,7 +48,6 @@ PUBLIC _memmem
 defc _memmem = memmem
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___memmem
@@ -56,5 +55,3 @@ defc ___memmem = memmem
 ENDIF
 
 ENDIF
-
-

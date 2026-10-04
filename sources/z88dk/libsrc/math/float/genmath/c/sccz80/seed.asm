@@ -5,12 +5,11 @@
 ;
 ;
 
-    SECTION code_fp
-    PUBLIC  fpseed
-    EXTERN  dstore
-    EXTERN  fp_seed
-
+        SECTION code_fp
+        PUBLIC  fpseed
+        EXTERN  dstore
+        EXTERN  fp_seed
 
 fpseed:
-    ld      hl, fp_seed
-    jp      dstore
+        ld      hl, fp_seed
+        jp      dstore

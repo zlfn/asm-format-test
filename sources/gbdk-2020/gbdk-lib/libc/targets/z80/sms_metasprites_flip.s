@@ -1,4 +1,4 @@
-        .include    "global.s"
+        .include "global.s"
 
         .title  "Metasprites"
         .module Metasprites
@@ -7,7 +7,7 @@
 
         .area   _DATA
 
-        .globl ___current_metasprite, ___current_base_tile, ___render_shadow_OAM
+        .globl  ___current_metasprite, ___current_base_tile, ___render_shadow_OAM
 
         .area   _CODE
 
@@ -23,27 +23,27 @@
 
         ld      ix, (___current_metasprite)
 
-        ld      a, (___render_shadow_OAM)
+        ld      a,   (___render_shadow_OAM)
         ld      iyh, a
 1$:
         ld      a, 0(ix)        ; dy
         cp      #0x80
         jp      z, 2$
 .ifne neg_dy
-        neg                     ; apply flipy (or no-op)
+        neg     ; apply flipy (or no-op)
 .endif
         add     a, a
         sbc     a, a
         ld      h, a
         ld      a, 0(ix)
 .ifne neg_dy
-        neg                     ; apply flipy (or no-op)
+        neg     ; apply flipy (or no-op)
 .endif
         ld      l, a
         inc     ix
         add     hl, bc
-        ld      b, h
-        ld      c, l
+        ld      b,  h
+        ld      c,  l
 
         ld      a, #0x20
         add     l
@@ -51,7 +51,7 @@
         adc     h
         sub     l
         jp      nz, 5$
-        ld      a, l
+        ld      a,  l
         cp      #(0x20 + 0xC0)
         jp      c, 6$
 5$:
@@ -62,20 +62,20 @@
 7$:
         ld      a, 0(ix)        ; dx
 .ifne neg_dx
-        neg                     ; apply flipx (or no-op)
+        neg     ; apply flipx (or no-op)
 .endif
         add     a, a
         sbc     a, a
         ld      h, a
         ld      a, 0(ix)
 .ifne neg_dx
-        neg                     ; apply flipx (or no-op)
+        neg     ; apply flipx (or no-op)
 .endif
         ld      l, a
         inc     ix
         add     hl, de
         ex      de, hl
-        ld      a, d
+        ld      a,  d
         or      a
         jp      nz, 4$
 
@@ -86,7 +86,7 @@
         ld      0x40(iy), e
 
         ld      a, (___current_base_tile)
-        add     0(ix)           ; tile
+        add     0(ix)   ; tile
         inc     ix
         ld      0x41(iy), a
 
@@ -111,10 +111,10 @@
 .endm
 
 ___move_metasprite_flipx::
-    MOVE_METASPRITE_BODY 1,0
+        MOVE_METASPRITE_BODY 1, 0
 
 ___move_metasprite_flipy::
-    MOVE_METASPRITE_BODY 0,1
+        MOVE_METASPRITE_BODY 0, 1
 
 ___move_metasprite_flipxy::
-    MOVE_METASPRITE_BODY 1,1
+        MOVE_METASPRITE_BODY 1, 1

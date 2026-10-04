@@ -9,12 +9,12 @@ EXTERN asm_tshr_pxy2saddr
 
 _tshr_pxy2saddr:
 
-   pop af
-   pop hl
-   pop bc
+        pop     af
+        pop     hl
+        pop     bc
 
-   push bc
-   push hl
-   push af
+        push    bc
+        push    hl
+        push    af
 
-   jp asm_tshr_pxy2saddr
+        jp      asm_tshr_pxy2saddr

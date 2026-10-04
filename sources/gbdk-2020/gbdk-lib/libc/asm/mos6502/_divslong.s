@@ -27,81 +27,80 @@
 ;   might be covered by the GNU General Public License.
 ;-------------------------------------------------------------------------
 
-	.module _divslong
+        .module _divslong
 
 ;--------------------------------------------------------
 ; exported symbols
 ;--------------------------------------------------------
-	.globl __divslong
-	.globl ___sdivmod32
+        .globl  __divslong
+        .globl  ___sdivmod32
 
 ;--------------------------------------------------------
 ; local aliases
 ;--------------------------------------------------------
-	.define res0 "__divslong_PARM_1+0"
-	.define res1 "__divslong_PARM_1+1"
-	.define res2 "___SDCC_m6502_ret2"
-	.define res3 "___SDCC_m6502_ret3"
-	.define den  "__divslong_PARM_2"
-	.define rem  "___SDCC_m6502_ret4"
-	.define s1   "___SDCC_m6502_ret0"
-	.define s2   "___SDCC_m6502_ret1"
+        .define res0 "__divslong_PARM_1+0"
+        .define res1 "__divslong_PARM_1+1"
+        .define res2 "___SDCC_m6502_ret2"
+        .define res3 "___SDCC_m6502_ret3"
+        .define den  "__divslong_PARM_2"
+        .define rem  "___SDCC_m6502_ret4"
+        .define s1   "___SDCC_m6502_ret0"
+        .define s2   "___SDCC_m6502_ret1"
 
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE
+        .area   _CODE
 
 __divslong:
-	jsr	___sdivmod32
-	lda	*s1
-	eor	*s2
-	bpl	pos
+        jsr     ___sdivmod32
+        lda     *s1
+        eor     *s2
+        bpl     pos
 ; neg res
-	sec
-	lda	#0x00
-	sbc	*res0
-	tay
-	lda	#0x00
-	sbc	*res1
-	tax
-	lda	#0x00
-	sbc	*res2
-	sta	*res2
-	lda	#0x00
-	sbc	*res3
-	sta	*res3
-	tya
-	rts
+        sec
+        lda     #0x00
+        sbc     *res0
+        tay
+        lda     #0x00
+        sbc     *res1
+        tax
+        lda     #0x00
+        sbc     *res2
+        sta     *res2
+        lda     #0x00
+        sbc     *res3
+        sta     *res3
+        tya
+        rts
 pos:
-	lda	*res0
-	ldx	*res1
-	rts
+        lda     *res0
+        ldx     *res1
+        rts
 
 ___sdivmod32:
-	lda	*__divslong_PARM_1+3
-	sta	*s1
-	bpl 	pos1
-	ldy	#0
-	jsr	___neg_div32_param
+        lda     *__divslong_PARM_1+3
+        sta     *s1
+        bpl     pos1
+        ldy     #0
+        jsr     ___neg_div32_param
 pos1:
-	lda	*__divslong_PARM_2+3
-	sta	*s2
-	bpl 	pos2
-	ldy	#4
-	jsr	___neg_div32_param
+        lda     *__divslong_PARM_2+3
+        sta     *s2
+        bpl     pos2
+        ldy     #4
+        jsr     ___neg_div32_param
 pos2:
-	jmp 	___udivmod32
+        jmp     ___udivmod32
 
 ___neg_div32_param:
-	sec
-	ldx	#0x04
+        sec
+        ldx     #0x04
 loop:
-	lda	#0x00
-	sbc	*__divslong_PARM_1+0,y
-	sta	*__divslong_PARM_1+0,y
-	iny
-	dex
-	bne loop
-	rts
-
+        lda     #0x00
+        sbc     *__divslong_PARM_1+0, y
+        sta     *__divslong_PARM_1+0, y
+        iny
+        dex
+        bne     loop
+        rts

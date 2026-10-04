@@ -10,10 +10,10 @@ EXTERN asm_heap_alloc_fixed_unlocked
 
 heap_alloc_fixed_unlocked_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   push af
-   
-   jp asm_heap_alloc_fixed_unlocked
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        push    af
+
+        jp      asm_heap_alloc_fixed_unlocked

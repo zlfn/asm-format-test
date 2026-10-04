@@ -6,7 +6,7 @@ PUBLIC __aplib_var_byte
 PUBLIC __aplib_var_LWM
 PUBLIC __aplib_var_R0
 
-__aplib_var_bits:  defb 0
-__aplib_var_byte:  defb 0
-__aplib_var_LWM:   defb 0
-__aplib_var_R0:    defw 0
+__aplib_var_bits: defb 0
+__aplib_var_byte: defb 0
+__aplib_var_LWM:  defb 0
+__aplib_var_R0:   defw 0

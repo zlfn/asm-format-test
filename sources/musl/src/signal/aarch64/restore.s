@@ -6,5 +6,5 @@ __restore:
 .hidden __restore_rt
 .type __restore_rt,%function
 __restore_rt:
-	mov x8,#139 // SYS_rt_sigreturn
-	svc 0
+        mov     x8, #139        // SYS_rt_sigreturn
+        svc     0

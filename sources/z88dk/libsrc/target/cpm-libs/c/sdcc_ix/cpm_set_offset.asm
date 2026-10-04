@@ -10,14 +10,14 @@ EXTERN asm_cpm_set_offset
 
 _cpm_set_offset:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push bc
-   push af
-   
-   jp asm_cpm_set_offset
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    bc
+        push    af
+
+        jp      asm_cpm_set_offset

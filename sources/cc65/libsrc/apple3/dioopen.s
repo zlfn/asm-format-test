@@ -5,18 +5,18 @@
 ; dhandle_t __fastcall__ dio_open (unsigned char device);
 ;
 
-        .export         _dio_open
-        .import         return0, isdevice, currdev
+        .export _dio_open
+        .import return0, isdevice, currdev
 
-        .include        "errno.inc"
-        .include        "sos.inc"
+        .include "errno.inc"
+        .include "sos.inc"
 
 _dio_open:
         ; Check for valid device
         pha
         jsr     isdevice
         beq     :+
-        lda     #$28            ; "No device connected"
+        lda     #$28    ; "No device connected"
 
         ; Return oserror
 oserr:  sta     ___oserror

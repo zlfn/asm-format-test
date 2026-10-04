@@ -15,7 +15,7 @@
 ;
 ;------------------------------------------------------------------------------
 
-    SECTION .text
+        SECTION .text
 
 ;------------------------------------------------------------------------------
 ; UINT64
@@ -26,9 +26,8 @@
 ;------------------------------------------------------------------------------
 global ASM_PFX(InternalMathSwapBytes64)
 ASM_PFX(InternalMathSwapBytes64):
-    mov     eax, [esp + 8]              ; eax <- upper 32 bits
-    mov     edx, [esp + 4]              ; edx <- lower 32 bits
-    bswap   eax
-    bswap   edx
-    ret
-
+        mov     eax, [esp + 8]  ; eax <- upper 32 bits
+        mov     edx, [esp + 4]  ; edx <- lower 32 bits
+        bswap   eax
+        bswap   edx
+        ret

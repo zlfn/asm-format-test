@@ -4,7 +4,6 @@
 ; Low level stuff for screen output/console input
 ;
 
-        .exportzp       CURS_X, CURS_Y
+        .exportzp CURS_X, CURS_Y
 
-        .include        "mega65.inc"
-
+        .include "mega65.inc"

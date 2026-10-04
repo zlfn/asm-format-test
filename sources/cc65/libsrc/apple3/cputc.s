@@ -4,18 +4,17 @@
 ; void __fastcall__ cputc (char c);
 ;
 
-        .constructor    initconio
-        .export         _cputc, putcdirect
-        .export         consref, consdev, consinvflg
-        .export         consvpwidth, consvpheight
-        .export         setconioscr, setstdioscr, consscrflg
-        .import         cursor, xyref, yref
+        .constructor initconio
+        .export _cputc,  putcdirect
+        .export consref, consdev, consinvflg
+        .export consvpwidth, consvpheight
+        .export setconioscr, setstdioscr, consscrflg
+        .import cursor, xyref, yref
 
-        .include        "apple3.inc"
-        .include        "sos.inc"
+        .include "apple3.inc"
+        .include "sos.inc"
 
-        .segment        "ONCE"
-
+        .segment "ONCE"
 
 initconio:
 
@@ -53,24 +52,24 @@ initconio:
         .addr   setecho
 
         lda     #0
-        sta     consinvflg       ; init inverse flag = off
-        sta     consscrflg       ; init scroll flag = off
+        sta     consinvflg      ; init inverse flag = off
+        sta     consscrflg      ; init scroll flag = off
 
-        lda     #1               ; init cursor enabled
+        lda     #1      ; init cursor enabled
         sta     cursor
 
         rts
 
 ; open console param list
-opencon:    .byte   4
-            .addr   consname
-openref:    .byte   0
-            .word   0
-            .byte   0
+opencon: .byte  4
+        .addr   consname
+openref: .byte  0
+        .word   0
+        .byte   0
 
 consname:
-        .byte 8
-        .byte ".CONSOLE"
+        .byte   8
+        .byte   ".CONSOLE"
 
 ; write console param list
 initconw:
@@ -81,11 +80,11 @@ initconref:
         .word   5
 
 initscr:
-        .byte   16            ; set text mode
-        .byte   3             ; 80x24
-        .byte   28            ; clear viewport
-        .byte   21            ; cursor movement control
-        .byte   5             ; Scroll off
+        .byte   16      ; set text mode
+        .byte   3       ; 80x24
+        .byte   28      ; clear viewport
+        .byte   21      ; cursor movement control
+        .byte   5       ; Scroll off
 
 ;get dev num param list
 getconsdev:
@@ -96,14 +95,13 @@ cdev:   .byte   0
 ;control param list
 setecho:
         .byte   3
-        .byte   0             ; dev_num
+        .byte   0               ; dev_num
         .byte   0
-        .addr   setechooff    ; ctrl list
+        .addr   setechooff      ; ctrl list
 
 setechooff:
-        .byte   01            ; ctrl list length
-        .byte   00            ; no echo
-
+        .byte   01      ; ctrl list length
+        .byte   00      ; no echo
 
         .code
 
@@ -115,7 +113,7 @@ _cputc:
         cmp     #$0D
         beq     :+
         ora     #$80
-:       bit     consscrflg    ; check if wrap is off
+:       bit     consscrflg      ; check if wrap is off
         beq     putcdirect
         pha
         jsr     setconioscr
@@ -132,7 +130,7 @@ setconioscr:
         inc     consscrflg
         lda     #CONSOLE_CURSOR_MCTL
         jsr     putcdirect
-        lda     #$05         ; Scroll off
+        lda     #$05    ; Scroll off
         jsr     putcdirect
         rts
 
@@ -141,21 +139,19 @@ setstdioscr:
         dec     consscrflg
         lda     #CONSOLE_CURSOR_MCTL
         jsr     putcdirect
-        lda     #$0D         ; Scroll on
+        lda     #$0D    ; Scroll on
         jsr     putcdirect
         rts
-
 
         .data
 
 ; write console param list
-writecon: .byte   3
-writeref: .byte   0
-          .addr   charbuf
-          .word   1
+writecon: .byte 3
+writeref: .byte 0
+        .addr   charbuf
+        .word   1
 
-charbuf:  .byte   00
-
+charbuf: .byte  00
 
 ; Console ref_num and dev_num
 consref:
@@ -164,7 +160,7 @@ consdev:
         .byte   0
 consinvflg:
         .byte   0
-consscrflg:                   ; wrap/scroll flag on/off for conio/stdio
+consscrflg:     ; wrap/scroll flag on/off for conio/stdio
         .byte   0
 consvpwidth:
         .byte   80

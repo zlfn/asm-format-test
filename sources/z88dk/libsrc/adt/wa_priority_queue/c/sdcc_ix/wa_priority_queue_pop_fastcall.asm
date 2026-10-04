@@ -9,10 +9,10 @@ PUBLIC _wa_priority_queue_pop_fastcall
 EXTERN asm_wa_priority_queue_pop
 
 _wa_priority_queue_pop_fastcall:
-   
-   push ix
-   
-   call asm_wa_priority_queue_pop
 
-   pop ix
-   ret
+        push    ix
+
+        call    asm_wa_priority_queue_pop
+
+        pop     ix
+        ret

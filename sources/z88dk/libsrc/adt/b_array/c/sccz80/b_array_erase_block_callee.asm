@@ -10,16 +10,15 @@ EXTERN asm_b_array_erase_block
 
 b_array_erase_block_callee:
 
-   pop hl
-   pop de
-   pop bc
-   ex (sp),hl
-   
-   jp asm_b_array_erase_block
+        pop     hl
+        pop     de
+        pop     bc
+        ex      (sp), hl
+
+        jp      asm_b_array_erase_block
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _b_array_erase_block_callee
 defc _b_array_erase_block_callee = b_array_erase_block_callee
 ENDIF
-

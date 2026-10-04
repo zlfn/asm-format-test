@@ -33,25 +33,25 @@
  * Corrupted registers: r1-r3, r6, r8, r9-r11
  */
 ENTRY(tegra_disable_clean_inv_dcache)
-	stmfd	sp!, {r0, r4-r5, r7, r9-r11, lr}
-	dmb					@ ensure ordering
+        stmfd   sp!, {r0, r4-r5, r7, r9-r11, lr}
+        dmb     @ ensure ordering
 
-	/* Disable the D-cache */
-	mrc	p15, 0, r2, c1, c0, 0
-	tst	r2, #CR_C			@ see tegra_sleep_cpu()
-	bic	r2, r2, #CR_C
-	mcrne	p15, 0, r2, c1, c0, 0
-	isb
+        /* Disable the D-cache */
+        mrc     p15, 0,  r2, c1, c0, 0
+        tst     r2,  #CR_C      @ see tegra_sleep_cpu()
+        bic     r2,  r2, #CR_C
+        mcrne   p15, 0,  r2, c1, c0, 0
+        isb
 
-	/* Flush the D-cache */
-	cmp	r0, #TEGRA_FLUSH_CACHE_ALL
-	blne	v7_flush_dcache_louis
-	bleq	v7_flush_dcache_all
+        /* Flush the D-cache */
+        cmp     r0, #TEGRA_FLUSH_CACHE_ALL
+        blne    v7_flush_dcache_louis
+        bleq    v7_flush_dcache_all
 
-	/* Trun off coherency */
-	exit_smp r4, r5
+        /* Trun off coherency */
+        exit_smp r4, r5
 
-	ldmfd	sp!, {r0, r4-r5, r7, r9-r11, pc}
+        ldmfd   sp!, {r0, r4-r5, r7, r9-r11, pc}
 ENDPROC(tegra_disable_clean_inv_dcache)
 #endif
 
@@ -62,20 +62,20 @@ ENDPROC(tegra_disable_clean_inv_dcache)
  * set up the correct L2 cache data RAM latency
  */
 ENTRY(tegra_init_l2_for_a15)
-	mrc	p15, 0, r0, c0, c0, 5
-	ubfx	r0, r0, #8, #4
-	tst	r0, #1				@ only need for cluster 0
-	bne	_exit_init_l2_a15
+        mrc     p15, 0,  r0, c0, c0, 5
+        ubfx    r0,  r0, #8, #4
+        tst     r0,  #1 @ only need for cluster 0
+        bne     _exit_init_l2_a15
 
-	mrc	p15, 0x1, r0, c9, c0, 2
-	and	r0, r0, #7
-	cmp	r0, #2
-	bicne	r0, r0, #7
-	orrne	r0, r0, #2
-	mcrne	p15, 0x1, r0, c9, c0, 2
+        mrc     p15, 0x1, r0, c9, c0, 2
+        and     r0,  r0,  #7
+        cmp     r0,  #2
+        bicne   r0,  r0,  #7
+        orrne   r0,  r0,  #2
+        mcrne   p15, 0x1, r0, c9, c0, 2
 _exit_init_l2_a15:
 
-	ret	lr
+        ret     lr
 ENDPROC(tegra_init_l2_for_a15)
 
 /*
@@ -85,21 +85,21 @@ ENDPROC(tegra_init_l2_for_a15)
  * tegra?_tear_down_cpu
  */
 ENTRY(tegra_sleep_cpu_finish)
-	mov	r4, r0
-	/* Flush and disable the L1 data cache */
-	mov	r0, #TEGRA_FLUSH_CACHE_ALL
-	bl	tegra_disable_clean_inv_dcache
+        mov     r4, r0
+        /* Flush and disable the L1 data cache */
+        mov     r0, #TEGRA_FLUSH_CACHE_ALL
+        bl      tegra_disable_clean_inv_dcache
 
-	mov	r0, r4
-	mov32	r6, tegra_tear_down_cpu
-	ldr	r1, [r6]
-	add	r1, r1, r0
+        mov     r0, r4
+        mov32   r6, tegra_tear_down_cpu
+        ldr     r1, [r6]
+        add     r1, r1, r0
 
-	mov32	r3, tegra_shut_off_mmu
-	add	r3, r3, r0
-	mov	r0, r1
+        mov32   r3, tegra_shut_off_mmu
+        add     r3, r3, r0
+        mov     r0, r1
 
-	ret	r3
+        ret     r3
 ENDPROC(tegra_sleep_cpu_finish)
 
 /*
@@ -110,29 +110,29 @@ ENDPROC(tegra_sleep_cpu_finish)
  * called with VA=PA mapping
  * turns off MMU, icache, dcache and branch prediction
  */
-	.align	L1_CACHE_SHIFT
-	.pushsection	.idmap.text, "ax"
+        .align  L1_CACHE_SHIFT
+        .pushsection .idmap.text, "ax"
 ENTRY(tegra_shut_off_mmu)
-	mrc	p15, 0, r3, c1, c0, 0
-	movw	r2, #CR_I | CR_Z | CR_C | CR_M
-	bic	r3, r3, r2
-	dsb
-	mcr	p15, 0, r3, c1, c0, 0
-	isb
+        mrc     p15, 0,  r3, c1, c0, 0
+        movw    r2,  #CR_I | CR_Z | CR_C | CR_M
+        bic     r3,  r3, r2
+        dsb
+        mcr     p15, 0, r3, c1, c0, 0
+        isb
 #ifdef CONFIG_CACHE_L2X0
-	/* Disable L2 cache */
-	check_cpu_part_num 0xc09, r9, r10
-	retne	r0
+        /* Disable L2 cache */
+        check_cpu_part_num 0xc09, r9, r10
+        retne   r0
 
-	mov32	r2, TEGRA_ARM_PERIF_BASE + 0x3000
-	ldr	r3, [r2, #L2X0_CTRL]
-	tst	r3, #L2X0_CTRL_EN		@ see tegra_sleep_cpu()
-	mov	r3, #0
-	strne	r3, [r2, #L2X0_CTRL]
+        mov32   r2, TEGRA_ARM_PERIF_BASE + 0x3000
+        ldr     r3, [r2, #L2X0_CTRL]
+        tst     r3, #L2X0_CTRL_EN       @ see tegra_sleep_cpu()
+        mov     r3, #0
+        strne   r3, [r2, #L2X0_CTRL]
 #endif
-	ret	r0
+        ret     r0
 ENDPROC(tegra_shut_off_mmu)
-	.popsection
+        .popsection
 
 /*
  * tegra_switch_cpu_to_pllp
@@ -140,13 +140,13 @@ ENDPROC(tegra_shut_off_mmu)
  * In LP2 the normal cpu clock pllx will be turned off. Switch the CPU to pllp
  */
 ENTRY(tegra_switch_cpu_to_pllp)
-	/* in LP2 idle (SDRAM active), set the CPU burst policy to PLLP */
-	mov32	r5, TEGRA_CLK_RESET_BASE
-	mov	r0, #(2 << 28)			@ burst policy = run mode
-	orr	r0, r0, #(4 << 4)		@ use PLLP in run mode burst
-	str	r0, [r5, #CLK_RESET_CCLK_BURST]
-	mov	r0, #0
-	str	r0, [r5, #CLK_RESET_CCLK_DIVIDER]
-	ret	lr
+        /* in LP2 idle (SDRAM active), set the CPU burst policy to PLLP */
+        mov32   r5, TEGRA_CLK_RESET_BASE
+        mov     r0, #(2 << 28)          @ burst policy = run mode
+        orr     r0, r0, #(4 << 4)       @ use PLLP in run mode burst
+        str     r0, [r5, #CLK_RESET_CCLK_BURST]
+        mov     r0, #0
+        str     r0, [r5, #CLK_RESET_CCLK_DIVIDER]
+        ret     lr
 ENDPROC(tegra_switch_cpu_to_pllp)
 #endif

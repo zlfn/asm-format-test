@@ -13,6 +13,6 @@ EXTERN _heap
 ._mallinit
 .___mallinit
 
-   xor a
-   ld hl,_heap
-   jp l_setmem - 7           ; four bytes: 2*4-1
+        xor     a
+        ld      hl, _heap
+        jp      l_setmem - 7    ; four bytes: 2*4-1

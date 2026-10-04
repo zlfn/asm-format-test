@@ -16,63 +16,62 @@ PUBLIC m32__dtoa_digits
 
 .m32__dtoa_digits
 
-    ; generate decimal digits into buffer
-    ;
-    ; enter : EXX = mantissa bits, most sig four bits contain decimal digit
-    ;           B = number of digits to generate
-    ;           C = remaining significant digits
-    ;          HL = buffer * (address of next char to write)
-    ;
-    ; exit  :   B = remaining number of digits to generate
-    ;           C = remaining number of significant digits
-    ;          HL = buffer * (address of next char to write)
-    ;
-    ;          carry reset if exhausted significant digits and exit early (C=0, B!=0)
-    ;
-    ; uses  : af, bc, hl, bc', de', hl'
+        ; generate decimal digits into buffer
+        ;
+        ; enter : EXX = mantissa bits, most sig four bits contain decimal digit
+        ;           B = number of digits to generate
+        ;           C = remaining significant digits
+        ;          HL = buffer * (address of next char to write)
+        ;
+        ; exit  :   B = remaining number of digits to generate
+        ;           C = remaining number of significant digits
+        ;          HL = buffer * (address of next char to write)
+        ;
+        ;          carry reset if exhausted significant digits and exit early (C=0, B!=0)
+        ;
+        ; uses  : af, bc, hl, bc', de', hl'
 
-    ld a,c
-    or a
-    ret Z                       ; if no more significant digits
+        ld      a, c
+        or      a
+        ret     Z       ; if no more significant digits
 
-    exx
-    ld a,d
-    rra
-    rra
-    rra
-    rra
-    and $0f
-    add a,'0'                   ; a = decimal digit
+        exx
+        ld      a, d
+        rra
+        rra
+        rra
+        rra
+        and     $0f
+        add     a, '0'  ; a = decimal digit
 
-    exx
-    ld (hl+),a                  ; write decimal digit
+        exx
+        ld      (hl+), a        ; write decimal digit
 
-    exx
-    ld a,d
-    and $0f
-    ld d,a
-                                ; 10*a = 2*(4*a + a)     
-    push de                     ; DEHL *= 10
-    push hl
-    add hl,hl                   ; sla hl
-    rl de
-    add hl,hl                   ; sla hl
-    rl de
-    ex de,hl
-    ex (sp),hl
-    add hl,de
-    pop de
-    ex (sp),hl
-    adc hl,de
-    ex de,hl
-    pop hl
-    add hl,hl                   ; sla hl
-    rl de
+        exx
+        ld      a, d
+        and     $0f
+        ld      d, a
+        ; 10*a = 2*(4*a + a)
+        push    de      ; DEHL *= 10
+        push    hl
+        add     hl, hl  ; sla hl
+        rl      de
+        add     hl, hl  ; sla hl
+        rl      de
+        ex      de,   hl
+        ex      (sp), hl
+        add     hl,   de
+        pop     de
+        ex      (sp), hl
+        adc     hl,   de
+        ex      de,   hl
+        pop     hl
+        add     hl, hl  ; sla hl
+        rl      de
 
-    exx
-    dec c                       ; significant digits --
-    djnz m32__dtoa_digits
+        exx
+        dec     c       ; significant digits --
+        djnz    m32__dtoa_digits
 
-    scf                         ; indicate all digits output
-    ret
-
+        scf     ; indicate all digits output
+        ret

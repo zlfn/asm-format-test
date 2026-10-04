@@ -10,7 +10,7 @@ EXTERN asm_bit_beepfx_di
 
 bit_beepfx_di:
 
-   push hl
-   pop ix
-   
-   jp asm_bit_beepfx_di
+        push    hl
+        pop     ix
+
+        jp      asm_bit_beepfx_di

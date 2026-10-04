@@ -22,8 +22,8 @@
 /*
  * High loaded stuff by Hans Lermen & Werner Almesberger, Feb. 1996
  */
-	.code32
-	.text
+        .code32
+        .text
 
 #include <linux/init.h>
 #include <linux/linkage.h>
@@ -47,11 +47,11 @@
 /*
  * Locally defined symbols should be marked hidden:
  */
-	.hidden _bss
-	.hidden _ebss
-	.hidden _end
+        .hidden _bss
+        .hidden _ebss
+        .hidden _end
 
-	__HEAD
+        __HEAD
 
 /*
  * This macro gives the relative virtual address of X, i.e. the offset of X
@@ -78,7 +78,7 @@
  */
 #define rva(X) ((X) - startup_32)
 
-	.code32
+        .code32
 SYM_FUNC_START(startup_32)
 	/*
 	 * 32bit entry is 0 and it is ABI so immutable!
@@ -86,8 +86,8 @@ SYM_FUNC_START(startup_32)
 	 * kernel(text+data+bss+brk) ramdisk, zero_page, command line
 	 * all need to be under the 4G limit.
 	 */
-	cld
-	cli
+        cld
+        cli
 
 /*
  * Calculate the delta between where we were compiled to run
@@ -97,42 +97,42 @@ SYM_FUNC_START(startup_32)
  * data at 0x1e4 (defined as a scratch field) are used as the stack
  * for this calculation. Only 4 bytes are needed.
  */
-	leal	(BP_scratch+4)(%esi), %esp
-	call	1f
-1:	popl	%ebp
-	subl	$ rva(1b), %ebp
+        leal    (BP_scratch+4)(%esi), %esp
+        call    1f
+1:      popl    %ebp
+        subl    $ rva(1b), %ebp
 
-	/* Load new GDT with the 64bit segments using 32bit descriptor */
-	leal	rva(gdt)(%ebp), %eax
-	movl	%eax, 2(%eax)
-	lgdt	(%eax)
+        /* Load new GDT with the 64bit segments using 32bit descriptor */
+        leal    rva(gdt)(%ebp), %eax
+        movl    %eax, 2(%eax)
+        lgdt    (%eax)
 
-	/* Load segment registers with our descriptors */
-	movl	$__BOOT_DS, %eax
-	movl	%eax, %ds
-	movl	%eax, %es
-	movl	%eax, %fs
-	movl	%eax, %gs
-	movl	%eax, %ss
+        /* Load segment registers with our descriptors */
+        movl    $__BOOT_DS, %eax
+        movl    %eax, %ds
+        movl    %eax, %es
+        movl    %eax, %fs
+        movl    %eax, %gs
+        movl    %eax, %ss
 
-	/* Setup a stack and load CS from current GDT */
-	leal	rva(boot_stack_end)(%ebp), %esp
+        /* Setup a stack and load CS from current GDT */
+        leal    rva(boot_stack_end)(%ebp), %esp
 
-	pushl	$__KERNEL32_CS
-	leal	rva(1f)(%ebp), %eax
-	pushl	%eax
-	lretl
+        pushl   $__KERNEL32_CS
+        leal    rva(1f)(%ebp), %eax
+        pushl   %eax
+        lretl
 1:
 
-	/* Setup Exception handling for SEV-ES */
+        /* Setup Exception handling for SEV-ES */
 #ifdef CONFIG_AMD_MEM_ENCRYPT
-	call	startup32_load_idt
+        call    startup32_load_idt
 #endif
 
-	/* Make sure cpu supports long mode. */
-	call	verify_cpu
-	testl	%eax, %eax
-	jnz	.Lno_longmode
+        /* Make sure cpu supports long mode. */
+        call    verify_cpu
+        testl   %eax, %eax
+        jnz     .Lno_longmode
 
 /*
  * Compute the delta between where we were compiled to run at
@@ -144,50 +144,50 @@ SYM_FUNC_START(startup_32)
  */
 
 #ifdef CONFIG_RELOCATABLE
-	movl	%ebp, %ebx
-	movl	BP_kernel_alignment(%esi), %eax
-	decl	%eax
-	addl	%eax, %ebx
-	notl	%eax
-	andl	%eax, %ebx
-	cmpl	$LOAD_PHYSICAL_ADDR, %ebx
-	jae	1f
+        movl    %ebp, %ebx
+        movl    BP_kernel_alignment(%esi), %eax
+        decl    %eax
+        addl    %eax, %ebx
+        notl    %eax
+        andl    %eax, %ebx
+        cmpl    $LOAD_PHYSICAL_ADDR, %ebx
+        jae     1f
 #endif
-	movl	$LOAD_PHYSICAL_ADDR, %ebx
+        movl    $LOAD_PHYSICAL_ADDR, %ebx
 1:
 
-	/* Target address to relocate to for decompression */
-	addl	BP_init_size(%esi), %ebx
-	subl	$ rva(_end), %ebx
+        /* Target address to relocate to for decompression */
+        addl    BP_init_size(%esi), %ebx
+        subl    $ rva(_end), %ebx
 
 /*
  * Prepare for entering 64 bit mode
  */
 
-	/* Enable PAE mode */
-	movl	%cr4, %eax
-	orl	$X86_CR4_PAE, %eax
-	movl	%eax, %cr4
+        /* Enable PAE mode */
+        movl    %cr4, %eax
+        orl     $X86_CR4_PAE, %eax
+        movl    %eax, %cr4
 
  /*
   * Build early 4G boot pagetable
   */
-	xorl	%edx, %edx
+        xorl    %edx, %edx
 #ifdef	CONFIG_AMD_MEM_ENCRYPT
-	call	get_sev_encryption_bit
-	xorl	%edx, %edx
-	testl	%eax, %eax
-	jz	1f
+        call    get_sev_encryption_bit
+        xorl    %edx, %edx
+        testl   %eax, %eax
+        jz      1f
 
-	/* Encryption bit is always above bit 31 */
-	subl	$32, %eax
+        /* Encryption bit is always above bit 31 */
+        subl    $32, %eax
 
 	/*
 	 * If SEV is active then set the encryption mask in the page tables.
 	 * This will ensure that when the kernel is copied and decompressed it
 	 * will be done so encrypted.
 	 */
-	bts	%eax, %edx
+        bts     %eax, %edx
 
 	/*
 	 * Set MSR_AMD64_SEV_ENABLED_BIT in sev_status so that
@@ -196,63 +196,63 @@ SYM_FUNC_START(startup_32)
 	 * MSR_AMD_SEV_STATUS later, but only MSR_AMD64_SEV_ENABLED_BIT
 	 * needs to be set for now.
 	 */
-	movl	$1, rva(sev_status)(%ebp)
+        movl    $1, rva(sev_status)(%ebp)
 1:
 #endif
 
-	/* Initialize Page tables to 0 */
-	leal	rva(pgtable)(%ebx), %edi
-	xorl	%eax, %eax
-	movl	$(BOOT_INIT_PGT_SIZE/4), %ecx
-	rep	stosl
+        /* Initialize Page tables to 0 */
+        leal    rva(pgtable)(%ebx), %edi
+        xorl    %eax, %eax
+        movl    $(BOOT_INIT_PGT_SIZE/4), %ecx
+        rep	stosl
 
-	/* Build Level 4 */
-	leal	rva(pgtable + 0)(%ebx), %edi
-	leal	0x1007 (%edi), %eax
-	movl	%eax, 0(%edi)
-	addl	%edx, 4(%edi)
+        /* Build Level 4 */
+        leal    rva(pgtable + 0)(%ebx), %edi
+        leal    0x1007 (%edi), %eax
+        movl    %eax, 0(%edi)
+        addl    %edx, 4(%edi)
 
-	/* Build Level 3 */
-	leal	rva(pgtable + 0x1000)(%ebx), %edi
-	leal	0x1007(%edi), %eax
-	movl	$4, %ecx
-1:	movl	%eax, 0x00(%edi)
-	addl	%edx, 0x04(%edi)
-	addl	$0x00001000, %eax
-	addl	$8, %edi
-	decl	%ecx
-	jnz	1b
+        /* Build Level 3 */
+        leal    rva(pgtable + 0x1000)(%ebx), %edi
+        leal    0x1007(%edi), %eax
+        movl    $4,   %ecx
+1:      movl    %eax, 0x00(%edi)
+        addl    %edx, 0x04(%edi)
+        addl    $0x00001000, %eax
+        addl    $8, %edi
+        decl    %ecx
+        jnz     1b
 
-	/* Build Level 2 */
-	leal	rva(pgtable + 0x2000)(%ebx), %edi
-	movl	$0x00000183, %eax
-	movl	$2048, %ecx
-1:	movl	%eax, 0(%edi)
-	addl	%edx, 4(%edi)
-	addl	$0x00200000, %eax
-	addl	$8, %edi
-	decl	%ecx
-	jnz	1b
+        /* Build Level 2 */
+        leal    rva(pgtable + 0x2000)(%ebx), %edi
+        movl    $0x00000183, %eax
+        movl    $2048, %ecx
+1:      movl    %eax,  0(%edi)
+        addl    %edx,  4(%edi)
+        addl    $0x00200000, %eax
+        addl    $8, %edi
+        decl    %ecx
+        jnz     1b
 
-	/* Enable the boot page tables */
-	leal	rva(pgtable)(%ebx), %eax
-	movl	%eax, %cr3
+        /* Enable the boot page tables */
+        leal    rva(pgtable)(%ebx), %eax
+        movl    %eax, %cr3
 
-	/* Enable Long mode in EFER (Extended Feature Enable Register) */
-	movl	$MSR_EFER, %ecx
-	rdmsr
-	btsl	$_EFER_LME, %eax
-	wrmsr
+        /* Enable Long mode in EFER (Extended Feature Enable Register) */
+        movl    $MSR_EFER, %ecx
+        rdmsr
+        btsl    $_EFER_LME, %eax
+        wrmsr
 
-	/* After gdt is loaded */
-	xorl	%eax, %eax
-	lldt	%ax
-	movl    $__BOOT_TSS, %eax
-	ltr	%ax
+        /* After gdt is loaded */
+        xorl    %eax, %eax
+        lldt    %ax
+        movl    $__BOOT_TSS, %eax
+        ltr     %ax
 
 #ifdef CONFIG_AMD_MEM_ENCRYPT
-	/* Check if the C-bit position is correct when SEV is active */
-	call	startup32_check_sev_cbit
+        /* Check if the C-bit position is correct when SEV is active */
+        call    startup32_check_sev_cbit
 #endif
 
 	/*
@@ -265,20 +265,20 @@ SYM_FUNC_START(startup_32)
 	 * We place all of the values on our mini stack so lret can
 	 * used to perform that far jump.
 	 */
-	leal	rva(startup_64)(%ebp), %eax
-	pushl	$__KERNEL_CS
-	pushl	%eax
+        leal    rva(startup_64)(%ebp), %eax
+        pushl   $__KERNEL_CS
+        pushl   %eax
 
-	/* Enter paged protected Mode, activating Long Mode */
-	movl	$CR0_STATE, %eax
-	movl	%eax, %cr0
+        /* Enter paged protected Mode, activating Long Mode */
+        movl    $CR0_STATE, %eax
+        movl    %eax, %cr0
 
-	/* Jump from 32bit compatibility mode into 64bit mode. */
-	lret
+        /* Jump from 32bit compatibility mode into 64bit mode. */
+        lret
 SYM_FUNC_END(startup_32)
 
-	.code64
-	.org 0x200
+        .code64
+        .org    0x200
 SYM_CODE_START(startup_64)
 	/*
 	 * 64bit entry is 0x200 and it is ABI so immutable!
@@ -291,16 +291,16 @@ SYM_CODE_START(startup_64)
 	 * and command line.
 	 */
 
-	cld
-	cli
+        cld
+        cli
 
-	/* Setup data segments. */
-	xorl	%eax, %eax
-	movl	%eax, %ds
-	movl	%eax, %es
-	movl	%eax, %ss
-	movl	%eax, %fs
-	movl	%eax, %gs
+        /* Setup data segments. */
+        xorl    %eax, %eax
+        movl    %eax, %ds
+        movl    %eax, %es
+        movl    %eax, %ss
+        movl    %eax, %fs
+        movl    %eax, %gs
 
 	/*
 	 * Compute the decompressed kernel start address.  It is where
@@ -315,27 +315,27 @@ SYM_CODE_START(startup_64)
 	 * may have been invoked via the 64-bit entry point.
 	 */
 
-	/* Start with the delta to where the kernel will run at. */
+        /* Start with the delta to where the kernel will run at. */
 #ifdef CONFIG_RELOCATABLE
-	leaq	startup_32(%rip) /* - $startup_32 */, %rbp
-	movl	BP_kernel_alignment(%rsi), %eax
-	decl	%eax
-	addq	%rax, %rbp
-	notq	%rax
-	andq	%rax, %rbp
-	cmpq	$LOAD_PHYSICAL_ADDR, %rbp
-	jae	1f
+        leaq    startup_32(%rip) /* - $startup_32 */, %rbp
+        movl    BP_kernel_alignment(%rsi), %eax
+        decl    %eax
+        addq    %rax, %rbp
+        notq    %rax
+        andq    %rax, %rbp
+        cmpq    $LOAD_PHYSICAL_ADDR, %rbp
+        jae     1f
 #endif
-	movq	$LOAD_PHYSICAL_ADDR, %rbp
+        movq    $LOAD_PHYSICAL_ADDR, %rbp
 1:
 
-	/* Target address to relocate to for decompression */
-	movl	BP_init_size(%rsi), %ebx
-	subl	$ rva(_end), %ebx
-	addq	%rbp, %rbx
+        /* Target address to relocate to for decompression */
+        movl    BP_init_size(%rsi), %ebx
+        subl    $ rva(_end), %ebx
+        addq    %rbp, %rbx
 
-	/* Set up the stack */
-	leaq	rva(boot_stack_end)(%rbx), %rsp
+        /* Set up the stack */
+        leaq    rva(boot_stack_end)(%rbx), %rsp
 
 	/*
 	 * At this point we are in long mode with 4-level paging enabled,
@@ -358,16 +358,16 @@ SYM_CODE_START(startup_64)
 	 * 32-bit mode.
 	 */
 
-	/* Make sure we have GDT with 32-bit code segment */
-	leaq	gdt64(%rip), %rax
-	addq	%rax, 2(%rax)
-	lgdt	(%rax)
+        /* Make sure we have GDT with 32-bit code segment */
+        leaq    gdt64(%rip), %rax
+        addq    %rax, 2(%rax)
+        lgdt    (%rax)
 
-	/* Reload CS so IRET returns to a CS actually in the GDT */
-	pushq	$__KERNEL_CS
-	leaq	.Lon_kernel_cs(%rip), %rax
-	pushq	%rax
-	lretq
+        /* Reload CS so IRET returns to a CS actually in the GDT */
+        pushq   $__KERNEL_CS
+        leaq    .Lon_kernel_cs(%rip), %rax
+        pushq   %rax
+        lretq
 
 .Lon_kernel_cs:
 	/*
@@ -375,9 +375,9 @@ SYM_CODE_START(startup_64)
 	 * loader, and this needs to be preserved across C function calls. So
 	 * move it into a callee saved register.
 	 */
-	movq	%rsi, %r15
+        movq    %rsi, %r15
 
-	call	load_stage1_idt
+        call    load_stage1_idt
 
 #ifdef CONFIG_AMD_MEM_ENCRYPT
 	/*
@@ -390,14 +390,14 @@ SYM_CODE_START(startup_64)
 	 * detection/setup to ensure that has been done in advance of any dependent
 	 * code. Pass the boot_params pointer as the first argument.
 	 */
-	movq	%r15, %rdi
-	call	sev_enable
+        movq    %r15, %rdi
+        call    sev_enable
 #endif
 
-	/* Preserve only the CR4 bits that must be preserved, and clear the rest */
-	movq	%cr4, %rax
-	andl	$(X86_CR4_PAE | X86_CR4_MCE | X86_CR4_LA57), %eax
-	movq	%rax, %cr4
+        /* Preserve only the CR4 bits that must be preserved, and clear the rest */
+        movq    %cr4, %rax
+        andl    $(X86_CR4_PAE | X86_CR4_MCE | X86_CR4_LA57), %eax
+        movq    %rax, %cr4
 
 	/*
 	 * configure_5level_paging() updates the number of paging levels using
@@ -408,132 +408,132 @@ SYM_CODE_START(startup_64)
 	 * argument is the relocated address of the page table to use instead
 	 * of the page table in trampoline memory (if required).
 	 */
-	movq	%r15, %rdi
-	leaq	rva(top_pgtable)(%rbx), %rsi
-	call	configure_5level_paging
+        movq    %r15, %rdi
+        leaq    rva(top_pgtable)(%rbx), %rsi
+        call    configure_5level_paging
 
-	/* Zero EFLAGS */
-	pushq	$0
-	popfq
+        /* Zero EFLAGS */
+        pushq   $0
+        popfq
 
 /*
  * Copy the compressed kernel to the end of our buffer
  * where decompression in place becomes safe.
  */
-	leaq	(_bss-8)(%rip), %rsi
-	leaq	rva(_bss-8)(%rbx), %rdi
-	movl	$(_bss - startup_32), %ecx
-	shrl	$3, %ecx
-	std
-	rep	movsq
-	cld
+        leaq    (_bss-8)(%rip),    %rsi
+        leaq    rva(_bss-8)(%rbx), %rdi
+        movl    $(_bss - startup_32), %ecx
+        shrl    $3, %ecx
+        std
+        rep	movsq
+        cld
 
 	/*
 	 * The GDT may get overwritten either during the copy we just did or
 	 * during extract_kernel below. To avoid any issues, repoint the GDTR
 	 * to the new copy of the GDT.
 	 */
-	leaq	rva(gdt64)(%rbx), %rax
-	leaq	rva(gdt)(%rbx), %rdx
-	movq	%rdx, 2(%rax)
-	lgdt	(%rax)
+        leaq    rva(gdt64)(%rbx), %rax
+        leaq    rva(gdt)(%rbx),   %rdx
+        movq    %rdx, 2(%rax)
+        lgdt    (%rax)
 
 /*
  * Jump to the relocated address.
  */
-	leaq	rva(.Lrelocated)(%rbx), %rax
-	jmp	*%rax
+        leaq    rva(.Lrelocated)(%rbx), %rax
+        jmp     *%rax
 SYM_CODE_END(startup_64)
 
-	.text
+        .text
 SYM_FUNC_START_LOCAL_NOALIGN(.Lrelocated)
 
 /*
  * Clear BSS (stack is currently empty)
  */
-	xorl	%eax, %eax
-	leaq    _bss(%rip), %rdi
-	leaq    _ebss(%rip), %rcx
-	subq	%rdi, %rcx
-	shrq	$3, %rcx
-	rep	stosq
+        xorl    %eax, %eax
+        leaq    _bss(%rip),  %rdi
+        leaq    _ebss(%rip), %rcx
+        subq    %rdi, %rcx
+        shrq    $3,   %rcx
+        rep	stosq
 
-	call	load_stage2_idt
+        call    load_stage2_idt
 
-	/* Pass boot_params to initialize_identity_maps() */
-	movq	%r15, %rdi
-	call	initialize_identity_maps
+        /* Pass boot_params to initialize_identity_maps() */
+        movq    %r15, %rdi
+        call    initialize_identity_maps
 
 /*
  * Do the extraction, and jump to the new kernel..
  */
-	/* pass struct boot_params pointer and output target address */
-	movq	%r15, %rdi
-	movq	%rbp, %rsi
-	call	extract_kernel		/* returns kernel entry point in %rax */
+        /* pass struct boot_params pointer and output target address */
+        movq    %r15, %rdi
+        movq    %rbp, %rsi
+        call    extract_kernel  /* returns kernel entry point in %rax */
 
 /*
  * Jump to the decompressed kernel.
  */
-	movq	%r15, %rsi
-	jmp	*%rax
+        movq    %r15, %rsi
+        jmp     *%rax
 SYM_FUNC_END(.Lrelocated)
 
-	.code32
+        .code32
 SYM_FUNC_START_LOCAL_NOALIGN(.Lno_longmode)
-	/* This isn't an x86-64 CPU, so hang intentionally, we cannot continue */
+        /* This isn't an x86-64 CPU, so hang intentionally, we cannot continue */
 1:
-	hlt
-	jmp     1b
+        hlt
+        jmp     1b
 SYM_FUNC_END(.Lno_longmode)
 
-	.globl	verify_cpu
+        .globl  verify_cpu
 #include "../../kernel/verify_cpu.S"
 
-	.data
+        .data
 SYM_DATA_START_LOCAL(gdt64)
-	.word	gdt_end - gdt - 1
-	.quad   gdt - gdt64
+        .word   gdt_end - gdt - 1
+        .quad   gdt - gdt64
 SYM_DATA_END(gdt64)
-	.balign	8
+        .balign 8
 SYM_DATA_START_LOCAL(gdt)
-	.word	gdt_end - gdt - 1
-	.long	0
-	.word	0
-	.quad	0x00cf9a000000ffff	/* __KERNEL32_CS */
-	.quad	0x00af9a000000ffff	/* __KERNEL_CS */
-	.quad	0x00cf92000000ffff	/* __KERNEL_DS */
-	.quad	0x0080890000000000	/* TS descriptor */
-	.quad   0x0000000000000000	/* TS continued */
+        .word   gdt_end - gdt - 1
+        .long   0
+        .word   0
+        .quad   0x00cf9a000000ffff      /* __KERNEL32_CS */
+        .quad   0x00af9a000000ffff      /* __KERNEL_CS */
+        .quad   0x00cf92000000ffff      /* __KERNEL_DS */
+        .quad   0x0080890000000000      /* TS descriptor */
+        .quad   0x0000000000000000      /* TS continued */
 SYM_DATA_END_LABEL(gdt, SYM_L_LOCAL, gdt_end)
 
 SYM_DATA_START(boot_idt_desc)
-	.word	boot_idt_end - boot_idt - 1
-	.quad	0
+        .word   boot_idt_end - boot_idt - 1
+        .quad   0
 SYM_DATA_END(boot_idt_desc)
-	.balign 8
+        .balign 8
 SYM_DATA_START(boot_idt)
-	.rept	BOOT_IDT_ENTRIES
-	.quad	0
-	.quad	0
-	.endr
+        .rept   BOOT_IDT_ENTRIES
+                .quad   0
+                .quad   0
+        .endr
 SYM_DATA_END_LABEL(boot_idt, SYM_L_GLOBAL, boot_idt_end)
 
 /*
  * Stack and heap for uncompression
  */
-	.bss
-	.balign 4
+        .bss
+        .balign 4
 SYM_DATA_START_LOCAL(boot_stack)
-	.fill BOOT_STACK_SIZE, 1, 0
-	.balign 16
+        .fill   BOOT_STACK_SIZE, 1, 0
+        .balign 16
 SYM_DATA_END_LABEL(boot_stack, SYM_L_LOCAL, boot_stack_end)
 
 /*
  * Space for page tables (not in .bss so not zeroed)
  */
-	.section ".pgtable","aw",@nobits
-	.balign 4096
+        .section ".pgtable", "aw", @nobits
+        .balign 4096
 SYM_DATA_LOCAL(pgtable,		.fill BOOT_PGT_SIZE, 1, 0)
 
 /*

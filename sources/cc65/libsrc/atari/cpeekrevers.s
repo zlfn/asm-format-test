@@ -4,15 +4,14 @@
 ; unsigned char cpeekrevers (void);
 ;
 
-        .export         _cpeekrevers
+        .export _cpeekrevers
 
-        .include        "atari.inc"
-
+        .include "atari.inc"
 
 _cpeekrevers:
-        lda     OLDCHR          ; get char under cursor
-        and     #$80            ; get reverse bit
+        lda     OLDCHR  ; get char under cursor
+        and     #$80    ; get reverse bit
         asl     a
-        tax                     ; ldx #>$0000
-        rol     a               ; return boolean value
+        tax             ; ldx #>$0000
+        rol     a       ; return boolean value
         rts

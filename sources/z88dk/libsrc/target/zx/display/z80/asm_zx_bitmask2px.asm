@@ -16,27 +16,27 @@ PUBLIC asm_zx_bitmask2px
 
 asm_zx_bitmask2px:
 
-   ; enter :  l = 8-bit bitmask
-   ;
-   ; exit  :  l = x coordinate corresponding to leftmost set bit
-   ;
-   ; uses  : af, l
+        ; enter :  l = 8-bit bitmask
+        ;
+        ; exit  :  l = x coordinate corresponding to leftmost set bit
+        ;
+        ; uses  : af, l
 
 IF __SCCZ80
-   ld h,0
+        ld      h, 0
 ENDIF
 
-   ld a,l
+        ld      a, l
 
-   or a
-   ret z
-   
-   ld l,$ff
-   
+        or      a
+        ret     z
+
+        ld      l, $ff
+
 loop:
 
-   inc l
-   add a,a
-   jp nc, loop
-   
-   ret
+        inc     l
+        add     a,  a
+        jp      nc, loop
+
+        ret

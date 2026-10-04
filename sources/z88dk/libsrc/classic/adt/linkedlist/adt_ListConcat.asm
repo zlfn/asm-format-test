@@ -10,11 +10,11 @@ EXTERN asm_adt_ListConcat
 .adt_ListConcat
 ._adt_ListConcat
 
-   pop bc
-   pop hl
-   pop de
-   push de
-   push hl
-   push bc
-   
-   jp asm_adt_ListConcat
+        pop     bc
+        pop     hl
+        pop     de
+        push    de
+        push    hl
+        push    bc
+
+        jp      asm_adt_ListConcat

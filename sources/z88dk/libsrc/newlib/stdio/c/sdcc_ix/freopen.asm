@@ -16,17 +16,17 @@ EXTERN l0_freopen_callee
 
 _freopen:
 
-   pop af
-   pop hl
-   pop de
-   pop bc
-   
-   push bc
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        pop     bc
 
-   jp l0_freopen_callee
+        push    bc
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_freopen_callee
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -37,7 +37,7 @@ PUBLIC _freopen
 EXTERN _freopen_unlocked
 
 defc _freopen = _freopen_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

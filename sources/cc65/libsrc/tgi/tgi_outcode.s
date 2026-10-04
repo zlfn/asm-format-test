@@ -13,10 +13,10 @@
 .bss
 
 ; Clipping coordinates. They must be in this order!
-tgi_clip_x1:    .res    2
-tgi_clip_y1:    .res    2
-tgi_clip_x2:    .res    2
-tgi_clip_y2:    .res    2
+tgi_clip_x1: .res 2
+tgi_clip_y1: .res 2
+tgi_clip_x2: .res 2
+tgi_clip_y2: .res 2
 
 ;----------------------------------------------------------------------------
 ; Generate a Cohen Sutherland outcode
@@ -49,27 +49,26 @@ tgi_clip_y2:    .res    2
 
 ; Check Y coordinate
 
-        lda     tgi_clip_y1+1,y         ; High byte of Y1
+        lda     tgi_clip_y1+1, y        ; High byte of Y1
         bmi     L2                      ; Jump if bottom clip
 
-        ldx     tgi_clip_y1,y           ; Low byte of Y1
+        ldx     tgi_clip_y1, y  ; Low byte of Y1
         cpx     _tgi_yres
         sbc     _tgi_yres+1
         bvs     L1
         eor     #$80
 L1:     bpl     L4
-        lda     #TGI_CLIP_TOP               ; Top clipping necessary
+        lda     #TGI_CLIP_TOP   ; Top clipping necessary
         bne     L3
 L2:     lda     #TGI_CLIP_BOTTOM
-L3:     sta     tmp1                    ; Save temp outcode
-
+L3:     sta     tmp1            ; Save temp outcode
 
 ; Check X coordinate
 
-L4:     lda     tgi_clip_x1+1,y         ; High byte of X1
+L4:     lda     tgi_clip_x1+1, y        ; High byte of X1
         bmi     L7                      ; Jump if left clip
 
-        ldx     tgi_clip_x1,y           ; Low byte of X1
+        ldx     tgi_clip_x1, y  ; Low byte of X1
         cpx     _tgi_xres
         sbc     _tgi_xres+1
         bvs     L5
@@ -94,5 +93,3 @@ L7:     lda     #TGI_CLIP_LEFT
         rts
 
 .endproc
-
-

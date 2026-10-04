@@ -10,12 +10,12 @@ EXTERN l0_zx_cls_wc_callee
 
 _zx_cls_wc:
 
-   pop af
-   pop bc
-   pop hl
-   
-   push hl
-   push bc
-   push af
+        pop     af
+        pop     bc
+        pop     hl
 
-   jp l0_zx_cls_wc_callee
+        push    hl
+        push    bc
+        push    af
+
+        jp      l0_zx_cls_wc_callee

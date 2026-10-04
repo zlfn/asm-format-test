@@ -9,17 +9,16 @@
 ; 32 clock cycles - internal use timing loop
 ;------------------------------------------------------------------------------------
 
-    SECTION code_clib
-    PUBLIC  clock32
+        SECTION code_clib
+        PUBLIC  clock32
 
-    INCLUDE "target/zx/def/zxmmc.def"
+        INCLUDE "target/zx/def/zxmmc.def"
 
 clock32:
-    push    bc
-    ld      b, 4
+        push    bc
+        ld      b, 4
 l_4bytes:
-    in      a, (SPI_PORT)               ; some more clock cycles
-    djnz    l_4bytes
-    pop     bc
-    ret
-
+        in      a, (SPI_PORT)   ; some more clock cycles
+        djnz    l_4bytes
+        pop     bc
+        ret

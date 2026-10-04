@@ -12,8 +12,8 @@ SECTION code_l_sccz80
 PUBLIC l_pint_eq
 
 .l_pint_eq
-    ld (de),hl
+        ld      (de), hl
 
-    ld a,h
-    or l
-    ret
+        ld      a, h
+        or      l
+        ret

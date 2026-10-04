@@ -2,7 +2,7 @@
 ; ===============================================================
 ; Dec 2013
 ; ===============================================================
-; 
+;
 ; void *memmem(const void *big, size_t big_len, const void *little, size_t little_len)
 ;
 ; Return ptr in big to first occurrence of substring little.
@@ -12,7 +12,7 @@
 ;
 ; If big_len == 0 or big_len < little_len or substring little
 ; is not found in big, returns NULL.
-; 
+;
 ; ===============================================================
 
 IF !__CPU_INTEL__ && !__CPU_GBZ80__
@@ -26,109 +26,109 @@ EXTERN error_zc
 
 asm_memmem:
 
-   ; enter : ix = void *big (search string)
-   ;         de = void *little (substring)
-   ;         hl = big_len
-   ;         bc = little_len
-   ;
-   ; exit  : de = void *little (substring)
-   ;
-   ;         substring found
-   ;
-   ;            carry reset
-   ;            hl = ptr in big to matched substring
-   ;
-   ;         substring not found
-   ;
-   ;            carry set
-   ;            hl = 0
-   ;
-   ; uses  : af, bc, hl, ix
+        ; enter : ix = void *big (search string)
+        ;         de = void *little (substring)
+        ;         hl = big_len
+        ;         bc = little_len
+        ;
+        ; exit  : de = void *little (substring)
+        ;
+        ;         substring found
+        ;
+        ;            carry reset
+        ;            hl = ptr in big to matched substring
+        ;
+        ;         substring not found
+        ;
+        ;            carry set
+        ;            hl = 0
+        ;
+        ; uses  : af, bc, hl, ix
 
-   or a
-   sbc hl,bc
-   jp C,error_zc               ; if big_len < little_len, not found
-   inc hl                      ; hl = num positions in big to check
+        or      a
+        sbc     hl, bc
+        jp      C,  error_zc    ; if big_len < little_len, not found
+        inc     hl              ; hl = num positions in big to check
 
-   ld a,b
-   or c                        ; little_len == 0? ....
-   dec bc                      ; bc = little_len - 1
+        ld      a, b
+        or      c       ; little_len == 0? ....
+        dec     bc      ; bc = little_len - 1
 
-   push ix                     ; save big
+        push    ix      ; save big
 
-   push bc
-   pop ix                      ; ix = little_len - 1
+        push    bc
+        pop     ix      ; ix = little_len - 1
 
-   ld bc,hl                    ; bc = num positions to check
+        ld      bc, hl  ; bc = num positions to check
 
-   pop hl                      ; hl = big
+        pop     hl      ; hl = big
 
-   ret Z                       ; .... little_len == 0 means match
+        ret     Z       ; .... little_len == 0 means match
 
 search_loop:
 
-   ; hl = big
-   ; de = little
-   ; bc = num positions to check
-   ; ix = little_len - 1
+        ; hl = big
+        ; de = little
+        ; bc = num positions to check
+        ; ix = little_len - 1
 
-   ld a,(de)                   ; a = first little char
-   cpir                        ; look for little char in big
+        ld      a, (de) ; a = first little char
+        cpir            ; look for little char in big
 
-   jp nz, error_zc             ; not found
+        jp      nz, error_zc    ; not found
 
-   push hl
-   push bc
-   push de
+        push    hl
+        push    bc
+        push    de
 
-   ; hl = big (2nd char of substring match)
-   ; de = little
-   ; ix = little_len - 1
-   ; stack = big (2nd char of substring match), num positions to check, little
+        ; hl = big (2nd char of substring match)
+        ; de = little
+        ; ix = little_len - 1
+        ; stack = big (2nd char of substring match), num positions to check, little
 
-   push ix
-   pop bc
+        push    ix
+        pop     bc
 
-   ld a,b
-   or c
-   jr z, found
+        ld      a, b
+        or      c
+        jr      z, found
 
 match_substring:
 
-   inc de
-   ld a,(de)
+        inc     de
+        ld      a, (de)
 
-   cpi
-   jr NZ,no_match
+        cpi
+        jr      NZ, no_match
 
-   jp PE,match_substring
+        jp      PE, match_substring
 
 found:
 
-   pop de
-   pop bc
-   pop hl
+        pop     de
+        pop     bc
+        pop     hl
 
-   dec hl
-   ret
+        dec     hl
+        ret
 
 no_match:
 
-   pop de
-   pop bc
-   pop hl
-   
-   ; hl = big (next char to examine)
-   ; de = little
-   ; bc = num positions to check
-   ; ix = little_len - 1
-   
-   ld a,b
-   or c
-   jr NZ,search_loop
+        pop     de
+        pop     bc
+        pop     hl
+
+        ; hl = big (next char to examine)
+        ; de = little
+        ; bc = num positions to check
+        ; ix = little_len - 1
+
+        ld      a, b
+        or      c
+        jr      NZ, search_loop
 
 not_found:
 
-   jp error_zc
+        jp      error_zc
 
 ENDIF

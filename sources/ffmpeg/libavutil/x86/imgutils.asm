@@ -24,30 +24,30 @@ SECTION .text
 
 INIT_XMM sse4
 cglobal image_copy_plane_uc_from, 6, 7, 4, dst, dst_linesize, src, src_linesize, bw, height, rowpos
-    add dstq, bwq
-    add srcq, bwq
-    neg bwq
+        add     dstq, bwq
+        add     srcq, bwq
+        neg     bwq
 
 .row_start:
-    mov rowposq, bwq
+        mov     rowposq, bwq
 
 .loop:
-    movntdqa m0, [srcq + rowposq + 0 * mmsize]
-    movntdqa m1, [srcq + rowposq + 1 * mmsize]
-    movntdqa m2, [srcq + rowposq + 2 * mmsize]
-    movntdqa m3, [srcq + rowposq + 3 * mmsize]
+        movntdqa m0, [srcq + rowposq + 0 * mmsize]
+        movntdqa m1, [srcq + rowposq + 1 * mmsize]
+        movntdqa m2, [srcq + rowposq + 2 * mmsize]
+        movntdqa m3, [srcq + rowposq + 3 * mmsize]
 
-    mova [dstq + rowposq + 0 * mmsize], m0
-    mova [dstq + rowposq + 1 * mmsize], m1
-    mova [dstq + rowposq + 2 * mmsize], m2
-    mova [dstq + rowposq + 3 * mmsize], m3
+        mova    [dstq + rowposq + 0 * mmsize], m0
+        mova    [dstq + rowposq + 1 * mmsize], m1
+        mova    [dstq + rowposq + 2 * mmsize], m2
+        mova    [dstq + rowposq + 3 * mmsize], m3
 
-    add rowposq, 4 * mmsize
-    jnz .loop
+        add     rowposq, 4 * mmsize
+        jnz     .loop
 
-    add srcq, src_linesizeq
-    add dstq, dst_linesizeq
-    dec heightd
-    jnz .row_start
+        add     srcq, src_linesizeq
+        add     dstq, dst_linesizeq
+        dec     heightd
+        jnz     .row_start
 
-    RET
+        RET

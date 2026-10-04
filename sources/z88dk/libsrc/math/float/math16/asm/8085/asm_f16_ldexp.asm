@@ -19,20 +19,20 @@ EXTERN asm_f16_zero
 PUBLIC asm_f16_ldexp
 
 .asm_f16_ldexp
-    ; stack : ret
-    ;    bc : int16_t pw2
-    ;    hl : half_t x
-    ld a,$7c
-    and h
-    jr Z,ldexp_expand
-    cp $7c
-    ret Z
+        ; stack : ret
+        ;    bc : int16_t pw2
+        ;    hl : half_t x
+        ld      a, $7c
+        and     h
+        jr      Z, ldexp_expand
+        cp      $7c
+        ret     Z
 
 .ldexp_expand
-    call asm_f24_f16
-    ld a,d
-    and a
-    jp Z,asm_f16_zero
-    add a,c
-    ld d,a
-    jp asm_f16_f24
+        call    asm_f24_f16
+        ld      a, d
+        and     a
+        jp      Z, asm_f16_zero
+        add     a, c
+        ld      d, a
+        jp      asm_f16_f24

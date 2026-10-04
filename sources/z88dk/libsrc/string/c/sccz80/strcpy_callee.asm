@@ -10,18 +10,18 @@ EXTERN asm_strcpy
 
 strcpy_callee:
 
-   pop bc
-   pop hl
-   pop de
-   push bc
+        pop     bc
+        pop     hl
+        pop     de
+        push    bc
 
 IF __CLASSIC &&  __CPU_GBZ80__
-   call asm_strcpy
-   ld d,h
-   ld e,l
-   ret
+        call    asm_strcpy
+        ld      d, h
+        ld      e, l
+        ret
 ELSE
-   jp asm_strcpy
+        jp      asm_strcpy
 ENDIF
 
 ; SDCC bridge for Classic
@@ -30,10 +30,8 @@ PUBLIC _strcpy_callee
 defc _strcpy_callee = strcpy_callee
 ENDIF
 
-
 ; Clang bridge for Classic
 IF __CLASSIC
 PUBLIC ___strcpy_callee
 defc ___strcpy_callee = strcpy_callee
 ENDIF
-

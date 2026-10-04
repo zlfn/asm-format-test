@@ -10,16 +10,15 @@
 ;-----------------------------------------------------------------------------------------
 ;
 
-    SECTION code_clib
-    PUBLIC  mmc_fastpage
-    PUBLIC  _mmc_fastpage
+        SECTION code_clib
+        PUBLIC  mmc_fastpage
+        PUBLIC  _mmc_fastpage
 
-    INCLUDE "target/zx/def/zxmmc.def"
-
+        INCLUDE "target/zx/def/zxmmc.def"
 
 mmc_fastpage:
 _mmc_fastpage:
-    di
-    ld      a, l
-    out     (FASTPAGE), a
-    ret
+        di
+        ld      a, l
+        out     (FASTPAGE), a
+        ret

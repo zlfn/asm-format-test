@@ -78,7 +78,6 @@ OPC_AND_aby = $39
 OPC_AND_abx = $3D
 OPC_ROL_abx = $3E
 
-
 OPC_RTI     = $40
 OPC_EOR_izx = $41
 OPC_EOR_zp  = $45
@@ -197,7 +196,6 @@ OPC_CPX_abs = $EC
 OPC_SBC_abs = $ED
 OPC_INC_abs = $EE
 
-
 OPC_BEQ     = $F0
 OPC_SBC_izy = $F1
 OPC_SBC_zpx = $F5
@@ -206,7 +204,6 @@ OPC_SED     = $F8
 OPC_SBC_aby = $F9
 OPC_SBC_abx = $FD
 OPC_INC_abx = $FE
-
 
 .if (.cpu .bitand ::CPU_ISET_65SC02)
 
@@ -297,7 +294,6 @@ OPC_SBC_izp = $F2
 OPC_PLX     = $FA
 ; OPC_NOP   = $FB               ; doublet
 ; OPC_NOP   = $FC               ; doublet
-
 
 .if (.cpu .bitand ::CPU_ISET_65C02)
 

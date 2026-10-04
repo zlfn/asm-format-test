@@ -9,13 +9,13 @@ EXTERN asm_esxdos_m_getsetdrv
 
 _esxdos_m_getdrv:
 
-   ld l,0
+        ld      l, 0
 
-   push ix
-   push iy
-   
-   call asm_esxdos_m_getsetdrv
-   
-   pop iy
-   pop ix
-   ret
+        push    ix
+        push    iy
+
+        call    asm_esxdos_m_getsetdrv
+
+        pop     iy
+        pop     ix
+        ret

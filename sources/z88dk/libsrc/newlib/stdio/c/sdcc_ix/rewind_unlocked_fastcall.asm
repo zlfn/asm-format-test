@@ -9,11 +9,11 @@ PUBLIC _rewind_unlocked_fastcall
 EXTERN asm_rewind_unlocked
 
 _rewind_unlocked_fastcall:
-   
-   push hl
-   ex (sp),ix
-   
-   call asm_rewind_unlocked
-   
-   pop ix
-   ret
+
+        push    hl
+        ex      (sp), ix
+
+        call    asm_rewind_unlocked
+
+        pop     ix
+        ret

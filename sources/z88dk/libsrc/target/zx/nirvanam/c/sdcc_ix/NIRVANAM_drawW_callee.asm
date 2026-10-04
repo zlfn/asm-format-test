@@ -16,16 +16,16 @@ EXTERN asm_NIRVANAM_drawW_di
 
 _NIRVANAM_drawW_callee:
 
-   pop hl
-   dec sp
-   pop af          ; a = tile
-   ex (sp),hl
-   ld d,l          ; d = lin
-   ld e,h          ; e = col
+        pop     hl
+        dec     sp
+        pop     af      ; a = tile
+        ex      (sp), hl
+        ld      d,    l ; d = lin
+        ld      e,    h ; e = col
 
-	push ix
-	
-	call asm_NIRVANAM_drawW_di
-	
-	pop ix
-	ret
+        push    ix
+
+        call    asm_NIRVANAM_drawW_di
+
+        pop     ix
+        ret

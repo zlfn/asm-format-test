@@ -4,20 +4,20 @@
 ; Christian Groessler, 2014-01-05
 ;
 
-        .include        "zeropage.inc"
-        .include        "mouse-kernel.inc"
-        .include        "atari.inc"
+        .include "zeropage.inc"
+        .include "mouse-kernel.inc"
+        .include "atari.inc"
 
-        .macpack        generic
-        .macpack        module
+        .macpack generic
+        .macpack module
 
 ; ------------------------------------------------------------------------
 ; Header. Includes jump table
 
 .ifdef __ATARIXL__
-        module_header   _atrxtt_mou
+        module_header _atrxtt_mou
 .else
-        module_header   _atrtt_mou
+        module_header _atrtt_mou
 .endif
 
 HEADER:
@@ -52,13 +52,12 @@ HEADER:
 
 ; Callback table, set by the kernel before INSTALL is called
 
-CHIDE:  jmp     $0000                   ; Hide the cursor
-CSHOW:  jmp     $0000                   ; Show the cursor
-CPREP:  jmp     $0000                   ; Prepare to move the cursor
-CDRAW:  jmp     $0000                   ; Draw the cursor
-CMOVEX: jmp     $0000                   ; Move the cursor to X coord
-CMOVEY: jmp     $0000                   ; Move the cursor to Y coord
-
+CHIDE:  jmp     $0000   ; Hide the cursor
+CSHOW:  jmp     $0000   ; Show the cursor
+CPREP:  jmp     $0000   ; Prepare to move the cursor
+CDRAW:  jmp     $0000   ; Draw the cursor
+CMOVEX: jmp     $0000   ; Move the cursor to X coord
+CMOVEY: jmp     $0000   ; Move the cursor to Y coord
 
 ;----------------------------------------------------------------------------
 ; Constants
@@ -81,14 +80,14 @@ SCREEN_WIDTH    = 319
 .bss
 
 Vars:
-YPos:           .res    2               ; Current mouse position, Y
-XPos:           .res    2               ; Current mouse position, X
-XMin:           .res    2               ; X1 value of bounding box
-YMin:           .res    2               ; Y1 value of bounding box
-XMax:           .res    2               ; X2 value of bounding box
-YMax:           .res    2               ; Y2 value of bounding box
-Buttons:        .res    1               ; Button mask
-OldButton:      .res    1               ; previous buttons
+YPos:   .res    2       ; Current mouse position, Y
+XPos:   .res    2       ; Current mouse position, X
+XMin:   .res    2       ; X1 value of bounding box
+YMin:   .res    2       ; Y1 value of bounding box
+XMax:   .res    2       ; X2 value of bounding box
+YMax:   .res    2       ; Y2 value of bounding box
+Buttons:   .res 1       ; Button mask
+OldButton: .res 1       ; previous buttons
 
 ; Default values for above variables
 
@@ -97,13 +96,13 @@ OldButton:      .res    1               ; previous buttons
 ; (We use ".proc" because we want to define both a label and a scope.)
 
 .proc   DefVars
-        .word   SCREEN_HEIGHT/2         ; YPos
-        .word   SCREEN_WIDTH/2          ; XPos
-        .word   0                       ; XMin
-        .word   0                       ; YMin
-        .word   SCREEN_WIDTH            ; XMax
-        .word   SCREEN_HEIGHT           ; YMax
-        .byte   0                       ; Buttons
+        .word   SCREEN_HEIGHT/2 ; YPos
+        .word   SCREEN_WIDTH/2  ; XPos
+        .word   0               ; XMin
+        .word   0               ; YMin
+        .word   SCREEN_WIDTH    ; XMax
+        .word   SCREEN_HEIGHT   ; YMax
+        .byte   0               ; Buttons
 .endproc
 
 .code
@@ -118,8 +117,8 @@ INSTALL:
 ; Initialize variables. Just copy the default stuff over
 
         ldx     #.sizeof(DefVars)-1
-@L1:    lda     DefVars,x
-        sta     Vars,x
+@L1:    lda     DefVars, x
+        sta     Vars,    x
         dex
         bpl     @L1
 
@@ -179,14 +178,14 @@ SHOW:   php
 ; caller and save some code here. No return code required.
 
 SETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX)-1
         php
         sei
 
-@L1:    lda     (ptr1),y
-        sta     XMin,y
+@L1:    lda     (ptr1), y
+        sta     XMin,   y
         dey
         bpl     @L1
 
@@ -198,14 +197,14 @@ SETBOX: sta     ptr1
 ; come from the C program, that is, a pointer to a mouse_box struct in a/x.
 
 GETBOX: sta     ptr1
-        stx     ptr1+1                  ; Save data pointer
+        stx     ptr1+1  ; Save data pointer
 
         ldy     #.sizeof (MOUSE_BOX)-1
         php
         sei
 
-@L1:    lda     XMin,y
-        sta     (ptr1),y
+@L1:    lda     XMin,   y
+        sta     (ptr1), y
         dey
         bpl     @L1
 
@@ -221,7 +220,7 @@ GETBOX: sta     ptr1
 ;
 
 MOVE:   php
-        sei                             ; No interrupts
+        sei     ; No interrupts
 
         pha
         txa
@@ -232,21 +231,21 @@ MOVE:   php
         pla
 
         sta     YPos
-        stx     YPos+1                  ; New Y position
-        jsr     CMOVEY                  ; Set it
+        stx     YPos+1  ; New Y position
+        jsr     CMOVEY  ; Set it
 
         ldy     #$01
-        lda     (c_sp),y
+        lda     (c_sp), y
         sta     XPos+1
         tax
         dey
-        lda     (c_sp),y
-        sta     XPos                    ; New X position
-        jsr     CMOVEX                  ; Move the cursor
+        lda     (c_sp), y
+        sta     XPos    ; New X position
+        jsr     CMOVEX  ; Move the cursor
 
         jsr     CSHOW
 
-        plp                             ; Restore interrupt flag
+        plp     ; Restore interrupt flag
         rts
 
 ;----------------------------------------------------------------------------
@@ -264,22 +263,22 @@ BUTTONS:
 POS:    ldy     #MOUSE_POS::XCOORD      ; Structure offset
 
         php
-        sei                             ; Disable interrupts
-        lda     XPos                    ; Transfer the position
-        sta     (ptr1),y
+        sei             ; Disable interrupts
+        lda     XPos    ; Transfer the position
+        sta     (ptr1), y
         lda     XPos+1
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos
         iny
-        sta     (ptr1),y
+        sta     (ptr1), y
         lda     YPos+1
-        plp                             ; Restore interrupt flag
+        plp             ; Restore interrupt flag
 
         iny
-        sta     (ptr1),y                ; Store last byte
+        sta     (ptr1), y       ; Store last byte
 
-        rts                             ; Done
+        rts     ; Done
 
 ;----------------------------------------------------------------------------
 ; INFO: Returns mouse position and current button mask in the MOUSE_INFO
@@ -296,7 +295,7 @@ INFO:   jsr     POS
 
         lda     Buttons
         ldy     #MOUSE_INFO::BUTTONS
-        sta     (ptr1),y
+        sta     (ptr1), y
 
         rts
 
@@ -306,7 +305,7 @@ INFO:   jsr     POS
 ; Must return an error code in a/x.
 ;
 
-IOCTL:  lda     #<MOUSE_ERR_INV_IOCTL     ; We don't support ioclts for now
+IOCTL:  lda     #<MOUSE_ERR_INV_IOCTL   ; We don't support ioclts for now
         ldx     #>MOUSE_ERR_INV_IOCTL
         rts
 
@@ -324,10 +323,10 @@ IRQ:
         ldx     #0
         stx     Buttons
 
-        lda     PORTA                   ; get other buttons
+        lda     PORTA   ; get other buttons
         eor     #255
         tax
-        and     #5                      ; pen button and left button are mapped to left mouse button
+        and     #5      ; pen button and left button are mapped to left mouse button
         beq     @L01
         lda     #MOUSE_BTN_LEFT
         ora     Buttons
@@ -353,13 +352,13 @@ IRQ:
 
 @L03:   lda     PADDL0
         cmp     #228
-        beq     @Cont                   ; CF set if equal
+        beq     @Cont   ; CF set if equal
         lda     PADDL1
-        cmp     #228                    ; CF set if equal
+        cmp     #228    ; CF set if equal
 
-@Cont:  php                             ; remember CF
+@Cont:  php     ; remember CF
         jsr     CPREP
-        plp                             ; restore CF
+        plp     ; restore CF
 
         bcc     @L04
         jmp     @Show
@@ -367,7 +366,7 @@ IRQ:
 @L04:   ldx     #0
         stx     XPos+1
         stx     YPos+1
-        stx     ATRACT                  ; disable "attract mode"
+        stx     ATRACT  ; disable "attract mode"
 
 ; Get cursor position
 ; -------------------
@@ -385,8 +384,8 @@ IRQ:
 
 ; X
 
-        ldx     PADDL0                  ; get X position
-        dex                             ; decrement, since it's 1-based
+        ldx     PADDL0  ; get X position
+        dex             ; decrement, since it's 1-based
         stx     XPos
         txa
         lsr     a
@@ -397,8 +396,8 @@ IRQ:
         bcc     @L05
         inc     XPos+1
 @L05:   txa
-        lsr     a                       ; port value / 4
-        lsr     a                       ; port value / 8
+        lsr     a       ; port value / 4
+        lsr     a       ; port value / 8
         tax
         sec
         lda     XPos
@@ -408,8 +407,8 @@ IRQ:
         bcs     @L06
         dec     XPos+1
 @L06:   txa
-        lsr     a                       ; port value / 16
-        lsr     a                       ; port value / 32
+        lsr     a       ; port value / 16
+        lsr     a       ; port value / 32
         clc
         adc     XPos
         sta     XPos
@@ -445,12 +444,12 @@ IRQ:
 
 ; Y
 
-        ldx     PADDL1                  ; get Y position
-        dex                             ; decrement, since it's 1-based
+        ldx     PADDL1  ; get Y position
+        dex             ; decrement, since it's 1-based
         stx     YPos
         lda     #228
         sec
-        sbc     YPos                    ; invert value
+        sbc     YPos    ; invert value
         tax
         lsr     a
         lsr     a
@@ -489,5 +488,5 @@ IRQ:
 
 @Show:  jsr     CDRAW
 
-        clc                             ; Interrupt not "handled"
+        clc     ; Interrupt not "handled"
         rts

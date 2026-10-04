@@ -10,17 +10,17 @@ EXTERN asm_fmemopen
 
 _fmemopen_callee:
 
-   pop af
-   pop hl
-   pop bc
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     bc
+        pop     de
+        push    af
 
 l0_fmemopen_callee:
 
-   push ix
-   
-   call asm_fmemopen
-   
-   pop ix
-   ret
+        push    ix
+
+        call    asm_fmemopen
+
+        pop     ix
+        ret

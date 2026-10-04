@@ -15,18 +15,18 @@ PUBLIC vfprintf
 EXTERN asm_vfprintf
 
 vfprintf:
-   
-   pop af
-   pop bc
-   pop de
-   pop ix
-   
-   push hl
-   push de
-   push bc
-   push af
 
-   jp asm_vfprintf
+        pop     af
+        pop     bc
+        pop     de
+        pop     ix
+
+        push    hl
+        push    de
+        push    bc
+        push    af
+
+        jp      asm_vfprintf
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

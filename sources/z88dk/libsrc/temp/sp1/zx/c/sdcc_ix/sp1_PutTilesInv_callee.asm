@@ -9,28 +9,28 @@ EXTERN asm_sp1_PutTilesInv
 
 _sp1_PutTilesInv_callee:
 
-   pop af
-   pop hl
-   pop de
-   push af
+        pop     af
+        pop     hl
+        pop     de
+        push    af
 
 l0_sp1_PutTilesInv_callee:
 
-   push de
+        push    de
 
-   ld d,(hl)
-   inc hl
-   ld e,(hl)
-   inc hl
-   ld b,(hl)
-   inc hl
-   ld c,(hl)
+        ld      d, (hl)
+        inc     hl
+        ld      e, (hl)
+        inc     hl
+        ld      b, (hl)
+        inc     hl
+        ld      c, (hl)
 
-   pop hl
-   
-   push ix
-   
-   call asm_sp1_PutTilesInv
+        pop     hl
 
-   pop ix
-   ret
+        push    ix
+
+        call    asm_sp1_PutTilesInv
+
+        pop     ix
+        ret

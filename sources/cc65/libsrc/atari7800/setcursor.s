@@ -23,19 +23,19 @@
 ; definitely not allow direct access to the variables.
 ;
 
-        .export         gotoxy, _gotoxy, gotox, gotoy
-        .constructor    init_cursor
-        .interruptor    blink_cursor
+        .export gotoxy, _gotoxy, gotox, gotoy
+        .constructor init_cursor
+        .interruptor blink_cursor
 
-        .importzp       c_sp
-        .import         _zonecounter
-        .import         _zones
-        .import         cursor
-        .import         pusha, incsp1, pusha0, pushax, popa
-        .include        "atari7800.inc"
-        .include        "extzp.inc"
+        .importzp c_sp
+        .import _zonecounter
+        .import _zones
+        .import cursor
+        .import pusha, incsp1, pusha0, pushax, popa
+        .include "atari7800.inc"
+        .include "extzp.inc"
 
-        .macpack        generic
+        .macpack generic
 
         .data
 ;-----------------------------------------------------------------------------
@@ -51,15 +51,15 @@ blink_time:
 ; 8x16 routine
 
 umula0:
-        ldy     #8                 ; Number of bits
+        ldy     #8      ; Number of bits
         lda     #0
-        lsr     ptr7800            ; Get first bit into carry
+        lsr     ptr7800 ; Get first bit into carry
 @L0:    bcc     @L1
 
         clc
         adc     ptrtmp
         tax
-        lda     ptrtmp+1           ; hi byte of left op
+        lda     ptrtmp+1        ; hi byte of left op
         clc
         adc     ptr7800+1
         sta     ptr7800+1
@@ -71,7 +71,7 @@ umula0:
         dey
         bne     @L0
         tax
-        lda     ptr7800            ; Load the result
+        lda     ptr7800 ; Load the result
         rts
 
 ;-----------------------------------------------------------------------------
@@ -126,7 +126,7 @@ umula0:
         jsr     calccursorzone
         ldy     #1
         lda     #0
-        sta     (cursorzone),y  ; disable cursor
+        sta     (cursorzone), y ; disable cursor
         pla
         sta     CURS_Y
         jsr     calccursorzone
@@ -134,7 +134,7 @@ umula0:
         beq     @L1
         lda     #30             ; enable cursor
 @L1:    ldy     #1
-        sta     (cursorzone),y
+        sta     (cursorzone), y
         rts
 
         .endproc
@@ -152,7 +152,7 @@ umula0:
         rol
         rol
         rol
-        sta     (cursorzone),y
+        sta     (cursorzone), y
         rts
 
         .endproc
@@ -186,12 +186,12 @@ umula0:
         lda     #200
         sta     blink_time
         ldy     #0
-        lda     (cursorzone),y
+        lda     (cursorzone), y
         bne     @L1
         lda     #254
         bne     @L2
 @L1:    lda     #0
-@L2:    sta     (cursorzone),y
+@L2:    sta     (cursorzone), y
 @L3:    rts
         .endproc
 
@@ -199,7 +199,7 @@ umula0:
 ; Initialize cursorzone at startup
 ; Offset to cursor zone 5.
 ;
-        .segment        "ONCE"
+        .segment "ONCE"
 init_cursor:
         lda     #0
         jsr     calccursorzone
@@ -210,5 +210,5 @@ init_cursor:
 ;-----------------------------------------------------------------------------
 ; force the init constructor to be imported
 
-                .import initconio
+        .import initconio
 conio_init      = initconio

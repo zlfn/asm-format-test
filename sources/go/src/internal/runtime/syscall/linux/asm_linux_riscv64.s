@@ -22,22 +22,22 @@
 // r2  | A1          | A1
 // err | A2          | part of A0
 TEXT ·Syscall6<ABIInternal>(SB),NOSPLIT,$0-80
-	MOV	A0, A7
-	MOV	A1, A0
-	MOV	A2, A1
-	MOV	A3, A2
-	MOV	A4, A3
-	MOV	A5, A4
-	MOV	A6, A5
-	ECALL
-	MOV	$-4096, T0
-	BLTU	T0, A0, err
-	// r1 already in A0
-	// r2 already in A1
-	MOV	ZERO, A2 // errno
-	RET
+        MOV     A0, A7
+        MOV     A1, A0
+        MOV     A2, A1
+        MOV     A3, A2
+        MOV     A4, A3
+        MOV     A5, A4
+        MOV     A6, A5
+        ECALL
+        MOV     $-4096, T0
+        BLTU    T0,     A0, err
+        // r1 already in A0
+        // r2 already in A1
+        MOV     ZERO, A2        // errno
+        RET
 err:
-	SUB	A0, ZERO, A2 // errno
-	MOV	$-1, A0	     // r1
-	MOV	ZERO, A1     // r2
-	RET
+        SUB     A0,   ZERO, A2  // errno
+        MOV     $-1,  A0        // r1
+        MOV     ZERO, A1        // r2
+        RET

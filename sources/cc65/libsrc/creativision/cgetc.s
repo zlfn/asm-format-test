@@ -1,7 +1,7 @@
 ;* cgetc
 
-        .export         _cgetc
-        .include        "creativision.inc"
+        .export _cgetc
+        .include "creativision.inc"
 
 _cgetc:
         lda     #$80

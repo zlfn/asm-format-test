@@ -6,12 +6,12 @@ PUBLIC error_lmnc
 
 EXTERN error_mnc
 
-   pop hl
+        pop     hl
 
 error_lmnc:
 
-   ; set dehl = -1
-   ; reset carry flag
-   
-   ld de,-1
-   jp error_mnc
+        ; set dehl = -1
+        ; reset carry flag
+
+        ld      de, -1
+        jp      error_mnc

@@ -15,8 +15,8 @@
 #include <asm/frame.h>
 #include "mshv-asm-offsets.h"
 
-	.text
-	.section .noinstr.text, "ax"
+        .text
+        .section .noinstr.text, "ax"
 /*
  * void __mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0)
  *
@@ -26,81 +26,81 @@
  * against #PFs in NMI context clobbering the guest state.
  */
 SYM_FUNC_START(__mshv_vtl_return_call)
-	/* Push callee save registers */
-	pushq %rbp
-	mov %rsp, %rbp
-	pushq %r12
-	pushq %r13
-	pushq %r14
-	pushq %r15
-	pushq %rbx
+        /* Push callee save registers */
+        pushq   %rbp
+        mov     %rsp, %rbp
+        pushq   %r12
+        pushq   %r13
+        pushq   %r14
+        pushq   %r15
+        pushq   %rbx
 
-	/* register switch to VTL0 clobbers all registers except rax/rcx */
-	mov %_ASM_ARG1, %rax
+        /* register switch to VTL0 clobbers all registers except rax/rcx */
+        mov     %_ASM_ARG1, %rax
 
-	/* grab rbx/rbp/rsi/rdi/r8-r15 */
-	mov MSHV_VTL_CPU_CONTEXT_rbx(%rax), %rbx
-	mov MSHV_VTL_CPU_CONTEXT_rbp(%rax), %rbp
-	mov MSHV_VTL_CPU_CONTEXT_rsi(%rax), %rsi
-	mov MSHV_VTL_CPU_CONTEXT_rdi(%rax), %rdi
-	mov MSHV_VTL_CPU_CONTEXT_r8(%rax), %r8
-	mov MSHV_VTL_CPU_CONTEXT_r9(%rax), %r9
-	mov MSHV_VTL_CPU_CONTEXT_r10(%rax), %r10
-	mov MSHV_VTL_CPU_CONTEXT_r11(%rax), %r11
-	mov MSHV_VTL_CPU_CONTEXT_r12(%rax), %r12
-	mov MSHV_VTL_CPU_CONTEXT_r13(%rax), %r13
-	mov MSHV_VTL_CPU_CONTEXT_r14(%rax), %r14
-	mov MSHV_VTL_CPU_CONTEXT_r15(%rax), %r15
+        /* grab rbx/rbp/rsi/rdi/r8-r15 */
+        mov     MSHV_VTL_CPU_CONTEXT_rbx(%rax), %rbx
+        mov     MSHV_VTL_CPU_CONTEXT_rbp(%rax), %rbp
+        mov     MSHV_VTL_CPU_CONTEXT_rsi(%rax), %rsi
+        mov     MSHV_VTL_CPU_CONTEXT_rdi(%rax), %rdi
+        mov     MSHV_VTL_CPU_CONTEXT_r8(%rax),  %r8
+        mov     MSHV_VTL_CPU_CONTEXT_r9(%rax),  %r9
+        mov     MSHV_VTL_CPU_CONTEXT_r10(%rax), %r10
+        mov     MSHV_VTL_CPU_CONTEXT_r11(%rax), %r11
+        mov     MSHV_VTL_CPU_CONTEXT_r12(%rax), %r12
+        mov     MSHV_VTL_CPU_CONTEXT_r13(%rax), %r13
+        mov     MSHV_VTL_CPU_CONTEXT_r14(%rax), %r14
+        mov     MSHV_VTL_CPU_CONTEXT_r15(%rax), %r15
 
-	mov MSHV_VTL_CPU_CONTEXT_cr2(%rax), %rdx
-	mov %rdx, %cr2
-	mov MSHV_VTL_CPU_CONTEXT_rdx(%rax), %rdx
+        mov     MSHV_VTL_CPU_CONTEXT_cr2(%rax), %rdx
+        mov     %rdx, %cr2
+        mov     MSHV_VTL_CPU_CONTEXT_rdx(%rax), %rdx
 
-	/* stash host registers on stack */
-	pushq %rax
-	pushq %rcx
+        /* stash host registers on stack */
+        pushq   %rax
+        pushq   %rcx
 
-	xor %ecx, %ecx
+        xor     %ecx, %ecx
 
-	/* make a hypercall to switch VTL */
-	call STATIC_CALL_TRAMP_STR(__mshv_vtl_return_hypercall)
+        /* make a hypercall to switch VTL */
+        call    STATIC_CALL_TRAMP_STR(__mshv_vtl_return_hypercall)
 
-	/* stash guest registers on stack, restore saved host copies */
-	pushq %rax
-	pushq %rcx
-	mov 16(%rsp), %rcx
-	mov 24(%rsp), %rax
+        /* stash guest registers on stack, restore saved host copies */
+        pushq   %rax
+        pushq   %rcx
+        mov     16(%rsp), %rcx
+        mov     24(%rsp), %rax
 
-	mov %rdx, MSHV_VTL_CPU_CONTEXT_rdx(%rax)
-	mov %cr2, %rdx
-	mov %rdx, MSHV_VTL_CPU_CONTEXT_cr2(%rax)
-	pop MSHV_VTL_CPU_CONTEXT_rcx(%rax)
-	pop MSHV_VTL_CPU_CONTEXT_rax(%rax)
-	add $16, %rsp
+        mov     %rdx, MSHV_VTL_CPU_CONTEXT_rdx(%rax)
+        mov     %cr2, %rdx
+        mov     %rdx, MSHV_VTL_CPU_CONTEXT_cr2(%rax)
+        pop     MSHV_VTL_CPU_CONTEXT_rcx(%rax)
+        pop     MSHV_VTL_CPU_CONTEXT_rax(%rax)
+        add     $16, %rsp
 
-	/* save rbx/rbp/rsi/rdi/r8-r15 */
-	mov %rbx, MSHV_VTL_CPU_CONTEXT_rbx(%rax)
-	mov %rbp, MSHV_VTL_CPU_CONTEXT_rbp(%rax)
-	mov %rsi, MSHV_VTL_CPU_CONTEXT_rsi(%rax)
-	mov %rdi, MSHV_VTL_CPU_CONTEXT_rdi(%rax)
-	mov %r8,  MSHV_VTL_CPU_CONTEXT_r8(%rax)
-	mov %r9,  MSHV_VTL_CPU_CONTEXT_r9(%rax)
-	mov %r10, MSHV_VTL_CPU_CONTEXT_r10(%rax)
-	mov %r11, MSHV_VTL_CPU_CONTEXT_r11(%rax)
-	mov %r12, MSHV_VTL_CPU_CONTEXT_r12(%rax)
-	mov %r13, MSHV_VTL_CPU_CONTEXT_r13(%rax)
-	mov %r14, MSHV_VTL_CPU_CONTEXT_r14(%rax)
-	mov %r15, MSHV_VTL_CPU_CONTEXT_r15(%rax)
+        /* save rbx/rbp/rsi/rdi/r8-r15 */
+        mov     %rbx, MSHV_VTL_CPU_CONTEXT_rbx(%rax)
+        mov     %rbp, MSHV_VTL_CPU_CONTEXT_rbp(%rax)
+        mov     %rsi, MSHV_VTL_CPU_CONTEXT_rsi(%rax)
+        mov     %rdi, MSHV_VTL_CPU_CONTEXT_rdi(%rax)
+        mov     %r8,  MSHV_VTL_CPU_CONTEXT_r8(%rax)
+        mov     %r9,  MSHV_VTL_CPU_CONTEXT_r9(%rax)
+        mov     %r10, MSHV_VTL_CPU_CONTEXT_r10(%rax)
+        mov     %r11, MSHV_VTL_CPU_CONTEXT_r11(%rax)
+        mov     %r12, MSHV_VTL_CPU_CONTEXT_r12(%rax)
+        mov     %r13, MSHV_VTL_CPU_CONTEXT_r13(%rax)
+        mov     %r14, MSHV_VTL_CPU_CONTEXT_r14(%rax)
+        mov     %r15, MSHV_VTL_CPU_CONTEXT_r15(%rax)
 
-	/* pop callee-save registers r12-r15, rbx */
-	pop %rbx
-	pop %r15
-	pop %r14
-	pop %r13
-	pop %r12
+        /* pop callee-save registers r12-r15, rbx */
+        pop     %rbx
+        pop     %r15
+        pop     %r14
+        pop     %r13
+        pop     %r12
 
-	pop %rbp
-	RET
+        pop     %rbp
+        RET
 SYM_FUNC_END(__mshv_vtl_return_call)
 /*
  * Make sure that static_call_key symbol: __SCK____mshv_vtl_return_hypercall is accessible here.
@@ -108,9 +108,9 @@ SYM_FUNC_END(__mshv_vtl_return_call)
  * naming it something like "__UNIQUE_ID_addressable___SCK____mshv_vtl_return_hypercall_662.0"
  * which would otherwise have been generated by the macro.
  */
-	.section	.discard.addressable,"aw"
-	.align 8
-	.type	mshv_vtl_return_sym, @object
-	.size	mshv_vtl_return_sym, 8
+        .section .discard.addressable, "aw"
+        .align  8
+        .type   mshv_vtl_return_sym, @object
+        .size   mshv_vtl_return_sym, 8
 mshv_vtl_return_sym:
-	.quad	__SCK____mshv_vtl_return_hypercall
+        .quad   __SCK____mshv_vtl_return_hypercall

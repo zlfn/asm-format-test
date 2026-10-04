@@ -11,23 +11,22 @@ EXTERN asm_bv_priority_queue_init
 
 bv_priority_queue_init:
 
-   pop af
-   pop ix
-   pop hl
-   pop bc
-   pop de
-   
-   push de
-   push bc
-   push hl
-   push ix
-   push af
-   
-   jp asm_bv_priority_queue_init
+        pop     af
+        pop     ix
+        pop     hl
+        pop     bc
+        pop     de
+
+        push    de
+        push    bc
+        push    hl
+        push    ix
+        push    af
+
+        jp      asm_bv_priority_queue_init
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _bv_priority_queue_init
 defc _bv_priority_queue_init = bv_priority_queue_init
 ENDIF
-

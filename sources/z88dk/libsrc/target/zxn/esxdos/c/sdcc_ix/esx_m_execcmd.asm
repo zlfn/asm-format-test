@@ -8,10 +8,10 @@ EXTERN asm_esx_m_execcmd
 
 _esx_m_execcmd:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp asm_esx_m_execcmd
+        push    hl
+        push    af
+
+        jp      asm_esx_m_execcmd

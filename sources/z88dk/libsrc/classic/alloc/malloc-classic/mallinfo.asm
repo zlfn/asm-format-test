@@ -12,7 +12,7 @@ EXTERN _heap
 ._mallinfo
 .___mallinfo
 
-   ld hl,_heap
-   ex (sp),hl
-   push hl
-   jp HeapInfo
+        ld      hl,   _heap
+        ex      (sp), hl
+        push    hl
+        jp      HeapInfo

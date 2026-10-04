@@ -19,32 +19,32 @@ EXTERN SP1V_TEMP_IX
 
 .SP1PSPOP
 
-   ld a,(hl)
-   ld ixl,a
-   inc hl
-   ld a,(hl)
-   ld ixh,a                  ; ix = & bounds rectangle
-   inc hl
-   ld a,(hl)                 ; a = flags
-   inc hl
-   ld b,(hl)                 ; b = x coordinate
-   inc hl
-   ld c,(hl)                 ; c = y coordinate
-   inc hl
-   push hl
-   ex de,hl                  ; hl = & string
-   ld e,a                    ; e = flags
-   exx
-   pop hl
-   ld e,(hl)
-   inc hl
-   ld d,(hl)                 ; de' = & struct sp1_update
-   inc hl
-   ld a,(hl)
-   ld (SP1V_TEMP_IX),a
-   inc hl
-   ld a,(hl)
-   ld (SP1V_TEMP_IX + 1),a   ; (SP1V_TEMP_IX) = visit function
-   exx
+        ld      a,   (hl)
+        ld      ixl, a
+        inc     hl
+        ld      a,   (hl)
+        ld      ixh, a                  ; ix = & bounds rectangle
+        inc     hl
+        ld      a, (hl)                 ; a = flags
+        inc     hl
+        ld      b, (hl)                 ; b = x coordinate
+        inc     hl
+        ld      c, (hl)                 ; c = y coordinate
+        inc     hl
+        push    hl
+        ex      de, hl                  ; hl = & string
+        ld      e,  a                   ; e = flags
+        exx
+        pop     hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)                 ; de' = & struct sp1_update
+        inc     hl
+        ld      a, (hl)
+        ld      (SP1V_TEMP_IX), a
+        inc     hl
+        ld      a, (hl)
+        ld      (SP1V_TEMP_IX + 1), a   ; (SP1V_TEMP_IX) = visit function
+        exx
 
-   ret
+        ret

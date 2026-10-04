@@ -19,19 +19,19 @@
 .text
 .balign 4
 DEFINE_COMPILERRT_FUNCTION(__ashldi3)
-	movd	  12(%esp),		%xmm2	// Load count
+        movd    12(%esp), %xmm2 // Load count
 #ifndef TRUST_CALLERS_USE_64_BIT_STORES
-	movd	   4(%esp),		%xmm0
-	movd	   8(%esp),		%xmm1
-	punpckldq	%xmm1,		%xmm0	// Load input
+        movd    4(%esp), %xmm0
+        movd    8(%esp), %xmm1
+        punpckldq %xmm1, %xmm0  // Load input
 #else
-	movq	   4(%esp),		%xmm0	// Load input
+        movq    4(%esp), %xmm0  // Load input
 #endif
-	psllq		%xmm2,		%xmm0	// shift input by count
-	movd		%xmm0,		%eax
-	psrlq		$32,		%xmm0
-	movd		%xmm0,		%edx
-	ret
+        psllq   %xmm2, %xmm0    // shift input by count
+        movd    %xmm0, %eax
+        psrlq   $32,   %xmm0
+        movd    %xmm0, %edx
+        ret
 END_COMPILERRT_FUNCTION(__ashldi3)
 
 #else // Use GPRs instead of SSE2 instructions, if they aren't available.
@@ -39,24 +39,23 @@ END_COMPILERRT_FUNCTION(__ashldi3)
 .text
 .balign 4
 DEFINE_COMPILERRT_FUNCTION(__ashldi3)
-	movl	  12(%esp),		%ecx	// Load count
-	movl	   8(%esp),		%edx	// Load high
-	movl	   4(%esp),		%eax	// Load low
+        movl    12(%esp), %ecx  // Load count
+        movl    8(%esp),  %edx  // Load high
+        movl    4(%esp),  %eax  // Load low
 
-	testl		$0x20,		%ecx	// If count >= 32
-	jnz		1f			//    goto 1
-	shldl		%cl, %eax,	%edx	// left shift high by count
-	shll		%cl,		%eax	// left shift low by count
-	ret
+        testl   $0x20, %ecx     // If count >= 32
+        jnz     1f              //    goto 1
+        shldl   %cl, %eax, %edx // left shift high by count
+        shll    %cl, %eax       // left shift low by count
+        ret
 
-1:	movl		%eax,		%edx	// Move low to high
-	xorl		%eax,		%eax	// clear low
-	shll		%cl,		%edx	// shift high by count - 32
-	ret
+1:      movl    %eax, %edx      // Move low to high
+        xorl    %eax, %eax      // clear low
+        shll    %cl,  %edx      // shift high by count - 32
+        ret
 END_COMPILERRT_FUNCTION(__ashldi3)
 
 #endif // __SSE2__
 #endif // __i386__
 
 NO_EXEC_STACK_DIRECTIVE
-

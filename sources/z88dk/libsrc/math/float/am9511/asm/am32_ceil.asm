@@ -26,22 +26,21 @@ PUBLIC asm_am9511_ceil_fastcall
 
 ; Entry: dehl = floating point number
 .asm_am9511_ceil_fastcall
-    call asm_am9511_discardfraction
-    ret NC                          ; already integer (8080-safe)
+        call    asm_am9511_discardfraction
+        ret     NC      ; already integer (8080-safe)
 
-    ld a,d
-    rla                             ; sign -> C
-    ret C                           ; negative with fraction: trunc is ceil
+        ld      a, d
+        rla             ; sign -> C
+        ret     C       ; negative with fraction: trunc is ceil
 
 .was_positive
-    ; positive with fraction: trunc + 1
-    call asm_am9511_pushf_fastcall  ; x
-    ld de,$3f80
-    ld hl,$0000
-    call asm_am9511_pushf_fastcall  ; y
-    
-    ld a,__IO_APU_OP_FADD
-    AM9511_OUT_APU_CONTROL        ; x + y
+        ; positive with fraction: trunc + 1
+        call    asm_am9511_pushf_fastcall       ; x
+        ld      de, $3f80
+        ld      hl, $0000
+        call    asm_am9511_pushf_fastcall       ; y
 
-    jp asm_am9511_popf
+        ld      a, __IO_APU_OP_FADD
+        AM9511_OUT_APU_CONTROL  ; x + y
 
+        jp      asm_am9511_popf

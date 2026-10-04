@@ -10,21 +10,19 @@
 ;       $Id: cpc_GetScrAddress_callee.asm $
 ;
 
-        SECTION   code_clib
-        PUBLIC    cpc_GetScrAddress_callee
-		
-		EXTERN    cpc_GetScrAddress0
+        SECTION code_clib
+        PUBLIC  cpc_GetScrAddress_callee
 
+        EXTERN  cpc_GetScrAddress0
 
 .cpc_GetScrAddress_callee
 
 ; coordinates are in (A,L)
 
-	
-	pop hl
-	pop	bc		; y
-	ex (sp),hl	; x
-	ld	a,l
-	ld	l,c
-	
-	jp cpc_GetScrAddress0
+        pop     hl
+        pop     bc              ; y
+        ex      (sp), hl        ; x
+        ld      a,    l
+        ld      l,    c
+
+        jp      cpc_GetScrAddress0

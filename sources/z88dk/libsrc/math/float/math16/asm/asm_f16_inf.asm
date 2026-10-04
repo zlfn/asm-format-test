@@ -25,21 +25,20 @@ PUBLIC asm_f24_inf
 PUBLIC asm_f16_inf
 
 .asm_f24_inf
-    ld a,e              ; called from expanded format, sign in e
-    and 080h            ; preserve sign
-    ld e,a
-    xor a
-    ld h,a              ; clear mantissa
-    ld l,a
-    ; d=255: pack path treats as IEEE special (Inf when mant==0)
-    ld d,255
-    ret
+        ld      a, e    ; called from expanded format, sign in e
+        and     080h    ; preserve sign
+        ld      e, a
+        xor     a
+        ld      h, a    ; clear mantissa
+        ld      l, a
+        ; d=255: pack path treats as IEEE special (Inf when mant==0)
+        ld      d, 255
+        ret
 
 .asm_f16_inf
-    ld a,e              ; called from expanded format, sign in e
-    and 080h            ; preserve sign
-    or 07Ch             ; set infinity exponent
-    ld h,a              ; set sign, exponent
-    ld l,0
-    ret
-
+        ld      a, e    ; called from expanded format, sign in e
+        and     080h    ; preserve sign
+        or      07Ch    ; set infinity exponent
+        ld      h, a    ; set sign, exponent
+        ld      l, 0
+        ret

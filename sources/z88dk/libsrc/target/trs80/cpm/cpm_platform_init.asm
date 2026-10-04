@@ -7,8 +7,7 @@ SECTION code_clib
 PUBLIC cpm_platform_init
 EXTERN asm_set_cursor_state
 
-
 cpm_platform_init:
-    ld      l,0x20
-    call    asm_set_cursor_state
-    ret
+        ld      l, 0x20
+        call    asm_set_cursor_state
+        ret

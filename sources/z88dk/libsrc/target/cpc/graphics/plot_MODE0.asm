@@ -1,7 +1,6 @@
-    SECTION code_graphics
-    PUBLIC  plot_MODE0
-
+        SECTION code_graphics
+        PUBLIC  plot_MODE0
 
 plot_MODE0:
-    defc    NEEDplot = 1
-    INCLUDE "pixel_MODE0.inc"
+        defc    NEEDplot = 1
+        INCLUDE "pixel_MODE0.inc"

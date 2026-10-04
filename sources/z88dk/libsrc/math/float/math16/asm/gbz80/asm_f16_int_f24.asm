@@ -24,28 +24,28 @@ PUBLIC asm_f24_u8
 PUBLIC asm_f24_u16
 
 .asm_f24_i8
-    ld a,l
-    rla
-    sbc a,a
-    ld h,a
+        ld      a, l
+        rla
+        sbc     a, a
+        ld      h, a
 
 .asm_f24_i16
-    ld d,142
-    ld e,h
-    bit 7,h
-    jp Z,asm_f24_normalize
-    xor a
-    sub a,l
-    ld l,a
-    sbc a,a
-    sub a,h
-    ld h,a
-    jp asm_f24_normalize
+        ld      d, 142
+        ld      e, h
+        bit     7, h
+        jp      Z, asm_f24_normalize
+        xor     a
+        sub     a, l
+        ld      l, a
+        sbc     a, a
+        sub     a, h
+        ld      h, a
+        jp      asm_f24_normalize
 
 .asm_f24_u8
-    ld h,0
+        ld      h, 0
 
 .asm_f24_u16
-    ld d,142
-    res 7,e
-    jp asm_f24_normalize
+        ld      d, 142
+        res     7, e
+        jp      asm_f24_normalize

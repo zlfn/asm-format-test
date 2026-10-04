@@ -1,21 +1,20 @@
 ; ----- void  xordrawr(int x2, int y2)
 
+        SECTION code_graphics
 
-    SECTION code_graphics
+        PUBLIC  xordrawr
+        PUBLIC  _xordrawr
+        PUBLIC  ___xordrawr
 
-    PUBLIC  xordrawr
-    PUBLIC  _xordrawr
-    PUBLIC  ___xordrawr
-
-    EXTERN  asm_xordrawr
+        EXTERN  asm_xordrawr
 
 xordrawr:
 _xordrawr:
 ___xordrawr:
-    pop     af                          ; ret addr
-    pop     de                          ; y
-    pop     hl                          ; x
-    push    hl
-    push    de
-    push    af                          ; ret addr
-    jp      asm_xordrawr
+        pop     af      ; ret addr
+        pop     de      ; y
+        pop     hl      ; x
+        push    hl
+        push    de
+        push    af      ; ret addr
+        jp      asm_xordrawr

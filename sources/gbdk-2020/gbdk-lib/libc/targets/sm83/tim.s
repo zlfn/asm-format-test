@@ -1,15 +1,15 @@
-        .include        "global.s"
+        .include "global.s"
 
         .globl  .int, .int_0x50
         .globl  .add_TIM
 
         .area   _HEADER_TIM (ABS)
 
-        .org    0x50            ; TIM
+        .org    0x50    ; TIM
 .int_TIM:
         PUSH    AF
         PUSH    HL
-        LD      HL,#.int_0x50
+        LD      HL, #.int_0x50
         JP      .int
 
         .area   _HOME

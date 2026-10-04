@@ -4,14 +4,12 @@
 ; int __fastcall__ raise (int sig);
 ;
 
-        .import         jmpvec
+        .import jmpvec
 
-        .include        "signal.inc"
-
+        .include "signal.inc"
 
 ;----------------------------------------------------------------------------
 ; int __fastcall__ raise (int sig);
-
 
 _raise:
         cpx     #0
@@ -24,9 +22,9 @@ _raise:
         pha
         asl     a
         tax
-        lda     sigtable,x
+        lda     sigtable, x
         sta     jmpvec+1
-        lda     sigtable+1,x
+        lda     sigtable+1, x
         sta     jmpvec+2
 
 ; Reset the signal handler to SIG_DFL (I don't like this because it may
@@ -34,15 +32,15 @@ _raise:
 ; standard).
 
         lda     #<___sig_dfl
-        sta     sigtable,x
+        sta     sigtable, x
         lda     #>___sig_dfl
-        sta     sigtable+1,x
+        sta     sigtable+1, x
 
 ; Restore the signal number and call the function
 
-        pla                     ; Low byte
-        ldx     #0              ; High byte
-        jsr     jmpvec          ; Call signal function
+        pla             ; Low byte
+        ldx     #0      ; High byte
+        jsr     jmpvec  ; Call signal function
 
 ; raise() returns zero on success and any other value on failure
 
@@ -50,5 +48,3 @@ _raise:
         tax
 invalidsig:
         rts
-
-

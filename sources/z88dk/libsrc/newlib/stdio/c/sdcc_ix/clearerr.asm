@@ -16,13 +16,13 @@ EXTERN _clearerr_fastcall
 
 _clearerr:
 
-   pop af
-   pop hl
-   
-   push hl
-   push af
+        pop     af
+        pop     hl
 
-   jp _clearerr_fastcall
+        push    hl
+        push    af
+
+        jp      _clearerr_fastcall
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE

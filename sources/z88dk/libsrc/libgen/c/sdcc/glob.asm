@@ -8,12 +8,12 @@ EXTERN l0_glob_callee
 
 _glob:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   jp l0_glob_callee
+        pop     af
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_glob_callee

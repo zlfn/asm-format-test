@@ -9,16 +9,16 @@ EXTERN asm_sms_memset_vram
 
 _sms_memset_vram:
 
-   pop hl
-   pop de
-   dec sp
-   pop af
-   pop bc
-   
-   push bc
-   push af
-   inc sp
-   push de
-   push hl
-   
-   jp asm_sms_memset_vram
+        pop     hl
+        pop     de
+        dec     sp
+        pop     af
+        pop     bc
+
+        push    bc
+        push    af
+        inc     sp
+        push    de
+        push    hl
+
+        jp      asm_sms_memset_vram

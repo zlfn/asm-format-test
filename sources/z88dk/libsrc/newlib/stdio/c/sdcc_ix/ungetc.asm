@@ -16,15 +16,15 @@ EXTERN l0_ungetc_callee
 
 _ungetc:
 
-   pop af
-   pop hl
-   pop bc
-   
-   push bc
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     bc
 
-   jp l0_ungetc_callee
+        push    bc
+        push    hl
+        push    af
+
+        jp      l0_ungetc_callee
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ELSE
@@ -35,7 +35,7 @@ PUBLIC _ungetc
 EXTERN _ungetc_unlocked
 
 defc _ungetc = _ungetc_unlocked
-   
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ENDIF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

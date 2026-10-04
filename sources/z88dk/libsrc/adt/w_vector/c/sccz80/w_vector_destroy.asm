@@ -15,4 +15,3 @@ IF __CLASSIC
 PUBLIC _w_vector_destroy
 defc _w_vector_destroy = w_vector_destroy
 ENDIF
-

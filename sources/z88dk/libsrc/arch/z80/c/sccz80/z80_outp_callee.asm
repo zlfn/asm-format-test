@@ -10,16 +10,15 @@ EXTERN asm_z80_outp
 
 z80_outp_callee:
 
-   pop af
-   pop hl
-   pop bc
-   push af
-   out (c),l
-   ret
+        pop     af
+        pop     hl
+        pop     bc
+        push    af
+        out     (c), l
+        ret
 
 ; SDCC bridge for Classic
 IF __CLASSIC
 PUBLIC _z80_outp_callee
 defc _z80_outp_callee = z80_outp_callee
 ENDIF
-

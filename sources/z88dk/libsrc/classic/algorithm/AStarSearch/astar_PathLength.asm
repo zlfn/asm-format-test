@@ -13,26 +13,26 @@ PUBLIC _astar_PathLength
 .astar_PathLength
 ._astar_PathLength
 
-   ld bc,3
-   ld d,b
-   ld e,b
-   
+        ld      bc, 3
+        ld      d,  b
+        ld      e,  b
+
 .loop
 
-   ld a,h
-   or l
-   jr z, done
-   inc de
-   
-   add hl,bc
-   ld a,(hl)
-   inc hl
-   ld h,(hl)
-   ld l,a
+        ld      a, h
+        or      l
+        jr      z, done
+        inc     de
 
-   jp loop
+        add     hl, bc
+        ld      a,  (hl)
+        inc     hl
+        ld      h, (hl)
+        ld      l, a
+
+        jp      loop
 
 .done
 
-   ex de,hl
-   ret
+        ex      de, hl
+        ret

@@ -7,11 +7,11 @@
 ; Stefano Bodrato - 8/4/2008
 ;
 
-    SECTION code_clib
-    PUBLIC  bit_open_di
-    PUBLIC  _bit_open_di
-    EXTERN  bit_open
+        SECTION code_clib
+        PUBLIC  bit_open_di
+        PUBLIC  _bit_open_di
+        EXTERN  bit_open
 
 bit_open_di:
 _bit_open_di:
-    jp      bit_open
+        jp      bit_open

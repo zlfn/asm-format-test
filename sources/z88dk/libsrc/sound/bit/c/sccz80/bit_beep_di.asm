@@ -10,12 +10,12 @@ EXTERN asm_bit_beep_di
 
 bit_beep_di:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
-   
-   jp asm_bit_beep_di
+        pop     af
+        pop     hl
+        pop     de
+
+        push    de
+        push    hl
+        push    af
+
+        jp      asm_bit_beep_di

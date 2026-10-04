@@ -14,4 +14,3 @@ IF __CLASSIC
 PUBLIC _SMS_init
 defc _SMS_init = SMS_init
 ENDIF
-

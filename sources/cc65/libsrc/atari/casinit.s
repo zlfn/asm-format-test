@@ -19,7 +19,7 @@ _cas_init:
 .ifdef  DEBUG
         lda     #34
         ldy     #81
-        sta     (SAVMSC),y
+        sta     (SAVMSC), y
 .endif
 
         lda     #<start

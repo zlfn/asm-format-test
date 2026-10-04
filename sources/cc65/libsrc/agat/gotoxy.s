@@ -6,23 +6,23 @@
 ; void __fastcall__ gotox (unsigned char x);
 ;
 
-        .export         gotoxy, _gotoxy, _gotox
-        .import         popa, VTABZ
+        .export gotoxy, _gotoxy, _gotox
+        .import popa,   VTABZ
 
-        .include        "agat.inc"
+        .include "agat.inc"
 
 gotoxy:
-    jsr    popa            ; Get Y
+        jsr     popa    ; Get Y
 _gotoxy:
-    clc
-    adc    WNDTOP
-    sta    CV              ; Store Y
-    jsr    VTABZ
-    jsr    popa            ; Get X
+        clc
+        adc     WNDTOP
+        sta     CV      ; Store Y
+        jsr     VTABZ
+        jsr     popa    ; Get X
 _gotox:
-    bit    TATTR
-    bmi    t64
-    asl
+        bit     TATTR
+        bmi     t64
+        asl
 t64:
-    sta     CH              ; Store X
-    rts
+        sta     CH      ; Store X
+        rts

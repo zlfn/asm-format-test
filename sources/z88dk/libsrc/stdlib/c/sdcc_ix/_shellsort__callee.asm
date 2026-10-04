@@ -10,22 +10,22 @@ EXTERN asm_shellsort
 
 __shellsort__callee:
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   exx
-   pop bc
-   push af
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        exx
+        pop     bc
+        push    af
 
 l0__shellsort__callee:
 
-   push bc
-   exx
-   
-   ex (sp),ix
-   
-   call asm_shellsort
-   
-   pop ix
-   ret
+        push    bc
+        exx
+
+        ex      (sp), ix
+
+        call    asm_shellsort
+
+        pop     ix
+        ret

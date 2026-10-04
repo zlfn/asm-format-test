@@ -12,12 +12,12 @@
 #include <linux/const.h>
 #include <asm/page.h>
 
-	.globl vdso_start, vdso_end
-	.section .data..ro_after_init
-	.balign PAGE_SIZE
+        .globl  vdso_start, vdso_end
+        .section .data..ro_after_init
+        .balign PAGE_SIZE
 vdso_start:
-	.incbin "arch/arm/vdso/vdso.so"
-	.balign PAGE_SIZE
+        .incbin "arch/arm/vdso/vdso.so"
+        .balign PAGE_SIZE
 vdso_end:
 
-	.previous
+        .previous

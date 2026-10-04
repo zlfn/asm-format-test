@@ -10,12 +10,12 @@ EXTERN l0_fopen_callee
 
 _fopen:
 
-   pop af
-   pop hl
-   pop de
-   
-   push de
-   push hl
-   push af
+        pop     af
+        pop     hl
+        pop     de
 
-   jp l0_fopen_callee
+        push    de
+        push    hl
+        push    af
+
+        jp      l0_fopen_callee

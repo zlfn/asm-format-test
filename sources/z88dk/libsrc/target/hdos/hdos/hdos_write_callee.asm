@@ -9,13 +9,13 @@
 
 ; int hdos_write(int channel, int dataptr, int bytes);
 
-    SECTION code_clib
-    PUBLIC  hdos_write_callee
-    PUBLIC  _hdos_write_callee
+        SECTION code_clib
+        PUBLIC  hdos_write_callee
+        PUBLIC  _hdos_write_callee
 
-    PUBLIC    asm_hdos_write
+        PUBLIC  asm_hdos_write
 
-    INCLUDE "target/hdos/def/hdos.def"
+        INCLUDE "target/hdos/def/hdos.def"
 
 hdos_write_callee:
 _hdos_write_callee:
@@ -26,10 +26,10 @@ _hdos_write_callee:
         push    af
 
 asm_hdos_write:
-    ld     a,l
-    rst    38h
-    defb   WRITE
-    ld     hl,1
-    ret    c          ; error
-    dec    hl
-    ret
+        ld      a, l
+        rst     38h
+        defb    WRITE
+        ld      hl, 1
+        ret     c       ; error
+        dec     hl
+        ret

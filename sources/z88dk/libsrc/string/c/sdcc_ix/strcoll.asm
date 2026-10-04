@@ -10,12 +10,12 @@ EXTERN asm_strcoll
 
 _strcoll:
 
-   pop af
-   pop de
-   pop hl
-   
-   push hl
-   push de
-   push af
-   
-   jp asm_strcoll
+        pop     af
+        pop     de
+        pop     hl
+
+        push    hl
+        push    de
+        push    af
+
+        jp      asm_strcoll

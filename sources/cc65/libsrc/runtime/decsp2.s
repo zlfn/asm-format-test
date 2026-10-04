@@ -4,8 +4,8 @@
 ; CC65 runtime: Decrement the stackpointer by 2
 ;
 
-        .export         decsp2
-        .importzp       c_sp
+        .export decsp2
+        .importzp c_sp
 
 .proc   decsp2
 
@@ -20,8 +20,3 @@
         rts
 
 .endproc
-
-
-
-
-

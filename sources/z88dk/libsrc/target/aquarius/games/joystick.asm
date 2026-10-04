@@ -1,30 +1,30 @@
         SECTION code_clib
 
-	PUBLIC	joystick
-	PUBLIC	_joystick
+        PUBLIC  joystick
+        PUBLIC  _joystick
 
-	EXTERN	joystick_inkey
+        EXTERN  joystick_inkey
 
-	#include "target/aquarius/def/plus.inc"
+        #include "target/aquarius/def/plus.inc"
 
-        defc    RIGHT_BIT=0             ; 1
-        defc    LEFT_BIT=1              ; 2
-        defc    DOWN_BIT=2              ; 4
-        defc    UP_BIT=3                ; 8
-        defc    FIRE_BIT=4              ; 16
+        defc    RIGHT_BIT=0     ; 1
+        defc    LEFT_BIT=1      ; 2
+        defc    DOWN_BIT=2      ; 4
+        defc    UP_BIT=3        ; 8
+        defc    FIRE_BIT=4      ; 16
 
         ; exit : HL = 000FUDLR active high
 _joystick:
 joystick:
-	ld	a, l
-	cp	1
-	jr	z, in_Joystick1
-	cp	2
-	jr	z, in_Joystick2
+        ld      a, l
+        cp      1
+        jr      z, in_Joystick1
+        cp      2
+        jr      z, in_Joystick2
 
-	; Try keyboard joystick
-	sub	2
-	jp	joystick_inkey
+        ; Try keyboard joystick
+        sub     2
+        jp      joystick_inkey
 
         ; Read controller 1
 in_Joystick1:

@@ -11,15 +11,15 @@ EXTERN ASMDISP_SP1_GETUPDATESTRUCT_CALLEE
 
 .sp1_PrintAt_callee
 
-   pop af
-   pop bc
-   pop hl
-   pop de
-   ld d,l
-   pop hl
-   push af
-   ld a,d
-   ld d,l
+        pop     af
+        pop     bc
+        pop     hl
+        pop     de
+        ld      d, l
+        pop     hl
+        push    af
+        ld      a, d
+        ld      d, l
 
 .asmentry
 
@@ -33,16 +33,15 @@ EXTERN ASMDISP_SP1_GETUPDATESTRUCT_CALLEE
 
 .SP1PrintAt
 
-   ex af,af
-   call sp1_GetUpdateStruct_callee + ASMDISP_SP1_GETUPDATESTRUCT_CALLEE
-   ex af,af
-   inc hl
-   ld (hl),a
-   inc hl
-   ld (hl),c
-   inc hl
-   ld (hl),b
-   ret
+        ex      af, af
+        call    sp1_GetUpdateStruct_callee + ASMDISP_SP1_GETUPDATESTRUCT_CALLEE
+        ex      af, af
+        inc     hl
+        ld      (hl), a
+        inc     hl
+        ld      (hl), c
+        inc     hl
+        ld      (hl), b
+        ret
 
 DEFC ASMDISP_SP1_PRINTAT_CALLEE = asmentry - sp1_PrintAt_callee
-

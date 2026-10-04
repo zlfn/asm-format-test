@@ -9,35 +9,30 @@
 ;   $Id: pointxy.asm $
 ;
 
+        INCLUDE "classic/gfx/grafix.inc"
 
-    INCLUDE "classic/gfx/grafix.inc"
+        SECTION code_clib
+        PUBLIC  pointxy
 
-    SECTION code_clib
-    PUBLIC  pointxy
-
-    EXTERN  __gfx_coords
-    EXTERN  __asm_pixeladdr
-    INCLUDE "target/m100/def/romcalls.def"
-
+        EXTERN  __gfx_coords
+        EXTERN  __asm_pixeladdr
+        INCLUDE "target/m100/def/romcalls.def"
 
 pointxy:
 
-    push    bc
-    push    de
-    push    hl
+        push    bc
+        push    de
+        push    hl
 
-    ld      d, h
-    ld      e, l
+        ld      d, h
+        ld      e, l
 
-    call    __asm_pixeladdr
+        call    __asm_pixeladdr
 
-    AND (HL)
+        AND     (HL)
 
-    pop     hl
-    pop     de
-    pop     bc
+        pop     hl
+        pop     de
+        pop     bc
 
-    RET
-
-
- 
+        RET

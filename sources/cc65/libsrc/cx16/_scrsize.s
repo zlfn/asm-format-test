@@ -2,5 +2,5 @@
 ; Screen size variables
 ;
 
-        .import         SCREEN
-        .export         screensize := SCREEN
+        .import SCREEN
+        .export screensize := SCREEN

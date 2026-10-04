@@ -6,10 +6,10 @@
 ; /* Initialize the random number generator */
 ;
 
-        .export         ___randomize
-        .import         _srand
+        .export ___randomize
+        .import _srand
 
-        .include        "vic20.inc"
+        .include "vic20.inc"
 
 ___randomize:
         lda     VIC_LINES       ; Get overflow bit
@@ -19,4 +19,3 @@ ___randomize:
         tax                     ; Use VIC rasterline as high byte
         lda     TIME+2          ; Use 60HZ clock as low byte
         jmp     _srand          ; Initialize generator
-

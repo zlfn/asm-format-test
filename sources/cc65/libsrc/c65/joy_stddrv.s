@@ -10,5 +10,4 @@
 
 .rodata
 
-_joy_stddrv:    .asciiz "c65-stdjoy.joy"
-
+_joy_stddrv: .asciiz "c65-stdjoy.joy"

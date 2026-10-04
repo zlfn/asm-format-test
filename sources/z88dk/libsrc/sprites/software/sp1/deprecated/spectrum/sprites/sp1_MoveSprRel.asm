@@ -9,22 +9,22 @@ EXTERN ASMDISP_SP1_MOVESPRREL_CALLEE
 
 .sp1_MoveSprRel
 
-   pop af
-   pop de
-   pop bc
-   ld b,e
-   pop de
-   pop hl
-   ld d,l
-   pop hl
-   pop iy
-   pop ix
-   push hl
-   push hl
-   push hl
-   push hl
-   push de
-   push bc
-   push de
-   push af
-   jp sp1_MoveSprRel_callee + ASMDISP_SP1_MOVESPRREL_CALLEE
+        pop     af
+        pop     de
+        pop     bc
+        ld      b, e
+        pop     de
+        pop     hl
+        ld      d, l
+        pop     hl
+        pop     iy
+        pop     ix
+        push    hl
+        push    hl
+        push    hl
+        push    hl
+        push    de
+        push    bc
+        push    de
+        push    af
+        jp      sp1_MoveSprRel_callee + ASMDISP_SP1_MOVESPRREL_CALLEE

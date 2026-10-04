@@ -17,22 +17,22 @@ PUBLIC asm_push_di
 
 .asm_push_di
 
-   ; exit  : stack = ei_di_status
-   ;
-   ; uses  : af
+        ; exit  : stack = ei_di_status
+        ;
+        ; uses  : af
 
-   ex (sp),hl
-   push hl                      ; preserve hl
+        ex      (sp), hl
+        push    hl      ; preserve hl
 
-   ld a,i                       ; cmos z80 has no bug
+        ld      a, i    ; cmos z80 has no bug
 
-   di
+        di
 
-   push af
-   pop hl                       ; hl = ei_di status
+        push    af
+        pop     hl      ; hl = ei_di status
 
-   pop af                       ; af = ret
-   ex (sp),hl                   ; restore hl, push ei_di_status
+        pop     af              ; af = ret
+        ex      (sp), hl        ; restore hl, push ei_di_status
 
-   push af
-   ret
+        push    af
+        ret
