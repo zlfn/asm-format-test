@@ -2,6 +2,7 @@
 import argparse
 import filecmp
 import glob
+import json
 import os
 import shutil
 import subprocess
@@ -123,10 +124,23 @@ def commit(projects, ran):
             for f in matching(os.path.join(SOURCES, p['name']), p['files']):
                 shutil.copyfile(os.path.join(OUT, p['name'], f), os.path.join(tree, 'sources', p['name'], f))
         git('add', '-A', cwd=tree)
+        stats = {}
+        for line in git('diff', '--cached', '--numstat', 'main', '--', 'sources', cwd=tree).stdout.splitlines():
+            added, removed, path = line.split('\t')
+            stats[path] = [int(added), int(removed)]
+        tool = version()
+        listing = {'asm-format': tool, 'projects': [
+            {'name': p['name'], 'style': p['style'].strip(), 'files': [
+                [f, *stats.get(f"sources/{p['name']}/{f}", [0, 0])]
+                for f in matching(os.path.join(SOURCES, p['name']), p['files'])]}
+            for p in projects]}
+        with open(os.path.join(tree, 'files.json'), 'w') as f:
+            json.dump(listing, f, separators=(',', ':'))
+        git('add', 'files.json', cwd=tree)
         if git('diff', '--cached', '--quiet', cwd=tree, check=False).returncode == 0:
             print('formatted: no changes')
             return
-        git('commit', '-q', '-m', f'Format with asm-format {version()}', cwd=tree)
+        git('commit', '-q', '-m', f'Format with asm-format {tool}', cwd=tree)
         print('formatted:', git('rev-parse', '--short', 'HEAD', cwd=tree).stdout.strip())
     finally:
         git('worktree', 'remove', '--force', tree)
